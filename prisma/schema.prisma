@@ -1,0 +1,155 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../prisma/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model tbUser {
+  idU           String          @id @default(uuid())
+  idUser        String?         @unique
+  nomeUser      String?
+  emailUser     String?
+  senhaUser     String?
+  avatarUser    String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  tbFuncioanrio tbFuncionario[]
+  tbAcconts     tbAccont[]
+  Session       Session[]
+}
+
+model tbFuncionario {
+  idF         String       @id @default(uuid())
+  idMatFun    String?      @unique
+  nomeFun     String
+  cpfFun      String?
+  dataAdmFun  DateTime?
+  dataDesFun  DateTime?
+  avatarFun   String?
+  idFuncaoFun String?
+  idUserFun   String?
+  idStatusFun String?
+  tbStatusFun tbStatusFun? @relation(fields: [idStatusFun], references: [idStatusFun])
+  tbUser      tbUser?      @relation(fields: [idUserFun], references: [idU])
+  tbFuncao    tbFuncao?    @relation(fields: [idFuncaoFun], references: [idFuncao])
+  tbCadastro  tbCadastro[]
+  tbCCusto    tbCCusto[]
+}
+
+model tbStatusFun {
+  idStatusFun        String          @id @default(uuid())
+  descricaoStatusFun String
+  tbFuncionario      tbFuncionario[]
+}
+
+model tbFuncao {
+  idFuncao      String          @id @default(uuid())
+  nomeFuncao    String
+  tbFuncionario tbFuncionario[]
+}
+
+model tbPatrimonio {
+  idP                   String        @id @default(uuid())
+  idPat                 String        @unique
+  descricaoPat          String
+  descricaodetalhadaPat String?
+  licencaPat            String?
+  dataEntPat            DateTime
+  dataSaiPat            DateTime?
+  notaFiscalPat         String?
+  valorPat              Float
+  createdAt             DateTime?     @default(now())
+  updatedAt             DateTime?     @updatedAt
+  tbCadastro            tbCadastro[]
+  tbTipoPat             tbTipoPat[]
+  tbStatusPat           tbstatusPat[]
+  tbCusto               tbCCusto[]
+}
+
+model tbTipoPat {
+  idTipPat        String        @id @default(uuid())
+  descricaoTipPat String?
+  idPat_TipoPat   String?       @unique
+  tbPatrimonio    tbPatrimonio? @relation(fields: [idPat_TipoPat], references: [idP])
+}
+
+model tbstatusPat {
+  idStatPat        String        @id @default(uuid())
+  descricaoStatPat String
+  idPat_StatusPat  String?
+  tbPatrimonio     tbPatrimonio? @relation(fields: [idPat_StatusPat], references: [idP])
+}
+
+model tbEmpresa {
+  idEmp           String     @id @default(uuid())
+  razaoEmpresa    String?
+  fantasiaEmpresa String?
+  cnpjEmpresa     String?
+  idCustEmp       String?
+  tbCCusto        tbCCusto[]
+}
+
+model tbCCusto {
+  idCCusto        String         @id @default(uuid())
+  codigocusto     String?
+  descricaoCCusto String?
+  idEmp_Custo     String?
+  idPat_Custo     String?
+  idFun_Custo     String?
+  tbFuncionario   tbFuncionario? @relation(fields: [idFun_Custo], references: [idF])
+  tbEmpresa       tbEmpresa?     @relation(fields: [idEmp_Custo], references: [idEmp])
+  tbPatrimonio    tbPatrimonio?  @relation(fields: [idPat_Custo], references: [idPat])
+}
+
+model tbCadastro {
+  idCad         String         @id @default(uuid())
+  dataCadPat    DateTime?
+  dataDevPat    DateTime?
+  createdAt     DateTime?      @default(now())
+  updatedAt     DateTime?      @updatedAt
+  idPatCad      String?
+  tbPatrimonio  tbPatrimonio?  @relation(fields: [idPatCad], references: [idPat])
+  idMatFunCad   String?
+  tbFuncionario tbFuncionario? @relation(fields: [idMatFunCad], references: [idMatFun])
+}
+
+model tbAccont {
+  idAccont         String  @id @default(uuid())
+  userID           String
+  type             String
+  provider         String
+  providerAccontId String
+  refresh_token    String?
+  access_token     String?
+  expires_at       Int?
+  token_type       String?
+  scope            String?
+  id_token         String?
+  sesseion_state   String?
+  tbUser           tbUser  @relation(fields: [userID], references: [idUser], onDelete: Cascade)
+
+  @@unique([provider, providerAccontId])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  tbUser       tbUser   @relation(fields: [userId], references: [idUser], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String    @unique
+  expires    DateTime?
+
+  @@unique([identifier, token])
+}
