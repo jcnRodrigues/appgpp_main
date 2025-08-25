@@ -138,7 +138,8 @@ exports.Prisma.TbFuncionarioScalarFieldEnum = {
   avatarFun: 'avatarFun',
   idFuncaoFun: 'idFuncaoFun',
   idUserFun: 'idUserFun',
-  idStatusFun: 'idStatusFun'
+  idStatusFun: 'idStatusFun',
+  idCustoFun: 'idCustoFun'
 };
 
 exports.Prisma.TbStatusFunScalarFieldEnum = {
@@ -155,26 +156,27 @@ exports.Prisma.TbPatrimonioScalarFieldEnum = {
   idP: 'idP',
   idPat: 'idPat',
   descricaoPat: 'descricaoPat',
-  descricaodetalhadaPat: 'descricaodetalhadaPat',
+  descricaoDetalhadaPat: 'descricaoDetalhadaPat',
   licencaPat: 'licencaPat',
   dataEntPat: 'dataEntPat',
   dataSaiPat: 'dataSaiPat',
   notaFiscalPat: 'notaFiscalPat',
   valorPat: 'valorPat',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  idPat_TipoPat: 'idPat_TipoPat',
+  idPat_StatusPat: 'idPat_StatusPat',
+  idPat_CustoPat: 'idPat_CustoPat'
 };
 
 exports.Prisma.TbTipoPatScalarFieldEnum = {
   idTipPat: 'idTipPat',
-  descricaoTipPat: 'descricaoTipPat',
-  idPat_TipoPat: 'idPat_TipoPat'
+  descricaoTipPat: 'descricaoTipPat'
 };
 
-exports.Prisma.TbstatusPatScalarFieldEnum = {
-  idStatPat: 'idStatPat',
-  descricaoStatPat: 'descricaoStatPat',
-  idPat_StatusPat: 'idPat_StatusPat'
+exports.Prisma.TbStatusPatScalarFieldEnum = {
+  idStatusPat: 'idStatusPat',
+  descricaoStatPat: 'descricaoStatPat'
 };
 
 exports.Prisma.TbEmpresaScalarFieldEnum = {
@@ -187,11 +189,9 @@ exports.Prisma.TbEmpresaScalarFieldEnum = {
 
 exports.Prisma.TbCCustoScalarFieldEnum = {
   idCCusto: 'idCCusto',
-  codigocusto: 'codigocusto',
+  codigoCCusto: 'codigoCCusto',
   descricaoCCusto: 'descricaoCCusto',
-  idEmp_Custo: 'idEmp_Custo',
-  idPat_Custo: 'idPat_Custo',
-  idFun_Custo: 'idFun_Custo'
+  idEmp_Custo: 'idEmp_Custo'
 };
 
 exports.Prisma.TbCadastroScalarFieldEnum = {
@@ -250,7 +250,7 @@ exports.Prisma.ModelName = {
   tbFuncao: 'tbFuncao',
   tbPatrimonio: 'tbPatrimonio',
   tbTipoPat: 'tbTipoPat',
-  tbstatusPat: 'tbstatusPat',
+  tbStatusPat: 'tbStatusPat',
   tbEmpresa: 'tbEmpresa',
   tbCCusto: 'tbCCusto',
   tbCadastro: 'tbCadastro',

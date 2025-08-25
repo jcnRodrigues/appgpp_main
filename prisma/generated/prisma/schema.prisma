@@ -27,7 +27,7 @@ model tbUser {
 
 model tbFuncionario {
   idF         String       @id @default(uuid())
-  idMatFun    String?      @unique
+  idMatFun    String       @unique
   nomeFun     String
   cpfFun      String?
   dataAdmFun  DateTime?
@@ -36,9 +36,11 @@ model tbFuncionario {
   idFuncaoFun String?
   idUserFun   String?
   idStatusFun String?
+  idCustoFun  String?
   tbStatusFun tbStatusFun? @relation(fields: [idStatusFun], references: [idStatusFun])
   tbUser      tbUser?      @relation(fields: [idUserFun], references: [idU])
   tbFuncao    tbFuncao?    @relation(fields: [idFuncaoFun], references: [idFuncao])
+  tbCCusto    tbCCusto?    @relation(fields: [idCustoFun], references: [idCCusto])
   tbCadastro  tbCadastro[]
 }
 
@@ -55,35 +57,36 @@ model tbFuncao {
 }
 
 model tbPatrimonio {
-  idP                   String        @id @default(uuid())
-  idPat                 String        @unique
+  idP                   String       @id @default(uuid())
+  idPat                 String       @unique
   descricaoPat          String
-  descricaodetalhadaPat String?
+  descricaoDetalhadaPat String?
   licencaPat            String?
   dataEntPat            DateTime
   dataSaiPat            DateTime?
   notaFiscalPat         String?
   valorPat              Float
-  createdAt             DateTime?     @default(now())
-  updatedAt             DateTime?     @updatedAt
+  createdAt             DateTime?    @default(now())
+  updatedAt             DateTime?    @updatedAt
+  idPat_TipoPat         String?
+  tbTipoPat             tbTipoPat?   @relation(fields: [idPat_TipoPat], references: [idTipPat])
+  idPat_StatusPat       String?
+  tbStatusPat           tbStatusPat? @relation(fields: [idPat_StatusPat], references: [idStatusPat])
+  idPat_CustoPat        String?
+  tbCCusto              tbCCusto?    @relation(fields: [idPat_CustoPat], references: [idCCusto])
   tbCadastro            tbCadastro[]
-  tbTipoPat             tbTipoPat[]
-  tbStatusPat           tbstatusPat[]
-  tbCusto               tbCCusto[]
 }
 
 model tbTipoPat {
-  idTipPat        String        @id @default(uuid())
+  idTipPat        String         @id @default(uuid())
   descricaoTipPat String?
-  idPat_TipoPat   String?       @unique
-  tbPatrimonio    tbPatrimonio? @relation(fields: [idPat_TipoPat], references: [idP])
+  tbPatrimonio    tbPatrimonio[]
 }
 
-model tbstatusPat {
-  idStatPat        String        @id @default(uuid())
+model tbStatusPat {
+  idStatusPat      String         @id @default(uuid())
   descricaoStatPat String
-  idPat_StatusPat  String?
-  tbPatrimonio     tbPatrimonio? @relation(fields: [idPat_StatusPat], references: [idP])
+  tbPatrimonio     tbPatrimonio[]
 }
 
 model tbEmpresa {
@@ -96,13 +99,13 @@ model tbEmpresa {
 }
 
 model tbCCusto {
-  idCCusto        String        @id @default(uuid())
-  codigocusto     String?
+  idCCusto        String          @id @default(uuid())
+  codigoCCusto    String?
   descricaoCCusto String?
   idEmp_Custo     String?
-  idPat_Custo     String?
-  tbEmpresa       tbEmpresa?    @relation(fields: [idEmp_Custo], references: [idEmp])
-  tbPatrimonio    tbPatrimonio? @relation(fields: [idPat_Custo], references: [idPat])
+  tbEmpresa       tbEmpresa?      @relation(fields: [idEmp_Custo], references: [idEmp])
+  tbPatrimonio    tbPatrimonio[]
+  tbFuncionario   tbFuncionario[]
 }
 
 model tbCadastro {

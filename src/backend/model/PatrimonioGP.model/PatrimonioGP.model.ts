@@ -1,4 +1,6 @@
+
 export interface PatrimonioGP {
+    idP: string;
     idPat: string;
     descricaoPat: string;
     descricaoDetalhadaPat?: string,
@@ -8,7 +10,7 @@ export interface PatrimonioGP {
     notaFiscalPat?: string,
     idTipoPat?: string;
     idCustoPat?: string;
-    idStatusPat?: string;
+    idStatusPat: string;
 }
 
 

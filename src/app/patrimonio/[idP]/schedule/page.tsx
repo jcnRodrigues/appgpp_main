@@ -32,7 +32,7 @@ const genereteTimeSlots = (
 
 interface SchedulePageProps {
     params: {
-        idPatr: string;
+        idP: string;
     }
 }
 
@@ -55,7 +55,6 @@ export default function SchedulePage({ params }: SchedulePageProps) {
             setIsAlertOpen(true);
         }
     }
-
     const timeSlots = genereteTimeSlots(9, 18, 30);
     return (
         <div>

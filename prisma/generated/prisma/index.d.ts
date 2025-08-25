@@ -44,10 +44,10 @@ export type tbPatrimonio = $Result.DefaultSelection<Prisma.$tbPatrimonioPayload>
  */
 export type tbTipoPat = $Result.DefaultSelection<Prisma.$tbTipoPatPayload>
 /**
- * Model tbstatusPat
+ * Model tbStatusPat
  * 
  */
-export type tbstatusPat = $Result.DefaultSelection<Prisma.$tbstatusPatPayload>
+export type tbStatusPat = $Result.DefaultSelection<Prisma.$tbStatusPatPayload>
 /**
  * Model tbEmpresa
  * 
@@ -265,14 +265,14 @@ export class PrismaClient<
   get tbTipoPat(): Prisma.tbTipoPatDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.tbstatusPat`: Exposes CRUD operations for the **tbstatusPat** model.
+   * `prisma.tbStatusPat`: Exposes CRUD operations for the **tbStatusPat** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more TbstatusPats
-    * const tbstatusPats = await prisma.tbstatusPat.findMany()
+    * // Fetch zero or more TbStatusPats
+    * const tbStatusPats = await prisma.tbStatusPat.findMany()
     * ```
     */
-  get tbstatusPat(): Prisma.tbstatusPatDelegate<ExtArgs, ClientOptions>;
+  get tbStatusPat(): Prisma.tbStatusPatDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.tbEmpresa`: Exposes CRUD operations for the **tbEmpresa** model.
@@ -779,7 +779,7 @@ export namespace Prisma {
     tbFuncao: 'tbFuncao',
     tbPatrimonio: 'tbPatrimonio',
     tbTipoPat: 'tbTipoPat',
-    tbstatusPat: 'tbstatusPat',
+    tbStatusPat: 'tbStatusPat',
     tbEmpresa: 'tbEmpresa',
     tbCCusto: 'tbCCusto',
     tbCadastro: 'tbCadastro',
@@ -804,7 +804,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tbUser" | "tbFuncionario" | "tbStatusFun" | "tbFuncao" | "tbPatrimonio" | "tbTipoPat" | "tbstatusPat" | "tbEmpresa" | "tbCCusto" | "tbCadastro" | "tbAccont" | "session" | "verificationToken"
+      modelProps: "tbUser" | "tbFuncionario" | "tbStatusFun" | "tbFuncao" | "tbPatrimonio" | "tbTipoPat" | "tbStatusPat" | "tbEmpresa" | "tbCCusto" | "tbCadastro" | "tbAccont" | "session" | "verificationToken"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1252,77 +1252,77 @@ export namespace Prisma {
           }
         }
       }
-      tbstatusPat: {
-        payload: Prisma.$tbstatusPatPayload<ExtArgs>
-        fields: Prisma.tbstatusPatFieldRefs
+      tbStatusPat: {
+        payload: Prisma.$tbStatusPatPayload<ExtArgs>
+        fields: Prisma.tbStatusPatFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.tbstatusPatFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$tbstatusPatPayload> | null
+            args: Prisma.tbStatusPatFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbStatusPatPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.tbstatusPatFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$tbstatusPatPayload>
+            args: Prisma.tbStatusPatFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbStatusPatPayload>
           }
           findFirst: {
-            args: Prisma.tbstatusPatFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$tbstatusPatPayload> | null
+            args: Prisma.tbStatusPatFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbStatusPatPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.tbstatusPatFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$tbstatusPatPayload>
+            args: Prisma.tbStatusPatFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbStatusPatPayload>
           }
           findMany: {
-            args: Prisma.tbstatusPatFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$tbstatusPatPayload>[]
+            args: Prisma.tbStatusPatFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbStatusPatPayload>[]
           }
           create: {
-            args: Prisma.tbstatusPatCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$tbstatusPatPayload>
+            args: Prisma.tbStatusPatCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbStatusPatPayload>
           }
           createMany: {
-            args: Prisma.tbstatusPatCreateManyArgs<ExtArgs>
+            args: Prisma.tbStatusPatCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.tbstatusPatCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$tbstatusPatPayload>[]
+            args: Prisma.tbStatusPatCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbStatusPatPayload>[]
           }
           delete: {
-            args: Prisma.tbstatusPatDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$tbstatusPatPayload>
+            args: Prisma.tbStatusPatDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbStatusPatPayload>
           }
           update: {
-            args: Prisma.tbstatusPatUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$tbstatusPatPayload>
+            args: Prisma.tbStatusPatUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbStatusPatPayload>
           }
           deleteMany: {
-            args: Prisma.tbstatusPatDeleteManyArgs<ExtArgs>
+            args: Prisma.tbStatusPatDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.tbstatusPatUpdateManyArgs<ExtArgs>
+            args: Prisma.tbStatusPatUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.tbstatusPatUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$tbstatusPatPayload>[]
+            args: Prisma.tbStatusPatUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbStatusPatPayload>[]
           }
           upsert: {
-            args: Prisma.tbstatusPatUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$tbstatusPatPayload>
+            args: Prisma.tbStatusPatUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbStatusPatPayload>
           }
           aggregate: {
-            args: Prisma.TbstatusPatAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateTbstatusPat>
+            args: Prisma.TbStatusPatAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTbStatusPat>
           }
           groupBy: {
-            args: Prisma.tbstatusPatGroupByArgs<ExtArgs>
-            result: $Utils.Optional<TbstatusPatGroupByOutputType>[]
+            args: Prisma.tbStatusPatGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TbStatusPatGroupByOutputType>[]
           }
           count: {
-            args: Prisma.tbstatusPatCountArgs<ExtArgs>
-            result: $Utils.Optional<TbstatusPatCountAggregateOutputType> | number
+            args: Prisma.tbStatusPatCountArgs<ExtArgs>
+            result: $Utils.Optional<TbStatusPatCountAggregateOutputType> | number
           }
         }
       }
@@ -1868,7 +1868,7 @@ export namespace Prisma {
     tbFuncao?: tbFuncaoOmit
     tbPatrimonio?: tbPatrimonioOmit
     tbTipoPat?: tbTipoPatOmit
-    tbstatusPat?: tbstatusPatOmit
+    tbStatusPat?: tbStatusPatOmit
     tbEmpresa?: tbEmpresaOmit
     tbCCusto?: tbCCustoOmit
     tbCadastro?: tbCadastroOmit
@@ -2024,12 +2024,10 @@ export namespace Prisma {
 
   export type TbFuncionarioCountOutputType = {
     tbCadastro: number
-    tbCCusto: number
   }
 
   export type TbFuncionarioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbCadastro?: boolean | TbFuncionarioCountOutputTypeCountTbCadastroArgs
-    tbCCusto?: boolean | TbFuncionarioCountOutputTypeCountTbCCustoArgs
   }
 
   // Custom InputTypes
@@ -2048,13 +2046,6 @@ export namespace Prisma {
    */
   export type TbFuncionarioCountOutputTypeCountTbCadastroArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: tbCadastroWhereInput
-  }
-
-  /**
-   * TbFuncionarioCountOutputType without action
-   */
-  export type TbFuncionarioCountOutputTypeCountTbCCustoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: tbCCustoWhereInput
   }
 
 
@@ -2126,16 +2117,10 @@ export namespace Prisma {
 
   export type TbPatrimonioCountOutputType = {
     tbCadastro: number
-    tbTipoPat: number
-    tbStatusPat: number
-    tbCusto: number
   }
 
   export type TbPatrimonioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbCadastro?: boolean | TbPatrimonioCountOutputTypeCountTbCadastroArgs
-    tbTipoPat?: boolean | TbPatrimonioCountOutputTypeCountTbTipoPatArgs
-    tbStatusPat?: boolean | TbPatrimonioCountOutputTypeCountTbStatusPatArgs
-    tbCusto?: boolean | TbPatrimonioCountOutputTypeCountTbCustoArgs
   }
 
   // Custom InputTypes
@@ -2156,25 +2141,66 @@ export namespace Prisma {
     where?: tbCadastroWhereInput
   }
 
+
   /**
-   * TbPatrimonioCountOutputType without action
+   * Count Type TbTipoPatCountOutputType
    */
-  export type TbPatrimonioCountOutputTypeCountTbTipoPatArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: tbTipoPatWhereInput
+
+  export type TbTipoPatCountOutputType = {
+    tbPatrimonio: number
+  }
+
+  export type TbTipoPatCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tbPatrimonio?: boolean | TbTipoPatCountOutputTypeCountTbPatrimonioArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TbTipoPatCountOutputType without action
+   */
+  export type TbTipoPatCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TbTipoPatCountOutputType
+     */
+    select?: TbTipoPatCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * TbPatrimonioCountOutputType without action
+   * TbTipoPatCountOutputType without action
    */
-  export type TbPatrimonioCountOutputTypeCountTbStatusPatArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: tbstatusPatWhereInput
+  export type TbTipoPatCountOutputTypeCountTbPatrimonioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbPatrimonioWhereInput
+  }
+
+
+  /**
+   * Count Type TbStatusPatCountOutputType
+   */
+
+  export type TbStatusPatCountOutputType = {
+    tbPatrimonio: number
+  }
+
+  export type TbStatusPatCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tbPatrimonio?: boolean | TbStatusPatCountOutputTypeCountTbPatrimonioArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TbStatusPatCountOutputType without action
+   */
+  export type TbStatusPatCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TbStatusPatCountOutputType
+     */
+    select?: TbStatusPatCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * TbPatrimonioCountOutputType without action
+   * TbStatusPatCountOutputType without action
    */
-  export type TbPatrimonioCountOutputTypeCountTbCustoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: tbCCustoWhereInput
+  export type TbStatusPatCountOutputTypeCountTbPatrimonioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbPatrimonioWhereInput
   }
 
 
@@ -2206,6 +2232,46 @@ export namespace Prisma {
    */
   export type TbEmpresaCountOutputTypeCountTbCCustoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: tbCCustoWhereInput
+  }
+
+
+  /**
+   * Count Type TbCCustoCountOutputType
+   */
+
+  export type TbCCustoCountOutputType = {
+    tbPatrimonio: number
+    tbFuncionario: number
+  }
+
+  export type TbCCustoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tbPatrimonio?: boolean | TbCCustoCountOutputTypeCountTbPatrimonioArgs
+    tbFuncionario?: boolean | TbCCustoCountOutputTypeCountTbFuncionarioArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TbCCustoCountOutputType without action
+   */
+  export type TbCCustoCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TbCCustoCountOutputType
+     */
+    select?: TbCCustoCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TbCCustoCountOutputType without action
+   */
+  export type TbCCustoCountOutputTypeCountTbPatrimonioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbPatrimonioWhereInput
+  }
+
+  /**
+   * TbCCustoCountOutputType without action
+   */
+  export type TbCCustoCountOutputTypeCountTbFuncionarioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbFuncionarioWhereInput
   }
 
 
@@ -3397,6 +3463,7 @@ export namespace Prisma {
     idFuncaoFun: string | null
     idUserFun: string | null
     idStatusFun: string | null
+    idCustoFun: string | null
   }
 
   export type TbFuncionarioMaxAggregateOutputType = {
@@ -3410,6 +3477,7 @@ export namespace Prisma {
     idFuncaoFun: string | null
     idUserFun: string | null
     idStatusFun: string | null
+    idCustoFun: string | null
   }
 
   export type TbFuncionarioCountAggregateOutputType = {
@@ -3423,6 +3491,7 @@ export namespace Prisma {
     idFuncaoFun: number
     idUserFun: number
     idStatusFun: number
+    idCustoFun: number
     _all: number
   }
 
@@ -3438,6 +3507,7 @@ export namespace Prisma {
     idFuncaoFun?: true
     idUserFun?: true
     idStatusFun?: true
+    idCustoFun?: true
   }
 
   export type TbFuncionarioMaxAggregateInputType = {
@@ -3451,6 +3521,7 @@ export namespace Prisma {
     idFuncaoFun?: true
     idUserFun?: true
     idStatusFun?: true
+    idCustoFun?: true
   }
 
   export type TbFuncionarioCountAggregateInputType = {
@@ -3464,6 +3535,7 @@ export namespace Prisma {
     idFuncaoFun?: true
     idUserFun?: true
     idStatusFun?: true
+    idCustoFun?: true
     _all?: true
   }
 
@@ -3541,7 +3613,7 @@ export namespace Prisma {
 
   export type TbFuncionarioGroupByOutputType = {
     idF: string
-    idMatFun: string | null
+    idMatFun: string
     nomeFun: string
     cpfFun: string | null
     dataAdmFun: Date | null
@@ -3550,6 +3622,7 @@ export namespace Prisma {
     idFuncaoFun: string | null
     idUserFun: string | null
     idStatusFun: string | null
+    idCustoFun: string | null
     _count: TbFuncionarioCountAggregateOutputType | null
     _min: TbFuncionarioMinAggregateOutputType | null
     _max: TbFuncionarioMaxAggregateOutputType | null
@@ -3580,11 +3653,12 @@ export namespace Prisma {
     idFuncaoFun?: boolean
     idUserFun?: boolean
     idStatusFun?: boolean
+    idCustoFun?: boolean
     tbStatusFun?: boolean | tbFuncionario$tbStatusFunArgs<ExtArgs>
     tbUser?: boolean | tbFuncionario$tbUserArgs<ExtArgs>
     tbFuncao?: boolean | tbFuncionario$tbFuncaoArgs<ExtArgs>
-    tbCadastro?: boolean | tbFuncionario$tbCadastroArgs<ExtArgs>
     tbCCusto?: boolean | tbFuncionario$tbCCustoArgs<ExtArgs>
+    tbCadastro?: boolean | tbFuncionario$tbCadastroArgs<ExtArgs>
     _count?: boolean | TbFuncionarioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tbFuncionario"]>
 
@@ -3599,9 +3673,11 @@ export namespace Prisma {
     idFuncaoFun?: boolean
     idUserFun?: boolean
     idStatusFun?: boolean
+    idCustoFun?: boolean
     tbStatusFun?: boolean | tbFuncionario$tbStatusFunArgs<ExtArgs>
     tbUser?: boolean | tbFuncionario$tbUserArgs<ExtArgs>
     tbFuncao?: boolean | tbFuncionario$tbFuncaoArgs<ExtArgs>
+    tbCCusto?: boolean | tbFuncionario$tbCCustoArgs<ExtArgs>
   }, ExtArgs["result"]["tbFuncionario"]>
 
   export type tbFuncionarioSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3615,9 +3691,11 @@ export namespace Prisma {
     idFuncaoFun?: boolean
     idUserFun?: boolean
     idStatusFun?: boolean
+    idCustoFun?: boolean
     tbStatusFun?: boolean | tbFuncionario$tbStatusFunArgs<ExtArgs>
     tbUser?: boolean | tbFuncionario$tbUserArgs<ExtArgs>
     tbFuncao?: boolean | tbFuncionario$tbFuncaoArgs<ExtArgs>
+    tbCCusto?: boolean | tbFuncionario$tbCCustoArgs<ExtArgs>
   }, ExtArgs["result"]["tbFuncionario"]>
 
   export type tbFuncionarioSelectScalar = {
@@ -3631,26 +3709,29 @@ export namespace Prisma {
     idFuncaoFun?: boolean
     idUserFun?: boolean
     idStatusFun?: boolean
+    idCustoFun?: boolean
   }
 
-  export type tbFuncionarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idF" | "idMatFun" | "nomeFun" | "cpfFun" | "dataAdmFun" | "dataDesFun" | "avatarFun" | "idFuncaoFun" | "idUserFun" | "idStatusFun", ExtArgs["result"]["tbFuncionario"]>
+  export type tbFuncionarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idF" | "idMatFun" | "nomeFun" | "cpfFun" | "dataAdmFun" | "dataDesFun" | "avatarFun" | "idFuncaoFun" | "idUserFun" | "idStatusFun" | "idCustoFun", ExtArgs["result"]["tbFuncionario"]>
   export type tbFuncionarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbStatusFun?: boolean | tbFuncionario$tbStatusFunArgs<ExtArgs>
     tbUser?: boolean | tbFuncionario$tbUserArgs<ExtArgs>
     tbFuncao?: boolean | tbFuncionario$tbFuncaoArgs<ExtArgs>
-    tbCadastro?: boolean | tbFuncionario$tbCadastroArgs<ExtArgs>
     tbCCusto?: boolean | tbFuncionario$tbCCustoArgs<ExtArgs>
+    tbCadastro?: boolean | tbFuncionario$tbCadastroArgs<ExtArgs>
     _count?: boolean | TbFuncionarioCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type tbFuncionarioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbStatusFun?: boolean | tbFuncionario$tbStatusFunArgs<ExtArgs>
     tbUser?: boolean | tbFuncionario$tbUserArgs<ExtArgs>
     tbFuncao?: boolean | tbFuncionario$tbFuncaoArgs<ExtArgs>
+    tbCCusto?: boolean | tbFuncionario$tbCCustoArgs<ExtArgs>
   }
   export type tbFuncionarioIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbStatusFun?: boolean | tbFuncionario$tbStatusFunArgs<ExtArgs>
     tbUser?: boolean | tbFuncionario$tbUserArgs<ExtArgs>
     tbFuncao?: boolean | tbFuncionario$tbFuncaoArgs<ExtArgs>
+    tbCCusto?: boolean | tbFuncionario$tbCCustoArgs<ExtArgs>
   }
 
   export type $tbFuncionarioPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3659,12 +3740,12 @@ export namespace Prisma {
       tbStatusFun: Prisma.$tbStatusFunPayload<ExtArgs> | null
       tbUser: Prisma.$tbUserPayload<ExtArgs> | null
       tbFuncao: Prisma.$tbFuncaoPayload<ExtArgs> | null
+      tbCCusto: Prisma.$tbCCustoPayload<ExtArgs> | null
       tbCadastro: Prisma.$tbCadastroPayload<ExtArgs>[]
-      tbCCusto: Prisma.$tbCCustoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       idF: string
-      idMatFun: string | null
+      idMatFun: string
       nomeFun: string
       cpfFun: string | null
       dataAdmFun: Date | null
@@ -3673,6 +3754,7 @@ export namespace Prisma {
       idFuncaoFun: string | null
       idUserFun: string | null
       idStatusFun: string | null
+      idCustoFun: string | null
     }, ExtArgs["result"]["tbFuncionario"]>
     composites: {}
   }
@@ -4070,8 +4152,8 @@ export namespace Prisma {
     tbStatusFun<T extends tbFuncionario$tbStatusFunArgs<ExtArgs> = {}>(args?: Subset<T, tbFuncionario$tbStatusFunArgs<ExtArgs>>): Prisma__tbStatusFunClient<$Result.GetResult<Prisma.$tbStatusFunPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tbUser<T extends tbFuncionario$tbUserArgs<ExtArgs> = {}>(args?: Subset<T, tbFuncionario$tbUserArgs<ExtArgs>>): Prisma__tbUserClient<$Result.GetResult<Prisma.$tbUserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tbFuncao<T extends tbFuncionario$tbFuncaoArgs<ExtArgs> = {}>(args?: Subset<T, tbFuncionario$tbFuncaoArgs<ExtArgs>>): Prisma__tbFuncaoClient<$Result.GetResult<Prisma.$tbFuncaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    tbCCusto<T extends tbFuncionario$tbCCustoArgs<ExtArgs> = {}>(args?: Subset<T, tbFuncionario$tbCCustoArgs<ExtArgs>>): Prisma__tbCCustoClient<$Result.GetResult<Prisma.$tbCCustoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tbCadastro<T extends tbFuncionario$tbCadastroArgs<ExtArgs> = {}>(args?: Subset<T, tbFuncionario$tbCadastroArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbCadastroPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    tbCCusto<T extends tbFuncionario$tbCCustoArgs<ExtArgs> = {}>(args?: Subset<T, tbFuncionario$tbCCustoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbCCustoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4111,6 +4193,7 @@ export namespace Prisma {
     readonly idFuncaoFun: FieldRef<"tbFuncionario", 'String'>
     readonly idUserFun: FieldRef<"tbFuncionario", 'String'>
     readonly idStatusFun: FieldRef<"tbFuncionario", 'String'>
+    readonly idCustoFun: FieldRef<"tbFuncionario", 'String'>
   }
     
 
@@ -4562,6 +4645,25 @@ export namespace Prisma {
   }
 
   /**
+   * tbFuncionario.tbCCusto
+   */
+  export type tbFuncionario$tbCCustoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbCCusto
+     */
+    select?: tbCCustoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbCCusto
+     */
+    omit?: tbCCustoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbCCustoInclude<ExtArgs> | null
+    where?: tbCCustoWhereInput
+  }
+
+  /**
    * tbFuncionario.tbCadastro
    */
   export type tbFuncionario$tbCadastroArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4583,30 +4685,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TbCadastroScalarFieldEnum | TbCadastroScalarFieldEnum[]
-  }
-
-  /**
-   * tbFuncionario.tbCCusto
-   */
-  export type tbFuncionario$tbCCustoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the tbCCusto
-     */
-    select?: tbCCustoSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the tbCCusto
-     */
-    omit?: tbCCustoOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: tbCCustoInclude<ExtArgs> | null
-    where?: tbCCustoWhereInput
-    orderBy?: tbCCustoOrderByWithRelationInput | tbCCustoOrderByWithRelationInput[]
-    cursor?: tbCCustoWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TbCCustoScalarFieldEnum | TbCCustoScalarFieldEnum[]
   }
 
   /**
@@ -6710,7 +6788,7 @@ export namespace Prisma {
     idP: string | null
     idPat: string | null
     descricaoPat: string | null
-    descricaodetalhadaPat: string | null
+    descricaoDetalhadaPat: string | null
     licencaPat: string | null
     dataEntPat: Date | null
     dataSaiPat: Date | null
@@ -6718,13 +6796,16 @@ export namespace Prisma {
     valorPat: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    idPat_TipoPat: string | null
+    idPat_StatusPat: string | null
+    idPat_CustoPat: string | null
   }
 
   export type TbPatrimonioMaxAggregateOutputType = {
     idP: string | null
     idPat: string | null
     descricaoPat: string | null
-    descricaodetalhadaPat: string | null
+    descricaoDetalhadaPat: string | null
     licencaPat: string | null
     dataEntPat: Date | null
     dataSaiPat: Date | null
@@ -6732,13 +6813,16 @@ export namespace Prisma {
     valorPat: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    idPat_TipoPat: string | null
+    idPat_StatusPat: string | null
+    idPat_CustoPat: string | null
   }
 
   export type TbPatrimonioCountAggregateOutputType = {
     idP: number
     idPat: number
     descricaoPat: number
-    descricaodetalhadaPat: number
+    descricaoDetalhadaPat: number
     licencaPat: number
     dataEntPat: number
     dataSaiPat: number
@@ -6746,6 +6830,9 @@ export namespace Prisma {
     valorPat: number
     createdAt: number
     updatedAt: number
+    idPat_TipoPat: number
+    idPat_StatusPat: number
+    idPat_CustoPat: number
     _all: number
   }
 
@@ -6762,7 +6849,7 @@ export namespace Prisma {
     idP?: true
     idPat?: true
     descricaoPat?: true
-    descricaodetalhadaPat?: true
+    descricaoDetalhadaPat?: true
     licencaPat?: true
     dataEntPat?: true
     dataSaiPat?: true
@@ -6770,13 +6857,16 @@ export namespace Prisma {
     valorPat?: true
     createdAt?: true
     updatedAt?: true
+    idPat_TipoPat?: true
+    idPat_StatusPat?: true
+    idPat_CustoPat?: true
   }
 
   export type TbPatrimonioMaxAggregateInputType = {
     idP?: true
     idPat?: true
     descricaoPat?: true
-    descricaodetalhadaPat?: true
+    descricaoDetalhadaPat?: true
     licencaPat?: true
     dataEntPat?: true
     dataSaiPat?: true
@@ -6784,13 +6874,16 @@ export namespace Prisma {
     valorPat?: true
     createdAt?: true
     updatedAt?: true
+    idPat_TipoPat?: true
+    idPat_StatusPat?: true
+    idPat_CustoPat?: true
   }
 
   export type TbPatrimonioCountAggregateInputType = {
     idP?: true
     idPat?: true
     descricaoPat?: true
-    descricaodetalhadaPat?: true
+    descricaoDetalhadaPat?: true
     licencaPat?: true
     dataEntPat?: true
     dataSaiPat?: true
@@ -6798,6 +6891,9 @@ export namespace Prisma {
     valorPat?: true
     createdAt?: true
     updatedAt?: true
+    idPat_TipoPat?: true
+    idPat_StatusPat?: true
+    idPat_CustoPat?: true
     _all?: true
   }
 
@@ -6891,7 +6987,7 @@ export namespace Prisma {
     idP: string
     idPat: string
     descricaoPat: string
-    descricaodetalhadaPat: string | null
+    descricaoDetalhadaPat: string | null
     licencaPat: string | null
     dataEntPat: Date
     dataSaiPat: Date | null
@@ -6899,6 +6995,9 @@ export namespace Prisma {
     valorPat: number
     createdAt: Date | null
     updatedAt: Date | null
+    idPat_TipoPat: string | null
+    idPat_StatusPat: string | null
+    idPat_CustoPat: string | null
     _count: TbPatrimonioCountAggregateOutputType | null
     _avg: TbPatrimonioAvgAggregateOutputType | null
     _sum: TbPatrimonioSumAggregateOutputType | null
@@ -6924,7 +7023,7 @@ export namespace Prisma {
     idP?: boolean
     idPat?: boolean
     descricaoPat?: boolean
-    descricaodetalhadaPat?: boolean
+    descricaoDetalhadaPat?: boolean
     licencaPat?: boolean
     dataEntPat?: boolean
     dataSaiPat?: boolean
@@ -6932,10 +7031,13 @@ export namespace Prisma {
     valorPat?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    tbCadastro?: boolean | tbPatrimonio$tbCadastroArgs<ExtArgs>
+    idPat_TipoPat?: boolean
+    idPat_StatusPat?: boolean
+    idPat_CustoPat?: boolean
     tbTipoPat?: boolean | tbPatrimonio$tbTipoPatArgs<ExtArgs>
     tbStatusPat?: boolean | tbPatrimonio$tbStatusPatArgs<ExtArgs>
-    tbCusto?: boolean | tbPatrimonio$tbCustoArgs<ExtArgs>
+    tbCCusto?: boolean | tbPatrimonio$tbCCustoArgs<ExtArgs>
+    tbCadastro?: boolean | tbPatrimonio$tbCadastroArgs<ExtArgs>
     _count?: boolean | TbPatrimonioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tbPatrimonio"]>
 
@@ -6943,7 +7045,7 @@ export namespace Prisma {
     idP?: boolean
     idPat?: boolean
     descricaoPat?: boolean
-    descricaodetalhadaPat?: boolean
+    descricaoDetalhadaPat?: boolean
     licencaPat?: boolean
     dataEntPat?: boolean
     dataSaiPat?: boolean
@@ -6951,13 +7053,19 @@ export namespace Prisma {
     valorPat?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    idPat_TipoPat?: boolean
+    idPat_StatusPat?: boolean
+    idPat_CustoPat?: boolean
+    tbTipoPat?: boolean | tbPatrimonio$tbTipoPatArgs<ExtArgs>
+    tbStatusPat?: boolean | tbPatrimonio$tbStatusPatArgs<ExtArgs>
+    tbCCusto?: boolean | tbPatrimonio$tbCCustoArgs<ExtArgs>
   }, ExtArgs["result"]["tbPatrimonio"]>
 
   export type tbPatrimonioSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     idP?: boolean
     idPat?: boolean
     descricaoPat?: boolean
-    descricaodetalhadaPat?: boolean
+    descricaoDetalhadaPat?: boolean
     licencaPat?: boolean
     dataEntPat?: boolean
     dataSaiPat?: boolean
@@ -6965,13 +7073,19 @@ export namespace Prisma {
     valorPat?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    idPat_TipoPat?: boolean
+    idPat_StatusPat?: boolean
+    idPat_CustoPat?: boolean
+    tbTipoPat?: boolean | tbPatrimonio$tbTipoPatArgs<ExtArgs>
+    tbStatusPat?: boolean | tbPatrimonio$tbStatusPatArgs<ExtArgs>
+    tbCCusto?: boolean | tbPatrimonio$tbCCustoArgs<ExtArgs>
   }, ExtArgs["result"]["tbPatrimonio"]>
 
   export type tbPatrimonioSelectScalar = {
     idP?: boolean
     idPat?: boolean
     descricaoPat?: boolean
-    descricaodetalhadaPat?: boolean
+    descricaoDetalhadaPat?: boolean
     licencaPat?: boolean
     dataEntPat?: boolean
     dataSaiPat?: boolean
@@ -6979,32 +7093,43 @@ export namespace Prisma {
     valorPat?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    idPat_TipoPat?: boolean
+    idPat_StatusPat?: boolean
+    idPat_CustoPat?: boolean
   }
 
-  export type tbPatrimonioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idP" | "idPat" | "descricaoPat" | "descricaodetalhadaPat" | "licencaPat" | "dataEntPat" | "dataSaiPat" | "notaFiscalPat" | "valorPat" | "createdAt" | "updatedAt", ExtArgs["result"]["tbPatrimonio"]>
+  export type tbPatrimonioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idP" | "idPat" | "descricaoPat" | "descricaoDetalhadaPat" | "licencaPat" | "dataEntPat" | "dataSaiPat" | "notaFiscalPat" | "valorPat" | "createdAt" | "updatedAt" | "idPat_TipoPat" | "idPat_StatusPat" | "idPat_CustoPat", ExtArgs["result"]["tbPatrimonio"]>
   export type tbPatrimonioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tbCadastro?: boolean | tbPatrimonio$tbCadastroArgs<ExtArgs>
     tbTipoPat?: boolean | tbPatrimonio$tbTipoPatArgs<ExtArgs>
     tbStatusPat?: boolean | tbPatrimonio$tbStatusPatArgs<ExtArgs>
-    tbCusto?: boolean | tbPatrimonio$tbCustoArgs<ExtArgs>
+    tbCCusto?: boolean | tbPatrimonio$tbCCustoArgs<ExtArgs>
+    tbCadastro?: boolean | tbPatrimonio$tbCadastroArgs<ExtArgs>
     _count?: boolean | TbPatrimonioCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type tbPatrimonioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type tbPatrimonioIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type tbPatrimonioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tbTipoPat?: boolean | tbPatrimonio$tbTipoPatArgs<ExtArgs>
+    tbStatusPat?: boolean | tbPatrimonio$tbStatusPatArgs<ExtArgs>
+    tbCCusto?: boolean | tbPatrimonio$tbCCustoArgs<ExtArgs>
+  }
+  export type tbPatrimonioIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tbTipoPat?: boolean | tbPatrimonio$tbTipoPatArgs<ExtArgs>
+    tbStatusPat?: boolean | tbPatrimonio$tbStatusPatArgs<ExtArgs>
+    tbCCusto?: boolean | tbPatrimonio$tbCCustoArgs<ExtArgs>
+  }
 
   export type $tbPatrimonioPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "tbPatrimonio"
     objects: {
+      tbTipoPat: Prisma.$tbTipoPatPayload<ExtArgs> | null
+      tbStatusPat: Prisma.$tbStatusPatPayload<ExtArgs> | null
+      tbCCusto: Prisma.$tbCCustoPayload<ExtArgs> | null
       tbCadastro: Prisma.$tbCadastroPayload<ExtArgs>[]
-      tbTipoPat: Prisma.$tbTipoPatPayload<ExtArgs>[]
-      tbStatusPat: Prisma.$tbstatusPatPayload<ExtArgs>[]
-      tbCusto: Prisma.$tbCCustoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       idP: string
       idPat: string
       descricaoPat: string
-      descricaodetalhadaPat: string | null
+      descricaoDetalhadaPat: string | null
       licencaPat: string | null
       dataEntPat: Date
       dataSaiPat: Date | null
@@ -7012,6 +7137,9 @@ export namespace Prisma {
       valorPat: number
       createdAt: Date | null
       updatedAt: Date | null
+      idPat_TipoPat: string | null
+      idPat_StatusPat: string | null
+      idPat_CustoPat: string | null
     }, ExtArgs["result"]["tbPatrimonio"]>
     composites: {}
   }
@@ -7406,10 +7534,10 @@ export namespace Prisma {
    */
   export interface Prisma__tbPatrimonioClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    tbTipoPat<T extends tbPatrimonio$tbTipoPatArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonio$tbTipoPatArgs<ExtArgs>>): Prisma__tbTipoPatClient<$Result.GetResult<Prisma.$tbTipoPatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    tbStatusPat<T extends tbPatrimonio$tbStatusPatArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonio$tbStatusPatArgs<ExtArgs>>): Prisma__tbStatusPatClient<$Result.GetResult<Prisma.$tbStatusPatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    tbCCusto<T extends tbPatrimonio$tbCCustoArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonio$tbCCustoArgs<ExtArgs>>): Prisma__tbCCustoClient<$Result.GetResult<Prisma.$tbCCustoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tbCadastro<T extends tbPatrimonio$tbCadastroArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonio$tbCadastroArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbCadastroPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    tbTipoPat<T extends tbPatrimonio$tbTipoPatArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonio$tbTipoPatArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTipoPatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    tbStatusPat<T extends tbPatrimonio$tbStatusPatArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonio$tbStatusPatArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbstatusPatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    tbCusto<T extends tbPatrimonio$tbCustoArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonio$tbCustoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbCCustoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7442,7 +7570,7 @@ export namespace Prisma {
     readonly idP: FieldRef<"tbPatrimonio", 'String'>
     readonly idPat: FieldRef<"tbPatrimonio", 'String'>
     readonly descricaoPat: FieldRef<"tbPatrimonio", 'String'>
-    readonly descricaodetalhadaPat: FieldRef<"tbPatrimonio", 'String'>
+    readonly descricaoDetalhadaPat: FieldRef<"tbPatrimonio", 'String'>
     readonly licencaPat: FieldRef<"tbPatrimonio", 'String'>
     readonly dataEntPat: FieldRef<"tbPatrimonio", 'DateTime'>
     readonly dataSaiPat: FieldRef<"tbPatrimonio", 'DateTime'>
@@ -7450,6 +7578,9 @@ export namespace Prisma {
     readonly valorPat: FieldRef<"tbPatrimonio", 'Float'>
     readonly createdAt: FieldRef<"tbPatrimonio", 'DateTime'>
     readonly updatedAt: FieldRef<"tbPatrimonio", 'DateTime'>
+    readonly idPat_TipoPat: FieldRef<"tbPatrimonio", 'String'>
+    readonly idPat_StatusPat: FieldRef<"tbPatrimonio", 'String'>
+    readonly idPat_CustoPat: FieldRef<"tbPatrimonio", 'String'>
   }
     
 
@@ -7697,6 +7828,10 @@ export namespace Prisma {
      * The data used to create many tbPatrimonios.
      */
     data: tbPatrimonioCreateManyInput | tbPatrimonioCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbPatrimonioIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -7767,6 +7902,10 @@ export namespace Prisma {
      * Limit how many tbPatrimonios to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbPatrimonioIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -7836,6 +7975,63 @@ export namespace Prisma {
   }
 
   /**
+   * tbPatrimonio.tbTipoPat
+   */
+  export type tbPatrimonio$tbTipoPatArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTipoPat
+     */
+    select?: tbTipoPatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTipoPat
+     */
+    omit?: tbTipoPatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTipoPatInclude<ExtArgs> | null
+    where?: tbTipoPatWhereInput
+  }
+
+  /**
+   * tbPatrimonio.tbStatusPat
+   */
+  export type tbPatrimonio$tbStatusPatArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbStatusPat
+     */
+    select?: tbStatusPatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbStatusPat
+     */
+    omit?: tbStatusPatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbStatusPatInclude<ExtArgs> | null
+    where?: tbStatusPatWhereInput
+  }
+
+  /**
+   * tbPatrimonio.tbCCusto
+   */
+  export type tbPatrimonio$tbCCustoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbCCusto
+     */
+    select?: tbCCustoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbCCusto
+     */
+    omit?: tbCCustoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbCCustoInclude<ExtArgs> | null
+    where?: tbCCustoWhereInput
+  }
+
+  /**
    * tbPatrimonio.tbCadastro
    */
   export type tbPatrimonio$tbCadastroArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7857,78 +8053,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TbCadastroScalarFieldEnum | TbCadastroScalarFieldEnum[]
-  }
-
-  /**
-   * tbPatrimonio.tbTipoPat
-   */
-  export type tbPatrimonio$tbTipoPatArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the tbTipoPat
-     */
-    select?: tbTipoPatSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the tbTipoPat
-     */
-    omit?: tbTipoPatOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: tbTipoPatInclude<ExtArgs> | null
-    where?: tbTipoPatWhereInput
-    orderBy?: tbTipoPatOrderByWithRelationInput | tbTipoPatOrderByWithRelationInput[]
-    cursor?: tbTipoPatWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TbTipoPatScalarFieldEnum | TbTipoPatScalarFieldEnum[]
-  }
-
-  /**
-   * tbPatrimonio.tbStatusPat
-   */
-  export type tbPatrimonio$tbStatusPatArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the tbstatusPat
-     */
-    select?: tbstatusPatSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the tbstatusPat
-     */
-    omit?: tbstatusPatOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: tbstatusPatInclude<ExtArgs> | null
-    where?: tbstatusPatWhereInput
-    orderBy?: tbstatusPatOrderByWithRelationInput | tbstatusPatOrderByWithRelationInput[]
-    cursor?: tbstatusPatWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TbstatusPatScalarFieldEnum | TbstatusPatScalarFieldEnum[]
-  }
-
-  /**
-   * tbPatrimonio.tbCusto
-   */
-  export type tbPatrimonio$tbCustoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the tbCCusto
-     */
-    select?: tbCCustoSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the tbCCusto
-     */
-    omit?: tbCCustoOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: tbCCustoInclude<ExtArgs> | null
-    where?: tbCCustoWhereInput
-    orderBy?: tbCCustoOrderByWithRelationInput | tbCCustoOrderByWithRelationInput[]
-    cursor?: tbCCustoWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TbCCustoScalarFieldEnum | TbCCustoScalarFieldEnum[]
   }
 
   /**
@@ -7963,19 +8087,16 @@ export namespace Prisma {
   export type TbTipoPatMinAggregateOutputType = {
     idTipPat: string | null
     descricaoTipPat: string | null
-    idPat_TipoPat: string | null
   }
 
   export type TbTipoPatMaxAggregateOutputType = {
     idTipPat: string | null
     descricaoTipPat: string | null
-    idPat_TipoPat: string | null
   }
 
   export type TbTipoPatCountAggregateOutputType = {
     idTipPat: number
     descricaoTipPat: number
-    idPat_TipoPat: number
     _all: number
   }
 
@@ -7983,19 +8104,16 @@ export namespace Prisma {
   export type TbTipoPatMinAggregateInputType = {
     idTipPat?: true
     descricaoTipPat?: true
-    idPat_TipoPat?: true
   }
 
   export type TbTipoPatMaxAggregateInputType = {
     idTipPat?: true
     descricaoTipPat?: true
-    idPat_TipoPat?: true
   }
 
   export type TbTipoPatCountAggregateInputType = {
     idTipPat?: true
     descricaoTipPat?: true
-    idPat_TipoPat?: true
     _all?: true
   }
 
@@ -8074,7 +8192,6 @@ export namespace Prisma {
   export type TbTipoPatGroupByOutputType = {
     idTipPat: string
     descricaoTipPat: string | null
-    idPat_TipoPat: string | null
     _count: TbTipoPatCountAggregateOutputType | null
     _min: TbTipoPatMinAggregateOutputType | null
     _max: TbTipoPatMaxAggregateOutputType | null
@@ -8097,50 +8214,41 @@ export namespace Prisma {
   export type tbTipoPatSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     idTipPat?: boolean
     descricaoTipPat?: boolean
-    idPat_TipoPat?: boolean
     tbPatrimonio?: boolean | tbTipoPat$tbPatrimonioArgs<ExtArgs>
+    _count?: boolean | TbTipoPatCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tbTipoPat"]>
 
   export type tbTipoPatSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     idTipPat?: boolean
     descricaoTipPat?: boolean
-    idPat_TipoPat?: boolean
-    tbPatrimonio?: boolean | tbTipoPat$tbPatrimonioArgs<ExtArgs>
   }, ExtArgs["result"]["tbTipoPat"]>
 
   export type tbTipoPatSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     idTipPat?: boolean
     descricaoTipPat?: boolean
-    idPat_TipoPat?: boolean
-    tbPatrimonio?: boolean | tbTipoPat$tbPatrimonioArgs<ExtArgs>
   }, ExtArgs["result"]["tbTipoPat"]>
 
   export type tbTipoPatSelectScalar = {
     idTipPat?: boolean
     descricaoTipPat?: boolean
-    idPat_TipoPat?: boolean
   }
 
-  export type tbTipoPatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idTipPat" | "descricaoTipPat" | "idPat_TipoPat", ExtArgs["result"]["tbTipoPat"]>
+  export type tbTipoPatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idTipPat" | "descricaoTipPat", ExtArgs["result"]["tbTipoPat"]>
   export type tbTipoPatInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbPatrimonio?: boolean | tbTipoPat$tbPatrimonioArgs<ExtArgs>
+    _count?: boolean | TbTipoPatCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type tbTipoPatIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tbPatrimonio?: boolean | tbTipoPat$tbPatrimonioArgs<ExtArgs>
-  }
-  export type tbTipoPatIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tbPatrimonio?: boolean | tbTipoPat$tbPatrimonioArgs<ExtArgs>
-  }
+  export type tbTipoPatIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type tbTipoPatIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $tbTipoPatPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "tbTipoPat"
     objects: {
-      tbPatrimonio: Prisma.$tbPatrimonioPayload<ExtArgs> | null
+      tbPatrimonio: Prisma.$tbPatrimonioPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       idTipPat: string
       descricaoTipPat: string | null
-      idPat_TipoPat: string | null
     }, ExtArgs["result"]["tbTipoPat"]>
     composites: {}
   }
@@ -8535,7 +8643,7 @@ export namespace Prisma {
    */
   export interface Prisma__tbTipoPatClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    tbPatrimonio<T extends tbTipoPat$tbPatrimonioArgs<ExtArgs> = {}>(args?: Subset<T, tbTipoPat$tbPatrimonioArgs<ExtArgs>>): Prisma__tbPatrimonioClient<$Result.GetResult<Prisma.$tbPatrimonioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    tbPatrimonio<T extends tbTipoPat$tbPatrimonioArgs<ExtArgs> = {}>(args?: Subset<T, tbTipoPat$tbPatrimonioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8567,7 +8675,6 @@ export namespace Prisma {
   interface tbTipoPatFieldRefs {
     readonly idTipPat: FieldRef<"tbTipoPat", 'String'>
     readonly descricaoTipPat: FieldRef<"tbTipoPat", 'String'>
-    readonly idPat_TipoPat: FieldRef<"tbTipoPat", 'String'>
   }
     
 
@@ -8815,10 +8922,6 @@ export namespace Prisma {
      * The data used to create many tbTipoPats.
      */
     data: tbTipoPatCreateManyInput | tbTipoPatCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: tbTipoPatIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -8889,10 +8992,6 @@ export namespace Prisma {
      * Limit how many tbTipoPats to update.
      */
     limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: tbTipoPatIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -8978,6 +9077,11 @@ export namespace Prisma {
      */
     include?: tbPatrimonioInclude<ExtArgs> | null
     where?: tbPatrimonioWhereInput
+    orderBy?: tbPatrimonioOrderByWithRelationInput | tbPatrimonioOrderByWithRelationInput[]
+    cursor?: tbPatrimonioWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbPatrimonioScalarFieldEnum | TbPatrimonioScalarFieldEnum[]
   }
 
   /**
@@ -9000,327 +9104,311 @@ export namespace Prisma {
 
 
   /**
-   * Model tbstatusPat
+   * Model tbStatusPat
    */
 
-  export type AggregateTbstatusPat = {
-    _count: TbstatusPatCountAggregateOutputType | null
-    _min: TbstatusPatMinAggregateOutputType | null
-    _max: TbstatusPatMaxAggregateOutputType | null
+  export type AggregateTbStatusPat = {
+    _count: TbStatusPatCountAggregateOutputType | null
+    _min: TbStatusPatMinAggregateOutputType | null
+    _max: TbStatusPatMaxAggregateOutputType | null
   }
 
-  export type TbstatusPatMinAggregateOutputType = {
-    idStatPat: string | null
+  export type TbStatusPatMinAggregateOutputType = {
+    idStatusPat: string | null
     descricaoStatPat: string | null
-    idPat_StatusPat: string | null
   }
 
-  export type TbstatusPatMaxAggregateOutputType = {
-    idStatPat: string | null
+  export type TbStatusPatMaxAggregateOutputType = {
+    idStatusPat: string | null
     descricaoStatPat: string | null
-    idPat_StatusPat: string | null
   }
 
-  export type TbstatusPatCountAggregateOutputType = {
-    idStatPat: number
+  export type TbStatusPatCountAggregateOutputType = {
+    idStatusPat: number
     descricaoStatPat: number
-    idPat_StatusPat: number
     _all: number
   }
 
 
-  export type TbstatusPatMinAggregateInputType = {
-    idStatPat?: true
+  export type TbStatusPatMinAggregateInputType = {
+    idStatusPat?: true
     descricaoStatPat?: true
-    idPat_StatusPat?: true
   }
 
-  export type TbstatusPatMaxAggregateInputType = {
-    idStatPat?: true
+  export type TbStatusPatMaxAggregateInputType = {
+    idStatusPat?: true
     descricaoStatPat?: true
-    idPat_StatusPat?: true
   }
 
-  export type TbstatusPatCountAggregateInputType = {
-    idStatPat?: true
+  export type TbStatusPatCountAggregateInputType = {
+    idStatusPat?: true
     descricaoStatPat?: true
-    idPat_StatusPat?: true
     _all?: true
   }
 
-  export type TbstatusPatAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TbStatusPatAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which tbstatusPat to aggregate.
+     * Filter which tbStatusPat to aggregate.
      */
-    where?: tbstatusPatWhereInput
+    where?: tbStatusPatWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of tbstatusPats to fetch.
+     * Determine the order of tbStatusPats to fetch.
      */
-    orderBy?: tbstatusPatOrderByWithRelationInput | tbstatusPatOrderByWithRelationInput[]
+    orderBy?: tbStatusPatOrderByWithRelationInput | tbStatusPatOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: tbstatusPatWhereUniqueInput
+    cursor?: tbStatusPatWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` tbstatusPats from the position of the cursor.
+     * Take `±n` tbStatusPats from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` tbstatusPats.
+     * Skip the first `n` tbStatusPats.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned tbstatusPats
+     * Count returned tbStatusPats
     **/
-    _count?: true | TbstatusPatCountAggregateInputType
+    _count?: true | TbStatusPatCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: TbstatusPatMinAggregateInputType
+    _min?: TbStatusPatMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: TbstatusPatMaxAggregateInputType
+    _max?: TbStatusPatMaxAggregateInputType
   }
 
-  export type GetTbstatusPatAggregateType<T extends TbstatusPatAggregateArgs> = {
-        [P in keyof T & keyof AggregateTbstatusPat]: P extends '_count' | 'count'
+  export type GetTbStatusPatAggregateType<T extends TbStatusPatAggregateArgs> = {
+        [P in keyof T & keyof AggregateTbStatusPat]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateTbstatusPat[P]>
-      : GetScalarType<T[P], AggregateTbstatusPat[P]>
+        : GetScalarType<T[P], AggregateTbStatusPat[P]>
+      : GetScalarType<T[P], AggregateTbStatusPat[P]>
   }
 
 
 
 
-  export type tbstatusPatGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: tbstatusPatWhereInput
-    orderBy?: tbstatusPatOrderByWithAggregationInput | tbstatusPatOrderByWithAggregationInput[]
-    by: TbstatusPatScalarFieldEnum[] | TbstatusPatScalarFieldEnum
-    having?: tbstatusPatScalarWhereWithAggregatesInput
+  export type tbStatusPatGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbStatusPatWhereInput
+    orderBy?: tbStatusPatOrderByWithAggregationInput | tbStatusPatOrderByWithAggregationInput[]
+    by: TbStatusPatScalarFieldEnum[] | TbStatusPatScalarFieldEnum
+    having?: tbStatusPatScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: TbstatusPatCountAggregateInputType | true
-    _min?: TbstatusPatMinAggregateInputType
-    _max?: TbstatusPatMaxAggregateInputType
+    _count?: TbStatusPatCountAggregateInputType | true
+    _min?: TbStatusPatMinAggregateInputType
+    _max?: TbStatusPatMaxAggregateInputType
   }
 
-  export type TbstatusPatGroupByOutputType = {
-    idStatPat: string
+  export type TbStatusPatGroupByOutputType = {
+    idStatusPat: string
     descricaoStatPat: string
-    idPat_StatusPat: string | null
-    _count: TbstatusPatCountAggregateOutputType | null
-    _min: TbstatusPatMinAggregateOutputType | null
-    _max: TbstatusPatMaxAggregateOutputType | null
+    _count: TbStatusPatCountAggregateOutputType | null
+    _min: TbStatusPatMinAggregateOutputType | null
+    _max: TbStatusPatMaxAggregateOutputType | null
   }
 
-  type GetTbstatusPatGroupByPayload<T extends tbstatusPatGroupByArgs> = Prisma.PrismaPromise<
+  type GetTbStatusPatGroupByPayload<T extends tbStatusPatGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<TbstatusPatGroupByOutputType, T['by']> &
+      PickEnumerable<TbStatusPatGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof TbstatusPatGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof TbStatusPatGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], TbstatusPatGroupByOutputType[P]>
-            : GetScalarType<T[P], TbstatusPatGroupByOutputType[P]>
+              : GetScalarType<T[P], TbStatusPatGroupByOutputType[P]>
+            : GetScalarType<T[P], TbStatusPatGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type tbstatusPatSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    idStatPat?: boolean
+  export type tbStatusPatSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    idStatusPat?: boolean
     descricaoStatPat?: boolean
-    idPat_StatusPat?: boolean
-    tbPatrimonio?: boolean | tbstatusPat$tbPatrimonioArgs<ExtArgs>
-  }, ExtArgs["result"]["tbstatusPat"]>
+    tbPatrimonio?: boolean | tbStatusPat$tbPatrimonioArgs<ExtArgs>
+    _count?: boolean | TbStatusPatCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tbStatusPat"]>
 
-  export type tbstatusPatSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    idStatPat?: boolean
+  export type tbStatusPatSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    idStatusPat?: boolean
     descricaoStatPat?: boolean
-    idPat_StatusPat?: boolean
-    tbPatrimonio?: boolean | tbstatusPat$tbPatrimonioArgs<ExtArgs>
-  }, ExtArgs["result"]["tbstatusPat"]>
+  }, ExtArgs["result"]["tbStatusPat"]>
 
-  export type tbstatusPatSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    idStatPat?: boolean
+  export type tbStatusPatSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    idStatusPat?: boolean
     descricaoStatPat?: boolean
-    idPat_StatusPat?: boolean
-    tbPatrimonio?: boolean | tbstatusPat$tbPatrimonioArgs<ExtArgs>
-  }, ExtArgs["result"]["tbstatusPat"]>
+  }, ExtArgs["result"]["tbStatusPat"]>
 
-  export type tbstatusPatSelectScalar = {
-    idStatPat?: boolean
+  export type tbStatusPatSelectScalar = {
+    idStatusPat?: boolean
     descricaoStatPat?: boolean
-    idPat_StatusPat?: boolean
   }
 
-  export type tbstatusPatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idStatPat" | "descricaoStatPat" | "idPat_StatusPat", ExtArgs["result"]["tbstatusPat"]>
-  export type tbstatusPatInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tbPatrimonio?: boolean | tbstatusPat$tbPatrimonioArgs<ExtArgs>
+  export type tbStatusPatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idStatusPat" | "descricaoStatPat", ExtArgs["result"]["tbStatusPat"]>
+  export type tbStatusPatInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tbPatrimonio?: boolean | tbStatusPat$tbPatrimonioArgs<ExtArgs>
+    _count?: boolean | TbStatusPatCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type tbstatusPatIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tbPatrimonio?: boolean | tbstatusPat$tbPatrimonioArgs<ExtArgs>
-  }
-  export type tbstatusPatIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tbPatrimonio?: boolean | tbstatusPat$tbPatrimonioArgs<ExtArgs>
-  }
+  export type tbStatusPatIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type tbStatusPatIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
-  export type $tbstatusPatPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "tbstatusPat"
+  export type $tbStatusPatPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "tbStatusPat"
     objects: {
-      tbPatrimonio: Prisma.$tbPatrimonioPayload<ExtArgs> | null
+      tbPatrimonio: Prisma.$tbPatrimonioPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      idStatPat: string
+      idStatusPat: string
       descricaoStatPat: string
-      idPat_StatusPat: string | null
-    }, ExtArgs["result"]["tbstatusPat"]>
+    }, ExtArgs["result"]["tbStatusPat"]>
     composites: {}
   }
 
-  type tbstatusPatGetPayload<S extends boolean | null | undefined | tbstatusPatDefaultArgs> = $Result.GetResult<Prisma.$tbstatusPatPayload, S>
+  type tbStatusPatGetPayload<S extends boolean | null | undefined | tbStatusPatDefaultArgs> = $Result.GetResult<Prisma.$tbStatusPatPayload, S>
 
-  type tbstatusPatCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<tbstatusPatFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: TbstatusPatCountAggregateInputType | true
+  type tbStatusPatCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<tbStatusPatFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TbStatusPatCountAggregateInputType | true
     }
 
-  export interface tbstatusPatDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['tbstatusPat'], meta: { name: 'tbstatusPat' } }
+  export interface tbStatusPatDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['tbStatusPat'], meta: { name: 'tbStatusPat' } }
     /**
-     * Find zero or one TbstatusPat that matches the filter.
-     * @param {tbstatusPatFindUniqueArgs} args - Arguments to find a TbstatusPat
+     * Find zero or one TbStatusPat that matches the filter.
+     * @param {tbStatusPatFindUniqueArgs} args - Arguments to find a TbStatusPat
      * @example
-     * // Get one TbstatusPat
-     * const tbstatusPat = await prisma.tbstatusPat.findUnique({
+     * // Get one TbStatusPat
+     * const tbStatusPat = await prisma.tbStatusPat.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends tbstatusPatFindUniqueArgs>(args: SelectSubset<T, tbstatusPatFindUniqueArgs<ExtArgs>>): Prisma__tbstatusPatClient<$Result.GetResult<Prisma.$tbstatusPatPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends tbStatusPatFindUniqueArgs>(args: SelectSubset<T, tbStatusPatFindUniqueArgs<ExtArgs>>): Prisma__tbStatusPatClient<$Result.GetResult<Prisma.$tbStatusPatPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one TbstatusPat that matches the filter or throw an error with `error.code='P2025'`
+     * Find one TbStatusPat that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {tbstatusPatFindUniqueOrThrowArgs} args - Arguments to find a TbstatusPat
+     * @param {tbStatusPatFindUniqueOrThrowArgs} args - Arguments to find a TbStatusPat
      * @example
-     * // Get one TbstatusPat
-     * const tbstatusPat = await prisma.tbstatusPat.findUniqueOrThrow({
+     * // Get one TbStatusPat
+     * const tbStatusPat = await prisma.tbStatusPat.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends tbstatusPatFindUniqueOrThrowArgs>(args: SelectSubset<T, tbstatusPatFindUniqueOrThrowArgs<ExtArgs>>): Prisma__tbstatusPatClient<$Result.GetResult<Prisma.$tbstatusPatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends tbStatusPatFindUniqueOrThrowArgs>(args: SelectSubset<T, tbStatusPatFindUniqueOrThrowArgs<ExtArgs>>): Prisma__tbStatusPatClient<$Result.GetResult<Prisma.$tbStatusPatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first TbstatusPat that matches the filter.
+     * Find the first TbStatusPat that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {tbstatusPatFindFirstArgs} args - Arguments to find a TbstatusPat
+     * @param {tbStatusPatFindFirstArgs} args - Arguments to find a TbStatusPat
      * @example
-     * // Get one TbstatusPat
-     * const tbstatusPat = await prisma.tbstatusPat.findFirst({
+     * // Get one TbStatusPat
+     * const tbStatusPat = await prisma.tbStatusPat.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends tbstatusPatFindFirstArgs>(args?: SelectSubset<T, tbstatusPatFindFirstArgs<ExtArgs>>): Prisma__tbstatusPatClient<$Result.GetResult<Prisma.$tbstatusPatPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends tbStatusPatFindFirstArgs>(args?: SelectSubset<T, tbStatusPatFindFirstArgs<ExtArgs>>): Prisma__tbStatusPatClient<$Result.GetResult<Prisma.$tbStatusPatPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first TbstatusPat that matches the filter or
+     * Find the first TbStatusPat that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {tbstatusPatFindFirstOrThrowArgs} args - Arguments to find a TbstatusPat
+     * @param {tbStatusPatFindFirstOrThrowArgs} args - Arguments to find a TbStatusPat
      * @example
-     * // Get one TbstatusPat
-     * const tbstatusPat = await prisma.tbstatusPat.findFirstOrThrow({
+     * // Get one TbStatusPat
+     * const tbStatusPat = await prisma.tbStatusPat.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends tbstatusPatFindFirstOrThrowArgs>(args?: SelectSubset<T, tbstatusPatFindFirstOrThrowArgs<ExtArgs>>): Prisma__tbstatusPatClient<$Result.GetResult<Prisma.$tbstatusPatPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends tbStatusPatFindFirstOrThrowArgs>(args?: SelectSubset<T, tbStatusPatFindFirstOrThrowArgs<ExtArgs>>): Prisma__tbStatusPatClient<$Result.GetResult<Prisma.$tbStatusPatPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more TbstatusPats that matches the filter.
+     * Find zero or more TbStatusPats that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {tbstatusPatFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {tbStatusPatFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all TbstatusPats
-     * const tbstatusPats = await prisma.tbstatusPat.findMany()
+     * // Get all TbStatusPats
+     * const tbStatusPats = await prisma.tbStatusPat.findMany()
      * 
-     * // Get first 10 TbstatusPats
-     * const tbstatusPats = await prisma.tbstatusPat.findMany({ take: 10 })
+     * // Get first 10 TbStatusPats
+     * const tbStatusPats = await prisma.tbStatusPat.findMany({ take: 10 })
      * 
-     * // Only select the `idStatPat`
-     * const tbstatusPatWithIdStatPatOnly = await prisma.tbstatusPat.findMany({ select: { idStatPat: true } })
+     * // Only select the `idStatusPat`
+     * const tbStatusPatWithIdStatusPatOnly = await prisma.tbStatusPat.findMany({ select: { idStatusPat: true } })
      * 
      */
-    findMany<T extends tbstatusPatFindManyArgs>(args?: SelectSubset<T, tbstatusPatFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbstatusPatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends tbStatusPatFindManyArgs>(args?: SelectSubset<T, tbStatusPatFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbStatusPatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a TbstatusPat.
-     * @param {tbstatusPatCreateArgs} args - Arguments to create a TbstatusPat.
+     * Create a TbStatusPat.
+     * @param {tbStatusPatCreateArgs} args - Arguments to create a TbStatusPat.
      * @example
-     * // Create one TbstatusPat
-     * const TbstatusPat = await prisma.tbstatusPat.create({
+     * // Create one TbStatusPat
+     * const TbStatusPat = await prisma.tbStatusPat.create({
      *   data: {
-     *     // ... data to create a TbstatusPat
+     *     // ... data to create a TbStatusPat
      *   }
      * })
      * 
      */
-    create<T extends tbstatusPatCreateArgs>(args: SelectSubset<T, tbstatusPatCreateArgs<ExtArgs>>): Prisma__tbstatusPatClient<$Result.GetResult<Prisma.$tbstatusPatPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends tbStatusPatCreateArgs>(args: SelectSubset<T, tbStatusPatCreateArgs<ExtArgs>>): Prisma__tbStatusPatClient<$Result.GetResult<Prisma.$tbStatusPatPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many TbstatusPats.
-     * @param {tbstatusPatCreateManyArgs} args - Arguments to create many TbstatusPats.
+     * Create many TbStatusPats.
+     * @param {tbStatusPatCreateManyArgs} args - Arguments to create many TbStatusPats.
      * @example
-     * // Create many TbstatusPats
-     * const tbstatusPat = await prisma.tbstatusPat.createMany({
+     * // Create many TbStatusPats
+     * const tbStatusPat = await prisma.tbStatusPat.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends tbstatusPatCreateManyArgs>(args?: SelectSubset<T, tbstatusPatCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends tbStatusPatCreateManyArgs>(args?: SelectSubset<T, tbStatusPatCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many TbstatusPats and returns the data saved in the database.
-     * @param {tbstatusPatCreateManyAndReturnArgs} args - Arguments to create many TbstatusPats.
+     * Create many TbStatusPats and returns the data saved in the database.
+     * @param {tbStatusPatCreateManyAndReturnArgs} args - Arguments to create many TbStatusPats.
      * @example
-     * // Create many TbstatusPats
-     * const tbstatusPat = await prisma.tbstatusPat.createManyAndReturn({
+     * // Create many TbStatusPats
+     * const tbStatusPat = await prisma.tbStatusPat.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many TbstatusPats and only return the `idStatPat`
-     * const tbstatusPatWithIdStatPatOnly = await prisma.tbstatusPat.createManyAndReturn({
-     *   select: { idStatPat: true },
+     * // Create many TbStatusPats and only return the `idStatusPat`
+     * const tbStatusPatWithIdStatusPatOnly = await prisma.tbStatusPat.createManyAndReturn({
+     *   select: { idStatusPat: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -9329,28 +9417,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends tbstatusPatCreateManyAndReturnArgs>(args?: SelectSubset<T, tbstatusPatCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbstatusPatPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends tbStatusPatCreateManyAndReturnArgs>(args?: SelectSubset<T, tbStatusPatCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbStatusPatPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a TbstatusPat.
-     * @param {tbstatusPatDeleteArgs} args - Arguments to delete one TbstatusPat.
+     * Delete a TbStatusPat.
+     * @param {tbStatusPatDeleteArgs} args - Arguments to delete one TbStatusPat.
      * @example
-     * // Delete one TbstatusPat
-     * const TbstatusPat = await prisma.tbstatusPat.delete({
+     * // Delete one TbStatusPat
+     * const TbStatusPat = await prisma.tbStatusPat.delete({
      *   where: {
-     *     // ... filter to delete one TbstatusPat
+     *     // ... filter to delete one TbStatusPat
      *   }
      * })
      * 
      */
-    delete<T extends tbstatusPatDeleteArgs>(args: SelectSubset<T, tbstatusPatDeleteArgs<ExtArgs>>): Prisma__tbstatusPatClient<$Result.GetResult<Prisma.$tbstatusPatPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends tbStatusPatDeleteArgs>(args: SelectSubset<T, tbStatusPatDeleteArgs<ExtArgs>>): Prisma__tbStatusPatClient<$Result.GetResult<Prisma.$tbStatusPatPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one TbstatusPat.
-     * @param {tbstatusPatUpdateArgs} args - Arguments to update one TbstatusPat.
+     * Update one TbStatusPat.
+     * @param {tbStatusPatUpdateArgs} args - Arguments to update one TbStatusPat.
      * @example
-     * // Update one TbstatusPat
-     * const tbstatusPat = await prisma.tbstatusPat.update({
+     * // Update one TbStatusPat
+     * const tbStatusPat = await prisma.tbStatusPat.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -9360,30 +9448,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends tbstatusPatUpdateArgs>(args: SelectSubset<T, tbstatusPatUpdateArgs<ExtArgs>>): Prisma__tbstatusPatClient<$Result.GetResult<Prisma.$tbstatusPatPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends tbStatusPatUpdateArgs>(args: SelectSubset<T, tbStatusPatUpdateArgs<ExtArgs>>): Prisma__tbStatusPatClient<$Result.GetResult<Prisma.$tbStatusPatPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more TbstatusPats.
-     * @param {tbstatusPatDeleteManyArgs} args - Arguments to filter TbstatusPats to delete.
+     * Delete zero or more TbStatusPats.
+     * @param {tbStatusPatDeleteManyArgs} args - Arguments to filter TbStatusPats to delete.
      * @example
-     * // Delete a few TbstatusPats
-     * const { count } = await prisma.tbstatusPat.deleteMany({
+     * // Delete a few TbStatusPats
+     * const { count } = await prisma.tbStatusPat.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends tbstatusPatDeleteManyArgs>(args?: SelectSubset<T, tbstatusPatDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends tbStatusPatDeleteManyArgs>(args?: SelectSubset<T, tbStatusPatDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more TbstatusPats.
+     * Update zero or more TbStatusPats.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {tbstatusPatUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {tbStatusPatUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many TbstatusPats
-     * const tbstatusPat = await prisma.tbstatusPat.updateMany({
+     * // Update many TbStatusPats
+     * const tbStatusPat = await prisma.tbStatusPat.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -9393,14 +9481,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends tbstatusPatUpdateManyArgs>(args: SelectSubset<T, tbstatusPatUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends tbStatusPatUpdateManyArgs>(args: SelectSubset<T, tbStatusPatUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more TbstatusPats and returns the data updated in the database.
-     * @param {tbstatusPatUpdateManyAndReturnArgs} args - Arguments to update many TbstatusPats.
+     * Update zero or more TbStatusPats and returns the data updated in the database.
+     * @param {tbStatusPatUpdateManyAndReturnArgs} args - Arguments to update many TbStatusPats.
      * @example
-     * // Update many TbstatusPats
-     * const tbstatusPat = await prisma.tbstatusPat.updateManyAndReturn({
+     * // Update many TbStatusPats
+     * const tbStatusPat = await prisma.tbStatusPat.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -9409,9 +9497,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more TbstatusPats and only return the `idStatPat`
-     * const tbstatusPatWithIdStatPatOnly = await prisma.tbstatusPat.updateManyAndReturn({
-     *   select: { idStatPat: true },
+     * // Update zero or more TbStatusPats and only return the `idStatusPat`
+     * const tbStatusPatWithIdStatusPatOnly = await prisma.tbStatusPat.updateManyAndReturn({
+     *   select: { idStatusPat: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -9423,56 +9511,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends tbstatusPatUpdateManyAndReturnArgs>(args: SelectSubset<T, tbstatusPatUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbstatusPatPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends tbStatusPatUpdateManyAndReturnArgs>(args: SelectSubset<T, tbStatusPatUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbStatusPatPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one TbstatusPat.
-     * @param {tbstatusPatUpsertArgs} args - Arguments to update or create a TbstatusPat.
+     * Create or update one TbStatusPat.
+     * @param {tbStatusPatUpsertArgs} args - Arguments to update or create a TbStatusPat.
      * @example
-     * // Update or create a TbstatusPat
-     * const tbstatusPat = await prisma.tbstatusPat.upsert({
+     * // Update or create a TbStatusPat
+     * const tbStatusPat = await prisma.tbStatusPat.upsert({
      *   create: {
-     *     // ... data to create a TbstatusPat
+     *     // ... data to create a TbStatusPat
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the TbstatusPat we want to update
+     *     // ... the filter for the TbStatusPat we want to update
      *   }
      * })
      */
-    upsert<T extends tbstatusPatUpsertArgs>(args: SelectSubset<T, tbstatusPatUpsertArgs<ExtArgs>>): Prisma__tbstatusPatClient<$Result.GetResult<Prisma.$tbstatusPatPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends tbStatusPatUpsertArgs>(args: SelectSubset<T, tbStatusPatUpsertArgs<ExtArgs>>): Prisma__tbStatusPatClient<$Result.GetResult<Prisma.$tbStatusPatPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of TbstatusPats.
+     * Count the number of TbStatusPats.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {tbstatusPatCountArgs} args - Arguments to filter TbstatusPats to count.
+     * @param {tbStatusPatCountArgs} args - Arguments to filter TbStatusPats to count.
      * @example
-     * // Count the number of TbstatusPats
-     * const count = await prisma.tbstatusPat.count({
+     * // Count the number of TbStatusPats
+     * const count = await prisma.tbStatusPat.count({
      *   where: {
-     *     // ... the filter for the TbstatusPats we want to count
+     *     // ... the filter for the TbStatusPats we want to count
      *   }
      * })
     **/
-    count<T extends tbstatusPatCountArgs>(
-      args?: Subset<T, tbstatusPatCountArgs>,
+    count<T extends tbStatusPatCountArgs>(
+      args?: Subset<T, tbStatusPatCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], TbstatusPatCountAggregateOutputType>
+          : GetScalarType<T['select'], TbStatusPatCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a TbstatusPat.
+     * Allows you to perform aggregations operations on a TbStatusPat.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TbstatusPatAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {TbStatusPatAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -9492,13 +9580,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends TbstatusPatAggregateArgs>(args: Subset<T, TbstatusPatAggregateArgs>): Prisma.PrismaPromise<GetTbstatusPatAggregateType<T>>
+    aggregate<T extends TbStatusPatAggregateArgs>(args: Subset<T, TbStatusPatAggregateArgs>): Prisma.PrismaPromise<GetTbStatusPatAggregateType<T>>
 
     /**
-     * Group by TbstatusPat.
+     * Group by TbStatusPat.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {tbstatusPatGroupByArgs} args - Group by arguments.
+     * @param {tbStatusPatGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -9513,14 +9601,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends tbstatusPatGroupByArgs,
+      T extends tbStatusPatGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: tbstatusPatGroupByArgs['orderBy'] }
-        : { orderBy?: tbstatusPatGroupByArgs['orderBy'] },
+        ? { orderBy: tbStatusPatGroupByArgs['orderBy'] }
+        : { orderBy?: tbStatusPatGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -9569,22 +9657,22 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, tbstatusPatGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTbstatusPatGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, tbStatusPatGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTbStatusPatGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the tbstatusPat model
+   * Fields of the tbStatusPat model
    */
-  readonly fields: tbstatusPatFieldRefs;
+  readonly fields: tbStatusPatFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for tbstatusPat.
+   * The delegate class that acts as a "Promise-like" for tbStatusPat.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__tbstatusPatClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__tbStatusPatClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    tbPatrimonio<T extends tbstatusPat$tbPatrimonioArgs<ExtArgs> = {}>(args?: Subset<T, tbstatusPat$tbPatrimonioArgs<ExtArgs>>): Prisma__tbPatrimonioClient<$Result.GetResult<Prisma.$tbPatrimonioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    tbPatrimonio<T extends tbStatusPat$tbPatrimonioArgs<ExtArgs> = {}>(args?: Subset<T, tbStatusPat$tbPatrimonioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9611,409 +9699,400 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the tbstatusPat model
+   * Fields of the tbStatusPat model
    */
-  interface tbstatusPatFieldRefs {
-    readonly idStatPat: FieldRef<"tbstatusPat", 'String'>
-    readonly descricaoStatPat: FieldRef<"tbstatusPat", 'String'>
-    readonly idPat_StatusPat: FieldRef<"tbstatusPat", 'String'>
+  interface tbStatusPatFieldRefs {
+    readonly idStatusPat: FieldRef<"tbStatusPat", 'String'>
+    readonly descricaoStatPat: FieldRef<"tbStatusPat", 'String'>
   }
     
 
   // Custom InputTypes
   /**
-   * tbstatusPat findUnique
+   * tbStatusPat findUnique
    */
-  export type tbstatusPatFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type tbStatusPatFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the tbstatusPat
+     * Select specific fields to fetch from the tbStatusPat
      */
-    select?: tbstatusPatSelect<ExtArgs> | null
+    select?: tbStatusPatSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the tbstatusPat
+     * Omit specific fields from the tbStatusPat
      */
-    omit?: tbstatusPatOmit<ExtArgs> | null
+    omit?: tbStatusPatOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: tbstatusPatInclude<ExtArgs> | null
+    include?: tbStatusPatInclude<ExtArgs> | null
     /**
-     * Filter, which tbstatusPat to fetch.
+     * Filter, which tbStatusPat to fetch.
      */
-    where: tbstatusPatWhereUniqueInput
+    where: tbStatusPatWhereUniqueInput
   }
 
   /**
-   * tbstatusPat findUniqueOrThrow
+   * tbStatusPat findUniqueOrThrow
    */
-  export type tbstatusPatFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type tbStatusPatFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the tbstatusPat
+     * Select specific fields to fetch from the tbStatusPat
      */
-    select?: tbstatusPatSelect<ExtArgs> | null
+    select?: tbStatusPatSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the tbstatusPat
+     * Omit specific fields from the tbStatusPat
      */
-    omit?: tbstatusPatOmit<ExtArgs> | null
+    omit?: tbStatusPatOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: tbstatusPatInclude<ExtArgs> | null
+    include?: tbStatusPatInclude<ExtArgs> | null
     /**
-     * Filter, which tbstatusPat to fetch.
+     * Filter, which tbStatusPat to fetch.
      */
-    where: tbstatusPatWhereUniqueInput
+    where: tbStatusPatWhereUniqueInput
   }
 
   /**
-   * tbstatusPat findFirst
+   * tbStatusPat findFirst
    */
-  export type tbstatusPatFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type tbStatusPatFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the tbstatusPat
+     * Select specific fields to fetch from the tbStatusPat
      */
-    select?: tbstatusPatSelect<ExtArgs> | null
+    select?: tbStatusPatSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the tbstatusPat
+     * Omit specific fields from the tbStatusPat
      */
-    omit?: tbstatusPatOmit<ExtArgs> | null
+    omit?: tbStatusPatOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: tbstatusPatInclude<ExtArgs> | null
+    include?: tbStatusPatInclude<ExtArgs> | null
     /**
-     * Filter, which tbstatusPat to fetch.
+     * Filter, which tbStatusPat to fetch.
      */
-    where?: tbstatusPatWhereInput
+    where?: tbStatusPatWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of tbstatusPats to fetch.
+     * Determine the order of tbStatusPats to fetch.
      */
-    orderBy?: tbstatusPatOrderByWithRelationInput | tbstatusPatOrderByWithRelationInput[]
+    orderBy?: tbStatusPatOrderByWithRelationInput | tbStatusPatOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for tbstatusPats.
+     * Sets the position for searching for tbStatusPats.
      */
-    cursor?: tbstatusPatWhereUniqueInput
+    cursor?: tbStatusPatWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` tbstatusPats from the position of the cursor.
+     * Take `±n` tbStatusPats from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` tbstatusPats.
+     * Skip the first `n` tbStatusPats.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of tbstatusPats.
+     * Filter by unique combinations of tbStatusPats.
      */
-    distinct?: TbstatusPatScalarFieldEnum | TbstatusPatScalarFieldEnum[]
+    distinct?: TbStatusPatScalarFieldEnum | TbStatusPatScalarFieldEnum[]
   }
 
   /**
-   * tbstatusPat findFirstOrThrow
+   * tbStatusPat findFirstOrThrow
    */
-  export type tbstatusPatFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type tbStatusPatFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the tbstatusPat
+     * Select specific fields to fetch from the tbStatusPat
      */
-    select?: tbstatusPatSelect<ExtArgs> | null
+    select?: tbStatusPatSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the tbstatusPat
+     * Omit specific fields from the tbStatusPat
      */
-    omit?: tbstatusPatOmit<ExtArgs> | null
+    omit?: tbStatusPatOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: tbstatusPatInclude<ExtArgs> | null
+    include?: tbStatusPatInclude<ExtArgs> | null
     /**
-     * Filter, which tbstatusPat to fetch.
+     * Filter, which tbStatusPat to fetch.
      */
-    where?: tbstatusPatWhereInput
+    where?: tbStatusPatWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of tbstatusPats to fetch.
+     * Determine the order of tbStatusPats to fetch.
      */
-    orderBy?: tbstatusPatOrderByWithRelationInput | tbstatusPatOrderByWithRelationInput[]
+    orderBy?: tbStatusPatOrderByWithRelationInput | tbStatusPatOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for tbstatusPats.
+     * Sets the position for searching for tbStatusPats.
      */
-    cursor?: tbstatusPatWhereUniqueInput
+    cursor?: tbStatusPatWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` tbstatusPats from the position of the cursor.
+     * Take `±n` tbStatusPats from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` tbstatusPats.
+     * Skip the first `n` tbStatusPats.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of tbstatusPats.
+     * Filter by unique combinations of tbStatusPats.
      */
-    distinct?: TbstatusPatScalarFieldEnum | TbstatusPatScalarFieldEnum[]
+    distinct?: TbStatusPatScalarFieldEnum | TbStatusPatScalarFieldEnum[]
   }
 
   /**
-   * tbstatusPat findMany
+   * tbStatusPat findMany
    */
-  export type tbstatusPatFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type tbStatusPatFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the tbstatusPat
+     * Select specific fields to fetch from the tbStatusPat
      */
-    select?: tbstatusPatSelect<ExtArgs> | null
+    select?: tbStatusPatSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the tbstatusPat
+     * Omit specific fields from the tbStatusPat
      */
-    omit?: tbstatusPatOmit<ExtArgs> | null
+    omit?: tbStatusPatOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: tbstatusPatInclude<ExtArgs> | null
+    include?: tbStatusPatInclude<ExtArgs> | null
     /**
-     * Filter, which tbstatusPats to fetch.
+     * Filter, which tbStatusPats to fetch.
      */
-    where?: tbstatusPatWhereInput
+    where?: tbStatusPatWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of tbstatusPats to fetch.
+     * Determine the order of tbStatusPats to fetch.
      */
-    orderBy?: tbstatusPatOrderByWithRelationInput | tbstatusPatOrderByWithRelationInput[]
+    orderBy?: tbStatusPatOrderByWithRelationInput | tbStatusPatOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing tbstatusPats.
+     * Sets the position for listing tbStatusPats.
      */
-    cursor?: tbstatusPatWhereUniqueInput
+    cursor?: tbStatusPatWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` tbstatusPats from the position of the cursor.
+     * Take `±n` tbStatusPats from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` tbstatusPats.
+     * Skip the first `n` tbStatusPats.
      */
     skip?: number
-    distinct?: TbstatusPatScalarFieldEnum | TbstatusPatScalarFieldEnum[]
+    distinct?: TbStatusPatScalarFieldEnum | TbStatusPatScalarFieldEnum[]
   }
 
   /**
-   * tbstatusPat create
+   * tbStatusPat create
    */
-  export type tbstatusPatCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type tbStatusPatCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the tbstatusPat
+     * Select specific fields to fetch from the tbStatusPat
      */
-    select?: tbstatusPatSelect<ExtArgs> | null
+    select?: tbStatusPatSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the tbstatusPat
+     * Omit specific fields from the tbStatusPat
      */
-    omit?: tbstatusPatOmit<ExtArgs> | null
+    omit?: tbStatusPatOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: tbstatusPatInclude<ExtArgs> | null
+    include?: tbStatusPatInclude<ExtArgs> | null
     /**
-     * The data needed to create a tbstatusPat.
+     * The data needed to create a tbStatusPat.
      */
-    data: XOR<tbstatusPatCreateInput, tbstatusPatUncheckedCreateInput>
+    data: XOR<tbStatusPatCreateInput, tbStatusPatUncheckedCreateInput>
   }
 
   /**
-   * tbstatusPat createMany
+   * tbStatusPat createMany
    */
-  export type tbstatusPatCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type tbStatusPatCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many tbstatusPats.
+     * The data used to create many tbStatusPats.
      */
-    data: tbstatusPatCreateManyInput | tbstatusPatCreateManyInput[]
+    data: tbStatusPatCreateManyInput | tbStatusPatCreateManyInput[]
   }
 
   /**
-   * tbstatusPat createManyAndReturn
+   * tbStatusPat createManyAndReturn
    */
-  export type tbstatusPatCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type tbStatusPatCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the tbstatusPat
+     * Select specific fields to fetch from the tbStatusPat
      */
-    select?: tbstatusPatSelectCreateManyAndReturn<ExtArgs> | null
+    select?: tbStatusPatSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the tbstatusPat
+     * Omit specific fields from the tbStatusPat
      */
-    omit?: tbstatusPatOmit<ExtArgs> | null
+    omit?: tbStatusPatOmit<ExtArgs> | null
     /**
-     * The data used to create many tbstatusPats.
+     * The data used to create many tbStatusPats.
      */
-    data: tbstatusPatCreateManyInput | tbstatusPatCreateManyInput[]
+    data: tbStatusPatCreateManyInput | tbStatusPatCreateManyInput[]
+  }
+
+  /**
+   * tbStatusPat update
+   */
+  export type tbStatusPatUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbStatusPat
+     */
+    select?: tbStatusPatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbStatusPat
+     */
+    omit?: tbStatusPatOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: tbstatusPatIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: tbStatusPatInclude<ExtArgs> | null
+    /**
+     * The data needed to update a tbStatusPat.
+     */
+    data: XOR<tbStatusPatUpdateInput, tbStatusPatUncheckedUpdateInput>
+    /**
+     * Choose, which tbStatusPat to update.
+     */
+    where: tbStatusPatWhereUniqueInput
   }
 
   /**
-   * tbstatusPat update
+   * tbStatusPat updateMany
    */
-  export type tbstatusPatUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type tbStatusPatUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the tbstatusPat
+     * The data used to update tbStatusPats.
      */
-    select?: tbstatusPatSelect<ExtArgs> | null
+    data: XOR<tbStatusPatUpdateManyMutationInput, tbStatusPatUncheckedUpdateManyInput>
     /**
-     * Omit specific fields from the tbstatusPat
+     * Filter which tbStatusPats to update
      */
-    omit?: tbstatusPatOmit<ExtArgs> | null
+    where?: tbStatusPatWhereInput
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: tbstatusPatInclude<ExtArgs> | null
-    /**
-     * The data needed to update a tbstatusPat.
-     */
-    data: XOR<tbstatusPatUpdateInput, tbstatusPatUncheckedUpdateInput>
-    /**
-     * Choose, which tbstatusPat to update.
-     */
-    where: tbstatusPatWhereUniqueInput
-  }
-
-  /**
-   * tbstatusPat updateMany
-   */
-  export type tbstatusPatUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update tbstatusPats.
-     */
-    data: XOR<tbstatusPatUpdateManyMutationInput, tbstatusPatUncheckedUpdateManyInput>
-    /**
-     * Filter which tbstatusPats to update
-     */
-    where?: tbstatusPatWhereInput
-    /**
-     * Limit how many tbstatusPats to update.
+     * Limit how many tbStatusPats to update.
      */
     limit?: number
   }
 
   /**
-   * tbstatusPat updateManyAndReturn
+   * tbStatusPat updateManyAndReturn
    */
-  export type tbstatusPatUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type tbStatusPatUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the tbstatusPat
+     * Select specific fields to fetch from the tbStatusPat
      */
-    select?: tbstatusPatSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: tbStatusPatSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the tbstatusPat
+     * Omit specific fields from the tbStatusPat
      */
-    omit?: tbstatusPatOmit<ExtArgs> | null
+    omit?: tbStatusPatOmit<ExtArgs> | null
     /**
-     * The data used to update tbstatusPats.
+     * The data used to update tbStatusPats.
      */
-    data: XOR<tbstatusPatUpdateManyMutationInput, tbstatusPatUncheckedUpdateManyInput>
+    data: XOR<tbStatusPatUpdateManyMutationInput, tbStatusPatUncheckedUpdateManyInput>
     /**
-     * Filter which tbstatusPats to update
+     * Filter which tbStatusPats to update
      */
-    where?: tbstatusPatWhereInput
+    where?: tbStatusPatWhereInput
     /**
-     * Limit how many tbstatusPats to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: tbstatusPatIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * tbstatusPat upsert
-   */
-  export type tbstatusPatUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the tbstatusPat
-     */
-    select?: tbstatusPatSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the tbstatusPat
-     */
-    omit?: tbstatusPatOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: tbstatusPatInclude<ExtArgs> | null
-    /**
-     * The filter to search for the tbstatusPat to update in case it exists.
-     */
-    where: tbstatusPatWhereUniqueInput
-    /**
-     * In case the tbstatusPat found by the `where` argument doesn't exist, create a new tbstatusPat with this data.
-     */
-    create: XOR<tbstatusPatCreateInput, tbstatusPatUncheckedCreateInput>
-    /**
-     * In case the tbstatusPat was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<tbstatusPatUpdateInput, tbstatusPatUncheckedUpdateInput>
-  }
-
-  /**
-   * tbstatusPat delete
-   */
-  export type tbstatusPatDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the tbstatusPat
-     */
-    select?: tbstatusPatSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the tbstatusPat
-     */
-    omit?: tbstatusPatOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: tbstatusPatInclude<ExtArgs> | null
-    /**
-     * Filter which tbstatusPat to delete.
-     */
-    where: tbstatusPatWhereUniqueInput
-  }
-
-  /**
-   * tbstatusPat deleteMany
-   */
-  export type tbstatusPatDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which tbstatusPats to delete
-     */
-    where?: tbstatusPatWhereInput
-    /**
-     * Limit how many tbstatusPats to delete.
+     * Limit how many tbStatusPats to update.
      */
     limit?: number
   }
 
   /**
-   * tbstatusPat.tbPatrimonio
+   * tbStatusPat upsert
    */
-  export type tbstatusPat$tbPatrimonioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type tbStatusPatUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbStatusPat
+     */
+    select?: tbStatusPatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbStatusPat
+     */
+    omit?: tbStatusPatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbStatusPatInclude<ExtArgs> | null
+    /**
+     * The filter to search for the tbStatusPat to update in case it exists.
+     */
+    where: tbStatusPatWhereUniqueInput
+    /**
+     * In case the tbStatusPat found by the `where` argument doesn't exist, create a new tbStatusPat with this data.
+     */
+    create: XOR<tbStatusPatCreateInput, tbStatusPatUncheckedCreateInput>
+    /**
+     * In case the tbStatusPat was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<tbStatusPatUpdateInput, tbStatusPatUncheckedUpdateInput>
+  }
+
+  /**
+   * tbStatusPat delete
+   */
+  export type tbStatusPatDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbStatusPat
+     */
+    select?: tbStatusPatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbStatusPat
+     */
+    omit?: tbStatusPatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbStatusPatInclude<ExtArgs> | null
+    /**
+     * Filter which tbStatusPat to delete.
+     */
+    where: tbStatusPatWhereUniqueInput
+  }
+
+  /**
+   * tbStatusPat deleteMany
+   */
+  export type tbStatusPatDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbStatusPats to delete
+     */
+    where?: tbStatusPatWhereInput
+    /**
+     * Limit how many tbStatusPats to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbStatusPat.tbPatrimonio
+   */
+  export type tbStatusPat$tbPatrimonioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the tbPatrimonio
      */
@@ -10027,24 +10106,29 @@ export namespace Prisma {
      */
     include?: tbPatrimonioInclude<ExtArgs> | null
     where?: tbPatrimonioWhereInput
+    orderBy?: tbPatrimonioOrderByWithRelationInput | tbPatrimonioOrderByWithRelationInput[]
+    cursor?: tbPatrimonioWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbPatrimonioScalarFieldEnum | TbPatrimonioScalarFieldEnum[]
   }
 
   /**
-   * tbstatusPat without action
+   * tbStatusPat without action
    */
-  export type tbstatusPatDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type tbStatusPatDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the tbstatusPat
+     * Select specific fields to fetch from the tbStatusPat
      */
-    select?: tbstatusPatSelect<ExtArgs> | null
+    select?: tbStatusPatSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the tbstatusPat
+     * Omit specific fields from the tbStatusPat
      */
-    omit?: tbstatusPatOmit<ExtArgs> | null
+    omit?: tbStatusPatOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: tbstatusPatInclude<ExtArgs> | null
+    include?: tbStatusPatInclude<ExtArgs> | null
   }
 
 
@@ -11128,58 +11212,46 @@ export namespace Prisma {
 
   export type TbCCustoMinAggregateOutputType = {
     idCCusto: string | null
-    codigocusto: string | null
+    codigoCCusto: string | null
     descricaoCCusto: string | null
     idEmp_Custo: string | null
-    idPat_Custo: string | null
-    idFun_Custo: string | null
   }
 
   export type TbCCustoMaxAggregateOutputType = {
     idCCusto: string | null
-    codigocusto: string | null
+    codigoCCusto: string | null
     descricaoCCusto: string | null
     idEmp_Custo: string | null
-    idPat_Custo: string | null
-    idFun_Custo: string | null
   }
 
   export type TbCCustoCountAggregateOutputType = {
     idCCusto: number
-    codigocusto: number
+    codigoCCusto: number
     descricaoCCusto: number
     idEmp_Custo: number
-    idPat_Custo: number
-    idFun_Custo: number
     _all: number
   }
 
 
   export type TbCCustoMinAggregateInputType = {
     idCCusto?: true
-    codigocusto?: true
+    codigoCCusto?: true
     descricaoCCusto?: true
     idEmp_Custo?: true
-    idPat_Custo?: true
-    idFun_Custo?: true
   }
 
   export type TbCCustoMaxAggregateInputType = {
     idCCusto?: true
-    codigocusto?: true
+    codigoCCusto?: true
     descricaoCCusto?: true
     idEmp_Custo?: true
-    idPat_Custo?: true
-    idFun_Custo?: true
   }
 
   export type TbCCustoCountAggregateInputType = {
     idCCusto?: true
-    codigocusto?: true
+    codigoCCusto?: true
     descricaoCCusto?: true
     idEmp_Custo?: true
-    idPat_Custo?: true
-    idFun_Custo?: true
     _all?: true
   }
 
@@ -11257,11 +11329,9 @@ export namespace Prisma {
 
   export type TbCCustoGroupByOutputType = {
     idCCusto: string
-    codigocusto: string | null
+    codigoCCusto: string | null
     descricaoCCusto: string | null
     idEmp_Custo: string | null
-    idPat_Custo: string | null
-    idFun_Custo: string | null
     _count: TbCCustoCountAggregateOutputType | null
     _min: TbCCustoMinAggregateOutputType | null
     _max: TbCCustoMaxAggregateOutputType | null
@@ -11283,80 +11353,64 @@ export namespace Prisma {
 
   export type tbCCustoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     idCCusto?: boolean
-    codigocusto?: boolean
+    codigoCCusto?: boolean
     descricaoCCusto?: boolean
     idEmp_Custo?: boolean
-    idPat_Custo?: boolean
-    idFun_Custo?: boolean
-    tbFuncionario?: boolean | tbCCusto$tbFuncionarioArgs<ExtArgs>
     tbEmpresa?: boolean | tbCCusto$tbEmpresaArgs<ExtArgs>
     tbPatrimonio?: boolean | tbCCusto$tbPatrimonioArgs<ExtArgs>
+    tbFuncionario?: boolean | tbCCusto$tbFuncionarioArgs<ExtArgs>
+    _count?: boolean | TbCCustoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tbCCusto"]>
 
   export type tbCCustoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     idCCusto?: boolean
-    codigocusto?: boolean
+    codigoCCusto?: boolean
     descricaoCCusto?: boolean
     idEmp_Custo?: boolean
-    idPat_Custo?: boolean
-    idFun_Custo?: boolean
-    tbFuncionario?: boolean | tbCCusto$tbFuncionarioArgs<ExtArgs>
     tbEmpresa?: boolean | tbCCusto$tbEmpresaArgs<ExtArgs>
-    tbPatrimonio?: boolean | tbCCusto$tbPatrimonioArgs<ExtArgs>
   }, ExtArgs["result"]["tbCCusto"]>
 
   export type tbCCustoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     idCCusto?: boolean
-    codigocusto?: boolean
+    codigoCCusto?: boolean
     descricaoCCusto?: boolean
     idEmp_Custo?: boolean
-    idPat_Custo?: boolean
-    idFun_Custo?: boolean
-    tbFuncionario?: boolean | tbCCusto$tbFuncionarioArgs<ExtArgs>
     tbEmpresa?: boolean | tbCCusto$tbEmpresaArgs<ExtArgs>
-    tbPatrimonio?: boolean | tbCCusto$tbPatrimonioArgs<ExtArgs>
   }, ExtArgs["result"]["tbCCusto"]>
 
   export type tbCCustoSelectScalar = {
     idCCusto?: boolean
-    codigocusto?: boolean
+    codigoCCusto?: boolean
     descricaoCCusto?: boolean
     idEmp_Custo?: boolean
-    idPat_Custo?: boolean
-    idFun_Custo?: boolean
   }
 
-  export type tbCCustoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idCCusto" | "codigocusto" | "descricaoCCusto" | "idEmp_Custo" | "idPat_Custo" | "idFun_Custo", ExtArgs["result"]["tbCCusto"]>
+  export type tbCCustoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idCCusto" | "codigoCCusto" | "descricaoCCusto" | "idEmp_Custo", ExtArgs["result"]["tbCCusto"]>
   export type tbCCustoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tbFuncionario?: boolean | tbCCusto$tbFuncionarioArgs<ExtArgs>
     tbEmpresa?: boolean | tbCCusto$tbEmpresaArgs<ExtArgs>
     tbPatrimonio?: boolean | tbCCusto$tbPatrimonioArgs<ExtArgs>
+    tbFuncionario?: boolean | tbCCusto$tbFuncionarioArgs<ExtArgs>
+    _count?: boolean | TbCCustoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type tbCCustoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tbFuncionario?: boolean | tbCCusto$tbFuncionarioArgs<ExtArgs>
     tbEmpresa?: boolean | tbCCusto$tbEmpresaArgs<ExtArgs>
-    tbPatrimonio?: boolean | tbCCusto$tbPatrimonioArgs<ExtArgs>
   }
   export type tbCCustoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tbFuncionario?: boolean | tbCCusto$tbFuncionarioArgs<ExtArgs>
     tbEmpresa?: boolean | tbCCusto$tbEmpresaArgs<ExtArgs>
-    tbPatrimonio?: boolean | tbCCusto$tbPatrimonioArgs<ExtArgs>
   }
 
   export type $tbCCustoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "tbCCusto"
     objects: {
-      tbFuncionario: Prisma.$tbFuncionarioPayload<ExtArgs> | null
       tbEmpresa: Prisma.$tbEmpresaPayload<ExtArgs> | null
-      tbPatrimonio: Prisma.$tbPatrimonioPayload<ExtArgs> | null
+      tbPatrimonio: Prisma.$tbPatrimonioPayload<ExtArgs>[]
+      tbFuncionario: Prisma.$tbFuncionarioPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       idCCusto: string
-      codigocusto: string | null
+      codigoCCusto: string | null
       descricaoCCusto: string | null
       idEmp_Custo: string | null
-      idPat_Custo: string | null
-      idFun_Custo: string | null
     }, ExtArgs["result"]["tbCCusto"]>
     composites: {}
   }
@@ -11751,9 +11805,9 @@ export namespace Prisma {
    */
   export interface Prisma__tbCCustoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    tbFuncionario<T extends tbCCusto$tbFuncionarioArgs<ExtArgs> = {}>(args?: Subset<T, tbCCusto$tbFuncionarioArgs<ExtArgs>>): Prisma__tbFuncionarioClient<$Result.GetResult<Prisma.$tbFuncionarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tbEmpresa<T extends tbCCusto$tbEmpresaArgs<ExtArgs> = {}>(args?: Subset<T, tbCCusto$tbEmpresaArgs<ExtArgs>>): Prisma__tbEmpresaClient<$Result.GetResult<Prisma.$tbEmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    tbPatrimonio<T extends tbCCusto$tbPatrimonioArgs<ExtArgs> = {}>(args?: Subset<T, tbCCusto$tbPatrimonioArgs<ExtArgs>>): Prisma__tbPatrimonioClient<$Result.GetResult<Prisma.$tbPatrimonioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    tbPatrimonio<T extends tbCCusto$tbPatrimonioArgs<ExtArgs> = {}>(args?: Subset<T, tbCCusto$tbPatrimonioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tbFuncionario<T extends tbCCusto$tbFuncionarioArgs<ExtArgs> = {}>(args?: Subset<T, tbCCusto$tbFuncionarioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbFuncionarioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11784,11 +11838,9 @@ export namespace Prisma {
    */
   interface tbCCustoFieldRefs {
     readonly idCCusto: FieldRef<"tbCCusto", 'String'>
-    readonly codigocusto: FieldRef<"tbCCusto", 'String'>
+    readonly codigoCCusto: FieldRef<"tbCCusto", 'String'>
     readonly descricaoCCusto: FieldRef<"tbCCusto", 'String'>
     readonly idEmp_Custo: FieldRef<"tbCCusto", 'String'>
-    readonly idPat_Custo: FieldRef<"tbCCusto", 'String'>
-    readonly idFun_Custo: FieldRef<"tbCCusto", 'String'>
   }
     
 
@@ -12183,25 +12235,6 @@ export namespace Prisma {
   }
 
   /**
-   * tbCCusto.tbFuncionario
-   */
-  export type tbCCusto$tbFuncionarioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the tbFuncionario
-     */
-    select?: tbFuncionarioSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the tbFuncionario
-     */
-    omit?: tbFuncionarioOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: tbFuncionarioInclude<ExtArgs> | null
-    where?: tbFuncionarioWhereInput
-  }
-
-  /**
    * tbCCusto.tbEmpresa
    */
   export type tbCCusto$tbEmpresaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12237,6 +12270,35 @@ export namespace Prisma {
      */
     include?: tbPatrimonioInclude<ExtArgs> | null
     where?: tbPatrimonioWhereInput
+    orderBy?: tbPatrimonioOrderByWithRelationInput | tbPatrimonioOrderByWithRelationInput[]
+    cursor?: tbPatrimonioWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbPatrimonioScalarFieldEnum | TbPatrimonioScalarFieldEnum[]
+  }
+
+  /**
+   * tbCCusto.tbFuncionario
+   */
+  export type tbCCusto$tbFuncionarioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbFuncionario
+     */
+    select?: tbFuncionarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbFuncionario
+     */
+    omit?: tbFuncionarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbFuncionarioInclude<ExtArgs> | null
+    where?: tbFuncionarioWhereInput
+    orderBy?: tbFuncionarioOrderByWithRelationInput | tbFuncionarioOrderByWithRelationInput[]
+    cursor?: tbFuncionarioWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbFuncionarioScalarFieldEnum | TbFuncionarioScalarFieldEnum[]
   }
 
   /**
@@ -16612,7 +16674,8 @@ export namespace Prisma {
     avatarFun: 'avatarFun',
     idFuncaoFun: 'idFuncaoFun',
     idUserFun: 'idUserFun',
-    idStatusFun: 'idStatusFun'
+    idStatusFun: 'idStatusFun',
+    idCustoFun: 'idCustoFun'
   };
 
   export type TbFuncionarioScalarFieldEnum = (typeof TbFuncionarioScalarFieldEnum)[keyof typeof TbFuncionarioScalarFieldEnum]
@@ -16638,14 +16701,17 @@ export namespace Prisma {
     idP: 'idP',
     idPat: 'idPat',
     descricaoPat: 'descricaoPat',
-    descricaodetalhadaPat: 'descricaodetalhadaPat',
+    descricaoDetalhadaPat: 'descricaoDetalhadaPat',
     licencaPat: 'licencaPat',
     dataEntPat: 'dataEntPat',
     dataSaiPat: 'dataSaiPat',
     notaFiscalPat: 'notaFiscalPat',
     valorPat: 'valorPat',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    idPat_TipoPat: 'idPat_TipoPat',
+    idPat_StatusPat: 'idPat_StatusPat',
+    idPat_CustoPat: 'idPat_CustoPat'
   };
 
   export type TbPatrimonioScalarFieldEnum = (typeof TbPatrimonioScalarFieldEnum)[keyof typeof TbPatrimonioScalarFieldEnum]
@@ -16653,20 +16719,18 @@ export namespace Prisma {
 
   export const TbTipoPatScalarFieldEnum: {
     idTipPat: 'idTipPat',
-    descricaoTipPat: 'descricaoTipPat',
-    idPat_TipoPat: 'idPat_TipoPat'
+    descricaoTipPat: 'descricaoTipPat'
   };
 
   export type TbTipoPatScalarFieldEnum = (typeof TbTipoPatScalarFieldEnum)[keyof typeof TbTipoPatScalarFieldEnum]
 
 
-  export const TbstatusPatScalarFieldEnum: {
-    idStatPat: 'idStatPat',
-    descricaoStatPat: 'descricaoStatPat',
-    idPat_StatusPat: 'idPat_StatusPat'
+  export const TbStatusPatScalarFieldEnum: {
+    idStatusPat: 'idStatusPat',
+    descricaoStatPat: 'descricaoStatPat'
   };
 
-  export type TbstatusPatScalarFieldEnum = (typeof TbstatusPatScalarFieldEnum)[keyof typeof TbstatusPatScalarFieldEnum]
+  export type TbStatusPatScalarFieldEnum = (typeof TbStatusPatScalarFieldEnum)[keyof typeof TbStatusPatScalarFieldEnum]
 
 
   export const TbEmpresaScalarFieldEnum: {
@@ -16682,11 +16746,9 @@ export namespace Prisma {
 
   export const TbCCustoScalarFieldEnum: {
     idCCusto: 'idCCusto',
-    codigocusto: 'codigocusto',
+    codigoCCusto: 'codigoCCusto',
     descricaoCCusto: 'descricaoCCusto',
-    idEmp_Custo: 'idEmp_Custo',
-    idPat_Custo: 'idPat_Custo',
-    idFun_Custo: 'idFun_Custo'
+    idEmp_Custo: 'idEmp_Custo'
   };
 
   export type TbCCustoScalarFieldEnum = (typeof TbCCustoScalarFieldEnum)[keyof typeof TbCCustoScalarFieldEnum]
@@ -16875,7 +16937,7 @@ export namespace Prisma {
     OR?: tbFuncionarioWhereInput[]
     NOT?: tbFuncionarioWhereInput | tbFuncionarioWhereInput[]
     idF?: StringFilter<"tbFuncionario"> | string
-    idMatFun?: StringNullableFilter<"tbFuncionario"> | string | null
+    idMatFun?: StringFilter<"tbFuncionario"> | string
     nomeFun?: StringFilter<"tbFuncionario"> | string
     cpfFun?: StringNullableFilter<"tbFuncionario"> | string | null
     dataAdmFun?: DateTimeNullableFilter<"tbFuncionario"> | Date | string | null
@@ -16884,16 +16946,17 @@ export namespace Prisma {
     idFuncaoFun?: StringNullableFilter<"tbFuncionario"> | string | null
     idUserFun?: StringNullableFilter<"tbFuncionario"> | string | null
     idStatusFun?: StringNullableFilter<"tbFuncionario"> | string | null
+    idCustoFun?: StringNullableFilter<"tbFuncionario"> | string | null
     tbStatusFun?: XOR<TbStatusFunNullableScalarRelationFilter, tbStatusFunWhereInput> | null
     tbUser?: XOR<TbUserNullableScalarRelationFilter, tbUserWhereInput> | null
     tbFuncao?: XOR<TbFuncaoNullableScalarRelationFilter, tbFuncaoWhereInput> | null
+    tbCCusto?: XOR<TbCCustoNullableScalarRelationFilter, tbCCustoWhereInput> | null
     tbCadastro?: TbCadastroListRelationFilter
-    tbCCusto?: TbCCustoListRelationFilter
   }
 
   export type tbFuncionarioOrderByWithRelationInput = {
     idF?: SortOrder
-    idMatFun?: SortOrderInput | SortOrder
+    idMatFun?: SortOrder
     nomeFun?: SortOrder
     cpfFun?: SortOrderInput | SortOrder
     dataAdmFun?: SortOrderInput | SortOrder
@@ -16902,11 +16965,12 @@ export namespace Prisma {
     idFuncaoFun?: SortOrderInput | SortOrder
     idUserFun?: SortOrderInput | SortOrder
     idStatusFun?: SortOrderInput | SortOrder
+    idCustoFun?: SortOrderInput | SortOrder
     tbStatusFun?: tbStatusFunOrderByWithRelationInput
     tbUser?: tbUserOrderByWithRelationInput
     tbFuncao?: tbFuncaoOrderByWithRelationInput
+    tbCCusto?: tbCCustoOrderByWithRelationInput
     tbCadastro?: tbCadastroOrderByRelationAggregateInput
-    tbCCusto?: tbCCustoOrderByRelationAggregateInput
   }
 
   export type tbFuncionarioWhereUniqueInput = Prisma.AtLeast<{
@@ -16923,16 +16987,17 @@ export namespace Prisma {
     idFuncaoFun?: StringNullableFilter<"tbFuncionario"> | string | null
     idUserFun?: StringNullableFilter<"tbFuncionario"> | string | null
     idStatusFun?: StringNullableFilter<"tbFuncionario"> | string | null
+    idCustoFun?: StringNullableFilter<"tbFuncionario"> | string | null
     tbStatusFun?: XOR<TbStatusFunNullableScalarRelationFilter, tbStatusFunWhereInput> | null
     tbUser?: XOR<TbUserNullableScalarRelationFilter, tbUserWhereInput> | null
     tbFuncao?: XOR<TbFuncaoNullableScalarRelationFilter, tbFuncaoWhereInput> | null
+    tbCCusto?: XOR<TbCCustoNullableScalarRelationFilter, tbCCustoWhereInput> | null
     tbCadastro?: TbCadastroListRelationFilter
-    tbCCusto?: TbCCustoListRelationFilter
   }, "idF" | "idMatFun">
 
   export type tbFuncionarioOrderByWithAggregationInput = {
     idF?: SortOrder
-    idMatFun?: SortOrderInput | SortOrder
+    idMatFun?: SortOrder
     nomeFun?: SortOrder
     cpfFun?: SortOrderInput | SortOrder
     dataAdmFun?: SortOrderInput | SortOrder
@@ -16941,6 +17006,7 @@ export namespace Prisma {
     idFuncaoFun?: SortOrderInput | SortOrder
     idUserFun?: SortOrderInput | SortOrder
     idStatusFun?: SortOrderInput | SortOrder
+    idCustoFun?: SortOrderInput | SortOrder
     _count?: tbFuncionarioCountOrderByAggregateInput
     _max?: tbFuncionarioMaxOrderByAggregateInput
     _min?: tbFuncionarioMinOrderByAggregateInput
@@ -16951,7 +17017,7 @@ export namespace Prisma {
     OR?: tbFuncionarioScalarWhereWithAggregatesInput[]
     NOT?: tbFuncionarioScalarWhereWithAggregatesInput | tbFuncionarioScalarWhereWithAggregatesInput[]
     idF?: StringWithAggregatesFilter<"tbFuncionario"> | string
-    idMatFun?: StringNullableWithAggregatesFilter<"tbFuncionario"> | string | null
+    idMatFun?: StringWithAggregatesFilter<"tbFuncionario"> | string
     nomeFun?: StringWithAggregatesFilter<"tbFuncionario"> | string
     cpfFun?: StringNullableWithAggregatesFilter<"tbFuncionario"> | string | null
     dataAdmFun?: DateTimeNullableWithAggregatesFilter<"tbFuncionario"> | Date | string | null
@@ -16960,6 +17026,7 @@ export namespace Prisma {
     idFuncaoFun?: StringNullableWithAggregatesFilter<"tbFuncionario"> | string | null
     idUserFun?: StringNullableWithAggregatesFilter<"tbFuncionario"> | string | null
     idStatusFun?: StringNullableWithAggregatesFilter<"tbFuncionario"> | string | null
+    idCustoFun?: StringNullableWithAggregatesFilter<"tbFuncionario"> | string | null
   }
 
   export type tbStatusFunWhereInput = {
@@ -17049,7 +17116,7 @@ export namespace Prisma {
     idP?: StringFilter<"tbPatrimonio"> | string
     idPat?: StringFilter<"tbPatrimonio"> | string
     descricaoPat?: StringFilter<"tbPatrimonio"> | string
-    descricaodetalhadaPat?: StringNullableFilter<"tbPatrimonio"> | string | null
+    descricaoDetalhadaPat?: StringNullableFilter<"tbPatrimonio"> | string | null
     licencaPat?: StringNullableFilter<"tbPatrimonio"> | string | null
     dataEntPat?: DateTimeFilter<"tbPatrimonio"> | Date | string
     dataSaiPat?: DateTimeNullableFilter<"tbPatrimonio"> | Date | string | null
@@ -17057,17 +17124,20 @@ export namespace Prisma {
     valorPat?: FloatFilter<"tbPatrimonio"> | number
     createdAt?: DateTimeNullableFilter<"tbPatrimonio"> | Date | string | null
     updatedAt?: DateTimeNullableFilter<"tbPatrimonio"> | Date | string | null
+    idPat_TipoPat?: StringNullableFilter<"tbPatrimonio"> | string | null
+    idPat_StatusPat?: StringNullableFilter<"tbPatrimonio"> | string | null
+    idPat_CustoPat?: StringNullableFilter<"tbPatrimonio"> | string | null
+    tbTipoPat?: XOR<TbTipoPatNullableScalarRelationFilter, tbTipoPatWhereInput> | null
+    tbStatusPat?: XOR<TbStatusPatNullableScalarRelationFilter, tbStatusPatWhereInput> | null
+    tbCCusto?: XOR<TbCCustoNullableScalarRelationFilter, tbCCustoWhereInput> | null
     tbCadastro?: TbCadastroListRelationFilter
-    tbTipoPat?: TbTipoPatListRelationFilter
-    tbStatusPat?: TbstatusPatListRelationFilter
-    tbCusto?: TbCCustoListRelationFilter
   }
 
   export type tbPatrimonioOrderByWithRelationInput = {
     idP?: SortOrder
     idPat?: SortOrder
     descricaoPat?: SortOrder
-    descricaodetalhadaPat?: SortOrderInput | SortOrder
+    descricaoDetalhadaPat?: SortOrderInput | SortOrder
     licencaPat?: SortOrderInput | SortOrder
     dataEntPat?: SortOrder
     dataSaiPat?: SortOrderInput | SortOrder
@@ -17075,10 +17145,13 @@ export namespace Prisma {
     valorPat?: SortOrder
     createdAt?: SortOrderInput | SortOrder
     updatedAt?: SortOrderInput | SortOrder
+    idPat_TipoPat?: SortOrderInput | SortOrder
+    idPat_StatusPat?: SortOrderInput | SortOrder
+    idPat_CustoPat?: SortOrderInput | SortOrder
+    tbTipoPat?: tbTipoPatOrderByWithRelationInput
+    tbStatusPat?: tbStatusPatOrderByWithRelationInput
+    tbCCusto?: tbCCustoOrderByWithRelationInput
     tbCadastro?: tbCadastroOrderByRelationAggregateInput
-    tbTipoPat?: tbTipoPatOrderByRelationAggregateInput
-    tbStatusPat?: tbstatusPatOrderByRelationAggregateInput
-    tbCusto?: tbCCustoOrderByRelationAggregateInput
   }
 
   export type tbPatrimonioWhereUniqueInput = Prisma.AtLeast<{
@@ -17088,7 +17161,7 @@ export namespace Prisma {
     OR?: tbPatrimonioWhereInput[]
     NOT?: tbPatrimonioWhereInput | tbPatrimonioWhereInput[]
     descricaoPat?: StringFilter<"tbPatrimonio"> | string
-    descricaodetalhadaPat?: StringNullableFilter<"tbPatrimonio"> | string | null
+    descricaoDetalhadaPat?: StringNullableFilter<"tbPatrimonio"> | string | null
     licencaPat?: StringNullableFilter<"tbPatrimonio"> | string | null
     dataEntPat?: DateTimeFilter<"tbPatrimonio"> | Date | string
     dataSaiPat?: DateTimeNullableFilter<"tbPatrimonio"> | Date | string | null
@@ -17096,17 +17169,20 @@ export namespace Prisma {
     valorPat?: FloatFilter<"tbPatrimonio"> | number
     createdAt?: DateTimeNullableFilter<"tbPatrimonio"> | Date | string | null
     updatedAt?: DateTimeNullableFilter<"tbPatrimonio"> | Date | string | null
+    idPat_TipoPat?: StringNullableFilter<"tbPatrimonio"> | string | null
+    idPat_StatusPat?: StringNullableFilter<"tbPatrimonio"> | string | null
+    idPat_CustoPat?: StringNullableFilter<"tbPatrimonio"> | string | null
+    tbTipoPat?: XOR<TbTipoPatNullableScalarRelationFilter, tbTipoPatWhereInput> | null
+    tbStatusPat?: XOR<TbStatusPatNullableScalarRelationFilter, tbStatusPatWhereInput> | null
+    tbCCusto?: XOR<TbCCustoNullableScalarRelationFilter, tbCCustoWhereInput> | null
     tbCadastro?: TbCadastroListRelationFilter
-    tbTipoPat?: TbTipoPatListRelationFilter
-    tbStatusPat?: TbstatusPatListRelationFilter
-    tbCusto?: TbCCustoListRelationFilter
   }, "idP" | "idPat">
 
   export type tbPatrimonioOrderByWithAggregationInput = {
     idP?: SortOrder
     idPat?: SortOrder
     descricaoPat?: SortOrder
-    descricaodetalhadaPat?: SortOrderInput | SortOrder
+    descricaoDetalhadaPat?: SortOrderInput | SortOrder
     licencaPat?: SortOrderInput | SortOrder
     dataEntPat?: SortOrder
     dataSaiPat?: SortOrderInput | SortOrder
@@ -17114,6 +17190,9 @@ export namespace Prisma {
     valorPat?: SortOrder
     createdAt?: SortOrderInput | SortOrder
     updatedAt?: SortOrderInput | SortOrder
+    idPat_TipoPat?: SortOrderInput | SortOrder
+    idPat_StatusPat?: SortOrderInput | SortOrder
+    idPat_CustoPat?: SortOrderInput | SortOrder
     _count?: tbPatrimonioCountOrderByAggregateInput
     _avg?: tbPatrimonioAvgOrderByAggregateInput
     _max?: tbPatrimonioMaxOrderByAggregateInput
@@ -17128,7 +17207,7 @@ export namespace Prisma {
     idP?: StringWithAggregatesFilter<"tbPatrimonio"> | string
     idPat?: StringWithAggregatesFilter<"tbPatrimonio"> | string
     descricaoPat?: StringWithAggregatesFilter<"tbPatrimonio"> | string
-    descricaodetalhadaPat?: StringNullableWithAggregatesFilter<"tbPatrimonio"> | string | null
+    descricaoDetalhadaPat?: StringNullableWithAggregatesFilter<"tbPatrimonio"> | string | null
     licencaPat?: StringNullableWithAggregatesFilter<"tbPatrimonio"> | string | null
     dataEntPat?: DateTimeWithAggregatesFilter<"tbPatrimonio"> | Date | string
     dataSaiPat?: DateTimeNullableWithAggregatesFilter<"tbPatrimonio"> | Date | string | null
@@ -17136,6 +17215,9 @@ export namespace Prisma {
     valorPat?: FloatWithAggregatesFilter<"tbPatrimonio"> | number
     createdAt?: DateTimeNullableWithAggregatesFilter<"tbPatrimonio"> | Date | string | null
     updatedAt?: DateTimeNullableWithAggregatesFilter<"tbPatrimonio"> | Date | string | null
+    idPat_TipoPat?: StringNullableWithAggregatesFilter<"tbPatrimonio"> | string | null
+    idPat_StatusPat?: StringNullableWithAggregatesFilter<"tbPatrimonio"> | string | null
+    idPat_CustoPat?: StringNullableWithAggregatesFilter<"tbPatrimonio"> | string | null
   }
 
   export type tbTipoPatWhereInput = {
@@ -17144,31 +17226,27 @@ export namespace Prisma {
     NOT?: tbTipoPatWhereInput | tbTipoPatWhereInput[]
     idTipPat?: StringFilter<"tbTipoPat"> | string
     descricaoTipPat?: StringNullableFilter<"tbTipoPat"> | string | null
-    idPat_TipoPat?: StringNullableFilter<"tbTipoPat"> | string | null
-    tbPatrimonio?: XOR<TbPatrimonioNullableScalarRelationFilter, tbPatrimonioWhereInput> | null
+    tbPatrimonio?: TbPatrimonioListRelationFilter
   }
 
   export type tbTipoPatOrderByWithRelationInput = {
     idTipPat?: SortOrder
     descricaoTipPat?: SortOrderInput | SortOrder
-    idPat_TipoPat?: SortOrderInput | SortOrder
-    tbPatrimonio?: tbPatrimonioOrderByWithRelationInput
+    tbPatrimonio?: tbPatrimonioOrderByRelationAggregateInput
   }
 
   export type tbTipoPatWhereUniqueInput = Prisma.AtLeast<{
     idTipPat?: string
-    idPat_TipoPat?: string
     AND?: tbTipoPatWhereInput | tbTipoPatWhereInput[]
     OR?: tbTipoPatWhereInput[]
     NOT?: tbTipoPatWhereInput | tbTipoPatWhereInput[]
     descricaoTipPat?: StringNullableFilter<"tbTipoPat"> | string | null
-    tbPatrimonio?: XOR<TbPatrimonioNullableScalarRelationFilter, tbPatrimonioWhereInput> | null
-  }, "idTipPat" | "idPat_TipoPat">
+    tbPatrimonio?: TbPatrimonioListRelationFilter
+  }, "idTipPat">
 
   export type tbTipoPatOrderByWithAggregationInput = {
     idTipPat?: SortOrder
     descricaoTipPat?: SortOrderInput | SortOrder
-    idPat_TipoPat?: SortOrderInput | SortOrder
     _count?: tbTipoPatCountOrderByAggregateInput
     _max?: tbTipoPatMaxOrderByAggregateInput
     _min?: tbTipoPatMinOrderByAggregateInput
@@ -17180,52 +17258,46 @@ export namespace Prisma {
     NOT?: tbTipoPatScalarWhereWithAggregatesInput | tbTipoPatScalarWhereWithAggregatesInput[]
     idTipPat?: StringWithAggregatesFilter<"tbTipoPat"> | string
     descricaoTipPat?: StringNullableWithAggregatesFilter<"tbTipoPat"> | string | null
-    idPat_TipoPat?: StringNullableWithAggregatesFilter<"tbTipoPat"> | string | null
   }
 
-  export type tbstatusPatWhereInput = {
-    AND?: tbstatusPatWhereInput | tbstatusPatWhereInput[]
-    OR?: tbstatusPatWhereInput[]
-    NOT?: tbstatusPatWhereInput | tbstatusPatWhereInput[]
-    idStatPat?: StringFilter<"tbstatusPat"> | string
-    descricaoStatPat?: StringFilter<"tbstatusPat"> | string
-    idPat_StatusPat?: StringNullableFilter<"tbstatusPat"> | string | null
-    tbPatrimonio?: XOR<TbPatrimonioNullableScalarRelationFilter, tbPatrimonioWhereInput> | null
+  export type tbStatusPatWhereInput = {
+    AND?: tbStatusPatWhereInput | tbStatusPatWhereInput[]
+    OR?: tbStatusPatWhereInput[]
+    NOT?: tbStatusPatWhereInput | tbStatusPatWhereInput[]
+    idStatusPat?: StringFilter<"tbStatusPat"> | string
+    descricaoStatPat?: StringFilter<"tbStatusPat"> | string
+    tbPatrimonio?: TbPatrimonioListRelationFilter
   }
 
-  export type tbstatusPatOrderByWithRelationInput = {
-    idStatPat?: SortOrder
+  export type tbStatusPatOrderByWithRelationInput = {
+    idStatusPat?: SortOrder
     descricaoStatPat?: SortOrder
-    idPat_StatusPat?: SortOrderInput | SortOrder
-    tbPatrimonio?: tbPatrimonioOrderByWithRelationInput
+    tbPatrimonio?: tbPatrimonioOrderByRelationAggregateInput
   }
 
-  export type tbstatusPatWhereUniqueInput = Prisma.AtLeast<{
-    idStatPat?: string
-    AND?: tbstatusPatWhereInput | tbstatusPatWhereInput[]
-    OR?: tbstatusPatWhereInput[]
-    NOT?: tbstatusPatWhereInput | tbstatusPatWhereInput[]
-    descricaoStatPat?: StringFilter<"tbstatusPat"> | string
-    idPat_StatusPat?: StringNullableFilter<"tbstatusPat"> | string | null
-    tbPatrimonio?: XOR<TbPatrimonioNullableScalarRelationFilter, tbPatrimonioWhereInput> | null
-  }, "idStatPat">
+  export type tbStatusPatWhereUniqueInput = Prisma.AtLeast<{
+    idStatusPat?: string
+    AND?: tbStatusPatWhereInput | tbStatusPatWhereInput[]
+    OR?: tbStatusPatWhereInput[]
+    NOT?: tbStatusPatWhereInput | tbStatusPatWhereInput[]
+    descricaoStatPat?: StringFilter<"tbStatusPat"> | string
+    tbPatrimonio?: TbPatrimonioListRelationFilter
+  }, "idStatusPat">
 
-  export type tbstatusPatOrderByWithAggregationInput = {
-    idStatPat?: SortOrder
+  export type tbStatusPatOrderByWithAggregationInput = {
+    idStatusPat?: SortOrder
     descricaoStatPat?: SortOrder
-    idPat_StatusPat?: SortOrderInput | SortOrder
-    _count?: tbstatusPatCountOrderByAggregateInput
-    _max?: tbstatusPatMaxOrderByAggregateInput
-    _min?: tbstatusPatMinOrderByAggregateInput
+    _count?: tbStatusPatCountOrderByAggregateInput
+    _max?: tbStatusPatMaxOrderByAggregateInput
+    _min?: tbStatusPatMinOrderByAggregateInput
   }
 
-  export type tbstatusPatScalarWhereWithAggregatesInput = {
-    AND?: tbstatusPatScalarWhereWithAggregatesInput | tbstatusPatScalarWhereWithAggregatesInput[]
-    OR?: tbstatusPatScalarWhereWithAggregatesInput[]
-    NOT?: tbstatusPatScalarWhereWithAggregatesInput | tbstatusPatScalarWhereWithAggregatesInput[]
-    idStatPat?: StringWithAggregatesFilter<"tbstatusPat"> | string
-    descricaoStatPat?: StringWithAggregatesFilter<"tbstatusPat"> | string
-    idPat_StatusPat?: StringNullableWithAggregatesFilter<"tbstatusPat"> | string | null
+  export type tbStatusPatScalarWhereWithAggregatesInput = {
+    AND?: tbStatusPatScalarWhereWithAggregatesInput | tbStatusPatScalarWhereWithAggregatesInput[]
+    OR?: tbStatusPatScalarWhereWithAggregatesInput[]
+    NOT?: tbStatusPatScalarWhereWithAggregatesInput | tbStatusPatScalarWhereWithAggregatesInput[]
+    idStatusPat?: StringWithAggregatesFilter<"tbStatusPat"> | string
+    descricaoStatPat?: StringWithAggregatesFilter<"tbStatusPat"> | string
   }
 
   export type tbEmpresaWhereInput = {
@@ -17288,26 +17360,22 @@ export namespace Prisma {
     OR?: tbCCustoWhereInput[]
     NOT?: tbCCustoWhereInput | tbCCustoWhereInput[]
     idCCusto?: StringFilter<"tbCCusto"> | string
-    codigocusto?: StringNullableFilter<"tbCCusto"> | string | null
+    codigoCCusto?: StringNullableFilter<"tbCCusto"> | string | null
     descricaoCCusto?: StringNullableFilter<"tbCCusto"> | string | null
     idEmp_Custo?: StringNullableFilter<"tbCCusto"> | string | null
-    idPat_Custo?: StringNullableFilter<"tbCCusto"> | string | null
-    idFun_Custo?: StringNullableFilter<"tbCCusto"> | string | null
-    tbFuncionario?: XOR<TbFuncionarioNullableScalarRelationFilter, tbFuncionarioWhereInput> | null
     tbEmpresa?: XOR<TbEmpresaNullableScalarRelationFilter, tbEmpresaWhereInput> | null
-    tbPatrimonio?: XOR<TbPatrimonioNullableScalarRelationFilter, tbPatrimonioWhereInput> | null
+    tbPatrimonio?: TbPatrimonioListRelationFilter
+    tbFuncionario?: TbFuncionarioListRelationFilter
   }
 
   export type tbCCustoOrderByWithRelationInput = {
     idCCusto?: SortOrder
-    codigocusto?: SortOrderInput | SortOrder
+    codigoCCusto?: SortOrderInput | SortOrder
     descricaoCCusto?: SortOrderInput | SortOrder
     idEmp_Custo?: SortOrderInput | SortOrder
-    idPat_Custo?: SortOrderInput | SortOrder
-    idFun_Custo?: SortOrderInput | SortOrder
-    tbFuncionario?: tbFuncionarioOrderByWithRelationInput
     tbEmpresa?: tbEmpresaOrderByWithRelationInput
-    tbPatrimonio?: tbPatrimonioOrderByWithRelationInput
+    tbPatrimonio?: tbPatrimonioOrderByRelationAggregateInput
+    tbFuncionario?: tbFuncionarioOrderByRelationAggregateInput
   }
 
   export type tbCCustoWhereUniqueInput = Prisma.AtLeast<{
@@ -17315,23 +17383,19 @@ export namespace Prisma {
     AND?: tbCCustoWhereInput | tbCCustoWhereInput[]
     OR?: tbCCustoWhereInput[]
     NOT?: tbCCustoWhereInput | tbCCustoWhereInput[]
-    codigocusto?: StringNullableFilter<"tbCCusto"> | string | null
+    codigoCCusto?: StringNullableFilter<"tbCCusto"> | string | null
     descricaoCCusto?: StringNullableFilter<"tbCCusto"> | string | null
     idEmp_Custo?: StringNullableFilter<"tbCCusto"> | string | null
-    idPat_Custo?: StringNullableFilter<"tbCCusto"> | string | null
-    idFun_Custo?: StringNullableFilter<"tbCCusto"> | string | null
-    tbFuncionario?: XOR<TbFuncionarioNullableScalarRelationFilter, tbFuncionarioWhereInput> | null
     tbEmpresa?: XOR<TbEmpresaNullableScalarRelationFilter, tbEmpresaWhereInput> | null
-    tbPatrimonio?: XOR<TbPatrimonioNullableScalarRelationFilter, tbPatrimonioWhereInput> | null
+    tbPatrimonio?: TbPatrimonioListRelationFilter
+    tbFuncionario?: TbFuncionarioListRelationFilter
   }, "idCCusto">
 
   export type tbCCustoOrderByWithAggregationInput = {
     idCCusto?: SortOrder
-    codigocusto?: SortOrderInput | SortOrder
+    codigoCCusto?: SortOrderInput | SortOrder
     descricaoCCusto?: SortOrderInput | SortOrder
     idEmp_Custo?: SortOrderInput | SortOrder
-    idPat_Custo?: SortOrderInput | SortOrder
-    idFun_Custo?: SortOrderInput | SortOrder
     _count?: tbCCustoCountOrderByAggregateInput
     _max?: tbCCustoMaxOrderByAggregateInput
     _min?: tbCCustoMinOrderByAggregateInput
@@ -17342,11 +17406,9 @@ export namespace Prisma {
     OR?: tbCCustoScalarWhereWithAggregatesInput[]
     NOT?: tbCCustoScalarWhereWithAggregatesInput | tbCCustoScalarWhereWithAggregatesInput[]
     idCCusto?: StringWithAggregatesFilter<"tbCCusto"> | string
-    codigocusto?: StringNullableWithAggregatesFilter<"tbCCusto"> | string | null
+    codigoCCusto?: StringNullableWithAggregatesFilter<"tbCCusto"> | string | null
     descricaoCCusto?: StringNullableWithAggregatesFilter<"tbCCusto"> | string | null
     idEmp_Custo?: StringNullableWithAggregatesFilter<"tbCCusto"> | string | null
-    idPat_Custo?: StringNullableWithAggregatesFilter<"tbCCusto"> | string | null
-    idFun_Custo?: StringNullableWithAggregatesFilter<"tbCCusto"> | string | null
   }
 
   export type tbCadastroWhereInput = {
@@ -17694,7 +17756,7 @@ export namespace Prisma {
 
   export type tbFuncionarioCreateInput = {
     idF?: string
-    idMatFun?: string | null
+    idMatFun: string
     nomeFun: string
     cpfFun?: string | null
     dataAdmFun?: Date | string | null
@@ -17703,13 +17765,13 @@ export namespace Prisma {
     tbStatusFun?: tbStatusFunCreateNestedOneWithoutTbFuncionarioInput
     tbUser?: tbUserCreateNestedOneWithoutTbFuncioanrioInput
     tbFuncao?: tbFuncaoCreateNestedOneWithoutTbFuncionarioInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
-    tbCCusto?: tbCCustoCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioUncheckedCreateInput = {
     idF?: string
-    idMatFun?: string | null
+    idMatFun: string
     nomeFun: string
     cpfFun?: string | null
     dataAdmFun?: Date | string | null
@@ -17718,13 +17780,13 @@ export namespace Prisma {
     idFuncaoFun?: string | null
     idUserFun?: string | null
     idStatusFun?: string | null
+    idCustoFun?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
-    tbCCusto?: tbCCustoUncheckedCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioUpdateInput = {
     idF?: StringFieldUpdateOperationsInput | string
-    idMatFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatFun?: StringFieldUpdateOperationsInput | string
     nomeFun?: StringFieldUpdateOperationsInput | string
     cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
     dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17733,13 +17795,13 @@ export namespace Prisma {
     tbStatusFun?: tbStatusFunUpdateOneWithoutTbFuncionarioNestedInput
     tbUser?: tbUserUpdateOneWithoutTbFuncioanrioNestedInput
     tbFuncao?: tbFuncaoUpdateOneWithoutTbFuncionarioNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
-    tbCCusto?: tbCCustoUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateInput = {
     idF?: StringFieldUpdateOperationsInput | string
-    idMatFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatFun?: StringFieldUpdateOperationsInput | string
     nomeFun?: StringFieldUpdateOperationsInput | string
     cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
     dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17748,13 +17810,13 @@ export namespace Prisma {
     idFuncaoFun?: NullableStringFieldUpdateOperationsInput | string | null
     idUserFun?: NullableStringFieldUpdateOperationsInput | string | null
     idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
-    tbCCusto?: tbCCustoUncheckedUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioCreateManyInput = {
     idF?: string
-    idMatFun?: string | null
+    idMatFun: string
     nomeFun: string
     cpfFun?: string | null
     dataAdmFun?: Date | string | null
@@ -17763,11 +17825,12 @@ export namespace Prisma {
     idFuncaoFun?: string | null
     idUserFun?: string | null
     idStatusFun?: string | null
+    idCustoFun?: string | null
   }
 
   export type tbFuncionarioUpdateManyMutationInput = {
     idF?: StringFieldUpdateOperationsInput | string
-    idMatFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatFun?: StringFieldUpdateOperationsInput | string
     nomeFun?: StringFieldUpdateOperationsInput | string
     cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
     dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17777,7 +17840,7 @@ export namespace Prisma {
 
   export type tbFuncionarioUncheckedUpdateManyInput = {
     idF?: StringFieldUpdateOperationsInput | string
-    idMatFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatFun?: StringFieldUpdateOperationsInput | string
     nomeFun?: StringFieldUpdateOperationsInput | string
     cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
     dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17786,6 +17849,7 @@ export namespace Prisma {
     idFuncaoFun?: NullableStringFieldUpdateOperationsInput | string | null
     idUserFun?: NullableStringFieldUpdateOperationsInput | string | null
     idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type tbStatusFunCreateInput = {
@@ -17870,7 +17934,7 @@ export namespace Prisma {
     idP?: string
     idPat: string
     descricaoPat: string
-    descricaodetalhadaPat?: string | null
+    descricaoDetalhadaPat?: string | null
     licencaPat?: string | null
     dataEntPat: Date | string
     dataSaiPat?: Date | string | null
@@ -17878,17 +17942,17 @@ export namespace Prisma {
     valorPat: number
     createdAt?: Date | string | null
     updatedAt?: Date | string | null
+    tbTipoPat?: tbTipoPatCreateNestedOneWithoutTbPatrimonioInput
+    tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbPatrimonioInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbPatrimonioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbPatrimonioInput
-    tbTipoPat?: tbTipoPatCreateNestedManyWithoutTbPatrimonioInput
-    tbStatusPat?: tbstatusPatCreateNestedManyWithoutTbPatrimonioInput
-    tbCusto?: tbCCustoCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUncheckedCreateInput = {
     idP?: string
     idPat: string
     descricaoPat: string
-    descricaodetalhadaPat?: string | null
+    descricaoDetalhadaPat?: string | null
     licencaPat?: string | null
     dataEntPat: Date | string
     dataSaiPat?: Date | string | null
@@ -17896,17 +17960,17 @@ export namespace Prisma {
     valorPat: number
     createdAt?: Date | string | null
     updatedAt?: Date | string | null
+    idPat_TipoPat?: string | null
+    idPat_StatusPat?: string | null
+    idPat_CustoPat?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbPatrimonioInput
-    tbTipoPat?: tbTipoPatUncheckedCreateNestedManyWithoutTbPatrimonioInput
-    tbStatusPat?: tbstatusPatUncheckedCreateNestedManyWithoutTbPatrimonioInput
-    tbCusto?: tbCCustoUncheckedCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUpdateInput = {
     idP?: StringFieldUpdateOperationsInput | string
     idPat?: StringFieldUpdateOperationsInput | string
     descricaoPat?: StringFieldUpdateOperationsInput | string
-    descricaodetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
     licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
     dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
     dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17914,17 +17978,17 @@ export namespace Prisma {
     valorPat?: FloatFieldUpdateOperationsInput | number
     createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tbTipoPat?: tbTipoPatUpdateOneWithoutTbPatrimonioNestedInput
+    tbStatusPat?: tbStatusPatUpdateOneWithoutTbPatrimonioNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbPatrimonioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbPatrimonioNestedInput
-    tbTipoPat?: tbTipoPatUpdateManyWithoutTbPatrimonioNestedInput
-    tbStatusPat?: tbstatusPatUpdateManyWithoutTbPatrimonioNestedInput
-    tbCusto?: tbCCustoUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateInput = {
     idP?: StringFieldUpdateOperationsInput | string
     idPat?: StringFieldUpdateOperationsInput | string
     descricaoPat?: StringFieldUpdateOperationsInput | string
-    descricaodetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
     licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
     dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
     dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17932,17 +17996,17 @@ export namespace Prisma {
     valorPat?: FloatFieldUpdateOperationsInput | number
     createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput
-    tbTipoPat?: tbTipoPatUncheckedUpdateManyWithoutTbPatrimonioNestedInput
-    tbStatusPat?: tbstatusPatUncheckedUpdateManyWithoutTbPatrimonioNestedInput
-    tbCusto?: tbCCustoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioCreateManyInput = {
     idP?: string
     idPat: string
     descricaoPat: string
-    descricaodetalhadaPat?: string | null
+    descricaoDetalhadaPat?: string | null
     licencaPat?: string | null
     dataEntPat: Date | string
     dataSaiPat?: Date | string | null
@@ -17950,13 +18014,16 @@ export namespace Prisma {
     valorPat: number
     createdAt?: Date | string | null
     updatedAt?: Date | string | null
+    idPat_TipoPat?: string | null
+    idPat_StatusPat?: string | null
+    idPat_CustoPat?: string | null
   }
 
   export type tbPatrimonioUpdateManyMutationInput = {
     idP?: StringFieldUpdateOperationsInput | string
     idPat?: StringFieldUpdateOperationsInput | string
     descricaoPat?: StringFieldUpdateOperationsInput | string
-    descricaodetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
     licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
     dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
     dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17970,7 +18037,7 @@ export namespace Prisma {
     idP?: StringFieldUpdateOperationsInput | string
     idPat?: StringFieldUpdateOperationsInput | string
     descricaoPat?: StringFieldUpdateOperationsInput | string
-    descricaodetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
     licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
     dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
     dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17978,36 +18045,38 @@ export namespace Prisma {
     valorPat?: FloatFieldUpdateOperationsInput | number
     createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type tbTipoPatCreateInput = {
     idTipPat?: string
     descricaoTipPat?: string | null
-    tbPatrimonio?: tbPatrimonioCreateNestedOneWithoutTbTipoPatInput
+    tbPatrimonio?: tbPatrimonioCreateNestedManyWithoutTbTipoPatInput
   }
 
   export type tbTipoPatUncheckedCreateInput = {
     idTipPat?: string
     descricaoTipPat?: string | null
-    idPat_TipoPat?: string | null
+    tbPatrimonio?: tbPatrimonioUncheckedCreateNestedManyWithoutTbTipoPatInput
   }
 
   export type tbTipoPatUpdateInput = {
     idTipPat?: StringFieldUpdateOperationsInput | string
     descricaoTipPat?: NullableStringFieldUpdateOperationsInput | string | null
-    tbPatrimonio?: tbPatrimonioUpdateOneWithoutTbTipoPatNestedInput
+    tbPatrimonio?: tbPatrimonioUpdateManyWithoutTbTipoPatNestedInput
   }
 
   export type tbTipoPatUncheckedUpdateInput = {
     idTipPat?: StringFieldUpdateOperationsInput | string
     descricaoTipPat?: NullableStringFieldUpdateOperationsInput | string | null
-    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    tbPatrimonio?: tbPatrimonioUncheckedUpdateManyWithoutTbTipoPatNestedInput
   }
 
   export type tbTipoPatCreateManyInput = {
     idTipPat?: string
     descricaoTipPat?: string | null
-    idPat_TipoPat?: string | null
   }
 
   export type tbTipoPatUpdateManyMutationInput = {
@@ -18018,48 +18087,45 @@ export namespace Prisma {
   export type tbTipoPatUncheckedUpdateManyInput = {
     idTipPat?: StringFieldUpdateOperationsInput | string
     descricaoTipPat?: NullableStringFieldUpdateOperationsInput | string | null
-    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type tbstatusPatCreateInput = {
-    idStatPat?: string
+  export type tbStatusPatCreateInput = {
+    idStatusPat?: string
     descricaoStatPat: string
-    tbPatrimonio?: tbPatrimonioCreateNestedOneWithoutTbStatusPatInput
+    tbPatrimonio?: tbPatrimonioCreateNestedManyWithoutTbStatusPatInput
   }
 
-  export type tbstatusPatUncheckedCreateInput = {
-    idStatPat?: string
+  export type tbStatusPatUncheckedCreateInput = {
+    idStatusPat?: string
     descricaoStatPat: string
-    idPat_StatusPat?: string | null
+    tbPatrimonio?: tbPatrimonioUncheckedCreateNestedManyWithoutTbStatusPatInput
   }
 
-  export type tbstatusPatUpdateInput = {
-    idStatPat?: StringFieldUpdateOperationsInput | string
+  export type tbStatusPatUpdateInput = {
+    idStatusPat?: StringFieldUpdateOperationsInput | string
     descricaoStatPat?: StringFieldUpdateOperationsInput | string
-    tbPatrimonio?: tbPatrimonioUpdateOneWithoutTbStatusPatNestedInput
+    tbPatrimonio?: tbPatrimonioUpdateManyWithoutTbStatusPatNestedInput
   }
 
-  export type tbstatusPatUncheckedUpdateInput = {
-    idStatPat?: StringFieldUpdateOperationsInput | string
+  export type tbStatusPatUncheckedUpdateInput = {
+    idStatusPat?: StringFieldUpdateOperationsInput | string
     descricaoStatPat?: StringFieldUpdateOperationsInput | string
-    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    tbPatrimonio?: tbPatrimonioUncheckedUpdateManyWithoutTbStatusPatNestedInput
   }
 
-  export type tbstatusPatCreateManyInput = {
-    idStatPat?: string
+  export type tbStatusPatCreateManyInput = {
+    idStatusPat?: string
     descricaoStatPat: string
-    idPat_StatusPat?: string | null
   }
 
-  export type tbstatusPatUpdateManyMutationInput = {
-    idStatPat?: StringFieldUpdateOperationsInput | string
+  export type tbStatusPatUpdateManyMutationInput = {
+    idStatusPat?: StringFieldUpdateOperationsInput | string
     descricaoStatPat?: StringFieldUpdateOperationsInput | string
   }
 
-  export type tbstatusPatUncheckedUpdateManyInput = {
-    idStatPat?: StringFieldUpdateOperationsInput | string
+  export type tbStatusPatUncheckedUpdateManyInput = {
+    idStatusPat?: StringFieldUpdateOperationsInput | string
     descricaoStatPat?: StringFieldUpdateOperationsInput | string
-    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type tbEmpresaCreateInput = {
@@ -18124,62 +18190,58 @@ export namespace Prisma {
 
   export type tbCCustoCreateInput = {
     idCCusto?: string
-    codigocusto?: string | null
+    codigoCCusto?: string | null
     descricaoCCusto?: string | null
-    tbFuncionario?: tbFuncionarioCreateNestedOneWithoutTbCCustoInput
     tbEmpresa?: tbEmpresaCreateNestedOneWithoutTbCCustoInput
-    tbPatrimonio?: tbPatrimonioCreateNestedOneWithoutTbCustoInput
+    tbPatrimonio?: tbPatrimonioCreateNestedManyWithoutTbCCustoInput
+    tbFuncionario?: tbFuncionarioCreateNestedManyWithoutTbCCustoInput
   }
 
   export type tbCCustoUncheckedCreateInput = {
     idCCusto?: string
-    codigocusto?: string | null
+    codigoCCusto?: string | null
     descricaoCCusto?: string | null
     idEmp_Custo?: string | null
-    idPat_Custo?: string | null
-    idFun_Custo?: string | null
+    tbPatrimonio?: tbPatrimonioUncheckedCreateNestedManyWithoutTbCCustoInput
+    tbFuncionario?: tbFuncionarioUncheckedCreateNestedManyWithoutTbCCustoInput
   }
 
   export type tbCCustoUpdateInput = {
     idCCusto?: StringFieldUpdateOperationsInput | string
-    codigocusto?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
     descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
-    tbFuncionario?: tbFuncionarioUpdateOneWithoutTbCCustoNestedInput
     tbEmpresa?: tbEmpresaUpdateOneWithoutTbCCustoNestedInput
-    tbPatrimonio?: tbPatrimonioUpdateOneWithoutTbCustoNestedInput
+    tbPatrimonio?: tbPatrimonioUpdateManyWithoutTbCCustoNestedInput
+    tbFuncionario?: tbFuncionarioUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type tbCCustoUncheckedUpdateInput = {
     idCCusto?: StringFieldUpdateOperationsInput | string
-    codigocusto?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
     descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
     idEmp_Custo?: NullableStringFieldUpdateOperationsInput | string | null
-    idPat_Custo?: NullableStringFieldUpdateOperationsInput | string | null
-    idFun_Custo?: NullableStringFieldUpdateOperationsInput | string | null
+    tbPatrimonio?: tbPatrimonioUncheckedUpdateManyWithoutTbCCustoNestedInput
+    tbFuncionario?: tbFuncionarioUncheckedUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type tbCCustoCreateManyInput = {
     idCCusto?: string
-    codigocusto?: string | null
+    codigoCCusto?: string | null
     descricaoCCusto?: string | null
     idEmp_Custo?: string | null
-    idPat_Custo?: string | null
-    idFun_Custo?: string | null
   }
 
   export type tbCCustoUpdateManyMutationInput = {
     idCCusto?: StringFieldUpdateOperationsInput | string
-    codigocusto?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
     descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type tbCCustoUncheckedUpdateManyInput = {
     idCCusto?: StringFieldUpdateOperationsInput | string
-    codigocusto?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
     descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
     idEmp_Custo?: NullableStringFieldUpdateOperationsInput | string | null
-    idPat_Custo?: NullableStringFieldUpdateOperationsInput | string | null
-    idFun_Custo?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type tbCadastroCreateInput = {
@@ -18625,23 +18687,18 @@ export namespace Prisma {
     isNot?: tbFuncaoWhereInput | null
   }
 
+  export type TbCCustoNullableScalarRelationFilter = {
+    is?: tbCCustoWhereInput | null
+    isNot?: tbCCustoWhereInput | null
+  }
+
   export type TbCadastroListRelationFilter = {
     every?: tbCadastroWhereInput
     some?: tbCadastroWhereInput
     none?: tbCadastroWhereInput
   }
 
-  export type TbCCustoListRelationFilter = {
-    every?: tbCCustoWhereInput
-    some?: tbCCustoWhereInput
-    none?: tbCCustoWhereInput
-  }
-
   export type tbCadastroOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type tbCCustoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -18656,6 +18713,7 @@ export namespace Prisma {
     idFuncaoFun?: SortOrder
     idUserFun?: SortOrder
     idStatusFun?: SortOrder
+    idCustoFun?: SortOrder
   }
 
   export type tbFuncionarioMaxOrderByAggregateInput = {
@@ -18669,6 +18727,7 @@ export namespace Prisma {
     idFuncaoFun?: SortOrder
     idUserFun?: SortOrder
     idStatusFun?: SortOrder
+    idCustoFun?: SortOrder
   }
 
   export type tbFuncionarioMinOrderByAggregateInput = {
@@ -18682,6 +18741,7 @@ export namespace Prisma {
     idFuncaoFun?: SortOrder
     idUserFun?: SortOrder
     idStatusFun?: SortOrder
+    idCustoFun?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -18739,31 +18799,21 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type TbTipoPatListRelationFilter = {
-    every?: tbTipoPatWhereInput
-    some?: tbTipoPatWhereInput
-    none?: tbTipoPatWhereInput
+  export type TbTipoPatNullableScalarRelationFilter = {
+    is?: tbTipoPatWhereInput | null
+    isNot?: tbTipoPatWhereInput | null
   }
 
-  export type TbstatusPatListRelationFilter = {
-    every?: tbstatusPatWhereInput
-    some?: tbstatusPatWhereInput
-    none?: tbstatusPatWhereInput
-  }
-
-  export type tbTipoPatOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type tbstatusPatOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type TbStatusPatNullableScalarRelationFilter = {
+    is?: tbStatusPatWhereInput | null
+    isNot?: tbStatusPatWhereInput | null
   }
 
   export type tbPatrimonioCountOrderByAggregateInput = {
     idP?: SortOrder
     idPat?: SortOrder
     descricaoPat?: SortOrder
-    descricaodetalhadaPat?: SortOrder
+    descricaoDetalhadaPat?: SortOrder
     licencaPat?: SortOrder
     dataEntPat?: SortOrder
     dataSaiPat?: SortOrder
@@ -18771,6 +18821,9 @@ export namespace Prisma {
     valorPat?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    idPat_TipoPat?: SortOrder
+    idPat_StatusPat?: SortOrder
+    idPat_CustoPat?: SortOrder
   }
 
   export type tbPatrimonioAvgOrderByAggregateInput = {
@@ -18781,7 +18834,7 @@ export namespace Prisma {
     idP?: SortOrder
     idPat?: SortOrder
     descricaoPat?: SortOrder
-    descricaodetalhadaPat?: SortOrder
+    descricaoDetalhadaPat?: SortOrder
     licencaPat?: SortOrder
     dataEntPat?: SortOrder
     dataSaiPat?: SortOrder
@@ -18789,13 +18842,16 @@ export namespace Prisma {
     valorPat?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    idPat_TipoPat?: SortOrder
+    idPat_StatusPat?: SortOrder
+    idPat_CustoPat?: SortOrder
   }
 
   export type tbPatrimonioMinOrderByAggregateInput = {
     idP?: SortOrder
     idPat?: SortOrder
     descricaoPat?: SortOrder
-    descricaodetalhadaPat?: SortOrder
+    descricaoDetalhadaPat?: SortOrder
     licencaPat?: SortOrder
     dataEntPat?: SortOrder
     dataSaiPat?: SortOrder
@@ -18803,6 +18859,9 @@ export namespace Prisma {
     valorPat?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    idPat_TipoPat?: SortOrder
+    idPat_StatusPat?: SortOrder
+    idPat_CustoPat?: SortOrder
   }
 
   export type tbPatrimonioSumOrderByAggregateInput = {
@@ -18825,45 +18884,54 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type TbPatrimonioNullableScalarRelationFilter = {
-    is?: tbPatrimonioWhereInput | null
-    isNot?: tbPatrimonioWhereInput | null
+  export type TbPatrimonioListRelationFilter = {
+    every?: tbPatrimonioWhereInput
+    some?: tbPatrimonioWhereInput
+    none?: tbPatrimonioWhereInput
+  }
+
+  export type tbPatrimonioOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type tbTipoPatCountOrderByAggregateInput = {
     idTipPat?: SortOrder
     descricaoTipPat?: SortOrder
-    idPat_TipoPat?: SortOrder
   }
 
   export type tbTipoPatMaxOrderByAggregateInput = {
     idTipPat?: SortOrder
     descricaoTipPat?: SortOrder
-    idPat_TipoPat?: SortOrder
   }
 
   export type tbTipoPatMinOrderByAggregateInput = {
     idTipPat?: SortOrder
     descricaoTipPat?: SortOrder
-    idPat_TipoPat?: SortOrder
   }
 
-  export type tbstatusPatCountOrderByAggregateInput = {
-    idStatPat?: SortOrder
+  export type tbStatusPatCountOrderByAggregateInput = {
+    idStatusPat?: SortOrder
     descricaoStatPat?: SortOrder
-    idPat_StatusPat?: SortOrder
   }
 
-  export type tbstatusPatMaxOrderByAggregateInput = {
-    idStatPat?: SortOrder
+  export type tbStatusPatMaxOrderByAggregateInput = {
+    idStatusPat?: SortOrder
     descricaoStatPat?: SortOrder
-    idPat_StatusPat?: SortOrder
   }
 
-  export type tbstatusPatMinOrderByAggregateInput = {
-    idStatPat?: SortOrder
+  export type tbStatusPatMinOrderByAggregateInput = {
+    idStatusPat?: SortOrder
     descricaoStatPat?: SortOrder
-    idPat_StatusPat?: SortOrder
+  }
+
+  export type TbCCustoListRelationFilter = {
+    every?: tbCCustoWhereInput
+    some?: tbCCustoWhereInput
+    none?: tbCCustoWhereInput
+  }
+
+  export type tbCCustoOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type tbEmpresaCountOrderByAggregateInput = {
@@ -18890,11 +18958,6 @@ export namespace Prisma {
     idCustEmp?: SortOrder
   }
 
-  export type TbFuncionarioNullableScalarRelationFilter = {
-    is?: tbFuncionarioWhereInput | null
-    isNot?: tbFuncionarioWhereInput | null
-  }
-
   export type TbEmpresaNullableScalarRelationFilter = {
     is?: tbEmpresaWhereInput | null
     isNot?: tbEmpresaWhereInput | null
@@ -18902,29 +18965,33 @@ export namespace Prisma {
 
   export type tbCCustoCountOrderByAggregateInput = {
     idCCusto?: SortOrder
-    codigocusto?: SortOrder
+    codigoCCusto?: SortOrder
     descricaoCCusto?: SortOrder
     idEmp_Custo?: SortOrder
-    idPat_Custo?: SortOrder
-    idFun_Custo?: SortOrder
   }
 
   export type tbCCustoMaxOrderByAggregateInput = {
     idCCusto?: SortOrder
-    codigocusto?: SortOrder
+    codigoCCusto?: SortOrder
     descricaoCCusto?: SortOrder
     idEmp_Custo?: SortOrder
-    idPat_Custo?: SortOrder
-    idFun_Custo?: SortOrder
   }
 
   export type tbCCustoMinOrderByAggregateInput = {
     idCCusto?: SortOrder
-    codigocusto?: SortOrder
+    codigoCCusto?: SortOrder
     descricaoCCusto?: SortOrder
     idEmp_Custo?: SortOrder
-    idPat_Custo?: SortOrder
-    idFun_Custo?: SortOrder
+  }
+
+  export type TbPatrimonioNullableScalarRelationFilter = {
+    is?: tbPatrimonioWhereInput | null
+    isNot?: tbPatrimonioWhereInput | null
+  }
+
+  export type TbFuncionarioNullableScalarRelationFilter = {
+    is?: tbFuncionarioWhereInput | null
+    isNot?: tbFuncionarioWhereInput | null
   }
 
   export type tbCadastroCountOrderByAggregateInput = {
@@ -19247,6 +19314,12 @@ export namespace Prisma {
     connect?: tbFuncaoWhereUniqueInput
   }
 
+  export type tbCCustoCreateNestedOneWithoutTbFuncionarioInput = {
+    create?: XOR<tbCCustoCreateWithoutTbFuncionarioInput, tbCCustoUncheckedCreateWithoutTbFuncionarioInput>
+    connectOrCreate?: tbCCustoCreateOrConnectWithoutTbFuncionarioInput
+    connect?: tbCCustoWhereUniqueInput
+  }
+
   export type tbCadastroCreateNestedManyWithoutTbFuncionarioInput = {
     create?: XOR<tbCadastroCreateWithoutTbFuncionarioInput, tbCadastroUncheckedCreateWithoutTbFuncionarioInput> | tbCadastroCreateWithoutTbFuncionarioInput[] | tbCadastroUncheckedCreateWithoutTbFuncionarioInput[]
     connectOrCreate?: tbCadastroCreateOrConnectWithoutTbFuncionarioInput | tbCadastroCreateOrConnectWithoutTbFuncionarioInput[]
@@ -19254,25 +19327,11 @@ export namespace Prisma {
     connect?: tbCadastroWhereUniqueInput | tbCadastroWhereUniqueInput[]
   }
 
-  export type tbCCustoCreateNestedManyWithoutTbFuncionarioInput = {
-    create?: XOR<tbCCustoCreateWithoutTbFuncionarioInput, tbCCustoUncheckedCreateWithoutTbFuncionarioInput> | tbCCustoCreateWithoutTbFuncionarioInput[] | tbCCustoUncheckedCreateWithoutTbFuncionarioInput[]
-    connectOrCreate?: tbCCustoCreateOrConnectWithoutTbFuncionarioInput | tbCCustoCreateOrConnectWithoutTbFuncionarioInput[]
-    createMany?: tbCCustoCreateManyTbFuncionarioInputEnvelope
-    connect?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
-  }
-
   export type tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput = {
     create?: XOR<tbCadastroCreateWithoutTbFuncionarioInput, tbCadastroUncheckedCreateWithoutTbFuncionarioInput> | tbCadastroCreateWithoutTbFuncionarioInput[] | tbCadastroUncheckedCreateWithoutTbFuncionarioInput[]
     connectOrCreate?: tbCadastroCreateOrConnectWithoutTbFuncionarioInput | tbCadastroCreateOrConnectWithoutTbFuncionarioInput[]
     createMany?: tbCadastroCreateManyTbFuncionarioInputEnvelope
     connect?: tbCadastroWhereUniqueInput | tbCadastroWhereUniqueInput[]
-  }
-
-  export type tbCCustoUncheckedCreateNestedManyWithoutTbFuncionarioInput = {
-    create?: XOR<tbCCustoCreateWithoutTbFuncionarioInput, tbCCustoUncheckedCreateWithoutTbFuncionarioInput> | tbCCustoCreateWithoutTbFuncionarioInput[] | tbCCustoUncheckedCreateWithoutTbFuncionarioInput[]
-    connectOrCreate?: tbCCustoCreateOrConnectWithoutTbFuncionarioInput | tbCCustoCreateOrConnectWithoutTbFuncionarioInput[]
-    createMany?: tbCCustoCreateManyTbFuncionarioInputEnvelope
-    connect?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -19309,6 +19368,16 @@ export namespace Prisma {
     update?: XOR<XOR<tbFuncaoUpdateToOneWithWhereWithoutTbFuncionarioInput, tbFuncaoUpdateWithoutTbFuncionarioInput>, tbFuncaoUncheckedUpdateWithoutTbFuncionarioInput>
   }
 
+  export type tbCCustoUpdateOneWithoutTbFuncionarioNestedInput = {
+    create?: XOR<tbCCustoCreateWithoutTbFuncionarioInput, tbCCustoUncheckedCreateWithoutTbFuncionarioInput>
+    connectOrCreate?: tbCCustoCreateOrConnectWithoutTbFuncionarioInput
+    upsert?: tbCCustoUpsertWithoutTbFuncionarioInput
+    disconnect?: tbCCustoWhereInput | boolean
+    delete?: tbCCustoWhereInput | boolean
+    connect?: tbCCustoWhereUniqueInput
+    update?: XOR<XOR<tbCCustoUpdateToOneWithWhereWithoutTbFuncionarioInput, tbCCustoUpdateWithoutTbFuncionarioInput>, tbCCustoUncheckedUpdateWithoutTbFuncionarioInput>
+  }
+
   export type tbCadastroUpdateManyWithoutTbFuncionarioNestedInput = {
     create?: XOR<tbCadastroCreateWithoutTbFuncionarioInput, tbCadastroUncheckedCreateWithoutTbFuncionarioInput> | tbCadastroCreateWithoutTbFuncionarioInput[] | tbCadastroUncheckedCreateWithoutTbFuncionarioInput[]
     connectOrCreate?: tbCadastroCreateOrConnectWithoutTbFuncionarioInput | tbCadastroCreateOrConnectWithoutTbFuncionarioInput[]
@@ -19323,20 +19392,6 @@ export namespace Prisma {
     deleteMany?: tbCadastroScalarWhereInput | tbCadastroScalarWhereInput[]
   }
 
-  export type tbCCustoUpdateManyWithoutTbFuncionarioNestedInput = {
-    create?: XOR<tbCCustoCreateWithoutTbFuncionarioInput, tbCCustoUncheckedCreateWithoutTbFuncionarioInput> | tbCCustoCreateWithoutTbFuncionarioInput[] | tbCCustoUncheckedCreateWithoutTbFuncionarioInput[]
-    connectOrCreate?: tbCCustoCreateOrConnectWithoutTbFuncionarioInput | tbCCustoCreateOrConnectWithoutTbFuncionarioInput[]
-    upsert?: tbCCustoUpsertWithWhereUniqueWithoutTbFuncionarioInput | tbCCustoUpsertWithWhereUniqueWithoutTbFuncionarioInput[]
-    createMany?: tbCCustoCreateManyTbFuncionarioInputEnvelope
-    set?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
-    disconnect?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
-    delete?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
-    connect?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
-    update?: tbCCustoUpdateWithWhereUniqueWithoutTbFuncionarioInput | tbCCustoUpdateWithWhereUniqueWithoutTbFuncionarioInput[]
-    updateMany?: tbCCustoUpdateManyWithWhereWithoutTbFuncionarioInput | tbCCustoUpdateManyWithWhereWithoutTbFuncionarioInput[]
-    deleteMany?: tbCCustoScalarWhereInput | tbCCustoScalarWhereInput[]
-  }
-
   export type tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput = {
     create?: XOR<tbCadastroCreateWithoutTbFuncionarioInput, tbCadastroUncheckedCreateWithoutTbFuncionarioInput> | tbCadastroCreateWithoutTbFuncionarioInput[] | tbCadastroUncheckedCreateWithoutTbFuncionarioInput[]
     connectOrCreate?: tbCadastroCreateOrConnectWithoutTbFuncionarioInput | tbCadastroCreateOrConnectWithoutTbFuncionarioInput[]
@@ -19349,20 +19404,6 @@ export namespace Prisma {
     update?: tbCadastroUpdateWithWhereUniqueWithoutTbFuncionarioInput | tbCadastroUpdateWithWhereUniqueWithoutTbFuncionarioInput[]
     updateMany?: tbCadastroUpdateManyWithWhereWithoutTbFuncionarioInput | tbCadastroUpdateManyWithWhereWithoutTbFuncionarioInput[]
     deleteMany?: tbCadastroScalarWhereInput | tbCadastroScalarWhereInput[]
-  }
-
-  export type tbCCustoUncheckedUpdateManyWithoutTbFuncionarioNestedInput = {
-    create?: XOR<tbCCustoCreateWithoutTbFuncionarioInput, tbCCustoUncheckedCreateWithoutTbFuncionarioInput> | tbCCustoCreateWithoutTbFuncionarioInput[] | tbCCustoUncheckedCreateWithoutTbFuncionarioInput[]
-    connectOrCreate?: tbCCustoCreateOrConnectWithoutTbFuncionarioInput | tbCCustoCreateOrConnectWithoutTbFuncionarioInput[]
-    upsert?: tbCCustoUpsertWithWhereUniqueWithoutTbFuncionarioInput | tbCCustoUpsertWithWhereUniqueWithoutTbFuncionarioInput[]
-    createMany?: tbCCustoCreateManyTbFuncionarioInputEnvelope
-    set?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
-    disconnect?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
-    delete?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
-    connect?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
-    update?: tbCCustoUpdateWithWhereUniqueWithoutTbFuncionarioInput | tbCCustoUpdateWithWhereUniqueWithoutTbFuncionarioInput[]
-    updateMany?: tbCCustoUpdateManyWithWhereWithoutTbFuncionarioInput | tbCCustoUpdateManyWithWhereWithoutTbFuncionarioInput[]
-    deleteMany?: tbCCustoScalarWhereInput | tbCCustoScalarWhereInput[]
   }
 
   export type tbFuncionarioCreateNestedManyWithoutTbStatusFunInput = {
@@ -19449,32 +19490,29 @@ export namespace Prisma {
     deleteMany?: tbFuncionarioScalarWhereInput | tbFuncionarioScalarWhereInput[]
   }
 
+  export type tbTipoPatCreateNestedOneWithoutTbPatrimonioInput = {
+    create?: XOR<tbTipoPatCreateWithoutTbPatrimonioInput, tbTipoPatUncheckedCreateWithoutTbPatrimonioInput>
+    connectOrCreate?: tbTipoPatCreateOrConnectWithoutTbPatrimonioInput
+    connect?: tbTipoPatWhereUniqueInput
+  }
+
+  export type tbStatusPatCreateNestedOneWithoutTbPatrimonioInput = {
+    create?: XOR<tbStatusPatCreateWithoutTbPatrimonioInput, tbStatusPatUncheckedCreateWithoutTbPatrimonioInput>
+    connectOrCreate?: tbStatusPatCreateOrConnectWithoutTbPatrimonioInput
+    connect?: tbStatusPatWhereUniqueInput
+  }
+
+  export type tbCCustoCreateNestedOneWithoutTbPatrimonioInput = {
+    create?: XOR<tbCCustoCreateWithoutTbPatrimonioInput, tbCCustoUncheckedCreateWithoutTbPatrimonioInput>
+    connectOrCreate?: tbCCustoCreateOrConnectWithoutTbPatrimonioInput
+    connect?: tbCCustoWhereUniqueInput
+  }
+
   export type tbCadastroCreateNestedManyWithoutTbPatrimonioInput = {
     create?: XOR<tbCadastroCreateWithoutTbPatrimonioInput, tbCadastroUncheckedCreateWithoutTbPatrimonioInput> | tbCadastroCreateWithoutTbPatrimonioInput[] | tbCadastroUncheckedCreateWithoutTbPatrimonioInput[]
     connectOrCreate?: tbCadastroCreateOrConnectWithoutTbPatrimonioInput | tbCadastroCreateOrConnectWithoutTbPatrimonioInput[]
     createMany?: tbCadastroCreateManyTbPatrimonioInputEnvelope
     connect?: tbCadastroWhereUniqueInput | tbCadastroWhereUniqueInput[]
-  }
-
-  export type tbTipoPatCreateNestedManyWithoutTbPatrimonioInput = {
-    create?: XOR<tbTipoPatCreateWithoutTbPatrimonioInput, tbTipoPatUncheckedCreateWithoutTbPatrimonioInput> | tbTipoPatCreateWithoutTbPatrimonioInput[] | tbTipoPatUncheckedCreateWithoutTbPatrimonioInput[]
-    connectOrCreate?: tbTipoPatCreateOrConnectWithoutTbPatrimonioInput | tbTipoPatCreateOrConnectWithoutTbPatrimonioInput[]
-    createMany?: tbTipoPatCreateManyTbPatrimonioInputEnvelope
-    connect?: tbTipoPatWhereUniqueInput | tbTipoPatWhereUniqueInput[]
-  }
-
-  export type tbstatusPatCreateNestedManyWithoutTbPatrimonioInput = {
-    create?: XOR<tbstatusPatCreateWithoutTbPatrimonioInput, tbstatusPatUncheckedCreateWithoutTbPatrimonioInput> | tbstatusPatCreateWithoutTbPatrimonioInput[] | tbstatusPatUncheckedCreateWithoutTbPatrimonioInput[]
-    connectOrCreate?: tbstatusPatCreateOrConnectWithoutTbPatrimonioInput | tbstatusPatCreateOrConnectWithoutTbPatrimonioInput[]
-    createMany?: tbstatusPatCreateManyTbPatrimonioInputEnvelope
-    connect?: tbstatusPatWhereUniqueInput | tbstatusPatWhereUniqueInput[]
-  }
-
-  export type tbCCustoCreateNestedManyWithoutTbPatrimonioInput = {
-    create?: XOR<tbCCustoCreateWithoutTbPatrimonioInput, tbCCustoUncheckedCreateWithoutTbPatrimonioInput> | tbCCustoCreateWithoutTbPatrimonioInput[] | tbCCustoUncheckedCreateWithoutTbPatrimonioInput[]
-    connectOrCreate?: tbCCustoCreateOrConnectWithoutTbPatrimonioInput | tbCCustoCreateOrConnectWithoutTbPatrimonioInput[]
-    createMany?: tbCCustoCreateManyTbPatrimonioInputEnvelope
-    connect?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
   }
 
   export type tbCadastroUncheckedCreateNestedManyWithoutTbPatrimonioInput = {
@@ -19484,33 +19522,42 @@ export namespace Prisma {
     connect?: tbCadastroWhereUniqueInput | tbCadastroWhereUniqueInput[]
   }
 
-  export type tbTipoPatUncheckedCreateNestedManyWithoutTbPatrimonioInput = {
-    create?: XOR<tbTipoPatCreateWithoutTbPatrimonioInput, tbTipoPatUncheckedCreateWithoutTbPatrimonioInput> | tbTipoPatCreateWithoutTbPatrimonioInput[] | tbTipoPatUncheckedCreateWithoutTbPatrimonioInput[]
-    connectOrCreate?: tbTipoPatCreateOrConnectWithoutTbPatrimonioInput | tbTipoPatCreateOrConnectWithoutTbPatrimonioInput[]
-    createMany?: tbTipoPatCreateManyTbPatrimonioInputEnvelope
-    connect?: tbTipoPatWhereUniqueInput | tbTipoPatWhereUniqueInput[]
-  }
-
-  export type tbstatusPatUncheckedCreateNestedManyWithoutTbPatrimonioInput = {
-    create?: XOR<tbstatusPatCreateWithoutTbPatrimonioInput, tbstatusPatUncheckedCreateWithoutTbPatrimonioInput> | tbstatusPatCreateWithoutTbPatrimonioInput[] | tbstatusPatUncheckedCreateWithoutTbPatrimonioInput[]
-    connectOrCreate?: tbstatusPatCreateOrConnectWithoutTbPatrimonioInput | tbstatusPatCreateOrConnectWithoutTbPatrimonioInput[]
-    createMany?: tbstatusPatCreateManyTbPatrimonioInputEnvelope
-    connect?: tbstatusPatWhereUniqueInput | tbstatusPatWhereUniqueInput[]
-  }
-
-  export type tbCCustoUncheckedCreateNestedManyWithoutTbPatrimonioInput = {
-    create?: XOR<tbCCustoCreateWithoutTbPatrimonioInput, tbCCustoUncheckedCreateWithoutTbPatrimonioInput> | tbCCustoCreateWithoutTbPatrimonioInput[] | tbCCustoUncheckedCreateWithoutTbPatrimonioInput[]
-    connectOrCreate?: tbCCustoCreateOrConnectWithoutTbPatrimonioInput | tbCCustoCreateOrConnectWithoutTbPatrimonioInput[]
-    createMany?: tbCCustoCreateManyTbPatrimonioInputEnvelope
-    connect?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
-  }
-
   export type FloatFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type tbTipoPatUpdateOneWithoutTbPatrimonioNestedInput = {
+    create?: XOR<tbTipoPatCreateWithoutTbPatrimonioInput, tbTipoPatUncheckedCreateWithoutTbPatrimonioInput>
+    connectOrCreate?: tbTipoPatCreateOrConnectWithoutTbPatrimonioInput
+    upsert?: tbTipoPatUpsertWithoutTbPatrimonioInput
+    disconnect?: tbTipoPatWhereInput | boolean
+    delete?: tbTipoPatWhereInput | boolean
+    connect?: tbTipoPatWhereUniqueInput
+    update?: XOR<XOR<tbTipoPatUpdateToOneWithWhereWithoutTbPatrimonioInput, tbTipoPatUpdateWithoutTbPatrimonioInput>, tbTipoPatUncheckedUpdateWithoutTbPatrimonioInput>
+  }
+
+  export type tbStatusPatUpdateOneWithoutTbPatrimonioNestedInput = {
+    create?: XOR<tbStatusPatCreateWithoutTbPatrimonioInput, tbStatusPatUncheckedCreateWithoutTbPatrimonioInput>
+    connectOrCreate?: tbStatusPatCreateOrConnectWithoutTbPatrimonioInput
+    upsert?: tbStatusPatUpsertWithoutTbPatrimonioInput
+    disconnect?: tbStatusPatWhereInput | boolean
+    delete?: tbStatusPatWhereInput | boolean
+    connect?: tbStatusPatWhereUniqueInput
+    update?: XOR<XOR<tbStatusPatUpdateToOneWithWhereWithoutTbPatrimonioInput, tbStatusPatUpdateWithoutTbPatrimonioInput>, tbStatusPatUncheckedUpdateWithoutTbPatrimonioInput>
+  }
+
+  export type tbCCustoUpdateOneWithoutTbPatrimonioNestedInput = {
+    create?: XOR<tbCCustoCreateWithoutTbPatrimonioInput, tbCCustoUncheckedCreateWithoutTbPatrimonioInput>
+    connectOrCreate?: tbCCustoCreateOrConnectWithoutTbPatrimonioInput
+    upsert?: tbCCustoUpsertWithoutTbPatrimonioInput
+    disconnect?: tbCCustoWhereInput | boolean
+    delete?: tbCCustoWhereInput | boolean
+    connect?: tbCCustoWhereUniqueInput
+    update?: XOR<XOR<tbCCustoUpdateToOneWithWhereWithoutTbPatrimonioInput, tbCCustoUpdateWithoutTbPatrimonioInput>, tbCCustoUncheckedUpdateWithoutTbPatrimonioInput>
   }
 
   export type tbCadastroUpdateManyWithoutTbPatrimonioNestedInput = {
@@ -19527,48 +19574,6 @@ export namespace Prisma {
     deleteMany?: tbCadastroScalarWhereInput | tbCadastroScalarWhereInput[]
   }
 
-  export type tbTipoPatUpdateManyWithoutTbPatrimonioNestedInput = {
-    create?: XOR<tbTipoPatCreateWithoutTbPatrimonioInput, tbTipoPatUncheckedCreateWithoutTbPatrimonioInput> | tbTipoPatCreateWithoutTbPatrimonioInput[] | tbTipoPatUncheckedCreateWithoutTbPatrimonioInput[]
-    connectOrCreate?: tbTipoPatCreateOrConnectWithoutTbPatrimonioInput | tbTipoPatCreateOrConnectWithoutTbPatrimonioInput[]
-    upsert?: tbTipoPatUpsertWithWhereUniqueWithoutTbPatrimonioInput | tbTipoPatUpsertWithWhereUniqueWithoutTbPatrimonioInput[]
-    createMany?: tbTipoPatCreateManyTbPatrimonioInputEnvelope
-    set?: tbTipoPatWhereUniqueInput | tbTipoPatWhereUniqueInput[]
-    disconnect?: tbTipoPatWhereUniqueInput | tbTipoPatWhereUniqueInput[]
-    delete?: tbTipoPatWhereUniqueInput | tbTipoPatWhereUniqueInput[]
-    connect?: tbTipoPatWhereUniqueInput | tbTipoPatWhereUniqueInput[]
-    update?: tbTipoPatUpdateWithWhereUniqueWithoutTbPatrimonioInput | tbTipoPatUpdateWithWhereUniqueWithoutTbPatrimonioInput[]
-    updateMany?: tbTipoPatUpdateManyWithWhereWithoutTbPatrimonioInput | tbTipoPatUpdateManyWithWhereWithoutTbPatrimonioInput[]
-    deleteMany?: tbTipoPatScalarWhereInput | tbTipoPatScalarWhereInput[]
-  }
-
-  export type tbstatusPatUpdateManyWithoutTbPatrimonioNestedInput = {
-    create?: XOR<tbstatusPatCreateWithoutTbPatrimonioInput, tbstatusPatUncheckedCreateWithoutTbPatrimonioInput> | tbstatusPatCreateWithoutTbPatrimonioInput[] | tbstatusPatUncheckedCreateWithoutTbPatrimonioInput[]
-    connectOrCreate?: tbstatusPatCreateOrConnectWithoutTbPatrimonioInput | tbstatusPatCreateOrConnectWithoutTbPatrimonioInput[]
-    upsert?: tbstatusPatUpsertWithWhereUniqueWithoutTbPatrimonioInput | tbstatusPatUpsertWithWhereUniqueWithoutTbPatrimonioInput[]
-    createMany?: tbstatusPatCreateManyTbPatrimonioInputEnvelope
-    set?: tbstatusPatWhereUniqueInput | tbstatusPatWhereUniqueInput[]
-    disconnect?: tbstatusPatWhereUniqueInput | tbstatusPatWhereUniqueInput[]
-    delete?: tbstatusPatWhereUniqueInput | tbstatusPatWhereUniqueInput[]
-    connect?: tbstatusPatWhereUniqueInput | tbstatusPatWhereUniqueInput[]
-    update?: tbstatusPatUpdateWithWhereUniqueWithoutTbPatrimonioInput | tbstatusPatUpdateWithWhereUniqueWithoutTbPatrimonioInput[]
-    updateMany?: tbstatusPatUpdateManyWithWhereWithoutTbPatrimonioInput | tbstatusPatUpdateManyWithWhereWithoutTbPatrimonioInput[]
-    deleteMany?: tbstatusPatScalarWhereInput | tbstatusPatScalarWhereInput[]
-  }
-
-  export type tbCCustoUpdateManyWithoutTbPatrimonioNestedInput = {
-    create?: XOR<tbCCustoCreateWithoutTbPatrimonioInput, tbCCustoUncheckedCreateWithoutTbPatrimonioInput> | tbCCustoCreateWithoutTbPatrimonioInput[] | tbCCustoUncheckedCreateWithoutTbPatrimonioInput[]
-    connectOrCreate?: tbCCustoCreateOrConnectWithoutTbPatrimonioInput | tbCCustoCreateOrConnectWithoutTbPatrimonioInput[]
-    upsert?: tbCCustoUpsertWithWhereUniqueWithoutTbPatrimonioInput | tbCCustoUpsertWithWhereUniqueWithoutTbPatrimonioInput[]
-    createMany?: tbCCustoCreateManyTbPatrimonioInputEnvelope
-    set?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
-    disconnect?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
-    delete?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
-    connect?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
-    update?: tbCCustoUpdateWithWhereUniqueWithoutTbPatrimonioInput | tbCCustoUpdateWithWhereUniqueWithoutTbPatrimonioInput[]
-    updateMany?: tbCCustoUpdateManyWithWhereWithoutTbPatrimonioInput | tbCCustoUpdateManyWithWhereWithoutTbPatrimonioInput[]
-    deleteMany?: tbCCustoScalarWhereInput | tbCCustoScalarWhereInput[]
-  }
-
   export type tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput = {
     create?: XOR<tbCadastroCreateWithoutTbPatrimonioInput, tbCadastroUncheckedCreateWithoutTbPatrimonioInput> | tbCadastroCreateWithoutTbPatrimonioInput[] | tbCadastroUncheckedCreateWithoutTbPatrimonioInput[]
     connectOrCreate?: tbCadastroCreateOrConnectWithoutTbPatrimonioInput | tbCadastroCreateOrConnectWithoutTbPatrimonioInput[]
@@ -19583,78 +19588,88 @@ export namespace Prisma {
     deleteMany?: tbCadastroScalarWhereInput | tbCadastroScalarWhereInput[]
   }
 
-  export type tbTipoPatUncheckedUpdateManyWithoutTbPatrimonioNestedInput = {
-    create?: XOR<tbTipoPatCreateWithoutTbPatrimonioInput, tbTipoPatUncheckedCreateWithoutTbPatrimonioInput> | tbTipoPatCreateWithoutTbPatrimonioInput[] | tbTipoPatUncheckedCreateWithoutTbPatrimonioInput[]
-    connectOrCreate?: tbTipoPatCreateOrConnectWithoutTbPatrimonioInput | tbTipoPatCreateOrConnectWithoutTbPatrimonioInput[]
-    upsert?: tbTipoPatUpsertWithWhereUniqueWithoutTbPatrimonioInput | tbTipoPatUpsertWithWhereUniqueWithoutTbPatrimonioInput[]
-    createMany?: tbTipoPatCreateManyTbPatrimonioInputEnvelope
-    set?: tbTipoPatWhereUniqueInput | tbTipoPatWhereUniqueInput[]
-    disconnect?: tbTipoPatWhereUniqueInput | tbTipoPatWhereUniqueInput[]
-    delete?: tbTipoPatWhereUniqueInput | tbTipoPatWhereUniqueInput[]
-    connect?: tbTipoPatWhereUniqueInput | tbTipoPatWhereUniqueInput[]
-    update?: tbTipoPatUpdateWithWhereUniqueWithoutTbPatrimonioInput | tbTipoPatUpdateWithWhereUniqueWithoutTbPatrimonioInput[]
-    updateMany?: tbTipoPatUpdateManyWithWhereWithoutTbPatrimonioInput | tbTipoPatUpdateManyWithWhereWithoutTbPatrimonioInput[]
-    deleteMany?: tbTipoPatScalarWhereInput | tbTipoPatScalarWhereInput[]
+  export type tbPatrimonioCreateNestedManyWithoutTbTipoPatInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbTipoPatInput, tbPatrimonioUncheckedCreateWithoutTbTipoPatInput> | tbPatrimonioCreateWithoutTbTipoPatInput[] | tbPatrimonioUncheckedCreateWithoutTbTipoPatInput[]
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbTipoPatInput | tbPatrimonioCreateOrConnectWithoutTbTipoPatInput[]
+    createMany?: tbPatrimonioCreateManyTbTipoPatInputEnvelope
+    connect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
   }
 
-  export type tbstatusPatUncheckedUpdateManyWithoutTbPatrimonioNestedInput = {
-    create?: XOR<tbstatusPatCreateWithoutTbPatrimonioInput, tbstatusPatUncheckedCreateWithoutTbPatrimonioInput> | tbstatusPatCreateWithoutTbPatrimonioInput[] | tbstatusPatUncheckedCreateWithoutTbPatrimonioInput[]
-    connectOrCreate?: tbstatusPatCreateOrConnectWithoutTbPatrimonioInput | tbstatusPatCreateOrConnectWithoutTbPatrimonioInput[]
-    upsert?: tbstatusPatUpsertWithWhereUniqueWithoutTbPatrimonioInput | tbstatusPatUpsertWithWhereUniqueWithoutTbPatrimonioInput[]
-    createMany?: tbstatusPatCreateManyTbPatrimonioInputEnvelope
-    set?: tbstatusPatWhereUniqueInput | tbstatusPatWhereUniqueInput[]
-    disconnect?: tbstatusPatWhereUniqueInput | tbstatusPatWhereUniqueInput[]
-    delete?: tbstatusPatWhereUniqueInput | tbstatusPatWhereUniqueInput[]
-    connect?: tbstatusPatWhereUniqueInput | tbstatusPatWhereUniqueInput[]
-    update?: tbstatusPatUpdateWithWhereUniqueWithoutTbPatrimonioInput | tbstatusPatUpdateWithWhereUniqueWithoutTbPatrimonioInput[]
-    updateMany?: tbstatusPatUpdateManyWithWhereWithoutTbPatrimonioInput | tbstatusPatUpdateManyWithWhereWithoutTbPatrimonioInput[]
-    deleteMany?: tbstatusPatScalarWhereInput | tbstatusPatScalarWhereInput[]
+  export type tbPatrimonioUncheckedCreateNestedManyWithoutTbTipoPatInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbTipoPatInput, tbPatrimonioUncheckedCreateWithoutTbTipoPatInput> | tbPatrimonioCreateWithoutTbTipoPatInput[] | tbPatrimonioUncheckedCreateWithoutTbTipoPatInput[]
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbTipoPatInput | tbPatrimonioCreateOrConnectWithoutTbTipoPatInput[]
+    createMany?: tbPatrimonioCreateManyTbTipoPatInputEnvelope
+    connect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
   }
 
-  export type tbCCustoUncheckedUpdateManyWithoutTbPatrimonioNestedInput = {
-    create?: XOR<tbCCustoCreateWithoutTbPatrimonioInput, tbCCustoUncheckedCreateWithoutTbPatrimonioInput> | tbCCustoCreateWithoutTbPatrimonioInput[] | tbCCustoUncheckedCreateWithoutTbPatrimonioInput[]
-    connectOrCreate?: tbCCustoCreateOrConnectWithoutTbPatrimonioInput | tbCCustoCreateOrConnectWithoutTbPatrimonioInput[]
-    upsert?: tbCCustoUpsertWithWhereUniqueWithoutTbPatrimonioInput | tbCCustoUpsertWithWhereUniqueWithoutTbPatrimonioInput[]
-    createMany?: tbCCustoCreateManyTbPatrimonioInputEnvelope
-    set?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
-    disconnect?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
-    delete?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
-    connect?: tbCCustoWhereUniqueInput | tbCCustoWhereUniqueInput[]
-    update?: tbCCustoUpdateWithWhereUniqueWithoutTbPatrimonioInput | tbCCustoUpdateWithWhereUniqueWithoutTbPatrimonioInput[]
-    updateMany?: tbCCustoUpdateManyWithWhereWithoutTbPatrimonioInput | tbCCustoUpdateManyWithWhereWithoutTbPatrimonioInput[]
-    deleteMany?: tbCCustoScalarWhereInput | tbCCustoScalarWhereInput[]
+  export type tbPatrimonioUpdateManyWithoutTbTipoPatNestedInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbTipoPatInput, tbPatrimonioUncheckedCreateWithoutTbTipoPatInput> | tbPatrimonioCreateWithoutTbTipoPatInput[] | tbPatrimonioUncheckedCreateWithoutTbTipoPatInput[]
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbTipoPatInput | tbPatrimonioCreateOrConnectWithoutTbTipoPatInput[]
+    upsert?: tbPatrimonioUpsertWithWhereUniqueWithoutTbTipoPatInput | tbPatrimonioUpsertWithWhereUniqueWithoutTbTipoPatInput[]
+    createMany?: tbPatrimonioCreateManyTbTipoPatInputEnvelope
+    set?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    disconnect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    delete?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    connect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    update?: tbPatrimonioUpdateWithWhereUniqueWithoutTbTipoPatInput | tbPatrimonioUpdateWithWhereUniqueWithoutTbTipoPatInput[]
+    updateMany?: tbPatrimonioUpdateManyWithWhereWithoutTbTipoPatInput | tbPatrimonioUpdateManyWithWhereWithoutTbTipoPatInput[]
+    deleteMany?: tbPatrimonioScalarWhereInput | tbPatrimonioScalarWhereInput[]
   }
 
-  export type tbPatrimonioCreateNestedOneWithoutTbTipoPatInput = {
-    create?: XOR<tbPatrimonioCreateWithoutTbTipoPatInput, tbPatrimonioUncheckedCreateWithoutTbTipoPatInput>
-    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbTipoPatInput
-    connect?: tbPatrimonioWhereUniqueInput
+  export type tbPatrimonioUncheckedUpdateManyWithoutTbTipoPatNestedInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbTipoPatInput, tbPatrimonioUncheckedCreateWithoutTbTipoPatInput> | tbPatrimonioCreateWithoutTbTipoPatInput[] | tbPatrimonioUncheckedCreateWithoutTbTipoPatInput[]
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbTipoPatInput | tbPatrimonioCreateOrConnectWithoutTbTipoPatInput[]
+    upsert?: tbPatrimonioUpsertWithWhereUniqueWithoutTbTipoPatInput | tbPatrimonioUpsertWithWhereUniqueWithoutTbTipoPatInput[]
+    createMany?: tbPatrimonioCreateManyTbTipoPatInputEnvelope
+    set?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    disconnect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    delete?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    connect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    update?: tbPatrimonioUpdateWithWhereUniqueWithoutTbTipoPatInput | tbPatrimonioUpdateWithWhereUniqueWithoutTbTipoPatInput[]
+    updateMany?: tbPatrimonioUpdateManyWithWhereWithoutTbTipoPatInput | tbPatrimonioUpdateManyWithWhereWithoutTbTipoPatInput[]
+    deleteMany?: tbPatrimonioScalarWhereInput | tbPatrimonioScalarWhereInput[]
   }
 
-  export type tbPatrimonioUpdateOneWithoutTbTipoPatNestedInput = {
-    create?: XOR<tbPatrimonioCreateWithoutTbTipoPatInput, tbPatrimonioUncheckedCreateWithoutTbTipoPatInput>
-    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbTipoPatInput
-    upsert?: tbPatrimonioUpsertWithoutTbTipoPatInput
-    disconnect?: tbPatrimonioWhereInput | boolean
-    delete?: tbPatrimonioWhereInput | boolean
-    connect?: tbPatrimonioWhereUniqueInput
-    update?: XOR<XOR<tbPatrimonioUpdateToOneWithWhereWithoutTbTipoPatInput, tbPatrimonioUpdateWithoutTbTipoPatInput>, tbPatrimonioUncheckedUpdateWithoutTbTipoPatInput>
+  export type tbPatrimonioCreateNestedManyWithoutTbStatusPatInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbStatusPatInput, tbPatrimonioUncheckedCreateWithoutTbStatusPatInput> | tbPatrimonioCreateWithoutTbStatusPatInput[] | tbPatrimonioUncheckedCreateWithoutTbStatusPatInput[]
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbStatusPatInput | tbPatrimonioCreateOrConnectWithoutTbStatusPatInput[]
+    createMany?: tbPatrimonioCreateManyTbStatusPatInputEnvelope
+    connect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
   }
 
-  export type tbPatrimonioCreateNestedOneWithoutTbStatusPatInput = {
-    create?: XOR<tbPatrimonioCreateWithoutTbStatusPatInput, tbPatrimonioUncheckedCreateWithoutTbStatusPatInput>
-    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbStatusPatInput
-    connect?: tbPatrimonioWhereUniqueInput
+  export type tbPatrimonioUncheckedCreateNestedManyWithoutTbStatusPatInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbStatusPatInput, tbPatrimonioUncheckedCreateWithoutTbStatusPatInput> | tbPatrimonioCreateWithoutTbStatusPatInput[] | tbPatrimonioUncheckedCreateWithoutTbStatusPatInput[]
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbStatusPatInput | tbPatrimonioCreateOrConnectWithoutTbStatusPatInput[]
+    createMany?: tbPatrimonioCreateManyTbStatusPatInputEnvelope
+    connect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
   }
 
-  export type tbPatrimonioUpdateOneWithoutTbStatusPatNestedInput = {
-    create?: XOR<tbPatrimonioCreateWithoutTbStatusPatInput, tbPatrimonioUncheckedCreateWithoutTbStatusPatInput>
-    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbStatusPatInput
-    upsert?: tbPatrimonioUpsertWithoutTbStatusPatInput
-    disconnect?: tbPatrimonioWhereInput | boolean
-    delete?: tbPatrimonioWhereInput | boolean
-    connect?: tbPatrimonioWhereUniqueInput
-    update?: XOR<XOR<tbPatrimonioUpdateToOneWithWhereWithoutTbStatusPatInput, tbPatrimonioUpdateWithoutTbStatusPatInput>, tbPatrimonioUncheckedUpdateWithoutTbStatusPatInput>
+  export type tbPatrimonioUpdateManyWithoutTbStatusPatNestedInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbStatusPatInput, tbPatrimonioUncheckedCreateWithoutTbStatusPatInput> | tbPatrimonioCreateWithoutTbStatusPatInput[] | tbPatrimonioUncheckedCreateWithoutTbStatusPatInput[]
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbStatusPatInput | tbPatrimonioCreateOrConnectWithoutTbStatusPatInput[]
+    upsert?: tbPatrimonioUpsertWithWhereUniqueWithoutTbStatusPatInput | tbPatrimonioUpsertWithWhereUniqueWithoutTbStatusPatInput[]
+    createMany?: tbPatrimonioCreateManyTbStatusPatInputEnvelope
+    set?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    disconnect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    delete?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    connect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    update?: tbPatrimonioUpdateWithWhereUniqueWithoutTbStatusPatInput | tbPatrimonioUpdateWithWhereUniqueWithoutTbStatusPatInput[]
+    updateMany?: tbPatrimonioUpdateManyWithWhereWithoutTbStatusPatInput | tbPatrimonioUpdateManyWithWhereWithoutTbStatusPatInput[]
+    deleteMany?: tbPatrimonioScalarWhereInput | tbPatrimonioScalarWhereInput[]
+  }
+
+  export type tbPatrimonioUncheckedUpdateManyWithoutTbStatusPatNestedInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbStatusPatInput, tbPatrimonioUncheckedCreateWithoutTbStatusPatInput> | tbPatrimonioCreateWithoutTbStatusPatInput[] | tbPatrimonioUncheckedCreateWithoutTbStatusPatInput[]
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbStatusPatInput | tbPatrimonioCreateOrConnectWithoutTbStatusPatInput[]
+    upsert?: tbPatrimonioUpsertWithWhereUniqueWithoutTbStatusPatInput | tbPatrimonioUpsertWithWhereUniqueWithoutTbStatusPatInput[]
+    createMany?: tbPatrimonioCreateManyTbStatusPatInputEnvelope
+    set?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    disconnect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    delete?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    connect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    update?: tbPatrimonioUpdateWithWhereUniqueWithoutTbStatusPatInput | tbPatrimonioUpdateWithWhereUniqueWithoutTbStatusPatInput[]
+    updateMany?: tbPatrimonioUpdateManyWithWhereWithoutTbStatusPatInput | tbPatrimonioUpdateManyWithWhereWithoutTbStatusPatInput[]
+    deleteMany?: tbPatrimonioScalarWhereInput | tbPatrimonioScalarWhereInput[]
   }
 
   export type tbCCustoCreateNestedManyWithoutTbEmpresaInput = {
@@ -19699,32 +19714,38 @@ export namespace Prisma {
     deleteMany?: tbCCustoScalarWhereInput | tbCCustoScalarWhereInput[]
   }
 
-  export type tbFuncionarioCreateNestedOneWithoutTbCCustoInput = {
-    create?: XOR<tbFuncionarioCreateWithoutTbCCustoInput, tbFuncionarioUncheckedCreateWithoutTbCCustoInput>
-    connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbCCustoInput
-    connect?: tbFuncionarioWhereUniqueInput
-  }
-
   export type tbEmpresaCreateNestedOneWithoutTbCCustoInput = {
     create?: XOR<tbEmpresaCreateWithoutTbCCustoInput, tbEmpresaUncheckedCreateWithoutTbCCustoInput>
     connectOrCreate?: tbEmpresaCreateOrConnectWithoutTbCCustoInput
     connect?: tbEmpresaWhereUniqueInput
   }
 
-  export type tbPatrimonioCreateNestedOneWithoutTbCustoInput = {
-    create?: XOR<tbPatrimonioCreateWithoutTbCustoInput, tbPatrimonioUncheckedCreateWithoutTbCustoInput>
-    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbCustoInput
-    connect?: tbPatrimonioWhereUniqueInput
+  export type tbPatrimonioCreateNestedManyWithoutTbCCustoInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbCCustoInput, tbPatrimonioUncheckedCreateWithoutTbCCustoInput> | tbPatrimonioCreateWithoutTbCCustoInput[] | tbPatrimonioUncheckedCreateWithoutTbCCustoInput[]
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbCCustoInput | tbPatrimonioCreateOrConnectWithoutTbCCustoInput[]
+    createMany?: tbPatrimonioCreateManyTbCCustoInputEnvelope
+    connect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
   }
 
-  export type tbFuncionarioUpdateOneWithoutTbCCustoNestedInput = {
-    create?: XOR<tbFuncionarioCreateWithoutTbCCustoInput, tbFuncionarioUncheckedCreateWithoutTbCCustoInput>
-    connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbCCustoInput
-    upsert?: tbFuncionarioUpsertWithoutTbCCustoInput
-    disconnect?: tbFuncionarioWhereInput | boolean
-    delete?: tbFuncionarioWhereInput | boolean
-    connect?: tbFuncionarioWhereUniqueInput
-    update?: XOR<XOR<tbFuncionarioUpdateToOneWithWhereWithoutTbCCustoInput, tbFuncionarioUpdateWithoutTbCCustoInput>, tbFuncionarioUncheckedUpdateWithoutTbCCustoInput>
+  export type tbFuncionarioCreateNestedManyWithoutTbCCustoInput = {
+    create?: XOR<tbFuncionarioCreateWithoutTbCCustoInput, tbFuncionarioUncheckedCreateWithoutTbCCustoInput> | tbFuncionarioCreateWithoutTbCCustoInput[] | tbFuncionarioUncheckedCreateWithoutTbCCustoInput[]
+    connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbCCustoInput | tbFuncionarioCreateOrConnectWithoutTbCCustoInput[]
+    createMany?: tbFuncionarioCreateManyTbCCustoInputEnvelope
+    connect?: tbFuncionarioWhereUniqueInput | tbFuncionarioWhereUniqueInput[]
+  }
+
+  export type tbPatrimonioUncheckedCreateNestedManyWithoutTbCCustoInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbCCustoInput, tbPatrimonioUncheckedCreateWithoutTbCCustoInput> | tbPatrimonioCreateWithoutTbCCustoInput[] | tbPatrimonioUncheckedCreateWithoutTbCCustoInput[]
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbCCustoInput | tbPatrimonioCreateOrConnectWithoutTbCCustoInput[]
+    createMany?: tbPatrimonioCreateManyTbCCustoInputEnvelope
+    connect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+  }
+
+  export type tbFuncionarioUncheckedCreateNestedManyWithoutTbCCustoInput = {
+    create?: XOR<tbFuncionarioCreateWithoutTbCCustoInput, tbFuncionarioUncheckedCreateWithoutTbCCustoInput> | tbFuncionarioCreateWithoutTbCCustoInput[] | tbFuncionarioUncheckedCreateWithoutTbCCustoInput[]
+    connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbCCustoInput | tbFuncionarioCreateOrConnectWithoutTbCCustoInput[]
+    createMany?: tbFuncionarioCreateManyTbCCustoInputEnvelope
+    connect?: tbFuncionarioWhereUniqueInput | tbFuncionarioWhereUniqueInput[]
   }
 
   export type tbEmpresaUpdateOneWithoutTbCCustoNestedInput = {
@@ -19737,14 +19758,60 @@ export namespace Prisma {
     update?: XOR<XOR<tbEmpresaUpdateToOneWithWhereWithoutTbCCustoInput, tbEmpresaUpdateWithoutTbCCustoInput>, tbEmpresaUncheckedUpdateWithoutTbCCustoInput>
   }
 
-  export type tbPatrimonioUpdateOneWithoutTbCustoNestedInput = {
-    create?: XOR<tbPatrimonioCreateWithoutTbCustoInput, tbPatrimonioUncheckedCreateWithoutTbCustoInput>
-    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbCustoInput
-    upsert?: tbPatrimonioUpsertWithoutTbCustoInput
-    disconnect?: tbPatrimonioWhereInput | boolean
-    delete?: tbPatrimonioWhereInput | boolean
-    connect?: tbPatrimonioWhereUniqueInput
-    update?: XOR<XOR<tbPatrimonioUpdateToOneWithWhereWithoutTbCustoInput, tbPatrimonioUpdateWithoutTbCustoInput>, tbPatrimonioUncheckedUpdateWithoutTbCustoInput>
+  export type tbPatrimonioUpdateManyWithoutTbCCustoNestedInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbCCustoInput, tbPatrimonioUncheckedCreateWithoutTbCCustoInput> | tbPatrimonioCreateWithoutTbCCustoInput[] | tbPatrimonioUncheckedCreateWithoutTbCCustoInput[]
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbCCustoInput | tbPatrimonioCreateOrConnectWithoutTbCCustoInput[]
+    upsert?: tbPatrimonioUpsertWithWhereUniqueWithoutTbCCustoInput | tbPatrimonioUpsertWithWhereUniqueWithoutTbCCustoInput[]
+    createMany?: tbPatrimonioCreateManyTbCCustoInputEnvelope
+    set?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    disconnect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    delete?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    connect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    update?: tbPatrimonioUpdateWithWhereUniqueWithoutTbCCustoInput | tbPatrimonioUpdateWithWhereUniqueWithoutTbCCustoInput[]
+    updateMany?: tbPatrimonioUpdateManyWithWhereWithoutTbCCustoInput | tbPatrimonioUpdateManyWithWhereWithoutTbCCustoInput[]
+    deleteMany?: tbPatrimonioScalarWhereInput | tbPatrimonioScalarWhereInput[]
+  }
+
+  export type tbFuncionarioUpdateManyWithoutTbCCustoNestedInput = {
+    create?: XOR<tbFuncionarioCreateWithoutTbCCustoInput, tbFuncionarioUncheckedCreateWithoutTbCCustoInput> | tbFuncionarioCreateWithoutTbCCustoInput[] | tbFuncionarioUncheckedCreateWithoutTbCCustoInput[]
+    connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbCCustoInput | tbFuncionarioCreateOrConnectWithoutTbCCustoInput[]
+    upsert?: tbFuncionarioUpsertWithWhereUniqueWithoutTbCCustoInput | tbFuncionarioUpsertWithWhereUniqueWithoutTbCCustoInput[]
+    createMany?: tbFuncionarioCreateManyTbCCustoInputEnvelope
+    set?: tbFuncionarioWhereUniqueInput | tbFuncionarioWhereUniqueInput[]
+    disconnect?: tbFuncionarioWhereUniqueInput | tbFuncionarioWhereUniqueInput[]
+    delete?: tbFuncionarioWhereUniqueInput | tbFuncionarioWhereUniqueInput[]
+    connect?: tbFuncionarioWhereUniqueInput | tbFuncionarioWhereUniqueInput[]
+    update?: tbFuncionarioUpdateWithWhereUniqueWithoutTbCCustoInput | tbFuncionarioUpdateWithWhereUniqueWithoutTbCCustoInput[]
+    updateMany?: tbFuncionarioUpdateManyWithWhereWithoutTbCCustoInput | tbFuncionarioUpdateManyWithWhereWithoutTbCCustoInput[]
+    deleteMany?: tbFuncionarioScalarWhereInput | tbFuncionarioScalarWhereInput[]
+  }
+
+  export type tbPatrimonioUncheckedUpdateManyWithoutTbCCustoNestedInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbCCustoInput, tbPatrimonioUncheckedCreateWithoutTbCCustoInput> | tbPatrimonioCreateWithoutTbCCustoInput[] | tbPatrimonioUncheckedCreateWithoutTbCCustoInput[]
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbCCustoInput | tbPatrimonioCreateOrConnectWithoutTbCCustoInput[]
+    upsert?: tbPatrimonioUpsertWithWhereUniqueWithoutTbCCustoInput | tbPatrimonioUpsertWithWhereUniqueWithoutTbCCustoInput[]
+    createMany?: tbPatrimonioCreateManyTbCCustoInputEnvelope
+    set?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    disconnect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    delete?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    connect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+    update?: tbPatrimonioUpdateWithWhereUniqueWithoutTbCCustoInput | tbPatrimonioUpdateWithWhereUniqueWithoutTbCCustoInput[]
+    updateMany?: tbPatrimonioUpdateManyWithWhereWithoutTbCCustoInput | tbPatrimonioUpdateManyWithWhereWithoutTbCCustoInput[]
+    deleteMany?: tbPatrimonioScalarWhereInput | tbPatrimonioScalarWhereInput[]
+  }
+
+  export type tbFuncionarioUncheckedUpdateManyWithoutTbCCustoNestedInput = {
+    create?: XOR<tbFuncionarioCreateWithoutTbCCustoInput, tbFuncionarioUncheckedCreateWithoutTbCCustoInput> | tbFuncionarioCreateWithoutTbCCustoInput[] | tbFuncionarioUncheckedCreateWithoutTbCCustoInput[]
+    connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbCCustoInput | tbFuncionarioCreateOrConnectWithoutTbCCustoInput[]
+    upsert?: tbFuncionarioUpsertWithWhereUniqueWithoutTbCCustoInput | tbFuncionarioUpsertWithWhereUniqueWithoutTbCCustoInput[]
+    createMany?: tbFuncionarioCreateManyTbCCustoInputEnvelope
+    set?: tbFuncionarioWhereUniqueInput | tbFuncionarioWhereUniqueInput[]
+    disconnect?: tbFuncionarioWhereUniqueInput | tbFuncionarioWhereUniqueInput[]
+    delete?: tbFuncionarioWhereUniqueInput | tbFuncionarioWhereUniqueInput[]
+    connect?: tbFuncionarioWhereUniqueInput | tbFuncionarioWhereUniqueInput[]
+    update?: tbFuncionarioUpdateWithWhereUniqueWithoutTbCCustoInput | tbFuncionarioUpdateWithWhereUniqueWithoutTbCCustoInput[]
+    updateMany?: tbFuncionarioUpdateManyWithWhereWithoutTbCCustoInput | tbFuncionarioUpdateManyWithWhereWithoutTbCCustoInput[]
+    deleteMany?: tbFuncionarioScalarWhereInput | tbFuncionarioScalarWhereInput[]
   }
 
   export type tbPatrimonioCreateNestedOneWithoutTbCadastroInput = {
@@ -20005,7 +20072,7 @@ export namespace Prisma {
 
   export type tbFuncionarioCreateWithoutTbUserInput = {
     idF?: string
-    idMatFun?: string | null
+    idMatFun: string
     nomeFun: string
     cpfFun?: string | null
     dataAdmFun?: Date | string | null
@@ -20013,13 +20080,13 @@ export namespace Prisma {
     avatarFun?: string | null
     tbStatusFun?: tbStatusFunCreateNestedOneWithoutTbFuncionarioInput
     tbFuncao?: tbFuncaoCreateNestedOneWithoutTbFuncionarioInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
-    tbCCusto?: tbCCustoCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioUncheckedCreateWithoutTbUserInput = {
     idF?: string
-    idMatFun?: string | null
+    idMatFun: string
     nomeFun: string
     cpfFun?: string | null
     dataAdmFun?: Date | string | null
@@ -20027,8 +20094,8 @@ export namespace Prisma {
     avatarFun?: string | null
     idFuncaoFun?: string | null
     idStatusFun?: string | null
+    idCustoFun?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
-    tbCCusto?: tbCCustoUncheckedCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioCreateOrConnectWithoutTbUserInput = {
@@ -20119,7 +20186,7 @@ export namespace Prisma {
     OR?: tbFuncionarioScalarWhereInput[]
     NOT?: tbFuncionarioScalarWhereInput | tbFuncionarioScalarWhereInput[]
     idF?: StringFilter<"tbFuncionario"> | string
-    idMatFun?: StringNullableFilter<"tbFuncionario"> | string | null
+    idMatFun?: StringFilter<"tbFuncionario"> | string
     nomeFun?: StringFilter<"tbFuncionario"> | string
     cpfFun?: StringNullableFilter<"tbFuncionario"> | string | null
     dataAdmFun?: DateTimeNullableFilter<"tbFuncionario"> | Date | string | null
@@ -20128,6 +20195,7 @@ export namespace Prisma {
     idFuncaoFun?: StringNullableFilter<"tbFuncionario"> | string | null
     idUserFun?: StringNullableFilter<"tbFuncionario"> | string | null
     idStatusFun?: StringNullableFilter<"tbFuncionario"> | string | null
+    idCustoFun?: StringNullableFilter<"tbFuncionario"> | string | null
   }
 
   export type tbAccontUpsertWithWhereUniqueWithoutTbUserInput = {
@@ -20251,6 +20319,27 @@ export namespace Prisma {
     create: XOR<tbFuncaoCreateWithoutTbFuncionarioInput, tbFuncaoUncheckedCreateWithoutTbFuncionarioInput>
   }
 
+  export type tbCCustoCreateWithoutTbFuncionarioInput = {
+    idCCusto?: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    tbEmpresa?: tbEmpresaCreateNestedOneWithoutTbCCustoInput
+    tbPatrimonio?: tbPatrimonioCreateNestedManyWithoutTbCCustoInput
+  }
+
+  export type tbCCustoUncheckedCreateWithoutTbFuncionarioInput = {
+    idCCusto?: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    idEmp_Custo?: string | null
+    tbPatrimonio?: tbPatrimonioUncheckedCreateNestedManyWithoutTbCCustoInput
+  }
+
+  export type tbCCustoCreateOrConnectWithoutTbFuncionarioInput = {
+    where: tbCCustoWhereUniqueInput
+    create: XOR<tbCCustoCreateWithoutTbFuncionarioInput, tbCCustoUncheckedCreateWithoutTbFuncionarioInput>
+  }
+
   export type tbCadastroCreateWithoutTbFuncionarioInput = {
     idCad?: string
     dataCadPat?: Date | string | null
@@ -20276,31 +20365,6 @@ export namespace Prisma {
 
   export type tbCadastroCreateManyTbFuncionarioInputEnvelope = {
     data: tbCadastroCreateManyTbFuncionarioInput | tbCadastroCreateManyTbFuncionarioInput[]
-  }
-
-  export type tbCCustoCreateWithoutTbFuncionarioInput = {
-    idCCusto?: string
-    codigocusto?: string | null
-    descricaoCCusto?: string | null
-    tbEmpresa?: tbEmpresaCreateNestedOneWithoutTbCCustoInput
-    tbPatrimonio?: tbPatrimonioCreateNestedOneWithoutTbCustoInput
-  }
-
-  export type tbCCustoUncheckedCreateWithoutTbFuncionarioInput = {
-    idCCusto?: string
-    codigocusto?: string | null
-    descricaoCCusto?: string | null
-    idEmp_Custo?: string | null
-    idPat_Custo?: string | null
-  }
-
-  export type tbCCustoCreateOrConnectWithoutTbFuncionarioInput = {
-    where: tbCCustoWhereUniqueInput
-    create: XOR<tbCCustoCreateWithoutTbFuncionarioInput, tbCCustoUncheckedCreateWithoutTbFuncionarioInput>
-  }
-
-  export type tbCCustoCreateManyTbFuncionarioInputEnvelope = {
-    data: tbCCustoCreateManyTbFuncionarioInput | tbCCustoCreateManyTbFuncionarioInput[]
   }
 
   export type tbStatusFunUpsertWithoutTbFuncionarioInput = {
@@ -20382,6 +20446,33 @@ export namespace Prisma {
     nomeFuncao?: StringFieldUpdateOperationsInput | string
   }
 
+  export type tbCCustoUpsertWithoutTbFuncionarioInput = {
+    update: XOR<tbCCustoUpdateWithoutTbFuncionarioInput, tbCCustoUncheckedUpdateWithoutTbFuncionarioInput>
+    create: XOR<tbCCustoCreateWithoutTbFuncionarioInput, tbCCustoUncheckedCreateWithoutTbFuncionarioInput>
+    where?: tbCCustoWhereInput
+  }
+
+  export type tbCCustoUpdateToOneWithWhereWithoutTbFuncionarioInput = {
+    where?: tbCCustoWhereInput
+    data: XOR<tbCCustoUpdateWithoutTbFuncionarioInput, tbCCustoUncheckedUpdateWithoutTbFuncionarioInput>
+  }
+
+  export type tbCCustoUpdateWithoutTbFuncionarioInput = {
+    idCCusto?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    tbEmpresa?: tbEmpresaUpdateOneWithoutTbCCustoNestedInput
+    tbPatrimonio?: tbPatrimonioUpdateManyWithoutTbCCustoNestedInput
+  }
+
+  export type tbCCustoUncheckedUpdateWithoutTbFuncionarioInput = {
+    idCCusto?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    idEmp_Custo?: NullableStringFieldUpdateOperationsInput | string | null
+    tbPatrimonio?: tbPatrimonioUncheckedUpdateManyWithoutTbCCustoNestedInput
+  }
+
   export type tbCadastroUpsertWithWhereUniqueWithoutTbFuncionarioInput = {
     where: tbCadastroWhereUniqueInput
     update: XOR<tbCadastroUpdateWithoutTbFuncionarioInput, tbCadastroUncheckedUpdateWithoutTbFuncionarioInput>
@@ -20411,37 +20502,9 @@ export namespace Prisma {
     idMatFunCad?: StringNullableFilter<"tbCadastro"> | string | null
   }
 
-  export type tbCCustoUpsertWithWhereUniqueWithoutTbFuncionarioInput = {
-    where: tbCCustoWhereUniqueInput
-    update: XOR<tbCCustoUpdateWithoutTbFuncionarioInput, tbCCustoUncheckedUpdateWithoutTbFuncionarioInput>
-    create: XOR<tbCCustoCreateWithoutTbFuncionarioInput, tbCCustoUncheckedCreateWithoutTbFuncionarioInput>
-  }
-
-  export type tbCCustoUpdateWithWhereUniqueWithoutTbFuncionarioInput = {
-    where: tbCCustoWhereUniqueInput
-    data: XOR<tbCCustoUpdateWithoutTbFuncionarioInput, tbCCustoUncheckedUpdateWithoutTbFuncionarioInput>
-  }
-
-  export type tbCCustoUpdateManyWithWhereWithoutTbFuncionarioInput = {
-    where: tbCCustoScalarWhereInput
-    data: XOR<tbCCustoUpdateManyMutationInput, tbCCustoUncheckedUpdateManyWithoutTbFuncionarioInput>
-  }
-
-  export type tbCCustoScalarWhereInput = {
-    AND?: tbCCustoScalarWhereInput | tbCCustoScalarWhereInput[]
-    OR?: tbCCustoScalarWhereInput[]
-    NOT?: tbCCustoScalarWhereInput | tbCCustoScalarWhereInput[]
-    idCCusto?: StringFilter<"tbCCusto"> | string
-    codigocusto?: StringNullableFilter<"tbCCusto"> | string | null
-    descricaoCCusto?: StringNullableFilter<"tbCCusto"> | string | null
-    idEmp_Custo?: StringNullableFilter<"tbCCusto"> | string | null
-    idPat_Custo?: StringNullableFilter<"tbCCusto"> | string | null
-    idFun_Custo?: StringNullableFilter<"tbCCusto"> | string | null
-  }
-
   export type tbFuncionarioCreateWithoutTbStatusFunInput = {
     idF?: string
-    idMatFun?: string | null
+    idMatFun: string
     nomeFun: string
     cpfFun?: string | null
     dataAdmFun?: Date | string | null
@@ -20449,13 +20512,13 @@ export namespace Prisma {
     avatarFun?: string | null
     tbUser?: tbUserCreateNestedOneWithoutTbFuncioanrioInput
     tbFuncao?: tbFuncaoCreateNestedOneWithoutTbFuncionarioInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
-    tbCCusto?: tbCCustoCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioUncheckedCreateWithoutTbStatusFunInput = {
     idF?: string
-    idMatFun?: string | null
+    idMatFun: string
     nomeFun: string
     cpfFun?: string | null
     dataAdmFun?: Date | string | null
@@ -20463,8 +20526,8 @@ export namespace Prisma {
     avatarFun?: string | null
     idFuncaoFun?: string | null
     idUserFun?: string | null
+    idCustoFun?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
-    tbCCusto?: tbCCustoUncheckedCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioCreateOrConnectWithoutTbStatusFunInput = {
@@ -20494,7 +20557,7 @@ export namespace Prisma {
 
   export type tbFuncionarioCreateWithoutTbFuncaoInput = {
     idF?: string
-    idMatFun?: string | null
+    idMatFun: string
     nomeFun: string
     cpfFun?: string | null
     dataAdmFun?: Date | string | null
@@ -20502,13 +20565,13 @@ export namespace Prisma {
     avatarFun?: string | null
     tbStatusFun?: tbStatusFunCreateNestedOneWithoutTbFuncionarioInput
     tbUser?: tbUserCreateNestedOneWithoutTbFuncioanrioInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
-    tbCCusto?: tbCCustoCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioUncheckedCreateWithoutTbFuncaoInput = {
     idF?: string
-    idMatFun?: string | null
+    idMatFun: string
     nomeFun: string
     cpfFun?: string | null
     dataAdmFun?: Date | string | null
@@ -20516,8 +20579,8 @@ export namespace Prisma {
     avatarFun?: string | null
     idUserFun?: string | null
     idStatusFun?: string | null
+    idCustoFun?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
-    tbCCusto?: tbCCustoUncheckedCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioCreateOrConnectWithoutTbFuncaoInput = {
@@ -20543,6 +20606,57 @@ export namespace Prisma {
   export type tbFuncionarioUpdateManyWithWhereWithoutTbFuncaoInput = {
     where: tbFuncionarioScalarWhereInput
     data: XOR<tbFuncionarioUpdateManyMutationInput, tbFuncionarioUncheckedUpdateManyWithoutTbFuncaoInput>
+  }
+
+  export type tbTipoPatCreateWithoutTbPatrimonioInput = {
+    idTipPat?: string
+    descricaoTipPat?: string | null
+  }
+
+  export type tbTipoPatUncheckedCreateWithoutTbPatrimonioInput = {
+    idTipPat?: string
+    descricaoTipPat?: string | null
+  }
+
+  export type tbTipoPatCreateOrConnectWithoutTbPatrimonioInput = {
+    where: tbTipoPatWhereUniqueInput
+    create: XOR<tbTipoPatCreateWithoutTbPatrimonioInput, tbTipoPatUncheckedCreateWithoutTbPatrimonioInput>
+  }
+
+  export type tbStatusPatCreateWithoutTbPatrimonioInput = {
+    idStatusPat?: string
+    descricaoStatPat: string
+  }
+
+  export type tbStatusPatUncheckedCreateWithoutTbPatrimonioInput = {
+    idStatusPat?: string
+    descricaoStatPat: string
+  }
+
+  export type tbStatusPatCreateOrConnectWithoutTbPatrimonioInput = {
+    where: tbStatusPatWhereUniqueInput
+    create: XOR<tbStatusPatCreateWithoutTbPatrimonioInput, tbStatusPatUncheckedCreateWithoutTbPatrimonioInput>
+  }
+
+  export type tbCCustoCreateWithoutTbPatrimonioInput = {
+    idCCusto?: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    tbEmpresa?: tbEmpresaCreateNestedOneWithoutTbCCustoInput
+    tbFuncionario?: tbFuncionarioCreateNestedManyWithoutTbCCustoInput
+  }
+
+  export type tbCCustoUncheckedCreateWithoutTbPatrimonioInput = {
+    idCCusto?: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    idEmp_Custo?: string | null
+    tbFuncionario?: tbFuncionarioUncheckedCreateNestedManyWithoutTbCCustoInput
+  }
+
+  export type tbCCustoCreateOrConnectWithoutTbPatrimonioInput = {
+    where: tbCCustoWhereUniqueInput
+    create: XOR<tbCCustoCreateWithoutTbPatrimonioInput, tbCCustoUncheckedCreateWithoutTbPatrimonioInput>
   }
 
   export type tbCadastroCreateWithoutTbPatrimonioInput = {
@@ -20572,67 +20686,73 @@ export namespace Prisma {
     data: tbCadastroCreateManyTbPatrimonioInput | tbCadastroCreateManyTbPatrimonioInput[]
   }
 
-  export type tbTipoPatCreateWithoutTbPatrimonioInput = {
-    idTipPat?: string
-    descricaoTipPat?: string | null
-  }
-
-  export type tbTipoPatUncheckedCreateWithoutTbPatrimonioInput = {
-    idTipPat?: string
-    descricaoTipPat?: string | null
-  }
-
-  export type tbTipoPatCreateOrConnectWithoutTbPatrimonioInput = {
-    where: tbTipoPatWhereUniqueInput
+  export type tbTipoPatUpsertWithoutTbPatrimonioInput = {
+    update: XOR<tbTipoPatUpdateWithoutTbPatrimonioInput, tbTipoPatUncheckedUpdateWithoutTbPatrimonioInput>
     create: XOR<tbTipoPatCreateWithoutTbPatrimonioInput, tbTipoPatUncheckedCreateWithoutTbPatrimonioInput>
+    where?: tbTipoPatWhereInput
   }
 
-  export type tbTipoPatCreateManyTbPatrimonioInputEnvelope = {
-    data: tbTipoPatCreateManyTbPatrimonioInput | tbTipoPatCreateManyTbPatrimonioInput[]
+  export type tbTipoPatUpdateToOneWithWhereWithoutTbPatrimonioInput = {
+    where?: tbTipoPatWhereInput
+    data: XOR<tbTipoPatUpdateWithoutTbPatrimonioInput, tbTipoPatUncheckedUpdateWithoutTbPatrimonioInput>
   }
 
-  export type tbstatusPatCreateWithoutTbPatrimonioInput = {
-    idStatPat?: string
-    descricaoStatPat: string
+  export type tbTipoPatUpdateWithoutTbPatrimonioInput = {
+    idTipPat?: StringFieldUpdateOperationsInput | string
+    descricaoTipPat?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type tbstatusPatUncheckedCreateWithoutTbPatrimonioInput = {
-    idStatPat?: string
-    descricaoStatPat: string
+  export type tbTipoPatUncheckedUpdateWithoutTbPatrimonioInput = {
+    idTipPat?: StringFieldUpdateOperationsInput | string
+    descricaoTipPat?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type tbstatusPatCreateOrConnectWithoutTbPatrimonioInput = {
-    where: tbstatusPatWhereUniqueInput
-    create: XOR<tbstatusPatCreateWithoutTbPatrimonioInput, tbstatusPatUncheckedCreateWithoutTbPatrimonioInput>
+  export type tbStatusPatUpsertWithoutTbPatrimonioInput = {
+    update: XOR<tbStatusPatUpdateWithoutTbPatrimonioInput, tbStatusPatUncheckedUpdateWithoutTbPatrimonioInput>
+    create: XOR<tbStatusPatCreateWithoutTbPatrimonioInput, tbStatusPatUncheckedCreateWithoutTbPatrimonioInput>
+    where?: tbStatusPatWhereInput
   }
 
-  export type tbstatusPatCreateManyTbPatrimonioInputEnvelope = {
-    data: tbstatusPatCreateManyTbPatrimonioInput | tbstatusPatCreateManyTbPatrimonioInput[]
+  export type tbStatusPatUpdateToOneWithWhereWithoutTbPatrimonioInput = {
+    where?: tbStatusPatWhereInput
+    data: XOR<tbStatusPatUpdateWithoutTbPatrimonioInput, tbStatusPatUncheckedUpdateWithoutTbPatrimonioInput>
   }
 
-  export type tbCCustoCreateWithoutTbPatrimonioInput = {
-    idCCusto?: string
-    codigocusto?: string | null
-    descricaoCCusto?: string | null
-    tbFuncionario?: tbFuncionarioCreateNestedOneWithoutTbCCustoInput
-    tbEmpresa?: tbEmpresaCreateNestedOneWithoutTbCCustoInput
+  export type tbStatusPatUpdateWithoutTbPatrimonioInput = {
+    idStatusPat?: StringFieldUpdateOperationsInput | string
+    descricaoStatPat?: StringFieldUpdateOperationsInput | string
   }
 
-  export type tbCCustoUncheckedCreateWithoutTbPatrimonioInput = {
-    idCCusto?: string
-    codigocusto?: string | null
-    descricaoCCusto?: string | null
-    idEmp_Custo?: string | null
-    idFun_Custo?: string | null
+  export type tbStatusPatUncheckedUpdateWithoutTbPatrimonioInput = {
+    idStatusPat?: StringFieldUpdateOperationsInput | string
+    descricaoStatPat?: StringFieldUpdateOperationsInput | string
   }
 
-  export type tbCCustoCreateOrConnectWithoutTbPatrimonioInput = {
-    where: tbCCustoWhereUniqueInput
+  export type tbCCustoUpsertWithoutTbPatrimonioInput = {
+    update: XOR<tbCCustoUpdateWithoutTbPatrimonioInput, tbCCustoUncheckedUpdateWithoutTbPatrimonioInput>
     create: XOR<tbCCustoCreateWithoutTbPatrimonioInput, tbCCustoUncheckedCreateWithoutTbPatrimonioInput>
+    where?: tbCCustoWhereInput
   }
 
-  export type tbCCustoCreateManyTbPatrimonioInputEnvelope = {
-    data: tbCCustoCreateManyTbPatrimonioInput | tbCCustoCreateManyTbPatrimonioInput[]
+  export type tbCCustoUpdateToOneWithWhereWithoutTbPatrimonioInput = {
+    where?: tbCCustoWhereInput
+    data: XOR<tbCCustoUpdateWithoutTbPatrimonioInput, tbCCustoUncheckedUpdateWithoutTbPatrimonioInput>
+  }
+
+  export type tbCCustoUpdateWithoutTbPatrimonioInput = {
+    idCCusto?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    tbEmpresa?: tbEmpresaUpdateOneWithoutTbCCustoNestedInput
+    tbFuncionario?: tbFuncionarioUpdateManyWithoutTbCCustoNestedInput
+  }
+
+  export type tbCCustoUncheckedUpdateWithoutTbPatrimonioInput = {
+    idCCusto?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    idEmp_Custo?: NullableStringFieldUpdateOperationsInput | string | null
+    tbFuncionario?: tbFuncionarioUncheckedUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type tbCadastroUpsertWithWhereUniqueWithoutTbPatrimonioInput = {
@@ -20651,77 +20771,11 @@ export namespace Prisma {
     data: XOR<tbCadastroUpdateManyMutationInput, tbCadastroUncheckedUpdateManyWithoutTbPatrimonioInput>
   }
 
-  export type tbTipoPatUpsertWithWhereUniqueWithoutTbPatrimonioInput = {
-    where: tbTipoPatWhereUniqueInput
-    update: XOR<tbTipoPatUpdateWithoutTbPatrimonioInput, tbTipoPatUncheckedUpdateWithoutTbPatrimonioInput>
-    create: XOR<tbTipoPatCreateWithoutTbPatrimonioInput, tbTipoPatUncheckedCreateWithoutTbPatrimonioInput>
-  }
-
-  export type tbTipoPatUpdateWithWhereUniqueWithoutTbPatrimonioInput = {
-    where: tbTipoPatWhereUniqueInput
-    data: XOR<tbTipoPatUpdateWithoutTbPatrimonioInput, tbTipoPatUncheckedUpdateWithoutTbPatrimonioInput>
-  }
-
-  export type tbTipoPatUpdateManyWithWhereWithoutTbPatrimonioInput = {
-    where: tbTipoPatScalarWhereInput
-    data: XOR<tbTipoPatUpdateManyMutationInput, tbTipoPatUncheckedUpdateManyWithoutTbPatrimonioInput>
-  }
-
-  export type tbTipoPatScalarWhereInput = {
-    AND?: tbTipoPatScalarWhereInput | tbTipoPatScalarWhereInput[]
-    OR?: tbTipoPatScalarWhereInput[]
-    NOT?: tbTipoPatScalarWhereInput | tbTipoPatScalarWhereInput[]
-    idTipPat?: StringFilter<"tbTipoPat"> | string
-    descricaoTipPat?: StringNullableFilter<"tbTipoPat"> | string | null
-    idPat_TipoPat?: StringNullableFilter<"tbTipoPat"> | string | null
-  }
-
-  export type tbstatusPatUpsertWithWhereUniqueWithoutTbPatrimonioInput = {
-    where: tbstatusPatWhereUniqueInput
-    update: XOR<tbstatusPatUpdateWithoutTbPatrimonioInput, tbstatusPatUncheckedUpdateWithoutTbPatrimonioInput>
-    create: XOR<tbstatusPatCreateWithoutTbPatrimonioInput, tbstatusPatUncheckedCreateWithoutTbPatrimonioInput>
-  }
-
-  export type tbstatusPatUpdateWithWhereUniqueWithoutTbPatrimonioInput = {
-    where: tbstatusPatWhereUniqueInput
-    data: XOR<tbstatusPatUpdateWithoutTbPatrimonioInput, tbstatusPatUncheckedUpdateWithoutTbPatrimonioInput>
-  }
-
-  export type tbstatusPatUpdateManyWithWhereWithoutTbPatrimonioInput = {
-    where: tbstatusPatScalarWhereInput
-    data: XOR<tbstatusPatUpdateManyMutationInput, tbstatusPatUncheckedUpdateManyWithoutTbPatrimonioInput>
-  }
-
-  export type tbstatusPatScalarWhereInput = {
-    AND?: tbstatusPatScalarWhereInput | tbstatusPatScalarWhereInput[]
-    OR?: tbstatusPatScalarWhereInput[]
-    NOT?: tbstatusPatScalarWhereInput | tbstatusPatScalarWhereInput[]
-    idStatPat?: StringFilter<"tbstatusPat"> | string
-    descricaoStatPat?: StringFilter<"tbstatusPat"> | string
-    idPat_StatusPat?: StringNullableFilter<"tbstatusPat"> | string | null
-  }
-
-  export type tbCCustoUpsertWithWhereUniqueWithoutTbPatrimonioInput = {
-    where: tbCCustoWhereUniqueInput
-    update: XOR<tbCCustoUpdateWithoutTbPatrimonioInput, tbCCustoUncheckedUpdateWithoutTbPatrimonioInput>
-    create: XOR<tbCCustoCreateWithoutTbPatrimonioInput, tbCCustoUncheckedCreateWithoutTbPatrimonioInput>
-  }
-
-  export type tbCCustoUpdateWithWhereUniqueWithoutTbPatrimonioInput = {
-    where: tbCCustoWhereUniqueInput
-    data: XOR<tbCCustoUpdateWithoutTbPatrimonioInput, tbCCustoUncheckedUpdateWithoutTbPatrimonioInput>
-  }
-
-  export type tbCCustoUpdateManyWithWhereWithoutTbPatrimonioInput = {
-    where: tbCCustoScalarWhereInput
-    data: XOR<tbCCustoUpdateManyMutationInput, tbCCustoUncheckedUpdateManyWithoutTbPatrimonioInput>
-  }
-
   export type tbPatrimonioCreateWithoutTbTipoPatInput = {
     idP?: string
     idPat: string
     descricaoPat: string
-    descricaodetalhadaPat?: string | null
+    descricaoDetalhadaPat?: string | null
     licencaPat?: string | null
     dataEntPat: Date | string
     dataSaiPat?: Date | string | null
@@ -20729,16 +20783,16 @@ export namespace Prisma {
     valorPat: number
     createdAt?: Date | string | null
     updatedAt?: Date | string | null
+    tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbPatrimonioInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbPatrimonioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbPatrimonioInput
-    tbStatusPat?: tbstatusPatCreateNestedManyWithoutTbPatrimonioInput
-    tbCusto?: tbCCustoCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUncheckedCreateWithoutTbTipoPatInput = {
     idP?: string
     idPat: string
     descricaoPat: string
-    descricaodetalhadaPat?: string | null
+    descricaoDetalhadaPat?: string | null
     licencaPat?: string | null
     dataEntPat: Date | string
     dataSaiPat?: Date | string | null
@@ -20746,9 +20800,9 @@ export namespace Prisma {
     valorPat: number
     createdAt?: Date | string | null
     updatedAt?: Date | string | null
+    idPat_StatusPat?: string | null
+    idPat_CustoPat?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbPatrimonioInput
-    tbStatusPat?: tbstatusPatUncheckedCreateNestedManyWithoutTbPatrimonioInput
-    tbCusto?: tbCCustoUncheckedCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioCreateOrConnectWithoutTbTipoPatInput = {
@@ -20756,56 +20810,51 @@ export namespace Prisma {
     create: XOR<tbPatrimonioCreateWithoutTbTipoPatInput, tbPatrimonioUncheckedCreateWithoutTbTipoPatInput>
   }
 
-  export type tbPatrimonioUpsertWithoutTbTipoPatInput = {
-    update: XOR<tbPatrimonioUpdateWithoutTbTipoPatInput, tbPatrimonioUncheckedUpdateWithoutTbTipoPatInput>
-    create: XOR<tbPatrimonioCreateWithoutTbTipoPatInput, tbPatrimonioUncheckedCreateWithoutTbTipoPatInput>
-    where?: tbPatrimonioWhereInput
+  export type tbPatrimonioCreateManyTbTipoPatInputEnvelope = {
+    data: tbPatrimonioCreateManyTbTipoPatInput | tbPatrimonioCreateManyTbTipoPatInput[]
   }
 
-  export type tbPatrimonioUpdateToOneWithWhereWithoutTbTipoPatInput = {
-    where?: tbPatrimonioWhereInput
+  export type tbPatrimonioUpsertWithWhereUniqueWithoutTbTipoPatInput = {
+    where: tbPatrimonioWhereUniqueInput
+    update: XOR<tbPatrimonioUpdateWithoutTbTipoPatInput, tbPatrimonioUncheckedUpdateWithoutTbTipoPatInput>
+    create: XOR<tbPatrimonioCreateWithoutTbTipoPatInput, tbPatrimonioUncheckedCreateWithoutTbTipoPatInput>
+  }
+
+  export type tbPatrimonioUpdateWithWhereUniqueWithoutTbTipoPatInput = {
+    where: tbPatrimonioWhereUniqueInput
     data: XOR<tbPatrimonioUpdateWithoutTbTipoPatInput, tbPatrimonioUncheckedUpdateWithoutTbTipoPatInput>
   }
 
-  export type tbPatrimonioUpdateWithoutTbTipoPatInput = {
-    idP?: StringFieldUpdateOperationsInput | string
-    idPat?: StringFieldUpdateOperationsInput | string
-    descricaoPat?: StringFieldUpdateOperationsInput | string
-    descricaodetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
-    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
-    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
-    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
-    valorPat?: FloatFieldUpdateOperationsInput | number
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    tbCadastro?: tbCadastroUpdateManyWithoutTbPatrimonioNestedInput
-    tbStatusPat?: tbstatusPatUpdateManyWithoutTbPatrimonioNestedInput
-    tbCusto?: tbCCustoUpdateManyWithoutTbPatrimonioNestedInput
+  export type tbPatrimonioUpdateManyWithWhereWithoutTbTipoPatInput = {
+    where: tbPatrimonioScalarWhereInput
+    data: XOR<tbPatrimonioUpdateManyMutationInput, tbPatrimonioUncheckedUpdateManyWithoutTbTipoPatInput>
   }
 
-  export type tbPatrimonioUncheckedUpdateWithoutTbTipoPatInput = {
-    idP?: StringFieldUpdateOperationsInput | string
-    idPat?: StringFieldUpdateOperationsInput | string
-    descricaoPat?: StringFieldUpdateOperationsInput | string
-    descricaodetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
-    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
-    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
-    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
-    valorPat?: FloatFieldUpdateOperationsInput | number
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput
-    tbStatusPat?: tbstatusPatUncheckedUpdateManyWithoutTbPatrimonioNestedInput
-    tbCusto?: tbCCustoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+  export type tbPatrimonioScalarWhereInput = {
+    AND?: tbPatrimonioScalarWhereInput | tbPatrimonioScalarWhereInput[]
+    OR?: tbPatrimonioScalarWhereInput[]
+    NOT?: tbPatrimonioScalarWhereInput | tbPatrimonioScalarWhereInput[]
+    idP?: StringFilter<"tbPatrimonio"> | string
+    idPat?: StringFilter<"tbPatrimonio"> | string
+    descricaoPat?: StringFilter<"tbPatrimonio"> | string
+    descricaoDetalhadaPat?: StringNullableFilter<"tbPatrimonio"> | string | null
+    licencaPat?: StringNullableFilter<"tbPatrimonio"> | string | null
+    dataEntPat?: DateTimeFilter<"tbPatrimonio"> | Date | string
+    dataSaiPat?: DateTimeNullableFilter<"tbPatrimonio"> | Date | string | null
+    notaFiscalPat?: StringNullableFilter<"tbPatrimonio"> | string | null
+    valorPat?: FloatFilter<"tbPatrimonio"> | number
+    createdAt?: DateTimeNullableFilter<"tbPatrimonio"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"tbPatrimonio"> | Date | string | null
+    idPat_TipoPat?: StringNullableFilter<"tbPatrimonio"> | string | null
+    idPat_StatusPat?: StringNullableFilter<"tbPatrimonio"> | string | null
+    idPat_CustoPat?: StringNullableFilter<"tbPatrimonio"> | string | null
   }
 
   export type tbPatrimonioCreateWithoutTbStatusPatInput = {
     idP?: string
     idPat: string
     descricaoPat: string
-    descricaodetalhadaPat?: string | null
+    descricaoDetalhadaPat?: string | null
     licencaPat?: string | null
     dataEntPat: Date | string
     dataSaiPat?: Date | string | null
@@ -20813,16 +20862,16 @@ export namespace Prisma {
     valorPat: number
     createdAt?: Date | string | null
     updatedAt?: Date | string | null
+    tbTipoPat?: tbTipoPatCreateNestedOneWithoutTbPatrimonioInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbPatrimonioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbPatrimonioInput
-    tbTipoPat?: tbTipoPatCreateNestedManyWithoutTbPatrimonioInput
-    tbCusto?: tbCCustoCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUncheckedCreateWithoutTbStatusPatInput = {
     idP?: string
     idPat: string
     descricaoPat: string
-    descricaodetalhadaPat?: string | null
+    descricaoDetalhadaPat?: string | null
     licencaPat?: string | null
     dataEntPat: Date | string
     dataSaiPat?: Date | string | null
@@ -20830,9 +20879,9 @@ export namespace Prisma {
     valorPat: number
     createdAt?: Date | string | null
     updatedAt?: Date | string | null
+    idPat_TipoPat?: string | null
+    idPat_CustoPat?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbPatrimonioInput
-    tbTipoPat?: tbTipoPatUncheckedCreateNestedManyWithoutTbPatrimonioInput
-    tbCusto?: tbCCustoUncheckedCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioCreateOrConnectWithoutTbStatusPatInput = {
@@ -20840,65 +20889,40 @@ export namespace Prisma {
     create: XOR<tbPatrimonioCreateWithoutTbStatusPatInput, tbPatrimonioUncheckedCreateWithoutTbStatusPatInput>
   }
 
-  export type tbPatrimonioUpsertWithoutTbStatusPatInput = {
-    update: XOR<tbPatrimonioUpdateWithoutTbStatusPatInput, tbPatrimonioUncheckedUpdateWithoutTbStatusPatInput>
-    create: XOR<tbPatrimonioCreateWithoutTbStatusPatInput, tbPatrimonioUncheckedCreateWithoutTbStatusPatInput>
-    where?: tbPatrimonioWhereInput
+  export type tbPatrimonioCreateManyTbStatusPatInputEnvelope = {
+    data: tbPatrimonioCreateManyTbStatusPatInput | tbPatrimonioCreateManyTbStatusPatInput[]
   }
 
-  export type tbPatrimonioUpdateToOneWithWhereWithoutTbStatusPatInput = {
-    where?: tbPatrimonioWhereInput
+  export type tbPatrimonioUpsertWithWhereUniqueWithoutTbStatusPatInput = {
+    where: tbPatrimonioWhereUniqueInput
+    update: XOR<tbPatrimonioUpdateWithoutTbStatusPatInput, tbPatrimonioUncheckedUpdateWithoutTbStatusPatInput>
+    create: XOR<tbPatrimonioCreateWithoutTbStatusPatInput, tbPatrimonioUncheckedCreateWithoutTbStatusPatInput>
+  }
+
+  export type tbPatrimonioUpdateWithWhereUniqueWithoutTbStatusPatInput = {
+    where: tbPatrimonioWhereUniqueInput
     data: XOR<tbPatrimonioUpdateWithoutTbStatusPatInput, tbPatrimonioUncheckedUpdateWithoutTbStatusPatInput>
   }
 
-  export type tbPatrimonioUpdateWithoutTbStatusPatInput = {
-    idP?: StringFieldUpdateOperationsInput | string
-    idPat?: StringFieldUpdateOperationsInput | string
-    descricaoPat?: StringFieldUpdateOperationsInput | string
-    descricaodetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
-    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
-    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
-    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
-    valorPat?: FloatFieldUpdateOperationsInput | number
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    tbCadastro?: tbCadastroUpdateManyWithoutTbPatrimonioNestedInput
-    tbTipoPat?: tbTipoPatUpdateManyWithoutTbPatrimonioNestedInput
-    tbCusto?: tbCCustoUpdateManyWithoutTbPatrimonioNestedInput
-  }
-
-  export type tbPatrimonioUncheckedUpdateWithoutTbStatusPatInput = {
-    idP?: StringFieldUpdateOperationsInput | string
-    idPat?: StringFieldUpdateOperationsInput | string
-    descricaoPat?: StringFieldUpdateOperationsInput | string
-    descricaodetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
-    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
-    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
-    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
-    valorPat?: FloatFieldUpdateOperationsInput | number
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput
-    tbTipoPat?: tbTipoPatUncheckedUpdateManyWithoutTbPatrimonioNestedInput
-    tbCusto?: tbCCustoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+  export type tbPatrimonioUpdateManyWithWhereWithoutTbStatusPatInput = {
+    where: tbPatrimonioScalarWhereInput
+    data: XOR<tbPatrimonioUpdateManyMutationInput, tbPatrimonioUncheckedUpdateManyWithoutTbStatusPatInput>
   }
 
   export type tbCCustoCreateWithoutTbEmpresaInput = {
     idCCusto?: string
-    codigocusto?: string | null
+    codigoCCusto?: string | null
     descricaoCCusto?: string | null
-    tbFuncionario?: tbFuncionarioCreateNestedOneWithoutTbCCustoInput
-    tbPatrimonio?: tbPatrimonioCreateNestedOneWithoutTbCustoInput
+    tbPatrimonio?: tbPatrimonioCreateNestedManyWithoutTbCCustoInput
+    tbFuncionario?: tbFuncionarioCreateNestedManyWithoutTbCCustoInput
   }
 
   export type tbCCustoUncheckedCreateWithoutTbEmpresaInput = {
     idCCusto?: string
-    codigocusto?: string | null
+    codigoCCusto?: string | null
     descricaoCCusto?: string | null
-    idPat_Custo?: string | null
-    idFun_Custo?: string | null
+    tbPatrimonio?: tbPatrimonioUncheckedCreateNestedManyWithoutTbCCustoInput
+    tbFuncionario?: tbFuncionarioUncheckedCreateNestedManyWithoutTbCCustoInput
   }
 
   export type tbCCustoCreateOrConnectWithoutTbEmpresaInput = {
@@ -20926,37 +20950,14 @@ export namespace Prisma {
     data: XOR<tbCCustoUpdateManyMutationInput, tbCCustoUncheckedUpdateManyWithoutTbEmpresaInput>
   }
 
-  export type tbFuncionarioCreateWithoutTbCCustoInput = {
-    idF?: string
-    idMatFun?: string | null
-    nomeFun: string
-    cpfFun?: string | null
-    dataAdmFun?: Date | string | null
-    dataDesFun?: Date | string | null
-    avatarFun?: string | null
-    tbStatusFun?: tbStatusFunCreateNestedOneWithoutTbFuncionarioInput
-    tbUser?: tbUserCreateNestedOneWithoutTbFuncioanrioInput
-    tbFuncao?: tbFuncaoCreateNestedOneWithoutTbFuncionarioInput
-    tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
-  }
-
-  export type tbFuncionarioUncheckedCreateWithoutTbCCustoInput = {
-    idF?: string
-    idMatFun?: string | null
-    nomeFun: string
-    cpfFun?: string | null
-    dataAdmFun?: Date | string | null
-    dataDesFun?: Date | string | null
-    avatarFun?: string | null
-    idFuncaoFun?: string | null
-    idUserFun?: string | null
-    idStatusFun?: string | null
-    tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
-  }
-
-  export type tbFuncionarioCreateOrConnectWithoutTbCCustoInput = {
-    where: tbFuncionarioWhereUniqueInput
-    create: XOR<tbFuncionarioCreateWithoutTbCCustoInput, tbFuncionarioUncheckedCreateWithoutTbCCustoInput>
+  export type tbCCustoScalarWhereInput = {
+    AND?: tbCCustoScalarWhereInput | tbCCustoScalarWhereInput[]
+    OR?: tbCCustoScalarWhereInput[]
+    NOT?: tbCCustoScalarWhereInput | tbCCustoScalarWhereInput[]
+    idCCusto?: StringFilter<"tbCCusto"> | string
+    codigoCCusto?: StringNullableFilter<"tbCCusto"> | string | null
+    descricaoCCusto?: StringNullableFilter<"tbCCusto"> | string | null
+    idEmp_Custo?: StringNullableFilter<"tbCCusto"> | string | null
   }
 
   export type tbEmpresaCreateWithoutTbCCustoInput = {
@@ -20980,11 +20981,11 @@ export namespace Prisma {
     create: XOR<tbEmpresaCreateWithoutTbCCustoInput, tbEmpresaUncheckedCreateWithoutTbCCustoInput>
   }
 
-  export type tbPatrimonioCreateWithoutTbCustoInput = {
+  export type tbPatrimonioCreateWithoutTbCCustoInput = {
     idP?: string
     idPat: string
     descricaoPat: string
-    descricaodetalhadaPat?: string | null
+    descricaoDetalhadaPat?: string | null
     licencaPat?: string | null
     dataEntPat: Date | string
     dataSaiPat?: Date | string | null
@@ -20992,16 +20993,16 @@ export namespace Prisma {
     valorPat: number
     createdAt?: Date | string | null
     updatedAt?: Date | string | null
+    tbTipoPat?: tbTipoPatCreateNestedOneWithoutTbPatrimonioInput
+    tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbPatrimonioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbPatrimonioInput
-    tbTipoPat?: tbTipoPatCreateNestedManyWithoutTbPatrimonioInput
-    tbStatusPat?: tbstatusPatCreateNestedManyWithoutTbPatrimonioInput
   }
 
-  export type tbPatrimonioUncheckedCreateWithoutTbCustoInput = {
+  export type tbPatrimonioUncheckedCreateWithoutTbCCustoInput = {
     idP?: string
     idPat: string
     descricaoPat: string
-    descricaodetalhadaPat?: string | null
+    descricaoDetalhadaPat?: string | null
     licencaPat?: string | null
     dataEntPat: Date | string
     dataSaiPat?: Date | string | null
@@ -21009,53 +21010,55 @@ export namespace Prisma {
     valorPat: number
     createdAt?: Date | string | null
     updatedAt?: Date | string | null
+    idPat_TipoPat?: string | null
+    idPat_StatusPat?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbPatrimonioInput
-    tbTipoPat?: tbTipoPatUncheckedCreateNestedManyWithoutTbPatrimonioInput
-    tbStatusPat?: tbstatusPatUncheckedCreateNestedManyWithoutTbPatrimonioInput
   }
 
-  export type tbPatrimonioCreateOrConnectWithoutTbCustoInput = {
+  export type tbPatrimonioCreateOrConnectWithoutTbCCustoInput = {
     where: tbPatrimonioWhereUniqueInput
-    create: XOR<tbPatrimonioCreateWithoutTbCustoInput, tbPatrimonioUncheckedCreateWithoutTbCustoInput>
+    create: XOR<tbPatrimonioCreateWithoutTbCCustoInput, tbPatrimonioUncheckedCreateWithoutTbCCustoInput>
   }
 
-  export type tbFuncionarioUpsertWithoutTbCCustoInput = {
-    update: XOR<tbFuncionarioUpdateWithoutTbCCustoInput, tbFuncionarioUncheckedUpdateWithoutTbCCustoInput>
+  export type tbPatrimonioCreateManyTbCCustoInputEnvelope = {
+    data: tbPatrimonioCreateManyTbCCustoInput | tbPatrimonioCreateManyTbCCustoInput[]
+  }
+
+  export type tbFuncionarioCreateWithoutTbCCustoInput = {
+    idF?: string
+    idMatFun: string
+    nomeFun: string
+    cpfFun?: string | null
+    dataAdmFun?: Date | string | null
+    dataDesFun?: Date | string | null
+    avatarFun?: string | null
+    tbStatusFun?: tbStatusFunCreateNestedOneWithoutTbFuncionarioInput
+    tbUser?: tbUserCreateNestedOneWithoutTbFuncioanrioInput
+    tbFuncao?: tbFuncaoCreateNestedOneWithoutTbFuncionarioInput
+    tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
+  }
+
+  export type tbFuncionarioUncheckedCreateWithoutTbCCustoInput = {
+    idF?: string
+    idMatFun: string
+    nomeFun: string
+    cpfFun?: string | null
+    dataAdmFun?: Date | string | null
+    dataDesFun?: Date | string | null
+    avatarFun?: string | null
+    idFuncaoFun?: string | null
+    idUserFun?: string | null
+    idStatusFun?: string | null
+    tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
+  }
+
+  export type tbFuncionarioCreateOrConnectWithoutTbCCustoInput = {
+    where: tbFuncionarioWhereUniqueInput
     create: XOR<tbFuncionarioCreateWithoutTbCCustoInput, tbFuncionarioUncheckedCreateWithoutTbCCustoInput>
-    where?: tbFuncionarioWhereInput
   }
 
-  export type tbFuncionarioUpdateToOneWithWhereWithoutTbCCustoInput = {
-    where?: tbFuncionarioWhereInput
-    data: XOR<tbFuncionarioUpdateWithoutTbCCustoInput, tbFuncionarioUncheckedUpdateWithoutTbCCustoInput>
-  }
-
-  export type tbFuncionarioUpdateWithoutTbCCustoInput = {
-    idF?: StringFieldUpdateOperationsInput | string
-    idMatFun?: NullableStringFieldUpdateOperationsInput | string | null
-    nomeFun?: StringFieldUpdateOperationsInput | string
-    cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
-    dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dataDesFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
-    tbStatusFun?: tbStatusFunUpdateOneWithoutTbFuncionarioNestedInput
-    tbUser?: tbUserUpdateOneWithoutTbFuncioanrioNestedInput
-    tbFuncao?: tbFuncaoUpdateOneWithoutTbFuncionarioNestedInput
-    tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
-  }
-
-  export type tbFuncionarioUncheckedUpdateWithoutTbCCustoInput = {
-    idF?: StringFieldUpdateOperationsInput | string
-    idMatFun?: NullableStringFieldUpdateOperationsInput | string | null
-    nomeFun?: StringFieldUpdateOperationsInput | string
-    cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
-    dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dataDesFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
-    idFuncaoFun?: NullableStringFieldUpdateOperationsInput | string | null
-    idUserFun?: NullableStringFieldUpdateOperationsInput | string | null
-    idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
-    tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+  export type tbFuncionarioCreateManyTbCCustoInputEnvelope = {
+    data: tbFuncionarioCreateManyTbCCustoInput | tbFuncionarioCreateManyTbCCustoInput[]
   }
 
   export type tbEmpresaUpsertWithoutTbCCustoInput = {
@@ -21085,56 +21088,43 @@ export namespace Prisma {
     idCustEmp?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type tbPatrimonioUpsertWithoutTbCustoInput = {
-    update: XOR<tbPatrimonioUpdateWithoutTbCustoInput, tbPatrimonioUncheckedUpdateWithoutTbCustoInput>
-    create: XOR<tbPatrimonioCreateWithoutTbCustoInput, tbPatrimonioUncheckedCreateWithoutTbCustoInput>
-    where?: tbPatrimonioWhereInput
+  export type tbPatrimonioUpsertWithWhereUniqueWithoutTbCCustoInput = {
+    where: tbPatrimonioWhereUniqueInput
+    update: XOR<tbPatrimonioUpdateWithoutTbCCustoInput, tbPatrimonioUncheckedUpdateWithoutTbCCustoInput>
+    create: XOR<tbPatrimonioCreateWithoutTbCCustoInput, tbPatrimonioUncheckedCreateWithoutTbCCustoInput>
   }
 
-  export type tbPatrimonioUpdateToOneWithWhereWithoutTbCustoInput = {
-    where?: tbPatrimonioWhereInput
-    data: XOR<tbPatrimonioUpdateWithoutTbCustoInput, tbPatrimonioUncheckedUpdateWithoutTbCustoInput>
+  export type tbPatrimonioUpdateWithWhereUniqueWithoutTbCCustoInput = {
+    where: tbPatrimonioWhereUniqueInput
+    data: XOR<tbPatrimonioUpdateWithoutTbCCustoInput, tbPatrimonioUncheckedUpdateWithoutTbCCustoInput>
   }
 
-  export type tbPatrimonioUpdateWithoutTbCustoInput = {
-    idP?: StringFieldUpdateOperationsInput | string
-    idPat?: StringFieldUpdateOperationsInput | string
-    descricaoPat?: StringFieldUpdateOperationsInput | string
-    descricaodetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
-    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
-    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
-    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
-    valorPat?: FloatFieldUpdateOperationsInput | number
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    tbCadastro?: tbCadastroUpdateManyWithoutTbPatrimonioNestedInput
-    tbTipoPat?: tbTipoPatUpdateManyWithoutTbPatrimonioNestedInput
-    tbStatusPat?: tbstatusPatUpdateManyWithoutTbPatrimonioNestedInput
+  export type tbPatrimonioUpdateManyWithWhereWithoutTbCCustoInput = {
+    where: tbPatrimonioScalarWhereInput
+    data: XOR<tbPatrimonioUpdateManyMutationInput, tbPatrimonioUncheckedUpdateManyWithoutTbCCustoInput>
   }
 
-  export type tbPatrimonioUncheckedUpdateWithoutTbCustoInput = {
-    idP?: StringFieldUpdateOperationsInput | string
-    idPat?: StringFieldUpdateOperationsInput | string
-    descricaoPat?: StringFieldUpdateOperationsInput | string
-    descricaodetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
-    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
-    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
-    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
-    valorPat?: FloatFieldUpdateOperationsInput | number
-    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput
-    tbTipoPat?: tbTipoPatUncheckedUpdateManyWithoutTbPatrimonioNestedInput
-    tbStatusPat?: tbstatusPatUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+  export type tbFuncionarioUpsertWithWhereUniqueWithoutTbCCustoInput = {
+    where: tbFuncionarioWhereUniqueInput
+    update: XOR<tbFuncionarioUpdateWithoutTbCCustoInput, tbFuncionarioUncheckedUpdateWithoutTbCCustoInput>
+    create: XOR<tbFuncionarioCreateWithoutTbCCustoInput, tbFuncionarioUncheckedCreateWithoutTbCCustoInput>
+  }
+
+  export type tbFuncionarioUpdateWithWhereUniqueWithoutTbCCustoInput = {
+    where: tbFuncionarioWhereUniqueInput
+    data: XOR<tbFuncionarioUpdateWithoutTbCCustoInput, tbFuncionarioUncheckedUpdateWithoutTbCCustoInput>
+  }
+
+  export type tbFuncionarioUpdateManyWithWhereWithoutTbCCustoInput = {
+    where: tbFuncionarioScalarWhereInput
+    data: XOR<tbFuncionarioUpdateManyMutationInput, tbFuncionarioUncheckedUpdateManyWithoutTbCCustoInput>
   }
 
   export type tbPatrimonioCreateWithoutTbCadastroInput = {
     idP?: string
     idPat: string
     descricaoPat: string
-    descricaodetalhadaPat?: string | null
+    descricaoDetalhadaPat?: string | null
     licencaPat?: string | null
     dataEntPat: Date | string
     dataSaiPat?: Date | string | null
@@ -21142,16 +21132,16 @@ export namespace Prisma {
     valorPat: number
     createdAt?: Date | string | null
     updatedAt?: Date | string | null
-    tbTipoPat?: tbTipoPatCreateNestedManyWithoutTbPatrimonioInput
-    tbStatusPat?: tbstatusPatCreateNestedManyWithoutTbPatrimonioInput
-    tbCusto?: tbCCustoCreateNestedManyWithoutTbPatrimonioInput
+    tbTipoPat?: tbTipoPatCreateNestedOneWithoutTbPatrimonioInput
+    tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbPatrimonioInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUncheckedCreateWithoutTbCadastroInput = {
     idP?: string
     idPat: string
     descricaoPat: string
-    descricaodetalhadaPat?: string | null
+    descricaoDetalhadaPat?: string | null
     licencaPat?: string | null
     dataEntPat: Date | string
     dataSaiPat?: Date | string | null
@@ -21159,9 +21149,9 @@ export namespace Prisma {
     valorPat: number
     createdAt?: Date | string | null
     updatedAt?: Date | string | null
-    tbTipoPat?: tbTipoPatUncheckedCreateNestedManyWithoutTbPatrimonioInput
-    tbStatusPat?: tbstatusPatUncheckedCreateNestedManyWithoutTbPatrimonioInput
-    tbCusto?: tbCCustoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    idPat_TipoPat?: string | null
+    idPat_StatusPat?: string | null
+    idPat_CustoPat?: string | null
   }
 
   export type tbPatrimonioCreateOrConnectWithoutTbCadastroInput = {
@@ -21171,7 +21161,7 @@ export namespace Prisma {
 
   export type tbFuncionarioCreateWithoutTbCadastroInput = {
     idF?: string
-    idMatFun?: string | null
+    idMatFun: string
     nomeFun: string
     cpfFun?: string | null
     dataAdmFun?: Date | string | null
@@ -21180,12 +21170,12 @@ export namespace Prisma {
     tbStatusFun?: tbStatusFunCreateNestedOneWithoutTbFuncionarioInput
     tbUser?: tbUserCreateNestedOneWithoutTbFuncioanrioInput
     tbFuncao?: tbFuncaoCreateNestedOneWithoutTbFuncionarioInput
-    tbCCusto?: tbCCustoCreateNestedManyWithoutTbFuncionarioInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioUncheckedCreateWithoutTbCadastroInput = {
     idF?: string
-    idMatFun?: string | null
+    idMatFun: string
     nomeFun: string
     cpfFun?: string | null
     dataAdmFun?: Date | string | null
@@ -21194,7 +21184,7 @@ export namespace Prisma {
     idFuncaoFun?: string | null
     idUserFun?: string | null
     idStatusFun?: string | null
-    tbCCusto?: tbCCustoUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    idCustoFun?: string | null
   }
 
   export type tbFuncionarioCreateOrConnectWithoutTbCadastroInput = {
@@ -21217,7 +21207,7 @@ export namespace Prisma {
     idP?: StringFieldUpdateOperationsInput | string
     idPat?: StringFieldUpdateOperationsInput | string
     descricaoPat?: StringFieldUpdateOperationsInput | string
-    descricaodetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
     licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
     dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
     dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21225,16 +21215,16 @@ export namespace Prisma {
     valorPat?: FloatFieldUpdateOperationsInput | number
     createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    tbTipoPat?: tbTipoPatUpdateManyWithoutTbPatrimonioNestedInput
-    tbStatusPat?: tbstatusPatUpdateManyWithoutTbPatrimonioNestedInput
-    tbCusto?: tbCCustoUpdateManyWithoutTbPatrimonioNestedInput
+    tbTipoPat?: tbTipoPatUpdateOneWithoutTbPatrimonioNestedInput
+    tbStatusPat?: tbStatusPatUpdateOneWithoutTbPatrimonioNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateWithoutTbCadastroInput = {
     idP?: StringFieldUpdateOperationsInput | string
     idPat?: StringFieldUpdateOperationsInput | string
     descricaoPat?: StringFieldUpdateOperationsInput | string
-    descricaodetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
     licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
     dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
     dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21242,9 +21232,9 @@ export namespace Prisma {
     valorPat?: FloatFieldUpdateOperationsInput | number
     createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    tbTipoPat?: tbTipoPatUncheckedUpdateManyWithoutTbPatrimonioNestedInput
-    tbStatusPat?: tbstatusPatUncheckedUpdateManyWithoutTbPatrimonioNestedInput
-    tbCusto?: tbCCustoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type tbFuncionarioUpsertWithoutTbCadastroInput = {
@@ -21260,7 +21250,7 @@ export namespace Prisma {
 
   export type tbFuncionarioUpdateWithoutTbCadastroInput = {
     idF?: StringFieldUpdateOperationsInput | string
-    idMatFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatFun?: StringFieldUpdateOperationsInput | string
     nomeFun?: StringFieldUpdateOperationsInput | string
     cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
     dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21269,12 +21259,12 @@ export namespace Prisma {
     tbStatusFun?: tbStatusFunUpdateOneWithoutTbFuncionarioNestedInput
     tbUser?: tbUserUpdateOneWithoutTbFuncioanrioNestedInput
     tbFuncao?: tbFuncaoUpdateOneWithoutTbFuncionarioNestedInput
-    tbCCusto?: tbCCustoUpdateManyWithoutTbFuncionarioNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateWithoutTbCadastroInput = {
     idF?: StringFieldUpdateOperationsInput | string
-    idMatFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatFun?: StringFieldUpdateOperationsInput | string
     nomeFun?: StringFieldUpdateOperationsInput | string
     cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
     dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21283,7 +21273,7 @@ export namespace Prisma {
     idFuncaoFun?: NullableStringFieldUpdateOperationsInput | string | null
     idUserFun?: NullableStringFieldUpdateOperationsInput | string | null
     idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
-    tbCCusto?: tbCCustoUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type tbUserCreateWithoutTbAccontsInput = {
@@ -21424,7 +21414,7 @@ export namespace Prisma {
 
   export type tbFuncionarioCreateManyTbUserInput = {
     idF?: string
-    idMatFun?: string | null
+    idMatFun: string
     nomeFun: string
     cpfFun?: string | null
     dataAdmFun?: Date | string | null
@@ -21432,6 +21422,7 @@ export namespace Prisma {
     avatarFun?: string | null
     idFuncaoFun?: string | null
     idStatusFun?: string | null
+    idCustoFun?: string | null
   }
 
   export type tbAccontCreateManyTbUserInput = {
@@ -21456,7 +21447,7 @@ export namespace Prisma {
 
   export type tbFuncionarioUpdateWithoutTbUserInput = {
     idF?: StringFieldUpdateOperationsInput | string
-    idMatFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatFun?: StringFieldUpdateOperationsInput | string
     nomeFun?: StringFieldUpdateOperationsInput | string
     cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
     dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21464,13 +21455,13 @@ export namespace Prisma {
     avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbStatusFun?: tbStatusFunUpdateOneWithoutTbFuncionarioNestedInput
     tbFuncao?: tbFuncaoUpdateOneWithoutTbFuncionarioNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
-    tbCCusto?: tbCCustoUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateWithoutTbUserInput = {
     idF?: StringFieldUpdateOperationsInput | string
-    idMatFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatFun?: StringFieldUpdateOperationsInput | string
     nomeFun?: StringFieldUpdateOperationsInput | string
     cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
     dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21478,13 +21469,13 @@ export namespace Prisma {
     avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
     idFuncaoFun?: NullableStringFieldUpdateOperationsInput | string | null
     idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
-    tbCCusto?: tbCCustoUncheckedUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateManyWithoutTbUserInput = {
     idF?: StringFieldUpdateOperationsInput | string
-    idMatFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatFun?: StringFieldUpdateOperationsInput | string
     nomeFun?: StringFieldUpdateOperationsInput | string
     cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
     dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21492,6 +21483,7 @@ export namespace Prisma {
     avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
     idFuncaoFun?: NullableStringFieldUpdateOperationsInput | string | null
     idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type tbAccontUpdateWithoutTbUserInput = {
@@ -21563,14 +21555,6 @@ export namespace Prisma {
     idPatCad?: string | null
   }
 
-  export type tbCCustoCreateManyTbFuncionarioInput = {
-    idCCusto?: string
-    codigocusto?: string | null
-    descricaoCCusto?: string | null
-    idEmp_Custo?: string | null
-    idPat_Custo?: string | null
-  }
-
   export type tbCadastroUpdateWithoutTbFuncionarioInput = {
     idCad?: StringFieldUpdateOperationsInput | string
     dataCadPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21598,33 +21582,9 @@ export namespace Prisma {
     idPatCad?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type tbCCustoUpdateWithoutTbFuncionarioInput = {
-    idCCusto?: StringFieldUpdateOperationsInput | string
-    codigocusto?: NullableStringFieldUpdateOperationsInput | string | null
-    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
-    tbEmpresa?: tbEmpresaUpdateOneWithoutTbCCustoNestedInput
-    tbPatrimonio?: tbPatrimonioUpdateOneWithoutTbCustoNestedInput
-  }
-
-  export type tbCCustoUncheckedUpdateWithoutTbFuncionarioInput = {
-    idCCusto?: StringFieldUpdateOperationsInput | string
-    codigocusto?: NullableStringFieldUpdateOperationsInput | string | null
-    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
-    idEmp_Custo?: NullableStringFieldUpdateOperationsInput | string | null
-    idPat_Custo?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type tbCCustoUncheckedUpdateManyWithoutTbFuncionarioInput = {
-    idCCusto?: StringFieldUpdateOperationsInput | string
-    codigocusto?: NullableStringFieldUpdateOperationsInput | string | null
-    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
-    idEmp_Custo?: NullableStringFieldUpdateOperationsInput | string | null
-    idPat_Custo?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
   export type tbFuncionarioCreateManyTbStatusFunInput = {
     idF?: string
-    idMatFun?: string | null
+    idMatFun: string
     nomeFun: string
     cpfFun?: string | null
     dataAdmFun?: Date | string | null
@@ -21632,11 +21592,12 @@ export namespace Prisma {
     avatarFun?: string | null
     idFuncaoFun?: string | null
     idUserFun?: string | null
+    idCustoFun?: string | null
   }
 
   export type tbFuncionarioUpdateWithoutTbStatusFunInput = {
     idF?: StringFieldUpdateOperationsInput | string
-    idMatFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatFun?: StringFieldUpdateOperationsInput | string
     nomeFun?: StringFieldUpdateOperationsInput | string
     cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
     dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21644,13 +21605,13 @@ export namespace Prisma {
     avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbUser?: tbUserUpdateOneWithoutTbFuncioanrioNestedInput
     tbFuncao?: tbFuncaoUpdateOneWithoutTbFuncionarioNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
-    tbCCusto?: tbCCustoUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateWithoutTbStatusFunInput = {
     idF?: StringFieldUpdateOperationsInput | string
-    idMatFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatFun?: StringFieldUpdateOperationsInput | string
     nomeFun?: StringFieldUpdateOperationsInput | string
     cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
     dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21658,13 +21619,13 @@ export namespace Prisma {
     avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
     idFuncaoFun?: NullableStringFieldUpdateOperationsInput | string | null
     idUserFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
-    tbCCusto?: tbCCustoUncheckedUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateManyWithoutTbStatusFunInput = {
     idF?: StringFieldUpdateOperationsInput | string
-    idMatFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatFun?: StringFieldUpdateOperationsInput | string
     nomeFun?: StringFieldUpdateOperationsInput | string
     cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
     dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21672,11 +21633,12 @@ export namespace Prisma {
     avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
     idFuncaoFun?: NullableStringFieldUpdateOperationsInput | string | null
     idUserFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type tbFuncionarioCreateManyTbFuncaoInput = {
     idF?: string
-    idMatFun?: string | null
+    idMatFun: string
     nomeFun: string
     cpfFun?: string | null
     dataAdmFun?: Date | string | null
@@ -21684,11 +21646,12 @@ export namespace Prisma {
     avatarFun?: string | null
     idUserFun?: string | null
     idStatusFun?: string | null
+    idCustoFun?: string | null
   }
 
   export type tbFuncionarioUpdateWithoutTbFuncaoInput = {
     idF?: StringFieldUpdateOperationsInput | string
-    idMatFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatFun?: StringFieldUpdateOperationsInput | string
     nomeFun?: StringFieldUpdateOperationsInput | string
     cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
     dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21696,13 +21659,13 @@ export namespace Prisma {
     avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbStatusFun?: tbStatusFunUpdateOneWithoutTbFuncionarioNestedInput
     tbUser?: tbUserUpdateOneWithoutTbFuncioanrioNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
-    tbCCusto?: tbCCustoUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateWithoutTbFuncaoInput = {
     idF?: StringFieldUpdateOperationsInput | string
-    idMatFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatFun?: StringFieldUpdateOperationsInput | string
     nomeFun?: StringFieldUpdateOperationsInput | string
     cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
     dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21710,13 +21673,13 @@ export namespace Prisma {
     avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
     idUserFun?: NullableStringFieldUpdateOperationsInput | string | null
     idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
-    tbCCusto?: tbCCustoUncheckedUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateManyWithoutTbFuncaoInput = {
     idF?: StringFieldUpdateOperationsInput | string
-    idMatFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatFun?: StringFieldUpdateOperationsInput | string
     nomeFun?: StringFieldUpdateOperationsInput | string
     cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
     dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21724,6 +21687,7 @@ export namespace Prisma {
     avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
     idUserFun?: NullableStringFieldUpdateOperationsInput | string | null
     idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type tbCadastroCreateManyTbPatrimonioInput = {
@@ -21733,24 +21697,6 @@ export namespace Prisma {
     createdAt?: Date | string | null
     updatedAt?: Date | string | null
     idMatFunCad?: string | null
-  }
-
-  export type tbTipoPatCreateManyTbPatrimonioInput = {
-    idTipPat?: string
-    descricaoTipPat?: string | null
-  }
-
-  export type tbstatusPatCreateManyTbPatrimonioInput = {
-    idStatPat?: string
-    descricaoStatPat: string
-  }
-
-  export type tbCCustoCreateManyTbPatrimonioInput = {
-    idCCusto?: string
-    codigocusto?: string | null
-    descricaoCCusto?: string | null
-    idEmp_Custo?: string | null
-    idFun_Custo?: string | null
   }
 
   export type tbCadastroUpdateWithoutTbPatrimonioInput = {
@@ -21780,90 +21726,284 @@ export namespace Prisma {
     idMatFunCad?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type tbTipoPatUpdateWithoutTbPatrimonioInput = {
-    idTipPat?: StringFieldUpdateOperationsInput | string
-    descricaoTipPat?: NullableStringFieldUpdateOperationsInput | string | null
+  export type tbPatrimonioCreateManyTbTipoPatInput = {
+    idP?: string
+    idPat: string
+    descricaoPat: string
+    descricaoDetalhadaPat?: string | null
+    licencaPat?: string | null
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    valorPat: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
+    idPat_StatusPat?: string | null
+    idPat_CustoPat?: string | null
   }
 
-  export type tbTipoPatUncheckedUpdateWithoutTbPatrimonioInput = {
-    idTipPat?: StringFieldUpdateOperationsInput | string
-    descricaoTipPat?: NullableStringFieldUpdateOperationsInput | string | null
+  export type tbPatrimonioUpdateWithoutTbTipoPatInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tbStatusPat?: tbStatusPatUpdateOneWithoutTbPatrimonioNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbPatrimonioNestedInput
+    tbCadastro?: tbCadastroUpdateManyWithoutTbPatrimonioNestedInput
   }
 
-  export type tbTipoPatUncheckedUpdateManyWithoutTbPatrimonioInput = {
-    idTipPat?: StringFieldUpdateOperationsInput | string
-    descricaoTipPat?: NullableStringFieldUpdateOperationsInput | string | null
+  export type tbPatrimonioUncheckedUpdateWithoutTbTipoPatInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput
   }
 
-  export type tbstatusPatUpdateWithoutTbPatrimonioInput = {
-    idStatPat?: StringFieldUpdateOperationsInput | string
-    descricaoStatPat?: StringFieldUpdateOperationsInput | string
+  export type tbPatrimonioUncheckedUpdateManyWithoutTbTipoPatInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type tbstatusPatUncheckedUpdateWithoutTbPatrimonioInput = {
-    idStatPat?: StringFieldUpdateOperationsInput | string
-    descricaoStatPat?: StringFieldUpdateOperationsInput | string
+  export type tbPatrimonioCreateManyTbStatusPatInput = {
+    idP?: string
+    idPat: string
+    descricaoPat: string
+    descricaoDetalhadaPat?: string | null
+    licencaPat?: string | null
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    valorPat: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
+    idPat_TipoPat?: string | null
+    idPat_CustoPat?: string | null
   }
 
-  export type tbstatusPatUncheckedUpdateManyWithoutTbPatrimonioInput = {
-    idStatPat?: StringFieldUpdateOperationsInput | string
-    descricaoStatPat?: StringFieldUpdateOperationsInput | string
+  export type tbPatrimonioUpdateWithoutTbStatusPatInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tbTipoPat?: tbTipoPatUpdateOneWithoutTbPatrimonioNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbPatrimonioNestedInput
+    tbCadastro?: tbCadastroUpdateManyWithoutTbPatrimonioNestedInput
   }
 
-  export type tbCCustoUpdateWithoutTbPatrimonioInput = {
-    idCCusto?: StringFieldUpdateOperationsInput | string
-    codigocusto?: NullableStringFieldUpdateOperationsInput | string | null
-    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
-    tbFuncionario?: tbFuncionarioUpdateOneWithoutTbCCustoNestedInput
-    tbEmpresa?: tbEmpresaUpdateOneWithoutTbCCustoNestedInput
+  export type tbPatrimonioUncheckedUpdateWithoutTbStatusPatInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput
   }
 
-  export type tbCCustoUncheckedUpdateWithoutTbPatrimonioInput = {
-    idCCusto?: StringFieldUpdateOperationsInput | string
-    codigocusto?: NullableStringFieldUpdateOperationsInput | string | null
-    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
-    idEmp_Custo?: NullableStringFieldUpdateOperationsInput | string | null
-    idFun_Custo?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type tbCCustoUncheckedUpdateManyWithoutTbPatrimonioInput = {
-    idCCusto?: StringFieldUpdateOperationsInput | string
-    codigocusto?: NullableStringFieldUpdateOperationsInput | string | null
-    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
-    idEmp_Custo?: NullableStringFieldUpdateOperationsInput | string | null
-    idFun_Custo?: NullableStringFieldUpdateOperationsInput | string | null
+  export type tbPatrimonioUncheckedUpdateManyWithoutTbStatusPatInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type tbCCustoCreateManyTbEmpresaInput = {
     idCCusto?: string
-    codigocusto?: string | null
+    codigoCCusto?: string | null
     descricaoCCusto?: string | null
-    idPat_Custo?: string | null
-    idFun_Custo?: string | null
   }
 
   export type tbCCustoUpdateWithoutTbEmpresaInput = {
     idCCusto?: StringFieldUpdateOperationsInput | string
-    codigocusto?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
     descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
-    tbFuncionario?: tbFuncionarioUpdateOneWithoutTbCCustoNestedInput
-    tbPatrimonio?: tbPatrimonioUpdateOneWithoutTbCustoNestedInput
+    tbPatrimonio?: tbPatrimonioUpdateManyWithoutTbCCustoNestedInput
+    tbFuncionario?: tbFuncionarioUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type tbCCustoUncheckedUpdateWithoutTbEmpresaInput = {
     idCCusto?: StringFieldUpdateOperationsInput | string
-    codigocusto?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
     descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
-    idPat_Custo?: NullableStringFieldUpdateOperationsInput | string | null
-    idFun_Custo?: NullableStringFieldUpdateOperationsInput | string | null
+    tbPatrimonio?: tbPatrimonioUncheckedUpdateManyWithoutTbCCustoNestedInput
+    tbFuncionario?: tbFuncionarioUncheckedUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type tbCCustoUncheckedUpdateManyWithoutTbEmpresaInput = {
     idCCusto?: StringFieldUpdateOperationsInput | string
-    codigocusto?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
     descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
-    idPat_Custo?: NullableStringFieldUpdateOperationsInput | string | null
-    idFun_Custo?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type tbPatrimonioCreateManyTbCCustoInput = {
+    idP?: string
+    idPat: string
+    descricaoPat: string
+    descricaoDetalhadaPat?: string | null
+    licencaPat?: string | null
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    valorPat: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
+    idPat_TipoPat?: string | null
+    idPat_StatusPat?: string | null
+  }
+
+  export type tbFuncionarioCreateManyTbCCustoInput = {
+    idF?: string
+    idMatFun: string
+    nomeFun: string
+    cpfFun?: string | null
+    dataAdmFun?: Date | string | null
+    dataDesFun?: Date | string | null
+    avatarFun?: string | null
+    idFuncaoFun?: string | null
+    idUserFun?: string | null
+    idStatusFun?: string | null
+  }
+
+  export type tbPatrimonioUpdateWithoutTbCCustoInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tbTipoPat?: tbTipoPatUpdateOneWithoutTbPatrimonioNestedInput
+    tbStatusPat?: tbStatusPatUpdateOneWithoutTbPatrimonioNestedInput
+    tbCadastro?: tbCadastroUpdateManyWithoutTbPatrimonioNestedInput
+  }
+
+  export type tbPatrimonioUncheckedUpdateWithoutTbCCustoInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+  }
+
+  export type tbPatrimonioUncheckedUpdateManyWithoutTbCCustoInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type tbFuncionarioUpdateWithoutTbCCustoInput = {
+    idF?: StringFieldUpdateOperationsInput | string
+    idMatFun?: StringFieldUpdateOperationsInput | string
+    nomeFun?: StringFieldUpdateOperationsInput | string
+    cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
+    dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataDesFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
+    tbStatusFun?: tbStatusFunUpdateOneWithoutTbFuncionarioNestedInput
+    tbUser?: tbUserUpdateOneWithoutTbFuncioanrioNestedInput
+    tbFuncao?: tbFuncaoUpdateOneWithoutTbFuncionarioNestedInput
+    tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
+  }
+
+  export type tbFuncionarioUncheckedUpdateWithoutTbCCustoInput = {
+    idF?: StringFieldUpdateOperationsInput | string
+    idMatFun?: StringFieldUpdateOperationsInput | string
+    nomeFun?: StringFieldUpdateOperationsInput | string
+    cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
+    dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataDesFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idFuncaoFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
+    tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+  }
+
+  export type tbFuncionarioUncheckedUpdateManyWithoutTbCCustoInput = {
+    idF?: StringFieldUpdateOperationsInput | string
+    idMatFun?: StringFieldUpdateOperationsInput | string
+    nomeFun?: StringFieldUpdateOperationsInput | string
+    cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
+    dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataDesFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idFuncaoFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 
