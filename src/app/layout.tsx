@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Syne } from "next/font/google";
 import Footer from "@/components/Footer/Footer";
+import SessionProviders from "@/components/Providers/SessionProviders";
 
 const syne = Syne({
   subsets: ["latin"],
@@ -24,10 +25,12 @@ export default function RootLayout({
       <body
         className={`${syne.className}  antialiased`}
       >
-        <div className=" mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
-          {children}
-          <Footer/>
-        </div>
+        <SessionProviders>
+          <div className=" mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
+            {children}
+            <Footer />
+          </div>
+        </SessionProviders>
       </body>
     </html>
   );

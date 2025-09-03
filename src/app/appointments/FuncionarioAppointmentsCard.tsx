@@ -3,16 +3,14 @@
 import FuncionarioCard from "@/components/FuncionarioCard/FuncionarioCard";
 import Header from "@/components/Header/Header";
 import { Badge } from "@/components/ui/badge";
-import { FuncionarioGP } from "@/backend/model/FuncionarioGP.model/FuncionarioGP.model";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { tbFuncionario } from "../../../prisma/generated/prisma";
 
 
 
-//const Appointments: FuncionarioGP[] = []
-
-type FuncionarioWithAppointment = FuncionarioGP & {Funcionario: FuncionarioGP}
+type FuncionarioWithAppointment = tbFuncionario & { Funcionario: tbFuncionario }
 
 interface Props {
     funcionariosAppointments: FuncionarioWithAppointment[];
@@ -21,8 +19,8 @@ interface Props {
 
 type FilterStatus = 'todos' | 'ativo' | 'inativo' | 'pendente';
 
-export default function FuncionarioAppointmentsCard({funcionariosAppointments}: Props) {
 
+export default function FuncionarioAppointmentsCard({ funcionariosAppointments }: Props) {
     const [filterStatus, setFilterStatus] = useState<FilterStatus>("todos");
     const filterAppointments = filterStatus === "todos"
         ? funcionariosAppointments
@@ -85,13 +83,9 @@ export default function FuncionarioAppointmentsCard({funcionariosAppointments}: 
                         key={appointment.idMatFun}
                         idMatFun={appointment.idMatFun}
                         nomeFun={appointment.nomeFun}
-                        cpfFun={appointment.cpfFun}
-                        idFuncaoFun={appointment.idFuncaoFun}
-                        dataAdmFun={appointment.dataAdmFun}
-                        dataDemFun={appointment.dataDemFun}
-                        idStatusFun={appointment.idStatusFun}
-                        avatarFun={""}
-                        idCustoFun={""}
+                        cpfFun={appointment.cpfFun ?? ""}
+                        avatarFun={appointment.avatarFun ?? ""} dataAdmFun={""} dataDemFun={""} idStatusFun={""} idCustoFun={""} idFuncaoFun={""}
+
                     />
                 ))}
             </div>

@@ -1,15 +1,10 @@
 import { getFuncionariosCard } from "@/backend/service/Funcionario.service/funcionario.service";
-import { getPatrimonioCard } from "@/backend/service/Patrimonio.services/patrimonio.service";
 import Dashborad from "@/components/Dashboard/Dashboard";
 import FuncionarioCard from "@/components/FuncionarioCard/FuncionarioCard";
 import Header from "@/components/Header/Header";
-import PatrimonioCard from "@/components/PatrimonioCard/PatrimonioCard";
 import SectionHeader from "@/components/SectionHeader/SectionHeader";
 
 
-
-
-const PatCard = await getPatrimonioCard();
 const FuncCard = await getFuncionariosCard();
 
 export default function Home() {
@@ -33,27 +28,10 @@ export default function Home() {
             cpfFun={fCard.cpfFun || ""}
             idStatusFun={fCard.idStatusFun || ""}
             idFuncaoFun={fCard.idFuncaoFun ?? ""}
-            dataAdmFun={fCard.dataAdmFun}
-            dataDemFun={fCard.dataDesFun}
-            avatarFun={fCard.avatarFun || ""}
-          />
+            avatarFun={fCard.avatarFun || ""} dataAdmFun={""} dataDemFun={""} idCustoFun={""}          />
         ))}
       </div>
 
-      <SectionHeader title="Patrimonio - Atribuidos " />
-      <div className="grid grid-cols-2 sm:grid-cols-3 mb:grid-cols-4 lg:grid-cols-4 gap-4">
-        {PatCard.map((card) => (
-          <PatrimonioCard
-            key={card.idP}
-            idP={card.idP}
-            idPat={card.idPat}
-            descricaoPat={card.descricaoPat}
-            idTipoPat={card.idPat_TipoPat?.toString()}
-            idStatusPat={card.tbStatusPat?.descricaoStatPat || ""}
-          />
-        ))
-        }
-      </div>
       <div className="mt-8 flex justify-center">
         <div className="bg-accent text-white px-6 py-3 rounded-2xl hover:bg-accent/90 transition-colors duration-200 shadow-md">
           Mais Patrimonios

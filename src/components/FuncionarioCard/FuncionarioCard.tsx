@@ -15,8 +15,8 @@ export default async function FuncionarioCard({ idMatFun, nomeFun, cpfFun, avata
         <div key={idMatFun} className="flex bg-white rounded-lg p-2 mb-3 shadow-sm relative">
             <div className="w-16 h-16 rounded-full overflow-hidden mr-4">
                 <img
-                    src={avatarFun} //"https://github.com/jcnRodrigues.png"
-                    alt={nomeFun}//"Joao Claudio N Rodrigues"
+                    src={avatarFun} 
+                    alt={nomeFun}
                     className="w-full h-full object-cover"
                 />
             </div>

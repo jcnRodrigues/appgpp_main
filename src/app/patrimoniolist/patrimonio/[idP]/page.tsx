@@ -19,27 +19,27 @@ export default async function PatrimonioProfilePage({ params }: PatrimonioProps)
 
 
     if (!Patrimonio?.idPat) {
-         return (
-             <div>
-                 <Header />
-                 <div className="flex items-center mb-6 mt-4">
-                     <Link href="/" className="mr-4">
-                         <ChevronLeft className="h-6 w-6 text-primary" />
-                     </Link>
-                 </div>
-                 <div className=" flex flex-col items-center justify-center h-screen">
-                     <h1 className=" text-2xl font-bold">
-                         Patrimonio não encontrado
-                     </h1>
-                 </div>
-             </div>
-         );
-     }
+        return (
+            <div>
+                <Header />
+                <div className="flex items-center mb-6 mt-4">
+                    <Link href="/" className="mr-4">
+                        <ChevronLeft className="h-6 w-6 text-primary" />
+                    </Link>
+                </div>
+                <div className=" flex flex-col items-center justify-center h-screen">
+                    <h1 className=" text-2xl font-bold">
+                        Patrimonio não encontrado
+                    </h1>
+                </div>
+            </div>
+        );
+    }
     return (
         <div>
             <Header />
             <div className="flex items-center mb-6 mt-4">
-                <Link href="/" className="mr-4">
+                <Link href="/patrimoniolist" className="mr-4">
                     <ChevronLeft className="h-6 w-6 text-primary" />
                 </Link>
                 <h6 className="text-h6 text-center flex-grow">Detalhes do Patrimonio</h6>
@@ -110,11 +110,17 @@ export default async function PatrimonioProfilePage({ params }: PatrimonioProps)
                     <div className=" bg-white rounded-lg shadow p-4 mb-6">
                         <h3 className="mb-2">Detalhes do Patrimônio</h3>
                         <p>
-                            {Patrimonio.descricaoDetalhadaPat}
+                            {Patrimonio.tbCCusto?.descricaoCCusto}
+                        </p>
+                        <p>
+                            {Patrimonio.tbStatusPat?.descricaoStatPat}
+                        </p>
+                        <p>
+
                         </p>
                     </div>
                     <div className="justify-center flex">
-                        <Link href={`/patrimonio/${Patrimonio?.idP}/schedule`}>
+                        <Link href={`/patrimoniolist/patrimonio/${Patrimonio?.idP}/schedule`}>
                             <button className="bg-accent w-50 text-white p-2 rounded-full">
                                 Atribuir Patrimônio
                             </button>

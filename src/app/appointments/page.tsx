@@ -1,14 +1,15 @@
-import { getFuncionariosAppointmentByUserID } from "@/backend/service/Funcionario.service/funcionario.service";
 import Header from "@/components/Header/Header";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import FuncionarioAppointmentsCard from "./FuncionarioAppointmentsCard";
+import { getFuncionariosAppointmentByUserID } from "@/backend/service/Funcionario.service/funcionario.service";
 
 export default async function AppointmentsPage() {
     const userId = 'a155c8d0-8d71-4322-ad20-ed2779ce263b';
-    
 
-    if (userId) {
+
+
+    if (!userId) {
         return (
             <div className="bg-background min-h-screen py-6">
                 <Header />
@@ -24,8 +25,10 @@ export default async function AppointmentsPage() {
             </div>
         )
     }
-    const AppointmentsFuncionarios = await getFuncionariosAppointmentByUserID();
+
+    const funcionariosAppointment = await getFuncionariosAppointmentByUserID(userId);
+
     return (
-        <div></div>
-        )
+        <FuncionarioAppointmentsCard funcionariosAppointments={[]} />
+    )
 }

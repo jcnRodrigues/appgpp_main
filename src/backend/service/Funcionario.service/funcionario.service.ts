@@ -2,14 +2,11 @@
 
 import prisma from "../../../../prisma/prisma";
 
-export async function getFuncionariosAppointmentByUserID() {
+export async function getFuncionariosAppointmentByUserID(userId: string) {
     return await prisma.tbFuncionario.findMany({
         where: {
-      
-        },
-        include: {
-            tbUser: true
-        },
+            idUserFun: userId
+        } 
     })
 }
 

@@ -10,6 +10,5 @@ export interface FuncionarioGP {
     idCustoFun: string;
     idFuncaoFun: string;
     idUserFun?: string;
-  
 
 }

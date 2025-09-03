@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { ArrowUpRight, Star } from "lucide-react";
 
 

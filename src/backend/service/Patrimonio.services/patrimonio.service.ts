@@ -21,7 +21,11 @@ export async function getPatrimonioCardById(id: string) {
             idP: id 
         },
         include: {
-            tbTipoPat: true
+            tbTipoPat: true,
+            tbStatusPat: true,
+            tbCCusto: true,
+            tbCadastro: true,
+            
         }
     });
 }
