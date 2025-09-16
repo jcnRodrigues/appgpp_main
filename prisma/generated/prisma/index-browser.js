@@ -122,6 +122,7 @@ exports.Prisma.TbUserScalarFieldEnum = {
   idUser: 'idUser',
   nomeUser: 'nomeUser',
   emailUser: 'emailUser',
+  emailVerified: 'emailVerified',
   senhaUser: 'senhaUser',
   avatarUser: 'avatarUser',
   createdAt: 'createdAt',
