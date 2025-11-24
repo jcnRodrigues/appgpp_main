@@ -33,10 +33,11 @@ export async function getFuncionarioFuncaoById(id: string) {
     });
 }
 
-export async function getFuncionarioStatusById(id: string) {
+export async function getFuncionarioStatusById(id: string, descricao?: string) {
     return await prisma.tbStatusFun.findUnique({
         where: {
-            idStatusFun: id
+            idStatusFun: id,
+            descricaoStatusFun: descricao
         },
     });
 }

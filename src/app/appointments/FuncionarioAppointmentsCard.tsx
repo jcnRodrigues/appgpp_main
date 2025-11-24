@@ -17,14 +17,15 @@ interface Props {
 }
 
 
-type FilterStatus = 'todos' | 'ativo' | 'inativo' | 'pendente';
+//type FilterStatus = "ADMITIDO" | "DEMITIDO" | "FERIAS";
 
 
 export default function FuncionarioAppointmentsCard({ funcionariosAppointments }: Props) {
-    const [filterStatus, setFilterStatus] = useState<FilterStatus>("todos");
-    const filterAppointments = filterStatus === "todos"
+
+    const [filterStatus, setFilterStatus] = useState<FuncionarioWithAppointment>();
+    const filterAppointments = filterStatus === undefined
         ? funcionariosAppointments
-        : funcionariosAppointments.filter(appointment => appointment.idStatusFun === filterStatus)
+        : funcionariosAppointments.filter(appointment => appointment === filterStatus)
 
     return (
         <div className="bg-background min-h-screen">
@@ -39,41 +40,33 @@ export default function FuncionarioAppointmentsCard({ funcionariosAppointments }
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mt-6 mb-4">
                 <h2>Funcionários ({filterAppointments.length})</h2>
                 <div className="flex gap-2">
+
                     <Badge
-                        onClick={() => setFilterStatus('todos')}
+                        onClick={() => setFilterStatus(funcionariosAppointments.find(app => app.idStatusFun === 'ADMITIDO'))}
                         className={`whitespace-nowrap cursor-pointer py-2 px-4 rounded-full
-                             ${filterStatus === "todos"
+                            ${filterStatus === funcionariosAppointments.find(app => app.idStatusFun === 'ADMITIDO')
                                 ? "bg-accent text-white border-accent hover:bg-accent/90"
                                 : "bg-transparent text-accent border-accent hover:bg-accent/10"}`}
                     >
-                        Todos
+                        ADMITIDO
                     </Badge>
                     <Badge
-                        onClick={() => setFilterStatus('ativo')}
+                        onClick={() => setFilterStatus(funcionariosAppointments.find(app => app.idStatusFun === 'DEMITIDO'))}
                         className={`whitespace-nowrap cursor-pointer py-2 px-4 rounded-full
-                            ${filterStatus === "ativo"
+                            ${filterStatus === funcionariosAppointments.find(app => app.idStatusFun === 'DEMITIDO')
                                 ? "bg-accent text-white border-accent hover:bg-accent/90"
                                 : "bg-transparent text-accent border-accent hover:bg-accent/10"}`}
                     >
-                        Ativo
+                        DEMITIDO
                     </Badge>
                     <Badge
-                        onClick={() => setFilterStatus('inativo')}
+                        onClick={() => setFilterStatus(funcionariosAppointments.find(app => app.idStatusFun === 'FERIAS'))}
                         className={`whitespace-nowrap cursor-pointer py-2 px-4 rounded-full
-                            ${filterStatus === "inativo"
+                            ${filterStatus === funcionariosAppointments.find(app => app.idStatusFun === 'FERIAS')
                                 ? "bg-accent text-white border-accent hover:bg-accent/90"
                                 : "bg-transparent text-accent border-accent hover:bg-accent/10"}`}
                     >
-                        Inativo
-                    </Badge>
-                    <Badge
-                        onClick={() => setFilterStatus('pendente')}
-                        className={`whitespace-nowrap cursor-pointer py-2 px-4 rounded-full
-                            ${filterStatus === "pendente"
-                                ? "bg-accent text-white border-accent hover:bg-accent/90"
-                                : "bg-transparent text-accent border-accent hover:bg-accent/10"}`}
-                    >
-                        Pendente
+                        FERIAS
                     </Badge>
                 </div>
             </div>

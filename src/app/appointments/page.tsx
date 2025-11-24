@@ -5,7 +5,7 @@ import FuncionarioAppointmentsCard from "./FuncionarioAppointmentsCard";
 import { getFuncionariosAppointmentByUserID } from "@/backend/service/Funcionario.service/funcionario.service";
 
 export default async function AppointmentsPage() {
-    const userId = 'a155c8d0-8d71-4322-ad20-ed2779ce263b';
+    const userId = '7c4603b1-aafc-4559-adee-937fdb0a6bda';
 
 
 
@@ -28,7 +28,12 @@ export default async function AppointmentsPage() {
 
     const funcionariosAppointment = await getFuncionariosAppointmentByUserID(userId);
 
+    const formattedFuncionariosAppointment = funcionariosAppointment.map(funcionario => ({
+        Funcionario: funcionario,
+        ...funcionario,
+    }));
+
     return (
-        <FuncionarioAppointmentsCard funcionariosAppointments={[]} />
+        <FuncionarioAppointmentsCard funcionariosAppointments={formattedFuncionariosAppointment} />
     )
 }
