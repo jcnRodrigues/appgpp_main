@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Syne } from "next/font/google";
-import Footer from "@/components/Footer/Footer";
-import SessionProviders from "@/components/Providers/SessionProviders";
+import Footer from "@/back-end/components/Footer/Footer";
+import SessionProviders from "@/back-end/components/Providers/SessionProviders";
 
 const syne = Syne({
   subsets: ["latin"],

@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { PatrimonioGP } from "@/backend/model/PatrimonioGP.model/PatrimonioGP.model";
-import { getPatrimonioCardById } from "@/backend/service/Patrimonio.services/patrimonio.service";
+import { PatrimonioGP } from "@/back-end/model/PatrimonioGP.model/PatrimonioGP.model";
+import { getPatrimonioCardById } from "@/back-end/service/Patrimonio.services/patrimonio.service";
 import { ArrowUpRight, Star } from "lucide-react";
 import Link from "next/link";
 

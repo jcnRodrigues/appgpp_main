@@ -1,8 +1,8 @@
-import { getFuncionariosCard } from "@/backend/service/Funcionario.service/funcionario.service";
-import Dashborad from "@/components/Dashboard/Dashboard";
-import FuncionarioCard from "@/components/FuncionarioCard/FuncionarioCard";
-import Header from "@/components/Header/Header";
-import SectionHeader from "@/components/SectionHeader/SectionHeader";
+import { getFuncionariosCard } from "@/back-end/service/Funcionario.service/funcionario.service";
+import Dashborad from "@/back-end/components/Dashboard/Dashboard";
+import FuncionarioCard from "@/back-end/components/FuncionarioCard/FuncionarioCard";
+import Header from "@/back-end/components/Header/Header";
+import SectionHeader from "@/back-end/components/SectionHeader/SectionHeader";
 
 
 const FuncCard = await getFuncionariosCard();

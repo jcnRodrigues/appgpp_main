@@ -1,6 +1,6 @@
-import { getPatrimonioCard } from "@/backend/service/Patrimonio.services/patrimonio.service";
-import Header from "@/components/Header/Header"
-import PatrimonioCard from "@/components/PatrimonioCard/PatrimonioCard";
+import { getPatrimonioCard } from "@/back-end/service/Patrimonio.services/patrimonio.service";
+import Header from "@/back-end/components/Header/Header"
+import PatrimonioCard from "@/back-end/components/PatrimonioCard/PatrimonioCard";
 import { ChevronLeft } from "lucide-react"
 import Link from "next/link"
 

@@ -1,8 +1,8 @@
-import Header from "@/components/Header/Header";
-import { Button } from "@/components/ui/button";
+import Header from "@/back-end/components/Header/Header";
+import { Button } from "@/back-end/components/ui/button";
 import Link from "next/link";
 import FuncionarioAppointmentsCard from "./FuncionarioAppointmentsCard";
-import { getFuncionariosAppointmentByUserID } from "@/backend/service/Funcionario.service/funcionario.service";
+import { getFuncionariosAppointmentByUserID } from "@/back-end/service/Funcionario.service/funcionario.service";
 
 export default async function AppointmentsPage() {
     const userId = '7c4603b1-aafc-4559-adee-937fdb0a6bda';

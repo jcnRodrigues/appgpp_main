@@ -1,8 +1,8 @@
 "use client"
 
-import FuncionarioCard from "@/components/FuncionarioCard/FuncionarioCard";
-import Header from "@/components/Header/Header";
-import { Badge } from "@/components/ui/badge";
+import FuncionarioCard from "@/back-end/components/FuncionarioCard/FuncionarioCard";
+import Header from "@/back-end/components/Header/Header";
+import { Badge } from "@/back-end/components/ui/badge";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";

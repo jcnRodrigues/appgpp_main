@@ -84,6 +84,7 @@ model tbTipoPat {
   tbPatrimonio    tbPatrimonio[]
 }
 
+
 model tbStatusPat {
   idStatusPat      String         @id @default(uuid())
   descricaoStatPat String

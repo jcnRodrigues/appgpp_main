@@ -1,10 +1,10 @@
 "use client"
 
 
-import Header from "@/components/Header/Header";
-import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
-import { Badge } from "@/components/ui/badge";
-import { Calendar } from "@/components/ui/calendar";
+import Header from "@/back-end/components/Header/Header";
+import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/back-end/components/ui/alert-dialog";
+import { Badge } from "@/back-end/components/ui/badge";
+import { Calendar } from "@/back-end/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";

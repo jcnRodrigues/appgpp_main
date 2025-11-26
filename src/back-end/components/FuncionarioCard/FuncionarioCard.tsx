@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use server"
-import { FuncionarioGP } from "@/backend/model/FuncionarioGP.model/FuncionarioGP.model";
-import { getFuncionarioFuncaoById, getFuncionarioStatusById } from "@/backend/service/Funcionario.service/funcionario.service";
+import { FuncionarioGP } from "@/back-end/model/FuncionarioGP.model/FuncionarioGP.model";
+import { getFuncionarioFuncaoById, getFuncionarioStatusById } from "@/back-end/service/Funcionario.service/funcionario.service";
 import Link from "next/link";
 
 
