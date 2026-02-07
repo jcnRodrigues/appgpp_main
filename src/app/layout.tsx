@@ -25,12 +25,12 @@ export default function RootLayout({
       <body
         className={`${syne.className}  antialiased`}
       >
-     
+          <SessionProviders>
           <div className=" mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
             {children}
             <Footer />
           </div>
-
+          </SessionProviders>
       </body>
     </html >
   );

@@ -118,7 +118,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 });
 
 exports.Prisma.TbUserScalarFieldEnum = {
-  idU: 'idU',
+  id: 'id',
   idUser: 'idUser',
   nomeUser: 'nomeUser',
   emailUser: 'emailUser',
@@ -205,12 +205,12 @@ exports.Prisma.TbCadastroScalarFieldEnum = {
   idMatFunCad: 'idMatFunCad'
 };
 
-exports.Prisma.TbAccontScalarFieldEnum = {
+exports.Prisma.AccountScalarFieldEnum = {
   idAccont: 'idAccont',
-  userID: 'userID',
+  userId: 'userId',
   type: 'type',
   provider: 'provider',
-  providerAccontId: 'providerAccontId',
+  providerAccountId: 'providerAccountId',
   refresh_token: 'refresh_token',
   access_token: 'access_token',
   expires_at: 'expires_at',
@@ -225,6 +225,14 @@ exports.Prisma.SessionScalarFieldEnum = {
   sessionToken: 'sessionToken',
   userId: 'userId',
   expires: 'expires'
+};
+
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  emailVerified: 'emailVerified',
+  image: 'image'
 };
 
 exports.Prisma.VerificationTokenScalarFieldEnum = {
@@ -255,8 +263,9 @@ exports.Prisma.ModelName = {
   tbEmpresa: 'tbEmpresa',
   tbCCusto: 'tbCCusto',
   tbCadastro: 'tbCadastro',
-  tbAccont: 'tbAccont',
+  Account: 'Account',
   Session: 'Session',
+  User: 'User',
   VerificationToken: 'VerificationToken'
 };
 

@@ -12,18 +12,16 @@ datasource db {
 }
 
 model tbUser {
-  idU           String          @id @default(uuid())
+  id            String          @id @default(uuid())
   idUser        String?         @unique
   nomeUser      String?
   emailUser     String?         @unique
-  emailVerified DateTime?       @map("email_verified")
+  emailVerified DateTime?
   senhaUser     String?
   avatarUser    String?
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   tbFuncioanrio tbFuncionario[]
-  tbAcconts     tbAccont[]
-  Session       Session[]
 }
 
 model tbFuncionario {
@@ -39,7 +37,7 @@ model tbFuncionario {
   idStatusFun String?
   idCustoFun  String?
   tbStatusFun tbStatusFun? @relation(fields: [idStatusFun], references: [idStatusFun])
-  tbUser      tbUser?      @relation(fields: [idUserFun], references: [idU])
+  tbUser      tbUser?      @relation(fields: [idUserFun], references: [id])
   tbFuncao    tbFuncao?    @relation(fields: [idFuncaoFun], references: [idFuncao])
   tbCCusto    tbCCusto?    @relation(fields: [idCustoFun], references: [idCCusto])
   tbCadastro  tbCadastro[]
@@ -84,7 +82,6 @@ model tbTipoPat {
   tbPatrimonio    tbPatrimonio[]
 }
 
-
 model tbStatusPat {
   idStatusPat      String         @id @default(uuid())
   descricaoStatPat String
@@ -122,30 +119,41 @@ model tbCadastro {
   tbFuncionario tbFuncionario? @relation(fields: [idMatFunCad], references: [idMatFun])
 }
 
-model tbAccont {
-  idAccont         String  @id @default(uuid())
-  userID           String
-  type             String
-  provider         String
-  providerAccontId String  @map("providerAccountId")
-  refresh_token    String? 
-  access_token     String? 
-  expires_at       Int?
-  token_type       String?
-  scope            String?
-  id_token         String? 
-  sesseion_state   String?
-  tbUser           tbUser  @relation(fields: [userID], references: [idUser], onDelete: Cascade)
+model Account {
+  idAccont          String  @id @default(uuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  sesseion_state    String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, providerAccontId])
+  @@unique([provider, providerAccountId])
 }
 
 model Session {
   id           String   @id @default(uuid())
-  sessionToken String   @unique @map("session_token")
-  userId       String   @map("user_id")
+  sessionToken String   @unique
+  userId       String
   expires      DateTime
-  tbUser       tbUser   @relation(fields: [userId], references: [idUser], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+
+  accounts Account[]
+  sessions Session[]
 }
 
 model VerificationToken {

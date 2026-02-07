@@ -3,13 +3,13 @@ import { Button } from "@/back-end/components/ui/button";
 import Link from "next/link";
 import FuncionarioAppointmentsCard from "./FuncionarioAppointmentsCard";
 import { getFuncionariosAppointmentByUserID } from "@/back-end/service/Funcionario.service/funcionario.service";
+import { getServerSession } from "next-auth";
+import { AuthOptions } from "../api/auth/[...nextauth]/route";
 
 export default async function AppointmentsPage() {
-    const userId = '7c4603b1-aafc-4559-adee-937fdb0a6bda';
+    const session = await getServerSession(AuthOptions);
 
-
-
-    if (!userId) {
+    if (!session?.user) {
         return (
             <div className="bg-background min-h-screen py-6">
                 <Header />
@@ -18,7 +18,7 @@ export default async function AppointmentsPage() {
                     <div className="bg-white p-8 rounded-lg shadow-sm">
                         <p className="text-lg mb-6">Faça login</p>
                         <Button asChild>
-                            <Link href="/">Volta para o Inicio</Link>
+                            <Link href="/">Faça login para visualizar</Link>
                         </Button>
                     </div>
                 </div>
@@ -26,14 +26,9 @@ export default async function AppointmentsPage() {
         )
     }
 
-    const funcionariosAppointment = await getFuncionariosAppointmentByUserID(userId);
-
-    const formattedFuncionariosAppointment = funcionariosAppointment.map(funcionario => ({
-        Funcionario: funcionario,
-        ...funcionario,
-    }));
-
-    return (
-        <FuncionarioAppointmentsCard funcionariosAppointments={formattedFuncionariosAppointment} />
-    )
+    //const funcionariosAppointment = await getFuncionariosAppointmentByUserID();
+    //return (<FuncionarioAppointmentsCard funcionariosAppointments={funcionariosAppointment}/>)
+    
 }
+
+
