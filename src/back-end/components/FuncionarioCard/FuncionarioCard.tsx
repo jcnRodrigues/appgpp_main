@@ -15,7 +15,7 @@ export default async function FuncionarioCard({ idMatFun, nomeFun, cpfFun, avata
         <div key={idMatFun} className="flex bg-white rounded-lg p-2 mb-3 shadow-sm relative">
             <div className="w-16 h-16 rounded-full overflow-hidden mr-4">
                 <img
-                    src={avatarFun} 
+                    src={avatarFun}
                     alt={nomeFun}
                     className="w-full h-full object-cover"
                 />
@@ -32,10 +32,10 @@ export default async function FuncionarioCard({ idMatFun, nomeFun, cpfFun, avata
                     CPF: {cpfFun}
                 </p>
                 <p className="text-sm text-gray-500">
-                    Data de Admissão: {dataAdmFun ? new Date(dataAdmFun).toLocaleDateString() : 'Não informado'}
+                    Data de Admissão: {dataAdmFun ? new Date(dataAdmFun).toLocaleDateString() : ""}
                 </p>
                 <p className="text-sm text-gray-500">
-                    Data de Demissão: {dataDemFun ? new Date(dataDemFun).toLocaleDateString() : "Não informado"}
+                    Data de Demissão: {dataDemFun ? new Date(dataDemFun).toLocaleDateString() : ""}
                 </p>
             </div>
             <div className="flex items-center">
@@ -43,7 +43,8 @@ export default async function FuncionarioCard({ idMatFun, nomeFun, cpfFun, avata
                         ${statusFun?.descricaoStatusFun === 'ADMITIDO' ? 'bg-green-100 text-green-800' :
                         statusFun?.descricaoStatusFun === 'DEMITIDO' ? 'bg-red-100 text-red-800' :
                             statusFun?.descricaoStatusFun === 'FERIAS' ? 'bg-purple-100 text-purple-800' :
-                                'bg-yellow-100 text-yellow-800'
+                                statusFun?.descricaoStatusFun === 'TRANSFERIDO' ? 'bg-yellow-100 text-yellow-800' :
+                                    'bg-gray-100 text-gray-800'
 
                     }`}>
                     {statusFun?.descricaoStatusFun.toLocaleUpperCase()}

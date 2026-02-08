@@ -6,6 +6,7 @@ import Link from "next/link"
 import { Button } from "@/back-end/components/ui/button";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "../api/auth/[...nextauth]/route";
+import SectionHeader from "@/back-end/components/SectionHeader/SectionHeader";
 
 const PatCard = await getPatrimonioCard();
 
@@ -35,7 +36,9 @@ export default async function PatrimonioList() {
                 <Link href="/" className="mr-4">
                     <ChevronLeft className="h-6 w-6 text-primary" />
                 </Link>
-                <h6 className="text-h6 text-center flex-grow">Lista de Patrimônios</h6>
+                <h6 className="text-h6 text-center flex-grow">
+                    <SectionHeader title="Lista de Patrimônios - AppGPP" linkText="Ver Todos" linkHref="/patrimoniolist" />
+                </h6>
                 <div className="w-6"></div>
             </div>
 
@@ -51,6 +54,11 @@ export default async function PatrimonioList() {
                     />
                 ))
                 }
+            </div>
+            <div className="mt-8 flex justify-center">
+                <div className="bg-accent text-white px-6 py-3 rounded-2xl hover:bg-accent/90 transition-colors duration-200 shadow-md">
+                    Mais Patrimonios
+                </div>
             </div>
         </div>
     );
