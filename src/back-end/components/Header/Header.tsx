@@ -17,7 +17,7 @@ export default function Header() {
 
     const menuItens = [
         { icon: Home, label: "Home", href: "/" },
-        { icon: User, label: "Funcionários", href: "/appointments" },
+        { icon: User, label: "Funcionários", href: "/funcionariosadd" },
         { icon: LaptopIcon, label: "Patrimônio", href: "/patrimoniolist" },
     ]
 

@@ -37,7 +37,7 @@ export default async function AppointmentsPage() {
                     <ChevronLeft className="h-6 w-6 text-primary text-center" />
                 </Link>
                 <h6 className="text-h6 text-center flex-grow">
-                    <SectionHeader title="Lista de Funcionários - AppGPP" linkText="Ver Todos" linkHref="/appointments" />
+                    <SectionHeader title="Lista de Funcionários - AppGPP" linkText="Ver Todos" linkHref="/" />
                 </h6>
 
                 <div className="w-6 text-center"></div>
