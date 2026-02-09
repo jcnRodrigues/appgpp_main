@@ -155,3 +155,8 @@ export async function getStatusPatrimonio() {
 export async function getCentrosCusto() {
     return await prisma.tbCCusto.findMany();
 }
+
+// Função para contar patrimônios
+export async function contarPatrimonios() {
+    return await prisma.tbPatrimonio.count();
+}

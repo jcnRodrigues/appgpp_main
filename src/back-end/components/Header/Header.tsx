@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
 
-import { Home, LaptopIcon, LogOut, Menu, User } from "lucide-react";
+import { Home, LandmarkIcon, LaptopIcon, LogOut, Menu, User } from "lucide-react";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { useState } from "react";
@@ -19,6 +19,7 @@ export default function Header() {
         { icon: Home, label: "Home", href: "/" },
         { icon: User, label: "Funcionários", href: "/funcionariosadd" },
         { icon: LaptopIcon, label: "Patrimônio", href: "/patrimoniolist" },
+        {icon: LandmarkIcon, label: "Centros de Custo", href: "/ccustos"}
     ]
 
 

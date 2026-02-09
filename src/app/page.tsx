@@ -7,10 +7,7 @@ export default function Home() {
     <div>
       <Header />
       <SectionHeader title="Dashboard - AppGPP" />
-      <div className="grid grid-cols-2 sm:grid-cols-3 mb:grid-cols-4 lg:grid-cols-4 gap-4">
-        <Dashborad />
-        <Dashborad />
-        <Dashborad />
+      <div className="max-w-4xl mx-auto px-4 mt-6">
         <Dashborad />
       </div>
 
