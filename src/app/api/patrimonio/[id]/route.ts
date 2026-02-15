@@ -7,7 +7,7 @@ export async function GET(
     { params }: { params: { id: string } }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const patrimonio = await getPatrimonioCardById(id);
 
         if (!patrimonio) {
@@ -32,7 +32,7 @@ export async function PUT(
     { params }: { params: { id: string } }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const dados = await request.json();
 
         // Validação mínima
@@ -40,6 +40,7 @@ export async function PUT(
             return NextResponse.json({ message: 'Nenhum dado para atualizar' }, { status: 400 });
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const updateData: any = {};
         if (typeof dados.descricaoPat !== 'undefined') updateData.descricaoPat = dados.descricaoPat;
         if (typeof dados.descricaoDetalhadaPat !== 'undefined') updateData.descricaoDetalhadaPat = dados.descricaoDetalhadaPat;
@@ -73,7 +74,7 @@ export async function DELETE(
     { params }: { params: { id: string } }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
 
         // Verificar se patrimônio existe
         const patrimonio = await getPatrimonioCardById(id);

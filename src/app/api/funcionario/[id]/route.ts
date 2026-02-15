@@ -7,7 +7,7 @@ export async function GET(
     { params }: { params: { id: string } }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const funcionario = await getFuncionarioByIdInterno(id);
 
         if (!funcionario) {
@@ -32,7 +32,7 @@ export async function PUT(
     { params }: { params: { id: string } }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const dados = await request.json();
 
         // Validação mínima
@@ -40,6 +40,7 @@ export async function PUT(
             return NextResponse.json({ message: 'Nenhum dado para atualizar' }, { status: 400 });
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const updateData: any = {};
         if (typeof dados.nomeFun !== 'undefined') updateData.nomeFun = dados.nomeFun;
         if (typeof dados.cpfFun !== 'undefined') updateData.cpfFun = dados.cpfFun;
@@ -68,7 +69,7 @@ export async function DELETE(
     { params }: { params: { id: string } }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
 
         // Verificar se funcionário existe
         const funcionario = await getFuncionarioByIdInterno(id);

@@ -160,8 +160,8 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                         </td>
                                         <td className="px-6 py-4 text-sm">
                                             <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                                                funcionario.tbStatusFun?.descricaoStatusFun === 'ATIVO' ? 'bg-green-100 text-green-800' :
-                                                funcionario.tbStatusFun?.descricaoStatusFun === 'INATIVO' ? 'bg-red-100 text-red-800' :
+                                                funcionario.tbStatusFun?.descricaoStatusFun === 'ADMITIDO' ? 'bg-green-100 text-green-800' :
+                                                funcionario.tbStatusFun?.descricaoStatusFun === 'DEMITIDO' ? 'bg-red-100 text-red-800' :
                                                 funcionario.tbStatusFun?.descricaoStatusFun === 'AFASTADO' ? 'bg-yellow-100 text-yellow-800' :
                                                 'bg-gray-100 text-gray-800'
                                             }`}>
