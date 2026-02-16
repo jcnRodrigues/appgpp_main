@@ -91,21 +91,21 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                         type="text"
                         placeholder="Buscar por nome..."
                         value={filtro}
-                        onChange={(e) => setFiltro(e.target.value)}
+                        onChange={(e) => setFiltro(e.target.value.toUpperCase())}
                         className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                     <input
                         type="text"
                         placeholder="Filtrar por status..."
                         value={statusFiltro}
-                        onChange={(e) => setStatusFiltro(e.target.value)}
+                        onChange={(e) => setStatusFiltro(e.target.value.toUpperCase())}
                         className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                     <input
                         type="text"
                         placeholder="Filtrar por função..."
                         value={funcaoFiltro}
-                        onChange={(e) => setFuncaoFiltro(e.target.value)}
+                        onChange={(e) => setFuncaoFiltro(e.target.value.toUpperCase())}
                         className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                 </div>

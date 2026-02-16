@@ -96,10 +96,11 @@ export default function CadastroTable() {
                             alocacoes.map(alocacao => (
                                 <tr key={alocacao.idCad} className="border-b hover:bg-gray-50 transition">
                                     <td className="px-6 py-4 text-sm font-medium">
-                                        {alocacao.tbFuncionario?.nomeFun || '-'}
+                                        {alocacao.tbFuncionario?.idMatFun || '-'} - {alocacao.tbFuncionario?.nomeFun || '-'}
                                     </td>
                                     <td className="px-6 py-4 text-sm">
-                                        {alocacao.tbPatrimonio?.descricaoPat || '-'}
+                                        {alocacao.tbPatrimonio?.idPat || '-'} - {alocacao.tbPatrimonio?.descricaoPat || '-'}
+
                                     </td>
                                     <td className="px-6 py-4 text-sm">
                                         {formatarData(alocacao.dataCadPat)}

@@ -32,7 +32,14 @@ export default function FuncaoForm({ funcaoId }: { funcaoId?: string }) {
         }
     }, [funcaoId]);
 
-    const handleChange = (e: any) => setFuncao(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    const handleChange = (e: any) => {
+        const { name, value } = e.target;
+        // Campo que deve ser convertido para uppercase
+        const fieldsToUppercase = ['nomeFuncao'];
+        const newValue = fieldsToUppercase.includes(name) ? value.toUpperCase() : value;
+        
+        setFuncao(prev => ({ ...prev, [name]: newValue }));
+    };
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();

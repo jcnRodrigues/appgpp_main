@@ -89,21 +89,21 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                         type="text"
                         placeholder="Buscar por descrição..."
                         value={filtro}
-                        onChange={(e) => setFiltro(e.target.value)}
+                        onChange={(e) => setFiltro(e.target.value.toUpperCase())}
                         className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                     <input
                         type="text"
                         placeholder="Filtrar por status..."
                         value={statusFiltro}
-                        onChange={(e) => setStatusFiltro(e.target.value)}
+                        onChange={(e) => setStatusFiltro(e.target.value.toUpperCase())}
                         className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                     <input
                         type="text"
                         placeholder="Filtrar por tipo..."
                         value={tipoFiltro}
-                        onChange={(e) => setTipoFiltro(e.target.value)}
+                        onChange={(e) => setTipoFiltro(e.target.value.toUpperCase())}
                         className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                 </div>

@@ -45,7 +45,14 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
         carregar();
     }, [centroId]);
 
-    const handleChange = (e: any) => setCentro(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    const handleChange = (e: any) => {
+        const { name, value } = e.target;
+        // Campos que devem ser convertidos para uppercase
+        const fieldsToUppercase = ['codigoCCusto', 'descricaoCCusto'];
+        const newValue = fieldsToUppercase.includes(name) ? value.toUpperCase() : value;
+        
+        setCentro(prev => ({ ...prev, [name]: newValue }));
+    };
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();

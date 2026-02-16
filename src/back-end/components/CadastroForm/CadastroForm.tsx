@@ -127,7 +127,7 @@ export default function CadastroForm({
                             <option value="">Selecione um patrimônio</option>
                             {patrimonios.map(pat => (
                                 <option key={pat.idPat} value={pat.idPat}>
-                                    {pat.descricaoPat}
+                                   {pat.idPat} - {pat.descricaoPat}
                                 </option>
                             ))}
                         </select>

@@ -64,8 +64,8 @@ export default function FuncaoTable() {
                 <table className="w-full">
                     <thead>
                         <tr className="border-b bg-gray-50">
-                            <th className="px-6 py-3 text-left text-sm font-semibold">Nome da Função</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold">Ações</th>
+                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Nome da Função</th>
+                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
