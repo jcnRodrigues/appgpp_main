@@ -14,9 +14,9 @@ const session = await getServerSession(AuthOptions);
             <div className="bg-background min-h-screen py-6">
                 <Header />
                 <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-                    <h1 className="text-2xl font-bold mb-4">Centros de Custo</h1>
+                    <h1 className="text-2xl font-bold mb-4">Alocação de Patrimonio</h1>
                     <div className="bg-white p-8 rounded-lg shadow-sm">
-                        <p className="text-lg mb-6">Faça login para visualizar os centros de custo</p>
+                        <p className="text-lg mb-6">Faça login para visualizar as alocações de patrimônio</p>
                         <Button asChild>
                             <Link href="/">Ir para Login</Link>
                         </Button>
