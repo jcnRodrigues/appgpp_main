@@ -6,7 +6,7 @@ export async function GET(
     { params }: { params: { id: string } }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const centro = await getCentroCustoById(id);
         if (!centro) return NextResponse.json({ message: 'Centro de custo não encontrado' }, { status: 404 });
         return NextResponse.json(centro);
@@ -21,7 +21,7 @@ export async function PUT(
     { params }: { params: { id: string } }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const dados = await request.json();
         const updated = await atualizarCentroCusto(id, {
             codigoCCusto: typeof dados.codigoCCusto !== 'undefined' ? dados.codigoCCusto : undefined,
@@ -40,7 +40,7 @@ export async function DELETE(
     { params }: { params: { id: string } }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         await deletarCentroCusto(id);
         return NextResponse.json({ message: 'Deletado' });
     } catch (error) {

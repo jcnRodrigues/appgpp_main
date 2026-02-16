@@ -91,21 +91,21 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                         type="text"
                         placeholder="Buscar por nome..."
                         value={filtro}
-                        onChange={(e) => setFiltro(e.target.value)}
+                        onChange={(e) => setFiltro(e.target.value.toUpperCase())}
                         className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                     <input
                         type="text"
                         placeholder="Filtrar por status..."
                         value={statusFiltro}
-                        onChange={(e) => setStatusFiltro(e.target.value)}
+                        onChange={(e) => setStatusFiltro(e.target.value.toUpperCase())}
                         className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                     <input
                         type="text"
                         placeholder="Filtrar por função..."
                         value={funcaoFiltro}
-                        onChange={(e) => setFuncaoFiltro(e.target.value)}
+                        onChange={(e) => setFuncaoFiltro(e.target.value.toUpperCase())}
                         className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                 </div>
@@ -160,8 +160,8 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                         </td>
                                         <td className="px-6 py-4 text-sm">
                                             <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                                                funcionario.tbStatusFun?.descricaoStatusFun === 'ATIVO' ? 'bg-green-100 text-green-800' :
-                                                funcionario.tbStatusFun?.descricaoStatusFun === 'INATIVO' ? 'bg-red-100 text-red-800' :
+                                                funcionario.tbStatusFun?.descricaoStatusFun === 'ADMITIDO' ? 'bg-green-100 text-green-800' :
+                                                funcionario.tbStatusFun?.descricaoStatusFun === 'DEMITIDO' ? 'bg-red-100 text-red-800' :
                                                 funcionario.tbStatusFun?.descricaoStatusFun === 'AFASTADO' ? 'bg-yellow-100 text-yellow-800' :
                                                 'bg-gray-100 text-gray-800'
                                             }`}>

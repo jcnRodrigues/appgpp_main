@@ -83,9 +83,13 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
+        // Campos que devem ser convertidos para uppercase
+        const fieldsToUppercase = ['idMatFun', 'nomeFun', 'cpfFun'];
+        const newValue = fieldsToUppercase.includes(name) ? value.toUpperCase() : value;
+        
         setFuncionario(prev => ({
             ...prev,
-            [name]: value
+            [name]: newValue
         }));
     };
 
@@ -178,7 +182,7 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                                     name="nomeFun"
                                     value={funcionario.nomeFun}
                                     onChange={handleChange}
-                                    placeholder="Ex: João Silva"
+                                    placeholder="Ex: João Rodrigues"
                                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                                     required
                                 />

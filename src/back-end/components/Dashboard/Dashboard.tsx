@@ -1,30 +1,29 @@
 /* eslint-disable @next/next/no-img-element */
-import { ArrowUpRight } from "lucide-react";
 import { contarPatrimonios } from "@/back-end/service/Patrimonio.services/patrimonio.service";
+import { contarFuncionarios } from "@/back-end/service/Dashboard.service/dashboard.service";
+import DashboardCards from "./DashboardCards";
+import GraficoAlocacoesPorCentro from "./GraficoAlocacoesPorCentro";
+import GraficoAlocacoesLinha from "./GraficoAlocacoesLinha";
 
-export default async function Dashborad() {
-    const total = await contarPatrimonios();
+export default async function Dashboard() {
+    const totalPatrimonios = await contarPatrimonios();
+    const totalFuncionarios = await contarFuncionarios();
 
     return (
-        <div className="bg-white rounded-3xl p-6 mb-7 relative shadow">
-            <div className="flex items-center justify-between">
-                <div>
-                    <h4 className="text-sm font-semibold text-gray-500">Patrimônios</h4>
-                    <div className="mt-2 flex items-end gap-3">
-                        <span className="text-3xl font-bold">{total}</span>
-                        <span className="text-xs text-gray-400">cadastrados</span>
-                    </div>
-                    <p className="mt-2 text-sm text-gray-600">Total de patrimônios registrado no sistema.</p>
-                </div>
-                <div className="w-20 h-20 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center text-white">
-                    <span className="text-lg font-bold">📦</span>
-                </div>
-            </div>
+        <div className="space-y-6">
+            {/* Cards de Totais */}
+            <DashboardCards 
+                totalPatrimonios={totalPatrimonios}
+                totalFuncionarios={totalFuncionarios}
+            />
 
-            <div className="absolute bottom-3 right-3">
-                <button className="bg-accent text-white p-2 rounded-full">
-                    <ArrowUpRight className="h-5 w-5" />
-                </button>
+            {/* Gráficos */}
+            <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
+                {/* Gráfico de Barras - Alocações por Centro de Custo */}
+                <GraficoAlocacoesPorCentro />
+
+                {/* Gráfico de Linha - Alocações ao longo do tempo */}
+                <GraficoAlocacoesLinha />
             </div>
         </div>
     );

@@ -87,9 +87,13 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
+        // Campos que devem ser convertidos para uppercase
+        const fieldsToUppercase = ['idPat', 'descricaoPat', 'descricaoDetalhadaPat', 'licencaPat', 'notaFiscalPat'];
+        const newValue = fieldsToUppercase.includes(name) ? value.toUpperCase() : value;
+        
         setPatrimonio(prev => ({
             ...prev,
-            [name]: value
+            [name]: newValue
         }));
     };
 
