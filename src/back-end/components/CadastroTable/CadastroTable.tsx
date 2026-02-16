@@ -73,15 +73,7 @@ export default function CadastroTable() {
 
     return (
         <div className="w-full">
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-h3 font-bold">Alocações de Patrimônio</h1>
-                <Link href="/alocacoes/nova">
-                    <Button className="flex items-center gap-2">
-                        <Plus className="w-4 h-4" />
-                        Nova Alocação
-                    </Button>
-                </Link>
-            </div>
+
 
             <div className="overflow-x-auto bg-white rounded-lg shadow">
                 <table className="w-full">
