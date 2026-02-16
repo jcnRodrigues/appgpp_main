@@ -178,7 +178,7 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                                     name="nomeFun"
                                     value={funcionario.nomeFun}
                                     onChange={handleChange}
-                                    placeholder="Ex: João Silva"
+                                    placeholder="Ex: João Rodrigues"
                                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                                     required
                                 />
