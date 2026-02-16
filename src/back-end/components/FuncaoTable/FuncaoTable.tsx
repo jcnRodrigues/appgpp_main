@@ -57,6 +57,7 @@ export default function FuncaoTable() {
     }
 
     return (
+
         <div className="space-y-4">
             <div className="w-full">
                 <div className="overflow-x-auto bg-white rounded-lg shadow">
