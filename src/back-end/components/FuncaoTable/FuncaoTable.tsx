@@ -1,9 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { Button } from '@/back-end/components/ui/button';
 import Link from 'next/link';
-import { Pencil, Trash2, Plus } from 'lucide-react';
+import { Edit, Trash2, Plus } from 'lucide-react';
 
 interface Funcao {
     idFuncao: string;
@@ -66,7 +65,7 @@ export default function FuncaoTable() {
                     <thead>
                         <tr className="border-b bg-gray-50">
                             <th className="px-6 py-3 text-left text-sm font-semibold">Nome da Função</th>
-                            <th className="px-6 py-3 text-right text-sm font-semibold">Ações</th>
+                            <th className="px-6 py-3 text-left text-sm font-semibold">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,25 +77,21 @@ export default function FuncaoTable() {
                             </tr>
                         ) : (
                             funcoes.map(funcao => (
-                                <tr key={funcao.idFuncao} className="border-b hover:bg-gray-50">
+                                <tr key={funcao.idFuncao} className="border-b hover:bg-gray-50 transition">
                                     <td className="px-6 py-4 text-sm">{funcao.nomeFuncao}</td>
-                                    <td className="px-6 py-4 text-right">
-                                        <div className="flex justify-end gap-2">
+                                    <td className="px-6 py-4 text-sm">
+                                        <div className="flex gap-2">
                                             <Link href={`/funcao/${funcao.idFuncao}/editar`}>
-                                                <Button variant="outline" size="sm" className="flex items-center gap-2">
-                                                    <Pencil className="w-4 h-4" />
-                                                    Editar
-                                                </Button>
+                                                <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition">
+                                                    <Edit className="h-4 w-4" />
+                                                </button>
                                             </Link>
-                                            <Button
-                                                variant="destructive"
-                                                size="sm"
+                                            <button
                                                 onClick={() => handleDelete(funcao.idFuncao)}
-                                                className="flex items-center gap-2"
+                                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
                                             >
-                                                <Trash2 className="w-4 h-4" />
-                                                Deletar
-                                            </Button>
+                                                <Trash2 className="h-4 w-4" />
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>

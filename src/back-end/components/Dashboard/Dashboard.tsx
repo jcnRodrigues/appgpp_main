@@ -18,7 +18,7 @@ export default async function Dashboard() {
             />
 
             {/* Gráficos */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
                 {/* Gráfico de Barras - Alocações por Centro de Custo */}
                 <GraficoAlocacoesPorCentro />
 
