@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Edit, Trash2, Plus } from 'lucide-react';
+import { Edit, Trash2, Plus, FileText } from 'lucide-react';
 
 interface Alocacao {
     idCad: string;
@@ -113,6 +113,11 @@ export default function CadastroTable() {
                                             <Link href={`/alocacoes/${alocacao.idCad}/editar`}>
                                                 <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition">
                                                     <Edit className="h-4 w-4" />
+                                                </button>
+                                            </Link>
+                                            <Link href={`/alocacoes/${alocacao.idCad}/termo`}>
+                                                <button title="Gerar Termo" className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition" target="_blank" rel="noreferrer">
+                                                    <FileText className="h-4 w-4" />
                                                 </button>
                                             </Link>
                                             <button

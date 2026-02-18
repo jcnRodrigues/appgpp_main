@@ -35,8 +35,21 @@ export async function buscarAlocacaoById(idCad: string) {
     return await prisma.tbCadastro.findUnique({
         where: { idCad },
         include: {
-            tbFuncionario: true,
-            tbPatrimonio: true
+            tbFuncionario: {
+                include: {
+                    tbFuncao: true,
+                    tbCCusto: {
+                        include: {
+                            tbEmpresa: true
+                        }
+                    }
+                }
+            },
+            tbPatrimonio: {
+                include: {
+                    tbCCusto: true
+                }
+            }
         }
     });
 }
