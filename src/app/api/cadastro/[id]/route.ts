@@ -38,10 +38,13 @@ export async function PUT(
         const { id } = await params;
         const dados = await request.json();
 
+        // Atualizar alocação
         const alocacao = await atualizarAlocacao(id, {
             dataCadPat: dados.dataCadPat ? new Date(dados.dataCadPat) : undefined,
             dataDevPat: dados.dataDevPat ? new Date(dados.dataDevPat) : undefined
         });
+
+        // (anteriormente atualizávamos status do patrimônio aqui)
 
         return NextResponse.json(alocacao);
     } catch (error: any) {

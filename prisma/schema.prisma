@@ -26,7 +26,7 @@ model tbUser {
 
 model tbFuncionario {
   idF         String       @id @default(uuid())
-  idMatFun    String       @unique
+  idMatFun    String      
   nomeFun     String
   cpfFun      String?
   dataAdmFun  DateTime?
@@ -116,7 +116,7 @@ model tbCadastro {
   idPatCad      String?
   tbPatrimonio  tbPatrimonio?  @relation(fields: [idPatCad], references: [idPat])
   idMatFunCad   String?
-  tbFuncionario tbFuncionario? @relation(fields: [idMatFunCad], references: [idMatFun])
+  tbFuncionario tbFuncionario? @relation(fields: [idMatFunCad], references: [idMatFun])  
 }
 
 model Account {

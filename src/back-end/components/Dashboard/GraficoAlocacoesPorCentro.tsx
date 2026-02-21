@@ -5,11 +5,25 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 
 interface DataPoint {
     nome: string;
-    total: number;
+    [key: string]: string | number;
 }
+
+const CORES = [
+    '#3b82f6', // blue
+    '#ef4444', // red
+    '#10b981', // emerald
+    '#f59e0b', // amber
+    '#8b5cf6', // violet
+    '#ec4899', // pink
+    '#14b8a6', // teal
+    '#f97316', // orange
+    '#06b6d4', // cyan
+    '#84cc16', // lime
+];
 
 export default function GraficoAlocacoesPorCentro() {
     const [dados, setDados] = useState<DataPoint[]>([]);
+    const [tipos, setTipos] = useState<string[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -19,6 +33,17 @@ export default function GraficoAlocacoesPorCentro() {
                 if (res.ok) {
                     const data = await res.json();
                     setDados(data);
+
+                    // Extrair todos os tipos únicos de patrimônio
+                    const tiposSet = new Set<string>();
+                    data.forEach((ponto: DataPoint) => {
+                        Object.keys(ponto).forEach(chave => {
+                            if (chave !== 'nome') {
+                                tiposSet.add(chave);
+                            }
+                        });
+                    });
+                    setTipos(Array.from(tiposSet).sort());
                 }
             } catch (error) {
                 console.error('Erro ao carregar dados:', error);
@@ -43,14 +68,21 @@ export default function GraficoAlocacoesPorCentro() {
     return (
         <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-lg font-semibold mb-4">Alocações de Patrimônio por Centro de Custo</h2>
-            <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={dados}>
+            <ResponsiveContainer width="100%" height={500}>
+                <BarChart data={dados} margin={{ top: 20, right: 30, left: 0, bottom: 100 }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="nome" angle={-45} textAnchor="end" height={100} />
                     <YAxis />
                     <Tooltip />
-                    <Legend />
-                    <Bar dataKey="total" fill="#3b82f6" name="Quantidade" />
+                    <Legend wrapperStyle={{ paddingTop: '20px' }} />
+                    {tipos.map((tipo, index) => (
+                        <Bar
+                            key={tipo}
+                            dataKey={tipo}
+                            fill={CORES[index % CORES.length]}
+                            name={tipo}
+                        />
+                    ))}
                 </BarChart>
             </ResponsiveContainer>
         </div>

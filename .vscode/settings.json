@@ -1,5 +1,6 @@
 {
     "DockerRun.DisableDockerrc": true,
     "DockerRun.DisableAutoGenerateConfig": true,
-    "chat.editRequests": "none"
+    "chat.editRequests": "none",
+    "CodeGPT.apiKey": "Claude Code"
 }

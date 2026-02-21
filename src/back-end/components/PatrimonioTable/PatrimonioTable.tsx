@@ -83,7 +83,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                     <Filter className="h-5 w-5 text-primary" />
                     <h3 className="font-semibold">Filtros</h3>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <input
                         type="text"
@@ -157,12 +157,11 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                             {new Date(patrimonio.dataEntPat).toLocaleDateString('pt-BR')}
                                         </td>
                                         <td className="px-6 py-4 text-sm">
-                                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                                                patrimonio.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
-                                                patrimonio.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-red-100 text-red-800' :
-                                                patrimonio.tbStatusPat?.descricaoStatPat === 'EM MANUTENÇÃO' ? 'bg-orange-100 text-orange-800' :
-                                                'bg-yellow-100 text-yellow-800'
-                                            }`}>
+                                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${patrimonio.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
+                                                    patrimonio.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-red-100 text-red-800' :
+                                                        patrimonio.tbStatusPat?.descricaoStatPat === 'EM MANUTENÇÃO' ? 'bg-orange-100 text-orange-800' :
+                                                            'bg-yellow-100 text-yellow-800'
+                                                }`}>
                                                 {patrimonio.tbStatusPat?.descricaoStatPat || '-'}
                                             </span>
                                         </td>
@@ -170,18 +169,23 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                             {patrimonio.tbCCusto?.descricaoCCusto || '-'}
                                         </td>
                                         <td className="px-6 py-4 text-sm">
-                                            <div className="flex gap-2">
-                                                <Link href={`/patrimonio/${patrimonio.idP}`}>
-                                                    <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition">
+                                            <div className="flex gap-3 items-center">
+                                                <Link href={`/patrimonio/${patrimonio.idP}`} className="flex-1">
+                                                    <Button
+                                                        size="sm"
+                                                        variant="default"
+                                                        className="w-full gap-2 bg-blue-600 hover:bg-blue-700 text-white"
+                                                    >
                                                         <Edit className="h-4 w-4" />
-                                                    </button>
+                                                    </Button>
                                                 </Link>
-                                                <button
+                                                <Button
                                                     onClick={() => handleDelete(patrimonio.idP)}
-                                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+                                                    className="p-2.5 text-red-600 hover:bg-red-50 rounded-lg transition border border-red-200"
+                                                    title="Deletar patrimônio"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
-                                                </button>
+                                                </Button>
                                             </div>
                                         </td>
                                     </tr>

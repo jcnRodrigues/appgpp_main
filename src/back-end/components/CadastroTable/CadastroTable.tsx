@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Edit, Trash2, Plus, FileText } from 'lucide-react';
+import { Edit, Trash2, FileText } from 'lucide-react';
 
 interface Alocacao {
     idCad: string;
@@ -100,7 +100,6 @@ export default function CadastroTable() {
                                     </td>
                                     <td className="px-6 py-4 text-sm">
                                         {alocacao.tbPatrimonio?.idPat || '-'} - {alocacao.tbPatrimonio?.descricaoPat || '-'}
-
                                     </td>
                                     <td className="px-6 py-4 text-sm">
                                         {formatarData(alocacao.dataCadPat)}

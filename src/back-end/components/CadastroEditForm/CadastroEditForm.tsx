@@ -10,6 +10,7 @@ interface CadastroData {
     idCad: string;
     dataCadPat: string | null;
     dataDevPat: string | null;
+    idPatCad?: string;
     tbFuncionario: {
         nomeFun: string;
     } | null;
@@ -25,29 +26,34 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
     const [cadastro, setCadastro] = useState<CadastroData | null>(null);
     const [dados, setDados] = useState({
         dataCadPat: '',
-        dataDevPat: ''
+        dataDevPat: '',
+        
     });
 
     useEffect(() => {
-        const carregarCadastro = async () => {
+        const carregarDados = async () => {
             try {
-                const res = await fetch(`/api/cadastro/${cadastroId}`);
-                if (res.ok) {
-                    const data = await res.json();
+                // Carregar dados do cadastro
+                const resCadastro = await fetch(`/api/cadastro/${cadastroId}`);
+                if (resCadastro.ok) {
+                    const data = await resCadastro.json();
                     setCadastro(data);
                     setDados({
                         dataCadPat: data.dataCadPat ? new Date(data.dataCadPat).toISOString().split('T')[0] : '',
-                        dataDevPat: data.dataDevPat ? new Date(data.dataDevPat).toISOString().split('T')[0] : ''
+                        dataDevPat: data.dataDevPat ? new Date(data.dataDevPat).toISOString().split('T')[0] : '',
+                        statusPatrimonio: data.tbPatrimonio?.idPat_StatusPat || ''
                     });
                 }
+
+                
             } catch (error) {
-                console.error('Erro ao carregar alocação:', error);
+                console.error('Erro ao carregar dados:', error);
             } finally {
                 setLoading(false);
             }
         };
 
-        carregarCadastro();
+        carregarDados();
     }, [cadastroId]);
 
     const handleChange = (e: any) => {
@@ -59,10 +65,10 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
         setSalvando(true);
 
         try {
-            const payload = {
-                dataCadPat: dados.dataCadPat,
-                dataDevPat: dados.dataDevPat || null
-            };
+                const payload = {
+                    dataCadPat: dados.dataCadPat,
+                    dataDevPat: dados.dataDevPat || null
+                };
 
             const res = await fetch(`/api/cadastro/${cadastroId}`, {
                 method: 'PUT',
@@ -149,6 +155,8 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                             />
                         </div>
                     </div>
+
+                    
 
                     <div className="flex justify-end gap-4">
                         <Link href="/alocacoes">

@@ -5,6 +5,9 @@ import { buscarAlocacaoById } from '@/back-end/service/Cadastro.service/cadastro
 import PrintButton from './PrintButton';
 import Image from 'next/image';
 import { getTipoPatId } from '@/back-end/service/TipoPatrimonio.service/tipoPatrimonio.service';
+import Link from 'next/link';
+import { Button } from '@/back-end/components/ui/button';
+import { Plus, UndoIcon } from 'lucide-react';
 
 type Props = { params: { id: string } };
 
@@ -69,7 +72,7 @@ export default async function TermoPage({ params }: Props) {
                         </table>
                     </div>
                 </div>
-                <div className="text-sm text-gray-800 whitespace-pre-wrap m-2 text-justify">
+                <div className="text-sm text-gray-800 whitespace-pre-wrap m-4 text-justify">
                     <h2 className='text-center'>Termo de Responsabilidade</h2>
                     <h4 className='text-center'>Uso {tipoPatrimonio?.descricaoTipPat || 'TIPO PATRIMÔNIO'} Parex – Funcionários</h4>
 
@@ -101,8 +104,18 @@ CPF nº: ${alocacao.tbFuncionario?.cpfFun}
                         <div className="text-sm">Assinatura do Responsável / Setor TI</div>
                     </div>
                 </div>
-                <div className="mt-6 flex items-center">
-                    <PrintButton />
+                <div className="mt-10 grid md:grid-cols-2">
+                    <div className="flex items-center justify-center">
+                        <PrintButton />
+                    </div>
+                    <div className="flex items-center justify-center">
+                        <Link href="/alocacoes">
+                            <Button className="bg-primary hover:bg-primary/90">
+                                <UndoIcon />
+                                Voltar
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

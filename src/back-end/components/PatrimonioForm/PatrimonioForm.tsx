@@ -101,6 +101,19 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
         e.preventDefault();
         setLoading(true);
 
+        // Validações adicionais
+        if (!patrimonio.idPat_TipoPat) {
+            alert('Por favor, selecione o tipo de patrimônio');
+            setLoading(false);
+            return;
+        }
+
+        if (!patrimonio.idPat_StatusPat) {
+            alert('Por favor, selecione o status do patrimônio');
+            setLoading(false);
+            return;
+        }
+
         try {
             const dados = {
                 ...patrimonio,
@@ -175,21 +188,28 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium mb-2">Tipo de Patrimônio *</label>
+                                <label className="block text-sm font-medium mb-2 text-red-600">
+                                    Tipo de Patrimônio * (Obrigatório)
+                                </label>
                                 <select
                                     name="idPat_TipoPat"
                                     value={patrimonio.idPat_TipoPat}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
+                                        !patrimonio.idPat_TipoPat ? 'border-red-300 bg-red-50' : ''
+                                    }`}
                                     required
                                 >
-                                    <option value="">Selecione um tipo</option>
+                                    <option value="">--- Selecione um tipo ---</option>
                                     {tipos.map(tipo => (
                                         <option key={tipo.idTipPat} value={tipo.idTipPat}>
                                             {tipo.descricaoTipPat || 'Sem descrição'}
                                         </option>
                                     ))}
                                 </select>
+                                {!patrimonio.idPat_TipoPat && (
+                                    <p className="text-red-600 text-xs mt-1">Campo obrigatório</p>
+                                )}
                             </div>
                         </div>
 
@@ -294,21 +314,28 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium mb-2">Status *</label>
+                                <label className="block text-sm font-medium mb-2 text-red-600">
+                                    Status * (Obrigatório)
+                                </label>
                                 <select
                                     name="idPat_StatusPat"
                                     value={patrimonio.idPat_StatusPat}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
+                                        !patrimonio.idPat_StatusPat ? 'border-red-300 bg-red-50' : ''
+                                    }`}
                                     required
                                 >
-                                    <option value="">Selecione um status</option>
+                                    <option value="">--- Selecione um status ---</option>
                                     {status.map(s => (
                                         <option key={s.idStatusPat} value={s.idStatusPat}>
                                             {s.descricaoStatPat}
                                         </option>
                                     ))}
                                 </select>
+                                {!patrimonio.idPat_StatusPat && (
+                                    <p className="text-red-600 text-xs mt-1">Campo obrigatório</p>
+                                )}
                             </div>
                         </div>
 

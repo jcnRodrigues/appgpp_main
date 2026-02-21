@@ -20,8 +20,8 @@ export default function Header() {
         { icon: User, label: "Funcionários", href: "/funcionariosadd" },
         { icon: LaptopIcon, label: "Patrimônio", href: "/patrimoniolist" },
         { icon: LandmarkIcon, label: "Centros de Custo", href: "/ccustos"},
-        { icon: UserSearchIcon, label: "Função dos Funcionários", href: "/funcoes" },
-        { icon: PackagePlusIcon, label: "Alocação", href: "/alocacoes" }
+        { icon: UserSearchIcon, label: "Função", href: "/funcoes" },
+        { icon: PackagePlusIcon, label: "Alocação de Patrimonio", href: "/alocacoes" }
 
     ]
 
