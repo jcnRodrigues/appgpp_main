@@ -1,5 +1,0 @@
-{
-    "DockerRun.DisableDockerrc": true,
-    "DockerRun.DisableAutoGenerateConfig": true,
-    "chat.editRequests": "none"
-}

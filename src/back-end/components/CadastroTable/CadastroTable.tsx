@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Edit, Trash2, Plus } from 'lucide-react';
+import { Edit, Trash2, Plus, FileDown } from 'lucide-react';
 
 interface Alocacao {
     idCad: string;
@@ -11,6 +11,7 @@ interface Alocacao {
     tbFuncionario: {
         idMatFun: string;
         nomeFun: string;
+        cpfFun?: string | null;
     } | null;
     tbPatrimonio: {
         idPat: string;
@@ -66,6 +67,56 @@ export default function CadastroTable() {
         return new Date(data).toLocaleDateString('pt-BR');
     };
 
+    const [pdfLoading, setPdfLoading] = useState<string | null>(null);
+
+    const handleGerarTermoPdf = async (alocacao: Alocacao) => {
+        const func = alocacao.tbFuncionario;
+        const pat = alocacao.tbPatrimonio;
+        if (!func || !pat) {
+            alert('Dados do funcionário ou patrimônio não disponíveis para gerar o termo.');
+            return;
+        }
+        setPdfLoading(alocacao.idCad);
+        try {
+            const res = await fetch('/api/cadastro/termo-pdf', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    nomeFun: func.nomeFun,
+                    idMatFun: func.idMatFun,
+                    cpfFun: func.cpfFun ?? null,
+                    idPat: pat.idPat,
+                    descricaoPat: pat.descricaoPat
+                })
+            });
+
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                alert(err.message || 'Falha ao gerar o PDF.');
+                return;
+            }
+
+            // Recebe os dados binários do PDF (equivalente a responseType: 'arraybuffer')
+            const arrayBuffer = await res.arrayBuffer();
+            const blob = new Blob([arrayBuffer], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `Termo-Responsabilidade-${func.idMatFun}-${pat.idPat}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
+
+            alert('PDF gerado com sucesso. Iniciando o download...');
+        } catch (e) {
+            console.error(e);
+            alert('Erro ao gerar PDF. Tente novamente.');
+        } finally {
+            setPdfLoading(null);
+        }
+    };
+
     if (loading) {
         return <div className="text-center py-8">Carregando...</div>;
     }
@@ -109,15 +160,30 @@ export default function CadastroTable() {
                                         {formatarData(alocacao.dataDevPat)}
                                     </td>
                                     <td className="px-6 py-4 text-sm">
-                                        <div className="flex gap-2">
+                                        <div className="flex gap-2 items-center">
+                                            <button
+                                                type="button"
+                                                onClick={() => handleGerarTermoPdf(alocacao)}
+                                                disabled={pdfLoading === alocacao.idCad}
+                                                className="p-2 text-green-700 hover:bg-green-50 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none"
+                                                title={pdfLoading === alocacao.idCad ? 'Gerando PDF...' : 'Gerar Termo de Responsabilidade (PDF)'}
+                                            >
+                                                <FileDown className="h-4 w-4" />
+                                            </button>
                                             <Link href={`/alocacoes/${alocacao.idCad}/editar`}>
-                                                <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition">
+                                                <button
+                                                    type="button"
+                                                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
+                                                    title="Editar"
+                                                >
                                                     <Edit className="h-4 w-4" />
                                                 </button>
                                             </Link>
                                             <button
+                                                type="button"
                                                 onClick={() => handleDelete(alocacao.idCad)}
                                                 className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+                                                title="Excluir"
                                             >
                                                 <Trash2 className="h-4 w-4" />
                                             </button>
