@@ -6,6 +6,7 @@ import { Button } from '@/back-end/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 
+
 interface TipoPatrimonio {
     idTipPat: string;
     descricaoTipPat?: string;
@@ -40,6 +41,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
         idPat_StatusPat: '',
         idPat_CustoPat: ''
     });
+
 
     // Carregar dados iniciais
     useEffect(() => {
@@ -90,7 +92,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
         // Campos que devem ser convertidos para uppercase
         const fieldsToUppercase = ['idPat', 'descricaoPat', 'descricaoDetalhadaPat', 'licencaPat', 'notaFiscalPat'];
         const newValue = fieldsToUppercase.includes(name) ? value.toUpperCase() : value;
-        
+
         setPatrimonio(prev => ({
             ...prev,
             [name]: newValue
@@ -167,11 +169,11 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
 
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
-                    
+
                     {/* Informações Básicas */}
                     <div className="border-b pb-6">
                         <h2 className="text-h4 font-bold mb-4">Informações Básicas</h2>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label className="block text-sm font-medium mb-2">ID Patrimônio *</label>
@@ -195,9 +197,8 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                                     name="idPat_TipoPat"
                                     value={patrimonio.idPat_TipoPat}
                                     onChange={handleChange}
-                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
-                                        !patrimonio.idPat_TipoPat ? 'border-red-300 bg-red-50' : ''
-                                    }`}
+                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!patrimonio.idPat_TipoPat ? 'border-red-300 bg-red-50' : ''
+                                        }`}
                                     required
                                 >
                                     <option value="">--- Selecione um tipo ---</option>
@@ -241,7 +242,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                     {/* Informações de Entrada e Saída */}
                     <div className="border-b pb-6">
                         <h2 className="text-h4 font-bold mb-4">Datas e Documentação</h2>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label className="block text-sm font-medium mb-2">Data de Entrada *</label>
@@ -297,7 +298,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                     {/* Informações Financeiras e Status */}
                     <div className="border-b pb-6">
                         <h2 className="text-h4 font-bold mb-4">Dados Financeiros e Gestão</h2>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label className="block text-sm font-medium mb-2">Valor (R$) *</label>
@@ -321,9 +322,8 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                                     name="idPat_StatusPat"
                                     value={patrimonio.idPat_StatusPat}
                                     onChange={handleChange}
-                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
-                                        !patrimonio.idPat_StatusPat ? 'border-red-300 bg-red-50' : ''
-                                    }`}
+                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!patrimonio.idPat_StatusPat ? 'border-red-300 bg-red-50' : ''
+                                        }`}
                                     required
                                 >
                                     <option value="">--- Selecione um status ---</option>
