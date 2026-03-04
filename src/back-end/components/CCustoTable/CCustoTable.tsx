@@ -64,13 +64,13 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
                                         <td className="px-6 py-4 text-sm">
                                             <div className="flex gap-2">
                                                 <Link href={`/ccusto/${c.idCCusto}`}>
-                                                    <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition">
+                                                    <button className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition">
                                                         <Edit className="h-4 w-4" />
                                                     </button>
                                                 </Link>
                                                 <button
                                                     onClick={() => handleDelete(c.idCCusto, c.descricaoCCusto || 'Centro de Custo')}
-                                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+                                                    className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
                                                 </button>

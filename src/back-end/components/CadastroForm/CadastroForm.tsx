@@ -206,7 +206,7 @@ export default function CadastroForm({
                                 <option value="">--- Selecione um funcionário ---</option>
                                 {funcionarios.map(func => (
                                     <option key={func.idMatFun} value={func.idMatFun}>
-                                        {func.idMatFun} - {func.nomeFun} 
+                                        {func.idMatFun} - {func.nomeFun}
                                     </option>
                                 ))}
                             </select>
@@ -334,8 +334,8 @@ export default function CadastroForm({
                                                 <td className="px-4 py-3 text-sm">{func.tbFuncao?.nomeFuncao || '-'}</td>
                                                 <td className="px-4 py-3 text-sm">
                                                     <span className={`px-2 py-1 rounded-full text-xs ${func.tbStatusFun?.descricaoStatusFun === 'ADMITIDO' ? 'bg-green-100 text-green-800' :
-                                                            func.tbStatusFun?.descricaoStatusFun === 'DEMITIDO' ? 'bg-red-100 text-red-800' :
-                                                                'bg-gray-100 text-gray-800'
+                                                        func.tbStatusFun?.descricaoStatusFun === 'DEMITIDO' ? 'bg-red-100 text-red-800' :
+                                                            'bg-gray-100 text-gray-800'
                                                         }`}>
                                                         {func.tbStatusFun?.descricaoStatusFun || '-'}
                                                     </span>
@@ -406,10 +406,13 @@ export default function CadastroForm({
                                                 <td className="px-4 py-3 text-sm font-medium">{pat.idPat}</td>
                                                 <td className="px-4 py-3 text-sm max-w-xs truncate">{pat.descricaoPat}</td>
                                                 <td className="px-4 py-3 text-sm">
-                                                    <span className={`px-2 py-1 rounded-full text-xs ${pat.tbStatusPat?.descricaoStatusPat === 'DISPONÍVEL' ? 'bg-green-100 text-green-800' :
-                                                            pat.tbStatusPat?.descricaoStatusPat === 'ALOCADO' ? 'bg-blue-100 text-blue-800' :
-                                                                pat.tbStatusPat?.descricaoStatusPat === 'MANUTENÇÃO' ? 'bg-yellow-100 text-yellow-800' :
-                                                                    'bg-gray-100 text-gray-800'
+                                                    <span className={`px-2 py-1 rounded-full text-xs ${pat.tbStatusPat?.descricaoStatusPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
+                                                            pat.tbStatusPat?.descricaoStatusPat === 'INATIVO' ? 'bg-blue-100 text-gray-800' :
+                                                                pat.tbStatusPat?.descricaoStatusPat === 'DEVOLUÇÃO' ? 'bg-yellow-100 text-red-800' :
+                                                                    pat.tbStatusPat?.descricaoStatusPat === 'TRANSFERIDO' ? 'bg-green-100 text-blue-800' :
+                                                                        pat.tbStatusPat?.descricaoStatusPat === 'PENDENTE' ? 'bg-blue-100 text-yellow-800' :
+                                                                            pat.tbStatusPat?.descricaoStatusPat === 'MANUTENÇÃO' ? 'bg-yellow-100 text-purple-800' :
+                                                                                'bg-gray-100 text-gray-800'
                                                         }`}>
                                                         {pat.tbStatusPat?.descricaoStatusPat || '-'}
                                                     </span>

@@ -174,13 +174,13 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                         <td className="px-6 py-4 text-sm">
                                             <div className="flex gap-2">
                                                 <Link href={`/funcionario/${funcionario.idF}`}>
-                                                    <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition">
+                                                    <button className="p-2  text-blue-600 hover:bg-blue-100 rounded-lg transition">
                                                         <Edit className="h-4 w-4" />
                                                     </button>
                                                 </Link>
                                                 <button
                                                     onClick={() => handleDelete(funcionario.idF)}
-                                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+                                                    className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
                                                 </button>
