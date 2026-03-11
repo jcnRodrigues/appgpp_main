@@ -125,6 +125,23 @@ export async function criarPatrimonio(dados: {
     });
 }
 
+export async function listarPatrimoniosPorCentroCusto(idCCusto: string) {
+    return await prisma.tbPatrimonio.findMany({
+        where: {
+            idPat_CustoPat: idCCusto
+        },
+        select: {
+            idP: true,
+            idPat: true,
+            descricaoPat: true,
+            valorPat: true
+        },
+        orderBy: {
+            idPat: 'asc'
+        }
+    });
+}
+
 // Função para atualizar um patrimônio
 export async function atualizarPatrimonio(idP: string, dados: Partial<{
     descricaoPat: string;

@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
 
-import { Home, LandmarkIcon, LaptopIcon, LogOut, Menu, PackagePlusIcon, User, UserSearchIcon } from "lucide-react";
+import { ClipboardCheck, Home, LandmarkIcon, LaptopIcon, LogOut, Menu, PackagePlusIcon, User, UserSearchIcon } from "lucide-react";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { useState } from "react";
@@ -20,8 +20,9 @@ export default function Header() {
         { icon: User, label: "Funcionários", href: "/funcionariosadd" },
         { icon: LaptopIcon, label: "Patrimônio", href: "/patrimoniolist" },
         { icon: LandmarkIcon, label: "Centros de Custo", href: "/ccustos"},
-        { icon: UserSearchIcon, label: "Função dos Funcionários", href: "/funcoes" },
-        { icon: PackagePlusIcon, label: "Alocação", href: "/alocacoes" }
+        { icon: ClipboardCheck, label: "Medição por Cetro de Custo", href: "/ccusto/medicao"},
+        { icon: UserSearchIcon, label: "Função", href: "/funcoes" },
+        { icon: PackagePlusIcon, label: "Alocação de Patrimonios", href: "/alocacoes" }
 
     ]
 

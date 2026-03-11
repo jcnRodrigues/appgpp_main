@@ -43,12 +43,17 @@ export default async function CCustosPage() {
                             <p className="text-gray-600 text-sm mt-1">Gerencie os centros de custo da empresa</p>
                         </div>
                     </div>
-                    <Link href="/ccusto/cadastro">
-                        <Button className="flex gap-2 bg-primary hover:bg-primary/90">
-                            <Plus className="h-5 w-5" />
-                            Novo Centro
-                        </Button>
-                    </Link>
+                    <div className="flex items-center gap-2">
+                        <Link href="/ccusto/medicao">
+                            <Button variant="outline">Medição</Button>
+                        </Link>
+                        <Link href="/ccusto/cadastro">
+                            <Button className="flex gap-2 bg-primary hover:bg-primary/90">
+                                <Plus className="h-5 w-5" />
+                                Novo Centro
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
 
                 <CCustoTable centros={centros} />
