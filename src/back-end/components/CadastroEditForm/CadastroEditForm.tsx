@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/back-end/components/ui/button';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
+import AlertaDialogo from '../AlertDialog/AlertaDialogo';
 
 interface CadastroData {
     idCad: string;
@@ -165,6 +166,7 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                         <Button type="submit" disabled={salvando}>
                             {salvando ? 'Salvando...' : 'Atualizar'}
                         </Button>
+
                     </div>
                 </form>
             </div>
