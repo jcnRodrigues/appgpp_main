@@ -27,7 +27,7 @@ export default async function FuncionariosAdd() {
         )
     }
 
-    const funcionarios = await listarFuncionarios({ take: 100 });
+    const funcionarios = await listarFuncionarios({ take: 10, skip: 0 });
 
     return (
         <div className="bg-background min-h-screen py-6">

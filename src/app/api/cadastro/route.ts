@@ -3,7 +3,8 @@ import {
     listarAlocacoes, 
     criarAlocacao,
     listarFuncionarios,
-    listarPatrimonios 
+    listarPatrimonios,
+    contarAlocacoes
 } from '@/back-end/service/Cadastro.service/cadastro.service';
 
 export async function GET(request: NextRequest) {
@@ -12,6 +13,8 @@ export async function GET(request: NextRequest) {
         const idMatFun = searchParams.get('funcionario');
         const idPat = searchParams.get('patrimonio');
         const opcoes = searchParams.get('opcoes');
+        const skip = parseInt(searchParams.get('skip') || '0');
+        const take = parseInt(searchParams.get('take') || '10');
 
         // Se solicitar opções (funcionários e patrimônios)
         if (opcoes === 'true') {
@@ -30,13 +33,17 @@ export async function GET(request: NextRequest) {
         const alocacoes = await listarAlocacoes({
             idMatFun: idMatFun || undefined,
             idPat: idPat || undefined,
-            skip: 0,
-            take: 100
+            skip,
+            take
+        });
+        const total = await contarAlocacoes({
+            idMatFun: idMatFun || undefined,
+            idPat: idPat || undefined
         });
 
         return NextResponse.json({
             data: alocacoes,
-            total: alocacoes.length
+            total
         });
     } catch (error) {
         console.error('Erro ao listar alocações:', error);

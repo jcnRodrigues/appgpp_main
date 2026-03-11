@@ -34,10 +34,17 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
     const [statusFiltro, setStatusFiltro] = useState('');
     const [funcaoFiltro, setFuncaoFiltro] = useState('');
     const [loading, setLoading] = useState(false);
+    const [paginaAtual, setPaginaAtual] = useState(1);
+    const itensPorPagina = 10;
+    const [totalItens, setTotalItens] = useState(initialFuncionarios?.length || 0);
+
+    useEffect(() => {
+        setPaginaAtual(1);
+    }, [filtro, statusFiltro, funcaoFiltro]);
 
     useEffect(() => {
         carregarFuncionarios();
-    }, [filtro, statusFiltro, funcaoFiltro]);
+    }, [filtro, statusFiltro, funcaoFiltro, paginaAtual]);
 
     const carregarFuncionarios = async () => {
         setLoading(true);
@@ -46,11 +53,14 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
             if (filtro) params.append('nome', filtro);
             if (statusFiltro) params.append('status', statusFiltro);
             if (funcaoFiltro) params.append('funcao', funcaoFiltro);
+            params.append('skip', String((paginaAtual - 1) * itensPorPagina));
+            params.append('take', String(itensPorPagina));
 
             const response = await fetch(`/api/funcionario?${params}`);
             if (response.ok) {
                 const data = await response.json();
                 setFuncionarios(data.data || []);
+                setTotalItens(typeof data.total === 'number' ? data.total : (data.data || []).length);
             }
         } catch (error) {
             console.error('Erro ao carregar funcionários:', error);
@@ -66,7 +76,7 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                     method: 'DELETE'
                 });
                 if (response.ok) {
-                    setFuncionarios(funcionarios.filter(f => f.idF !== idF));
+                    await carregarFuncionarios();
                 } else {
                     alert('Erro ao deletar funcionário');
                 }
@@ -75,6 +85,21 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                 alert('Erro ao deletar funcionário');
             }
         }
+    };
+
+    useEffect(() => {
+        const totalPaginasAtual = Math.max(1, Math.ceil(totalItens / itensPorPagina));
+        if (paginaAtual > totalPaginasAtual) {
+            setPaginaAtual(totalPaginasAtual);
+        }
+    }, [totalItens, paginaAtual]);
+
+    const totalPaginas = Math.max(1, Math.ceil(totalItens / itensPorPagina));
+    const inicio = (paginaAtual - 1) * itensPorPagina;
+
+    const irParaPagina = (pagina: number) => {
+        const paginaValida = Math.min(Math.max(pagina, 1), totalPaginas);
+        setPaginaAtual(paginaValida);
     };
 
     return (
@@ -194,9 +219,51 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                 </div>
             </div>
 
+            {/* Paginação */}
+            <div className="flex flex-col gap-3 items-center">
+                <div className="flex items-center gap-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => irParaPagina(paginaAtual - 1)}
+                        disabled={paginaAtual === 1 || totalItens === 0}
+                    >
+                        Anterior
+                    </Button>
+                    {Array.from({ length: totalPaginas }).map((_, index) => {
+                        const pagina = index + 1;
+                        const ativa = pagina === paginaAtual;
+                        return (
+                            <button
+                                key={pagina}
+                                onClick={() => irParaPagina(pagina)}
+                                className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
+                                    ativa
+                                        ? 'bg-primary text-white'
+                                        : 'bg-white text-gray-700 border hover:bg-gray-50'
+                                }`}
+                            >
+                                {pagina}
+                            </button>
+                        );
+                    })}
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => irParaPagina(paginaAtual + 1)}
+                        disabled={paginaAtual === totalPaginas || totalItens === 0}
+                    >
+                        Próxima
+                    </Button>
+                </div>
+                <div className="text-xs text-gray-500">
+                    Exibindo {totalItens === 0 ? 0 : inicio + 1}–{Math.min(inicio + funcionarios.length, totalItens)} de {totalItens}
+                </div>
+            </div>
+
             {/* Informações */}
             <div className="text-sm text-gray-600 text-center py-2">
-                Total de funcionários: {funcionarios.length}
+                Total de funcionários: {totalItens}
             </div>
         </div>
     );

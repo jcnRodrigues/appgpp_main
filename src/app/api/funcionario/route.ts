@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { criarFuncionario, listarFuncionarios } from '@/back-end/service/Funcionario.service/funcionario.service';
+import { criarFuncionario, listarFuncionarios, contarFuncionarios } from '@/back-end/service/Funcionario.service/funcionario.service';
 
 export async function GET(request: NextRequest) {
     try {
@@ -17,10 +17,15 @@ export async function GET(request: NextRequest) {
             skip,
             take
         });
+        const total = await contarFuncionarios({
+            nome: nome || undefined,
+            status: status || undefined,
+            funcao: funcao || undefined
+        });
 
         return NextResponse.json({
             data: funcionarios,
-            total: funcionarios.length
+            total
         });
     } catch (error) {
         console.error('Erro ao listar funcionários:', error);

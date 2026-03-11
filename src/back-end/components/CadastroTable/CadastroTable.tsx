@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Edit, Trash2, Plus, FileDown } from 'lucide-react';
+import { Edit, Trash2, FileDown } from 'lucide-react';
+import { Button } from '@/back-end/components/ui/button';
 
 interface Alocacao {
     idCad: string;
@@ -22,24 +23,32 @@ interface Alocacao {
 export default function CadastroTable() {
     const [alocacoes, setAlocacoes] = useState<Alocacao[]>([]);
     const [loading, setLoading] = useState(true);
+    const [paginaAtual, setPaginaAtual] = useState(1);
+    const itensPorPagina = 10;
+    const [totalItens, setTotalItens] = useState(0);
+
+    const carregarAlocacoes = async () => {
+        setLoading(true);
+        try {
+            const params = new URLSearchParams();
+            params.append('skip', String((paginaAtual - 1) * itensPorPagina));
+            params.append('take', String(itensPorPagina));
+            const res = await fetch(`/api/cadastro?${params}`);
+            if (res.ok) {
+                const data = await res.json();
+                setAlocacoes(data.data || []);
+                setTotalItens(typeof data.total === 'number' ? data.total : (data.data || []).length);
+            }
+        } catch (error) {
+            console.error('Erro ao carregar alocações:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const carregarAlocacoes = async () => {
-            try {
-                const res = await fetch('/api/cadastro');
-                if (res.ok) {
-                    const data = await res.json();
-                    setAlocacoes(data.data || []);
-                }
-            } catch (error) {
-                console.error('Erro ao carregar alocações:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         carregarAlocacoes();
-    }, []);
+    }, [paginaAtual]);
 
     const handleDelete = async (idCad: string) => {
         if (!confirm('Tem certeza que deseja deletar esta alocação?')) return;
@@ -50,7 +59,7 @@ export default function CadastroTable() {
             });
 
             if (res.ok) {
-                setAlocacoes(alocacoes.filter(a => a.idCad !== idCad));
+                await carregarAlocacoes();
                 alert('Alocação deletada com sucesso');
             } else {
                 const err = await res.json();
@@ -68,6 +77,21 @@ export default function CadastroTable() {
     };
 
     const [pdfLoading, setPdfLoading] = useState<string | null>(null);
+
+    useEffect(() => {
+        const totalPaginasAtual = Math.max(1, Math.ceil(totalItens / itensPorPagina));
+        if (paginaAtual > totalPaginasAtual) {
+            setPaginaAtual(totalPaginasAtual);
+        }
+    }, [totalItens, paginaAtual]);
+
+    const totalPaginas = Math.max(1, Math.ceil(totalItens / itensPorPagina));
+    const inicio = (paginaAtual - 1) * itensPorPagina;
+
+    const irParaPagina = (pagina: number) => {
+        const paginaValida = Math.min(Math.max(pagina, 1), totalPaginas);
+        setPaginaAtual(paginaValida);
+    };
 
     const handleGerarTermoPdf = async (alocacao: Alocacao) => {
         const func = alocacao.tbFuncionario;
@@ -122,7 +146,7 @@ export default function CadastroTable() {
     }
 
     return (
-        <div className="w-full">
+        <div className="w-full space-y-4">
 
 
             <div className="overflow-x-auto bg-white rounded-lg shadow">
@@ -194,6 +218,48 @@ export default function CadastroTable() {
                         )}
                     </tbody>
                 </table>
+            </div>
+
+            {/* Paginação */}
+            <div className="flex flex-col gap-3 items-center">
+                <div className="flex items-center gap-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => irParaPagina(paginaAtual - 1)}
+                        disabled={paginaAtual === 1 || totalItens === 0}
+                    >
+                        Anterior
+                    </Button>
+                    {Array.from({ length: totalPaginas }).map((_, index) => {
+                        const pagina = index + 1;
+                        const ativa = pagina === paginaAtual;
+                        return (
+                            <button
+                                key={pagina}
+                                onClick={() => irParaPagina(pagina)}
+                                className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
+                                    ativa
+                                        ? 'bg-primary text-white'
+                                        : 'bg-white text-gray-700 border hover:bg-gray-50'
+                                }`}
+                            >
+                                {pagina}
+                            </button>
+                        );
+                    })}
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => irParaPagina(paginaAtual + 1)}
+                        disabled={paginaAtual === totalPaginas || totalItens === 0}
+                    >
+                        Próxima
+                    </Button>
+                </div>
+                <div className="text-xs text-gray-500">
+                    Exibindo {totalItens === 0 ? 0 : inicio + 1}–{Math.min(inicio + alocacoes.length, totalItens)} de {totalItens}
+                </div>
             </div>
         </div>
     );

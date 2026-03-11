@@ -1,6 +1,26 @@
 
 import prisma from "../../../../prisma/prisma";
 
+function buildPatrimonioWhere(filtro?: {
+    descricao?: string;
+    status?: string;
+    tipo?: string;
+}) {
+    return {
+        ...(filtro?.descricao && {
+            descricaoPat: {
+                contains: filtro.descricao
+            }
+        }),
+        ...(filtro?.status && {
+            idPat_StatusPat: filtro.status
+        }),
+        ...(filtro?.tipo && {
+            idPat_TipoPat: filtro.tipo
+        })
+    };
+}
+
 export async function getPatrimonioCard(count?: number, id?: string) {
     return await prisma.tbPatrimonio.findMany({
         where: {
@@ -55,19 +75,7 @@ export async function listarPatrimonios(filtro?: {
     take?: number;
 }) {
     return await prisma.tbPatrimonio.findMany({
-        where: {
-            ...(filtro?.descricao && {
-                descricaoPat: {
-                    contains: filtro.descricao
-                }
-            }),
-            ...(filtro?.status && {
-                idPat_StatusPat: filtro.status
-            }),
-            ...(filtro?.tipo && {
-                idPat_TipoPat: filtro.tipo
-            })
-        },
+        where: buildPatrimonioWhere(filtro),
         include: {
             tbStatusPat: true,
             tbTipoPat: true,
@@ -157,6 +165,12 @@ export async function getCentrosCusto() {
 }
 
 // Função para contar patrimônios
-export async function contarPatrimonios() {
-    return await prisma.tbPatrimonio.count();
+export async function contarPatrimonios(filtro?: {
+    descricao?: string;
+    status?: string;
+    tipo?: string;
+}) {
+    return await prisma.tbPatrimonio.count({
+        where: buildPatrimonioWhere(filtro)
+    });
 }

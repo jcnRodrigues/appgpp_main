@@ -27,7 +27,7 @@ export default async function CCustosPage() {
         );
     }
 
-    const centros = await listarCentrosCusto({ take: 200 });
+    const centros = await listarCentrosCusto({ take: 10, skip: 0 });
 
     return (
         <div className="bg-background min-h-screen py-6">

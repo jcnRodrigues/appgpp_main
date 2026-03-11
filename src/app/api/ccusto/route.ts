@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { listarCentrosCusto, criarCentroCusto } from '@/back-end/service/CentroCusto.service/centrocusto.service';
+import { listarCentrosCusto, criarCentroCusto, contarCentrosCusto } from '@/back-end/service/CentroCusto.service/centrocusto.service';
 
 export async function GET(request: NextRequest) {
     try {
@@ -10,7 +10,8 @@ export async function GET(request: NextRequest) {
         const take = parseInt(searchParams.get('take') || '100');
 
         const data = await listarCentrosCusto({ descricao: descricao || undefined, codigo: codigo || undefined, skip, take });
-        return NextResponse.json({ data, total: data.length });
+        const total = await contarCentrosCusto({ descricao: descricao || undefined, codigo: codigo || undefined });
+        return NextResponse.json({ data, total });
     } catch (error) {
         console.error('Erro ao listar centros de custo:', error);
         return NextResponse.json({ message: 'Erro ao listar centros de custo' }, { status: 500 });

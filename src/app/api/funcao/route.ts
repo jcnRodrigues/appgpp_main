@@ -1,13 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getFuncoes, criarFuncao } from '@/back-end/service/Funcao.service/funcao.service';
+import { getFuncoes, criarFuncao, contarFuncoes } from '@/back-end/service/Funcao.service/funcao.service';
 
 export async function GET(request: NextRequest) {
     try {
-        const funcoes = await getFuncoes();
+        const { searchParams } = new URL(request.url);
+        const skip = parseInt(searchParams.get('skip') || '0');
+        const take = parseInt(searchParams.get('take') || '10');
+
+        const funcoes = await getFuncoes({ skip, take });
+        const total = await contarFuncoes();
 
         return NextResponse.json({
             data: funcoes,
-            total: funcoes.length
+            total
         });
     } catch (error) {
         console.error('Erro ao listar funções:', error);

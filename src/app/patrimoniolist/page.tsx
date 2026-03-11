@@ -27,7 +27,7 @@ export default async function PatrimonioList() {
         )
     }
 
-    const patrimonios = await listarPatrimonios({ take: 100 });
+    const patrimonios = await listarPatrimonios({ take: 10, skip: 0 });
     
     const patrimoniosFormatted = patrimonios.map(p => ({
         ...p,

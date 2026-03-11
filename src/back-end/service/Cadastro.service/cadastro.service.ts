@@ -2,6 +2,20 @@
 
 import prisma from "../../../../prisma/prisma";
 
+function buildAlocacaoWhere(filtro?: {
+    idMatFun?: string;
+    idPat?: string;
+}) {
+    return {
+        ...(filtro?.idMatFun && {
+            idMatFunCad: filtro.idMatFun
+        }),
+        ...(filtro?.idPat && {
+            idPatCad: filtro.idPat
+        })
+    };
+}
+
 // Buscar todas as alocações de patrimônio
 export async function listarAlocacoes(filtro?: {
     idMatFun?: string;
@@ -10,14 +24,7 @@ export async function listarAlocacoes(filtro?: {
     take?: number;
 }) {
     return await prisma.tbCadastro.findMany({
-        where: {
-            ...(filtro?.idMatFun && {
-                idMatFunCad: filtro.idMatFun
-            }),
-            ...(filtro?.idPat && {
-                idPatCad: filtro.idPat
-            })
-        },
+        where: buildAlocacaoWhere(filtro),
         include: {
             tbFuncionario: true,
             tbPatrimonio: true
@@ -27,6 +34,15 @@ export async function listarAlocacoes(filtro?: {
         orderBy: {
             dataCadPat: 'desc'
         }
+    });
+}
+
+export async function contarAlocacoes(filtro?: {
+    idMatFun?: string;
+    idPat?: string;
+}) {
+    return await prisma.tbCadastro.count({
+        where: buildAlocacaoWhere(filtro)
     });
 }
 

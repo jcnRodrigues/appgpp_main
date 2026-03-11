@@ -32,10 +32,17 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
     const [statusFiltro, setStatusFiltro] = useState('');
     const [tipoFiltro, setTipoFiltro] = useState('');
     const [loading, setLoading] = useState(false);
+    const [paginaAtual, setPaginaAtual] = useState(1);
+    const itensPorPagina = 10;
+    const [totalItens, setTotalItens] = useState(initialPatrimonios?.length || 0);
+
+    useEffect(() => {
+        setPaginaAtual(1);
+    }, [filtro, statusFiltro, tipoFiltro]);
 
     useEffect(() => {
         carregarPatrimonios();
-    }, [filtro, statusFiltro, tipoFiltro]);
+    }, [filtro, statusFiltro, tipoFiltro, paginaAtual]);
 
     const carregarPatrimonios = async () => {
         setLoading(true);
@@ -44,11 +51,14 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
             if (filtro) params.append('descricao', filtro);
             if (statusFiltro) params.append('status', statusFiltro);
             if (tipoFiltro) params.append('tipo', tipoFiltro);
+            params.append('skip', String((paginaAtual - 1) * itensPorPagina));
+            params.append('take', String(itensPorPagina));
 
             const response = await fetch(`/api/patrimonio?${params}`);
             if (response.ok) {
                 const data = await response.json();
                 setPatrimonios(data.data || []);
+                setTotalItens(typeof data.total === 'number' ? data.total : (data.data || []).length);
             }
         } catch (error) {
             console.error('Erro ao carregar patrimônios:', error);
@@ -64,7 +74,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                     method: 'DELETE'
                 });
                 if (response.ok) {
-                    setPatrimonios(patrimonios.filter(p => p.idP !== idP));
+                    await carregarPatrimonios();
                 } else {
                     alert('Erro ao deletar patrimônio');
                 }
@@ -73,6 +83,21 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                 alert('Erro ao deletar patrimônio');
             }
         }
+    };
+
+    useEffect(() => {
+        const totalPaginasAtual = Math.max(1, Math.ceil(totalItens / itensPorPagina));
+        if (paginaAtual > totalPaginasAtual) {
+            setPaginaAtual(totalPaginasAtual);
+        }
+    }, [totalItens, paginaAtual]);
+
+    const totalPaginas = Math.max(1, Math.ceil(totalItens / itensPorPagina));
+    const inicio = (paginaAtual - 1) * itensPorPagina;
+
+    const irParaPagina = (pagina: number) => {
+        const paginaValida = Math.min(Math.max(pagina, 1), totalPaginas);
+        setPaginaAtual(paginaValida);
     };
 
     return (
@@ -192,9 +217,51 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                 </div>
             </div>
 
+            {/* Paginação */}
+            <div className="flex flex-col gap-3 items-center">
+                <div className="flex items-center gap-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => irParaPagina(paginaAtual - 1)}
+                        disabled={paginaAtual === 1 || totalItens === 0}
+                    >
+                        Anterior
+                    </Button>
+                    {Array.from({ length: totalPaginas }).map((_, index) => {
+                        const pagina = index + 1;
+                        const ativa = pagina === paginaAtual;
+                        return (
+                            <button
+                                key={pagina}
+                                onClick={() => irParaPagina(pagina)}
+                                className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
+                                    ativa
+                                        ? 'bg-primary text-white'
+                                        : 'bg-white text-gray-700 border hover:bg-gray-50'
+                                }`}
+                            >
+                                {pagina}
+                            </button>
+                        );
+                    })}
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => irParaPagina(paginaAtual + 1)}
+                        disabled={paginaAtual === totalPaginas || totalItens === 0}
+                    >
+                        Próxima
+                    </Button>
+                </div>
+                <div className="text-xs text-gray-500">
+                    Exibindo {totalItens === 0 ? 0 : inicio + 1}–{Math.min(inicio + patrimonios.length, totalItens)} de {totalItens}
+                </div>
+            </div>
+
             {/* Informações */}
             <div className="text-sm text-gray-600 text-center py-2">
-                Total de patrimônios: {patrimonios.length}
+                Total de patrimônios: {totalItens}
             </div>
         </div>
     );

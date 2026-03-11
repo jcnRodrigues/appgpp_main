@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Edit, Trash2, Plus } from 'lucide-react';
+import { Edit, Trash2 } from 'lucide-react';
+import { Button } from '@/back-end/components/ui/button';
 
 interface Funcao {
     idFuncao: string;
@@ -12,24 +13,32 @@ interface Funcao {
 export default function FuncaoTable() {
     const [funcoes, setFuncoes] = useState<Funcao[]>([]);
     const [loading, setLoading] = useState(true);
+    const [paginaAtual, setPaginaAtual] = useState(1);
+    const itensPorPagina = 10;
+    const [totalItens, setTotalItens] = useState(0);
+
+    const carregarFuncoes = async () => {
+        setLoading(true);
+        try {
+            const params = new URLSearchParams();
+            params.append('skip', String((paginaAtual - 1) * itensPorPagina));
+            params.append('take', String(itensPorPagina));
+            const res = await fetch(`/api/funcao?${params}`);
+            if (res.ok) {
+                const data = await res.json();
+                setFuncoes(data.data || []);
+                setTotalItens(typeof data.total === 'number' ? data.total : (data.data || []).length);
+            }
+        } catch (error) {
+            console.error('Erro ao carregar funções:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const carregarFuncoes = async () => {
-            try {
-                const res = await fetch('/api/funcao');
-                if (res.ok) {
-                    const data = await res.json();
-                    setFuncoes(data.data || []);
-                }
-            } catch (error) {
-                console.error('Erro ao carregar funções:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         carregarFuncoes();
-    }, []);
+    }, [paginaAtual]);
 
     const handleDelete = async (idFuncao: string) => {
         if (!confirm('Tem certeza que deseja deletar esta função?')) return;
@@ -40,7 +49,7 @@ export default function FuncaoTable() {
             });
 
             if (res.ok) {
-                setFuncoes(funcoes.filter(f => f.idFuncao !== idFuncao));
+                await carregarFuncoes();
                 alert('Função deletada com sucesso');
             } else {
                 const err = await res.json();
@@ -52,12 +61,27 @@ export default function FuncaoTable() {
         }
     };
 
+    useEffect(() => {
+        const totalPaginasAtual = Math.max(1, Math.ceil(totalItens / itensPorPagina));
+        if (paginaAtual > totalPaginasAtual) {
+            setPaginaAtual(totalPaginasAtual);
+        }
+    }, [totalItens, paginaAtual]);
+
+    const totalPaginas = Math.max(1, Math.ceil(totalItens / itensPorPagina));
+    const inicio = (paginaAtual - 1) * itensPorPagina;
+
+    const irParaPagina = (pagina: number) => {
+        const paginaValida = Math.min(Math.max(pagina, 1), totalPaginas);
+        setPaginaAtual(paginaValida);
+    };
+
     if (loading) {
         return <div className="text-center py-8">Carregando...</div>;
     }
 
     return (
-        <div className="w-full">
+        <div className="w-full space-y-4">
 
 
             <div className="overflow-x-auto bg-white rounded-lg shadow">
@@ -99,6 +123,48 @@ export default function FuncaoTable() {
                         )}
                     </tbody>
                 </table>
+            </div>
+
+            {/* Paginação */}
+            <div className="flex flex-col gap-3 items-center">
+                <div className="flex items-center gap-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => irParaPagina(paginaAtual - 1)}
+                        disabled={paginaAtual === 1 || totalItens === 0}
+                    >
+                        Anterior
+                    </Button>
+                    {Array.from({ length: totalPaginas }).map((_, index) => {
+                        const pagina = index + 1;
+                        const ativa = pagina === paginaAtual;
+                        return (
+                            <button
+                                key={pagina}
+                                onClick={() => irParaPagina(pagina)}
+                                className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
+                                    ativa
+                                        ? 'bg-primary text-white'
+                                        : 'bg-white text-gray-700 border hover:bg-gray-50'
+                                }`}
+                            >
+                                {pagina}
+                            </button>
+                        );
+                    })}
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => irParaPagina(paginaAtual + 1)}
+                        disabled={paginaAtual === totalPaginas || totalItens === 0}
+                    >
+                        Próxima
+                    </Button>
+                </div>
+                <div className="text-xs text-gray-500">
+                    Exibindo {totalItens === 0 ? 0 : inicio + 1}–{Math.min(inicio + funcoes.length, totalItens)} de {totalItens}
+                </div>
             </div>
         </div>
     );
