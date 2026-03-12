@@ -200,7 +200,8 @@ export default function CadastroForm({
                                 value={cadastro.idMatFunCad}
                                 onChange={handleChange}
                                 required
-                                className={`flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!cadastro.idMatFunCad ? 'border-red-300 bg-red-50' : ''
+                                className={`flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary 
+                                    ${!cadastro.idMatFunCad ? 'border-red-300 bg-red-50' : ''
                                     }`}
                             >
                                 <option value="">--- Selecione um funcionário ---</option>
@@ -235,8 +236,8 @@ export default function CadastroForm({
                                 value={cadastro.idPatCad}
                                 onChange={handleChange}
                                 required
-                                className={`flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!cadastro.idPatCad ? 'border-red-300 bg-red-50' : ''
-                                    }`}
+                                className={`flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary 
+                                    ${!cadastro.idPatCad ? 'border-red-300 bg-red-50' : ''}`}
                             >
                                 <option value="">--- Selecione um patrimônio ---</option>
                                 {patrimonios.map(pat => (
@@ -407,12 +408,12 @@ export default function CadastroForm({
                                                 <td className="px-4 py-3 text-sm max-w-xs truncate">{pat.descricaoPat}</td>
                                                 <td className="px-4 py-3 text-sm">
                                                     <span className={`px-2 py-1 rounded-full text-xs ${pat.tbStatusPat?.descricaoStatusPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
-                                                            pat.tbStatusPat?.descricaoStatusPat === 'INATIVO' ? 'bg-blue-100 text-gray-800' :
-                                                                pat.tbStatusPat?.descricaoStatusPat === 'DEVOLUÇÃO' ? 'bg-yellow-100 text-red-800' :
-                                                                    pat.tbStatusPat?.descricaoStatusPat === 'TRANSFERIDO' ? 'bg-green-100 text-blue-800' :
-                                                                        pat.tbStatusPat?.descricaoStatusPat === 'PENDENTE' ? 'bg-blue-100 text-yellow-800' :
-                                                                            pat.tbStatusPat?.descricaoStatusPat === 'MANUTENÇÃO' ? 'bg-yellow-100 text-purple-800' :
-                                                                                'bg-gray-100 text-gray-800'
+                                                        pat.tbStatusPat?.descricaoStatusPat === 'INATIVO' ? 'bg-blue-100 text-gray-800' :
+                                                            pat.tbStatusPat?.descricaoStatusPat === 'DEVOLUÇÃO' ? 'bg-yellow-100 text-red-800' :
+                                                                pat.tbStatusPat?.descricaoStatusPat === 'TRANSFERIDO' ? 'bg-green-100 text-blue-800' :
+                                                                    pat.tbStatusPat?.descricaoStatusPat === 'PENDENTE' ? 'bg-blue-100 text-yellow-800' :
+                                                                        pat.tbStatusPat?.descricaoStatusPat === 'MANUTENÇÃO' ? 'bg-yellow-100 text-purple-800' :
+                                                                            'bg-gray-100 text-gray-800'
                                                         }`}>
                                                         {pat.tbStatusPat?.descricaoStatusPat || '-'}
                                                     </span>

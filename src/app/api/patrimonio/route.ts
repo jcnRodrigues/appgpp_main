@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { criarPatrimonio, listarPatrimonios } from '@/back-end/service/Patrimonio.services/patrimonio.service';
+import { contarPatrimoniosComFiltro, criarPatrimonio, listarPatrimonios } from '@/back-end/service/Patrimonio.services/patrimonio.service';
 
 export async function GET(request: NextRequest) {
     try {
@@ -10,17 +10,24 @@ export async function GET(request: NextRequest) {
         const skip = parseInt(searchParams.get('skip') || '0');
         const take = parseInt(searchParams.get('take') || '100');
 
-        const patrimonios = await listarPatrimonios({
-            descricao: descricao || undefined,
-            status: status || undefined,
-            tipo: tipo || undefined,
-            skip,
-            take
-        });
+        const [patrimonios, total] = await Promise.all([
+            listarPatrimonios({
+                descricao: descricao || undefined,
+                status: status || undefined,
+                tipo: tipo || undefined,
+                skip,
+                take
+            }),
+            contarPatrimoniosComFiltro({
+                descricao: descricao || undefined,
+                status: status || undefined,
+                tipo: tipo || undefined
+            })
+        ]);
 
         return NextResponse.json({
             data: patrimonios,
-            total: patrimonios.length
+            total
         });
     } catch (error) {
         console.error('Erro ao listar patrimônios:', error);

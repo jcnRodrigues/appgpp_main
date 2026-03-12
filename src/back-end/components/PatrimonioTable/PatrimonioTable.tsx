@@ -32,10 +32,13 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
     const [statusFiltro, setStatusFiltro] = useState('');
     const [tipoFiltro, setTipoFiltro] = useState('');
     const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [total, setTotal] = useState(initialPatrimonios?.length || 0);
+    const pageSize = 10;
 
     useEffect(() => {
         carregarPatrimonios();
-    }, [filtro, statusFiltro, tipoFiltro]);
+    }, [filtro, statusFiltro, tipoFiltro, currentPage]);
 
     const carregarPatrimonios = async () => {
         setLoading(true);
@@ -44,11 +47,14 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
             if (filtro) params.append('descricao', filtro);
             if (statusFiltro) params.append('status', statusFiltro);
             if (tipoFiltro) params.append('tipo', tipoFiltro);
+            params.append('skip', String((currentPage - 1) * pageSize));
+            params.append('take', String(pageSize));
 
             const response = await fetch(`/api/patrimonio?${params}`);
             if (response.ok) {
                 const data = await response.json();
                 setPatrimonios(data.data || []);
+                setTotal(data.total || 0);
             }
         } catch (error) {
             console.error('Erro ao carregar patrimônios:', error);
@@ -64,7 +70,11 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                     method: 'DELETE'
                 });
                 if (response.ok) {
-                    setPatrimonios(patrimonios.filter(p => p.idP !== idP));
+                    setPatrimonios((prev) => prev.filter(p => p.idP !== idP));
+                    setTotal((prev) => Math.max(0, prev - 1));
+                    if (patrimonios.length === 1 && currentPage > 1) {
+                        setCurrentPage((prev) => Math.max(1, prev - 1));
+                    }
                 } else {
                     alert('Erro ao deletar patrimônio');
                 }
@@ -89,21 +99,30 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                         type="text"
                         placeholder="Buscar por descrição..."
                         value={filtro}
-                        onChange={(e) => setFiltro(e.target.value.toUpperCase())}
+                        onChange={(e) => {
+                            setFiltro(e.target.value.toUpperCase());
+                            setCurrentPage(1);
+                        }}
                         className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                     <input
                         type="text"
                         placeholder="Filtrar por status..."
                         value={statusFiltro}
-                        onChange={(e) => setStatusFiltro(e.target.value.toUpperCase())}
+                        onChange={(e) => {
+                            setStatusFiltro(e.target.value.toUpperCase());
+                            setCurrentPage(1);
+                        }}
                         className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                     <input
                         type="text"
                         placeholder="Filtrar por tipo..."
                         value={tipoFiltro}
-                        onChange={(e) => setTipoFiltro(e.target.value.toUpperCase())}
+                        onChange={(e) => {
+                            setTipoFiltro(e.target.value.toUpperCase());
+                            setCurrentPage(1);
+                        }}
                         className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                 </div>
@@ -199,9 +218,57 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                 </div>
             </div>
 
-            {/* Informações */}
-            <div className="text-sm text-gray-600 text-center py-2">
-                Total de patrimônios: {patrimonios.length}
+            {/* Paginação */}
+            <div className="bg-white rounded-lg shadow-md">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 px-4 py-3 border-t bg-gray-50">
+                    <div className="text-sm text-gray-600">
+                        {total === 0
+                            ? 'Exibindo 0-0 de 0'
+                            : `Exibindo ${(currentPage - 1) * pageSize + 1}-${Math.min(currentPage * pageSize, total)} de ${total}`
+                        }
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                            disabled={currentPage === 1 || total === 0}
+                        >
+                            Anterior
+                        </Button>
+                        <div className="flex items-center gap-1">
+                            {Array.from({ length: Math.max(1, Math.ceil(total / pageSize)) }, (_, index) => index + 1)
+                                .filter((page) => {
+                                    const totalPages = Math.max(1, Math.ceil(total / pageSize));
+                                    const maxButtons = 5;
+                                    const half = Math.floor(maxButtons / 2);
+                                    let start = Math.max(1, currentPage - half);
+                                    let end = Math.min(totalPages, start + maxButtons - 1);
+                                    start = Math.max(1, end - maxButtons + 1);
+                                    return page >= start && page <= end;
+                                })
+                                .map((page) => (
+                                    <Button
+                                        key={page}
+                                        size="sm"
+                                        variant={page === currentPage ? 'default' : 'outline'}
+                                        onClick={() => setCurrentPage(page)}
+                                        className={page === currentPage ? 'bg-primary text-white' : ''}
+                                    >
+                                        {page}
+                                    </Button>
+                                ))}
+                        </div>
+                        <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setCurrentPage((prev) => prev + 1)}
+                            disabled={total === 0 || currentPage >= Math.max(1, Math.ceil(total / pageSize))}
+                        >
+                            Próxima
+                        </Button>
+                    </div>
+                </div>
             </div>
         </div>
     );
