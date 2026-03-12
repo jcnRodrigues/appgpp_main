@@ -252,7 +252,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "D:\\Project_Gestao\\appgpp\\prisma\\generated\\prisma",
+      "value": "/Users/joao/Documents/Projects/appgpp/prisma/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -261,12 +261,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "darwin",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\Project_Gestao\\appgpp\\prisma\\schema.prisma",
+    "sourceFilePath": "/Users/joao/Documents/Projects/appgpp/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

@@ -90,7 +90,6 @@ export default function GraficoAlocacoesPorCentro() {
                         <Bar
                             key={tipo}
                             dataKey={tipo}
-                            stackId="alocacoes"
                             fill={CORES_TIPOS[i % CORES_TIPOS.length]}
                             name={tipo}
                             radius={[0, 0, 0, 0]}
