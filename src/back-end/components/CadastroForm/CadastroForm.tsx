@@ -226,14 +226,15 @@ export default function CadastroForm({
                 <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
                     <div>
                         <label className="block text-sm font-medium mb-2 text-red-600">Funcionário *</label>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 items-stretch">
                             <select
                                 name="idMatFunCad"
                                 value={cadastro.idMatFunCad}
                                 onChange={handleChange}
                                 required
-                                className={`flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!cadastro.idMatFunCad ? 'border-red-300 bg-red-50' : ''
-                                    }`}
+                                className={`flex-1 h-10 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
+                                    !cadastro.idMatFunCad ? 'border-red-300 bg-red-50' : ''
+                                }`}
                             >
                                 <option value="">--- Selecione um funcionário ---</option>
                                 {funcionarios.map(func => (
@@ -250,6 +251,7 @@ export default function CadastroForm({
                                     setIsFuncionarioSheetOpen(true);
                                 }}
                                 title="Pesquisar funcionário"
+                                className="h-10 w-10 p-0"
                             >
                                 <Search className="h-4 w-4" />
                             </Button>
@@ -261,14 +263,15 @@ export default function CadastroForm({
 
                     <div>
                         <label className="block text-sm font-medium mb-2 text-red-600">Patrimônio *</label>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 items-stretch">
                             <select
                                 name="idPatCad"
                                 value={cadastro.idPatCad}
                                 onChange={handleChange}
                                 required
-                                className={`flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!cadastro.idPatCad ? 'border-red-300 bg-red-50' : ''
-                                    }`}
+                                className={`flex-1 h-10 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
+                                    !cadastro.idPatCad ? 'border-red-300 bg-red-50' : ''
+                                }`}
                             >
                                 <option value="">--- Selecione um patrimônio ---</option>
                                 {patrimonios.map(pat => (
@@ -285,6 +288,7 @@ export default function CadastroForm({
                                     setIsPatrimonioSheetOpen(true);
                                 }}
                                 title="Pesquisar patrimônio"
+                                className="h-10 w-10 p-0"
                             >
                                 <Search className="h-4 w-4" />
                             </Button>
