@@ -200,7 +200,7 @@ export default function CadastroTable() {
 
                                     </td>
 
-                                    <td className="px-6 py-4 text-sm">
+                                    <td className="px-6 py-4 text-sm">merge
                                         {formatarData(alocacao.dataCadPat)}
                                     </td>
                                     <td className="px-6 py-4 text-sm">

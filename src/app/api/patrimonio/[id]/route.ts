@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getPatrimonioCardById, atualizarPatrimonio } from '@/back-end/service/Patrimonio.services/patrimonio.service';
 import prisma from '../../../../../prisma/prisma';
+import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/back-end/components/ui/alert-dialog";
+import React from 'react';
 
 export async function GET(
     request: NextRequest,
@@ -75,7 +77,6 @@ export async function DELETE(
 ) {
     try {
         const { id } = await params;
-
         // Verificar se patrimônio existe
         const patrimonio = await getPatrimonioCardById(id);
         if (!patrimonio) {
@@ -90,7 +91,9 @@ export async function DELETE(
             where: { idP: id }
         });
 
-        return NextResponse.json({ message: 'Patrimônio deletado com sucesso' });
+        return NextResponse.json({
+            message: 'Patrimônio deletado com sucesso'
+        });
     } catch (error: unknown) {
         console.error('Erro ao deletar patrimônio:', error);
         return NextResponse.json(
@@ -98,4 +101,6 @@ export async function DELETE(
             { status: 500 }
         );
     }
+
+    
 }

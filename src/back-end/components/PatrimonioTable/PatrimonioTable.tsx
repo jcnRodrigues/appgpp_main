@@ -108,7 +108,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                     <Filter className="h-5 w-5 text-primary" />
                     <h3 className="font-semibold">Filtros</h3>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <input
                         type="text"
@@ -166,7 +166,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                             ) : (
                                 patrimonios.map((patrimonio) => (
                                     <tr key={patrimonio.idP} className="border-b hover:bg-gray-50 transition">
-                                        <td className="px-6 py-4 text-sm text-gray-900 font-medium">
+                                        <td className="px-6 py-4 text-sm text-gray-800 font-medium">
                                             {patrimonio.idPat}
                                         </td>
                                         <td className="px-6 py-4 text-sm text-gray-700 max-w-xs truncate">
@@ -182,31 +182,38 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                             {new Date(patrimonio.dataEntPat).toLocaleDateString('pt-BR')}
                                         </td>
                                         <td className="px-6 py-4 text-sm">
-                                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                                                patrimonio.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
-                                                patrimonio.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-red-100 text-red-800' :
-                                                patrimonio.tbStatusPat?.descricaoStatPat === 'EM MANUTENÇÃO' ? 'bg-orange-100 text-orange-800' :
-                                                'bg-yellow-100 text-yellow-800'
-                                            }`}>
+                                            <span className={`px-3 py-1 rounded-full text-xs font-semibold 
+                                            ${patrimonio.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
+                                                    patrimonio.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
+                                                        patrimonio.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-orange-100 text-orange-800' :
+                                                            patrimonio.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-gray-100 text-purple-800' :
+                                                                patrimonio.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-gray-100 text-blue-800' :
+                                                                    'bg-yellow-100 text-yellow-800'
+                                                }`}>
                                                 {patrimonio.tbStatusPat?.descricaoStatPat || '-'}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-700">
+                                        <td className="px-6 py-4 text-sm text-gray-600">
                                             {patrimonio.tbCCusto?.descricaoCCusto || '-'}
                                         </td>
                                         <td className="px-6 py-4 text-sm">
-                                            <div className="flex gap-2">
-                                                <Link href={`/patrimonio/${patrimonio.idP}`}>
-                                                    <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition">
+                                            <div className="flex gap-3 items-center">
+                                                <Link href={`/patrimonio/${patrimonio.idP}`} className="flex-1">
+                                                    <Button
+                                                        size="sm"
+                                                        variant="default"
+                                                        className="w-full gap-2 bg-gray-100 text-blue-600 hover:bg-blue-100 rounded-lg transition"
+                                                    >
                                                         <Edit className="h-4 w-4" />
-                                                    </button>
+                                                    </Button>
                                                 </Link>
-                                                <button
+                                                <Button
                                                     onClick={() => handleDelete(patrimonio.idP)}
-                                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+                                                    className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition"
+                                                    title="Deletar patrimônio"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
-                                                </button>
+                                                </Button>
                                             </div>
                                         </td>
                                     </tr>

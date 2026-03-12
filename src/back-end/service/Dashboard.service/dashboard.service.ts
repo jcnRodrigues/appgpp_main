@@ -44,6 +44,11 @@ export async function alocacoesPorCentroCusto() {
             tbPatrimonio: {
                 select: {
                     idP: true,
+                    tbTipoPat: {
+                        select: {
+                            descricaoTipPat: true
+                        }
+                    },
                     tbCadastro: {
                         select: {
                             idCad: true
@@ -54,10 +59,24 @@ export async function alocacoesPorCentroCusto() {
         }
     });
 
-    return centros.map(centro => ({
-        nome: centro.descricaoCCusto || centro.idCCusto,
-        total: centro.tbPatrimonio.reduce((acc, pat) => acc + pat.tbCadastro.length, 0)
-    }));
+    return centros.map(centro => {
+        const resultado: Record<string, any> = {
+            nome: centro.descricaoCCusto || centro.idCCusto,
+        };
+
+        // Agrupar por tipo de patrimônio
+        const tiposCont: Record<string, number> = {};
+        centro.tbPatrimonio.forEach(pat => {
+            const tipoNome = pat.tbTipoPat?.descricaoTipPat || 'Sem Tipo';
+            const quantidade = pat.tbCadastro.length;
+            tiposCont[tipoNome] = (tiposCont[tipoNome] || 0) + quantidade;
+        });
+
+        // Adicionar contagens por tipo ao resultado
+        Object.assign(resultado, tiposCont);
+
+        return resultado;
+    });
 }
 
 // Alocações por centro de custo e por tipo de patrimônio (para gráfico de barras com tipo e custo)

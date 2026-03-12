@@ -5,11 +5,13 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/back-end/components/ui/button';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
+import AlertaDialogo from '../AlertDialog/AlertaDialogo';
 
 interface CadastroData {
     idCad: string;
     dataCadPat: string | null;
     dataDevPat: string | null;
+    idPatCad?: string;
     idStatusPatCad?: string | null;
     tbStatusPat?: {
         idStatusPat: string;
@@ -41,7 +43,7 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
     });
 
     useEffect(() => {
-        const carregarCadastro = async () => {
+        const carregarDados = async () => {
             try {
                 const [resCadastro, resOpcoes] = await Promise.all([
                     fetch(`/api/cadastro/${cadastroId}`),
@@ -63,13 +65,13 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                     });
                 }
             } catch (error) {
-                console.error('Erro ao carregar alocação:', error);
+                console.error('Erro ao carregar dados:', error);
             } finally {
                 setLoading(false);
             }
         };
 
-        carregarCadastro();
+        carregarDados();
     }, [cadastroId]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -99,11 +101,11 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
         setSalvando(true);
 
         try {
-            const payload = {
-                dataCadPat: dados.dataCadPat,
-                dataDevPat: dados.dataDevPat || null,
-                idStatusPatCad: dados.idStatusPatCad || null
-            };
+                const payload = {
+                    dataCadPat: dados.dataCadPat,
+                    dataDevPat: dados.dataDevPat || null,
+                    idStatusPatCad: dados.idStatusPatCad || null
+                };
 
             const res = await fetch(`/api/cadastro/${cadastroId}`, {
                 method: 'PUT',
@@ -215,6 +217,7 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                         <Button type="submit" disabled={salvando}>
                             {salvando ? 'Salvando...' : 'Atualizar'}
                         </Button>
+
                     </div>
                 </form>
             </div>

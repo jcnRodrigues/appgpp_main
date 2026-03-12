@@ -6,6 +6,7 @@ import { Button } from '@/back-end/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 
+
 interface TipoPatrimonio {
     idTipPat: string;
     descricaoTipPat?: string;
@@ -40,6 +41,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
         idPat_StatusPat: '',
         idPat_CustoPat: ''
     });
+
 
     // Carregar dados iniciais
     useEffect(() => {
@@ -90,7 +92,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
         // Campos que devem ser convertidos para uppercase
         const fieldsToUppercase = ['idPat', 'descricaoPat', 'descricaoDetalhadaPat', 'licencaPat', 'notaFiscalPat'];
         const newValue = fieldsToUppercase.includes(name) ? value.toUpperCase() : value;
-        
+
         setPatrimonio(prev => ({
             ...prev,
             [name]: newValue
@@ -100,6 +102,19 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
+
+        // Validações adicionais
+        if (!patrimonio.idPat_TipoPat) {
+            alert('Por favor, selecione o tipo de patrimônio');
+            setLoading(false);
+            return;
+        }
+
+        if (!patrimonio.idPat_StatusPat) {
+            alert('Por favor, selecione o status do patrimônio');
+            setLoading(false);
+            return;
+        }
 
         try {
             const dados = {
@@ -154,11 +169,11 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
 
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
-                    
+
                     {/* Informações Básicas */}
                     <div className="border-b pb-6">
                         <h2 className="text-h4 font-bold mb-4">Informações Básicas</h2>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label className="block text-sm font-medium mb-2">ID Patrimônio *</label>
@@ -175,21 +190,27 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium mb-2">Tipo de Patrimônio *</label>
+                                <label className="block text-sm font-medium mb-2 text-red-600">
+                                    Tipo de Patrimônio * (Obrigatório)
+                                </label>
                                 <select
                                     name="idPat_TipoPat"
                                     value={patrimonio.idPat_TipoPat}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!patrimonio.idPat_TipoPat ? 'border-red-300 bg-red-50' : ''
+                                        }`}
                                     required
                                 >
-                                    <option value="">Selecione um tipo</option>
+                                    <option value="">--- Selecione um tipo ---</option>
                                     {tipos.map(tipo => (
                                         <option key={tipo.idTipPat} value={tipo.idTipPat}>
                                             {tipo.descricaoTipPat || 'Sem descrição'}
                                         </option>
                                     ))}
                                 </select>
+                                {!patrimonio.idPat_TipoPat && (
+                                    <p className="text-red-600 text-xs mt-1">Campo obrigatório</p>
+                                )}
                             </div>
                         </div>
 
@@ -221,7 +242,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                     {/* Informações de Entrada e Saída */}
                     <div className="border-b pb-6">
                         <h2 className="text-h4 font-bold mb-4">Datas e Documentação</h2>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label className="block text-sm font-medium mb-2">Data de Entrada *</label>
@@ -277,7 +298,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                     {/* Informações Financeiras e Status */}
                     <div className="border-b pb-6">
                         <h2 className="text-h4 font-bold mb-4">Dados Financeiros e Gestão</h2>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label className="block text-sm font-medium mb-2">Valor (R$) *</label>
@@ -294,21 +315,27 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium mb-2">Status *</label>
+                                <label className="block text-sm font-medium mb-2 text-red-600">
+                                    Status * (Obrigatório)
+                                </label>
                                 <select
                                     name="idPat_StatusPat"
                                     value={patrimonio.idPat_StatusPat}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!patrimonio.idPat_StatusPat ? 'border-red-300 bg-red-50' : ''
+                                        }`}
                                     required
                                 >
-                                    <option value="">Selecione um status</option>
+                                    <option value="">--- Selecione um status ---</option>
                                     {status.map(s => (
                                         <option key={s.idStatusPat} value={s.idStatusPat}>
                                             {s.descricaoStatPat}
                                         </option>
                                     ))}
                                 </select>
+                                {!patrimonio.idPat_StatusPat && (
+                                    <p className="text-red-600 text-xs mt-1">Campo obrigatório</p>
+                                )}
                             </div>
                         </div>
 

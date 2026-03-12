@@ -82,47 +82,51 @@ export default function FuncaoTable() {
 
     return (
         <div className="w-full space-y-4">
-
-
-            <div className="overflow-x-auto bg-white rounded-lg shadow">
-                <table className="w-full">
-                    <thead>
-                        <tr className="border-b bg-gray-50">
-                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Nome da Função</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {funcoes.length === 0 ? (
-                            <tr>
-                                <td colSpan={2} className="px-6 py-8 text-center text-gray-500">
-                                    Nenhuma função cadastrada
-                                </td>
+            <div className="w-full">
+                <div className="overflow-x-auto bg-white rounded-lg shadow">
+                    <table className="w-full">
+                        <thead>
+                            <tr className="border-b bg-gray-50">
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Nome da Função</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Ações</th>
                             </tr>
-                        ) : (
-                            funcoes.map(funcao => (
-                                <tr key={funcao.idFuncao} className="border-b hover:bg-gray-50 transition">
-                                    <td className="px-6 py-4 text-sm">{funcao.nomeFuncao}</td>
-                                    <td className="px-6 py-4 text-sm">
-                                        <div className="flex gap-2">
-                                            <Link href={`/funcao/${funcao.idFuncao}/editar`}>
-                                                <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition">
-                                                    <Edit className="h-4 w-4" />
-                                                </button>
-                                            </Link>
-                                            <button
-                                                onClick={() => handleDelete(funcao.idFuncao)}
-                                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
-                                            >
-                                                <Trash2 className="h-4 w-4" />
-                                            </button>
-                                        </div>
+                        </thead>
+                        <tbody>
+                            {funcoes.length === 0 ? (
+                                <tr>
+                                    <td colSpan={2} className="px-6 py-8 text-center text-gray-500">
+                                        Nenhuma função cadastrada
                                     </td>
                                 </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
+                            ) : (
+                                funcoes.map(funcao => (
+                                    <tr key={funcao.idFuncao} className="border-b hover:bg-gray-50 transition">
+                                        <td className="px-6 py-4 text-sm">{funcao.nomeFuncao}</td>
+                                        <td className="px-6 py-4 text-sm">
+                                            <div className="flex gap-2">
+                                                <Link href={`/funcao/${funcao.idFuncao}/editar`}>
+                                                    <button className="p-2  text-blue-600 hover:bg-blue-100 rounded-lg transition">
+                                                        <Edit className="h-4 w-4" />
+                                                    </button>
+                                                </Link>
+                                                <button
+                                                    onClick={() => handleDelete(funcao.idFuncao)}
+                                                    className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
+                                                >
+                                                    <Trash2 className="h-4 w-4" />
+                                                </button>
+                                            </div>
+                                        </td>  
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {/* Informações */}
+            <div className="text-sm text-gray-600 text-center py-2">
+                Total de Funções: {funcoes.length}
             </div>
 
             {/* Paginação */}

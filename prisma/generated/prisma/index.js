@@ -253,7 +253,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/joao/Documents/Projects/appgpp/prisma/generated/prisma",
+      "value": "D:\\Project_Gestao\\appgpp\\prisma\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -262,12 +262,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "darwin",
+        "value": "windows",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/joao/Documents/Projects/appgpp/prisma/schema.prisma",
+    "sourceFilePath": "D:\\Project_Gestao\\appgpp\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -329,8 +329,8 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
-path.join(__dirname, "libquery_engine-darwin.dylib.node");
-path.join(process.cwd(), "prisma/generated/prisma/libquery_engine-darwin.dylib.node")
+path.join(__dirname, "query_engine-windows.dll.node");
+path.join(process.cwd(), "prisma/generated/prisma/query_engine-windows.dll.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "prisma/generated/prisma/schema.prisma")

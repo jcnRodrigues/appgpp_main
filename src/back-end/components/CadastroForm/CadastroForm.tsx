@@ -1,33 +1,41 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/back-end/components/ui/button';
-import {
-    Sheet,
-    SheetContent,
-    SheetHeader,
-    SheetTitle,
-} from '@/back-end/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/back-end/components/ui/sheet';
 import Link from 'next/link';
-import { ChevronLeft, Search, Filter } from 'lucide-react';
+import { ChevronLeft, Search, Check } from 'lucide-react';
 
 interface Funcionario {
+    idF: string;
     idMatFun: string;
     nomeFun: string;
+    cpfFun?: string;
+    tbFuncao?: {
+        nomeFuncao: string;
+    };
+    tbStatusFun?: {
+        descricaoStatusFun: string;
+    };
 }
 
 interface Patrimonio {
     idPat: string;
     descricaoPat: string;
+    descricaoDetalhadaPat?: string;
+    tbStatusPat?: {
+        descricaoStatusPat: string;
+    };
+    tbCCusto?: {
+        descricaoCCusto?: string;
+    };
 }
 
 interface StatusPatrimonio {
     idStatusPat: string;
     descricaoStatPat: string;
 }
-
-type SheetTipo = 'funcionario' | 'patrimonio' | null;
 
 export default function CadastroForm({
     funcionarioId,
@@ -41,9 +49,6 @@ export default function CadastroForm({
     const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);
     const [patrimonios, setPatrimonios] = useState<Patrimonio[]>([]);
     const [statusPatrimonio, setStatusPatrimonio] = useState<StatusPatrimonio[]>([]);
-    const [sheetAberto, setSheetAberto] = useState<SheetTipo>(null);
-    const [filtroFuncionario, setFiltroFuncionario] = useState('');
-    const [filtroPatrimonio, setFiltroPatrimonio] = useState('');
     const [cadastro, setCadastro] = useState({
         idMatFunCad: funcionarioId || '',
         idPatCad: patrimonioId || '',
@@ -51,6 +56,16 @@ export default function CadastroForm({
         dataDevPat: '',
         idStatusPatCad: ''
     });
+
+    // Estados para os modais de pesquisa
+    const [isFuncionarioSheetOpen, setIsFuncionarioSheetOpen] = useState(false);
+    const [isPatrimonioSheetOpen, setIsPatrimonioSheetOpen] = useState(false);
+
+    // Estados para busca
+    const [funcionarioSearch, setFuncionarioSearch] = useState('');
+    const [patrimonioSearch, setPatrimonioSearch] = useState('');
+    const [funcionariosFiltrados, setFuncionariosFiltrados] = useState<Funcionario[]>([]);
+    const [patrimoniosFiltrados, setPatrimoniosFiltrados] = useState<Patrimonio[]>([]);
 
     useEffect(() => {
         const carregarOpcoes = async () => {
@@ -73,31 +88,88 @@ export default function CadastroForm({
         carregarOpcoes();
     }, []);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    // Efeito para filtrar funcionários
+    useEffect(() => {
+        const filtrarFuncionarios = async () => {
+            if (!funcionarioSearch.trim()) {
+                setFuncionariosFiltrados(funcionarios.slice(0, 50));
+                return;
+            }
+
+            try {
+                const res = await fetch(`/api/funcionario?nome=${encodeURIComponent(funcionarioSearch)}&take=50`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setFuncionariosFiltrados(data.data || []);
+                }
+            } catch (error) {
+                console.error('Erro ao filtrar funcionários:', error);
+            }
+        };
+
+        filtrarFuncionarios();
+    }, [funcionarioSearch, funcionarios]);
+
+    // Efeito para filtrar patrimônios
+    useEffect(() => {
+        const filtrarPatrimonios = async () => {
+            if (!patrimonioSearch.trim()) {
+                setPatrimoniosFiltrados(patrimonios.slice(0, 50));
+                return;
+            }
+
+            try {
+                const res = await fetch(`/api/patrimonio?descricao=${encodeURIComponent(patrimonioSearch)}&take=50`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setPatrimoniosFiltrados(data.data || []);
+                }
+            } catch (error) {
+                console.error('Erro ao filtrar patrimônios:', error);
+            }
+        };
+
+        filtrarPatrimonios();
+    }, [patrimonioSearch, patrimonios]);
+
+    const handleChange = (e: any) => {
         setCadastro(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
-    const handleSelectFuncionario = (func: Funcionario) => {
-        setCadastro(prev => ({ ...prev, idMatFunCad: func.idMatFun }));
-        setSheetAberto(null);
-    };
+    useEffect(() => {
+        if (!statusPatrimonio.length) return;
+        const statusDevolvido = statusPatrimonio.find(
+            s => s.descricaoStatPat.toLowerCase().includes('devolv')
+        );
+        const statusAtivo = statusPatrimonio.find(
+            s => s.descricaoStatPat.toLowerCase() === 'ativo'
+        );
 
-    const handleSelectPatrimonio = (pat: Patrimonio) => {
-        setCadastro(prev => ({ ...prev, idPatCad: pat.idPat }));
-        setSheetAberto(null);
-    };
+        if (cadastro.dataDevPat) {
+            if (statusDevolvido && cadastro.idStatusPatCad !== statusDevolvido.idStatusPat) {
+                setCadastro(prev => ({ ...prev, idStatusPatCad: statusDevolvido.idStatusPat }));
+            }
+        } else if (statusAtivo && cadastro.idStatusPatCad === (statusDevolvido?.idStatusPat || '')) {
+            setCadastro(prev => ({ ...prev, idStatusPatCad: statusAtivo.idStatusPat }));
+        }
+    }, [cadastro.dataDevPat, cadastro.idStatusPatCad, statusPatrimonio]);
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
+        setLoading(true); // ✅ Corrigido: era setLoading(false)
+
+        // Validações
         if (!cadastro.idMatFunCad) {
-            alert('Selecione um funcionário.');
+            alert('Por favor, selecione um funcionário');
+            setLoading(false);
             return;
         }
+
         if (!cadastro.idPatCad) {
-            alert('Selecione um patrimônio.');
+            alert('Por favor, selecione um patrimônio');
+            setLoading(false);
             return;
         }
-        setLoading(true);
 
         try {
             const payload = {
@@ -129,46 +201,17 @@ export default function CadastroForm({
         }
     };
 
-    const funcionarioSelecionado = funcionarios.find(f => f.idMatFun === cadastro.idMatFunCad);
-    const patrimonioSelecionado = patrimonios.find(p => p.idPat === cadastro.idPatCad);
+    const selectFuncionario = (func: Funcionario) => {
+        setCadastro(prev => ({ ...prev, idMatFunCad: func.idMatFun }));
+        setIsFuncionarioSheetOpen(false);
+        setFuncionarioSearch('');
+    };
 
-    const funcionariosFiltrados = useMemo(() => {
-        if (!filtroFuncionario.trim()) return funcionarios;
-        const termo = filtroFuncionario.trim().toLowerCase();
-        return funcionarios.filter(
-            f =>
-                f.nomeFun.toLowerCase().includes(termo) ||
-                f.idMatFun.toLowerCase().includes(termo)
-        );
-    }, [funcionarios, filtroFuncionario]);
-
-    const patrimoniosFiltrados = useMemo(() => {
-        if (!filtroPatrimonio.trim()) return patrimonios;
-        const termo = filtroPatrimonio.trim().toLowerCase();
-        return patrimonios.filter(
-            p =>
-                p.idPat.toLowerCase().includes(termo) ||
-                (p.descricaoPat && p.descricaoPat.toLowerCase().includes(termo))
-        );
-    }, [patrimonios, filtroPatrimonio]);
-
-    useEffect(() => {
-        if (!statusPatrimonio.length) return;
-        const statusDevolvido = statusPatrimonio.find(
-            s => s.descricaoStatPat.toLowerCase().includes('devolv')
-        );
-        const statusAtivo = statusPatrimonio.find(
-            s => s.descricaoStatPat.toLowerCase() === 'ativo'
-        );
-
-        if (cadastro.dataDevPat) {
-            if (statusDevolvido && cadastro.idStatusPatCad !== statusDevolvido.idStatusPat) {
-                setCadastro(prev => ({ ...prev, idStatusPatCad: statusDevolvido.idStatusPat }));
-            }
-        } else if (statusAtivo && cadastro.idStatusPatCad === (statusDevolvido?.idStatusPat || '')) {
-            setCadastro(prev => ({ ...prev, idStatusPatCad: statusAtivo.idStatusPat }));
-        }
-    }, [cadastro.dataDevPat, cadastro.idStatusPatCad, statusPatrimonio]);
+    const selectPatrimonio = (pat: Patrimonio) => {
+        setCadastro(prev => ({ ...prev, idPatCad: pat.idPat }));
+        setIsPatrimonioSheetOpen(false);
+        setPatrimonioSearch('');
+    };
 
     return (
         <div className="bg-background min-h-screen py-6">
@@ -182,47 +225,85 @@ export default function CadastroForm({
 
                 <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
                     <div>
-                        <label className="block text-sm font-medium mb-2">Funcionário *</label>
+                        <label className="block text-sm font-medium mb-2 text-red-600">Funcionário *</label>
                         <div className="flex gap-2">
-                            <input
-                                type="text"
-                                readOnly
-                                value={funcionarioSelecionado ? `${funcionarioSelecionado.nomeFun} (${funcionarioSelecionado.idMatFun})` : ''}
-                                placeholder="Selecione um funcionário"
-                                className="flex-1 px-4 py-2 border rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary"
-                            />
+                            <select
+                                name="idMatFunCad"
+                                value={cadastro.idMatFunCad}
+                                onChange={handleChange}
+                                required
+                                className={`flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!cadastro.idMatFunCad ? 'border-red-300 bg-red-50' : ''
+                                    }`}
+                            >
+                                <option value="">--- Selecione um funcionário ---</option>
+                                {funcionarios.map(func => (
+                                    <option key={func.idMatFun} value={func.idMatFun}>
+                                        {func.idMatFun} - {func.nomeFun}
+                                    </option>
+                                ))}
+                            </select>
                             <Button
                                 type="button"
                                 variant="outline"
-                                onClick={() => setSheetAberto('funcionario')}
-                                className="shrink-0"
+                                onClick={() => {
+                                    setFuncionariosFiltrados(funcionarios.slice(0, 50));
+                                    setIsFuncionarioSheetOpen(true);
+                                }}
+                                title="Pesquisar funcionário"
                             >
-                                <Search className="h-4 w-4 mr-2" />
-                                Pesquisar
+                                <Search className="h-4 w-4" />
                             </Button>
                         </div>
+                        {!cadastro.idMatFunCad && (
+                            <p className="text-red-600 text-xs mt-1">Campo obrigatório</p>
+                        )}
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2">Patrimônio *</label>
+                        <label className="block text-sm font-medium mb-2 text-red-600">Patrimônio *</label>
                         <div className="flex gap-2">
-                            <input
-                                type="text"
-                                readOnly
-                                value={patrimonioSelecionado ? `${patrimonioSelecionado.idPat} - ${patrimonioSelecionado.descricaoPat}` : ''}
-                                placeholder="Selecione um patrimônio"
-                                className="flex-1 px-4 py-2 border rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary"
-                            />
+                            <select
+                                name="idPatCad"
+                                value={cadastro.idPatCad}
+                                onChange={handleChange}
+                                required
+                                className={`flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!cadastro.idPatCad ? 'border-red-300 bg-red-50' : ''
+                                    }`}
+                            >
+                                <option value="">--- Selecione um patrimônio ---</option>
+                                {patrimonios.map(pat => (
+                                    <option key={pat.idPat} value={pat.idPat}>
+                                        {pat.idPat} - {pat.descricaoPat}
+                                    </option>
+                                ))}
+                            </select>
                             <Button
                                 type="button"
                                 variant="outline"
-                                onClick={() => setSheetAberto('patrimonio')}
-                                className="shrink-0"
+                                onClick={() => {
+                                    setPatrimoniosFiltrados(patrimonios.slice(0, 50));
+                                    setIsPatrimonioSheetOpen(true);
+                                }}
+                                title="Pesquisar patrimônio"
                             >
-                                <Search className="h-4 w-4 mr-2" />
-                                Pesquisar
+                                <Search className="h-4 w-4" />
                             </Button>
                         </div>
+                        {!cadastro.idPatCad && (
+                            <p className="text-red-600 text-xs mt-1">Campo obrigatório</p>
+                        )}
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium mb-2">Data de Alocação *</label>
+                        <input
+                            type="date"
+                            name="dataCadPat"
+                            value={cadastro.dataCadPat}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
                     </div>
 
                     <div>
@@ -244,18 +325,6 @@ export default function CadastroForm({
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2">Data de Alocação *</label>
-                        <input
-                            type="date"
-                            name="dataCadPat"
-                            value={cadastro.dataCadPat}
-                            onChange={handleChange}
-                            required
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                        />
-                    </div>
-
-                    <div>
                         <label className="block text-sm font-medium mb-2">Data de Devolução</label>
                         <input
                             type="date"
@@ -267,86 +336,82 @@ export default function CadastroForm({
                         />
                     </div>
 
-                    <div className="flex justify-end gap-4">
+                    <div className="flex justify-end gap-4 pt-4">
                         <Link href="/alocacoes">
-                            <Button type="button" variant="outline">Cancelar</Button>
+                            <Button variant="outline">Cancelar</Button>
                         </Link>
-                        <Button type="submit" disabled={loading}>
+                        <Button type="submit" disabled={loading} className="bg-primary hover:bg-primary/90">
                             {loading ? 'Salvando...' : 'Vincular'}
                         </Button>
                     </div>
                 </form>
             </div>
 
-            {/* Sheet de seleção de funcionário */}
-            <Sheet
-                open={sheetAberto === 'funcionario'}
-                onOpenChange={(open) => {
-                    if (!open) {
-                        setSheetAberto(null);
-                        setFiltroFuncionario('');
-                    }
-                }}
-            >
-                <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto">
+            {/* Sheet de Pesquisa de Funcionário */}
+            <Sheet open={isFuncionarioSheetOpen} onOpenChange={setIsFuncionarioSheetOpen}>
+                <SheetContent side="right" className="w-[600px] sm:max-w-[600px]">
                     <SheetHeader>
                         <SheetTitle>Pesquisar Funcionário</SheetTitle>
+                        <SheetDescription>
+                            Digite o nome ou matrícula do funcionário para buscar
+                        </SheetDescription>
                     </SheetHeader>
+
                     <div className="mt-4 space-y-4">
-                        <div className="flex items-center gap-2">
-                            <Filter className="h-4 w-4 text-primary shrink-0" />
+                        <div className="relative">
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                             <input
                                 type="text"
-                                placeholder="Filtrar por matrícula ou nome..."
-                                value={filtroFuncionario}
-                                onChange={(e) => setFiltroFuncionario(e.target.value)}
-                                className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                                placeholder="Buscar por nome ou matrícula..."
+                                value={funcionarioSearch}
+                                onChange={(e) => setFuncionarioSearch(e.target.value.toUpperCase())}
+                                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                autoFocus
                             />
                         </div>
-                        <div className="overflow-x-auto">
+
+                        <div className="border rounded-lg max-h-[60vh] overflow-y-auto">
                             <table className="w-full">
-                                <thead>
-                                    <tr className="border-b bg-gray-50">
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">Matrícula</th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">Nome</th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold w-24">Selecionar</th>
+                                <thead className="bg-gray-50 sticky top-0">
+                                    <tr>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Matrícula</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Nome</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Função</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Status</th>
+                                        <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600">Ação</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {funcionarios.length === 0 ? (
+                                    {funcionariosFiltrados.length === 0 ? (
                                         <tr>
-                                            <td colSpan={3} className="px-4 py-8 text-center text-gray-500">
-                                                Nenhum funcionário cadastrado
-                                            </td>
-                                        </tr>
-                                    ) : funcionariosFiltrados.length === 0 ? (
-                                        <tr>
-                                            <td colSpan={3} className="px-4 py-8 text-center text-gray-500">
-                                                Nenhum resultado para &quot;{filtroFuncionario}&quot;
+                                            <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+                                                Nenhum funcionário encontrado
                                             </td>
                                         </tr>
                                     ) : (
-                                        funcionariosFiltrados.map(func => (
-                                        <tr
-                                            key={func.idMatFun}
-                                            className="border-b hover:bg-gray-50 transition cursor-pointer"
-                                            onClick={() => handleSelectFuncionario(func)}
-                                        >
-                                            <td className="px-4 py-3 text-sm font-medium">{func.idMatFun}</td>
-                                            <td className="px-4 py-3 text-sm">{func.nomeFun}</td>
-                                            <td className="px-4 py-3">
-                                                <Button
-                                                    type="button"
-                                                    size="sm"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleSelectFuncionario(func);
-                                                    }}
-                                                >
-                                                    Selecionar
-                                                </Button>
-                                            </td>
-                                        </tr>
+                                        funcionariosFiltrados.map((func) => (
+                                            <tr key={func.idF} className="border-t hover:bg-gray-50">
+                                                <td className="px-4 py-3 text-sm font-medium">{func.idMatFun}</td>
+                                                <td className="px-4 py-3 text-sm">{func.nomeFun}</td>
+                                                <td className="px-4 py-3 text-sm">{func.tbFuncao?.nomeFuncao || '-'}</td>
+                                                <td className="px-4 py-3 text-sm">
+                                                    <span className={`px-2 py-1 rounded-full text-xs ${func.tbStatusFun?.descricaoStatusFun === 'ADMITIDO' ? 'bg-green-100 text-green-800' :
+                                                        func.tbStatusFun?.descricaoStatusFun === 'DEMITIDO' ? 'bg-red-100 text-red-800' :
+                                                            'bg-gray-100 text-gray-800'
+                                                        }`}>
+                                                        {func.tbStatusFun?.descricaoStatusFun || '-'}
+                                                    </span>
+                                                </td>
+                                                <td className="px-4 py-3 text-center">
+                                                    <button
+                                                        onClick={() => selectFuncionario(func)}
+                                                        className="p-1 text-green-600 hover:bg-green-50 rounded"
+                                                        title="Selecionar"
+                                                    >
+                                                        <Check className="h-4 w-4" />
+                                                    </button>
+                                                </td>
+                                            </tr>
                                         ))
                                     )}
                                 </tbody>
@@ -356,75 +421,75 @@ export default function CadastroForm({
                 </SheetContent>
             </Sheet>
 
-            {/* Sheet de seleção de patrimônio */}
-            <Sheet
-                open={sheetAberto === 'patrimonio'}
-                onOpenChange={(open) => {
-                    if (!open) {
-                        setSheetAberto(null);
-                        setFiltroPatrimonio('');
-                    }
-                }}
-            >
-                <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto">
+            {/* Sheet de Pesquisa de Patrimônio */}
+            <Sheet open={isPatrimonioSheetOpen} onOpenChange={setIsPatrimonioSheetOpen}>
+                <SheetContent side="right" className="w-[600px] sm:max-w-[600px]">
                     <SheetHeader>
                         <SheetTitle>Pesquisar Patrimônio</SheetTitle>
+                        <SheetDescription>
+                            Digite a descrição ou ID do patrimônio para buscar
+                        </SheetDescription>
                     </SheetHeader>
+
                     <div className="mt-4 space-y-4">
-                        <div className="flex items-center gap-2">
-                            <Filter className="h-4 w-4 text-primary shrink-0" />
+                        <div className="relative">
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                             <input
                                 type="text"
-                                placeholder="Filtrar por código ou descrição..."
-                                value={filtroPatrimonio}
-                                onChange={(e) => setFiltroPatrimonio(e.target.value)}
-                                className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                                placeholder="Buscar por descrição ou ID..."
+                                value={patrimonioSearch}
+                                onChange={(e) => setPatrimonioSearch(e.target.value.toUpperCase())}
+                                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                autoFocus
                             />
                         </div>
-                        <div className="overflow-x-auto">
+
+                        <div className="border rounded-lg max-h-[60vh] overflow-y-auto">
                             <table className="w-full">
-                                <thead>
-                                    <tr className="border-b bg-gray-50">
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">Código</th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">Descrição</th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold w-24">Selecionar</th>
+                                <thead className="bg-gray-50 sticky top-0">
+                                    <tr>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">ID</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Descrição</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Status</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Centro Custo</th>
+                                        <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600">Ação</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {patrimonios.length === 0 ? (
+                                    {patrimoniosFiltrados.length === 0 ? (
                                         <tr>
-                                            <td colSpan={3} className="px-4 py-8 text-center text-gray-500">
-                                                Nenhum patrimônio cadastrado
-                                            </td>
-                                        </tr>
-                                    ) : patrimoniosFiltrados.length === 0 ? (
-                                        <tr>
-                                            <td colSpan={3} className="px-4 py-8 text-center text-gray-500">
-                                                Nenhum resultado para &quot;{filtroPatrimonio}&quot;
+                                            <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+                                                Nenhum patrimônio encontrado
                                             </td>
                                         </tr>
                                     ) : (
-                                        patrimoniosFiltrados.map(pat => (
-                                        <tr
-                                            key={pat.idPat}
-                                            className="border-b hover:bg-gray-50 transition cursor-pointer"
-                                            onClick={() => handleSelectPatrimonio(pat)}
-                                        >
-                                            <td className="px-4 py-3 text-sm font-medium">{pat.idPat}</td>
-                                            <td className="px-4 py-3 text-sm">{pat.descricaoPat}</td>
-                                            <td className="px-4 py-3">
-                                                <Button
-                                                    type="button"
-                                                    size="sm"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleSelectPatrimonio(pat);
-                                                    }}
-                                                >
-                                                    Selecionar
-                                                </Button>
-                                            </td>
-                                        </tr>
+                                        patrimoniosFiltrados.map((pat) => (
+                                            <tr key={pat.idPat} className="border-t hover:bg-gray-50">
+                                                <td className="px-4 py-3 text-sm font-medium">{pat.idPat}</td>
+                                                <td className="px-4 py-3 text-sm max-w-xs truncate">{pat.descricaoPat}</td>
+                                                <td className="px-4 py-3 text-sm">
+                                                    <span className={`px-2 py-1 rounded-full text-xs ${pat.tbStatusPat?.descricaoStatusPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
+                                                            pat.tbStatusPat?.descricaoStatusPat === 'INATIVO' ? 'bg-blue-100 text-gray-800' :
+                                                                pat.tbStatusPat?.descricaoStatusPat === 'DEVOLUÇÃO' ? 'bg-yellow-100 text-red-800' :
+                                                                    pat.tbStatusPat?.descricaoStatusPat === 'TRANSFERIDO' ? 'bg-green-100 text-blue-800' :
+                                                                        pat.tbStatusPat?.descricaoStatusPat === 'PENDENTE' ? 'bg-blue-100 text-yellow-800' :
+                                                                            pat.tbStatusPat?.descricaoStatusPat === 'MANUTENÇÃO' ? 'bg-yellow-100 text-purple-800' :
+                                                                                'bg-gray-100 text-gray-800'
+                                                        }`}>
+                                                        {pat.tbStatusPat?.descricaoStatusPat || '-'}
+                                                    </span>
+                                                </td>
+                                                <td className="px-4 py-3 text-sm">{pat.tbCCusto?.descricaoCCusto || '-'}</td>
+                                                <td className="px-4 py-3 text-center">
+                                                    <button
+                                                        onClick={() => selectPatrimonio(pat)}
+                                                        className="p-1 text-green-600 hover:bg-green-50 rounded"
+                                                        title="Selecionar"
+                                                    >
+                                                        <Check className="h-4 w-4" />
+                                                    </button>
+                                                </td>
+                                            </tr>
                                         ))
                                     )}
                                 </tbody>

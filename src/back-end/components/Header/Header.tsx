@@ -20,7 +20,7 @@ export default function Header() {
         { icon: User, label: "Funcionários", href: "/funcionariosadd" },
         { icon: LaptopIcon, label: "Patrimônio", href: "/patrimoniolist" },
         { icon: LandmarkIcon, label: "Centros de Custo", href: "/ccustos"},
-        { icon: ClipboardCheck, label: "Medição por Cetro de Custo", href: "/ccusto/medicao"},
+        { icon: ClipboardCheck, label: "Medição por Centro de Custo", href: "/ccusto/medicao"},
         { icon: UserSearchIcon, label: "Função", href: "/funcoes" },
         { icon: PackagePlusIcon, label: "Alocação de Patrimonios", href: "/alocacoes" }
 

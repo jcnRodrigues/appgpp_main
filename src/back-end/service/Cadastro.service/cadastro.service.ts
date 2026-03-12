@@ -87,12 +87,19 @@ export async function buscarAlocacaoById(idCad: string) {
             tbStatusPat: true,
             tbFuncionario: {
                 include: {
+                    tbFuncao: true,
+                    tbCCusto: {
+                        include: {
+                            tbEmpresa: true
+                        }
+                    },
                     tbStatusFun: true
                 }
             },
             tbPatrimonio: {
                 include: {
-                    tbStatusPat: true
+                    tbStatusPat: true,
+                    tbCCusto: true
                 }
             }
         }
