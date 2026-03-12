@@ -40,7 +40,8 @@ export async function PUT(
 
         const alocacao = await atualizarAlocacao(id, {
             dataCadPat: dados.dataCadPat ? new Date(dados.dataCadPat) : undefined,
-            dataDevPat: dados.dataDevPat ? new Date(dados.dataDevPat) : undefined
+            dataDevPat: dados.dataDevPat ? new Date(dados.dataDevPat) : undefined,
+            idStatusPatCad: dados.idStatusPatCad || undefined
         });
 
         return NextResponse.json(alocacao);

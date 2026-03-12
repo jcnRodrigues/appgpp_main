@@ -86,6 +86,7 @@ model tbStatusPat {
   idStatusPat      String         @id @default(uuid())
   descricaoStatPat String
   tbPatrimonio     tbPatrimonio[]
+  tbCadastro tbCadastro[]
 }
 
 model tbEmpresa {
@@ -117,6 +118,8 @@ model tbCadastro {
   tbPatrimonio  tbPatrimonio?  @relation(fields: [idPatCad], references: [idPat])
   idMatFunCad   String?
   tbFuncionario tbFuncionario? @relation(fields: [idMatFunCad], references: [idMatFun])
+  idStatusPatCad String
+  tbStatusPat tbStatusPat? @relation(fields: [idStatusPatCad], references: [idStatusPat])
 }
 
 model Account {

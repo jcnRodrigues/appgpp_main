@@ -10,6 +10,11 @@ interface CadastroData {
     idCad: string;
     dataCadPat: string | null;
     dataDevPat: string | null;
+    idStatusPatCad?: string | null;
+    tbStatusPat?: {
+        idStatusPat: string;
+        descricaoStatPat: string;
+    } | null;
     tbFuncionario: {
         nomeFun: string;
     } | null;
@@ -18,26 +23,43 @@ interface CadastroData {
     } | null;
 }
 
+interface StatusPatrimonio {
+    idStatusPat: string;
+    descricaoStatPat: string;
+}
+
 export default function CadastroEditForm({ cadastroId }: { cadastroId: string }) {
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [salvando, setSalvando] = useState(false);
     const [cadastro, setCadastro] = useState<CadastroData | null>(null);
+    const [statusPatrimonio, setStatusPatrimonio] = useState<StatusPatrimonio[]>([]);
     const [dados, setDados] = useState({
         dataCadPat: '',
-        dataDevPat: ''
+        dataDevPat: '',
+        idStatusPatCad: ''
     });
 
     useEffect(() => {
         const carregarCadastro = async () => {
             try {
-                const res = await fetch(`/api/cadastro/${cadastroId}`);
-                if (res.ok) {
-                    const data = await res.json();
+                const [resCadastro, resOpcoes] = await Promise.all([
+                    fetch(`/api/cadastro/${cadastroId}`),
+                    fetch('/api/cadastro?opcoes=true')
+                ]);
+
+                if (resOpcoes.ok) {
+                    const opcoes = await resOpcoes.json();
+                    setStatusPatrimonio(opcoes.statusPatrimonio || []);
+                }
+
+                if (resCadastro.ok) {
+                    const data = await resCadastro.json();
                     setCadastro(data);
                     setDados({
                         dataCadPat: data.dataCadPat ? new Date(data.dataCadPat).toISOString().split('T')[0] : '',
-                        dataDevPat: data.dataDevPat ? new Date(data.dataDevPat).toISOString().split('T')[0] : ''
+                        dataDevPat: data.dataDevPat ? new Date(data.dataDevPat).toISOString().split('T')[0] : '',
+                        idStatusPatCad: data.idStatusPatCad || data.tbStatusPat?.idStatusPat || ''
                     });
                 }
             } catch (error) {
@@ -50,9 +72,27 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
         carregarCadastro();
     }, [cadastroId]);
 
-    const handleChange = (e: any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setDados(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
+
+    useEffect(() => {
+        if (!statusPatrimonio.length) return;
+        const statusDevolvido = statusPatrimonio.find(
+            s => s.descricaoStatPat.toLowerCase().includes('devolv')
+        );
+        const statusAtivo = statusPatrimonio.find(
+            s => s.descricaoStatPat.toLowerCase() === 'ativo'
+        );
+
+        if (dados.dataDevPat) {
+            if (statusDevolvido && dados.idStatusPatCad !== statusDevolvido.idStatusPat) {
+                setDados(prev => ({ ...prev, idStatusPatCad: statusDevolvido.idStatusPat }));
+            }
+        } else if (statusAtivo && dados.idStatusPatCad === (statusDevolvido?.idStatusPat || '')) {
+            setDados(prev => ({ ...prev, idStatusPatCad: statusAtivo.idStatusPat }));
+        }
+    }, [dados.dataDevPat, dados.idStatusPatCad, statusPatrimonio]);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -61,7 +101,8 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
         try {
             const payload = {
                 dataCadPat: dados.dataCadPat,
-                dataDevPat: dados.dataDevPat || null
+                dataDevPat: dados.dataDevPat || null,
+                idStatusPatCad: dados.idStatusPatCad || null
             };
 
             const res = await fetch(`/api/cadastro/${cadastroId}`, {
@@ -148,6 +189,23 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                                 placeholder="Deixe em branco se ainda não foi devolvido"
                             />
                         </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium mb-2">Status da Alocação</label>
+                        <select
+                            name="idStatusPatCad"
+                            value={dados.idStatusPatCad}
+                            onChange={handleChange}
+                            className="w-full px-4 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                            <option value="" disabled>Selecione o status</option>
+                            {statusPatrimonio.map(status => (
+                                <option key={status.idStatusPat} value={status.idStatusPat}>
+                                    {status.descricaoStatPat}
+                                </option>
+                            ))}
+                        </select>
                     </div>
 
                     <div className="flex justify-end gap-4">

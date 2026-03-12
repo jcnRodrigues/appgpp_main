@@ -9,15 +9,24 @@ interface Alocacao {
     idCad: string;
     dataCadPat: string | null;
     dataDevPat: string | null;
+
     tbFuncionario: {
         idMatFun: string;
         nomeFun: string;
         cpfFun?: string | null;
+        tbStatusFun?: {
+            descricaoStatusFun: string;
+        } | null;
     } | null;
     tbPatrimonio: {
         idPat: string;
         descricaoPat: string;
     } | null;
+    tbStatusPat?: {
+        idStatusPat: string;
+        descricaoStatPat: string;
+    } | null;
+
 }
 
 export default function CadastroTable() {
@@ -154,9 +163,11 @@ export default function CadastroTable() {
                     <thead>
                         <tr className="border-b bg-gray-50">
                             <th className="px-6 py-3 text-left text-sm font-semibold">Funcionário</th>
+                            <th className="px-6 py-3 text-left text-sm font-semibold">Status Funcionário</th>
                             <th className="px-6 py-3 text-left text-sm font-semibold">Patrimônio</th>
                             <th className="px-6 py-3 text-left text-sm font-semibold">Data Alocação</th>
                             <th className="px-6 py-3 text-left text-sm font-semibold">Data Devolução</th>
+                            <th className="px-6 py-3 text-left text-sm font-semibold">Status</th>
                             <th className="px-6 py-3 text-left text-sm font-semibold">Ações</th>
                         </tr>
                     </thead>
@@ -174,14 +185,40 @@ export default function CadastroTable() {
                                         {alocacao.tbFuncionario?.idMatFun || '-'} - {alocacao.tbFuncionario?.nomeFun || '-'}
                                     </td>
                                     <td className="px-6 py-4 text-sm">
+                                        <span 
+                                        className={`px-3 py-1 rounded-full text-xs font-semibold 
+                                        ${
+                                            alocacao.tbFuncionario?.tbStatusFun?.descricaoStatusFun === 'ADMITIDO' ? 'bg-green-100 text-green-800' :
+                                            alocacao.tbFuncionario?.tbStatusFun?.descricaoStatusFun === 'DEMITIDO' ? 'bg-red-100 text-red-800' :
+                                            alocacao.tbFuncionario?.tbStatusFun?.descricaoStatusFun === 'TRANSFERIDO' ? 'bg-yellow-100 text-yellow-800' :'bg-gray-100 text-gray-800'
+                                        }`}>
+                                            {alocacao.tbFuncionario?.tbStatusFun?.descricaoStatusFun || '-'}
+                                        </span>
+                                    </td>
+                                    <td className="px-6 py-4 text-sm">
                                         {alocacao.tbPatrimonio?.idPat || '-'} - {alocacao.tbPatrimonio?.descricaoPat || '-'}
 
                                     </td>
+
                                     <td className="px-6 py-4 text-sm">
                                         {formatarData(alocacao.dataCadPat)}
                                     </td>
                                     <td className="px-6 py-4 text-sm">
                                         {formatarData(alocacao.dataDevPat)}
+                                    </td>
+                                    <td className="px-6 py-4 text-sm">
+                                        <span
+                                            className={`px-3 py-1 rounded-full text-xs font-semibold 
+                                            ${alocacao.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
+                                                    alocacao.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-purple-100 text-purpler-800' :
+                                                        alocacao.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
+                                                            alocacao.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-blue-100 text-blue-800' :
+                                                                alocacao.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-orange-100 text-orange-800' :
+                                                                    'bg-yellow-100 text-yellow-800'
+                                                }`}>
+                                            {alocacao.tbStatusPat?.descricaoStatPat || '-'}
+                                        </span>
+
                                     </td>
                                     <td className="px-6 py-4 text-sm">
                                         <div className="flex gap-2 items-center">
@@ -238,11 +275,10 @@ export default function CadastroTable() {
                             <button
                                 key={pagina}
                                 onClick={() => irParaPagina(pagina)}
-                                className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
-                                    ativa
-                                        ? 'bg-primary text-white'
-                                        : 'bg-white text-gray-700 border hover:bg-gray-50'
-                                }`}
+                                className={`h-9 w-9 rounded-lg text-sm font-medium transition ${ativa
+                                    ? 'bg-primary text-white'
+                                    : 'bg-white text-gray-700 border hover:bg-gray-50'
+                                    }`}
                             >
                                 {pagina}
                             </button>

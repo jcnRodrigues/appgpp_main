@@ -6,6 +6,7 @@ import {
     listarPatrimonios,
     contarAlocacoes
 } from '@/back-end/service/Cadastro.service/cadastro.service';
+import { getStatusPatrimonio } from '@/back-end/service/Patrimonio.services/patrimonio.service';
 
 export async function GET(request: NextRequest) {
     try {
@@ -18,14 +19,16 @@ export async function GET(request: NextRequest) {
 
         // Se solicitar opções (funcionários e patrimônios)
         if (opcoes === 'true') {
-            const [funcionarios, patrimonios] = await Promise.all([
+            const [funcionarios, patrimonios, statusPatrimonio] = await Promise.all([
                 listarFuncionarios(),
-                listarPatrimonios()
+                listarPatrimonios(),
+                getStatusPatrimonio()
             ]);
 
             return NextResponse.json({
                 funcionarios,
-                patrimonios
+                patrimonios,
+                statusPatrimonio
             });
         }
 
@@ -69,7 +72,9 @@ export async function POST(request: NextRequest) {
         const alocacao = await criarAlocacao({
             idPatCad: dados.idPatCad,
             idMatFunCad: dados.idMatFunCad,
-            dataCadPat: dados.dataCadPat ? new Date(dados.dataCadPat) : undefined
+            dataCadPat: dados.dataCadPat ? new Date(dados.dataCadPat) : undefined,
+            dataDevPat: dados.dataDevPat ? new Date(dados.dataDevPat) : undefined,
+            idStatusPatCad: dados.idStatusPatCad || undefined
         });
 
         return NextResponse.json(alocacao, { status: 201 });

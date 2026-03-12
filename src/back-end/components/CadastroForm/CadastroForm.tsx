@@ -22,6 +22,11 @@ interface Patrimonio {
     descricaoPat: string;
 }
 
+interface StatusPatrimonio {
+    idStatusPat: string;
+    descricaoStatPat: string;
+}
+
 type SheetTipo = 'funcionario' | 'patrimonio' | null;
 
 export default function CadastroForm({
@@ -35,13 +40,16 @@ export default function CadastroForm({
     const [loading, setLoading] = useState(false);
     const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);
     const [patrimonios, setPatrimonios] = useState<Patrimonio[]>([]);
+    const [statusPatrimonio, setStatusPatrimonio] = useState<StatusPatrimonio[]>([]);
     const [sheetAberto, setSheetAberto] = useState<SheetTipo>(null);
     const [filtroFuncionario, setFiltroFuncionario] = useState('');
     const [filtroPatrimonio, setFiltroPatrimonio] = useState('');
     const [cadastro, setCadastro] = useState({
         idMatFunCad: funcionarioId || '',
         idPatCad: patrimonioId || '',
-        dataCadPat: new Date().toISOString().split('T')[0]
+        dataCadPat: new Date().toISOString().split('T')[0],
+        dataDevPat: '',
+        idStatusPatCad: ''
     });
 
     useEffect(() => {
@@ -52,6 +60,10 @@ export default function CadastroForm({
                     const data = await res.json();
                     setFuncionarios(data.funcionarios || []);
                     setPatrimonios(data.patrimonios || []);
+                    setStatusPatrimonio(data.statusPatrimonio || []);
+                    if (!cadastro.idStatusPatCad && data.statusPatrimonio?.length) {
+                        setCadastro(prev => ({ ...prev, idStatusPatCad: data.statusPatrimonio[0].idStatusPat }));
+                    }
                 }
             } catch (error) {
                 console.error('Erro ao carregar opções:', error);
@@ -61,7 +73,7 @@ export default function CadastroForm({
         carregarOpcoes();
     }, []);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setCadastro(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
@@ -91,7 +103,9 @@ export default function CadastroForm({
             const payload = {
                 idMatFunCad: cadastro.idMatFunCad,
                 idPatCad: cadastro.idPatCad,
-                dataCadPat: cadastro.dataCadPat
+                dataCadPat: cadastro.dataCadPat,
+                dataDevPat: cadastro.dataDevPat || null,
+                idStatusPatCad: cadastro.idStatusPatCad || undefined
             };
 
             const res = await fetch('/api/cadastro', {
@@ -137,6 +151,24 @@ export default function CadastroForm({
                 (p.descricaoPat && p.descricaoPat.toLowerCase().includes(termo))
         );
     }, [patrimonios, filtroPatrimonio]);
+
+    useEffect(() => {
+        if (!statusPatrimonio.length) return;
+        const statusDevolvido = statusPatrimonio.find(
+            s => s.descricaoStatPat.toLowerCase().includes('devolv')
+        );
+        const statusAtivo = statusPatrimonio.find(
+            s => s.descricaoStatPat.toLowerCase() === 'ativo'
+        );
+
+        if (cadastro.dataDevPat) {
+            if (statusDevolvido && cadastro.idStatusPatCad !== statusDevolvido.idStatusPat) {
+                setCadastro(prev => ({ ...prev, idStatusPatCad: statusDevolvido.idStatusPat }));
+            }
+        } else if (statusAtivo && cadastro.idStatusPatCad === (statusDevolvido?.idStatusPat || '')) {
+            setCadastro(prev => ({ ...prev, idStatusPatCad: statusAtivo.idStatusPat }));
+        }
+    }, [cadastro.dataDevPat, cadastro.idStatusPatCad, statusPatrimonio]);
 
     return (
         <div className="bg-background min-h-screen py-6">
@@ -194,6 +226,24 @@ export default function CadastroForm({
                     </div>
 
                     <div>
+                        <label className="block text-sm font-medium mb-2">Status da Alocação *</label>
+                        <select
+                            name="idStatusPatCad"
+                            value={cadastro.idStatusPatCad}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                            <option value="" disabled>Selecione o status</option>
+                            {statusPatrimonio.map(status => (
+                                <option key={status.idStatusPat} value={status.idStatusPat}>
+                                    {status.descricaoStatPat}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div>
                         <label className="block text-sm font-medium mb-2">Data de Alocação *</label>
                         <input
                             type="date"
@@ -202,6 +252,18 @@ export default function CadastroForm({
                             onChange={handleChange}
                             required
                             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium mb-2">Data de Devolução</label>
+                        <input
+                            type="date"
+                            name="dataDevPat"
+                            value={cadastro.dataDevPat}
+                            onChange={handleChange}
+                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                            placeholder="Deixe em branco se ainda não foi devolvido"
                         />
                     </div>
 
