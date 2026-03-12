@@ -27,13 +27,13 @@ export default async function CCustosPage() {
         );
     }
 
-    const centros = await listarCentrosCusto({ take: 200 });
+    const centros = await listarCentrosCusto({ take: 10, skip: 0 });
 
     return (
         <div className="bg-background min-h-screen py-6">
             <Header />
             <div className="max-w-6xl mx-auto px-4">
-                <div className="flex items-center justify-between mb-8 mt-4">
+                <div className="form-title-sticky flex items-center justify-between mb-8 mt-4">
                     <div className="flex items-center gap-4">
                         <Link href="/">
                             <ChevronLeft className="h-6 w-6 text-primary hover:text-primary/80 transition" />
@@ -43,12 +43,17 @@ export default async function CCustosPage() {
                             <p className="text-gray-600 text-sm mt-1">Gerencie os centros de custo da empresa</p>
                         </div>
                     </div>
-                    <Link href="/ccusto/cadastro">
-                        <Button className="flex gap-2 bg-primary hover:bg-primary/90">
-                            <Plus className="h-5 w-5" />
-                            Novo Centro
-                        </Button>
-                    </Link>
+                    <div className="flex items-center gap-2">
+                        <Link href="/ccusto/medicao">
+                            <Button variant="outline">Medição</Button>
+                        </Link>
+                        <Link href="/ccusto/cadastro">
+                            <Button className="flex gap-2 bg-primary hover:bg-primary/90">
+                                <Plus className="h-5 w-5" />
+                                Novo Centro
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
 
                 <CCustoTable centros={centros} />

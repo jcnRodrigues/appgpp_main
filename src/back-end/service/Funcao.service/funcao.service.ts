@@ -3,12 +3,18 @@
 import prisma from "../../../../prisma/prisma";
 
 // Função para buscar todas as funções
-export async function getFuncoes() {
+export async function getFuncoes(paginacao?: { skip?: number; take?: number }) {
     return await prisma.tbFuncao.findMany({
+        skip: paginacao?.skip,
+        take: paginacao?.take,
         orderBy: {
             nomeFuncao: 'asc'
         }
     });
+}
+
+export async function contarFuncoes() {
+    return await prisma.tbFuncao.count();
 }
 
 // Função para buscar uma função pelo ID

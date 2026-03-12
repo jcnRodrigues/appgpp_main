@@ -1,5 +1,23 @@
 import prisma from "../../../../prisma/prisma";
 
+function buildCentroCustoWhere(filtro?: {
+    descricao?: string;
+    codigo?: string;
+}) {
+    return {
+        ...(filtro?.descricao && {
+            descricaoCCusto: {
+                contains: filtro.descricao
+            }
+        }),
+        ...(filtro?.codigo && {
+            codigoCCusto: {
+                contains: filtro.codigo
+            }
+        })
+    };
+}
+
 export async function listarCentrosCusto(filtro?: {
     descricao?: string;
     codigo?: string;
@@ -7,18 +25,7 @@ export async function listarCentrosCusto(filtro?: {
     take?: number;
 }) {
     return await prisma.tbCCusto.findMany({
-        where: {
-            ...(filtro?.descricao && {
-                descricaoCCusto: {
-                    contains: filtro.descricao
-                }
-            }),
-            ...(filtro?.codigo && {
-                codigoCCusto: {
-                    contains: filtro.codigo
-                }
-            })
-        },
+        where: buildCentroCustoWhere(filtro),
         include: {
             tbEmpresa: true
         },
@@ -27,6 +34,15 @@ export async function listarCentrosCusto(filtro?: {
         orderBy: {
             descricaoCCusto: 'asc'
         }
+    });
+}
+
+export async function contarCentrosCusto(filtro?: {
+    descricao?: string;
+    codigo?: string;
+}) {
+    return await prisma.tbCCusto.count({
+        where: buildCentroCustoWhere(filtro)
     });
 }
 

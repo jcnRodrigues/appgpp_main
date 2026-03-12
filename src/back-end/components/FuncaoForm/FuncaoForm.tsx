@@ -82,7 +82,7 @@ export default function FuncaoForm({ funcaoId }: { funcaoId?: string }) {
     return (
         <div className="bg-background min-h-screen py-6">
             <div className="max-w-2xl mx-auto px-4">
-                <div className="flex items-center mb-6">
+                <div className="form-title-sticky flex items-center mb-6">
                     <Link href="/funcoes" className="mr-4">
                         <ChevronLeft className="h-6 w-6 text-primary" />
                     </Link>

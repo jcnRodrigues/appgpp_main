@@ -2,6 +2,26 @@
 
 import prisma from "../../../../prisma/prisma";
 
+function buildFuncionarioWhere(filtro?: {
+    nome?: string;
+    status?: string;
+    funcao?: string;
+}) {
+    return {
+        ...(filtro?.nome && {
+            nomeFun: {
+                contains: filtro.nome
+            }
+        }),
+        ...(filtro?.status && {
+            idStatusFun: filtro.status
+        }),
+        ...(filtro?.funcao && {
+            idFuncaoFun: filtro.funcao
+        })
+    };
+}
+
 export async function getFuncionariosAppointmentByUserID(userId: string) {
     return await prisma.tbFuncionario.findMany({
         where: {
@@ -64,19 +84,7 @@ export async function listarFuncionarios(filtro?: {
     take?: number;
 }) {
     return await prisma.tbFuncionario.findMany({
-        where: {
-            ...(filtro?.nome && {
-                nomeFun: {
-                    contains: filtro.nome
-                }
-            }),
-            ...(filtro?.status && {
-                idStatusFun: filtro.status
-            }),
-            ...(filtro?.funcao && {
-                idFuncaoFun: filtro.funcao
-            })
-        },
+        where: buildFuncionarioWhere(filtro),
         include: {
             tbStatusFun: true,
             tbFuncao: true,
@@ -87,6 +95,16 @@ export async function listarFuncionarios(filtro?: {
         orderBy: {
             nomeFun: 'asc'
         }
+    });
+}
+
+export async function contarFuncionarios(filtro?: {
+    nome?: string;
+    status?: string;
+    funcao?: string;
+}) {
+    return await prisma.tbFuncionario.count({
+        where: buildFuncionarioWhere(filtro)
     });
 }
 

@@ -41,7 +41,8 @@ export async function PUT(
         // Atualizar alocação
         const alocacao = await atualizarAlocacao(id, {
             dataCadPat: dados.dataCadPat ? new Date(dados.dataCadPat) : undefined,
-            dataDevPat: dados.dataDevPat ? new Date(dados.dataDevPat) : undefined
+            dataDevPat: dados.dataDevPat ? new Date(dados.dataDevPat) : undefined,
+            idStatusPatCad: dados.idStatusPatCad || undefined
         });
 
         // (anteriormente atualizávamos status do patrimônio aqui)

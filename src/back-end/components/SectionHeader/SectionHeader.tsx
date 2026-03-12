@@ -9,7 +9,7 @@ interface SectionHeaderProps {
 
 export default function SectionHeader({ title, linkText, linkHref }: SectionHeaderProps) {
     return (
-        <div className="flex justify-between items-center mb-4">
+        <div className="form-title-sticky flex justify-between items-center mb-4">
             <h2 className="!text-primary !text-2xl !font-semibold">
                 {title}
             </h2>

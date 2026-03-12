@@ -202,7 +202,8 @@ exports.Prisma.TbCadastroScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   idPatCad: 'idPatCad',
-  idMatFunCad: 'idMatFunCad'
+  idMatFunCad: 'idMatFunCad',
+  idStatusPatCad: 'idStatusPatCad'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {

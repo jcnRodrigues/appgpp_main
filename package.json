@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:public": "bash scripts/dev-public.sh",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -18,16 +19,19 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "jspdf": "^4.2.0",
     "lucide-react": "^0.525.0",
     "pdf-lib": "^1.17.1",
     "puppeteer": "^20.8.1",
     "next": "16.1.6",
     "next-auth": "^4.24.13",
+    "puppeteer": "^23.0.0",
     "react": "19.1.0",
     "react-day-picker": "^9.8.0",
     "react-dom": "19.1.0",
     "recharts": "^3.7.0",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.3.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

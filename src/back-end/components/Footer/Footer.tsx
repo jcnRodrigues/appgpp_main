@@ -7,7 +7,7 @@ export default function Footer() {
                 <span className=" flex items-center justify-center">
                     Criado com 5
                     <Star className="h-8 w-8 fill-accent text-accent-foreground" />
-                    por JcSL Information
+                    por JcSL Informatica
                 </span>
             </div>
         </footer>

@@ -32,13 +32,17 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
     const [statusFiltro, setStatusFiltro] = useState('');
     const [tipoFiltro, setTipoFiltro] = useState('');
     const [loading, setLoading] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [total, setTotal] = useState(initialPatrimonios?.length || 0);
-    const pageSize = 10;
+    const [paginaAtual, setPaginaAtual] = useState(1);
+    const itensPorPagina = 10;
+    const [totalItens, setTotalItens] = useState(initialPatrimonios?.length || 0);
+
+    useEffect(() => {
+        setPaginaAtual(1);
+    }, [filtro, statusFiltro, tipoFiltro]);
 
     useEffect(() => {
         carregarPatrimonios();
-    }, [filtro, statusFiltro, tipoFiltro, currentPage]);
+    }, [filtro, statusFiltro, tipoFiltro, paginaAtual]);
 
     const carregarPatrimonios = async () => {
         setLoading(true);
@@ -47,14 +51,14 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
             if (filtro) params.append('descricao', filtro);
             if (statusFiltro) params.append('status', statusFiltro);
             if (tipoFiltro) params.append('tipo', tipoFiltro);
-            params.append('skip', String((currentPage - 1) * pageSize));
-            params.append('take', String(pageSize));
+            params.append('skip', String((paginaAtual - 1) * itensPorPagina));
+            params.append('take', String(itensPorPagina));
 
             const response = await fetch(`/api/patrimonio?${params}`);
             if (response.ok) {
                 const data = await response.json();
                 setPatrimonios(data.data || []);
-                setTotal(data.total || 0);
+                setTotalItens(typeof data.total === 'number' ? data.total : (data.data || []).length);
             }
         } catch (error) {
             console.error('Erro ao carregar patrimônios:', error);
@@ -70,11 +74,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                     method: 'DELETE'
                 });
                 if (response.ok) {
-                    setPatrimonios((prev) => prev.filter(p => p.idP !== idP));
-                    setTotal((prev) => Math.max(0, prev - 1));
-                    if (patrimonios.length === 1 && currentPage > 1) {
-                        setCurrentPage((prev) => Math.max(1, prev - 1));
-                    }
+                    await carregarPatrimonios();
                 } else {
                     alert('Erro ao deletar patrimônio');
                 }
@@ -83,6 +83,21 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                 alert('Erro ao deletar patrimônio');
             }
         }
+    };
+
+    useEffect(() => {
+        const totalPaginasAtual = Math.max(1, Math.ceil(totalItens / itensPorPagina));
+        if (paginaAtual > totalPaginasAtual) {
+            setPaginaAtual(totalPaginasAtual);
+        }
+    }, [totalItens, paginaAtual]);
+
+    const totalPaginas = Math.max(1, Math.ceil(totalItens / itensPorPagina));
+    const inicio = (paginaAtual - 1) * itensPorPagina;
+
+    const irParaPagina = (pagina: number) => {
+        const paginaValida = Math.min(Math.max(pagina, 1), totalPaginas);
+        setPaginaAtual(paginaValida);
     };
 
     return (
@@ -99,30 +114,21 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                         type="text"
                         placeholder="Buscar por descrição..."
                         value={filtro}
-                        onChange={(e) => {
-                            setFiltro(e.target.value.toUpperCase());
-                            setCurrentPage(1);
-                        }}
+                        onChange={(e) => setFiltro(e.target.value.toUpperCase())}
                         className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                     <input
                         type="text"
                         placeholder="Filtrar por status..."
                         value={statusFiltro}
-                        onChange={(e) => {
-                            setStatusFiltro(e.target.value.toUpperCase());
-                            setCurrentPage(1);
-                        }}
+                        onChange={(e) => setStatusFiltro(e.target.value.toUpperCase())}
                         className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                     <input
                         type="text"
                         placeholder="Filtrar por tipo..."
                         value={tipoFiltro}
-                        onChange={(e) => {
-                            setTipoFiltro(e.target.value.toUpperCase());
-                            setCurrentPage(1);
-                        }}
+                        onChange={(e) => setTipoFiltro(e.target.value.toUpperCase())}
                         className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                 </div>
@@ -219,56 +225,50 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
             </div>
 
             {/* Paginação */}
-            <div className="bg-white rounded-lg shadow-md">
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 px-4 py-3 border-t bg-gray-50">
-                    <div className="text-sm text-gray-600">
-                        {total === 0
-                            ? 'Exibindo 0-0 de 0'
-                            : `Exibindo ${(currentPage - 1) * pageSize + 1}-${Math.min(currentPage * pageSize, total)} de ${total}`
-                        }
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
-                            disabled={currentPage === 1 || total === 0}
-                        >
-                            Anterior
-                        </Button>
-                        <div className="flex items-center gap-1">
-                            {Array.from({ length: Math.max(1, Math.ceil(total / pageSize)) }, (_, index) => index + 1)
-                                .filter((page) => {
-                                    const totalPages = Math.max(1, Math.ceil(total / pageSize));
-                                    const maxButtons = 5;
-                                    const half = Math.floor(maxButtons / 2);
-                                    let start = Math.max(1, currentPage - half);
-                                    let end = Math.min(totalPages, start + maxButtons - 1);
-                                    start = Math.max(1, end - maxButtons + 1);
-                                    return page >= start && page <= end;
-                                })
-                                .map((page) => (
-                                    <Button
-                                        key={page}
-                                        size="sm"
-                                        variant={page === currentPage ? 'default' : 'outline'}
-                                        onClick={() => setCurrentPage(page)}
-                                        className={page === currentPage ? 'bg-primary text-white' : ''}
-                                    >
-                                        {page}
-                                    </Button>
-                                ))}
-                        </div>
-                        <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => setCurrentPage((prev) => prev + 1)}
-                            disabled={total === 0 || currentPage >= Math.max(1, Math.ceil(total / pageSize))}
-                        >
-                            Próxima
-                        </Button>
-                    </div>
+            <div className="flex flex-col gap-3 items-center">
+                <div className="flex items-center gap-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => irParaPagina(paginaAtual - 1)}
+                        disabled={paginaAtual === 1 || totalItens === 0}
+                    >
+                        Anterior
+                    </Button>
+                    {Array.from({ length: totalPaginas }).map((_, index) => {
+                        const pagina = index + 1;
+                        const ativa = pagina === paginaAtual;
+                        return (
+                            <button
+                                key={pagina}
+                                onClick={() => irParaPagina(pagina)}
+                                className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
+                                    ativa
+                                        ? 'bg-primary text-white'
+                                        : 'bg-white text-gray-700 border hover:bg-gray-50'
+                                }`}
+                            >
+                                {pagina}
+                            </button>
+                        );
+                    })}
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => irParaPagina(paginaAtual + 1)}
+                        disabled={paginaAtual === totalPaginas || totalItens === 0}
+                    >
+                        Próxima
+                    </Button>
                 </div>
+                <div className="text-xs text-gray-500">
+                    Exibindo {totalItens === 0 ? 0 : inicio + 1}–{Math.min(inicio + patrimonios.length, totalItens)} de {totalItens}
+                </div>
+            </div>
+
+            {/* Informações */}
+            <div className="text-sm text-gray-600 text-center py-2">
+                Total de patrimônios: {totalItens}
             </div>
         </div>
     );

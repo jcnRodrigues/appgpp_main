@@ -27,7 +27,7 @@ export default async function PatrimonioList() {
         )
     }
 
-    const patrimonios = await listarPatrimonios({ take: 10 });
+    const patrimonios = await listarPatrimonios({ take: 10, skip: 0 });
     
     const patrimoniosFormatted = patrimonios.map(p => ({
         ...p,
@@ -42,7 +42,7 @@ export default async function PatrimonioList() {
             
             <div className="max-w-6xl mx-auto px-4">
                 {/* Header da Página */}
-                <div className="flex items-center justify-between mb-8 mt-4">
+                <div className="form-title-sticky flex items-center justify-between mb-8 mt-4">
                     <div className="flex items-center gap-4">
                         <Link href="/">
                             <ChevronLeft className="h-6 w-6 text-primary hover:text-primary/80 transition" />

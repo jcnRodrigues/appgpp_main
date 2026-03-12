@@ -144,7 +144,7 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
         <div className="bg-background min-h-screen py-6">
             <div className="max-w-2xl mx-auto px-4">
                 {/* Header */}
-                <div className="flex items-center mb-6">
+                <div className="form-title-sticky flex items-center mb-6">
                     <Link href="/funcionariosadd" className="mr-4">
                         <ChevronLeft className="h-6 w-6 text-primary" />
                     </Link>

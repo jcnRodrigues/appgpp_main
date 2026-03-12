@@ -32,6 +32,11 @@ interface Patrimonio {
     };
 }
 
+interface StatusPatrimonio {
+    idStatusPat: string;
+    descricaoStatPat: string;
+}
+
 export default function CadastroForm({
     funcionarioId,
     patrimonioId
@@ -43,10 +48,13 @@ export default function CadastroForm({
     const [loading, setLoading] = useState(false);
     const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);
     const [patrimonios, setPatrimonios] = useState<Patrimonio[]>([]);
+    const [statusPatrimonio, setStatusPatrimonio] = useState<StatusPatrimonio[]>([]);
     const [cadastro, setCadastro] = useState({
         idMatFunCad: funcionarioId || '',
         idPatCad: patrimonioId || '',
-        dataCadPat: new Date().toISOString().split('T')[0]
+        dataCadPat: new Date().toISOString().split('T')[0],
+        dataDevPat: '',
+        idStatusPatCad: ''
     });
 
     // Estados para os modais de pesquisa
@@ -67,6 +75,10 @@ export default function CadastroForm({
                     const data = await res.json();
                     setFuncionarios(data.funcionarios || []);
                     setPatrimonios(data.patrimonios || []);
+                    setStatusPatrimonio(data.statusPatrimonio || []);
+                    if (!cadastro.idStatusPatCad && data.statusPatrimonio?.length) {
+                        setCadastro(prev => ({ ...prev, idStatusPatCad: data.statusPatrimonio[0].idStatusPat }));
+                    }
                 }
             } catch (error) {
                 console.error('Erro ao carregar opções:', error);
@@ -124,6 +136,24 @@ export default function CadastroForm({
         setCadastro(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
+    useEffect(() => {
+        if (!statusPatrimonio.length) return;
+        const statusDevolvido = statusPatrimonio.find(
+            s => s.descricaoStatPat.toLowerCase().includes('devolv')
+        );
+        const statusAtivo = statusPatrimonio.find(
+            s => s.descricaoStatPat.toLowerCase() === 'ativo'
+        );
+
+        if (cadastro.dataDevPat) {
+            if (statusDevolvido && cadastro.idStatusPatCad !== statusDevolvido.idStatusPat) {
+                setCadastro(prev => ({ ...prev, idStatusPatCad: statusDevolvido.idStatusPat }));
+            }
+        } else if (statusAtivo && cadastro.idStatusPatCad === (statusDevolvido?.idStatusPat || '')) {
+            setCadastro(prev => ({ ...prev, idStatusPatCad: statusAtivo.idStatusPat }));
+        }
+    }, [cadastro.dataDevPat, cadastro.idStatusPatCad, statusPatrimonio]);
+
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         setLoading(true); // ✅ Corrigido: era setLoading(false)
@@ -145,7 +175,9 @@ export default function CadastroForm({
             const payload = {
                 idMatFunCad: cadastro.idMatFunCad,
                 idPatCad: cadastro.idPatCad,
-                dataCadPat: cadastro.dataCadPat
+                dataCadPat: cadastro.dataCadPat,
+                dataDevPat: cadastro.dataDevPat || null,
+                idStatusPatCad: cadastro.idStatusPatCad || undefined
             };
 
             const res = await fetch('/api/cadastro', {
@@ -184,7 +216,7 @@ export default function CadastroForm({
     return (
         <div className="bg-background min-h-screen py-6">
             <div className="max-w-2xl mx-auto px-4">
-                <div className="flex items-center mb-6">
+                <div className="form-title-sticky flex items-center mb-6">
                     <Link href="/alocacoes" className="mr-4">
                         <ChevronLeft className="h-6 w-6 text-primary" />
                     </Link>
@@ -194,15 +226,15 @@ export default function CadastroForm({
                 <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
                     <div>
                         <label className="block text-sm font-medium mb-2 text-red-600">Funcionário *</label>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 items-stretch">
                             <select
                                 name="idMatFunCad"
                                 value={cadastro.idMatFunCad}
                                 onChange={handleChange}
                                 required
-                                className={`flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary 
-                                    ${!cadastro.idMatFunCad ? 'border-red-300 bg-red-50' : ''
-                                    }`}
+                                className={`flex-1 h-10 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
+                                    !cadastro.idMatFunCad ? 'border-red-300 bg-red-50' : ''
+                                }`}
                             >
                                 <option value="">--- Selecione um funcionário ---</option>
                                 {funcionarios.map(func => (
@@ -219,6 +251,7 @@ export default function CadastroForm({
                                     setIsFuncionarioSheetOpen(true);
                                 }}
                                 title="Pesquisar funcionário"
+                                className="h-10 w-10 p-0"
                             >
                                 <Search className="h-4 w-4" />
                             </Button>
@@ -230,14 +263,15 @@ export default function CadastroForm({
 
                     <div>
                         <label className="block text-sm font-medium mb-2 text-red-600">Patrimônio *</label>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 items-stretch">
                             <select
                                 name="idPatCad"
                                 value={cadastro.idPatCad}
                                 onChange={handleChange}
                                 required
-                                className={`flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary 
-                                    ${!cadastro.idPatCad ? 'border-red-300 bg-red-50' : ''}`}
+                                className={`flex-1 h-10 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
+                                    !cadastro.idPatCad ? 'border-red-300 bg-red-50' : ''
+                                }`}
                             >
                                 <option value="">--- Selecione um patrimônio ---</option>
                                 {patrimonios.map(pat => (
@@ -254,6 +288,7 @@ export default function CadastroForm({
                                     setIsPatrimonioSheetOpen(true);
                                 }}
                                 title="Pesquisar patrimônio"
+                                className="h-10 w-10 p-0"
                             >
                                 <Search className="h-4 w-4" />
                             </Button>
@@ -272,6 +307,36 @@ export default function CadastroForm({
                             onChange={handleChange}
                             required
                             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium mb-2">Status da Alocação *</label>
+                        <select
+                            name="idStatusPatCad"
+                            value={cadastro.idStatusPatCad}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                            <option value="" disabled>Selecione o status</option>
+                            {statusPatrimonio.map(status => (
+                                <option key={status.idStatusPat} value={status.idStatusPat}>
+                                    {status.descricaoStatPat}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium mb-2">Data de Devolução</label>
+                        <input
+                            type="date"
+                            name="dataDevPat"
+                            value={cadastro.dataDevPat}
+                            onChange={handleChange}
+                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                            placeholder="Deixe em branco se ainda não foi devolvido"
                         />
                     </div>
 
@@ -408,12 +473,12 @@ export default function CadastroForm({
                                                 <td className="px-4 py-3 text-sm max-w-xs truncate">{pat.descricaoPat}</td>
                                                 <td className="px-4 py-3 text-sm">
                                                     <span className={`px-2 py-1 rounded-full text-xs ${pat.tbStatusPat?.descricaoStatusPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
-                                                        pat.tbStatusPat?.descricaoStatusPat === 'INATIVO' ? 'bg-blue-100 text-gray-800' :
-                                                            pat.tbStatusPat?.descricaoStatusPat === 'DEVOLUÇÃO' ? 'bg-yellow-100 text-red-800' :
-                                                                pat.tbStatusPat?.descricaoStatusPat === 'TRANSFERIDO' ? 'bg-green-100 text-blue-800' :
-                                                                    pat.tbStatusPat?.descricaoStatusPat === 'PENDENTE' ? 'bg-blue-100 text-yellow-800' :
-                                                                        pat.tbStatusPat?.descricaoStatusPat === 'MANUTENÇÃO' ? 'bg-yellow-100 text-purple-800' :
-                                                                            'bg-gray-100 text-gray-800'
+                                                            pat.tbStatusPat?.descricaoStatusPat === 'INATIVO' ? 'bg-blue-100 text-gray-800' :
+                                                                pat.tbStatusPat?.descricaoStatusPat === 'DEVOLUÇÃO' ? 'bg-yellow-100 text-red-800' :
+                                                                    pat.tbStatusPat?.descricaoStatusPat === 'TRANSFERIDO' ? 'bg-green-100 text-blue-800' :
+                                                                        pat.tbStatusPat?.descricaoStatusPat === 'PENDENTE' ? 'bg-blue-100 text-yellow-800' :
+                                                                            pat.tbStatusPat?.descricaoStatusPat === 'MANUTENÇÃO' ? 'bg-yellow-100 text-purple-800' :
+                                                                                'bg-gray-100 text-gray-800'
                                                         }`}>
                                                         {pat.tbStatusPat?.descricaoStatusPat || '-'}
                                                     </span>

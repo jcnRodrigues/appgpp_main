@@ -3,13 +3,31 @@
 import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
+const CORES_CENTROS = [
+    '#3b82f6', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6',
+    '#ec4899', '#06b6d4', '#84cc16', '#f97316', '#6366f1'
+];
+
 interface DataPoint {
     mes: string;
-    quantidade: number;
+    [centro: string]: string | number;
+}
+
+interface RespostaApi {
+    data: DataPoint[];
+    centros: string[];
+}
+
+function formatarMes(mes: string) {
+    const [ano, m] = mes.split('-');
+    const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+    const i = parseInt(m, 10) - 1;
+    return i >= 0 && i < 12 ? `${meses[i]}/${ano}` : mes;
 }
 
 export default function GraficoAlocacoesLinha() {
     const [dados, setDados] = useState<DataPoint[]>([]);
+    const [centros, setCentros] = useState<string[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -17,8 +35,9 @@ export default function GraficoAlocacoesLinha() {
             try {
                 const res = await fetch('/api/dashboard/alocacoes-tempo');
                 if (res.ok) {
-                    const data = await res.json();
-                    setDados(data);
+                    const json: RespostaApi = await res.json();
+                    setDados(json.data ?? []);
+                    setCentros(json.centros ?? []);
                 }
             } catch (error) {
                 console.error('Erro ao carregar dados:', error);
@@ -42,22 +61,34 @@ export default function GraficoAlocacoesLinha() {
 
     return (
         <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-semibold mb-4">Evolução de Alocações (Últimos 12 Meses)</h2>
-            <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={dados}>
+            <h2 className="text-lg font-semibold mb-4">Evolução de Alocações por Centro de Custo (Últimos 12 Meses)</h2>
+            <ResponsiveContainer width="100%" height={320}>
+                <LineChart data={dados} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="mes" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Line 
-                        type="monotone" 
-                        dataKey="quantidade" 
-                        stroke="#10b981" 
-                        name="Alocações"
-                        strokeWidth={2}
-                        dot={{ fill: '#10b981', r: 5 }}
+                    <XAxis
+                        dataKey="mes"
+                        tickFormatter={formatarMes}
+                        tick={{ fontSize: 11 }}
                     />
+                    <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />
+                    <Tooltip
+                        labelFormatter={(mes) => formatarMes(mes)}
+                        contentStyle={{ borderRadius: 8 }}
+                        formatter={(value: number) => [value, '']}
+                    />
+                    <Legend wrapperStyle={{ fontSize: 12 }} />
+                    {centros.map((centro, i) => (
+                        <Line
+                            key={centro}
+                            type="monotone"
+                            dataKey={centro}
+                            stroke={CORES_CENTROS[i % CORES_CENTROS.length]}
+                            name={centro}
+                            strokeWidth={2}
+                            dot={{ r: 4 }}
+                            connectNulls
+                        />
+                    ))}
                 </LineChart>
             </ResponsiveContainer>
         </div>

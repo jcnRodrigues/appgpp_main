@@ -86,6 +86,7 @@ model tbStatusPat {
   idStatusPat      String         @id @default(uuid())
   descricaoStatPat String
   tbPatrimonio     tbPatrimonio[]
+  tbCadastro       tbCadastro[]
 }
 
 model tbEmpresa {
@@ -108,15 +109,17 @@ model tbCCusto {
 }
 
 model tbCadastro {
-  idCad         String         @id @default(uuid())
-  dataCadPat    DateTime?
-  dataDevPat    DateTime?
-  createdAt     DateTime?      @default(now())
-  updatedAt     DateTime?      @updatedAt
-  idPatCad      String?
-  tbPatrimonio  tbPatrimonio?  @relation(fields: [idPatCad], references: [idPat])
-  idMatFunCad   String?
-  tbFuncionario tbFuncionario? @relation(fields: [idMatFunCad], references: [idMatFun])
+  idCad          String         @id @default(uuid())
+  dataCadPat     DateTime?
+  dataDevPat     DateTime?
+  createdAt      DateTime?      @default(now())
+  updatedAt      DateTime?      @updatedAt
+  idPatCad       String?
+  tbPatrimonio   tbPatrimonio?  @relation(fields: [idPatCad], references: [idPat])
+  idMatFunCad    String?
+  tbFuncionario  tbFuncionario? @relation(fields: [idMatFunCad], references: [idMatFun])
+  idStatusPatCad String
+  tbStatusPat    tbStatusPat?   @relation(fields: [idStatusPatCad], references: [idStatusPat])
 }
 
 model Account {

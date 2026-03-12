@@ -32,7 +32,7 @@ export default async function AppointmentsPage() {
     return (
         <div>
             <Header />
-            <div className="flex items-center mb-6 mt-4">
+            <div className="form-title-sticky flex items-center mb-6 mt-4">
                 <Link href="/" className="mr-4" >
                     <ChevronLeft className="h-6 w-6 text-primary text-center" />
                 </Link>
@@ -66,5 +66,4 @@ export default async function AppointmentsPage() {
         </div>
     );
 }
-
 

@@ -2,6 +2,44 @@
 
 import prisma from "../../../../prisma/prisma";
 
+async function getStatusIdByDescricao(
+    tx: typeof prisma,
+    options: { exact?: string[]; contains?: string[] }
+) {
+    const statusList = await tx.tbStatusPat.findMany();
+    const normalize = (value: string) => value.trim().toLowerCase();
+
+    if (options.exact && options.exact.length > 0) {
+        const exactSet = options.exact.map(normalize);
+        const match = statusList.find(s => exactSet.includes(normalize(s.descricaoStatPat)));
+        if (match) return match.idStatusPat;
+    }
+
+    if (options.contains && options.contains.length > 0) {
+        const containsSet = options.contains.map(normalize);
+        const match = statusList.find(s =>
+            containsSet.some(c => normalize(s.descricaoStatPat).includes(c))
+        );
+        if (match) return match.idStatusPat;
+    }
+
+    return null;
+}
+
+function buildAlocacaoWhere(filtro?: {
+    idMatFun?: string;
+    idPat?: string;
+}) {
+    return {
+        ...(filtro?.idMatFun && {
+            idMatFunCad: filtro.idMatFun
+        }),
+        ...(filtro?.idPat && {
+            idPatCad: filtro.idPat
+        })
+    };
+}
+
 // Buscar todas as alocações de patrimônio
 export async function listarAlocacoes(filtro?: {
     idMatFun?: string;
@@ -10,17 +48,19 @@ export async function listarAlocacoes(filtro?: {
     take?: number;
 }) {
     return await prisma.tbCadastro.findMany({
-        where: {
-            ...(filtro?.idMatFun && {
-                idMatFunCad: filtro.idMatFun
-            }),
-            ...(filtro?.idPat && {
-                idPatCad: filtro.idPat
-            })
-        },
+        where: buildAlocacaoWhere(filtro),
         include: {
-            tbFuncionario: true,
-            tbPatrimonio: true
+            tbStatusPat: true,
+            tbFuncionario: {
+                include: {
+                    tbStatusFun: true
+                }
+            },
+            tbPatrimonio: {
+                include: {
+                    tbStatusPat: true
+                }
+            }
         },
         skip: filtro?.skip || 0,
         take: filtro?.take || 100,
@@ -30,11 +70,21 @@ export async function listarAlocacoes(filtro?: {
     });
 }
 
+export async function contarAlocacoes(filtro?: {
+    idMatFun?: string;
+    idPat?: string;
+}) {
+    return await prisma.tbCadastro.count({
+        where: buildAlocacaoWhere(filtro)
+    });
+}
+
 // Buscar uma alocação específica
 export async function buscarAlocacaoById(idCad: string) {
     return await prisma.tbCadastro.findUnique({
         where: { idCad },
         include: {
+            tbStatusPat: true,
             tbFuncionario: {
                 include: {
                     tbFuncao: true,
@@ -42,11 +92,13 @@ export async function buscarAlocacaoById(idCad: string) {
                         include: {
                             tbEmpresa: true
                         }
-                    }
+                    },
+                    tbStatusFun: true
                 }
             },
             tbPatrimonio: {
                 include: {
+                    tbStatusPat: true,
                     tbCCusto: true
                 }
             }
@@ -59,35 +111,102 @@ export async function criarAlocacao(dados: {
     idPatCad: string;
     idMatFunCad: string;
     dataCadPat?: Date;
+    dataDevPat?: Date;
+    idStatusPatCad?: string;
 }) {
-    // Validar se o patrimônio existe
-    const patrimonio = await prisma.tbPatrimonio.findUnique({
-        where: { idPat: dados.idPatCad }
-    });
-    
-    if (!patrimonio) {
-        throw new Error("Patrimônio não encontrado");
-    }
+    return await prisma.$transaction(async (tx) => {
+        // Validar se o patrimônio existe
+        const patrimonio = await tx.tbPatrimonio.findUnique({
+            where: { idPat: dados.idPatCad },
+            include: {
+                tbStatusPat: true
+            }
+        });
 
-    // Validar se o funcionário existe
-    const funcionario = await prisma.tbFuncionario.findUnique({
-        where: { idMatFun: dados.idMatFunCad }
-    });
-    
-    if (!funcionario) {
-        throw new Error("Funcionário não encontrado");
-    }
-
-    return await prisma.tbCadastro.create({
-        data: {
-            idPatCad: dados.idPatCad,
-            idMatFunCad: dados.idMatFunCad,
-            dataCadPat: dados.dataCadPat || new Date()
-        },
-        include: {
-            tbFuncionario: true,
-            tbPatrimonio: true
+        if (!patrimonio) {
+            throw new Error("Patrimônio não encontrado");
         }
+
+        // Validar se o funcionário existe
+        const funcionario = await tx.tbFuncionario.findUnique({
+            where: { idMatFun: dados.idMatFunCad }
+        });
+
+        if (!funcionario) {
+            throw new Error("Funcionário não encontrado");
+        }
+
+        const statusDescricao = patrimonio.tbStatusPat?.descricaoStatPat?.toLowerCase() || "";
+        const statusDevolvido = statusDescricao.includes("devolv");
+
+        const alocacaoAtiva = await tx.tbCadastro.findFirst({
+            where: {
+                idPatCad: dados.idPatCad,
+                dataDevPat: null
+            },
+            orderBy: {
+                dataCadPat: "desc"
+            }
+        });
+
+        if (alocacaoAtiva && !statusDevolvido) {
+            throw new Error("Patrimônio já está alocado. Registre a devolução antes de realocar.");
+        }
+
+        if (alocacaoAtiva && statusDevolvido) {
+            await tx.tbCadastro.update({
+                where: { idCad: alocacaoAtiva.idCad },
+                data: { dataDevPat: new Date() }
+            });
+        }
+
+        const statusAtivoId = await getStatusIdByDescricao(tx, { exact: ["ATIVO"] });
+        const statusDevolvidoId = await getStatusIdByDescricao(tx, {
+            exact: ["DEVOLVIDO", "DEVOLUÇÃO", "DEVOLUCAO"],
+            contains: ["devolv"]
+        });
+        const statusCadastroId =
+            dados.idStatusPatCad ||
+            (dados.dataDevPat ? statusDevolvidoId : null) ||
+            statusAtivoId ||
+            patrimonio.idPat_StatusPat ||
+            (await getStatusIdByDescricao(tx, { contains: ["ativo"] })) ||
+            (await getStatusIdByDescricao(tx, { contains: ["devolv"] }));
+
+        if (!statusCadastroId) {
+            throw new Error("Status do patrimônio não encontrado para o cadastro.");
+        }
+
+        const novaAlocacao = await tx.tbCadastro.create({
+            data: {
+                idPatCad: dados.idPatCad,
+                idMatFunCad: dados.idMatFunCad,
+                dataCadPat: dados.dataCadPat || new Date(),
+                dataDevPat: dados.dataDevPat || null,
+                idStatusPatCad: statusCadastroId
+            },
+            include: {
+                tbFuncionario: true,
+                tbPatrimonio: true,
+                tbStatusPat: true
+            }
+        });
+
+        if (dados.dataDevPat) {
+            if (statusDevolvidoId) {
+                await tx.tbPatrimonio.update({
+                    where: { idPat: dados.idPatCad },
+                    data: { idPat_StatusPat: statusDevolvidoId }
+                });
+            }
+        } else if (statusAtivoId) {
+            await tx.tbPatrimonio.update({
+                where: { idPat: dados.idPatCad },
+                data: { idPat_StatusPat: statusAtivoId }
+            });
+        }
+
+        return novaAlocacao;
     });
 }
 
@@ -95,14 +214,51 @@ export async function criarAlocacao(dados: {
 export async function atualizarAlocacao(idCad: string, dados: Partial<{
     dataCadPat?: Date;
     dataDevPat?: Date;
+    idStatusPatCad?: string;
 }>) {
-    return await prisma.tbCadastro.update({
-        where: { idCad },
-        data: dados,
-        include: {
-            tbFuncionario: true,
-            tbPatrimonio: true
+    return await prisma.$transaction(async (tx) => {
+        const alocacao = await tx.tbCadastro.update({
+            where: { idCad },
+            data: dados,
+            include: {
+                tbFuncionario: true,
+                tbPatrimonio: true
+            }
+        });
+
+        if (alocacao.idPatCad) {
+            const statusDevolvidoId = await getStatusIdByDescricao(tx, {
+                exact: ["DEVOLVIDO", "DEVOLUÇÃO", "DEVOLUCAO"],
+                contains: ["devolv"]
+            });
+            const statusAtivoId = await getStatusIdByDescricao(tx, { exact: ["ATIVO"] });
+
+            if (dados.dataDevPat instanceof Date) {
+                if (statusDevolvidoId) {
+                    await tx.tbPatrimonio.update({
+                        where: { idPat: alocacao.idPatCad },
+                        data: { idPat_StatusPat: statusDevolvidoId }
+                    });
+                    await tx.tbCadastro.update({
+                        where: { idCad },
+                        data: { idStatusPatCad: statusDevolvidoId }
+                    });
+                }
+            } else if (dados.dataDevPat === null) {
+                if (statusAtivoId) {
+                    await tx.tbPatrimonio.update({
+                        where: { idPat: alocacao.idPatCad },
+                        data: { idPat_StatusPat: statusAtivoId }
+                    });
+                    await tx.tbCadastro.update({
+                        where: { idCad },
+                        data: { idStatusPatCad: statusAtivoId }
+                    });
+                }
+            }
         }
+
+        return alocacao;
     });
 }
 
@@ -125,6 +281,22 @@ export async function listarFuncionarios() {
 // Buscar patrimônios disponíveis
 export async function listarPatrimonios() {
     return await prisma.tbPatrimonio.findMany({
+        where: {
+            OR: [
+                {
+                    tbCadastro: {
+                        none: { dataDevPat: null }
+                    }
+                },
+                {
+                    tbStatusPat: {
+                        descricaoStatPat: {
+                            contains: "DEVOLV"
+                        }
+                    }
+                }
+            ]
+        },
         orderBy: {
             descricaoPat: 'asc'
         }

@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <SectionHeader title="Dashboard - AppGPP" />
+      <SectionHeader title="Dashboard" />
       <div className="max-w-4xl mx-auto px-4 mt-6">
         <Dashborad />
       </div>

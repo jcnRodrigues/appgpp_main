@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import { Button } from '@/back-end/components/ui/button';
 
 interface Centro {
     idCCusto: string;
@@ -17,13 +18,40 @@ interface Centro {
 
 export default function CCustoTable({ centros: inicial }: { centros: Centro[] }) {
     const [centros, setCentros] = useState(inicial);
+    const [loading, setLoading] = useState(false);
+    const [paginaAtual, setPaginaAtual] = useState(1);
+    const itensPorPagina = 10;
+    const [totalItens, setTotalItens] = useState(inicial.length);
+
+    const carregarCentros = async () => {
+        setLoading(true);
+        try {
+            const params = new URLSearchParams();
+            params.append('skip', String((paginaAtual - 1) * itensPorPagina));
+            params.append('take', String(itensPorPagina));
+            const res = await fetch(`/api/ccusto?${params}`);
+            if (res.ok) {
+                const data = await res.json();
+                setCentros(data.data || []);
+                setTotalItens(typeof data.total === 'number' ? data.total : (data.data || []).length);
+            }
+        } catch (error) {
+            console.error('Erro ao carregar centros de custo:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        carregarCentros();
+    }, [paginaAtual]);
 
     const handleDelete = async (id: string, descricao: string) => {
         if (confirm(`Deletar "${descricao}"?`)) {
             try {
                 const res = await fetch(`/api/ccusto/${id}`, { method: 'DELETE' });
                 if (res.ok) {
-                    setCentros(centros.filter(c => c.idCCusto !== id));
+                    await carregarCentros();
                 } else {
                     alert('Erro ao deletar');
                 }
@@ -34,9 +62,23 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
         }
     };
 
+    useEffect(() => {
+        const totalPaginasAtual = Math.max(1, Math.ceil(totalItens / itensPorPagina));
+        if (paginaAtual > totalPaginasAtual) {
+            setPaginaAtual(totalPaginasAtual);
+        }
+    }, [totalItens, paginaAtual]);
+
+    const totalPaginas = Math.max(1, Math.ceil(totalItens / itensPorPagina));
+    const inicio = (paginaAtual - 1) * itensPorPagina;
+
+    const irParaPagina = (pagina: number) => {
+        const paginaValida = Math.min(Math.max(pagina, 1), totalPaginas);
+        setPaginaAtual(paginaValida);
+    };
+
     return (
         <div className="space-y-4">
-
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full">
@@ -49,7 +91,13 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
                             </tr>
                         </thead>
                         <tbody>
-                            {centros.length === 0 ? (
+                            {loading ? (
+                                <tr>
+                                    <td colSpan={4} className="px-6 py-4 text-center text-gray-500">
+                                        Carregando...
+                                    </td>
+                                </tr>
+                            ) : centros.length === 0 ? (
                                 <tr>
                                     <td colSpan={4} className="px-6 py-4 text-center text-gray-500">
                                         Nenhum centro de custo cadastrado.
@@ -83,9 +131,46 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
                     </table>
                 </div>
             </div>
-            {/* Informações */}
-            <div className="text-sm text-gray-600 text-center py-2">
-                Total de Centros de Custo: {centros.length}
+            {/* Paginação */}
+            <div className="flex flex-col gap-3 items-center">
+                <div className="flex items-center gap-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => irParaPagina(paginaAtual - 1)}
+                        disabled={paginaAtual === 1 || totalItens === 0}
+                    >
+                        Anterior
+                    </Button>
+                    {Array.from({ length: totalPaginas }).map((_, index) => {
+                        const pagina = index + 1;
+                        const ativa = pagina === paginaAtual;
+                        return (
+                            <button
+                                key={pagina}
+                                onClick={() => irParaPagina(pagina)}
+                                className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
+                                    ativa
+                                        ? 'bg-primary text-white'
+                                        : 'bg-white text-gray-700 border hover:bg-gray-50'
+                                }`}
+                            >
+                                {pagina}
+                            </button>
+                        );
+                    })}
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => irParaPagina(paginaAtual + 1)}
+                        disabled={paginaAtual === totalPaginas || totalItens === 0}
+                    >
+                        Próxima
+                    </Button>
+                </div>
+                <div className="text-xs text-gray-500">
+                    Exibindo {totalItens === 0 ? 0 : inicio + 1}–{Math.min(inicio + centros.length, totalItens)} de {totalItens}
+                </div>
             </div>
         </div>
     );
