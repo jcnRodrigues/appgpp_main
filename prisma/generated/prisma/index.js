@@ -87,6 +87,9 @@ Prisma.NullTypes = {
  * Enums
  */
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -225,6 +228,113 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 
+exports.Prisma.tbUserOrderByRelevanceFieldEnum = {
+  id: 'id',
+  idUser: 'idUser',
+  nomeUser: 'nomeUser',
+  emailUser: 'emailUser',
+  senhaUser: 'senhaUser',
+  avatarUser: 'avatarUser'
+};
+
+exports.Prisma.tbFuncionarioOrderByRelevanceFieldEnum = {
+  idF: 'idF',
+  idMatFun: 'idMatFun',
+  nomeFun: 'nomeFun',
+  cpfFun: 'cpfFun',
+  avatarFun: 'avatarFun',
+  idFuncaoFun: 'idFuncaoFun',
+  idUserFun: 'idUserFun',
+  idStatusFun: 'idStatusFun',
+  idCustoFun: 'idCustoFun'
+};
+
+exports.Prisma.tbStatusFunOrderByRelevanceFieldEnum = {
+  idStatusFun: 'idStatusFun',
+  descricaoStatusFun: 'descricaoStatusFun'
+};
+
+exports.Prisma.tbFuncaoOrderByRelevanceFieldEnum = {
+  idFuncao: 'idFuncao',
+  nomeFuncao: 'nomeFuncao'
+};
+
+exports.Prisma.tbPatrimonioOrderByRelevanceFieldEnum = {
+  idP: 'idP',
+  idPat: 'idPat',
+  descricaoPat: 'descricaoPat',
+  descricaoDetalhadaPat: 'descricaoDetalhadaPat',
+  licencaPat: 'licencaPat',
+  notaFiscalPat: 'notaFiscalPat',
+  idPat_TipoPat: 'idPat_TipoPat',
+  idPat_StatusPat: 'idPat_StatusPat',
+  idPat_CustoPat: 'idPat_CustoPat'
+};
+
+exports.Prisma.tbTipoPatOrderByRelevanceFieldEnum = {
+  idTipPat: 'idTipPat',
+  descricaoTipPat: 'descricaoTipPat'
+};
+
+exports.Prisma.tbStatusPatOrderByRelevanceFieldEnum = {
+  idStatusPat: 'idStatusPat',
+  descricaoStatPat: 'descricaoStatPat'
+};
+
+exports.Prisma.tbEmpresaOrderByRelevanceFieldEnum = {
+  idEmp: 'idEmp',
+  razaoEmpresa: 'razaoEmpresa',
+  fantasiaEmpresa: 'fantasiaEmpresa',
+  cnpjEmpresa: 'cnpjEmpresa',
+  idCustEmp: 'idCustEmp'
+};
+
+exports.Prisma.tbCCustoOrderByRelevanceFieldEnum = {
+  idCCusto: 'idCCusto',
+  codigoCCusto: 'codigoCCusto',
+  descricaoCCusto: 'descricaoCCusto',
+  idEmp_Custo: 'idEmp_Custo'
+};
+
+exports.Prisma.tbCadastroOrderByRelevanceFieldEnum = {
+  idCad: 'idCad',
+  idPatCad: 'idPatCad',
+  idMatFunCad: 'idMatFunCad',
+  idStatusPatCad: 'idStatusPatCad'
+};
+
+exports.Prisma.AccountOrderByRelevanceFieldEnum = {
+  idAccont: 'idAccont',
+  userId: 'userId',
+  type: 'type',
+  provider: 'provider',
+  providerAccountId: 'providerAccountId',
+  refresh_token: 'refresh_token',
+  access_token: 'access_token',
+  token_type: 'token_type',
+  scope: 'scope',
+  id_token: 'id_token',
+  sesseion_state: 'sesseion_state'
+};
+
+exports.Prisma.SessionOrderByRelevanceFieldEnum = {
+  id: 'id',
+  sessionToken: 'sessionToken',
+  userId: 'userId'
+};
+
+exports.Prisma.UserOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  image: 'image'
+};
+
+exports.Prisma.VerificationTokenOrderByRelevanceFieldEnum = {
+  identifier: 'identifier',
+  token: 'token'
+};
+
 
 exports.Prisma.ModelName = {
   tbUser: 'tbUser',
@@ -280,8 +390,7 @@ const config = {
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "sqlite",
-  "postinstall": false,
+  "activeProvider": "mysql",
   "inlineDatasources": {
     "db": {
       "url": {
@@ -290,8 +399,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../prisma/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel tbUser {\n  id            String          @id @default(uuid())\n  idUser        String?         @unique\n  nomeUser      String?\n  emailUser     String?         @unique\n  emailVerified DateTime?\n  senhaUser     String?\n  avatarUser    String?\n  createdAt     DateTime        @default(now())\n  updatedAt     DateTime        @updatedAt\n  tbFuncioanrio tbFuncionario[]\n}\n\nmodel tbFuncionario {\n  idF         String       @id @default(uuid())\n  idMatFun    String       @unique\n  nomeFun     String\n  cpfFun      String?\n  dataAdmFun  DateTime?\n  dataDesFun  DateTime?\n  avatarFun   String?\n  idFuncaoFun String?\n  idUserFun   String?\n  idStatusFun String?\n  idCustoFun  String?\n  tbStatusFun tbStatusFun? @relation(fields: [idStatusFun], references: [idStatusFun])\n  tbUser      tbUser?      @relation(fields: [idUserFun], references: [id])\n  tbFuncao    tbFuncao?    @relation(fields: [idFuncaoFun], references: [idFuncao])\n  tbCCusto    tbCCusto?    @relation(fields: [idCustoFun], references: [idCCusto])\n  tbCadastro  tbCadastro[]\n}\n\nmodel tbStatusFun {\n  idStatusFun        String          @id @default(uuid())\n  descricaoStatusFun String\n  tbFuncionario      tbFuncionario[]\n}\n\nmodel tbFuncao {\n  idFuncao      String          @id @default(uuid())\n  nomeFuncao    String\n  tbFuncionario tbFuncionario[]\n}\n\nmodel tbPatrimonio {\n  idP                   String       @id @default(uuid())\n  idPat                 String       @unique\n  descricaoPat          String\n  descricaoDetalhadaPat String?\n  licencaPat            String?\n  dataEntPat            DateTime\n  dataSaiPat            DateTime?\n  notaFiscalPat         String?\n  valorPat              Float\n  createdAt             DateTime?    @default(now())\n  updatedAt             DateTime?    @updatedAt\n  idPat_TipoPat         String?\n  tbTipoPat             tbTipoPat?   @relation(fields: [idPat_TipoPat], references: [idTipPat])\n  idPat_StatusPat       String?\n  tbStatusPat           tbStatusPat? @relation(fields: [idPat_StatusPat], references: [idStatusPat])\n  idPat_CustoPat        String?\n  tbCCusto              tbCCusto?    @relation(fields: [idPat_CustoPat], references: [idCCusto])\n  tbCadastro            tbCadastro[]\n}\n\nmodel tbTipoPat {\n  idTipPat        String         @id @default(uuid())\n  descricaoTipPat String?\n  tbPatrimonio    tbPatrimonio[]\n}\n\nmodel tbStatusPat {\n  idStatusPat      String         @id @default(uuid())\n  descricaoStatPat String\n  tbPatrimonio     tbPatrimonio[]\n  tbCadastro       tbCadastro[]\n}\n\nmodel tbEmpresa {\n  idEmp           String     @id @default(uuid())\n  razaoEmpresa    String?\n  fantasiaEmpresa String?\n  cnpjEmpresa     String?\n  idCustEmp       String?\n  tbCCusto        tbCCusto[]\n}\n\nmodel tbCCusto {\n  idCCusto        String          @id @default(uuid())\n  codigoCCusto    String?\n  descricaoCCusto String?\n  idEmp_Custo     String?\n  tbEmpresa       tbEmpresa?      @relation(fields: [idEmp_Custo], references: [idEmp])\n  tbPatrimonio    tbPatrimonio[]\n  tbFuncionario   tbFuncionario[]\n}\n\nmodel tbCadastro {\n  idCad          String         @id @default(uuid())\n  dataCadPat     DateTime?\n  dataDevPat     DateTime?\n  createdAt      DateTime?      @default(now())\n  updatedAt      DateTime?      @updatedAt\n  idPatCad       String?\n  tbPatrimonio   tbPatrimonio?  @relation(fields: [idPatCad], references: [idPat])\n  idMatFunCad    String?\n  tbFuncionario  tbFuncionario? @relation(fields: [idMatFunCad], references: [idMatFun])\n  idStatusPatCad String\n  tbStatusPat    tbStatusPat?   @relation(fields: [idStatusPatCad], references: [idStatusPat])\n}\n\nmodel Account {\n  idAccont          String  @id @default(uuid())\n  userId            String\n  type              String\n  provider          String\n  providerAccountId String\n  refresh_token     String?\n  access_token      String?\n  expires_at        Int?\n  token_type        String?\n  scope             String?\n  id_token          String?\n  sesseion_state    String?\n  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([provider, providerAccountId])\n}\n\nmodel Session {\n  id           String   @id @default(uuid())\n  sessionToken String   @unique\n  userId       String\n  expires      DateTime\n  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel User {\n  id            String    @id @default(cuid())\n  name          String?\n  email         String?   @unique\n  emailVerified DateTime?\n  image         String?\n\n  accounts Account[]\n  sessions Session[]\n}\n\nmodel VerificationToken {\n  identifier String\n  token      String    @unique\n  expires    DateTime?\n\n  @@unique([identifier, token])\n  @@map(\"VerificationTokens\")\n}\n",
-  "inlineSchemaHash": "08820117b2422ed1870faa0d2793986d07ece1cd5f7349c0d4d363d84063e4ab",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../prisma/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel tbUser {\n  id            String          @id @default(uuid())\n  idUser        String?         @unique\n  nomeUser      String?\n  emailUser     String?         @unique\n  emailVerified DateTime?\n  senhaUser     String?\n  avatarUser    String?\n  createdAt     DateTime        @default(now())\n  updatedAt     DateTime        @updatedAt\n  tbFuncioanrio tbFuncionario[]\n}\n\nmodel tbFuncionario {\n  idF         String       @id @default(uuid())\n  idMatFun    String       @unique\n  nomeFun     String\n  cpfFun      String?\n  dataAdmFun  DateTime?\n  dataDesFun  DateTime?\n  avatarFun   String?\n  idFuncaoFun String?\n  idUserFun   String?\n  idStatusFun String?\n  idCustoFun  String?\n  tbStatusFun tbStatusFun? @relation(fields: [idStatusFun], references: [idStatusFun])\n  tbUser      tbUser?      @relation(fields: [idUserFun], references: [id])\n  tbFuncao    tbFuncao?    @relation(fields: [idFuncaoFun], references: [idFuncao])\n  tbCCusto    tbCCusto?    @relation(fields: [idCustoFun], references: [idCCusto])\n  tbCadastro  tbCadastro[]\n}\n\nmodel tbStatusFun {\n  idStatusFun        String          @id @default(uuid())\n  descricaoStatusFun String\n  tbFuncionario      tbFuncionario[]\n}\n\nmodel tbFuncao {\n  idFuncao      String          @id @default(uuid())\n  nomeFuncao    String\n  tbFuncionario tbFuncionario[]\n}\n\nmodel tbPatrimonio {\n  idP                   String       @id @default(uuid())\n  idPat                 String       @unique\n  descricaoPat          String\n  descricaoDetalhadaPat String?\n  licencaPat            String?\n  dataEntPat            DateTime\n  dataSaiPat            DateTime?\n  notaFiscalPat         String?\n  valorPat              Float\n  createdAt             DateTime?    @default(now())\n  updatedAt             DateTime?    @updatedAt\n  idPat_TipoPat         String?\n  tbTipoPat             tbTipoPat?   @relation(fields: [idPat_TipoPat], references: [idTipPat])\n  idPat_StatusPat       String?\n  tbStatusPat           tbStatusPat? @relation(fields: [idPat_StatusPat], references: [idStatusPat])\n  idPat_CustoPat        String?\n  tbCCusto              tbCCusto?    @relation(fields: [idPat_CustoPat], references: [idCCusto])\n  tbCadastro            tbCadastro[]\n}\n\nmodel tbTipoPat {\n  idTipPat        String         @id @default(uuid())\n  descricaoTipPat String?\n  tbPatrimonio    tbPatrimonio[]\n}\n\nmodel tbStatusPat {\n  idStatusPat      String         @id @default(uuid())\n  descricaoStatPat String\n  tbPatrimonio     tbPatrimonio[]\n  tbCadastro       tbCadastro[]\n}\n\nmodel tbEmpresa {\n  idEmp           String     @id @default(uuid())\n  razaoEmpresa    String?\n  fantasiaEmpresa String?\n  cnpjEmpresa     String?\n  idCustEmp       String?\n  tbCCusto        tbCCusto[]\n}\n\nmodel tbCCusto {\n  idCCusto        String          @id @default(uuid())\n  codigoCCusto    String?\n  descricaoCCusto String?\n  idEmp_Custo     String?\n  tbEmpresa       tbEmpresa?      @relation(fields: [idEmp_Custo], references: [idEmp])\n  tbPatrimonio    tbPatrimonio[]\n  tbFuncionario   tbFuncionario[]\n}\n\nmodel tbCadastro {\n  idCad          String         @id @default(uuid())\n  dataCadPat     DateTime?\n  dataDevPat     DateTime?\n  createdAt      DateTime?      @default(now())\n  updatedAt      DateTime?      @updatedAt\n  idPatCad       String?\n  tbPatrimonio   tbPatrimonio?  @relation(fields: [idPatCad], references: [idPat])\n  idMatFunCad    String?\n  tbFuncionario  tbFuncionario? @relation(fields: [idMatFunCad], references: [idMatFun])\n  idStatusPatCad String\n  tbStatusPat    tbStatusPat?   @relation(fields: [idStatusPatCad], references: [idStatusPat])\n}\n\nmodel Account {\n  idAccont          String  @id @default(uuid())\n  userId            String\n  type              String\n  provider          String\n  providerAccountId String\n  refresh_token     String?\n  access_token      String?\n  expires_at        Int?\n  token_type        String?\n  scope             String?\n  id_token          String?\n  sesseion_state    String?\n  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([provider, providerAccountId])\n}\n\nmodel Session {\n  id           String   @id @default(uuid())\n  sessionToken String   @unique\n  userId       String\n  expires      DateTime\n  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel User {\n  id            String    @id @default(cuid())\n  name          String?\n  email         String?   @unique\n  emailVerified DateTime?\n  image         String?\n\n  accounts Account[]\n  sessions Session[]\n}\n\nmodel VerificationToken {\n  identifier String\n  token      String    @unique\n  expires    DateTime?\n\n  @@unique([identifier, token])\n  @@map(\"VerificationTokens\")\n}\n",
+  "inlineSchemaHash": "008b9af4fd1e0048f79305e00be7f276c0efbcbde68da3686d83523a85dfd5ae",
   "copyEngine": true
 }
 

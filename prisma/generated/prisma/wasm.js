@@ -114,6 +114,9 @@ Prisma.NullTypes = {
  */
 
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -250,6 +253,113 @@ exports.Prisma.SortOrder = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.tbUserOrderByRelevanceFieldEnum = {
+  id: 'id',
+  idUser: 'idUser',
+  nomeUser: 'nomeUser',
+  emailUser: 'emailUser',
+  senhaUser: 'senhaUser',
+  avatarUser: 'avatarUser'
+};
+
+exports.Prisma.tbFuncionarioOrderByRelevanceFieldEnum = {
+  idF: 'idF',
+  idMatFun: 'idMatFun',
+  nomeFun: 'nomeFun',
+  cpfFun: 'cpfFun',
+  avatarFun: 'avatarFun',
+  idFuncaoFun: 'idFuncaoFun',
+  idUserFun: 'idUserFun',
+  idStatusFun: 'idStatusFun',
+  idCustoFun: 'idCustoFun'
+};
+
+exports.Prisma.tbStatusFunOrderByRelevanceFieldEnum = {
+  idStatusFun: 'idStatusFun',
+  descricaoStatusFun: 'descricaoStatusFun'
+};
+
+exports.Prisma.tbFuncaoOrderByRelevanceFieldEnum = {
+  idFuncao: 'idFuncao',
+  nomeFuncao: 'nomeFuncao'
+};
+
+exports.Prisma.tbPatrimonioOrderByRelevanceFieldEnum = {
+  idP: 'idP',
+  idPat: 'idPat',
+  descricaoPat: 'descricaoPat',
+  descricaoDetalhadaPat: 'descricaoDetalhadaPat',
+  licencaPat: 'licencaPat',
+  notaFiscalPat: 'notaFiscalPat',
+  idPat_TipoPat: 'idPat_TipoPat',
+  idPat_StatusPat: 'idPat_StatusPat',
+  idPat_CustoPat: 'idPat_CustoPat'
+};
+
+exports.Prisma.tbTipoPatOrderByRelevanceFieldEnum = {
+  idTipPat: 'idTipPat',
+  descricaoTipPat: 'descricaoTipPat'
+};
+
+exports.Prisma.tbStatusPatOrderByRelevanceFieldEnum = {
+  idStatusPat: 'idStatusPat',
+  descricaoStatPat: 'descricaoStatPat'
+};
+
+exports.Prisma.tbEmpresaOrderByRelevanceFieldEnum = {
+  idEmp: 'idEmp',
+  razaoEmpresa: 'razaoEmpresa',
+  fantasiaEmpresa: 'fantasiaEmpresa',
+  cnpjEmpresa: 'cnpjEmpresa',
+  idCustEmp: 'idCustEmp'
+};
+
+exports.Prisma.tbCCustoOrderByRelevanceFieldEnum = {
+  idCCusto: 'idCCusto',
+  codigoCCusto: 'codigoCCusto',
+  descricaoCCusto: 'descricaoCCusto',
+  idEmp_Custo: 'idEmp_Custo'
+};
+
+exports.Prisma.tbCadastroOrderByRelevanceFieldEnum = {
+  idCad: 'idCad',
+  idPatCad: 'idPatCad',
+  idMatFunCad: 'idMatFunCad',
+  idStatusPatCad: 'idStatusPatCad'
+};
+
+exports.Prisma.AccountOrderByRelevanceFieldEnum = {
+  idAccont: 'idAccont',
+  userId: 'userId',
+  type: 'type',
+  provider: 'provider',
+  providerAccountId: 'providerAccountId',
+  refresh_token: 'refresh_token',
+  access_token: 'access_token',
+  token_type: 'token_type',
+  scope: 'scope',
+  id_token: 'id_token',
+  sesseion_state: 'sesseion_state'
+};
+
+exports.Prisma.SessionOrderByRelevanceFieldEnum = {
+  id: 'id',
+  sessionToken: 'sessionToken',
+  userId: 'userId'
+};
+
+exports.Prisma.UserOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  image: 'image'
+};
+
+exports.Prisma.VerificationTokenOrderByRelevanceFieldEnum = {
+  identifier: 'identifier',
+  token: 'token'
 };
 
 
