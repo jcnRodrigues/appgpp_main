@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -51,10 +51,10 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                     setCentros(data.centros || []);
                 }
             } catch (error) {
-                console.error('Erro ao carregar opções:', error);
+                console.error('Erro ao carregar opÃ§Ãµes:', error);
             }
 
-            // Se está editando, carregar dados do funcionário
+            // Se estÃ¡ editando, carregar dados do funcionÃ¡rio
             if (funcionarioId) {
                 try {
                     const funcionarioData = await fetch(`/api/funcionario/${funcionarioId}`);
@@ -126,15 +126,19 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
             }
 
             if (response.ok) {
+                const mensagemSucesso = funcionarioId
+                    ? 'Funcionário atualizado com sucesso'
+                    : 'Funcionário criado com sucesso';
+                window.systemAlert("sucesso", mensagemSucesso);
                 router.push('/funcionariosadd');
                 router.refresh();
             } else {
                 const error = await response.json();
-                alert('Erro ao salvar funcionário: ' + error.message);
+                window.systemAlert("erro", 'Erro ao salvar funcionário: ' + error.message);
             }
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao salvar funcionário');
+            window.systemAlert("erro", 'Erro ao salvar funcionário');
         } finally {
             setLoading(false);
         }
@@ -162,7 +166,7 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label className="block text-sm font-medium mb-2">Matrícula *</label>
+                                <label className="block text-sm font-medium mb-2">Matrí­cula *</label>
                                 <input
                                     type="text"
                                     name="idMatFun"
@@ -316,3 +320,8 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
         </div>
     );
 }
+
+
+
+
+

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -30,7 +30,7 @@ export default function FuncaoTable() {
                 setTotalItens(typeof data.total === 'number' ? data.total : (data.data || []).length);
             }
         } catch (error) {
-            console.error('Erro ao carregar funções:', error);
+            console.error('Erro ao carregar funÃ§Ãµes:', error);
         } finally {
             setLoading(false);
         }
@@ -52,7 +52,7 @@ export default function FuncaoTable() {
                 await carregarFuncoes();
                 alert('Função deletada com sucesso');
             } else {
-                const err = await res.json();
+                const err = await res.json().catch(() => ({}));
                 alert(err.message || 'Erro ao deletar');
             }
         } catch (error) {
@@ -87,15 +87,15 @@ export default function FuncaoTable() {
                     <table className="w-full">
                         <thead>
                             <tr className="border-b bg-gray-50">
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Nome da Função</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Ações</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Nome da FunÃ§Ã£o</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">AÃ§Ãµes</th>
                             </tr>
                         </thead>
                         <tbody>
                             {funcoes.length === 0 ? (
                                 <tr>
                                     <td colSpan={2} className="px-6 py-8 text-center text-gray-500">
-                                        Nenhuma função cadastrada
+                                        Nenhuma funÃ§Ã£o cadastrada
                                     </td>
                                 </tr>
                             ) : (
@@ -104,12 +104,17 @@ export default function FuncaoTable() {
                                         <td className="px-6 py-4 text-sm">{funcao.nomeFuncao}</td>
                                         <td className="px-6 py-4 text-sm">
                                             <div className="flex gap-2">
-                                                <Link href={`/funcao/${funcao.idFuncao}/editar`}>
-                                                    <button className="p-2  text-blue-600 hover:bg-blue-100 rounded-lg transition">
+                                                <Button
+                                                    asChild
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="text-blue-600 hover:bg-blue-100 rounded-lg transition"
+                                                >
+                                                    <Link href={`/funcao/${funcao.idFuncao}/editar`} title="Editar">
                                                         <Edit className="h-4 w-4" />
-                                                    </button>
-                                                </Link>
-                                                <button
+                                                    </Link>
+                                                </Button>
+                                                <button type="button"
                                                     onClick={() => handleDelete(funcao.idFuncao)}
                                                     className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
                                                 >
@@ -124,15 +129,15 @@ export default function FuncaoTable() {
                     </table>
                 </div>
             </div>
-            {/* Informações */}
+            {/* InformaÃ§Ãµes */}
             <div className="text-sm text-gray-600 text-center py-2">
-                Total de Funções: {funcoes.length}
+                Total de FunÃ§Ãµes: {funcoes.length}
             </div>
 
-            {/* Paginação */}
+            {/* PaginaÃ§Ã£o */}
             <div className="flex flex-col gap-3 items-center">
                 <div className="flex items-center gap-2">
-                    <Button
+                    <Button type="button"
                         variant="outline"
                         size="sm"
                         onClick={() => irParaPagina(paginaAtual - 1)}
@@ -144,7 +149,7 @@ export default function FuncaoTable() {
                         const pagina = index + 1;
                         const ativa = pagina === paginaAtual;
                         return (
-                            <button
+                            <button type="button"
                                 key={pagina}
                                 onClick={() => irParaPagina(pagina)}
                                 className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
@@ -157,17 +162,17 @@ export default function FuncaoTable() {
                             </button>
                         );
                     })}
-                    <Button
+                    <Button type="button"
                         variant="outline"
                         size="sm"
                         onClick={() => irParaPagina(paginaAtual + 1)}
                         disabled={paginaAtual === totalPaginas || totalItens === 0}
                     >
-                        Próxima
+                        PrÃ³xima
                     </Button>
                 </div>
                 <div className="text-xs text-gray-500">
-                    Exibindo {totalItens === 0 ? 0 : inicio + 1}–{Math.min(inicio + funcoes.length, totalItens)} de {totalItens}
+                    Exibindo {totalItens === 0 ? 0 : inicio + 1}â€“{Math.min(inicio + funcoes.length, totalItens)} de {totalItens}
                 </div>
             </div>
         </div>

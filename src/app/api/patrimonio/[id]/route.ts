@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getPatrimonioCardById, atualizarPatrimonio } from '@/back-end/service/Patrimonio.services/patrimonio.service';
 import prisma from '../../../../../prisma/prisma';
-import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/back-end/components/ui/alert-dialog";
-import React from 'react';
 
 export async function GET(
     request: NextRequest,

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react';
 import { Edit, Trash2 } from 'lucide-react';
@@ -84,10 +84,10 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
                     <table className="w-full">
                         <thead className="bg-gray-50 border-b">
                             <tr>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Código</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Descrição</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">CÃ³digo</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">DescriÃ§Ã£o</th>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Empresa</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Ações</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">AÃ§Ãµes</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -111,12 +111,17 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
                                         <td className="px-6 py-4 text-sm">{c.tbEmpresa?.fantasiaEmpresa || c.tbEmpresa?.razaoEmpresa || '-'}</td>
                                         <td className="px-6 py-4 text-sm">
                                             <div className="flex gap-2">
-                                                <Link href={`/ccusto/${c.idCCusto}`}>
-                                                    <button className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition">
+                                                <Button
+                                                    asChild
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="text-blue-600 hover:bg-blue-100 rounded-lg transition"
+                                                >
+                                                    <Link href={`/ccusto/${c.idCCusto}`} title="Editar">
                                                         <Edit className="h-4 w-4" />
-                                                    </button>
-                                                </Link>
-                                                <button
+                                                    </Link>
+                                                </Button>
+                                                <button type="button"
                                                     onClick={() => handleDelete(c.idCCusto, c.descricaoCCusto || 'Centro de Custo')}
                                                     className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
                                                 >
@@ -131,10 +136,10 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
                     </table>
                 </div>
             </div>
-            {/* Paginação */}
+            {/* PaginaÃ§Ã£o */}
             <div className="flex flex-col gap-3 items-center">
                 <div className="flex items-center gap-2">
-                    <Button
+                    <Button type="button"
                         variant="outline"
                         size="sm"
                         onClick={() => irParaPagina(paginaAtual - 1)}
@@ -146,7 +151,7 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
                         const pagina = index + 1;
                         const ativa = pagina === paginaAtual;
                         return (
-                            <button
+                            <button type="button"
                                 key={pagina}
                                 onClick={() => irParaPagina(pagina)}
                                 className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
@@ -159,17 +164,17 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
                             </button>
                         );
                     })}
-                    <Button
+                    <Button type="button"
                         variant="outline"
                         size="sm"
                         onClick={() => irParaPagina(paginaAtual + 1)}
                         disabled={paginaAtual === totalPaginas || totalItens === 0}
                     >
-                        Próxima
+                        PrÃ³xima
                     </Button>
                 </div>
                 <div className="text-xs text-gray-500">
-                    Exibindo {totalItens === 0 ? 0 : inicio + 1}–{Math.min(inicio + centros.length, totalItens)} de {totalItens}
+                    Exibindo {totalItens === 0 ? 0 : inicio + 1}â€“{Math.min(inicio + centros.length, totalItens)} de {totalItens}
                 </div>
             </div>
         </div>

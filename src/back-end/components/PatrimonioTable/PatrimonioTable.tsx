@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react';
 import { Edit, Trash2, Filter } from 'lucide-react';
@@ -61,27 +61,28 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                 setTotalItens(typeof data.total === 'number' ? data.total : (data.data || []).length);
             }
         } catch (error) {
-            console.error('Erro ao carregar patrimônios:', error);
+            console.error('Erro ao carregar patrimÃ´nios:', error);
         } finally {
             setLoading(false);
         }
     };
 
     const handleDelete = async (idP: string) => {
-        if (confirm('Tem certeza que deseja deletar este patrimônio?')) {
-            try {
-                const response = await fetch(`/api/patrimonio/${idP}`, {
-                    method: 'DELETE'
-                });
-                if (response.ok) {
-                    await carregarPatrimonios();
-                } else {
-                    alert('Erro ao deletar patrimônio');
-                }
-            } catch (error) {
-                console.error('Erro ao deletar:', error);
+        if (!confirm('Tem certeza que deseja deletar este patrimônio?')) return;
+
+        try {
+            const response = await fetch(`/api/patrimonio/${idP}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                await carregarPatrimonios();
+                alert('Patrimônio deletado com sucesso');
+            } else {
                 alert('Erro ao deletar patrimônio');
             }
+        } catch (error) {
+            console.error('Erro ao deletar:', error);
+            alert('Erro ao deletar patrimônio');
         }
     };
 
@@ -112,7 +113,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <input
                         type="text"
-                        placeholder="Buscar por descrição..."
+                        placeholder="Buscar por descriÃ§Ã£o..."
                         value={filtro}
                         onChange={(e) => setFiltro(e.target.value.toUpperCase())}
                         className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
@@ -141,13 +142,13 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                         <thead className="bg-gray-50 border-b">
                             <tr>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">ID</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Descrição</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">DescriÃ§Ã£o</th>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Tipo</th>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Valor</th>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Data Entrada</th>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Status</th>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Centro Custo</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Ações</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">AÃ§Ãµes</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -160,7 +161,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                             ) : patrimonios.length === 0 ? (
                                 <tr>
                                     <td colSpan={8} className="px-6 py-4 text-center text-gray-500">
-                                        Nenhum patrimônio encontrado
+                                        Nenhum patrimÃ´nio encontrado
                                     </td>
                                 </tr>
                             ) : (
@@ -184,9 +185,9 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                         <td className="px-6 py-4 text-sm">
                                             <span className={`px-3 py-1 rounded-full text-xs font-semibold 
                                             ${patrimonio.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
-                                                    patrimonio.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
+                                                    patrimonio.tbStatusPat?.descricaoStatPat === 'DEVOLUÃ‡ÃƒO' ? 'bg-red-100 text-red-800' :
                                                         patrimonio.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-orange-100 text-orange-800' :
-                                                            patrimonio.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-gray-100 text-purple-800' :
+                                                            patrimonio.tbStatusPat?.descricaoStatPat === 'MANUTENÃ‡ÃƒO' ? 'bg-gray-100 text-purple-800' :
                                                                 patrimonio.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-gray-100 text-blue-800' :
                                                                     'bg-yellow-100 text-yellow-800'
                                                 }`}>
@@ -198,20 +199,17 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                         </td>
                                         <td className="px-6 py-4 text-sm">
                                             <div className="flex gap-3 items-center">
-                                                <Link href={`/patrimonio/${patrimonio.idP}`} className="flex-1">
-                                                    <Button
-                                                        size="sm"
-                                                        variant="default"
-                                                        className="w-full gap-2 bg-gray-100 text-blue-600 hover:bg-blue-100 rounded-lg transition"
-                                                    >
-                                                        <Edit className="h-4 w-4" />
-                                                    </Button>
-                                                </Link>
                                                 <Button
-                                                    onClick={() => handleDelete(patrimonio.idP)}
-                                                    className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition"
-                                                    title="Deletar patrimônio"
+                                                    asChild
+                                                    size="sm"
+                                                    variant="default"
+                                                    className="w-full gap-2 bg-gray-100 text-blue-600 hover:bg-blue-100 rounded-lg transition"
                                                 >
+                                                    <Link href={`/patrimonio/${patrimonio.idP}`} className="flex-1" title="Editar">
+                                                        <Edit className="h-4 w-4" />
+                                                    </Link>
+                                                </Button>
+                                                <Button type="button" onClick={() => handleDelete(patrimonio.idP)} className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition" title="Deletar patrimÃ´nio">
                                                     <Trash2 className="h-4 w-4" />
                                                 </Button>
                                             </div>
@@ -224,10 +222,10 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                 </div>
             </div>
 
-            {/* Paginação */}
+            {/* PaginaÃ§Ã£o */}
             <div className="flex flex-col gap-3 items-center">
                 <div className="flex items-center gap-2">
-                    <Button
+                    <Button type="button"
                         variant="outline"
                         size="sm"
                         onClick={() => irParaPagina(paginaAtual - 1)}
@@ -239,7 +237,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                         const pagina = index + 1;
                         const ativa = pagina === paginaAtual;
                         return (
-                            <button
+                            <button type="button"
                                 key={pagina}
                                 onClick={() => irParaPagina(pagina)}
                                 className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
@@ -252,23 +250,23 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                             </button>
                         );
                     })}
-                    <Button
+                    <Button type="button"
                         variant="outline"
                         size="sm"
                         onClick={() => irParaPagina(paginaAtual + 1)}
                         disabled={paginaAtual === totalPaginas || totalItens === 0}
                     >
-                        Próxima
+                        PrÃ³xima
                     </Button>
                 </div>
                 <div className="text-xs text-gray-500">
-                    Exibindo {totalItens === 0 ? 0 : inicio + 1}–{Math.min(inicio + patrimonios.length, totalItens)} de {totalItens}
+                    Exibindo {totalItens === 0 ? 0 : inicio + 1}â€“{Math.min(inicio + patrimonios.length, totalItens)} de {totalItens}
                 </div>
             </div>
 
-            {/* Informações */}
+            {/* InformaÃ§Ãµes */}
             <div className="text-sm text-gray-600 text-center py-2">
-                Total de patrimônios: {totalItens}
+                Total de patrimÃ´nios: {totalItens}
             </div>
         </div>
     );

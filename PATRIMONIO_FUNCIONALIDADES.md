@@ -19,7 +19,7 @@ Funções implementadas:
 Funcionalidades:
 - Formulário completo para criar e editar patrimônios
 - Campos dinâmicos carregados da API
-- Validações básicas frontend
+- Validações básicas no frontend
 - Suporte para criar e atualizar patrimônios
 - Interface responsiva com Tailwind CSS
 
@@ -68,7 +68,7 @@ Funcionalidades:
 #### GET - Opções Dinâmicas
 📄 Arquivo: `src/app/api/patrimonio/opcoes/route.ts`
 - **GET**: Retorna tipos, status e centros de custo disponíveis
-  - Usado pelo formulário para Popular dropdowns
+  - Usado pelo formulário para popular os dropdowns
 
 ### 5. **Páginas**
 
@@ -130,7 +130,7 @@ Funcionalidades:
 → Redireciona para /patrimoniolist
 ```
 
-### 4. **Considerar Patrimônio**
+### 4. **Excluir Patrimônio**
 ```
 /patrimoniolist 
 → Clica em deletar 
@@ -144,7 +144,7 @@ Funcionalidades:
 ✅ **Autenticação**: Todas as páginas exigem login (NextAuth)
 ✅ **Validação Frontend**: Campos obrigatórios e formatos
 ✅ **Validação Backend**: Dupla validação em APIs
-✅ **Erro Handling**: Tratamento de erros com feedback ao usuário
+✅ **Tratamento de erros**: Feedback ao usuário
 ✅ **Confirmação**: Confirma antes de deletar
 
 ## Customizações Possíveis

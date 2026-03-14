@@ -1,11 +1,10 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/back-end/components/ui/button';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
-import AlertaDialogo from '../AlertDialog/AlertaDialogo';
 
 interface CadastroData {
     idCad: string;
@@ -114,15 +113,16 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
             });
 
             if (res.ok) {
+                window.systemAlert("sucesso", 'Alocação atualizada com sucesso');
                 router.push('/alocacoes');
                 router.refresh();
             } else {
                 const err = await res.json();
-                alert(err.message || 'Erro ao atualizar');
+                window.systemAlert("erro", err.message || 'Erro ao atualizar');
             }
         } catch (error) {
             console.error(error);
-            alert('Erro ao salvar');
+            window.systemAlert("erro", 'Erro ao salvar');
         } finally {
             setSalvando(false);
         }
@@ -188,7 +188,7 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                                 value={dados.dataDevPat}
                                 onChange={handleChange}
                                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                placeholder="Deixe em branco se ainda não foi devolvido"
+                                placeholder="Deixe em branco se ainda nÃ£o foi devolvido"
                             />
                         </div>
                     </div>
@@ -224,3 +224,6 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
         </div>
     );
 }
+
+
+

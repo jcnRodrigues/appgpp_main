@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -65,15 +65,19 @@ export default function FuncaoForm({ funcaoId }: { funcaoId?: string }) {
             }
 
             if (res.ok) {
+                const mensagemSucesso = funcaoId
+                    ? 'Função atualizada com sucesso'
+                    : 'Função criada com sucesso';
+                window.systemAlert("sucesso", mensagemSucesso);
                 router.push('/funcoes');
                 router.refresh();
             } else {
                 const err = await res.json();
-                alert(err.message || 'Erro');
+                window.systemAlert("erro", err.message || 'Erro');
             }
         } catch (error) {
             console.error(error);
-            alert('Erro ao salvar');
+            window.systemAlert("erro", 'Erro ao salvar');
         } finally {
             setLoading(false);
         }
@@ -86,7 +90,7 @@ export default function FuncaoForm({ funcaoId }: { funcaoId?: string }) {
                     <Link href="/funcoes" className="mr-4">
                         <ChevronLeft className="h-6 w-6 text-primary" />
                     </Link>
-                    <h1 className="text-h3 font-bold">{funcaoId ? 'Editar Função' : 'Cadastrar Função'}</h1>
+                    <h1 className="text-h3 font-bold">{funcaoId ? 'Editar FunÃ§Ã£o' : 'Cadastrar FunÃ§Ã£o'}</h1>
                 </div>
 
                 <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
@@ -116,3 +120,7 @@ export default function FuncaoForm({ funcaoId }: { funcaoId?: string }) {
         </div>
     );
 }
+
+
+
+

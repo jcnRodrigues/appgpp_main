@@ -116,7 +116,7 @@ src/
 - Registro de alocações de patrimônios a funcionários
 - Controle de datas de alocação e devolução
 
-## 6. rotas da API
+## 6. Rotas da API
 
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
@@ -139,7 +139,7 @@ src/
 | /patrimonio/[id] | Editar patrimônio |
 | /funcionariosadd | Gestão de funcionários |
 | /funcionario/cadastro | Novo funcionário |
-| /funcionario/[id] | Detalhe/editar funcionário |
+| /funcionario/[id] | Detalhe/Editar funcionário |
 | /ccustos | Centros de custo |
 | /funcoes | Funções/Cargos |
 | /alocacoes | Alocações |

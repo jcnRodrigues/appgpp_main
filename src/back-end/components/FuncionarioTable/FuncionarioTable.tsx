@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react';
 import { Edit, Trash2, Filter } from 'lucide-react';
@@ -63,27 +63,28 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                 setTotalItens(typeof data.total === 'number' ? data.total : (data.data || []).length);
             }
         } catch (error) {
-            console.error('Erro ao carregar funcionários:', error);
+            console.error('Erro ao carregar funcionÃ¡rios:', error);
         } finally {
             setLoading(false);
         }
     };
 
     const handleDelete = async (idF: string) => {
-        if (confirm('Tem certeza que deseja deletar este funcionário?')) {
-            try {
-                const response = await fetch(`/api/funcionario/${idF}`, {
-                    method: 'DELETE'
-                });
-                if (response.ok) {
-                    await carregarFuncionarios();
-                } else {
-                    alert('Erro ao deletar funcionário');
-                }
-            } catch (error) {
-                console.error('Erro ao deletar:', error);
+        if (!confirm('Tem certeza que deseja deletar este funcionário?')) return;
+
+        try {
+            const response = await fetch(`/api/funcionario/${idF}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                await carregarFuncionarios();
+                alert('Funcionário deletado com sucesso');
+            } else {
                 alert('Erro ao deletar funcionário');
             }
+        } catch (error) {
+            console.error('Erro ao deletar:', error);
+            alert('Erro ao deletar funcionário');
         }
     };
 
@@ -128,7 +129,7 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                     />
                     <input
                         type="text"
-                        placeholder="Filtrar por função..."
+                        placeholder="Filtrar por funÃ§Ã£o..."
                         value={funcaoFiltro}
                         onChange={(e) => setFuncaoFiltro(e.target.value.toUpperCase())}
                         className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
@@ -142,14 +143,14 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                     <table className="w-full">
                         <thead className="bg-gray-50 border-b">
                             <tr>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Matrícula</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">MatrÃ­cula</th>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Nome</th>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">CPF</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Função</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Data Admissão</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">FunÃ§Ã£o</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Data AdmissÃ£o</th>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Status</th>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Centro Custo</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Ações</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">AÃ§Ãµes</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -162,7 +163,7 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                             ) : funcionarios.length === 0 ? (
                                 <tr>
                                     <td colSpan={8} className="px-6 py-4 text-center text-gray-500">
-                                        Nenhum funcionário encontrado
+                                        Nenhum funcionÃ¡rio encontrado
                                     </td>
                                 </tr>
                             ) : (
@@ -198,12 +199,17 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                         </td>
                                         <td className="px-6 py-4 text-sm">
                                             <div className="flex gap-2">
-                                                <Link href={`/funcionario/${funcionario.idF}`}>
-                                                    <button className="p-2  text-blue-600 hover:bg-blue-100 rounded-lg transition">
+                                                <Button
+                                                    asChild
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="text-blue-600 hover:bg-blue-100 rounded-lg transition"
+                                                >
+                                                    <Link href={`/funcionario/${funcionario.idF}`} title="Editar">
                                                         <Edit className="h-4 w-4" />
-                                                    </button>
-                                                </Link>
-                                                <button
+                                                    </Link>
+                                                </Button>
+                                                <button type="button"
                                                     onClick={() => handleDelete(funcionario.idF)}
                                                     className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
                                                 >
@@ -219,10 +225,10 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                 </div>
             </div>
 
-            {/* Paginação */}
+            {/* PaginaÃ§Ã£o */}
             <div className="flex flex-col gap-3 items-center">
                 <div className="flex items-center gap-2">
-                    <Button
+                    <Button type="button"
                         variant="outline"
                         size="sm"
                         onClick={() => irParaPagina(paginaAtual - 1)}
@@ -234,7 +240,7 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                         const pagina = index + 1;
                         const ativa = pagina === paginaAtual;
                         return (
-                            <button
+                            <button type="button"
                                 key={pagina}
                                 onClick={() => irParaPagina(pagina)}
                                 className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
@@ -247,23 +253,23 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                             </button>
                         );
                     })}
-                    <Button
+                    <Button type="button"
                         variant="outline"
                         size="sm"
                         onClick={() => irParaPagina(paginaAtual + 1)}
                         disabled={paginaAtual === totalPaginas || totalItens === 0}
                     >
-                        Próxima
+                        PrÃ³xima
                     </Button>
                 </div>
                 <div className="text-xs text-gray-500">
-                    Exibindo {totalItens === 0 ? 0 : inicio + 1}–{Math.min(inicio + funcionarios.length, totalItens)} de {totalItens}
+                    Exibindo {totalItens === 0 ? 0 : inicio + 1}â€“{Math.min(inicio + funcionarios.length, totalItens)} de {totalItens}
                 </div>
             </div>
 
-            {/* Informações */}
+            {/* InformaÃ§Ãµes */}
             <div className="text-sm text-gray-600 text-center py-2">
-                Total de funcionários: {totalItens}
+                Total de funcionÃ¡rios: {totalItens}
             </div>
         </div>
     );

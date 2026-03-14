@@ -1,8 +1,8 @@
-"use client"
+﻿"use client"
 
 
 import Header from "@/back-end/components/Header/Header";
-import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/back-end/components/ui/alert-dialog";
+import AlertaDialogo from "@/back-end/components/AlertDialog/AlertaDialogo";
 import { Badge } from "@/back-end/components/ui/badge";
 import { Calendar } from "@/back-end/components/ui/calendar";
 import { cn } from "@/lib/utils";
@@ -114,29 +114,20 @@ export default function SchedulePage({ params }: SchedulePageProps) {
                             </p>
                             <button onClick={handleScheduloClick}
                                 className="mt-2 bg-accent w-full text-white p-2 rounded-full">
-                                agendar Patrimônio
+                                agendar PatrimÃ´nio
                             </button>
                         </div>
-                        <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle className="text-primary">
-                                        Patrimônio
-                                    </AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        teste de Patrimonio
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogAction className="bg-accent text-white hover:bg-accent/90 transition-colors">
-                                        ok
-                                    </AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
+                        <AlertaDialogo
+                            open={isAlertOpen}
+                            onOpenChange={setIsAlertOpen}
+                            type="aviso"
+                            title="PatrimÃ´nio"
+                            message="teste de Patrimonio"
+                        />
                     </div>
                 </div>
             </div>
         </div>
     )
 }
+

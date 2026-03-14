@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -72,15 +72,19 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
             }
 
             if (res.ok) {
+                const mensagemSucesso = centroId
+                    ? 'Centro de custo atualizado com sucesso'
+                    : 'Centro de custo criado com sucesso';
+                window.systemAlert("sucesso", mensagemSucesso);
                 router.push('/ccustos');
                 router.refresh();
             } else {
                 const err = await res.json();
-                alert(err.message || 'Erro');
+                window.systemAlert("erro", err.message || 'Erro');
             }
         } catch (error) {
             console.error(error);
-            alert('Erro ao salvar');
+            window.systemAlert("erro", 'Erro ao salvar');
         } finally {
             setLoading(false);
         }
@@ -98,11 +102,11 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
 
                 <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
                     <div>
-                        <label className="block text-sm font-medium mb-2">Código</label>
+                        <label className="block text-sm font-medium mb-2">CÃ³digo</label>
                         <input name="codigoCCusto" value={centro.codigoCCusto} onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-2">Descrição *</label>
+                        <label className="block text-sm font-medium mb-2">DescriÃ§Ã£o *</label>
                         <input name="descricaoCCusto" value={centro.descricaoCCusto} onChange={handleChange} required className="w-full px-4 py-2 border rounded-lg" />
                     </div>
                     <div>
@@ -122,3 +126,8 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
         </div>
     );
 }
+
+
+
+
+

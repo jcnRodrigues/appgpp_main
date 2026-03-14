@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -105,13 +105,13 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
 
         // Validações adicionais
         if (!patrimonio.idPat_TipoPat) {
-            alert('Por favor, selecione o tipo de patrimônio');
+            window.systemAlert("aviso", 'Por favor, selecione o tipo de patrimônio');
             setLoading(false);
             return;
         }
 
         if (!patrimonio.idPat_StatusPat) {
-            alert('Por favor, selecione o status do patrimônio');
+            window.systemAlert("aviso", 'Por favor, selecione o status do patrimônio');
             setLoading(false);
             return;
         }
@@ -140,15 +140,19 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
             }
 
             if (response.ok) {
+                const mensagemSucesso = patrimonioId
+                    ? 'Patrimônio atualizado com sucesso'
+                    : 'Patrimônio criado com sucesso';
+                window.systemAlert("sucesso", mensagemSucesso);
                 router.push('/patrimoniolist');
                 router.refresh();
             } else {
                 const error = await response.json();
-                alert('Erro ao salvar patrimônio: ' + error.message);
+                window.systemAlert("erro", 'Erro ao salvar patrimônio: ' + error.message);
             }
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao salvar patrimônio');
+            window.systemAlert("erro", 'Erro ao salvar patrimônio');
         } finally {
             setLoading(false);
         }
@@ -375,3 +379,10 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
         </div>
     );
 }
+
+
+
+
+
+
+

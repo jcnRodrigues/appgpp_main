@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -81,14 +81,14 @@ export default function CadastroForm({
                     }
                 }
             } catch (error) {
-                console.error('Erro ao carregar opções:', error);
+                console.error('Erro ao carregar opÃ§Ãµes:', error);
             }
         };
 
         carregarOpcoes();
     }, []);
 
-    // Efeito para filtrar funcionários
+    // Efeito para filtrar funcionÃ¡rios
     useEffect(() => {
         const filtrarFuncionarios = async () => {
             if (!funcionarioSearch.trim()) {
@@ -156,17 +156,17 @@ export default function CadastroForm({
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        setLoading(true); // ✅ Corrigido: era setLoading(false)
+        setLoading(true); // âœ… Corrigido: era setLoading(false)
 
         // Validações
         if (!cadastro.idMatFunCad) {
-            alert('Por favor, selecione um funcionário');
+            window.systemAlert("aviso", 'Por favor, selecione um funcionário');
             setLoading(false);
             return;
         }
 
         if (!cadastro.idPatCad) {
-            alert('Por favor, selecione um patrimônio');
+            window.systemAlert("aviso", 'Por favor, selecione um patrimônio');
             setLoading(false);
             return;
         }
@@ -187,15 +187,16 @@ export default function CadastroForm({
             });
 
             if (res.ok) {
+                window.systemAlert("sucesso", 'Alocação criada com sucesso');
                 router.push('/alocacoes');
                 router.refresh();
             } else {
                 const err = await res.json();
-                alert(err.message || 'Erro ao vincular patrimônio');
+                window.systemAlert("erro", err.message || 'Erro ao vincular patrimônio');
             }
         } catch (error) {
             console.error(error);
-            alert('Erro ao salvar');
+            window.systemAlert("erro", 'Erro ao salvar');
         } finally {
             setLoading(false);
         }
@@ -250,7 +251,7 @@ export default function CadastroForm({
                                     setFuncionariosFiltrados(funcionarios.slice(0, 50));
                                     setIsFuncionarioSheetOpen(true);
                                 }}
-                                title="Pesquisar funcionário"
+                                title="Pesquisar funcionÃ¡rio"
                                 className="h-10 w-10 p-0"
                             >
                                 <Search className="h-4 w-4" />
@@ -287,7 +288,7 @@ export default function CadastroForm({
                                     setPatrimoniosFiltrados(patrimonios.slice(0, 50));
                                     setIsPatrimonioSheetOpen(true);
                                 }}
-                                title="Pesquisar patrimônio"
+                                title="Pesquisar patrimÃ´nio"
                                 className="h-10 w-10 p-0"
                             >
                                 <Search className="h-4 w-4" />
@@ -351,13 +352,13 @@ export default function CadastroForm({
                 </form>
             </div>
 
-            {/* Sheet de Pesquisa de Funcionário */}
+            {/* Sheet de Pesquisa de FuncionÃ¡rio */}
             <Sheet open={isFuncionarioSheetOpen} onOpenChange={setIsFuncionarioSheetOpen}>
                 <SheetContent side="right" className="w-[600px] sm:max-w-[600px]">
                     <SheetHeader>
-                        <SheetTitle>Pesquisar Funcionário</SheetTitle>
+                        <SheetTitle>Pesquisar FuncionÃ¡rio</SheetTitle>
                         <SheetDescription>
-                            Digite o nome ou matrícula do funcionário para buscar
+                            Digite o nome ou matrÃ­cula do funcionÃ¡rio para buscar
                         </SheetDescription>
                     </SheetHeader>
 
@@ -366,7 +367,7 @@ export default function CadastroForm({
                             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                             <input
                                 type="text"
-                                placeholder="Buscar por nome ou matrícula..."
+                                placeholder="Buscar por nome ou matrÃ­cula..."
                                 value={funcionarioSearch}
                                 onChange={(e) => setFuncionarioSearch(e.target.value.toUpperCase())}
                                 className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
@@ -425,7 +426,7 @@ export default function CadastroForm({
                 </SheetContent>
             </Sheet>
 
-            {/* Sheet de Pesquisa de Patrimônio */}
+            {/* Sheet de Pesquisa de PatrimÃ´nio */}
             <Sheet open={isPatrimonioSheetOpen} onOpenChange={setIsPatrimonioSheetOpen}>
                 <SheetContent side="right" className="w-[600px] sm:max-w-[600px]">
                     <SheetHeader>
@@ -505,3 +506,10 @@ export default function CadastroForm({
         </div>
     );
 }
+
+
+
+
+
+
+
