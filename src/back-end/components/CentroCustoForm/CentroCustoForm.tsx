@@ -102,11 +102,11 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
 
                 <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
                     <div>
-                        <label className="block text-sm font-medium mb-2">CÃ³digo</label>
+                        <label className="block text-sm font-medium mb-2">Código</label>
                         <input name="codigoCCusto" value={centro.codigoCCusto} onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-2">DescriÃ§Ã£o *</label>
+                        <label className="block text-sm font-medium mb-2">Descrição *</label>
                         <input name="descricaoCCusto" value={centro.descricaoCCusto} onChange={handleChange} required className="w-full px-4 py-2 border rounded-lg" />
                     </div>
                     <div>

@@ -84,10 +84,10 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
                     <table className="w-full">
                         <thead className="bg-gray-50 border-b">
                             <tr>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">CÃ³digo</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">DescriÃ§Ã£o</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Código</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Descrição</th>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Empresa</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">AÃ§Ãµes</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -136,7 +136,7 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
                     </table>
                 </div>
             </div>
-            {/* PaginaÃ§Ã£o */}
+            {/* Paginação */}
             <div className="flex flex-col gap-3 items-center">
                 <div className="flex items-center gap-2">
                     <Button type="button"
@@ -170,11 +170,11 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
                         onClick={() => irParaPagina(paginaAtual + 1)}
                         disabled={paginaAtual === totalPaginas || totalItens === 0}
                     >
-                        PrÃ³xima
+                        Próxima
                     </Button>
                 </div>
                 <div className="text-xs text-gray-500">
-                    Exibindo {totalItens === 0 ? 0 : inicio + 1}â€“{Math.min(inicio + centros.length, totalItens)} de {totalItens}
+                    Exibindo {totalItens === 0 ? 0 : inicio + 1} – {Math.min(inicio + centros.length, totalItens)} de {totalItens}
                 </div>
             </div>
         </div>

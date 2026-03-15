@@ -61,7 +61,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                 setTotalItens(typeof data.total === 'number' ? data.total : (data.data || []).length);
             }
         } catch (error) {
-            console.error('Erro ao carregar patrimÃ´nios:', error);
+            console.error('Erro ao carregar patrimônios:', error);
         } finally {
             setLoading(false);
         }
@@ -113,7 +113,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <input
                         type="text"
-                        placeholder="Buscar por descriÃ§Ã£o..."
+                        placeholder="Buscar por descrição..."
                         value={filtro}
                         onChange={(e) => setFiltro(e.target.value.toUpperCase())}
                         className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
@@ -142,13 +142,13 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                         <thead className="bg-gray-50 border-b">
                             <tr>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">ID</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">DescriÃ§Ã£o</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Descrição</th>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Tipo</th>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Valor</th>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Data Entrada</th>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Status</th>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Centro Custo</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">AÃ§Ãµes</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -161,7 +161,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                             ) : patrimonios.length === 0 ? (
                                 <tr>
                                     <td colSpan={8} className="px-6 py-4 text-center text-gray-500">
-                                        Nenhum patrimÃ´nio encontrado
+                                        Nenhum patrimônio encontrado
                                     </td>
                                 </tr>
                             ) : (
@@ -185,9 +185,9 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                         <td className="px-6 py-4 text-sm">
                                             <span className={`px-3 py-1 rounded-full text-xs font-semibold 
                                             ${patrimonio.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
-                                                    patrimonio.tbStatusPat?.descricaoStatPat === 'DEVOLUÃ‡ÃƒO' ? 'bg-red-100 text-red-800' :
+                                                    patrimonio.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
                                                         patrimonio.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-orange-100 text-orange-800' :
-                                                            patrimonio.tbStatusPat?.descricaoStatPat === 'MANUTENÃ‡ÃƒO' ? 'bg-gray-100 text-purple-800' :
+                                                            patrimonio.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-gray-100 text-purple-800' :
                                                                 patrimonio.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-gray-100 text-blue-800' :
                                                                     'bg-yellow-100 text-yellow-800'
                                                 }`}>
@@ -222,7 +222,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                 </div>
             </div>
 
-            {/* PaginaÃ§Ã£o */}
+            {/* Paginação */}
             <div className="flex flex-col gap-3 items-center">
                 <div className="flex items-center gap-2">
                     <Button type="button"
@@ -256,17 +256,17 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                         onClick={() => irParaPagina(paginaAtual + 1)}
                         disabled={paginaAtual === totalPaginas || totalItens === 0}
                     >
-                        PrÃ³xima
+                        Próxima
                     </Button>
                 </div>
                 <div className="text-xs text-gray-500">
-                    Exibindo {totalItens === 0 ? 0 : inicio + 1}â€“{Math.min(inicio + patrimonios.length, totalItens)} de {totalItens}
+                    Exibindo {totalItens === 0 ? 0 : inicio + 1} – {Math.min(inicio + patrimonios.length, totalItens)} de {totalItens}
                 </div>
             </div>
 
-            {/* InformaÃ§Ãµes */}
+            {/* Informações */}
             <div className="text-sm text-gray-600 text-center py-2">
-                Total de patrimÃ´nios: {totalItens}
+                Total de patrimônios: {totalItens}
             </div>
         </div>
     );

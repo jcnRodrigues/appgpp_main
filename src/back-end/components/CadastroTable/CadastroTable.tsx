@@ -49,7 +49,7 @@ export default function CadastroTable() {
                 setTotalItens(typeof data.total === 'number' ? data.total : (data.data || []).length);
             }
         } catch (error) {
-            console.error('Erro ao carregar alocaÃ§Ãµes:', error);
+            console.error('Erro ao carregar alocações:', error);
         } finally {
             setLoading(false);
         }
@@ -106,7 +106,7 @@ export default function CadastroTable() {
         const func = alocacao.tbFuncionario;
         const pat = alocacao.tbPatrimonio;
         if (!func || !pat) {
-            alert('Dados do funcionÃ¡rio ou patrimÃ´nio nÃ£o disponÃ­veis para gerar o termo.');
+            alert('Dados do funcionário ou patrimônio não disponíveis para gerar o termo.');
             return;
         }
         setPdfLoading(alocacao.idCad);
@@ -162,20 +162,20 @@ export default function CadastroTable() {
                 <table className="w-full">
                     <thead>
                         <tr className="border-b bg-gray-50">
-                            <th className="px-6 py-3 text-left text-sm font-semibold">FuncionÃ¡rio</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold">Status FuncionÃ¡rio</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold">PatrimÃ´nio</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold">Data AlocaÃ§Ã£o</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold">Data DevoluÃ§Ã£o</th>
+                            <th className="px-6 py-3 text-left text-sm font-semibold">Funcionário</th>
+                            <th className="px-6 py-3 text-left text-sm font-semibold">Status Funcionário</th>
+                            <th className="px-6 py-3 text-left text-sm font-semibold">Patrimônio</th>
+                            <th className="px-6 py-3 text-left text-sm font-semibold">Data Alocação</th>
+                            <th className="px-6 py-3 text-left text-sm font-semibold">Data Devolução</th>
                             <th className="px-6 py-3 text-left text-sm font-semibold">Status</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold">AÃ§Ãµes</th>
+                            <th className="px-6 py-3 text-left text-sm font-semibold">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         {alocacoes.length === 0 ? (
                             <tr>
                                 <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
-                                    Nenhuma alocaÃ§Ã£o registrada
+                                    Nenhuma alocação registrada
                                 </td>
                             </tr>
                         ) : (
@@ -211,9 +211,9 @@ export default function CadastroTable() {
                                             className={`px-3 py-1 rounded-full text-xs font-semibold 
                                             ${alocacao.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
                                                     alocacao.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-purple-100 text-purpler-800' :
-                                                        alocacao.tbStatusPat?.descricaoStatPat === 'DEVOLUÃ‡ÃƒO' ? 'bg-red-100 text-red-800' :
+                                                        alocacao.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
                                                             alocacao.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-blue-100 text-blue-800' :
-                                                                alocacao.tbStatusPat?.descricaoStatPat === 'MANUTENÃ‡ÃƒO' ? 'bg-orange-100 text-orange-800' :
+                                                                alocacao.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-orange-100 text-orange-800' :
                                                                     'bg-yellow-100 text-yellow-800'
                                                 }`}>
                                             {alocacao.tbStatusPat?.descricaoStatPat || '-'}
@@ -258,7 +258,7 @@ export default function CadastroTable() {
                 </table>
             </div>
 
-            {/* PaginaÃ§Ã£o */}
+            {/* Paginação */}
             <div className="flex flex-col gap-3 items-center">
                 <div className="flex items-center gap-2">
                     <Button type="button"
@@ -291,11 +291,11 @@ export default function CadastroTable() {
                         onClick={() => irParaPagina(paginaAtual + 1)}
                         disabled={paginaAtual === totalPaginas || totalItens === 0}
                     >
-                        PrÃ³xima
+                        Próxima
                     </Button>
                 </div>
                 <div className="text-xs text-gray-500">
-                    Exibindo {totalItens === 0 ? 0 : inicio + 1}â€“{Math.min(inicio + alocacoes.length, totalItens)} de {totalItens}
+                    Exibindo {totalItens === 0 ? 0 : inicio + 1} – {Math.min(inicio + alocacoes.length, totalItens)} de {totalItens}
                 </div>
             </div>
         </div>

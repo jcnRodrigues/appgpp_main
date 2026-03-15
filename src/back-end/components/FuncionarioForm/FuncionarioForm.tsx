@@ -51,10 +51,10 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                     setCentros(data.centros || []);
                 }
             } catch (error) {
-                console.error('Erro ao carregar opÃ§Ãµes:', error);
+                console.error('Erro ao carregar opções:', error);
             }
 
-            // Se estÃ¡ editando, carregar dados do funcionÃ¡rio
+            // Se está editando, carregar dados do funcionário
             if (funcionarioId) {
                 try {
                     const funcionarioData = await fetch(`/api/funcionario/${funcionarioId}`);

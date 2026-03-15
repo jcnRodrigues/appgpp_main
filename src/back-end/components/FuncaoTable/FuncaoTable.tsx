@@ -30,7 +30,7 @@ export default function FuncaoTable() {
                 setTotalItens(typeof data.total === 'number' ? data.total : (data.data || []).length);
             }
         } catch (error) {
-            console.error('Erro ao carregar funÃ§Ãµes:', error);
+            console.error('Erro ao carregar funções:', error);
         } finally {
             setLoading(false);
         }
@@ -87,15 +87,15 @@ export default function FuncaoTable() {
                     <table className="w-full">
                         <thead>
                             <tr className="border-b bg-gray-50">
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Nome da FunÃ§Ã£o</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">AÃ§Ãµes</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Nome da Função</th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             {funcoes.length === 0 ? (
                                 <tr>
                                     <td colSpan={2} className="px-6 py-8 text-center text-gray-500">
-                                        Nenhuma funÃ§Ã£o cadastrada
+                                        Nenhuma função cadastrada
                                     </td>
                                 </tr>
                             ) : (
@@ -129,12 +129,12 @@ export default function FuncaoTable() {
                     </table>
                 </div>
             </div>
-            {/* InformaÃ§Ãµes */}
+            {/* Informações */}
             <div className="text-sm text-gray-600 text-center py-2">
-                Total de FunÃ§Ãµes: {funcoes.length}
+                Total de Funções: {funcoes.length}
             </div>
 
-            {/* PaginaÃ§Ã£o */}
+            {/* Paginação */}
             <div className="flex flex-col gap-3 items-center">
                 <div className="flex items-center gap-2">
                     <Button type="button"
@@ -168,11 +168,11 @@ export default function FuncaoTable() {
                         onClick={() => irParaPagina(paginaAtual + 1)}
                         disabled={paginaAtual === totalPaginas || totalItens === 0}
                     >
-                        PrÃ³xima
+                        Próxima
                     </Button>
                 </div>
                 <div className="text-xs text-gray-500">
-                    Exibindo {totalItens === 0 ? 0 : inicio + 1}â€“{Math.min(inicio + funcoes.length, totalItens)} de {totalItens}
+                    Exibindo {totalItens === 0 ? 0 : inicio + 1} – {Math.min(inicio + funcoes.length, totalItens)} de {totalItens}
                 </div>
             </div>
         </div>
