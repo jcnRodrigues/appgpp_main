@@ -54,7 +54,7 @@ export function gerarTermoResponsabilidadePdf(dados: DadosTermoResponsabilidade)
 
     doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
-    doc.text('USO NOTEBOOK PAREX', LARGURA_PAGINA / 2, y, { align: 'center' });
+    doc.text(`USO ${dados.descricaoPat} PAREX`, LARGURA_PAGINA / 2, y, { align: 'center' });
     doc.setFontSize(9);
     doc.setFont('helvetica', 'normal');
     doc.text('Gerenciamento de Recursos Humanos', LARGURA_PAGINA / 2, y + 6, { align: 'center' });
@@ -75,7 +75,7 @@ export function gerarTermoResponsabilidadePdf(dados: DadosTermoResponsabilidade)
     doc.setFont('helvetica', 'bold');
     doc.text('Termo de Responsabilidade -', LARGURA_PAGINA / 2, y, { align: 'center' });
     y += 7;
-    doc.text('Uso Notebooks Parex – Funcionários', LARGURA_PAGINA / 2, y, { align: 'center' });
+    doc.text(`Uso ${dados.descricaoPat} PAREX – Funcionários`, LARGURA_PAGINA / 2, y, { align: 'center' });
     y += 12;
 
     doc.setFont('helvetica', 'normal');
@@ -114,10 +114,12 @@ export function gerarTermoResponsabilidadePdf(dados: DadosTermoResponsabilidade)
     const localData = dados.localData?.trim() || 'PARAUAPEBAS PA, _____ de ______________ de 2026';
     doc.text(localData, MARGEM, y);
     y += 8;
-    doc.text('Nome __________________________', MARGEM, y);
+    doc.text('_______________________________', MARGEM, y);
     y += 6;
-    doc.text('CPF nº ____________________', MARGEM, y);
-    y += 6;
+    doc.text(`Nome ${dados.nomeFun}`, MARGEM, y);
+    y += 4;
+    doc.text(`CPF nº ${dados.cpfFun}`, MARGEM, y);
+    y += 8;
     doc.text('________________________', MARGEM, y);
 
     const nomeArquivo = `Termo-Responsabilidade-${dados.idMatFun}-${dados.idPat}.pdf`;

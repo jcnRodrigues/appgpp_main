@@ -114,14 +114,14 @@ export default function SchedulePage({ params }: SchedulePageProps) {
                             </p>
                             <button onClick={handleScheduloClick}
                                 className="mt-2 bg-accent w-full text-white p-2 rounded-full">
-                                agendar PatrimÃ´nio
+                                agendar Patrimônio
                             </button>
                         </div>
                         <AlertaDialogo
                             open={isAlertOpen}
                             onOpenChange={setIsAlertOpen}
                             type="aviso"
-                            title="PatrimÃ´nio"
+                            title="Patrimônio"
                             message="teste de Patrimonio"
                         />
                     </div>

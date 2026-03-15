@@ -138,7 +138,7 @@ export default function TermoResponsabilidadeTemplate({
             <div style={styles.assinatura}>
                 <div>{localData}</div>
                 <div style={{ marginTop: 12 }}>Nome __________________________</div>
-                <div style={{ marginTop: 8 }}>CPF nº ____________________</div>
+                <div style={{ marginTop: 8 }}></div>
                 <div style={{ marginTop: 8 }}>________________________</div>
             </div>
         </div>
