@@ -1,6 +1,7 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react';
+import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
 import { Button } from '@/back-end/components/ui/button';
 
 type CentroCustoOption = {
@@ -35,6 +36,7 @@ type RespostaMedicao = {
 };
 
 export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOption[] }) {
+    const handleEnterToNext = useEnterToNext();
     const [centroSelecionado, setCentroSelecionado] = useState('');
     const [arquivo, setArquivo] = useState<File | null>(null);
     const [loading, setLoading] = useState(false);
@@ -84,7 +86,7 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
 
     return (
         <div className="space-y-6">
-            <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 space-y-4">
+            <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-md p-6 space-y-4">
                 <div>
                     <label className="block text-sm font-medium mb-2">Centro de Custo</label>
                     <select
@@ -96,7 +98,7 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                         {centros.map((centro) => (
                             <option key={centro.idCCusto} value={centro.idCCusto}>
                                 {(centro.codigoCCusto ? `${centro.codigoCCusto} - ` : '') +
-                                    (centro.descricaoCCusto || 'Sem descrição')}
+                                    (centro.descricaoCCusto || 'Sem descriÃ§Ã£o')}
                             </option>
                         ))}
                     </select>
@@ -122,7 +124,7 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                 )}
 
                 <Button type="submit" className="bg-primary hover:bg-primary/90" disabled={loading}>
-                    {loading ? 'Processando...' : 'Conferir Patrimônios'}
+                    {loading ? 'Processando...' : 'Conferir PatrimÃ´nios'}
                 </Button>
             </form>
 
@@ -142,11 +144,11 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                             <p className="text-xl font-semibold text-orange-600">{resultado.resumo.divergentes}</p>
                         </div>
                         <div className="bg-white rounded-lg shadow p-4 text-center">
-                            <p className="text-xs text-gray-500">Não encontrados</p>
+                            <p className="text-xs text-gray-500">NÃ£o encontrados</p>
                             <p className="text-xl font-semibold text-red-600">{resultado.resumo.naoEncontrados}</p>
                         </div>
                         <div className="bg-white rounded-lg shadow p-4 text-center">
-                            <p className="text-xs text-gray-500">Inválidos</p>
+                            <p className="text-xs text-gray-500">InvÃ¡lidos</p>
                             <p className="text-xl font-semibold text-gray-600">{resultado.resumo.invalidos}</p>
                         </div>
                     </div>
@@ -157,7 +159,7 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                                 <thead className="bg-gray-50 border-b">
                                     <tr>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">Linha</th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">ID Patrimônio</th>
+                                        <th className="px-4 py-3 text-left text-sm font-semibold">ID PatrimÃ´nio</th>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">Valor Informado</th>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">Valor Sistema</th>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">Status</th>
@@ -201,12 +203,12 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                     {resultado.naoInformados.length > 0 && (
                         <div className="bg-white rounded-lg shadow p-4">
                             <h3 className="font-semibold mb-2">
-                                Patrimônios no centro de custo que não vieram no arquivo
+                                PatrimÃ´nios no centro de custo que nÃ£o vieram no arquivo
                             </h3>
                             <ul className="text-sm text-gray-700 list-disc pl-4">
                                 {resultado.naoInformados.map((item) => (
                                     <li key={item.idPat}>
-                                        {item.idPat} - {item.descricaoPat || 'Sem descrição'} (R$ {item.valorSistema?.toFixed(2) || '0.00'})
+                                        {item.idPat} - {item.descricaoPat || 'Sem descriÃ§Ã£o'} (R$ {item.valorSistema?.toFixed(2) || '0.00'})
                                     </li>
                                 ))}
                             </ul>
@@ -217,3 +219,4 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
         </div>
     );
 }
+

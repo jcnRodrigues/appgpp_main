@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
 import { Button } from '@/back-end/components/ui/button';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
@@ -31,6 +32,7 @@ interface StatusPatrimonio {
 
 export default function CadastroEditForm({ cadastroId }: { cadastroId: string }) {
     const router = useRouter();
+    const handleEnterToNext = useEnterToNext();
     const [loading, setLoading] = useState(true);
     const [salvando, setSalvando] = useState(false);
     const [cadastro, setCadastro] = useState<CadastroData | null>(null);
@@ -146,7 +148,7 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                     <h1 className="text-h3 font-bold">Editar Alocação</h1>
                 </div>
 
-                <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
+                <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
                     <div className="grid grid-cols-2 gap-6">
                         <div>
                             <label className="block text-sm font-medium mb-2">Funcionário</label>
@@ -224,6 +226,7 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
         </div>
     );
 }
+
 
 
 

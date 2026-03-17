@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
 import { Button } from '@/back-end/components/ui/button';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 
 export default function FuncaoForm({ funcaoId }: { funcaoId?: string }) {
     const router = useRouter();
+    const handleEnterToNext = useEnterToNext();
     const [loading, setLoading] = useState(false);
     const [funcao, setFuncao] = useState({
         nomeFuncao: ''
@@ -93,7 +95,7 @@ export default function FuncaoForm({ funcaoId }: { funcaoId?: string }) {
                     <h1 className="text-h3 font-bold">{funcaoId ? 'Editar Função' : 'Cadastrar Função'}</h1>
                 </div>
 
-                <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
+                <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
                     <div>
                         <label className="block text-sm font-medium mb-2">Nome da Função *</label>
                         <input
@@ -120,6 +122,7 @@ export default function FuncaoForm({ funcaoId }: { funcaoId?: string }) {
         </div>
     );
 }
+
 
 
 

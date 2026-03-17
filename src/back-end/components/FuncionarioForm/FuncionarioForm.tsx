@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
 import { Button } from '@/back-end/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
@@ -23,6 +24,7 @@ interface CentroCusto {
 
 export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: string }) {
     const router = useRouter();
+    const handleEnterToNext = useEnterToNext();
     const [loading, setLoading] = useState(false);
     const [funcoes, setFuncoes] = useState<Funcao[]>([]);
     const [status, setStatus] = useState<StatusFuncionario[]>([]);
@@ -158,7 +160,7 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                 </div>
 
                 {/* Form */}
-                <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
+                <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
                     
                     {/* Informações Pessoais */}
                     <div className="border-b pb-6">
@@ -320,6 +322,7 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
         </div>
     );
 }
+
 
 
 

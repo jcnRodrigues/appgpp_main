@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
 import { Button } from '@/back-end/components/ui/button';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 
 export default function CentroCustoForm({ centroId }: { centroId?: string }) {
     const router = useRouter();
+    const handleEnterToNext = useEnterToNext();
     const [loading, setLoading] = useState(false);
     const [empresas, setEmpresas] = useState<any[]>([]);
     const [centro, setCentro] = useState({
@@ -100,7 +102,7 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
                     <h1 className="text-h3 font-bold">{centroId ? 'Editar Centro de Custo' : 'Cadastrar Centro de Custo'}</h1>
                 </div>
 
-                <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
+                <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
                     <div>
                         <label className="block text-sm font-medium mb-2">Código</label>
                         <input name="codigoCCusto" value={centro.codigoCCusto} onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" />
@@ -126,6 +128,7 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
         </div>
     );
 }
+
 
 
 

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
 import { Button } from '@/back-end/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
@@ -24,6 +25,7 @@ interface CentroCusto {
 
 export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string }) {
     const router = useRouter();
+    const handleEnterToNext = useEnterToNext();
     const [loading, setLoading] = useState(false);
     const [tipos, setTipos] = useState<TipoPatrimonio[]>([]);
     const [status, setStatus] = useState<StatusPatrimonio[]>([]);
@@ -172,7 +174,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                 </div>
 
                 {/* Form */}
-                <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
+                <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
 
                     {/* Informações Básicas */}
                     <div className="border-b pb-6">
@@ -379,6 +381,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
         </div>
     );
 }
+
 
 
 

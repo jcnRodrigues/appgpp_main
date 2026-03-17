@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
 import { Button } from '@/back-end/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/back-end/components/ui/sheet';
 import Link from 'next/link';
@@ -45,6 +46,7 @@ export default function CadastroForm({
     patrimonioId?: string;
 }) {
     const router = useRouter();
+    const handleEnterToNext = useEnterToNext();
     const [loading, setLoading] = useState(false);
     const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);
     const [patrimonios, setPatrimonios] = useState<Patrimonio[]>([]);
@@ -224,7 +226,7 @@ export default function CadastroForm({
                     <h1 className="text-h3 font-bold">Vincular Patrimônio ao Funcionário</h1>
                 </div>
 
-                <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
+                <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
                     <div>
                         <label className="block text-sm font-medium mb-2 text-red-600">Funcionário *</label>
                         <div className="flex gap-2 items-stretch">
@@ -506,6 +508,7 @@ export default function CadastroForm({
         </div>
     );
 }
+
 
 
 
