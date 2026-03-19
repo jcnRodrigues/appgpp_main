@@ -7,6 +7,7 @@ import {
     contarAlocacoes
 } from '@/back-end/service/Cadastro.service/cadastro.service';
 import { getStatusPatrimonio } from '@/back-end/service/Patrimonio.services/patrimonio.service';
+import { getCentrosFiltro } from '@/lib/access';
 
 export async function GET(request: NextRequest) {
     try {
@@ -17,11 +18,18 @@ export async function GET(request: NextRequest) {
         const skip = parseInt(searchParams.get('skip') || '0');
         const take = parseInt(searchParams.get('take') || '10');
 
+        const { centros, allowAll } = await getCentrosFiltro(request);
+        const filtroCentros = allowAll ? undefined : centros;
+
+        if (!allowAll && centros.length === 0 && opcoes !== 'true') {
+            return NextResponse.json({ data: [], total: 0 });
+        }
+
         // Se solicitar opções (funcionários e patrimônios)
         if (opcoes === 'true') {
             const [funcionarios, patrimonios, statusPatrimonio] = await Promise.all([
-                listarFuncionarios(),
-                listarPatrimonios(),
+                listarFuncionarios(filtroCentros),
+                listarPatrimonios(filtroCentros),
                 getStatusPatrimonio()
             ]);
 
@@ -36,12 +44,14 @@ export async function GET(request: NextRequest) {
         const alocacoes = await listarAlocacoes({
             idMatFun: idMatFun || undefined,
             idPat: idPat || undefined,
+            centros: filtroCentros,
             skip,
             take
         });
         const total = await contarAlocacoes({
             idMatFun: idMatFun || undefined,
-            idPat: idPat || undefined
+            idPat: idPat || undefined,
+            centros: filtroCentros
         });
 
         return NextResponse.json({

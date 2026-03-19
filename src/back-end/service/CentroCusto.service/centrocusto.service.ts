@@ -3,6 +3,7 @@ import prisma from "../../../../prisma/prisma";
 function buildCentroCustoWhere(filtro?: {
     descricao?: string;
     codigo?: string;
+    ids?: string[];
 }) {
     return {
         ...(filtro?.descricao && {
@@ -14,6 +15,11 @@ function buildCentroCustoWhere(filtro?: {
             codigoCCusto: {
                 contains: filtro.codigo
             }
+        }),
+        ...(filtro?.ids && filtro.ids.length > 0 && {
+            idCCusto: {
+                in: filtro.ids
+            }
         })
     };
 }
@@ -21,6 +27,7 @@ function buildCentroCustoWhere(filtro?: {
 export async function listarCentrosCusto(filtro?: {
     descricao?: string;
     codigo?: string;
+    ids?: string[];
     skip?: number;
     take?: number;
 }) {
@@ -40,6 +47,7 @@ export async function listarCentrosCusto(filtro?: {
 export async function contarCentrosCusto(filtro?: {
     descricao?: string;
     codigo?: string;
+    ids?: string[];
 }) {
     return await prisma.tbCCusto.count({
         where: buildCentroCustoWhere(filtro)
@@ -85,3 +93,4 @@ export async function deletarCentroCusto(id: string) {
 export async function listarEmpresas() {
     return await prisma.tbEmpresa.findMany({ orderBy: { fantasiaEmpresa: 'asc' } });
 }
+

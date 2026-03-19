@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { alocacoesEvolucaoPorCentroCusto } from '@/back-end/service/Dashboard.service/dashboard.service';
+import { getCentrosFiltro } from '@/lib/access';
 
 export async function GET(request: NextRequest) {
     try {
-        const resultado = await alocacoesEvolucaoPorCentroCusto();
+        const { centros, allowAll } = await getCentrosFiltro(request);
+        const filtroCentros = allowAll ? undefined : centros;
+        const resultado = await alocacoesEvolucaoPorCentroCusto(filtroCentros);
         return NextResponse.json(resultado);
     } catch (error) {
         console.error('Erro ao obter evolução de alocações por centro:', error);

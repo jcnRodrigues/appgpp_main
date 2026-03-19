@@ -6,6 +6,7 @@ function buildFuncionarioWhere(filtro?: {
     nome?: string;
     status?: string;
     funcao?: string;
+    centros?: string[];
 }) {
     return {
         ...(filtro?.nome && {
@@ -18,6 +19,11 @@ function buildFuncionarioWhere(filtro?: {
         }),
         ...(filtro?.funcao && {
             idFuncaoFun: filtro.funcao
+        }),
+        ...(filtro?.centros && filtro.centros.length > 0 && {
+            idCustoFun: {
+                in: filtro.centros
+            }
         })
     };
 }
@@ -80,6 +86,7 @@ export async function listarFuncionarios(filtro?: {
     nome?: string;
     status?: string;
     funcao?: string;
+    centros?: string[];
     skip?: number;
     take?: number;
 }) {
@@ -102,6 +109,7 @@ export async function contarFuncionarios(filtro?: {
     nome?: string;
     status?: string;
     funcao?: string;
+    centros?: string[];
 }) {
     return await prisma.tbFuncionario.count({
         where: buildFuncionarioWhere(filtro)
@@ -189,3 +197,6 @@ export async function getFuncionarioByIdInterno(idF: string) {
         }
     });
 }
+
+
+

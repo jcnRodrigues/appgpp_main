@@ -29,6 +29,7 @@ async function getStatusIdByDescricao(
 function buildAlocacaoWhere(filtro?: {
     idMatFun?: string;
     idPat?: string;
+    centros?: string[];
 }) {
     return {
         ...(filtro?.idMatFun && {
@@ -36,6 +37,24 @@ function buildAlocacaoWhere(filtro?: {
         }),
         ...(filtro?.idPat && {
             idPatCad: filtro.idPat
+        }),
+        ...(filtro?.centros && filtro.centros.length > 0 && {
+            OR: [
+                {
+                    tbFuncionario: {
+                        idCustoFun: {
+                            in: filtro.centros
+                        }
+                    }
+                },
+                {
+                    tbPatrimonio: {
+                        idPat_CustoPat: {
+                            in: filtro.centros
+                        }
+                    }
+                }
+            ]
         })
     };
 }
@@ -44,6 +63,7 @@ function buildAlocacaoWhere(filtro?: {
 export async function listarAlocacoes(filtro?: {
     idMatFun?: string;
     idPat?: string;
+    centros?: string[];
     skip?: number;
     take?: number;
 }) {
@@ -73,6 +93,7 @@ export async function listarAlocacoes(filtro?: {
 export async function contarAlocacoes(filtro?: {
     idMatFun?: string;
     idPat?: string;
+    centros?: string[];
 }) {
     return await prisma.tbCadastro.count({
         where: buildAlocacaoWhere(filtro)
@@ -270,8 +291,9 @@ export async function deletarAlocacao(idCad: string) {
 }
 
 // Buscar funcionários disponíveis
-export async function listarFuncionarios() {
+export async function listarFuncionarios(centros?: string[]) {
     return await prisma.tbFuncionario.findMany({
+        where: centros && centros.length > 0 ? { idCustoFun: { in: centros } } : undefined,
         orderBy: {
             nomeFun: 'asc'
         }
@@ -279,7 +301,7 @@ export async function listarFuncionarios() {
 }
 
 // Buscar patrimônios disponíveis
-export async function listarPatrimonios() {
+export async function listarPatrimonios(centros?: string[]) {
     return await prisma.tbPatrimonio.findMany({
         where: {
             OR: [
@@ -295,7 +317,10 @@ export async function listarPatrimonios() {
                         }
                     }
                 }
-            ]
+            ],
+            ...(centros && centros.length > 0 && {
+                idPat_CustoPat: { in: centros }
+            })
         },
         orderBy: {
             descricaoPat: 'asc'
@@ -330,3 +355,4 @@ export async function alocacoesPorPatrimonio(idPat: string) {
         }
     });
 }
+

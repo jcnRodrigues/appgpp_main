@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { buscarAlocacaoById } from '@/back-end/service/Cadastro.service/cadastro.service';
+import { getCentrosFiltro } from '@/lib/access';
 
 export async function GET(
     request: NextRequest,
@@ -10,7 +11,13 @@ export async function GET(
         const alocacao = await buscarAlocacaoById(id);
         if (!alocacao) return NextResponse.json({ message: 'Alocação não encontrada' }, { status: 404 });
 
-        // Gerar HTML com estilos inline (fiel ao visual)
+        const { centros, allowAll } = await getCentrosFiltro(request);
+        const centroFun = alocacao.tbFuncionario?.idCustoFun || '';
+        const centroPat = alocacao.tbPatrimonio?.idPat_CustoPat || '';
+        if (!allowAll && (!centros.includes(centroFun) || !centros.includes(centroPat))) {
+            return NextResponse.json({ message: 'Acesso negado para este termo' }, { status: 403 });
+        }
+
         const patrimonio = alocacao.tbPatrimonio;
         const nome = alocacao.tbFuncionario?.nomeFun || 'NOME';
         const matricula = alocacao.tbFuncionario?.idMatFun || 'MATRICULA';
@@ -88,7 +95,6 @@ Nome: ${nome}        CPF nº: ${cpf}
 </html>
 `;
 
-        // Launch puppeteer dynamically
         const puppeteer = await import('puppeteer');
         const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
         const pageP = await browser.newPage();

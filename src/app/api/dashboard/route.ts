@@ -3,19 +3,22 @@ import {
     alocacoesPorCentroCusto,
     alocacoesAoLongoDoTempo
 } from '@/back-end/service/Dashboard.service/dashboard.service';
+import { getCentrosFiltro } from '@/lib/access';
 
 export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
         const tipo = searchParams.get('tipo');
+        const { centros, allowAll } = await getCentrosFiltro(request);
+        const filtroCentros = allowAll ? undefined : centros;
 
         if (tipo === 'centro') {
-            const dados = await alocacoesPorCentroCusto();
+            const dados = await alocacoesPorCentroCusto(filtroCentros);
             return NextResponse.json(dados);
         }
 
         if (tipo === 'tempo') {
-            const dados = await alocacoesAoLongoDoTempo();
+            const dados = await alocacoesAoLongoDoTempo(filtroCentros);
             return NextResponse.json(dados);
         }
 

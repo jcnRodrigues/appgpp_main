@@ -128,6 +128,10 @@ exports.Prisma.TbUserScalarFieldEnum = {
   emailVerified: 'emailVerified',
   senhaUser: 'senhaUser',
   avatarUser: 'avatarUser',
+  authTypeUser: 'authTypeUser',
+  formulariosUser: 'formulariosUser',
+  centrosUser: 'centrosUser',
+  statusUser: 'statusUser',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -250,6 +254,22 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
@@ -261,7 +281,9 @@ exports.Prisma.tbUserOrderByRelevanceFieldEnum = {
   nomeUser: 'nomeUser',
   emailUser: 'emailUser',
   senhaUser: 'senhaUser',
-  avatarUser: 'avatarUser'
+  avatarUser: 'avatarUser',
+  authTypeUser: 'authTypeUser',
+  statusUser: 'statusUser'
 };
 
 exports.Prisma.tbFuncionarioOrderByRelevanceFieldEnum = {

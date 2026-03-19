@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getFuncionarioByIdInterno, atualizarFuncionario } from '@/back-end/service/Funcionario.service/funcionario.service';
 import prisma from '../../../../../prisma/prisma';
+import { getCentrosFiltro } from '@/lib/access';
 
 export async function GET(
     request: NextRequest,
@@ -15,6 +16,17 @@ export async function GET(
                 { message: 'Funcionário não encontrado' },
                 { status: 404 }
             );
+        }
+
+        const { centros, allowAll } = await getCentrosFiltro(request);
+        if (!allowAll && centros.length > 0) {
+            const centroId = funcionario.idCustoFun || '';
+            if (!centros.includes(centroId)) {
+                return NextResponse.json(
+                    { message: 'Funcionário não encontrado' },
+                    { status: 404 }
+                );
+            }
         }
 
         return NextResponse.json(funcionario);

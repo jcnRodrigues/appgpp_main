@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { getTipoPatId } from '@/back-end/service/TipoPatrimonio.service/tipoPatrimonio.service';
 import Link from 'next/link';
 import { Button } from '@/back-end/components/ui/button';
-import { Plus, UndoIcon } from 'lucide-react';
+import { UndoIcon } from 'lucide-react';
 
 type Props = { params: { id: string } };
 
@@ -31,7 +31,6 @@ export default async function TermoPage({ params }: Props) {
     const { id } = await params;
     const alocacao = await buscarAlocacaoById(id);
 
-
     if (!alocacao) {
         return (
             <>
@@ -43,24 +42,36 @@ export default async function TermoPage({ params }: Props) {
         );
     }
 
+    const centrosPerfil = Array.isArray((session.user as any).centros) ? ((session.user as any).centros as string[]) : [];
+    const allowAll = centrosPerfil.includes('*');
+    const centroFun = alocacao.tbFuncionario?.idCustoFun || '';
+    const centroPat = alocacao.tbPatrimonio?.idPat_CustoPat || '';
+
+    if (!allowAll && (!centrosPerfil.includes(centroFun) || !centrosPerfil.includes(centroPat))) {
+        return (
+            <>
+                <Header />
+                <div className="max-w-4xl mx-auto px-4 py-12 text-center">
+                    <h2 className="text-xl font-semibold">Acesso negado para este termo</h2>
+                </div>
+            </>
+        );
+    }
+
     const patrimonio = alocacao.tbPatrimonio;
     const tipoPatrimonio = await getTipoPatId(patrimonio?.idPat_TipoPat || '');
 
     return (
         <div className="bg-background min-h-screen py-6">
             <div className="max-w-4xl mx-auto px-6 py-8 bg-white rounded-lg shadow ">
-                {/* Cabeçalho com Logo, Título e Informações */}
                 <div className="flex justify-center mb-6  pb-1 border-black">
-                    {/* Logo PAREX */}
                     <div className="flex-shrink-0 border-2 border-black p-2">
                         <Image src="/iconPX.png" alt="" width={100} height={50} className="object-center" />
                     </div>
-                    {/* Título Centralizado */}
                     <div className="flex-1 border-2 border-black px-2 py-1 text-center">
                         <h2 className="text-base font-bold">USO {tipoPatrimonio?.descricaoTipPat || 'TIPO PATRIMÔNIO'} PAREX</h2>
                         <p className="text-sm">Gerenciamento de Recursos Humanos</p>
                     </div>
-                    {/* Informações à Direita */}
                     <div className="flex-shrink-0 text-right">
                         <table className="border-collapse border border-black text-xs">
                             <tbody>

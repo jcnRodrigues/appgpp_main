@@ -2307,6 +2307,8 @@ export namespace Prisma {
     emailVerified: Date | null
     senhaUser: string | null
     avatarUser: string | null
+    authTypeUser: string | null
+    statusUser: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2319,6 +2321,8 @@ export namespace Prisma {
     emailVerified: Date | null
     senhaUser: string | null
     avatarUser: string | null
+    authTypeUser: string | null
+    statusUser: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2331,6 +2335,10 @@ export namespace Prisma {
     emailVerified: number
     senhaUser: number
     avatarUser: number
+    authTypeUser: number
+    formulariosUser: number
+    centrosUser: number
+    statusUser: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -2345,6 +2353,8 @@ export namespace Prisma {
     emailVerified?: true
     senhaUser?: true
     avatarUser?: true
+    authTypeUser?: true
+    statusUser?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2357,6 +2367,8 @@ export namespace Prisma {
     emailVerified?: true
     senhaUser?: true
     avatarUser?: true
+    authTypeUser?: true
+    statusUser?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2369,6 +2381,10 @@ export namespace Prisma {
     emailVerified?: true
     senhaUser?: true
     avatarUser?: true
+    authTypeUser?: true
+    formulariosUser?: true
+    centrosUser?: true
+    statusUser?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2454,6 +2470,10 @@ export namespace Prisma {
     emailVerified: Date | null
     senhaUser: string | null
     avatarUser: string | null
+    authTypeUser: string | null
+    formulariosUser: JsonValue | null
+    centrosUser: JsonValue | null
+    statusUser: string
     createdAt: Date
     updatedAt: Date
     _count: TbUserCountAggregateOutputType | null
@@ -2483,6 +2503,10 @@ export namespace Prisma {
     emailVerified?: boolean
     senhaUser?: boolean
     avatarUser?: boolean
+    authTypeUser?: boolean
+    formulariosUser?: boolean
+    centrosUser?: boolean
+    statusUser?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tbFuncioanrio?: boolean | tbUser$tbFuncioanrioArgs<ExtArgs>
@@ -2499,11 +2523,15 @@ export namespace Prisma {
     emailVerified?: boolean
     senhaUser?: boolean
     avatarUser?: boolean
+    authTypeUser?: boolean
+    formulariosUser?: boolean
+    centrosUser?: boolean
+    statusUser?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type tbUserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "idUser" | "nomeUser" | "emailUser" | "emailVerified" | "senhaUser" | "avatarUser" | "createdAt" | "updatedAt", ExtArgs["result"]["tbUser"]>
+  export type tbUserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "idUser" | "nomeUser" | "emailUser" | "emailVerified" | "senhaUser" | "avatarUser" | "authTypeUser" | "formulariosUser" | "centrosUser" | "statusUser" | "createdAt" | "updatedAt", ExtArgs["result"]["tbUser"]>
   export type tbUserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbFuncioanrio?: boolean | tbUser$tbFuncioanrioArgs<ExtArgs>
     _count?: boolean | TbUserCountOutputTypeDefaultArgs<ExtArgs>
@@ -2522,6 +2550,10 @@ export namespace Prisma {
       emailVerified: Date | null
       senhaUser: string | null
       avatarUser: string | null
+      authTypeUser: string | null
+      formulariosUser: Prisma.JsonValue | null
+      centrosUser: Prisma.JsonValue | null
+      statusUser: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["tbUser"]>
@@ -2901,6 +2933,10 @@ export namespace Prisma {
     readonly emailVerified: FieldRef<"tbUser", 'DateTime'>
     readonly senhaUser: FieldRef<"tbUser", 'String'>
     readonly avatarUser: FieldRef<"tbUser", 'String'>
+    readonly authTypeUser: FieldRef<"tbUser", 'String'>
+    readonly formulariosUser: FieldRef<"tbUser", 'Json'>
+    readonly centrosUser: FieldRef<"tbUser", 'Json'>
+    readonly statusUser: FieldRef<"tbUser", 'String'>
     readonly createdAt: FieldRef<"tbUser", 'DateTime'>
     readonly updatedAt: FieldRef<"tbUser", 'DateTime'>
   }
@@ -16074,6 +16110,10 @@ export namespace Prisma {
     emailVerified: 'emailVerified',
     senhaUser: 'senhaUser',
     avatarUser: 'avatarUser',
+    authTypeUser: 'authTypeUser',
+    formulariosUser: 'formulariosUser',
+    centrosUser: 'centrosUser',
+    statusUser: 'statusUser',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -16241,6 +16281,31 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+  export const QueryMode: {
+    default: 'default',
+    insensitive: 'insensitive'
+  };
+
+  export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
   export const NullsOrder: {
     first: 'first',
     last: 'last'
@@ -16255,7 +16320,9 @@ export namespace Prisma {
     nomeUser: 'nomeUser',
     emailUser: 'emailUser',
     senhaUser: 'senhaUser',
-    avatarUser: 'avatarUser'
+    avatarUser: 'avatarUser',
+    authTypeUser: 'authTypeUser',
+    statusUser: 'statusUser'
   };
 
   export type tbUserOrderByRelevanceFieldEnum = (typeof tbUserOrderByRelevanceFieldEnum)[keyof typeof tbUserOrderByRelevanceFieldEnum]
@@ -16418,6 +16485,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -16445,6 +16526,10 @@ export namespace Prisma {
     emailVerified?: DateTimeNullableFilter<"tbUser"> | Date | string | null
     senhaUser?: StringNullableFilter<"tbUser"> | string | null
     avatarUser?: StringNullableFilter<"tbUser"> | string | null
+    authTypeUser?: StringNullableFilter<"tbUser"> | string | null
+    formulariosUser?: JsonNullableFilter<"tbUser">
+    centrosUser?: JsonNullableFilter<"tbUser">
+    statusUser?: StringFilter<"tbUser"> | string
     createdAt?: DateTimeFilter<"tbUser"> | Date | string
     updatedAt?: DateTimeFilter<"tbUser"> | Date | string
     tbFuncioanrio?: TbFuncionarioListRelationFilter
@@ -16458,6 +16543,10 @@ export namespace Prisma {
     emailVerified?: SortOrderInput | SortOrder
     senhaUser?: SortOrderInput | SortOrder
     avatarUser?: SortOrderInput | SortOrder
+    authTypeUser?: SortOrderInput | SortOrder
+    formulariosUser?: SortOrderInput | SortOrder
+    centrosUser?: SortOrderInput | SortOrder
+    statusUser?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tbFuncioanrio?: tbFuncionarioOrderByRelationAggregateInput
@@ -16475,6 +16564,10 @@ export namespace Prisma {
     emailVerified?: DateTimeNullableFilter<"tbUser"> | Date | string | null
     senhaUser?: StringNullableFilter<"tbUser"> | string | null
     avatarUser?: StringNullableFilter<"tbUser"> | string | null
+    authTypeUser?: StringNullableFilter<"tbUser"> | string | null
+    formulariosUser?: JsonNullableFilter<"tbUser">
+    centrosUser?: JsonNullableFilter<"tbUser">
+    statusUser?: StringFilter<"tbUser"> | string
     createdAt?: DateTimeFilter<"tbUser"> | Date | string
     updatedAt?: DateTimeFilter<"tbUser"> | Date | string
     tbFuncioanrio?: TbFuncionarioListRelationFilter
@@ -16488,6 +16581,10 @@ export namespace Prisma {
     emailVerified?: SortOrderInput | SortOrder
     senhaUser?: SortOrderInput | SortOrder
     avatarUser?: SortOrderInput | SortOrder
+    authTypeUser?: SortOrderInput | SortOrder
+    formulariosUser?: SortOrderInput | SortOrder
+    centrosUser?: SortOrderInput | SortOrder
+    statusUser?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: tbUserCountOrderByAggregateInput
@@ -16506,6 +16603,10 @@ export namespace Prisma {
     emailVerified?: DateTimeNullableWithAggregatesFilter<"tbUser"> | Date | string | null
     senhaUser?: StringNullableWithAggregatesFilter<"tbUser"> | string | null
     avatarUser?: StringNullableWithAggregatesFilter<"tbUser"> | string | null
+    authTypeUser?: StringNullableWithAggregatesFilter<"tbUser"> | string | null
+    formulariosUser?: JsonNullableWithAggregatesFilter<"tbUser">
+    centrosUser?: JsonNullableWithAggregatesFilter<"tbUser">
+    statusUser?: StringWithAggregatesFilter<"tbUser"> | string
     createdAt?: DateTimeWithAggregatesFilter<"tbUser"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"tbUser"> | Date | string
   }
@@ -17333,6 +17434,10 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     senhaUser?: string | null
     avatarUser?: string | null
+    authTypeUser?: string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     tbFuncioanrio?: tbFuncionarioCreateNestedManyWithoutTbUserInput
@@ -17346,6 +17451,10 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     senhaUser?: string | null
     avatarUser?: string | null
+    authTypeUser?: string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     tbFuncioanrio?: tbFuncionarioUncheckedCreateNestedManyWithoutTbUserInput
@@ -17359,6 +17468,10 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     senhaUser?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUser?: NullableStringFieldUpdateOperationsInput | string | null
+    authTypeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tbFuncioanrio?: tbFuncionarioUpdateManyWithoutTbUserNestedInput
@@ -17372,6 +17485,10 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     senhaUser?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUser?: NullableStringFieldUpdateOperationsInput | string | null
+    authTypeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tbFuncioanrio?: tbFuncionarioUncheckedUpdateManyWithoutTbUserNestedInput
@@ -17385,6 +17502,10 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     senhaUser?: string | null
     avatarUser?: string | null
+    authTypeUser?: string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17397,6 +17518,10 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     senhaUser?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUser?: NullableStringFieldUpdateOperationsInput | string | null
+    authTypeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17409,6 +17534,10 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     senhaUser?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUser?: NullableStringFieldUpdateOperationsInput | string | null
+    authTypeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18279,6 +18408,29 @@ export namespace Prisma {
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -18320,6 +18472,10 @@ export namespace Prisma {
     emailVerified?: SortOrder
     senhaUser?: SortOrder
     avatarUser?: SortOrder
+    authTypeUser?: SortOrder
+    formulariosUser?: SortOrder
+    centrosUser?: SortOrder
+    statusUser?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -18332,6 +18488,8 @@ export namespace Prisma {
     emailVerified?: SortOrder
     senhaUser?: SortOrder
     avatarUser?: SortOrder
+    authTypeUser?: SortOrder
+    statusUser?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -18344,6 +18502,8 @@ export namespace Prisma {
     emailVerified?: SortOrder
     senhaUser?: SortOrder
     avatarUser?: SortOrder
+    authTypeUser?: SortOrder
+    statusUser?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -18396,6 +18556,32 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -19914,6 +20100,29 @@ export namespace Prisma {
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -20077,6 +20286,10 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     senhaUser?: string | null
     avatarUser?: string | null
+    authTypeUser?: string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -20089,6 +20302,10 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     senhaUser?: string | null
     avatarUser?: string | null
+    authTypeUser?: string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -20204,6 +20421,10 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     senhaUser?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUser?: NullableStringFieldUpdateOperationsInput | string | null
+    authTypeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20216,6 +20437,10 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     senhaUser?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUser?: NullableStringFieldUpdateOperationsInput | string | null
+    authTypeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

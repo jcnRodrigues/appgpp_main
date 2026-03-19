@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { listarPatrimoniosPorCentroCusto } from '@/back-end/service/Patrimonio.services/patrimonio.service';
+import { getCentrosFiltro } from '@/lib/access';
 
 export const runtime = 'nodejs';
 
@@ -44,6 +45,11 @@ export async function POST(request: NextRequest) {
 
         if (!idCCusto || typeof idCCusto !== 'string') {
             return NextResponse.json({ message: 'Centro de custo inválido.' }, { status: 400 });
+        }
+
+        const { centros, allowAll } = await getCentrosFiltro(request);
+        if (!allowAll && centros.length > 0 && !centros.includes(idCCusto)) {
+            return NextResponse.json({ message: 'Centro de custo não permitido.' }, { status: 403 });
         }
 
         if (!file || !(file instanceof File)) {

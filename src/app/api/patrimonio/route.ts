@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { criarPatrimonio, listarPatrimonios, contarPatrimonios } from '@/back-end/service/Patrimonio.services/patrimonio.service';
+import { getCentrosFiltro } from '@/lib/access';
 
 export async function GET(request: NextRequest) {
     try {
@@ -10,17 +11,26 @@ export async function GET(request: NextRequest) {
         const skip = parseInt(searchParams.get('skip') || '0');
         const take = parseInt(searchParams.get('take') || '100');
 
+        const { centros, allowAll } = await getCentrosFiltro(request);
+        const filtroCentros = allowAll ? undefined : centros;
+
+        if (!allowAll && centros.length === 0) {
+            return NextResponse.json({ data: [], total: 0 });
+        }
+
         const patrimonios = await listarPatrimonios({
             descricao: descricao || undefined,
             status: status || undefined,
             tipo: tipo || undefined,
+            centros: filtroCentros,
             skip,
             take
         });
         const total = await contarPatrimonios({
             descricao: descricao || undefined,
             status: status || undefined,
-            tipo: tipo || undefined
+            tipo: tipo || undefined,
+            centros: filtroCentros
         });
 
         return NextResponse.json({

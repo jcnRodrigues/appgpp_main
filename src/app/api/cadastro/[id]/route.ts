@@ -4,6 +4,7 @@ import {
     atualizarAlocacao, 
     deletarAlocacao 
 } from '@/back-end/service/Cadastro.service/cadastro.service';
+import { getCentrosFiltro } from '@/lib/access';
 
 export async function GET(
     request: NextRequest,
@@ -14,6 +15,17 @@ export async function GET(
         const alocacao = await buscarAlocacaoById(id);
 
         if (!alocacao) {
+            return NextResponse.json(
+                { message: 'Alocação não encontrada' },
+                { status: 404 }
+            );
+        }
+
+        const { centros, allowAll } = await getCentrosFiltro(request);
+        const centroFun = alocacao.tbFuncionario?.idCustoFun || '';
+        const centroPat = alocacao.tbPatrimonio?.idPat_CustoPat || '';
+
+        if (!allowAll && (!centros.includes(centroFun) || !centros.includes(centroPat))) {
             return NextResponse.json(
                 { message: 'Alocação não encontrada' },
                 { status: 404 }
@@ -38,14 +50,11 @@ export async function PUT(
         const { id } = await params;
         const dados = await request.json();
 
-        // Atualizar alocação
         const alocacao = await atualizarAlocacao(id, {
             dataCadPat: dados.dataCadPat ? new Date(dados.dataCadPat) : undefined,
             dataDevPat: dados.dataDevPat ? new Date(dados.dataDevPat) : undefined,
             idStatusPatCad: dados.idStatusPatCad || undefined
         });
-
-        // (anteriormente atualizávamos status do patrimônio aqui)
 
         return NextResponse.json(alocacao);
     } catch (error: any) {

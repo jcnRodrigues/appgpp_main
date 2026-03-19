@@ -27,7 +27,13 @@ export default async function CCustosPage() {
         );
     }
 
-    const centros = await listarCentrosCusto({ take: 10, skip: 0 });
+    const centrosPerfil = Array.isArray((session.user as any).centros) ? ((session.user as any).centros as string[]) : [];
+    const allowAll = centrosPerfil.includes('*');
+    const idsFiltro = allowAll ? undefined : centrosPerfil;
+
+    const centros = !allowAll && centrosPerfil.length === 0
+        ? []
+        : await listarCentrosCusto({ take: 10, skip: 0, ids: idsFiltro });
 
     return (
         <div className="bg-background min-h-screen py-6">

@@ -12,16 +12,20 @@ datasource db {
 }
 
 model tbUser {
-  id            String          @id @default(uuid())
-  idUser        String?         @unique
-  nomeUser      String?
-  emailUser     String?         @unique
-  emailVerified DateTime?
-  senhaUser     String?
-  avatarUser    String?
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  tbFuncioanrio tbFuncionario[]
+  id              String          @id @default(uuid())
+  idUser          String?         @unique
+  nomeUser        String?
+  emailUser       String?         @unique
+  emailVerified   DateTime?
+  senhaUser       String?
+  avatarUser      String?
+  authTypeUser    String?
+  formulariosUser Json?
+  centrosUser     Json?
+  statusUser      String          @default("ATIVO")
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  tbFuncioanrio   tbFuncionario[]
 }
 
 model tbFuncionario {
@@ -128,12 +132,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?
-  access_token      String?
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?
+  id_token          String? @db.Text
   sesseion_state    String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 

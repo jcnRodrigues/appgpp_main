@@ -2,16 +2,24 @@
 
 import prisma from "../../../../prisma/prisma";
 
+function buildCentroFiltro(centros?: string[]) {
+    if (!centros || centros.length === 0) return undefined;
+    return { in: centros };
+}
+
 // Contar funcionários
-export async function contarFuncionarios() {
-    return await prisma.tbFuncionario.count();
+export async function contarFuncionarios(centros?: string[]) {
+    return await prisma.tbFuncionario.count({
+        where: buildCentroFiltro(centros) ? { idCustoFun: buildCentroFiltro(centros) } : undefined
+    });
 }
 
 // Contar funcionários por status
-export async function funcionariosPorStatus() {
+export async function funcionariosPorStatus(centros?: string[]) {
     return await prisma.tbStatusFun.findMany({
         include: {
             tbFuncionario: {
+                where: buildCentroFiltro(centros) ? { idCustoFun: buildCentroFiltro(centros) } : undefined,
                 select: {
                     idF: true
                 }
@@ -21,8 +29,9 @@ export async function funcionariosPorStatus() {
 }
 
 // Contar funcionários por centro de custo
-export async function funcionariosPorCentroCusto() {
+export async function funcionariosPorCentroCusto(centros?: string[]) {
     return await prisma.tbCCusto.findMany({
+        where: buildCentroFiltro(centros) ? { idCCusto: buildCentroFiltro(centros) } : undefined,
         select: {
             idCCusto: true,
             descricaoCCusto: true,
@@ -36,8 +45,10 @@ export async function funcionariosPorCentroCusto() {
 }
 
 // Contar alocações de patrimônio por centro de custo (total simples - compatível com chamadas existentes)
-export async function alocacoesPorCentroCusto() {
-    const centros = await prisma.tbCCusto.findMany({
+export async function alocacoesPorCentroCusto(centros?: string[]) {
+    const centrosFiltro = buildCentroFiltro(centros);
+    const centrosDb = await prisma.tbCCusto.findMany({
+        where: centrosFiltro ? { idCCusto: centrosFiltro } : undefined,
         select: {
             idCCusto: true,
             descricaoCCusto: true,
@@ -59,7 +70,7 @@ export async function alocacoesPorCentroCusto() {
         }
     });
 
-    return centros.map(centro => {
+    return centrosDb.map(centro => {
         const resultado: Record<string, any> = {
             nome: centro.descricaoCCusto || centro.idCCusto,
         };
@@ -80,8 +91,10 @@ export async function alocacoesPorCentroCusto() {
 }
 
 // Alocações por centro de custo e por tipo de patrimônio (para gráfico de barras com tipo e custo)
-export async function alocacoesPorCentroCustoETipo() {
-    const centros = await prisma.tbCCusto.findMany({
+export async function alocacoesPorCentroCustoETipo(centros?: string[]) {
+    const centrosFiltro = buildCentroFiltro(centros);
+    const centrosDb = await prisma.tbCCusto.findMany({
+        where: centrosFiltro ? { idCCusto: centrosFiltro } : undefined,
         select: {
             idCCusto: true,
             descricaoCCusto: true,
@@ -102,7 +115,7 @@ export async function alocacoesPorCentroCustoETipo() {
     const tiposSet = new Set<string>();
     const porCentro: Record<string, Record<string, number>> = {};
 
-    for (const centro of centros) {
+    for (const centro of centrosDb) {
         const nomeCentro = centro.descricaoCCusto || centro.codigoCCusto || centro.idCCusto;
         if (!porCentro[nomeCentro]) porCentro[nomeCentro] = {};
 
@@ -127,7 +140,8 @@ export async function alocacoesPorCentroCustoETipo() {
 }
 
 // Dados para gráfico de linha (evoluação ao longo do tempo - por mês)
-export async function alocacoesAoLongoDoTempo() {
+export async function alocacoesAoLongoDoTempo(centros?: string[]) {
+    const centrosFiltro = buildCentroFiltro(centros);
     const alocacoes = await prisma.tbCadastro.findMany({
         select: {
             dataCadPat: true
@@ -135,7 +149,12 @@ export async function alocacoesAoLongoDoTempo() {
         where: {
             dataCadPat: {
                 not: null
-            }
+            },
+            ...(centrosFiltro && {
+                tbPatrimonio: {
+                    idPat_CustoPat: centrosFiltro
+                }
+            })
         },
         orderBy: {
             dataCadPat: 'asc'
@@ -157,7 +176,8 @@ export async function alocacoesAoLongoDoTempo() {
 }
 
 // Evolução das alocações ao longo do tempo por centro de custo (para gráfico de linha)
-export async function alocacoesEvolucaoPorCentroCusto() {
+export async function alocacoesEvolucaoPorCentroCusto(centros?: string[]) {
+    const centrosFiltro = buildCentroFiltro(centros);
     const alocacoes = await prisma.tbCadastro.findMany({
         select: {
             dataCadPat: true,
@@ -176,7 +196,12 @@ export async function alocacoesEvolucaoPorCentroCusto() {
             }
         },
         where: {
-            dataCadPat: { not: null }
+            dataCadPat: { not: null },
+            ...(centrosFiltro && {
+                tbPatrimonio: {
+                    idPat_CustoPat: centrosFiltro
+                }
+            })
         },
         orderBy: {
             dataCadPat: 'asc'

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { criarFuncionario, listarFuncionarios, contarFuncionarios } from '@/back-end/service/Funcionario.service/funcionario.service';
+import { getCentrosFiltro } from '@/lib/access';
 
 export async function GET(request: NextRequest) {
     try {
@@ -10,17 +11,26 @@ export async function GET(request: NextRequest) {
         const skip = parseInt(searchParams.get('skip') || '0');
         const take = parseInt(searchParams.get('take') || '100');
 
+        const { centros, allowAll } = await getCentrosFiltro(request);
+        const filtroCentros = allowAll ? undefined : centros;
+
+        if (!allowAll && centros.length === 0) {
+            return NextResponse.json({ data: [], total: 0 });
+        }
+
         const funcionarios = await listarFuncionarios({
             nome: nome || undefined,
             status: status || undefined,
             funcao: funcao || undefined,
+            centros: filtroCentros,
             skip,
             take
         });
         const total = await contarFuncionarios({
             nome: nome || undefined,
             status: status || undefined,
-            funcao: funcao || undefined
+            funcao: funcao || undefined,
+            centros: filtroCentros
         });
 
         return NextResponse.json({

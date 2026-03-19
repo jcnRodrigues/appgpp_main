@@ -5,6 +5,7 @@ function buildPatrimonioWhere(filtro?: {
     descricao?: string;
     status?: string;
     tipo?: string;
+    centros?: string[];
 }) {
     return {
         ...(filtro?.descricao && {
@@ -17,6 +18,11 @@ function buildPatrimonioWhere(filtro?: {
         }),
         ...(filtro?.tipo && {
             idPat_TipoPat: filtro.tipo
+        }),
+        ...(filtro?.centros && filtro.centros.length > 0 && {
+            idPat_CustoPat: {
+                in: filtro.centros
+            }
         })
     };
 }
@@ -71,6 +77,7 @@ export async function listarPatrimonios(filtro?: {
     descricao?: string;
     status?: string;
     tipo?: string;
+    centros?: string[];
     skip?: number;
     take?: number;
 }) {
@@ -186,8 +193,10 @@ export async function contarPatrimonios(filtro?: {
     descricao?: string;
     status?: string;
     tipo?: string;
+    centros?: string[];
 }) {
     return await prisma.tbPatrimonio.count({
         where: buildPatrimonioWhere(filtro)
     });
 }
+
