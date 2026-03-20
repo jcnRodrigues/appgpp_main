@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Edit, Trash2, FileDown } from 'lucide-react';
+import { Edit, Trash2, FileDown, Filter } from 'lucide-react';
 import { Button } from '@/back-end/components/ui/button';
 
 interface Alocacao {
@@ -32,6 +32,8 @@ interface Alocacao {
 export default function CadastroTable() {
     const [alocacoes, setAlocacoes] = useState<Alocacao[]>([]);
     const [loading, setLoading] = useState(true);
+    const [filtroFuncionario, setFiltroFuncionario] = useState('');
+    const [filtroPatrimonio, setFiltroPatrimonio] = useState('');
     const [paginaAtual, setPaginaAtual] = useState(1);
     const itensPorPagina = 10;
     const [totalItens, setTotalItens] = useState(0);
@@ -40,6 +42,8 @@ export default function CadastroTable() {
         setLoading(true);
         try {
             const params = new URLSearchParams();
+            if (filtroFuncionario) params.append('funcionarioBusca', filtroFuncionario);
+            if (filtroPatrimonio) params.append('patrimonioBusca', filtroPatrimonio);
             params.append('skip', String((paginaAtual - 1) * itensPorPagina));
             params.append('take', String(itensPorPagina));
             const res = await fetch(`/api/cadastro?${params}`);
@@ -57,7 +61,11 @@ export default function CadastroTable() {
 
     useEffect(() => {
         carregarAlocacoes();
-    }, [paginaAtual]);
+    }, [paginaAtual, filtroFuncionario, filtroPatrimonio]);
+
+    useEffect(() => {
+        setPaginaAtual(1);
+    }, [filtroFuncionario, filtroPatrimonio]);
 
     const handleDelete = async (idCad: string) => {
         if (!confirm('Tem certeza que deseja deletar esta alocação?')) return;
@@ -150,12 +158,33 @@ export default function CadastroTable() {
         }
     };
 
-    if (loading) {
-        return <div className="text-center py-8">Carregando...</div>;
-    }
-
     return (
         <div className="w-full space-y-4">
+            <div className="sticky top-[calc(var(--app-header-height)+96px)] z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-2">
+                <div className="bg-white rounded-lg shadow-md p-4 space-y-4">
+                    <div className="flex items-center gap-2 mb-4">
+                        <Filter className="h-5 w-5 text-primary" />
+                        <h3 className="font-semibold">Filtros</h3>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input
+                            type="text"
+                            placeholder="Filtrar funcionario (matricula ou nome)..."
+                            value={filtroFuncionario}
+                            onChange={(e) => setFiltroFuncionario(e.target.value)}
+                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
+                        <input
+                            type="text"
+                            placeholder="Filtrar patrimonio (codigo ou descricao)..."
+                            value={filtroPatrimonio}
+                            onChange={(e) => setFiltroPatrimonio(e.target.value)}
+                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
+                    </div>
+                </div>
+            </div>
 
 
             <div className="overflow-x-auto bg-white rounded-lg shadow">
@@ -172,9 +201,15 @@ export default function CadastroTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {alocacoes.length === 0 ? (
+                        {loading ? (
                             <tr>
-                                <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
+                                <td colSpan={7} className="px-6 py-8 text-center text-gray-500">
+                                    Carregando...
+                                </td>
+                            </tr>
+                        ) : alocacoes.length === 0 ? (
+                            <tr>
+                                <td colSpan={7} className="px-6 py-8 text-center text-gray-500">
                                     Nenhuma alocação registrada
                                 </td>
                             </tr>

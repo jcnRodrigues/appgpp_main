@@ -106,34 +106,36 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
     return (
         <div className="space-y-4">
             {/* Filtros */}
-            <div className="bg-white rounded-lg shadow-md p-4 space-y-4">
-                <div className="flex items-center gap-2 mb-4">
-                    <Filter className="h-5 w-5 text-primary" />
-                    <h3 className="font-semibold">Filtros</h3>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <input
-                        type="text"
-                        placeholder="Buscar por nome..."
-                        value={filtro}
-                        onChange={(e) => setFiltro(e.target.value.toUpperCase())}
-                        className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    />
-                    <input
-                        type="text"
-                        placeholder="Filtrar por status..."
-                        value={statusFiltro}
-                        onChange={(e) => setStatusFiltro(e.target.value.toUpperCase())}
-                        className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    />
-                    <input
-                        type="text"
-                        placeholder="Filtrar por função..."
-                        value={funcaoFiltro}
-                        onChange={(e) => setFuncaoFiltro(e.target.value.toUpperCase())}
-                        className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    />
+            <div className="sticky top-[calc(var(--app-header-height)+96px)] z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-2">
+                <div className="bg-white rounded-lg shadow-md p-4 space-y-4">
+                    <div className="flex items-center gap-2 mb-4">
+                        <Filter className="h-5 w-5 text-primary" />
+                        <h3 className="font-semibold">Filtros</h3>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <input
+                            type="text"
+                            placeholder="Buscar por nome..."
+                            value={filtro}
+                            onChange={(e) => setFiltro(e.target.value.toUpperCase())}
+                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
+                        <input
+                            type="text"
+                            placeholder="Filtrar por status..."
+                            value={statusFiltro}
+                            onChange={(e) => setStatusFiltro(e.target.value.toUpperCase())}
+                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
+                        <input
+                            type="text"
+                            placeholder="Filtrar por função..."
+                            value={funcaoFiltro}
+                            onChange={(e) => setFuncaoFiltro(e.target.value.toUpperCase())}
+                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
+                    </div>
                 </div>
             </div>
 

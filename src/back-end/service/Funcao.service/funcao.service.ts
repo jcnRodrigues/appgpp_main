@@ -2,22 +2,62 @@
 
 import prisma from "../../../../prisma/prisma";
 
-// Função para buscar todas as funções
-export async function getFuncoes(paginacao?: { skip?: number; take?: number }) {
-    return await prisma.tbFuncao.findMany({
-        skip: paginacao?.skip,
-        take: paginacao?.take,
+function normalizarTexto(valor: string) {
+    return valor
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .trim();
+}
+
+// Funcao para buscar todas as funcoes
+export async function getFuncoes(paginacao?: { skip?: number; take?: number; nome?: string }) {
+    const nome = paginacao?.nome?.trim();
+    const skip = paginacao?.skip ?? 0;
+    const take = paginacao?.take ?? 10;
+
+    if (!nome) {
+        return await prisma.tbFuncao.findMany({
+            skip,
+            take,
+            orderBy: {
+                nomeFuncao: 'asc'
+            }
+        });
+    }
+
+    const filtroNormalizado = normalizarTexto(nome);
+    const todasFuncoes = await prisma.tbFuncao.findMany({
         orderBy: {
             nomeFuncao: 'asc'
         }
     });
+
+    const filtradas = todasFuncoes.filter((funcao) =>
+        normalizarTexto(funcao.nomeFuncao).includes(filtroNormalizado)
+    );
+
+    return filtradas.slice(skip, skip + take);
 }
 
-export async function contarFuncoes() {
-    return await prisma.tbFuncao.count();
+export async function contarFuncoes(nome?: string) {
+    const nomeFiltro = nome?.trim();
+
+    if (!nomeFiltro) {
+        return await prisma.tbFuncao.count();
+    }
+
+    const filtroNormalizado = normalizarTexto(nomeFiltro);
+    const todasFuncoes = await prisma.tbFuncao.findMany({
+        select: { nomeFuncao: true }
+    });
+
+    return todasFuncoes.filter((funcao) =>
+        normalizarTexto(funcao.nomeFuncao).includes(filtroNormalizado)
+    ).length;
 }
 
-// Função para buscar uma função pelo ID
+// Funcao para buscar uma funcao pelo ID
 export async function getFuncaoById(idFuncao: string) {
     return await prisma.tbFuncao.findUnique({
         where: { idFuncao },
@@ -32,7 +72,7 @@ export async function getFuncaoById(idFuncao: string) {
     });
 }
 
-// Função para criar uma nova função
+// Funcao para criar uma nova funcao
 export async function criarFuncao(dados: {
     nomeFuncao: string;
 }) {
@@ -43,7 +83,7 @@ export async function criarFuncao(dados: {
     });
 }
 
-// Função para atualizar uma função
+// Funcao para atualizar uma funcao
 export async function atualizarFuncao(idFuncao: string, dados: Partial<{
     nomeFuncao: string;
 }>) {
@@ -53,15 +93,15 @@ export async function atualizarFuncao(idFuncao: string, dados: Partial<{
     });
 }
 
-// Função para deletar uma função
+// Funcao para deletar uma funcao
 export async function deletarFuncao(idFuncao: string) {
-    // Verifica se há funcionários com essa função
+    // Verifica se ha funcionarios com essa funcao
     const funcionariosComFuncao = await prisma.tbFuncionario.count({
         where: { idFuncaoFun: idFuncao }
     });
 
     if (funcionariosComFuncao > 0) {
-        throw new Error(`Não é possível deletar. Existem ${funcionariosComFuncao} funcionário(s) com essa função.`);
+        throw new Error(`Nao e possivel deletar. Existem ${funcionariosComFuncao} funcionario(s) com essa funcao.`);
     }
 
     return await prisma.tbFuncao.delete({

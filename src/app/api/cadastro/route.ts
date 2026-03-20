@@ -14,6 +14,8 @@ export async function GET(request: NextRequest) {
         const { searchParams } = new URL(request.url);
         const idMatFun = searchParams.get('funcionario');
         const idPat = searchParams.get('patrimonio');
+        const funcionarioBusca = searchParams.get('funcionarioBusca');
+        const patrimonioBusca = searchParams.get('patrimonioBusca');
         const opcoes = searchParams.get('opcoes');
         const skip = parseInt(searchParams.get('skip') || '0');
         const take = parseInt(searchParams.get('take') || '10');
@@ -44,6 +46,8 @@ export async function GET(request: NextRequest) {
         const alocacoes = await listarAlocacoes({
             idMatFun: idMatFun || undefined,
             idPat: idPat || undefined,
+            funcionarioBusca: funcionarioBusca || undefined,
+            patrimonioBusca: patrimonioBusca || undefined,
             centros: filtroCentros,
             skip,
             take
@@ -51,6 +55,8 @@ export async function GET(request: NextRequest) {
         const total = await contarAlocacoes({
             idMatFun: idMatFun || undefined,
             idPat: idPat || undefined,
+            funcionarioBusca: funcionarioBusca || undefined,
+            patrimonioBusca: patrimonioBusca || undefined,
             centros: filtroCentros
         });
 

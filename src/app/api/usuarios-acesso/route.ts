@@ -16,8 +16,33 @@ function normalizeArray(value: any) {
     return Array.isArray(value) ? value : [];
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
     try {
+        const { searchParams } = new URL(request.url);
+        const id = searchParams.get('id');
+
+        if (id) {
+            const usuario = await prismaClient.tbUser.findUnique({ where: { id } });
+
+            if (!usuario) {
+                return NextResponse.json({ message: 'Usuario nao encontrado' }, { status: 404 });
+            }
+
+            return NextResponse.json({
+                data: {
+                    id: usuario.id,
+                    nome: usuario.nomeUser || '',
+                    email: usuario.emailUser || '',
+                    authType: (usuario.authTypeUser as 'LOCAL' | 'GOOGLE') || 'GOOGLE',
+                    centros: normalizeArray(usuario.centrosUser),
+                    formularios: normalizeArray(usuario.formulariosUser),
+                    status: (usuario.statusUser as 'ATIVO' | 'INATIVO') || 'ATIVO',
+                    createdAt: usuario.createdAt.toISOString(),
+                    updatedAt: usuario.updatedAt.toISOString()
+                }
+            });
+        }
+
         const usuarios = await prismaClient.tbUser.findMany({
             where: {
                 authTypeUser: {
@@ -27,7 +52,7 @@ export async function GET() {
             orderBy: { updatedAt: 'desc' }
         });
 
-        const data = usuarios.map((u) => ({
+        const data = usuarios.map((u: any) => ({
             id: u.id,
             nome: u.nomeUser || '',
             email: u.emailUser || '',

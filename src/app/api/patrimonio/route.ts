@@ -5,9 +5,15 @@ import { getCentrosFiltro } from '@/lib/access';
 export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
+        const idPat = searchParams.get('idPat');
         const descricao = searchParams.get('descricao');
         const status = searchParams.get('status');
+        const statusIdsRaw = searchParams.get('statusIds');
+        const statusIds = statusIdsRaw
+            ? statusIdsRaw.split(',').map((s) => s.trim()).filter(Boolean)
+            : [];
         const tipo = searchParams.get('tipo');
+        const centroId = searchParams.get('centroId');
         const skip = parseInt(searchParams.get('skip') || '0');
         const take = parseInt(searchParams.get('take') || '100');
 
@@ -19,17 +25,23 @@ export async function GET(request: NextRequest) {
         }
 
         const patrimonios = await listarPatrimonios({
+            idPat: idPat || undefined,
             descricao: descricao || undefined,
             status: status || undefined,
+            statusIds: statusIds.length > 0 ? statusIds : undefined,
             tipo: tipo || undefined,
+            centroId: centroId || undefined,
             centros: filtroCentros,
             skip,
             take
         });
         const total = await contarPatrimonios({
+            idPat: idPat || undefined,
             descricao: descricao || undefined,
             status: status || undefined,
+            statusIds: statusIds.length > 0 ? statusIds : undefined,
             tipo: tipo || undefined,
+            centroId: centroId || undefined,
             centros: filtroCentros
         });
 

@@ -2,27 +2,53 @@
 import prisma from "../../../../prisma/prisma";
 
 function buildPatrimonioWhere(filtro?: {
+    idPat?: string;
     descricao?: string;
     status?: string;
+    statusIds?: string[];
     tipo?: string;
+    centroId?: string;
     centros?: string[];
 }) {
+    const statusIds = (filtro?.statusIds || []).filter(Boolean);
+    const centroId = filtro?.centroId;
+    const centrosPermitidos = filtro?.centros && filtro.centros.length > 0 ? filtro.centros : undefined;
+
+    let filtroCentro: any = undefined;
+    if (centroId) {
+        if (centrosPermitidos) {
+            filtroCentro = centrosPermitidos.includes(centroId) ? centroId : '__NO_MATCH__';
+        } else {
+            filtroCentro = centroId;
+        }
+    } else if (centrosPermitidos) {
+        filtroCentro = { in: centrosPermitidos };
+    }
+
     return {
+        ...(filtro?.idPat && {
+            idPat: {
+                contains: filtro.idPat
+            }
+        }),
         ...(filtro?.descricao && {
             descricaoPat: {
                 contains: filtro.descricao
             }
         }),
-        ...(filtro?.status && {
+        ...(statusIds.length > 0 && {
+            idPat_StatusPat: {
+                in: statusIds
+            }
+        }),
+        ...(statusIds.length === 0 && filtro?.status && {
             idPat_StatusPat: filtro.status
         }),
         ...(filtro?.tipo && {
             idPat_TipoPat: filtro.tipo
         }),
-        ...(filtro?.centros && filtro.centros.length > 0 && {
-            idPat_CustoPat: {
-                in: filtro.centros
-            }
+        ...(filtroCentro && {
+            idPat_CustoPat: filtroCentro
         })
     };
 }
@@ -74,9 +100,12 @@ export async function getStatusPatrimonioById(id: string) {
 
 // Função para listar todos os patrimônios com filtros
 export async function listarPatrimonios(filtro?: {
+    idPat?: string;
     descricao?: string;
     status?: string;
+    statusIds?: string[];
     tipo?: string;
+    centroId?: string;
     centros?: string[];
     skip?: number;
     take?: number;
@@ -190,9 +219,12 @@ export async function getCentrosCusto() {
 
 // Função para contar patrimônios
 export async function contarPatrimonios(filtro?: {
+    idPat?: string;
     descricao?: string;
     status?: string;
+    statusIds?: string[];
     tipo?: string;
+    centroId?: string;
     centros?: string[];
 }) {
     return await prisma.tbPatrimonio.count({

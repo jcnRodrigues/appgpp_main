@@ -6,9 +6,10 @@ export async function GET(request: NextRequest) {
         const { searchParams } = new URL(request.url);
         const skip = parseInt(searchParams.get('skip') || '0');
         const take = parseInt(searchParams.get('take') || '10');
+        const nome = (searchParams.get('nome') || '').trim();
 
-        const funcoes = await getFuncoes({ skip, take });
-        const total = await contarFuncoes();
+        const funcoes = await getFuncoes({ skip, take, nome });
+        const total = await contarFuncoes(nome);
 
         return NextResponse.json({
             data: funcoes,

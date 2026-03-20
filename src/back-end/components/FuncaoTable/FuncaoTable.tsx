@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Edit, Trash2 } from 'lucide-react';
+import { Edit, Filter, Trash2 } from 'lucide-react';
 import { Button } from '@/back-end/components/ui/button';
 
 interface Funcao {
@@ -13,6 +13,7 @@ interface Funcao {
 export default function FuncaoTable() {
     const [funcoes, setFuncoes] = useState<Funcao[]>([]);
     const [loading, setLoading] = useState(true);
+    const [filtroNome, setFiltroNome] = useState('');
     const [paginaAtual, setPaginaAtual] = useState(1);
     const itensPorPagina = 10;
     const [totalItens, setTotalItens] = useState(0);
@@ -21,6 +22,7 @@ export default function FuncaoTable() {
         setLoading(true);
         try {
             const params = new URLSearchParams();
+            if (filtroNome) params.append('nome', filtroNome);
             params.append('skip', String((paginaAtual - 1) * itensPorPagina));
             params.append('take', String(itensPorPagina));
             const res = await fetch(`/api/funcao?${params}`);
@@ -28,6 +30,9 @@ export default function FuncaoTable() {
                 const data = await res.json();
                 setFuncoes(data.data || []);
                 setTotalItens(typeof data.total === 'number' ? data.total : (data.data || []).length);
+            } else {
+                setFuncoes([]);
+                setTotalItens(0);
             }
         } catch (error) {
             console.error('Erro ao carregar funções:', error);
@@ -38,7 +43,11 @@ export default function FuncaoTable() {
 
     useEffect(() => {
         carregarFuncoes();
-    }, [paginaAtual]);
+    }, [paginaAtual, filtroNome]);
+
+    useEffect(() => {
+        setPaginaAtual(1);
+    }, [filtroNome]);
 
     const handleDelete = async (idFuncao: string) => {
         if (!confirm('Tem certeza que deseja deletar esta função?')) return;
@@ -76,12 +85,27 @@ export default function FuncaoTable() {
         setPaginaAtual(paginaValida);
     };
 
-    if (loading) {
-        return <div className="text-center py-8">Carregando...</div>;
-    }
-
     return (
         <div className="w-full space-y-4">
+            <div className="sticky top-[calc(var(--app-header-height)+96px)] z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-2">
+                <div className="bg-white rounded-lg shadow-md p-4 space-y-4">
+                    <div className="flex items-center gap-2 mb-4">
+                        <Filter className="h-5 w-5 text-primary" />
+                        <h3 className="font-semibold">Filtros</h3>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <input
+                            type="text"
+                            placeholder="Buscar por nome da funcao..."
+                            value={filtroNome}
+                            onChange={(e) => setFiltroNome(e.target.value)}
+                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
+                    </div>
+                </div>
+            </div>
+
             <div className="w-full">
                 <div className="overflow-x-auto bg-white rounded-lg shadow">
                     <table className="w-full">
@@ -92,7 +116,13 @@ export default function FuncaoTable() {
                             </tr>
                         </thead>
                         <tbody>
-                            {funcoes.length === 0 ? (
+                            {loading ? (
+                                <tr>
+                                    <td colSpan={2} className="px-6 py-8 text-center text-gray-500">
+                                        Carregando...
+                                    </td>
+                                </tr>
+                            ) : funcoes.length === 0 ? (
                                 <tr>
                                     <td colSpan={2} className="px-6 py-8 text-center text-gray-500">
                                         Nenhuma função cadastrada
@@ -131,7 +161,7 @@ export default function FuncaoTable() {
             </div>
             {/* Informações */}
             <div className="text-sm text-gray-600 text-center py-2">
-                Total de Funções: {funcoes.length}
+                Total de Funções: {totalItens}
             </div>
 
             {/* Paginação */}

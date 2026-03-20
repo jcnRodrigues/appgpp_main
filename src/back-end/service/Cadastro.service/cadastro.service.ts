@@ -29,8 +29,13 @@ async function getStatusIdByDescricao(
 function buildAlocacaoWhere(filtro?: {
     idMatFun?: string;
     idPat?: string;
+    funcionarioBusca?: string;
+    patrimonioBusca?: string;
     centros?: string[];
 }) {
+    const funcionarioBusca = filtro?.funcionarioBusca?.trim();
+    const patrimonioBusca = filtro?.patrimonioBusca?.trim();
+
     return {
         ...(filtro?.idMatFun && {
             idMatFunCad: filtro.idMatFun
@@ -55,6 +60,38 @@ function buildAlocacaoWhere(filtro?: {
                     }
                 }
             ]
+        }),
+        ...(funcionarioBusca && {
+            tbFuncionario: {
+                OR: [
+                    {
+                        nomeFun: {
+                            contains: funcionarioBusca
+                        }
+                    },
+                    {
+                        idMatFun: {
+                            contains: funcionarioBusca
+                        }
+                    }
+                ]
+            }
+        }),
+        ...(patrimonioBusca && {
+            tbPatrimonio: {
+                OR: [
+                    {
+                        descricaoPat: {
+                            contains: patrimonioBusca
+                        }
+                    },
+                    {
+                        idPat: {
+                            contains: patrimonioBusca
+                        }
+                    }
+                ]
+            }
         })
     };
 }
@@ -63,6 +100,8 @@ function buildAlocacaoWhere(filtro?: {
 export async function listarAlocacoes(filtro?: {
     idMatFun?: string;
     idPat?: string;
+    funcionarioBusca?: string;
+    patrimonioBusca?: string;
     centros?: string[];
     skip?: number;
     take?: number;
@@ -93,6 +132,8 @@ export async function listarAlocacoes(filtro?: {
 export async function contarAlocacoes(filtro?: {
     idMatFun?: string;
     idPat?: string;
+    funcionarioBusca?: string;
+    patrimonioBusca?: string;
     centros?: string[];
 }) {
     return await prisma.tbCadastro.count({

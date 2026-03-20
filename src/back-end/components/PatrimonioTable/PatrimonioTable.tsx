@@ -1,7 +1,7 @@
 ﻿'use client'
 
-import { useState, useEffect } from 'react';
-import { Edit, Trash2, Filter } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Edit, Trash2, Filter, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/back-end/components/ui/button';
 
@@ -22,15 +22,30 @@ interface Patrimonio {
     };
 }
 
+interface StatusOption {
+    idStatusPat: string;
+    descricaoStatPat: string;
+}
+
+interface CentroOption {
+    idCCusto: string;
+    descricaoCCusto?: string | null;
+    codigoCCusto?: string | null;
+}
+
 interface PatrimonioTableProps {
     patrimonios?: Patrimonio[];
 }
 
 export default function PatrimonioTable({ patrimonios: initialPatrimonios }: PatrimonioTableProps) {
     const [patrimonios, setPatrimonios] = useState<Patrimonio[]>(initialPatrimonios || []);
-    const [filtro, setFiltro] = useState('');
-    const [statusFiltro, setStatusFiltro] = useState('');
-    const [tipoFiltro, setTipoFiltro] = useState('');
+    const [idFiltro, setIdFiltro] = useState('');
+    const [statusSelecionados, setStatusSelecionados] = useState<string[]>([]);
+    const [centroFiltro, setCentroFiltro] = useState('');
+    const [statusOpcoes, setStatusOpcoes] = useState<StatusOption[]>([]);
+    const [centroOpcoes, setCentroOpcoes] = useState<CentroOption[]>([]);
+    const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
+    const statusDropdownRef = useRef<HTMLDivElement | null>(null);
     const [loading, setLoading] = useState(false);
     const [paginaAtual, setPaginaAtual] = useState(1);
     const itensPorPagina = 10;
@@ -38,19 +53,50 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
 
     useEffect(() => {
         setPaginaAtual(1);
-    }, [filtro, statusFiltro, tipoFiltro]);
+    }, [idFiltro, statusSelecionados, centroFiltro]);
 
     useEffect(() => {
         carregarPatrimonios();
-    }, [filtro, statusFiltro, tipoFiltro, paginaAtual]);
+    }, [idFiltro, statusSelecionados, centroFiltro, paginaAtual]);
+
+    useEffect(() => {
+        const carregarOpcoes = async () => {
+            try {
+                const response = await fetch('/api/patrimonio/opcoes');
+                if (response.ok) {
+                    const data = await response.json();
+                    setStatusOpcoes(data.status || []);
+                    setCentroOpcoes(data.centros || []);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar opções de filtro:', error);
+            }
+        };
+
+        carregarOpcoes();
+    }, []);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (!statusDropdownRef.current) return;
+            if (!statusDropdownRef.current.contains(event.target as Node)) {
+                setStatusDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const carregarPatrimonios = async () => {
         setLoading(true);
         try {
             const params = new URLSearchParams();
-            if (filtro) params.append('descricao', filtro);
-            if (statusFiltro) params.append('status', statusFiltro);
-            if (tipoFiltro) params.append('tipo', tipoFiltro);
+            if (idFiltro) params.append('idPat', idFiltro);
+            if (statusSelecionados.length > 0) params.append('statusIds', statusSelecionados.join(','));
+            if (centroFiltro) params.append('centroId', centroFiltro);
             params.append('skip', String((paginaAtual - 1) * itensPorPagina));
             params.append('take', String(itensPorPagina));
 
@@ -65,6 +111,14 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
         } finally {
             setLoading(false);
         }
+    };
+
+    const toggleStatus = (idStatusPat: string) => {
+        setStatusSelecionados((prev) =>
+            prev.includes(idStatusPat)
+                ? prev.filter((id) => id !== idStatusPat)
+                : [...prev, idStatusPat]
+        );
     };
 
     const handleDelete = async (idP: string) => {
@@ -104,34 +158,73 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
     return (
         <div className="space-y-4">
             {/* Filtros */}
-            <div className="bg-white rounded-lg shadow-md p-4 space-y-4">
-                <div className="flex items-center gap-2 mb-4">
-                    <Filter className="h-5 w-5 text-primary" />
-                    <h3 className="font-semibold">Filtros</h3>
-                </div>
+            <div className="sticky top-[calc(var(--app-header-height)+96px)] z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-2">
+                <div className="bg-white rounded-lg shadow-md p-4 space-y-4">
+                    <div className="flex items-center gap-2 mb-4">
+                        <Filter className="h-5 w-5 text-primary" />
+                        <h3 className="font-semibold">Filtros</h3>
+                    </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <input
-                        type="text"
-                        placeholder="Buscar por descrição..."
-                        value={filtro}
-                        onChange={(e) => setFiltro(e.target.value.toUpperCase())}
-                        className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    />
-                    <input
-                        type="text"
-                        placeholder="Filtrar por status..."
-                        value={statusFiltro}
-                        onChange={(e) => setStatusFiltro(e.target.value.toUpperCase())}
-                        className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    />
-                    <input
-                        type="text"
-                        placeholder="Filtrar por tipo..."
-                        value={tipoFiltro}
-                        onChange={(e) => setTipoFiltro(e.target.value.toUpperCase())}
-                        className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    />
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <input
+                            type="text"
+                            placeholder="Buscar por ID..."
+                            value={idFiltro}
+                            onChange={(e) => setIdFiltro(e.target.value)}
+                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
+                        <select
+                            value={centroFiltro}
+                            onChange={(e) => setCentroFiltro(e.target.value)}
+                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                            <option value="">Todos os centros de custo</option>
+                            {centroOpcoes.map((centro) => (
+                                <option key={centro.idCCusto} value={centro.idCCusto}>
+                                    {centro.descricaoCCusto || 'Sem descricao'}{centro.codigoCCusto ? ` (${centro.codigoCCusto})` : ''}
+                                </option>
+                            ))}
+                        </select>
+                        <div className="relative" ref={statusDropdownRef}>
+                            <button
+                                type="button"
+                                onClick={() => setStatusDropdownOpen((prev) => !prev)}
+                                className="w-full px-4 py-2 border rounded-lg text-left focus:outline-none focus:ring-2 focus:ring-primary flex items-center justify-between"
+                            >
+                                <span className="truncate">
+                                    {statusSelecionados.length > 0
+                                        ? `Status selecionados: ${statusSelecionados.length}`
+                                        : 'Todos os status'}
+                                </span>
+                                <ChevronDown className={`h-4 w-4 transition ${statusDropdownOpen ? 'rotate-180' : ''}`} />
+                            </button>
+
+                            {statusDropdownOpen && (
+                                <div className="absolute z-30 mt-1 w-full bg-white border rounded-lg shadow-lg max-h-56 overflow-auto p-2 space-y-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => setStatusSelecionados([])}
+                                        className="w-full text-left text-sm px-2 py-1 rounded hover:bg-gray-100"
+                                    >
+                                        Todos os status
+                                    </button>
+                                    {statusOpcoes.map((status) => (
+                                        <label key={status.idStatusPat} className="flex items-center gap-2 text-sm px-2 py-1 rounded hover:bg-gray-50">
+                                            <input
+                                                type="checkbox"
+                                                checked={statusSelecionados.includes(status.idStatusPat)}
+                                                onChange={() => toggleStatus(status.idStatusPat)}
+                                            />
+                                            <span>{status.descricaoStatPat}</span>
+                                        </label>
+                                    ))}
+                                    {statusOpcoes.length === 0 && (
+                                        <span className="text-xs text-gray-500 px-2 py-1 block">Sem status disponíveis</span>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
 

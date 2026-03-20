@@ -38,6 +38,14 @@ interface StatusPatrimonio {
     descricaoStatPat: string;
 }
 
+function normalizarTexto(value: string) {
+    return value
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .trim();
+}
+
 export default function CadastroForm({
     funcionarioId,
     patrimonioId
@@ -90,45 +98,44 @@ export default function CadastroForm({
         carregarOpcoes();
     }, []);
 
-    // Efeito para filtrar funcionários
+    // Efeito para filtrar funcionários (matricula + nome)
     useEffect(() => {
-        const filtrarFuncionarios = async () => {
+        const filtrarFuncionarios = () => {
             if (!funcionarioSearch.trim()) {
                 setFuncionariosFiltrados(funcionarios.slice(0, 50));
                 return;
             }
 
-            try {
-                const res = await fetch(`/api/funcionario?nome=${encodeURIComponent(funcionarioSearch)}&take=50`);
-                if (res.ok) {
-                    const data = await res.json();
-                    setFuncionariosFiltrados(data.data || []);
-                }
-            } catch (error) {
-                console.error('Erro ao filtrar funcionários:', error);
-            }
+            const busca = normalizarTexto(funcionarioSearch);
+            const filtrados = funcionarios.filter((func) => {
+                const matricula = normalizarTexto(func.idMatFun || '');
+                const nome = normalizarTexto(func.nomeFun || '');
+                return matricula.includes(busca) || nome.includes(busca);
+            });
+
+            setFuncionariosFiltrados(filtrados.slice(0, 50));
         };
 
         filtrarFuncionarios();
     }, [funcionarioSearch, funcionarios]);
 
-    // Efeito para filtrar patrimônios
+    // Efeito para filtrar patrimônios (codigo + descricao)
     useEffect(() => {
-        const filtrarPatrimonios = async () => {
+        const filtrarPatrimonios = () => {
             if (!patrimonioSearch.trim()) {
                 setPatrimoniosFiltrados(patrimonios.slice(0, 50));
                 return;
             }
 
-            try {
-                const res = await fetch(`/api/patrimonio?descricao=${encodeURIComponent(patrimonioSearch)}&take=50`);
-                if (res.ok) {
-                    const data = await res.json();
-                    setPatrimoniosFiltrados(data.data || []);
-                }
-            } catch (error) {
-                console.error('Erro ao filtrar patrimônios:', error);
-            }
+            const busca = normalizarTexto(patrimonioSearch);
+            const filtrados = patrimonios.filter((pat) => {
+                const codigo = normalizarTexto(pat.idPat || '');
+                const descricao = normalizarTexto(pat.descricaoPat || '');
+                const descricaoDetalhada = normalizarTexto(pat.descricaoDetalhadaPat || '');
+                return codigo.includes(busca) || descricao.includes(busca) || descricaoDetalhada.includes(busca);
+            });
+
+            setPatrimoniosFiltrados(filtrados.slice(0, 50));
         };
 
         filtrarPatrimonios();
@@ -371,7 +378,7 @@ export default function CadastroForm({
                                 type="text"
                                 placeholder="Buscar por nome ou matrí­cula..."
                                 value={funcionarioSearch}
-                                onChange={(e) => setFuncionarioSearch(e.target.value.toUpperCase())}
+                                onChange={(e) => setFuncionarioSearch(e.target.value)}
                                 className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                                 autoFocus
                             />
@@ -443,9 +450,9 @@ export default function CadastroForm({
                             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                             <input
                                 type="text"
-                                placeholder="Buscar por descrição ou ID..."
+                                placeholder="Buscar por codigo ou descricao..."
                                 value={patrimonioSearch}
-                                onChange={(e) => setPatrimonioSearch(e.target.value.toUpperCase())}
+                                onChange={(e) => setPatrimonioSearch(e.target.value)}
                                 className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                                 autoFocus
                             />
