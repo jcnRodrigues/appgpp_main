@@ -9,19 +9,19 @@ interface Funcionario {
     idF: string;
     idMatFun: string;
     nomeFun: string;
-    cpfFun?: string;
-    dataAdmFun?: string;
-    dataDesFun?: string;
-    avatarFun?: string;
+    cpfFun?: string | null;
+    dataAdmFun?: string | Date | null;
+    dataDesFun?: string | Date | null;
+    avatarFun?: string | null;
     tbFuncao?: {
         nomeFuncao: string;
-    };
+    } | null;
     tbStatusFun?: {
         descricaoStatusFun: string;
-    };
+    } | null;
     tbCCusto?: {
-        descricaoCCusto?: string;
-    };
+        descricaoCCusto?: string | null;
+    } | null;
 }
 
 interface FuncionarioTableProps {

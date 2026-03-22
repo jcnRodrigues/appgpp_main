@@ -82,7 +82,7 @@ export default function GraficoAlocacoesPorCentro() {
                     <Tooltip
                         cursor={{ fill: 'rgba(0,0,0,0.05)' }}
                         contentStyle={{ borderRadius: 8 }}
-                        formatter={(value: number) => [value, '']}
+                        formatter={(value: number | undefined) => [value ?? 0, '']}
                         labelFormatter={(label) => `Centro: ${label}`}
                     />
                     <Legend wrapperStyle={{ fontSize: 12 }} />

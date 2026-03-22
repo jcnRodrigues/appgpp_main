@@ -9,17 +9,17 @@ interface Patrimonio {
     idP: string;
     idPat: string;
     descricaoPat: string;
-    valorPat: number;
-    dataEntPat: string;
+    valorPat: number | null;
+    dataEntPat: string | Date | null;
     tbTipoPat?: {
-        descricaoTipPat?: string;
-    };
+        descricaoTipPat?: string | null;
+    } | null;
     tbStatusPat?: {
         descricaoStatPat: string;
-    };
+    } | null;
     tbCCusto?: {
-        descricaoCCusto?: string;
-    };
+        descricaoCCusto?: string | null;
+    } | null;
 }
 
 interface StatusOption {
@@ -273,7 +273,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                             R$ {patrimonio.valorPat?.toFixed(2) || '0.00'}
                                         </td>
                                         <td className="px-6 py-4 text-sm text-gray-700">
-                                            {new Date(patrimonio.dataEntPat).toLocaleDateString('pt-BR')}
+                                            {patrimonio.dataEntPat ? new Date(patrimonio.dataEntPat).toLocaleDateString('pt-BR') : '-'}
                                         </td>
                                         <td className="px-6 py-4 text-sm">
                                             <span className={`px-3 py-1 rounded-full text-xs font-semibold 

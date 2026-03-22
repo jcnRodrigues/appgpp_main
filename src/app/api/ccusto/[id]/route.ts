@@ -2,14 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getCentroCustoById, atualizarCentroCusto, deletarCentroCusto } from '@/back-end/service/CentroCusto.service/centrocusto.service';
 import { getCentrosFiltro } from '@/lib/access';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     try {
+        const { id } = await params;
         const { centros, allowAll } = await getCentrosFiltro(request);
-        if (!allowAll && centros.length > 0 && !centros.includes(params.id)) {
+        if (!allowAll && centros.length > 0 && !centros.includes(id)) {
             return NextResponse.json({ message: 'Centro de custo não encontrado' }, { status: 404 });
         }
 
-        const centro = await getCentroCustoById(params.id);
+        const centro = await getCentroCustoById(id);
         if (!centro) return NextResponse.json({ message: 'Centro de custo não encontrado' }, { status: 404 });
         return NextResponse.json(centro);
     } catch (error) {
@@ -18,10 +19,11 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     try {
+        const { id } = await params;
         const dados = await request.json();
-        const updated = await atualizarCentroCusto(params.id, {
+        const updated = await atualizarCentroCusto(id, {
             codigoCCusto: dados.codigoCCusto,
             descricaoCCusto: dados.descricaoCCusto,
             idEmp_Custo: dados.idEmp_Custo
@@ -33,9 +35,10 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     try {
-        await deletarCentroCusto(params.id);
+        const { id } = await params;
+        await deletarCentroCusto(id);
         return NextResponse.json({ message: 'Centro de custo deletado' });
     } catch (error) {
         console.error('Erro ao deletar centro de custo:', error);

@@ -74,7 +74,7 @@ export default function GraficoAlocacoesLinha() {
                     <Tooltip
                         labelFormatter={(mes) => formatarMes(mes)}
                         contentStyle={{ borderRadius: 8 }}
-                        formatter={(value: number) => [value, '']}
+                        formatter={(value: number | undefined) => [value ?? 0, '']}
                     />
                     <Legend wrapperStyle={{ fontSize: 12 }} />
                     {centros.map((centro, i) => (

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import * as XLSX from 'xlsx/xlsx.mjs';
+import * as XLSX from 'xlsx';
 import { listarPatrimoniosPorCentroCusto } from '@/back-end/service/Patrimonio.services/patrimonio.service';
 import { getCentrosFiltro } from '@/lib/access';
 

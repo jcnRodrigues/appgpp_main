@@ -53,6 +53,13 @@ export default function AccessUserForm({ usuarioId }: { usuarioId?: string }) {
     const [loading, setLoading] = useState(false);
     const [loadingData, setLoadingData] = useState(true);
     const [form, setForm] = useState(initialForm);
+    const notify = (tipo: 'erro' | 'sucesso', mensagem: string) => {
+        if (typeof window !== 'undefined' && typeof window.systemAlert === 'function') {
+            window.systemAlert?.(tipo, mensagem);
+            return;
+        }
+        window.alert(mensagem);
+    };
 
     const isEditing = !!usuarioId;
     const centrosSelecionados = useMemo(() => new Set(form.centros), [form.centros]);
@@ -122,25 +129,25 @@ export default function AccessUserForm({ usuarioId }: { usuarioId?: string }) {
         setLoading(true);
 
         if (!form.nome || !form.email) {
-            window.systemAlert('erro', 'Nome e Email sao obrigatorios');
+            notify('erro', 'Nome e Email sao obrigatorios');
             setLoading(false);
             return;
         }
 
         if (form.centros.length === 0) {
-            window.systemAlert('erro', 'Selecione ao menos um centro de custo');
+            notify('erro', 'Selecione ao menos um centro de custo');
             setLoading(false);
             return;
         }
 
         if (form.authType === 'LOCAL') {
             if (!form.senha && !isEditing) {
-                window.systemAlert('erro', 'Senha obrigatoria para acesso local');
+                notify('erro', 'Senha obrigatoria para acesso local');
                 setLoading(false);
                 return;
             }
             if (form.senha && form.senha !== form.confirmSenha) {
-                window.systemAlert('erro', 'Senha e confirmacao nao conferem');
+                notify('erro', 'Senha e confirmacao nao conferem');
                 setLoading(false);
                 return;
             }
@@ -168,16 +175,16 @@ export default function AccessUserForm({ usuarioId }: { usuarioId?: string }) {
             });
 
             if (res.ok) {
-                window.systemAlert('sucesso', isEditing ? 'Acesso atualizado' : 'Acesso criado');
+                notify('sucesso', isEditing ? 'Acesso atualizado' : 'Acesso criado');
                 router.push('/acesso-usuarios');
                 router.refresh();
             } else {
                 const err = await res.json();
-                window.systemAlert('erro', err.message || 'Erro ao salvar');
+                notify('erro', err.message || 'Erro ao salvar');
             }
         } catch (error) {
             console.error(error);
-            window.systemAlert('erro', 'Erro ao salvar');
+            notify('erro', 'Erro ao salvar');
         } finally {
             setLoading(false);
         }

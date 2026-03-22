@@ -1,9 +1,9 @@
-"use server"
+﻿"use server"
 
 import prisma from "../../../../prisma/prisma";
 
 async function getStatusIdByDescricao(
-    tx: typeof prisma,
+    tx: Pick<typeof prisma, "tbStatusPat">,
     options: { exact?: string[]; contains?: string[] }
 ) {
     const statusList = await tx.tbStatusPat.findMany();
@@ -96,7 +96,7 @@ function buildAlocacaoWhere(filtro?: {
     };
 }
 
-// Buscar todas as alocações de patrimônio
+// Buscar todas as alocaÃ§Ãµes de patrimÃ´nio
 export async function listarAlocacoes(filtro?: {
     idMatFun?: string;
     idPat?: string;
@@ -141,7 +141,7 @@ export async function contarAlocacoes(filtro?: {
     });
 }
 
-// Buscar uma alocação específica
+// Buscar uma alocaÃ§Ã£o especÃ­fica
 export async function buscarAlocacaoById(idCad: string) {
     return await prisma.tbCadastro.findUnique({
         where: { idCad },
@@ -168,7 +168,7 @@ export async function buscarAlocacaoById(idCad: string) {
     });
 }
 
-// Criar nova alocação
+// Criar nova alocaÃ§Ã£o
 export async function criarAlocacao(dados: {
     idPatCad: string;
     idMatFunCad: string;
@@ -177,7 +177,7 @@ export async function criarAlocacao(dados: {
     idStatusPatCad?: string;
 }) {
     return await prisma.$transaction(async (tx) => {
-        // Validar se o patrimônio existe
+        // Validar se o patrimÃ´nio existe
         const patrimonio = await tx.tbPatrimonio.findUnique({
             where: { idPat: dados.idPatCad },
             include: {
@@ -186,16 +186,16 @@ export async function criarAlocacao(dados: {
         });
 
         if (!patrimonio) {
-            throw new Error("Patrimônio não encontrado");
+            throw new Error("PatrimÃ´nio nÃ£o encontrado");
         }
 
-        // Validar se o funcionário existe
+        // Validar se o funcionÃ¡rio existe
         const funcionario = await tx.tbFuncionario.findUnique({
             where: { idMatFun: dados.idMatFunCad }
         });
 
         if (!funcionario) {
-            throw new Error("Funcionário não encontrado");
+            throw new Error("FuncionÃ¡rio nÃ£o encontrado");
         }
 
         const statusDescricao = patrimonio.tbStatusPat?.descricaoStatPat?.toLowerCase() || "";
@@ -212,7 +212,7 @@ export async function criarAlocacao(dados: {
         });
 
         if (alocacaoAtiva && !statusDevolvido) {
-            throw new Error("Patrimônio já está alocado. Registre a devolução antes de realocar.");
+            throw new Error("PatrimÃ´nio jÃ¡ estÃ¡ alocado. Registre a devoluÃ§Ã£o antes de realocar.");
         }
 
         if (alocacaoAtiva && statusDevolvido) {
@@ -224,7 +224,7 @@ export async function criarAlocacao(dados: {
 
         const statusAtivoId = await getStatusIdByDescricao(tx, { exact: ["ATIVO"] });
         const statusDevolvidoId = await getStatusIdByDescricao(tx, {
-            exact: ["DEVOLVIDO", "DEVOLUÇÃO", "DEVOLUCAO"],
+            exact: ["DEVOLVIDO", "DEVOLUÃ‡ÃƒO", "DEVOLUCAO"],
             contains: ["devolv"]
         });
         const statusCadastroId =
@@ -236,7 +236,7 @@ export async function criarAlocacao(dados: {
             (await getStatusIdByDescricao(tx, { contains: ["devolv"] }));
 
         if (!statusCadastroId) {
-            throw new Error("Status do patrimônio não encontrado para o cadastro.");
+            throw new Error("Status do patrimÃ´nio nÃ£o encontrado para o cadastro.");
         }
 
         const novaAlocacao = await tx.tbCadastro.create({
@@ -272,7 +272,7 @@ export async function criarAlocacao(dados: {
     });
 }
 
-// Atualizar alocação (principalmente para registrar devolução)
+// Atualizar alocaÃ§Ã£o (principalmente para registrar devoluÃ§Ã£o)
 export async function atualizarAlocacao(idCad: string, dados: Partial<{
     dataCadPat?: Date;
     dataDevPat?: Date;
@@ -290,7 +290,7 @@ export async function atualizarAlocacao(idCad: string, dados: Partial<{
 
         if (alocacao.idPatCad) {
             const statusDevolvidoId = await getStatusIdByDescricao(tx, {
-                exact: ["DEVOLVIDO", "DEVOLUÇÃO", "DEVOLUCAO"],
+                exact: ["DEVOLVIDO", "DEVOLUÃ‡ÃƒO", "DEVOLUCAO"],
                 contains: ["devolv"]
             });
             const statusAtivoId = await getStatusIdByDescricao(tx, { exact: ["ATIVO"] });
@@ -324,14 +324,14 @@ export async function atualizarAlocacao(idCad: string, dados: Partial<{
     });
 }
 
-// Deletar alocação
+// Deletar alocaÃ§Ã£o
 export async function deletarAlocacao(idCad: string) {
     return await prisma.tbCadastro.delete({
         where: { idCad }
     });
 }
 
-// Buscar funcionários disponíveis
+// Buscar funcionÃ¡rios disponÃ­veis
 export async function listarFuncionarios(centros?: string[]) {
     return await prisma.tbFuncionario.findMany({
         where: centros && centros.length > 0 ? { idCustoFun: { in: centros } } : undefined,
@@ -341,7 +341,7 @@ export async function listarFuncionarios(centros?: string[]) {
     });
 }
 
-// Buscar patrimônios disponíveis
+// Buscar patrimÃ´nios disponÃ­veis
 export async function listarPatrimonios(centros?: string[]) {
     return await prisma.tbPatrimonio.findMany({
         where: {
@@ -369,8 +369,8 @@ export async function listarPatrimonios(centros?: string[]) {
     });
 }
 
-// Buscar patrimônios alocados a um funcionário
-export async function patrimôniosPorFuncionário(idMatFun: string) {
+// Buscar patrimÃ´nios alocados a um funcionÃ¡rio
+export async function patrimoniosPorFuncionario(idMatFun: string) {
     return await prisma.tbCadastro.findMany({
         where: {
             idMatFunCad: idMatFun,
@@ -382,7 +382,7 @@ export async function patrimôniosPorFuncionário(idMatFun: string) {
     });
 }
 
-// Buscar alocações de um patrimônio
+// Buscar alocaÃ§Ãµes de um patrimÃ´nio
 export async function alocacoesPorPatrimonio(idPat: string) {
     return await prisma.tbCadastro.findMany({
         where: {

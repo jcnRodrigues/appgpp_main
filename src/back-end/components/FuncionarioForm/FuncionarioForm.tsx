@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -131,16 +131,16 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                 const mensagemSucesso = funcionarioId
                     ? 'Funcionário atualizado com sucesso'
                     : 'Funcionário criado com sucesso';
-                window.systemAlert("sucesso", mensagemSucesso);
+                window.systemAlert?.("sucesso", mensagemSucesso);
                 router.push('/funcionariosadd');
                 router.refresh();
             } else {
                 const error = await response.json();
-                window.systemAlert("erro", 'Erro ao salvar funcionário: ' + error.message);
+                window.systemAlert?.("erro", 'Erro ao salvar funcionário: ' + error.message);
             }
         } catch (error) {
             console.error('Erro:', error);
-            window.systemAlert("erro", 'Erro ao salvar funcionário');
+            window.systemAlert?.("erro", 'Erro ao salvar funcionário');
         } finally {
             setLoading(false);
         }

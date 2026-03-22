@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -70,16 +70,16 @@ export default function FuncaoForm({ funcaoId }: { funcaoId?: string }) {
                 const mensagemSucesso = funcaoId
                     ? 'Função atualizada com sucesso'
                     : 'Função criada com sucesso';
-                window.systemAlert("sucesso", mensagemSucesso);
+                window.systemAlert?.("sucesso", mensagemSucesso);
                 router.push('/funcoes');
                 router.refresh();
             } else {
                 const err = await res.json();
-                window.systemAlert("erro", err.message || 'Erro');
+                window.systemAlert?.("erro", err.message || 'Erro');
             }
         } catch (error) {
             console.error(error);
-            window.systemAlert("erro", 'Erro ao salvar');
+            window.systemAlert?.("erro", 'Erro ao salvar');
         } finally {
             setLoading(false);
         }

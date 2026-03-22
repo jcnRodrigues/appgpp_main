@@ -52,6 +52,7 @@ export async function alocacoesPorCentroCusto(centros?: string[]) {
         select: {
             idCCusto: true,
             descricaoCCusto: true,
+            codigoCCusto: true,
             tbPatrimonio: {
                 select: {
                     idP: true,
@@ -98,6 +99,7 @@ export async function alocacoesPorCentroCustoETipo(centros?: string[]) {
         select: {
             idCCusto: true,
             descricaoCCusto: true,
+            codigoCCusto: true,
             tbPatrimonio: {
                 select: {
                     idP: true,

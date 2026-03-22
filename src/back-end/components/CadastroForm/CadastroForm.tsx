@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -169,13 +169,13 @@ export default function CadastroForm({
 
         // Validações
         if (!cadastro.idMatFunCad) {
-            window.systemAlert("aviso", 'Por favor, selecione um funcionário');
+            window.systemAlert?.("aviso", 'Por favor, selecione um funcionário');
             setLoading(false);
             return;
         }
 
         if (!cadastro.idPatCad) {
-            window.systemAlert("aviso", 'Por favor, selecione um patrimônio');
+            window.systemAlert?.("aviso", 'Por favor, selecione um patrimônio');
             setLoading(false);
             return;
         }
@@ -196,16 +196,16 @@ export default function CadastroForm({
             });
 
             if (res.ok) {
-                window.systemAlert("sucesso", 'Alocação criada com sucesso');
+                window.systemAlert?.("sucesso", 'Alocação criada com sucesso');
                 router.push('/alocacoes');
                 router.refresh();
             } else {
                 const err = await res.json();
-                window.systemAlert("erro", err.message || 'Erro ao vincular patrimônio');
+                window.systemAlert?.("erro", err.message || 'Erro ao vincular patrimônio');
             }
         } catch (error) {
             console.error(error);
-            window.systemAlert("erro", 'Erro ao salvar');
+            window.systemAlert?.("erro", 'Erro ao salvar');
         } finally {
             setLoading(false);
         }
