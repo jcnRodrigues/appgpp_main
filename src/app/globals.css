@@ -20,7 +20,36 @@
   --border: #e4e4e7;
   --input: #e4e4e7;
   --ring: #151515;
+  --selection-bg: rgba(43, 111, 113, 0.34);
+  --selection-fg: #061214;
+  --focus-ring-soft: rgba(43, 111, 113, 0.26);
   --app-header-height: 72px;
+}
+
+.dark {
+  --background: #0f1719;
+  --foreground: #e7f0ef;
+  --primary: #e7f0ef;
+  --primary-foreground: #0f1719;
+  --secondary: #1b2527;
+  --secondary-foreground: #e7f0ef;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --muted: #1b2527;
+  --muted-foreground: #9bb1b0;
+  --accent: #5ac2c5;
+  --accent-foreground: #0f1719;
+  --popover: #101a1c;
+  --popover-foreground: #e7f0ef;
+  --card: #152022;
+  --card-foreground: #e7f0ef;
+  --border: #2c3b3d;
+  --input: #2c3b3d;
+  --ring: #5ac2c5;
+  --selection-bg: rgba(90, 194, 197, 0.42);
+  --selection-fg: #031012;
+  --focus-ring-soft: rgba(90, 194, 197, 0.36);
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -53,6 +82,107 @@ body {
   font-family: 'Syne', sans-serif;
 }
 
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-fg);
+}
+
+/* Seleção e foco nítidos para todos os formulários */
+input,
+select,
+textarea {
+  transition: border-color 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--focus-ring-soft);
+}
+
+input::selection,
+textarea::selection {
+  background: var(--selection-bg);
+  color: var(--selection-fg);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--accent);
+}
+
+select option {
+  background-color: var(--card);
+  color: var(--foreground);
+}
+
+select option:checked {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+/* Fallback global para componentes que usam classes fixas (bg-white, text-gray, etc.) */
+.dark .bg-white {
+  background-color: var(--card) !important;
+}
+
+.dark .bg-gray-50,
+.dark .bg-gray-100 {
+  background-color: var(--secondary) !important;
+}
+
+/* Hover de tabela no tema escuro: evitar fundo claro/lavado */
+.dark .hover\:bg-gray-50:hover,
+.dark .hover\:bg-gray-100:hover {
+  background-color: rgba(90, 194, 197, 0.12) !important;
+}
+
+.dark table tr:hover td,
+.dark table tr:hover th {
+  color: var(--foreground);
+}
+
+/* Hover de tabela no tema claro: manter destaque suave e consistente */
+:root .hover\:bg-gray-50:hover,
+:root .hover\:bg-gray-100:hover {
+  background-color: rgba(43, 111, 113, 0.09) !important;
+}
+
+:root table tr:hover td,
+:root table tr:hover th {
+  color: var(--foreground);
+}
+
+.dark .text-gray-900,
+.dark .text-gray-800,
+.dark .text-gray-700,
+.dark .text-gray-600,
+.dark .text-gray-500,
+.dark .text-gray-400 {
+  color: var(--foreground) !important;
+}
+
+.dark .border-gray-50,
+.dark .border-gray-100,
+.dark .border-gray-200,
+.dark .border-gray-300 {
+  border-color: var(--border) !important;
+}
+
+.dark input,
+.dark select,
+.dark textarea {
+  background-color: var(--card);
+  color: var(--foreground);
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: var(--muted-foreground);
+}
+
 .form-title-sticky {
   position: sticky;
   top: calc(var(--app-header-height) + 8px);
@@ -67,7 +197,7 @@ h1, .h1, .text-h1 {
   font-weight: 600;
   font-size: 28px;
   line-height: 40px;
-  color: #2F3131;
+  color: var(--foreground);
   font-family: 'Syne', sans-serif;
 }
 
@@ -75,7 +205,7 @@ h2, .h2, .text-h2 {
   font-weight: 600;
   font-size: 20px;
   line-height: 28px;
-  color: #2F3131;
+  color: var(--foreground);
   font-family: 'Syne', sans-serif;
 }
 
@@ -83,7 +213,7 @@ h3, .h3, .text-h3 {
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
-  color: #2F3131;
+  color: var(--foreground);
   font-family: 'Syne', sans-serif;
 }
 
@@ -91,7 +221,7 @@ h3, .h3, .text-h3 {
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  color: #5B5F5F;
+  color: var(--muted-foreground);
   font-family: 'Syne', sans-serif;
 }
 
@@ -99,7 +229,7 @@ h3, .h3, .text-h3 {
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
-  color: #5D5E5E;
+  color: var(--muted-foreground);
   font-family: 'Syne', sans-serif;
 }
 

@@ -1,12 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
 
-import { ClipboardCheck, Home, LandmarkIcon, LaptopIcon, LogOut, Menu, PackagePlusIcon, User, UserSearchIcon, UserCog } from "lucide-react";
+import { ClipboardCheck, Home, LandmarkIcon, LaptopIcon, LogOut, Menu, Monitor, Moon, PackagePlusIcon, Sun, User, UserSearchIcon, UserCog } from "lucide-react";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Button } from "../ui/button";
+import { useTheme } from "../Providers/ThemeProvider";
 
 
 type MenuItem = {
@@ -20,6 +21,7 @@ export default function Header() {
 
     const [open, setOpen] = useState(false);
     const { data: session, status } = useSession();
+    const { mode, setMode } = useTheme();
 
     const userFormularios = (session?.user as any)?.formularios as string[] | undefined;
     const canView = (required?: string) => !required || !userFormularios || userFormularios.includes(required);
@@ -45,7 +47,34 @@ export default function Header() {
                     <Link href={"/"}>App - GPP</Link>
                 </span>
             </h1>
-            <div className="bg-white p-3 rounded-full">
+            <div className="flex items-center gap-3">
+                <div className="flex items-center rounded-full border border-border bg-card p-1">
+                    <button
+                        type="button"
+                        onClick={() => setMode("system")}
+                        aria-label="Tema do sistema"
+                        className={`h-9 w-9 rounded-full grid place-items-center transition-colors ${mode === "system" ? "bg-accent/20 text-accent ring-1 ring-accent/35" : "text-foreground hover:bg-secondary"}`}
+                    >
+                        <Monitor className="h-4 w-4" />
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setMode("light")}
+                        aria-label="Tema claro"
+                        className={`h-9 w-9 rounded-full grid place-items-center transition-colors ${mode === "light" ? "bg-accent/20 text-accent ring-1 ring-accent/35" : "text-foreground hover:bg-secondary"}`}
+                    >
+                        <Sun className="h-4 w-4" />
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setMode("dark")}
+                        aria-label="Tema escuro"
+                        className={`h-9 w-9 rounded-full grid place-items-center transition-colors ${mode === "dark" ? "bg-accent/20 text-accent ring-1 ring-accent/35" : "text-foreground hover:bg-secondary"}`}
+                    >
+                        <Moon className="h-4 w-4" />
+                    </button>
+                </div>
+            <div className="bg-white dark:bg-card p-3 rounded-full border border-transparent dark:border-border">
                 <Sheet open={open} onOpenChange={setOpen}>
                     <SheetTrigger asChild>
                         <button className="flex items-center justify-center">
@@ -124,6 +153,7 @@ export default function Header() {
 
                     </SheetContent>
                 </Sheet>
+            </div>
             </div>
         </div >
     );
