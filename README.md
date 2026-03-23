@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# App GPP
 
-## Getting Started
+Projeto em Next.js.
 
-First, run the development server:
+## Rodando localmente
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+A aplicacao abre em `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Expor local com ngrok
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Instale as dependencias do projeto (o `ngrok` ja esta no `devDependencies`):
 
-## Learn More
+```bash
+npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+2. Se quiser salvar o token no ngrok uma vez so:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npx ngrok config add-authtoken <SEU_TOKEN>
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. Execute o tunel publico:
 
-## Deploy on Vercel
+```bash
+npm run dev:public
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Se o PowerShell bloquear `npm.ps1`, use:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```powershell
+npm.cmd run dev:public
+```
+
+Variaveis opcionais:
+
+- `PORT`: porta local do Next.js (padrao `3000`)
+- `NGROK_DOMAIN`: dominio reservado no ngrok (quando voce tiver um)
+- `NGROK_AUTHTOKEN`: token do ngrok (o script configura automaticamente antes de abrir o tunel)
+- `NGROK_TARGET_HOST`: IP/host local que o ngrok deve tunelar (padrao: IPv4 ativo detectado automaticamente)
+
+Observacao: a cada execucao de `dev:public`, o script persiste automaticamente o IP ativo em `NGROK_TARGET_HOST` no `.env.local`.
+
+O script carrega automaticamente variaveis de `.env.local` (prioridade) e `.env`.
+Exemplo de `.env.local`:
+
+```env
+NGROK_AUTHTOKEN=SEU_TOKEN
+NGROK_DOMAIN=seu-dominio.ngrok.app
+PORT=3000
+```
+
+Exemplo com dominio reservado (PowerShell):
+
+```powershell
+$env:NGROK_AUTHTOKEN='SEU_TOKEN'; $env:NGROK_DOMAIN='seu-dominio.ngrok.app'; npm.cmd run dev:public
+```
