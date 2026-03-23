@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -312,8 +312,8 @@ export default function CadastroTable() {
                                 key={pagina}
                                 onClick={() => irParaPagina(pagina)}
                                 className={`h-9 w-9 rounded-lg text-sm font-medium transition ${ativa
-                                    ? 'bg-primary text-white'
-                                    : 'bg-white text-gray-700 border hover:bg-gray-50'
+                                    ? 'bg-accent/20 text-accent border border-accent/35'
+                                    : 'bg-card text-foreground border border-border hover:bg-secondary'
                                     }`}
                             >
                                 {pagina}
@@ -336,3 +336,4 @@ export default function CadastroTable() {
         </div>
     );
 }
+

@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect, useRef } from 'react';
 import { Edit, Trash2, Filter, ChevronDown } from 'lucide-react';
@@ -335,8 +335,8 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                 onClick={() => irParaPagina(pagina)}
                                 className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
                                     ativa
-                                        ? 'bg-primary text-white'
-                                        : 'bg-white text-gray-700 border hover:bg-gray-50'
+                                        ? 'bg-accent/20 text-accent border border-accent/35'
+                                        : 'bg-card text-foreground border border-border hover:bg-secondary'
                                 }`}
                             >
                                 {pagina}
@@ -364,3 +364,4 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
         </div>
     );
 }
+
