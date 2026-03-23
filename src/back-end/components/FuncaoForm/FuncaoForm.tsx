@@ -1,19 +1,23 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
 import { Button } from '@/back-end/components/ui/button';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
+import { useFormDraft } from '@/back-end/hooks/useFormDraft';
 
 export default function FuncaoForm({ funcaoId }: { funcaoId?: string }) {
     const router = useRouter();
     const handleEnterToNext = useEnterToNext();
     const [loading, setLoading] = useState(false);
-    const [funcao, setFuncao] = useState({
-        nomeFuncao: ''
-    });
+    const initialFuncao = useMemo(() => ({ nomeFuncao: '' }), []);
+    const {
+        state: funcao,
+        setState: setFuncao,
+        clearDraft: clearFuncaoDraft
+    } = useFormDraft('funcao-form-create', initialFuncao, { enabled: !funcaoId });
 
     useEffect(() => {
         if (funcaoId) {
@@ -32,14 +36,13 @@ export default function FuncaoForm({ funcaoId }: { funcaoId?: string }) {
             };
             carregar();
         }
-    }, [funcaoId]);
+    }, [funcaoId, setFuncao]);
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
-        // Campo que deve ser convertido para uppercase
         const fieldsToUppercase = ['nomeFuncao'];
         const newValue = fieldsToUppercase.includes(name) ? value.toUpperCase() : value;
-        
+
         setFuncao(prev => ({ ...prev, [name]: newValue }));
     };
 
@@ -68,18 +71,18 @@ export default function FuncaoForm({ funcaoId }: { funcaoId?: string }) {
 
             if (res.ok) {
                 const mensagemSucesso = funcaoId
-                    ? 'Função atualizada com sucesso'
-                    : 'Função criada com sucesso';
-                window.systemAlert?.("sucesso", mensagemSucesso);
+                    ? 'Funcao atualizada com sucesso'
+                    : 'Funcao criada com sucesso';
+                window.systemAlert?.('sucesso', mensagemSucesso);
+                if (!funcaoId) clearFuncaoDraft();
                 router.push('/funcoes');
-                router.refresh();
             } else {
                 const err = await res.json();
-                window.systemAlert?.("erro", err.message || 'Erro');
+                window.systemAlert?.('erro', err.message || 'Erro');
             }
         } catch (error) {
             console.error(error);
-            window.systemAlert?.("erro", 'Erro ao salvar');
+            window.systemAlert?.('erro', 'Erro ao salvar');
         } finally {
             setLoading(false);
         }
@@ -92,12 +95,12 @@ export default function FuncaoForm({ funcaoId }: { funcaoId?: string }) {
                     <Link href="/funcoes" className="mr-4">
                         <ChevronLeft className="h-6 w-6 text-primary" />
                     </Link>
-                    <h1 className="text-h3 font-bold">{funcaoId ? 'Editar Função' : 'Cadastrar Função'}</h1>
+                    <h1 className="text-h3 font-bold">{funcaoId ? 'Editar Funcao' : 'Cadastrar Funcao'}</h1>
                 </div>
 
                 <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
                     <div>
-                        <label className="block text-sm font-medium mb-2">Nome da Função *</label>
+                        <label className="block text-sm font-medium mb-2">Nome da Funcao *</label>
                         <input
                             type="text"
                             name="nomeFuncao"
@@ -122,8 +125,3 @@ export default function FuncaoForm({ funcaoId }: { funcaoId?: string }) {
         </div>
     );
 }
-
-
-
-
-

@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
 import { Button } from '@/back-end/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
+import { useFormDraft } from '@/back-end/hooks/useFormDraft';
 
 
 interface TipoPatrimonio {
@@ -30,7 +31,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
     const [tipos, setTipos] = useState<TipoPatrimonio[]>([]);
     const [status, setStatus] = useState<StatusPatrimonio[]>([]);
     const [centros, setCentros] = useState<CentroCusto[]>([]);
-    const [patrimonio, setPatrimonio] = useState({
+    const initialPatrimonio = useMemo(() => ({
         idPat: '',
         descricaoPat: '',
         descricaoDetalhadaPat: '',
@@ -42,7 +43,12 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
         idPat_TipoPat: '',
         idPat_StatusPat: '',
         idPat_CustoPat: ''
-    });
+    }), []);
+    const {
+        state: patrimonio,
+        setState: setPatrimonio,
+        clearDraft: clearPatrimonioDraft
+    } = useFormDraft('patrimonio-form-create', initialPatrimonio, { enabled: !patrimonioId });
 
 
     // Carregar dados iniciais
@@ -146,8 +152,8 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                     ? 'Patrimônio atualizado com sucesso'
                     : 'Patrimônio criado com sucesso';
                 window.systemAlert?.("sucesso", mensagemSucesso);
+                if (!patrimonioId) clearPatrimonioDraft();
                 router.push('/patrimoniolist');
-                router.refresh();
             } else {
                 const error = await response.json();
                 window.systemAlert?.("erro", 'Erro ao salvar patrimônio: ' + error.message);
@@ -381,6 +387,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
         </div>
     );
 }
+
 
 
 

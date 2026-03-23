@@ -1,22 +1,28 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
 import { Button } from '@/back-end/components/ui/button';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
+import { useFormDraft } from '@/back-end/hooks/useFormDraft';
 
 export default function CentroCustoForm({ centroId }: { centroId?: string }) {
     const router = useRouter();
     const handleEnterToNext = useEnterToNext();
     const [loading, setLoading] = useState(false);
     const [empresas, setEmpresas] = useState<any[]>([]);
-    const [centro, setCentro] = useState({
+    const initialCentro = useMemo(() => ({
         codigoCCusto: '',
         descricaoCCusto: '',
         idEmp_Custo: ''
-    });
+    }), []);
+    const {
+        state: centro,
+        setState: setCentro,
+        clearDraft: clearCentroDraft
+    } = useFormDraft('ccusto-form-create', initialCentro, { enabled: !centroId });
 
     useEffect(() => {
         const carregar = async () => {
@@ -41,18 +47,19 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
                             idEmp_Custo: data.idEmp_Custo || ''
                         });
                     }
-                } catch (e) { console.error(e) }
+                } catch (e) {
+                    console.error(e);
+                }
             }
         };
         carregar();
-    }, [centroId]);
+    }, [centroId, setCentro]);
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
-        // Campos que devem ser convertidos para uppercase
         const fieldsToUppercase = ['codigoCCusto', 'descricaoCCusto'];
         const newValue = fieldsToUppercase.includes(name) ? value.toUpperCase() : value;
-        
+
         setCentro(prev => ({ ...prev, [name]: newValue }));
     };
 
@@ -77,16 +84,16 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
                 const mensagemSucesso = centroId
                     ? 'Centro de custo atualizado com sucesso'
                     : 'Centro de custo criado com sucesso';
-                window.systemAlert?.("sucesso", mensagemSucesso);
+                window.systemAlert?.('sucesso', mensagemSucesso);
+                if (!centroId) clearCentroDraft();
                 router.push('/ccustos');
-                router.refresh();
             } else {
                 const err = await res.json();
-                window.systemAlert?.("erro", err.message || 'Erro');
+                window.systemAlert?.('erro', err.message || 'Erro');
             }
         } catch (error) {
             console.error(error);
-            window.systemAlert?.("erro", 'Erro ao salvar');
+            window.systemAlert?.('erro', 'Erro ao salvar');
         } finally {
             setLoading(false);
         }
@@ -104,11 +111,11 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
 
                 <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
                     <div>
-                        <label className="block text-sm font-medium mb-2">Código</label>
+                        <label className="block text-sm font-medium mb-2">Codigo</label>
                         <input name="codigoCCusto" value={centro.codigoCCusto} onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-2">Descrição *</label>
+                        <label className="block text-sm font-medium mb-2">Descricao *</label>
                         <input name="descricaoCCusto" value={centro.descricaoCCusto} onChange={handleChange} required className="w-full px-4 py-2 border rounded-lg" />
                     </div>
                     <div>
@@ -128,9 +135,3 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
         </div>
     );
 }
-
-
-
-
-
-

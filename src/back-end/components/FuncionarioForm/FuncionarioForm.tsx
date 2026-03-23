@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
 import { Button } from '@/back-end/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
+import { useFormDraft } from '@/back-end/hooks/useFormDraft';
 
 interface Funcao {
     idFuncao: string;
@@ -29,7 +30,7 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
     const [funcoes, setFuncoes] = useState<Funcao[]>([]);
     const [status, setStatus] = useState<StatusFuncionario[]>([]);
     const [centros, setCentros] = useState<CentroCusto[]>([]);
-    const [funcionario, setFuncionario] = useState({
+    const initialFuncionario = useMemo(() => ({
         idMatFun: '',
         nomeFun: '',
         cpfFun: '',
@@ -39,7 +40,12 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
         idFuncaoFun: '',
         idStatusFun: '',
         idCustoFun: ''
-    });
+    }), []);
+    const {
+        state: funcionario,
+        setState: setFuncionario,
+        clearDraft: clearFuncionarioDraft
+    } = useFormDraft('funcionario-form-create', initialFuncionario, { enabled: !funcionarioId });
 
     // Carregar dados iniciais
     useEffect(() => {
@@ -132,8 +138,8 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                     ? 'Funcionário atualizado com sucesso'
                     : 'Funcionário criado com sucesso';
                 window.systemAlert?.("sucesso", mensagemSucesso);
+                if (!funcionarioId) clearFuncionarioDraft();
                 router.push('/funcionariosadd');
-                router.refresh();
             } else {
                 const error = await response.json();
                 window.systemAlert?.("erro", 'Erro ao salvar funcionário: ' + error.message);
@@ -322,6 +328,7 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
         </div>
     );
 }
+
 
 
 

@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
 import { Button } from '@/back-end/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/back-end/components/ui/sheet';
 import Link from 'next/link';
 import { ChevronLeft, Search, Check } from 'lucide-react';
+import { useFormDraft } from '@/back-end/hooks/useFormDraft';
 
 interface Funcionario {
     idF: string;
@@ -59,13 +60,21 @@ export default function CadastroForm({
     const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);
     const [patrimonios, setPatrimonios] = useState<Patrimonio[]>([]);
     const [statusPatrimonio, setStatusPatrimonio] = useState<StatusPatrimonio[]>([]);
-    const [cadastro, setCadastro] = useState({
+    const initialCadastro = useMemo(() => ({
         idMatFunCad: funcionarioId || '',
         idPatCad: patrimonioId || '',
         dataCadPat: new Date().toISOString().split('T')[0],
         dataDevPat: '',
         idStatusPatCad: ''
-    });
+    }), [funcionarioId, patrimonioId]);
+    const {
+        state: cadastro,
+        setState: setCadastro,
+        clearDraft: clearCadastroDraft
+    } = useFormDraft(
+        `cadastro-form-create:${funcionarioId || 'none'}:${patrimonioId || 'none'}`,
+        initialCadastro
+    );
 
     // Estados para os modais de pesquisa
     const [isFuncionarioSheetOpen, setIsFuncionarioSheetOpen] = useState(false);
@@ -197,8 +206,8 @@ export default function CadastroForm({
 
             if (res.ok) {
                 window.systemAlert?.("sucesso", 'Alocação criada com sucesso');
+                clearCadastroDraft();
                 router.push('/alocacoes');
-                router.refresh();
             } else {
                 const err = await res.json();
                 window.systemAlert?.("erro", err.message || 'Erro ao vincular patrimônio');
@@ -515,6 +524,7 @@ export default function CadastroForm({
         </div>
     );
 }
+
 
 
 

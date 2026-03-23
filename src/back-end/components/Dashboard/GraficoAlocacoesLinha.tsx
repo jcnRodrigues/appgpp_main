@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { getDashboardRefreshMs } from './refreshConfig';
 
 const CORES_CENTROS = [
     '#3b82f6', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6',
@@ -31,9 +32,11 @@ export default function GraficoAlocacoesLinha() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const refreshMs = getDashboardRefreshMs();
+
         const carregarDados = async () => {
             try {
-                const res = await fetch('/api/dashboard/alocacoes-tempo');
+                const res = await fetch('/api/dashboard/alocacoes-tempo', { cache: 'no-store' });
                 if (res.ok) {
                     const json: RespostaApi = await res.json();
                     setDados(json.data ?? []);
@@ -47,6 +50,13 @@ export default function GraficoAlocacoesLinha() {
         };
 
         carregarDados();
+        if (refreshMs <= 0) return;
+
+        const timer = setInterval(() => {
+            carregarDados();
+        }, refreshMs);
+
+        return () => clearInterval(timer);
     }, []);
 
     if (loading) {

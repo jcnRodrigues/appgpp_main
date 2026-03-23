@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { ChevronLeft } from 'lucide-react';
 import { Button } from '@/back-end/components/ui/button';
 import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
+import { useFormDraft } from '@/back-end/hooks/useFormDraft';
 
 interface CentroCusto {
     idCCusto: string;
@@ -52,7 +53,11 @@ export default function AccessUserForm({ usuarioId }: { usuarioId?: string }) {
     const [centros, setCentros] = useState<CentroCusto[]>([]);
     const [loading, setLoading] = useState(false);
     const [loadingData, setLoadingData] = useState(true);
-    const [form, setForm] = useState(initialForm);
+    const {
+        state: form,
+        setState: setForm,
+        clearDraft: clearAccessUserDraft
+    } = useFormDraft('access-user-form-create', initialForm, { enabled: !usuarioId });
     const notify = (tipo: 'erro' | 'sucesso', mensagem: string) => {
         if (typeof window !== 'undefined' && typeof window.systemAlert === 'function') {
             window.systemAlert?.(tipo, mensagem);
@@ -176,8 +181,8 @@ export default function AccessUserForm({ usuarioId }: { usuarioId?: string }) {
 
             if (res.ok) {
                 notify('sucesso', isEditing ? 'Acesso atualizado' : 'Acesso criado');
+                if (!isEditing) clearAccessUserDraft();
                 router.push('/acesso-usuarios');
-                router.refresh();
             } else {
                 const err = await res.json();
                 notify('erro', err.message || 'Erro ao salvar');
@@ -293,3 +298,5 @@ export default function AccessUserForm({ usuarioId }: { usuarioId?: string }) {
         </div>
     );
 }
+
+

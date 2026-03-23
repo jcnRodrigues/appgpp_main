@@ -2,16 +2,17 @@
 
 import { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { getDashboardRefreshMs } from './refreshConfig';
 
 const CORES_TIPOS = [
-    '#3b82f6', // blue
-    '#22c55e', // green
-    '#f59e0b', // amber
-    '#ef4444', // red
-    '#8b5cf6', // violet
-    '#ec4899', // pink
-    '#06b6d4', // cyan
-    '#84cc16', // lime
+    '#3b82f6',
+    '#22c55e',
+    '#f59e0b',
+    '#ef4444',
+    '#8b5cf6',
+    '#ec4899',
+    '#06b6d4',
+    '#84cc16',
 ];
 
 interface DataPoint {
@@ -24,28 +25,17 @@ interface RespostaApi {
     tipos: string[];
 }
 
-const CORES = [
-    '#3b82f6', // blue
-    '#ef4444', // red
-    '#10b981', // emerald
-    '#f59e0b', // amber
-    '#8b5cf6', // violet
-    '#ec4899', // pink
-    '#14b8a6', // teal
-    '#f97316', // orange
-    '#06b6d4', // cyan
-    '#84cc16', // lime
-];
-
 export default function GraficoAlocacoesPorCentro() {
     const [dados, setDados] = useState<DataPoint[]>([]);
     const [tipos, setTipos] = useState<string[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const refreshMs = getDashboardRefreshMs();
+
         const carregarDados = async () => {
             try {
-                const res = await fetch('/api/dashboard/alocacoes-centro');
+                const res = await fetch('/api/dashboard/alocacoes-centro', { cache: 'no-store' });
                 if (res.ok) {
                     const json: RespostaApi = await res.json();
                     setDados(json.data ?? []);
@@ -59,6 +49,13 @@ export default function GraficoAlocacoesPorCentro() {
         };
 
         carregarDados();
+        if (refreshMs <= 0) return;
+
+        const timer = setInterval(() => {
+            carregarDados();
+        }, refreshMs);
+
+        return () => clearInterval(timer);
     }, []);
 
     if (loading) {

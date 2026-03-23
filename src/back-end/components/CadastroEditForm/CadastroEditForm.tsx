@@ -117,7 +117,6 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
             if (res.ok) {
                 window.systemAlert?.("sucesso", 'Alocação atualizada com sucesso');
                 router.push('/alocacoes');
-                router.refresh();
             } else {
                 const err = await res.json();
                 window.systemAlert?.("erro", err.message || 'Erro ao atualizar');
@@ -226,6 +225,7 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
         </div>
     );
 }
+
 
 
 

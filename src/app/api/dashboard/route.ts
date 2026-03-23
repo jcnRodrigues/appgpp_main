@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { 
+import {
+    contarFuncionarios,
     alocacoesPorCentroCusto,
     alocacoesAoLongoDoTempo
 } from '@/back-end/service/Dashboard.service/dashboard.service';
+import { contarPatrimonios } from '@/back-end/service/Patrimonio.services/patrimonio.service';
 import { getCentrosFiltro } from '@/lib/access';
 
 export async function GET(request: NextRequest) {
@@ -20,6 +22,18 @@ export async function GET(request: NextRequest) {
         if (tipo === 'tempo') {
             const dados = await alocacoesAoLongoDoTempo(filtroCentros);
             return NextResponse.json(dados);
+        }
+
+        if (tipo === 'resumo') {
+            const [totalPatrimonios, totalFuncionarios] = await Promise.all([
+                contarPatrimonios({ centros: filtroCentros }),
+                contarFuncionarios(filtroCentros),
+            ]);
+
+            return NextResponse.json({
+                totalPatrimonios,
+                totalFuncionarios,
+            });
         }
 
         return NextResponse.json(
