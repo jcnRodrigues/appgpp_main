@@ -24,6 +24,16 @@ export type tbUser = $Result.DefaultSelection<Prisma.$tbUserPayload>
  */
 export type tbFuncionario = $Result.DefaultSelection<Prisma.$tbFuncionarioPayload>
 /**
+ * Model tbLicenca
+ * 
+ */
+export type tbLicenca = $Result.DefaultSelection<Prisma.$tbLicencaPayload>
+/**
+ * Model tbHasLicencaFuncionario
+ * 
+ */
+export type tbHasLicencaFuncionario = $Result.DefaultSelection<Prisma.$tbHasLicencaFuncionarioPayload>
+/**
  * Model tbStatusFun
  * 
  */
@@ -228,6 +238,26 @@ export class PrismaClient<
     * ```
     */
   get tbFuncionario(): Prisma.tbFuncionarioDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tbLicenca`: Exposes CRUD operations for the **tbLicenca** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TbLicencas
+    * const tbLicencas = await prisma.tbLicenca.findMany()
+    * ```
+    */
+  get tbLicenca(): Prisma.tbLicencaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tbHasLicencaFuncionario`: Exposes CRUD operations for the **tbHasLicencaFuncionario** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TbHasLicencaFuncionarios
+    * const tbHasLicencaFuncionarios = await prisma.tbHasLicencaFuncionario.findMany()
+    * ```
+    */
+  get tbHasLicencaFuncionario(): Prisma.tbHasLicencaFuncionarioDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.tbStatusFun`: Exposes CRUD operations for the **tbStatusFun** model.
@@ -790,6 +820,8 @@ export namespace Prisma {
   export const ModelName: {
     tbUser: 'tbUser',
     tbFuncionario: 'tbFuncionario',
+    tbLicenca: 'tbLicenca',
+    tbHasLicencaFuncionario: 'tbHasLicencaFuncionario',
     tbStatusFun: 'tbStatusFun',
     tbFuncao: 'tbFuncao',
     tbPatrimonio: 'tbPatrimonio',
@@ -820,7 +852,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tbUser" | "tbFuncionario" | "tbStatusFun" | "tbFuncao" | "tbPatrimonio" | "tbTipoPat" | "tbStatusPat" | "tbEmpresa" | "tbCCusto" | "tbCadastro" | "account" | "session" | "user" | "verificationToken"
+      modelProps: "tbUser" | "tbFuncionario" | "tbLicenca" | "tbHasLicencaFuncionario" | "tbStatusFun" | "tbFuncao" | "tbPatrimonio" | "tbTipoPat" | "tbStatusPat" | "tbEmpresa" | "tbCCusto" | "tbCadastro" | "account" | "session" | "user" | "verificationToken"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -953,6 +985,138 @@ export namespace Prisma {
           count: {
             args: Prisma.tbFuncionarioCountArgs<ExtArgs>
             result: $Utils.Optional<TbFuncionarioCountAggregateOutputType> | number
+          }
+        }
+      }
+      tbLicenca: {
+        payload: Prisma.$tbLicencaPayload<ExtArgs>
+        fields: Prisma.tbLicencaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.tbLicencaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbLicencaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.tbLicencaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbLicencaPayload>
+          }
+          findFirst: {
+            args: Prisma.tbLicencaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbLicencaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.tbLicencaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbLicencaPayload>
+          }
+          findMany: {
+            args: Prisma.tbLicencaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbLicencaPayload>[]
+          }
+          create: {
+            args: Prisma.tbLicencaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbLicencaPayload>
+          }
+          createMany: {
+            args: Prisma.tbLicencaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.tbLicencaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbLicencaPayload>
+          }
+          update: {
+            args: Prisma.tbLicencaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbLicencaPayload>
+          }
+          deleteMany: {
+            args: Prisma.tbLicencaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.tbLicencaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.tbLicencaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbLicencaPayload>
+          }
+          aggregate: {
+            args: Prisma.TbLicencaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTbLicenca>
+          }
+          groupBy: {
+            args: Prisma.tbLicencaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TbLicencaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.tbLicencaCountArgs<ExtArgs>
+            result: $Utils.Optional<TbLicencaCountAggregateOutputType> | number
+          }
+        }
+      }
+      tbHasLicencaFuncionario: {
+        payload: Prisma.$tbHasLicencaFuncionarioPayload<ExtArgs>
+        fields: Prisma.tbHasLicencaFuncionarioFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.tbHasLicencaFuncionarioFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbHasLicencaFuncionarioPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.tbHasLicencaFuncionarioFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbHasLicencaFuncionarioPayload>
+          }
+          findFirst: {
+            args: Prisma.tbHasLicencaFuncionarioFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbHasLicencaFuncionarioPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.tbHasLicencaFuncionarioFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbHasLicencaFuncionarioPayload>
+          }
+          findMany: {
+            args: Prisma.tbHasLicencaFuncionarioFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbHasLicencaFuncionarioPayload>[]
+          }
+          create: {
+            args: Prisma.tbHasLicencaFuncionarioCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbHasLicencaFuncionarioPayload>
+          }
+          createMany: {
+            args: Prisma.tbHasLicencaFuncionarioCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.tbHasLicencaFuncionarioDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbHasLicencaFuncionarioPayload>
+          }
+          update: {
+            args: Prisma.tbHasLicencaFuncionarioUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbHasLicencaFuncionarioPayload>
+          }
+          deleteMany: {
+            args: Prisma.tbHasLicencaFuncionarioDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.tbHasLicencaFuncionarioUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.tbHasLicencaFuncionarioUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbHasLicencaFuncionarioPayload>
+          }
+          aggregate: {
+            args: Prisma.TbHasLicencaFuncionarioAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTbHasLicencaFuncionario>
+          }
+          groupBy: {
+            args: Prisma.tbHasLicencaFuncionarioGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TbHasLicencaFuncionarioGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.tbHasLicencaFuncionarioCountArgs<ExtArgs>
+            result: $Utils.Optional<TbHasLicencaFuncionarioCountAggregateOutputType> | number
           }
         }
       }
@@ -1842,6 +2006,8 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     tbUser?: tbUserOmit
     tbFuncionario?: tbFuncionarioOmit
+    tbLicenca?: tbLicencaOmit
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioOmit
     tbStatusFun?: tbStatusFunOmit
     tbFuncao?: tbFuncaoOmit
     tbPatrimonio?: tbPatrimonioOmit
@@ -1985,10 +2151,12 @@ export namespace Prisma {
 
   export type TbFuncionarioCountOutputType = {
     tbCadastro: number
+    tbHasLicencaFuncionario: number
   }
 
   export type TbFuncionarioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbCadastro?: boolean | TbFuncionarioCountOutputTypeCountTbCadastroArgs
+    tbHasLicencaFuncionario?: boolean | TbFuncionarioCountOutputTypeCountTbHasLicencaFuncionarioArgs
   }
 
   // Custom InputTypes
@@ -2007,6 +2175,44 @@ export namespace Prisma {
    */
   export type TbFuncionarioCountOutputTypeCountTbCadastroArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: tbCadastroWhereInput
+  }
+
+  /**
+   * TbFuncionarioCountOutputType without action
+   */
+  export type TbFuncionarioCountOutputTypeCountTbHasLicencaFuncionarioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbHasLicencaFuncionarioWhereInput
+  }
+
+
+  /**
+   * Count Type TbLicencaCountOutputType
+   */
+
+  export type TbLicencaCountOutputType = {
+    tbHasLicencaFuncionario: number
+  }
+
+  export type TbLicencaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tbHasLicencaFuncionario?: boolean | TbLicencaCountOutputTypeCountTbHasLicencaFuncionarioArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TbLicencaCountOutputType without action
+   */
+  export type TbLicencaCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TbLicencaCountOutputType
+     */
+    select?: TbLicencaCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TbLicencaCountOutputType without action
+   */
+  export type TbLicencaCountOutputTypeCountTbHasLicencaFuncionarioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbHasLicencaFuncionarioWhereInput
   }
 
 
@@ -3541,6 +3747,7 @@ export namespace Prisma {
     tbFuncao?: boolean | tbFuncionario$tbFuncaoArgs<ExtArgs>
     tbCCusto?: boolean | tbFuncionario$tbCCustoArgs<ExtArgs>
     tbCadastro?: boolean | tbFuncionario$tbCadastroArgs<ExtArgs>
+    tbHasLicencaFuncionario?: boolean | tbFuncionario$tbHasLicencaFuncionarioArgs<ExtArgs>
     _count?: boolean | TbFuncionarioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tbFuncionario"]>
 
@@ -3567,6 +3774,7 @@ export namespace Prisma {
     tbFuncao?: boolean | tbFuncionario$tbFuncaoArgs<ExtArgs>
     tbCCusto?: boolean | tbFuncionario$tbCCustoArgs<ExtArgs>
     tbCadastro?: boolean | tbFuncionario$tbCadastroArgs<ExtArgs>
+    tbHasLicencaFuncionario?: boolean | tbFuncionario$tbHasLicencaFuncionarioArgs<ExtArgs>
     _count?: boolean | TbFuncionarioCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3578,6 +3786,7 @@ export namespace Prisma {
       tbFuncao: Prisma.$tbFuncaoPayload<ExtArgs> | null
       tbCCusto: Prisma.$tbCCustoPayload<ExtArgs> | null
       tbCadastro: Prisma.$tbCadastroPayload<ExtArgs>[]
+      tbHasLicencaFuncionario: Prisma.$tbHasLicencaFuncionarioPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       idF: string
@@ -3936,6 +4145,7 @@ export namespace Prisma {
     tbFuncao<T extends tbFuncionario$tbFuncaoArgs<ExtArgs> = {}>(args?: Subset<T, tbFuncionario$tbFuncaoArgs<ExtArgs>>): Prisma__tbFuncaoClient<$Result.GetResult<Prisma.$tbFuncaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tbCCusto<T extends tbFuncionario$tbCCustoArgs<ExtArgs> = {}>(args?: Subset<T, tbFuncionario$tbCCustoArgs<ExtArgs>>): Prisma__tbCCustoClient<$Result.GetResult<Prisma.$tbCCustoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tbCadastro<T extends tbFuncionario$tbCadastroArgs<ExtArgs> = {}>(args?: Subset<T, tbFuncionario$tbCadastroArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbCadastroPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tbHasLicencaFuncionario<T extends tbFuncionario$tbHasLicencaFuncionarioArgs<ExtArgs> = {}>(args?: Subset<T, tbFuncionario$tbHasLicencaFuncionarioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbHasLicencaFuncionarioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4419,6 +4629,30 @@ export namespace Prisma {
   }
 
   /**
+   * tbFuncionario.tbHasLicencaFuncionario
+   */
+  export type tbFuncionario$tbHasLicencaFuncionarioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbHasLicencaFuncionario
+     */
+    select?: tbHasLicencaFuncionarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbHasLicencaFuncionario
+     */
+    omit?: tbHasLicencaFuncionarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbHasLicencaFuncionarioInclude<ExtArgs> | null
+    where?: tbHasLicencaFuncionarioWhereInput
+    orderBy?: tbHasLicencaFuncionarioOrderByWithRelationInput | tbHasLicencaFuncionarioOrderByWithRelationInput[]
+    cursor?: tbHasLicencaFuncionarioWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbHasLicencaFuncionarioScalarFieldEnum | TbHasLicencaFuncionarioScalarFieldEnum[]
+  }
+
+  /**
    * tbFuncionario without action
    */
   export type tbFuncionarioDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4434,6 +4668,1861 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: tbFuncionarioInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model tbLicenca
+   */
+
+  export type AggregateTbLicenca = {
+    _count: TbLicencaCountAggregateOutputType | null
+    _min: TbLicencaMinAggregateOutputType | null
+    _max: TbLicencaMaxAggregateOutputType | null
+  }
+
+  export type TbLicencaMinAggregateOutputType = {
+    idLic: string | null
+    descricaoLic: string | null
+  }
+
+  export type TbLicencaMaxAggregateOutputType = {
+    idLic: string | null
+    descricaoLic: string | null
+  }
+
+  export type TbLicencaCountAggregateOutputType = {
+    idLic: number
+    descricaoLic: number
+    _all: number
+  }
+
+
+  export type TbLicencaMinAggregateInputType = {
+    idLic?: true
+    descricaoLic?: true
+  }
+
+  export type TbLicencaMaxAggregateInputType = {
+    idLic?: true
+    descricaoLic?: true
+  }
+
+  export type TbLicencaCountAggregateInputType = {
+    idLic?: true
+    descricaoLic?: true
+    _all?: true
+  }
+
+  export type TbLicencaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbLicenca to aggregate.
+     */
+    where?: tbLicencaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbLicencas to fetch.
+     */
+    orderBy?: tbLicencaOrderByWithRelationInput | tbLicencaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: tbLicencaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbLicencas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbLicencas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned tbLicencas
+    **/
+    _count?: true | TbLicencaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TbLicencaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TbLicencaMaxAggregateInputType
+  }
+
+  export type GetTbLicencaAggregateType<T extends TbLicencaAggregateArgs> = {
+        [P in keyof T & keyof AggregateTbLicenca]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTbLicenca[P]>
+      : GetScalarType<T[P], AggregateTbLicenca[P]>
+  }
+
+
+
+
+  export type tbLicencaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbLicencaWhereInput
+    orderBy?: tbLicencaOrderByWithAggregationInput | tbLicencaOrderByWithAggregationInput[]
+    by: TbLicencaScalarFieldEnum[] | TbLicencaScalarFieldEnum
+    having?: tbLicencaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TbLicencaCountAggregateInputType | true
+    _min?: TbLicencaMinAggregateInputType
+    _max?: TbLicencaMaxAggregateInputType
+  }
+
+  export type TbLicencaGroupByOutputType = {
+    idLic: string
+    descricaoLic: string
+    _count: TbLicencaCountAggregateOutputType | null
+    _min: TbLicencaMinAggregateOutputType | null
+    _max: TbLicencaMaxAggregateOutputType | null
+  }
+
+  type GetTbLicencaGroupByPayload<T extends tbLicencaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TbLicencaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TbLicencaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TbLicencaGroupByOutputType[P]>
+            : GetScalarType<T[P], TbLicencaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type tbLicencaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    idLic?: boolean
+    descricaoLic?: boolean
+    tbHasLicencaFuncionario?: boolean | tbLicenca$tbHasLicencaFuncionarioArgs<ExtArgs>
+    _count?: boolean | TbLicencaCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tbLicenca"]>
+
+
+
+  export type tbLicencaSelectScalar = {
+    idLic?: boolean
+    descricaoLic?: boolean
+  }
+
+  export type tbLicencaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idLic" | "descricaoLic", ExtArgs["result"]["tbLicenca"]>
+  export type tbLicencaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tbHasLicencaFuncionario?: boolean | tbLicenca$tbHasLicencaFuncionarioArgs<ExtArgs>
+    _count?: boolean | TbLicencaCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $tbLicencaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "tbLicenca"
+    objects: {
+      tbHasLicencaFuncionario: Prisma.$tbHasLicencaFuncionarioPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      idLic: string
+      descricaoLic: string
+    }, ExtArgs["result"]["tbLicenca"]>
+    composites: {}
+  }
+
+  type tbLicencaGetPayload<S extends boolean | null | undefined | tbLicencaDefaultArgs> = $Result.GetResult<Prisma.$tbLicencaPayload, S>
+
+  type tbLicencaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<tbLicencaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TbLicencaCountAggregateInputType | true
+    }
+
+  export interface tbLicencaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['tbLicenca'], meta: { name: 'tbLicenca' } }
+    /**
+     * Find zero or one TbLicenca that matches the filter.
+     * @param {tbLicencaFindUniqueArgs} args - Arguments to find a TbLicenca
+     * @example
+     * // Get one TbLicenca
+     * const tbLicenca = await prisma.tbLicenca.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends tbLicencaFindUniqueArgs>(args: SelectSubset<T, tbLicencaFindUniqueArgs<ExtArgs>>): Prisma__tbLicencaClient<$Result.GetResult<Prisma.$tbLicencaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TbLicenca that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {tbLicencaFindUniqueOrThrowArgs} args - Arguments to find a TbLicenca
+     * @example
+     * // Get one TbLicenca
+     * const tbLicenca = await prisma.tbLicenca.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends tbLicencaFindUniqueOrThrowArgs>(args: SelectSubset<T, tbLicencaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__tbLicencaClient<$Result.GetResult<Prisma.$tbLicencaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TbLicenca that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbLicencaFindFirstArgs} args - Arguments to find a TbLicenca
+     * @example
+     * // Get one TbLicenca
+     * const tbLicenca = await prisma.tbLicenca.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends tbLicencaFindFirstArgs>(args?: SelectSubset<T, tbLicencaFindFirstArgs<ExtArgs>>): Prisma__tbLicencaClient<$Result.GetResult<Prisma.$tbLicencaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TbLicenca that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbLicencaFindFirstOrThrowArgs} args - Arguments to find a TbLicenca
+     * @example
+     * // Get one TbLicenca
+     * const tbLicenca = await prisma.tbLicenca.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends tbLicencaFindFirstOrThrowArgs>(args?: SelectSubset<T, tbLicencaFindFirstOrThrowArgs<ExtArgs>>): Prisma__tbLicencaClient<$Result.GetResult<Prisma.$tbLicencaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TbLicencas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbLicencaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TbLicencas
+     * const tbLicencas = await prisma.tbLicenca.findMany()
+     * 
+     * // Get first 10 TbLicencas
+     * const tbLicencas = await prisma.tbLicenca.findMany({ take: 10 })
+     * 
+     * // Only select the `idLic`
+     * const tbLicencaWithIdLicOnly = await prisma.tbLicenca.findMany({ select: { idLic: true } })
+     * 
+     */
+    findMany<T extends tbLicencaFindManyArgs>(args?: SelectSubset<T, tbLicencaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbLicencaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TbLicenca.
+     * @param {tbLicencaCreateArgs} args - Arguments to create a TbLicenca.
+     * @example
+     * // Create one TbLicenca
+     * const TbLicenca = await prisma.tbLicenca.create({
+     *   data: {
+     *     // ... data to create a TbLicenca
+     *   }
+     * })
+     * 
+     */
+    create<T extends tbLicencaCreateArgs>(args: SelectSubset<T, tbLicencaCreateArgs<ExtArgs>>): Prisma__tbLicencaClient<$Result.GetResult<Prisma.$tbLicencaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TbLicencas.
+     * @param {tbLicencaCreateManyArgs} args - Arguments to create many TbLicencas.
+     * @example
+     * // Create many TbLicencas
+     * const tbLicenca = await prisma.tbLicenca.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends tbLicencaCreateManyArgs>(args?: SelectSubset<T, tbLicencaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a TbLicenca.
+     * @param {tbLicencaDeleteArgs} args - Arguments to delete one TbLicenca.
+     * @example
+     * // Delete one TbLicenca
+     * const TbLicenca = await prisma.tbLicenca.delete({
+     *   where: {
+     *     // ... filter to delete one TbLicenca
+     *   }
+     * })
+     * 
+     */
+    delete<T extends tbLicencaDeleteArgs>(args: SelectSubset<T, tbLicencaDeleteArgs<ExtArgs>>): Prisma__tbLicencaClient<$Result.GetResult<Prisma.$tbLicencaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TbLicenca.
+     * @param {tbLicencaUpdateArgs} args - Arguments to update one TbLicenca.
+     * @example
+     * // Update one TbLicenca
+     * const tbLicenca = await prisma.tbLicenca.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends tbLicencaUpdateArgs>(args: SelectSubset<T, tbLicencaUpdateArgs<ExtArgs>>): Prisma__tbLicencaClient<$Result.GetResult<Prisma.$tbLicencaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TbLicencas.
+     * @param {tbLicencaDeleteManyArgs} args - Arguments to filter TbLicencas to delete.
+     * @example
+     * // Delete a few TbLicencas
+     * const { count } = await prisma.tbLicenca.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends tbLicencaDeleteManyArgs>(args?: SelectSubset<T, tbLicencaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TbLicencas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbLicencaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TbLicencas
+     * const tbLicenca = await prisma.tbLicenca.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends tbLicencaUpdateManyArgs>(args: SelectSubset<T, tbLicencaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one TbLicenca.
+     * @param {tbLicencaUpsertArgs} args - Arguments to update or create a TbLicenca.
+     * @example
+     * // Update or create a TbLicenca
+     * const tbLicenca = await prisma.tbLicenca.upsert({
+     *   create: {
+     *     // ... data to create a TbLicenca
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TbLicenca we want to update
+     *   }
+     * })
+     */
+    upsert<T extends tbLicencaUpsertArgs>(args: SelectSubset<T, tbLicencaUpsertArgs<ExtArgs>>): Prisma__tbLicencaClient<$Result.GetResult<Prisma.$tbLicencaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TbLicencas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbLicencaCountArgs} args - Arguments to filter TbLicencas to count.
+     * @example
+     * // Count the number of TbLicencas
+     * const count = await prisma.tbLicenca.count({
+     *   where: {
+     *     // ... the filter for the TbLicencas we want to count
+     *   }
+     * })
+    **/
+    count<T extends tbLicencaCountArgs>(
+      args?: Subset<T, tbLicencaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TbLicencaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TbLicenca.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TbLicencaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TbLicencaAggregateArgs>(args: Subset<T, TbLicencaAggregateArgs>): Prisma.PrismaPromise<GetTbLicencaAggregateType<T>>
+
+    /**
+     * Group by TbLicenca.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbLicencaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends tbLicencaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: tbLicencaGroupByArgs['orderBy'] }
+        : { orderBy?: tbLicencaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, tbLicencaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTbLicencaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the tbLicenca model
+   */
+  readonly fields: tbLicencaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for tbLicenca.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__tbLicencaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tbHasLicencaFuncionario<T extends tbLicenca$tbHasLicencaFuncionarioArgs<ExtArgs> = {}>(args?: Subset<T, tbLicenca$tbHasLicencaFuncionarioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbHasLicencaFuncionarioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the tbLicenca model
+   */
+  interface tbLicencaFieldRefs {
+    readonly idLic: FieldRef<"tbLicenca", 'String'>
+    readonly descricaoLic: FieldRef<"tbLicenca", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * tbLicenca findUnique
+   */
+  export type tbLicencaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbLicenca
+     */
+    select?: tbLicencaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbLicenca
+     */
+    omit?: tbLicencaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbLicencaInclude<ExtArgs> | null
+    /**
+     * Filter, which tbLicenca to fetch.
+     */
+    where: tbLicencaWhereUniqueInput
+  }
+
+  /**
+   * tbLicenca findUniqueOrThrow
+   */
+  export type tbLicencaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbLicenca
+     */
+    select?: tbLicencaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbLicenca
+     */
+    omit?: tbLicencaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbLicencaInclude<ExtArgs> | null
+    /**
+     * Filter, which tbLicenca to fetch.
+     */
+    where: tbLicencaWhereUniqueInput
+  }
+
+  /**
+   * tbLicenca findFirst
+   */
+  export type tbLicencaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbLicenca
+     */
+    select?: tbLicencaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbLicenca
+     */
+    omit?: tbLicencaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbLicencaInclude<ExtArgs> | null
+    /**
+     * Filter, which tbLicenca to fetch.
+     */
+    where?: tbLicencaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbLicencas to fetch.
+     */
+    orderBy?: tbLicencaOrderByWithRelationInput | tbLicencaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tbLicencas.
+     */
+    cursor?: tbLicencaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbLicencas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbLicencas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tbLicencas.
+     */
+    distinct?: TbLicencaScalarFieldEnum | TbLicencaScalarFieldEnum[]
+  }
+
+  /**
+   * tbLicenca findFirstOrThrow
+   */
+  export type tbLicencaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbLicenca
+     */
+    select?: tbLicencaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbLicenca
+     */
+    omit?: tbLicencaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbLicencaInclude<ExtArgs> | null
+    /**
+     * Filter, which tbLicenca to fetch.
+     */
+    where?: tbLicencaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbLicencas to fetch.
+     */
+    orderBy?: tbLicencaOrderByWithRelationInput | tbLicencaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tbLicencas.
+     */
+    cursor?: tbLicencaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbLicencas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbLicencas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tbLicencas.
+     */
+    distinct?: TbLicencaScalarFieldEnum | TbLicencaScalarFieldEnum[]
+  }
+
+  /**
+   * tbLicenca findMany
+   */
+  export type tbLicencaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbLicenca
+     */
+    select?: tbLicencaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbLicenca
+     */
+    omit?: tbLicencaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbLicencaInclude<ExtArgs> | null
+    /**
+     * Filter, which tbLicencas to fetch.
+     */
+    where?: tbLicencaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbLicencas to fetch.
+     */
+    orderBy?: tbLicencaOrderByWithRelationInput | tbLicencaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing tbLicencas.
+     */
+    cursor?: tbLicencaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbLicencas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbLicencas.
+     */
+    skip?: number
+    distinct?: TbLicencaScalarFieldEnum | TbLicencaScalarFieldEnum[]
+  }
+
+  /**
+   * tbLicenca create
+   */
+  export type tbLicencaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbLicenca
+     */
+    select?: tbLicencaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbLicenca
+     */
+    omit?: tbLicencaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbLicencaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a tbLicenca.
+     */
+    data: XOR<tbLicencaCreateInput, tbLicencaUncheckedCreateInput>
+  }
+
+  /**
+   * tbLicenca createMany
+   */
+  export type tbLicencaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many tbLicencas.
+     */
+    data: tbLicencaCreateManyInput | tbLicencaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * tbLicenca update
+   */
+  export type tbLicencaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbLicenca
+     */
+    select?: tbLicencaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbLicenca
+     */
+    omit?: tbLicencaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbLicencaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a tbLicenca.
+     */
+    data: XOR<tbLicencaUpdateInput, tbLicencaUncheckedUpdateInput>
+    /**
+     * Choose, which tbLicenca to update.
+     */
+    where: tbLicencaWhereUniqueInput
+  }
+
+  /**
+   * tbLicenca updateMany
+   */
+  export type tbLicencaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update tbLicencas.
+     */
+    data: XOR<tbLicencaUpdateManyMutationInput, tbLicencaUncheckedUpdateManyInput>
+    /**
+     * Filter which tbLicencas to update
+     */
+    where?: tbLicencaWhereInput
+    /**
+     * Limit how many tbLicencas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbLicenca upsert
+   */
+  export type tbLicencaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbLicenca
+     */
+    select?: tbLicencaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbLicenca
+     */
+    omit?: tbLicencaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbLicencaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the tbLicenca to update in case it exists.
+     */
+    where: tbLicencaWhereUniqueInput
+    /**
+     * In case the tbLicenca found by the `where` argument doesn't exist, create a new tbLicenca with this data.
+     */
+    create: XOR<tbLicencaCreateInput, tbLicencaUncheckedCreateInput>
+    /**
+     * In case the tbLicenca was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<tbLicencaUpdateInput, tbLicencaUncheckedUpdateInput>
+  }
+
+  /**
+   * tbLicenca delete
+   */
+  export type tbLicencaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbLicenca
+     */
+    select?: tbLicencaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbLicenca
+     */
+    omit?: tbLicencaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbLicencaInclude<ExtArgs> | null
+    /**
+     * Filter which tbLicenca to delete.
+     */
+    where: tbLicencaWhereUniqueInput
+  }
+
+  /**
+   * tbLicenca deleteMany
+   */
+  export type tbLicencaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbLicencas to delete
+     */
+    where?: tbLicencaWhereInput
+    /**
+     * Limit how many tbLicencas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbLicenca.tbHasLicencaFuncionario
+   */
+  export type tbLicenca$tbHasLicencaFuncionarioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbHasLicencaFuncionario
+     */
+    select?: tbHasLicencaFuncionarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbHasLicencaFuncionario
+     */
+    omit?: tbHasLicencaFuncionarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbHasLicencaFuncionarioInclude<ExtArgs> | null
+    where?: tbHasLicencaFuncionarioWhereInput
+    orderBy?: tbHasLicencaFuncionarioOrderByWithRelationInput | tbHasLicencaFuncionarioOrderByWithRelationInput[]
+    cursor?: tbHasLicencaFuncionarioWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbHasLicencaFuncionarioScalarFieldEnum | TbHasLicencaFuncionarioScalarFieldEnum[]
+  }
+
+  /**
+   * tbLicenca without action
+   */
+  export type tbLicencaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbLicenca
+     */
+    select?: tbLicencaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbLicenca
+     */
+    omit?: tbLicencaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbLicencaInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model tbHasLicencaFuncionario
+   */
+
+  export type AggregateTbHasLicencaFuncionario = {
+    _count: TbHasLicencaFuncionarioCountAggregateOutputType | null
+    _min: TbHasLicencaFuncionarioMinAggregateOutputType | null
+    _max: TbHasLicencaFuncionarioMaxAggregateOutputType | null
+  }
+
+  export type TbHasLicencaFuncionarioMinAggregateOutputType = {
+    idHas: string | null
+    idFunc: string | null
+    idLinc: string | null
+    dataInicio: Date | null
+    dataVencimetno: Date | null
+  }
+
+  export type TbHasLicencaFuncionarioMaxAggregateOutputType = {
+    idHas: string | null
+    idFunc: string | null
+    idLinc: string | null
+    dataInicio: Date | null
+    dataVencimetno: Date | null
+  }
+
+  export type TbHasLicencaFuncionarioCountAggregateOutputType = {
+    idHas: number
+    idFunc: number
+    idLinc: number
+    dataInicio: number
+    dataVencimetno: number
+    _all: number
+  }
+
+
+  export type TbHasLicencaFuncionarioMinAggregateInputType = {
+    idHas?: true
+    idFunc?: true
+    idLinc?: true
+    dataInicio?: true
+    dataVencimetno?: true
+  }
+
+  export type TbHasLicencaFuncionarioMaxAggregateInputType = {
+    idHas?: true
+    idFunc?: true
+    idLinc?: true
+    dataInicio?: true
+    dataVencimetno?: true
+  }
+
+  export type TbHasLicencaFuncionarioCountAggregateInputType = {
+    idHas?: true
+    idFunc?: true
+    idLinc?: true
+    dataInicio?: true
+    dataVencimetno?: true
+    _all?: true
+  }
+
+  export type TbHasLicencaFuncionarioAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbHasLicencaFuncionario to aggregate.
+     */
+    where?: tbHasLicencaFuncionarioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbHasLicencaFuncionarios to fetch.
+     */
+    orderBy?: tbHasLicencaFuncionarioOrderByWithRelationInput | tbHasLicencaFuncionarioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: tbHasLicencaFuncionarioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbHasLicencaFuncionarios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbHasLicencaFuncionarios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned tbHasLicencaFuncionarios
+    **/
+    _count?: true | TbHasLicencaFuncionarioCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TbHasLicencaFuncionarioMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TbHasLicencaFuncionarioMaxAggregateInputType
+  }
+
+  export type GetTbHasLicencaFuncionarioAggregateType<T extends TbHasLicencaFuncionarioAggregateArgs> = {
+        [P in keyof T & keyof AggregateTbHasLicencaFuncionario]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTbHasLicencaFuncionario[P]>
+      : GetScalarType<T[P], AggregateTbHasLicencaFuncionario[P]>
+  }
+
+
+
+
+  export type tbHasLicencaFuncionarioGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbHasLicencaFuncionarioWhereInput
+    orderBy?: tbHasLicencaFuncionarioOrderByWithAggregationInput | tbHasLicencaFuncionarioOrderByWithAggregationInput[]
+    by: TbHasLicencaFuncionarioScalarFieldEnum[] | TbHasLicencaFuncionarioScalarFieldEnum
+    having?: tbHasLicencaFuncionarioScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TbHasLicencaFuncionarioCountAggregateInputType | true
+    _min?: TbHasLicencaFuncionarioMinAggregateInputType
+    _max?: TbHasLicencaFuncionarioMaxAggregateInputType
+  }
+
+  export type TbHasLicencaFuncionarioGroupByOutputType = {
+    idHas: string
+    idFunc: string
+    idLinc: string
+    dataInicio: Date
+    dataVencimetno: Date
+    _count: TbHasLicencaFuncionarioCountAggregateOutputType | null
+    _min: TbHasLicencaFuncionarioMinAggregateOutputType | null
+    _max: TbHasLicencaFuncionarioMaxAggregateOutputType | null
+  }
+
+  type GetTbHasLicencaFuncionarioGroupByPayload<T extends tbHasLicencaFuncionarioGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TbHasLicencaFuncionarioGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TbHasLicencaFuncionarioGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TbHasLicencaFuncionarioGroupByOutputType[P]>
+            : GetScalarType<T[P], TbHasLicencaFuncionarioGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type tbHasLicencaFuncionarioSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    idHas?: boolean
+    idFunc?: boolean
+    idLinc?: boolean
+    dataInicio?: boolean
+    dataVencimetno?: boolean
+    tbFuncionario?: boolean | tbFuncionarioDefaultArgs<ExtArgs>
+    tbLicenca?: boolean | tbLicencaDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tbHasLicencaFuncionario"]>
+
+
+
+  export type tbHasLicencaFuncionarioSelectScalar = {
+    idHas?: boolean
+    idFunc?: boolean
+    idLinc?: boolean
+    dataInicio?: boolean
+    dataVencimetno?: boolean
+  }
+
+  export type tbHasLicencaFuncionarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idHas" | "idFunc" | "idLinc" | "dataInicio" | "dataVencimetno", ExtArgs["result"]["tbHasLicencaFuncionario"]>
+  export type tbHasLicencaFuncionarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tbFuncionario?: boolean | tbFuncionarioDefaultArgs<ExtArgs>
+    tbLicenca?: boolean | tbLicencaDefaultArgs<ExtArgs>
+  }
+
+  export type $tbHasLicencaFuncionarioPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "tbHasLicencaFuncionario"
+    objects: {
+      tbFuncionario: Prisma.$tbFuncionarioPayload<ExtArgs>
+      tbLicenca: Prisma.$tbLicencaPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      idHas: string
+      idFunc: string
+      idLinc: string
+      dataInicio: Date
+      dataVencimetno: Date
+    }, ExtArgs["result"]["tbHasLicencaFuncionario"]>
+    composites: {}
+  }
+
+  type tbHasLicencaFuncionarioGetPayload<S extends boolean | null | undefined | tbHasLicencaFuncionarioDefaultArgs> = $Result.GetResult<Prisma.$tbHasLicencaFuncionarioPayload, S>
+
+  type tbHasLicencaFuncionarioCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<tbHasLicencaFuncionarioFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TbHasLicencaFuncionarioCountAggregateInputType | true
+    }
+
+  export interface tbHasLicencaFuncionarioDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['tbHasLicencaFuncionario'], meta: { name: 'tbHasLicencaFuncionario' } }
+    /**
+     * Find zero or one TbHasLicencaFuncionario that matches the filter.
+     * @param {tbHasLicencaFuncionarioFindUniqueArgs} args - Arguments to find a TbHasLicencaFuncionario
+     * @example
+     * // Get one TbHasLicencaFuncionario
+     * const tbHasLicencaFuncionario = await prisma.tbHasLicencaFuncionario.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends tbHasLicencaFuncionarioFindUniqueArgs>(args: SelectSubset<T, tbHasLicencaFuncionarioFindUniqueArgs<ExtArgs>>): Prisma__tbHasLicencaFuncionarioClient<$Result.GetResult<Prisma.$tbHasLicencaFuncionarioPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TbHasLicencaFuncionario that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {tbHasLicencaFuncionarioFindUniqueOrThrowArgs} args - Arguments to find a TbHasLicencaFuncionario
+     * @example
+     * // Get one TbHasLicencaFuncionario
+     * const tbHasLicencaFuncionario = await prisma.tbHasLicencaFuncionario.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends tbHasLicencaFuncionarioFindUniqueOrThrowArgs>(args: SelectSubset<T, tbHasLicencaFuncionarioFindUniqueOrThrowArgs<ExtArgs>>): Prisma__tbHasLicencaFuncionarioClient<$Result.GetResult<Prisma.$tbHasLicencaFuncionarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TbHasLicencaFuncionario that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbHasLicencaFuncionarioFindFirstArgs} args - Arguments to find a TbHasLicencaFuncionario
+     * @example
+     * // Get one TbHasLicencaFuncionario
+     * const tbHasLicencaFuncionario = await prisma.tbHasLicencaFuncionario.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends tbHasLicencaFuncionarioFindFirstArgs>(args?: SelectSubset<T, tbHasLicencaFuncionarioFindFirstArgs<ExtArgs>>): Prisma__tbHasLicencaFuncionarioClient<$Result.GetResult<Prisma.$tbHasLicencaFuncionarioPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TbHasLicencaFuncionario that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbHasLicencaFuncionarioFindFirstOrThrowArgs} args - Arguments to find a TbHasLicencaFuncionario
+     * @example
+     * // Get one TbHasLicencaFuncionario
+     * const tbHasLicencaFuncionario = await prisma.tbHasLicencaFuncionario.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends tbHasLicencaFuncionarioFindFirstOrThrowArgs>(args?: SelectSubset<T, tbHasLicencaFuncionarioFindFirstOrThrowArgs<ExtArgs>>): Prisma__tbHasLicencaFuncionarioClient<$Result.GetResult<Prisma.$tbHasLicencaFuncionarioPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TbHasLicencaFuncionarios that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbHasLicencaFuncionarioFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TbHasLicencaFuncionarios
+     * const tbHasLicencaFuncionarios = await prisma.tbHasLicencaFuncionario.findMany()
+     * 
+     * // Get first 10 TbHasLicencaFuncionarios
+     * const tbHasLicencaFuncionarios = await prisma.tbHasLicencaFuncionario.findMany({ take: 10 })
+     * 
+     * // Only select the `idHas`
+     * const tbHasLicencaFuncionarioWithIdHasOnly = await prisma.tbHasLicencaFuncionario.findMany({ select: { idHas: true } })
+     * 
+     */
+    findMany<T extends tbHasLicencaFuncionarioFindManyArgs>(args?: SelectSubset<T, tbHasLicencaFuncionarioFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbHasLicencaFuncionarioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TbHasLicencaFuncionario.
+     * @param {tbHasLicencaFuncionarioCreateArgs} args - Arguments to create a TbHasLicencaFuncionario.
+     * @example
+     * // Create one TbHasLicencaFuncionario
+     * const TbHasLicencaFuncionario = await prisma.tbHasLicencaFuncionario.create({
+     *   data: {
+     *     // ... data to create a TbHasLicencaFuncionario
+     *   }
+     * })
+     * 
+     */
+    create<T extends tbHasLicencaFuncionarioCreateArgs>(args: SelectSubset<T, tbHasLicencaFuncionarioCreateArgs<ExtArgs>>): Prisma__tbHasLicencaFuncionarioClient<$Result.GetResult<Prisma.$tbHasLicencaFuncionarioPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TbHasLicencaFuncionarios.
+     * @param {tbHasLicencaFuncionarioCreateManyArgs} args - Arguments to create many TbHasLicencaFuncionarios.
+     * @example
+     * // Create many TbHasLicencaFuncionarios
+     * const tbHasLicencaFuncionario = await prisma.tbHasLicencaFuncionario.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends tbHasLicencaFuncionarioCreateManyArgs>(args?: SelectSubset<T, tbHasLicencaFuncionarioCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a TbHasLicencaFuncionario.
+     * @param {tbHasLicencaFuncionarioDeleteArgs} args - Arguments to delete one TbHasLicencaFuncionario.
+     * @example
+     * // Delete one TbHasLicencaFuncionario
+     * const TbHasLicencaFuncionario = await prisma.tbHasLicencaFuncionario.delete({
+     *   where: {
+     *     // ... filter to delete one TbHasLicencaFuncionario
+     *   }
+     * })
+     * 
+     */
+    delete<T extends tbHasLicencaFuncionarioDeleteArgs>(args: SelectSubset<T, tbHasLicencaFuncionarioDeleteArgs<ExtArgs>>): Prisma__tbHasLicencaFuncionarioClient<$Result.GetResult<Prisma.$tbHasLicencaFuncionarioPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TbHasLicencaFuncionario.
+     * @param {tbHasLicencaFuncionarioUpdateArgs} args - Arguments to update one TbHasLicencaFuncionario.
+     * @example
+     * // Update one TbHasLicencaFuncionario
+     * const tbHasLicencaFuncionario = await prisma.tbHasLicencaFuncionario.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends tbHasLicencaFuncionarioUpdateArgs>(args: SelectSubset<T, tbHasLicencaFuncionarioUpdateArgs<ExtArgs>>): Prisma__tbHasLicencaFuncionarioClient<$Result.GetResult<Prisma.$tbHasLicencaFuncionarioPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TbHasLicencaFuncionarios.
+     * @param {tbHasLicencaFuncionarioDeleteManyArgs} args - Arguments to filter TbHasLicencaFuncionarios to delete.
+     * @example
+     * // Delete a few TbHasLicencaFuncionarios
+     * const { count } = await prisma.tbHasLicencaFuncionario.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends tbHasLicencaFuncionarioDeleteManyArgs>(args?: SelectSubset<T, tbHasLicencaFuncionarioDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TbHasLicencaFuncionarios.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbHasLicencaFuncionarioUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TbHasLicencaFuncionarios
+     * const tbHasLicencaFuncionario = await prisma.tbHasLicencaFuncionario.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends tbHasLicencaFuncionarioUpdateManyArgs>(args: SelectSubset<T, tbHasLicencaFuncionarioUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one TbHasLicencaFuncionario.
+     * @param {tbHasLicencaFuncionarioUpsertArgs} args - Arguments to update or create a TbHasLicencaFuncionario.
+     * @example
+     * // Update or create a TbHasLicencaFuncionario
+     * const tbHasLicencaFuncionario = await prisma.tbHasLicencaFuncionario.upsert({
+     *   create: {
+     *     // ... data to create a TbHasLicencaFuncionario
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TbHasLicencaFuncionario we want to update
+     *   }
+     * })
+     */
+    upsert<T extends tbHasLicencaFuncionarioUpsertArgs>(args: SelectSubset<T, tbHasLicencaFuncionarioUpsertArgs<ExtArgs>>): Prisma__tbHasLicencaFuncionarioClient<$Result.GetResult<Prisma.$tbHasLicencaFuncionarioPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TbHasLicencaFuncionarios.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbHasLicencaFuncionarioCountArgs} args - Arguments to filter TbHasLicencaFuncionarios to count.
+     * @example
+     * // Count the number of TbHasLicencaFuncionarios
+     * const count = await prisma.tbHasLicencaFuncionario.count({
+     *   where: {
+     *     // ... the filter for the TbHasLicencaFuncionarios we want to count
+     *   }
+     * })
+    **/
+    count<T extends tbHasLicencaFuncionarioCountArgs>(
+      args?: Subset<T, tbHasLicencaFuncionarioCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TbHasLicencaFuncionarioCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TbHasLicencaFuncionario.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TbHasLicencaFuncionarioAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TbHasLicencaFuncionarioAggregateArgs>(args: Subset<T, TbHasLicencaFuncionarioAggregateArgs>): Prisma.PrismaPromise<GetTbHasLicencaFuncionarioAggregateType<T>>
+
+    /**
+     * Group by TbHasLicencaFuncionario.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbHasLicencaFuncionarioGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends tbHasLicencaFuncionarioGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: tbHasLicencaFuncionarioGroupByArgs['orderBy'] }
+        : { orderBy?: tbHasLicencaFuncionarioGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, tbHasLicencaFuncionarioGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTbHasLicencaFuncionarioGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the tbHasLicencaFuncionario model
+   */
+  readonly fields: tbHasLicencaFuncionarioFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for tbHasLicencaFuncionario.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__tbHasLicencaFuncionarioClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tbFuncionario<T extends tbFuncionarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, tbFuncionarioDefaultArgs<ExtArgs>>): Prisma__tbFuncionarioClient<$Result.GetResult<Prisma.$tbFuncionarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tbLicenca<T extends tbLicencaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, tbLicencaDefaultArgs<ExtArgs>>): Prisma__tbLicencaClient<$Result.GetResult<Prisma.$tbLicencaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the tbHasLicencaFuncionario model
+   */
+  interface tbHasLicencaFuncionarioFieldRefs {
+    readonly idHas: FieldRef<"tbHasLicencaFuncionario", 'String'>
+    readonly idFunc: FieldRef<"tbHasLicencaFuncionario", 'String'>
+    readonly idLinc: FieldRef<"tbHasLicencaFuncionario", 'String'>
+    readonly dataInicio: FieldRef<"tbHasLicencaFuncionario", 'DateTime'>
+    readonly dataVencimetno: FieldRef<"tbHasLicencaFuncionario", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * tbHasLicencaFuncionario findUnique
+   */
+  export type tbHasLicencaFuncionarioFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbHasLicencaFuncionario
+     */
+    select?: tbHasLicencaFuncionarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbHasLicencaFuncionario
+     */
+    omit?: tbHasLicencaFuncionarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbHasLicencaFuncionarioInclude<ExtArgs> | null
+    /**
+     * Filter, which tbHasLicencaFuncionario to fetch.
+     */
+    where: tbHasLicencaFuncionarioWhereUniqueInput
+  }
+
+  /**
+   * tbHasLicencaFuncionario findUniqueOrThrow
+   */
+  export type tbHasLicencaFuncionarioFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbHasLicencaFuncionario
+     */
+    select?: tbHasLicencaFuncionarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbHasLicencaFuncionario
+     */
+    omit?: tbHasLicencaFuncionarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbHasLicencaFuncionarioInclude<ExtArgs> | null
+    /**
+     * Filter, which tbHasLicencaFuncionario to fetch.
+     */
+    where: tbHasLicencaFuncionarioWhereUniqueInput
+  }
+
+  /**
+   * tbHasLicencaFuncionario findFirst
+   */
+  export type tbHasLicencaFuncionarioFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbHasLicencaFuncionario
+     */
+    select?: tbHasLicencaFuncionarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbHasLicencaFuncionario
+     */
+    omit?: tbHasLicencaFuncionarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbHasLicencaFuncionarioInclude<ExtArgs> | null
+    /**
+     * Filter, which tbHasLicencaFuncionario to fetch.
+     */
+    where?: tbHasLicencaFuncionarioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbHasLicencaFuncionarios to fetch.
+     */
+    orderBy?: tbHasLicencaFuncionarioOrderByWithRelationInput | tbHasLicencaFuncionarioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tbHasLicencaFuncionarios.
+     */
+    cursor?: tbHasLicencaFuncionarioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbHasLicencaFuncionarios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbHasLicencaFuncionarios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tbHasLicencaFuncionarios.
+     */
+    distinct?: TbHasLicencaFuncionarioScalarFieldEnum | TbHasLicencaFuncionarioScalarFieldEnum[]
+  }
+
+  /**
+   * tbHasLicencaFuncionario findFirstOrThrow
+   */
+  export type tbHasLicencaFuncionarioFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbHasLicencaFuncionario
+     */
+    select?: tbHasLicencaFuncionarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbHasLicencaFuncionario
+     */
+    omit?: tbHasLicencaFuncionarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbHasLicencaFuncionarioInclude<ExtArgs> | null
+    /**
+     * Filter, which tbHasLicencaFuncionario to fetch.
+     */
+    where?: tbHasLicencaFuncionarioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbHasLicencaFuncionarios to fetch.
+     */
+    orderBy?: tbHasLicencaFuncionarioOrderByWithRelationInput | tbHasLicencaFuncionarioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tbHasLicencaFuncionarios.
+     */
+    cursor?: tbHasLicencaFuncionarioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbHasLicencaFuncionarios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbHasLicencaFuncionarios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tbHasLicencaFuncionarios.
+     */
+    distinct?: TbHasLicencaFuncionarioScalarFieldEnum | TbHasLicencaFuncionarioScalarFieldEnum[]
+  }
+
+  /**
+   * tbHasLicencaFuncionario findMany
+   */
+  export type tbHasLicencaFuncionarioFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbHasLicencaFuncionario
+     */
+    select?: tbHasLicencaFuncionarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbHasLicencaFuncionario
+     */
+    omit?: tbHasLicencaFuncionarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbHasLicencaFuncionarioInclude<ExtArgs> | null
+    /**
+     * Filter, which tbHasLicencaFuncionarios to fetch.
+     */
+    where?: tbHasLicencaFuncionarioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbHasLicencaFuncionarios to fetch.
+     */
+    orderBy?: tbHasLicencaFuncionarioOrderByWithRelationInput | tbHasLicencaFuncionarioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing tbHasLicencaFuncionarios.
+     */
+    cursor?: tbHasLicencaFuncionarioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbHasLicencaFuncionarios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbHasLicencaFuncionarios.
+     */
+    skip?: number
+    distinct?: TbHasLicencaFuncionarioScalarFieldEnum | TbHasLicencaFuncionarioScalarFieldEnum[]
+  }
+
+  /**
+   * tbHasLicencaFuncionario create
+   */
+  export type tbHasLicencaFuncionarioCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbHasLicencaFuncionario
+     */
+    select?: tbHasLicencaFuncionarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbHasLicencaFuncionario
+     */
+    omit?: tbHasLicencaFuncionarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbHasLicencaFuncionarioInclude<ExtArgs> | null
+    /**
+     * The data needed to create a tbHasLicencaFuncionario.
+     */
+    data: XOR<tbHasLicencaFuncionarioCreateInput, tbHasLicencaFuncionarioUncheckedCreateInput>
+  }
+
+  /**
+   * tbHasLicencaFuncionario createMany
+   */
+  export type tbHasLicencaFuncionarioCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many tbHasLicencaFuncionarios.
+     */
+    data: tbHasLicencaFuncionarioCreateManyInput | tbHasLicencaFuncionarioCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * tbHasLicencaFuncionario update
+   */
+  export type tbHasLicencaFuncionarioUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbHasLicencaFuncionario
+     */
+    select?: tbHasLicencaFuncionarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbHasLicencaFuncionario
+     */
+    omit?: tbHasLicencaFuncionarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbHasLicencaFuncionarioInclude<ExtArgs> | null
+    /**
+     * The data needed to update a tbHasLicencaFuncionario.
+     */
+    data: XOR<tbHasLicencaFuncionarioUpdateInput, tbHasLicencaFuncionarioUncheckedUpdateInput>
+    /**
+     * Choose, which tbHasLicencaFuncionario to update.
+     */
+    where: tbHasLicencaFuncionarioWhereUniqueInput
+  }
+
+  /**
+   * tbHasLicencaFuncionario updateMany
+   */
+  export type tbHasLicencaFuncionarioUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update tbHasLicencaFuncionarios.
+     */
+    data: XOR<tbHasLicencaFuncionarioUpdateManyMutationInput, tbHasLicencaFuncionarioUncheckedUpdateManyInput>
+    /**
+     * Filter which tbHasLicencaFuncionarios to update
+     */
+    where?: tbHasLicencaFuncionarioWhereInput
+    /**
+     * Limit how many tbHasLicencaFuncionarios to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbHasLicencaFuncionario upsert
+   */
+  export type tbHasLicencaFuncionarioUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbHasLicencaFuncionario
+     */
+    select?: tbHasLicencaFuncionarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbHasLicencaFuncionario
+     */
+    omit?: tbHasLicencaFuncionarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbHasLicencaFuncionarioInclude<ExtArgs> | null
+    /**
+     * The filter to search for the tbHasLicencaFuncionario to update in case it exists.
+     */
+    where: tbHasLicencaFuncionarioWhereUniqueInput
+    /**
+     * In case the tbHasLicencaFuncionario found by the `where` argument doesn't exist, create a new tbHasLicencaFuncionario with this data.
+     */
+    create: XOR<tbHasLicencaFuncionarioCreateInput, tbHasLicencaFuncionarioUncheckedCreateInput>
+    /**
+     * In case the tbHasLicencaFuncionario was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<tbHasLicencaFuncionarioUpdateInput, tbHasLicencaFuncionarioUncheckedUpdateInput>
+  }
+
+  /**
+   * tbHasLicencaFuncionario delete
+   */
+  export type tbHasLicencaFuncionarioDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbHasLicencaFuncionario
+     */
+    select?: tbHasLicencaFuncionarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbHasLicencaFuncionario
+     */
+    omit?: tbHasLicencaFuncionarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbHasLicencaFuncionarioInclude<ExtArgs> | null
+    /**
+     * Filter which tbHasLicencaFuncionario to delete.
+     */
+    where: tbHasLicencaFuncionarioWhereUniqueInput
+  }
+
+  /**
+   * tbHasLicencaFuncionario deleteMany
+   */
+  export type tbHasLicencaFuncionarioDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbHasLicencaFuncionarios to delete
+     */
+    where?: tbHasLicencaFuncionarioWhereInput
+    /**
+     * Limit how many tbHasLicencaFuncionarios to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbHasLicencaFuncionario without action
+   */
+  export type tbHasLicencaFuncionarioDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbHasLicencaFuncionario
+     */
+    select?: tbHasLicencaFuncionarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbHasLicencaFuncionario
+     */
+    omit?: tbHasLicencaFuncionarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbHasLicencaFuncionarioInclude<ExtArgs> | null
   }
 
 
@@ -16138,6 +18227,25 @@ export namespace Prisma {
   export type TbFuncionarioScalarFieldEnum = (typeof TbFuncionarioScalarFieldEnum)[keyof typeof TbFuncionarioScalarFieldEnum]
 
 
+  export const TbLicencaScalarFieldEnum: {
+    idLic: 'idLic',
+    descricaoLic: 'descricaoLic'
+  };
+
+  export type TbLicencaScalarFieldEnum = (typeof TbLicencaScalarFieldEnum)[keyof typeof TbLicencaScalarFieldEnum]
+
+
+  export const TbHasLicencaFuncionarioScalarFieldEnum: {
+    idHas: 'idHas',
+    idFunc: 'idFunc',
+    idLinc: 'idLinc',
+    dataInicio: 'dataInicio',
+    dataVencimetno: 'dataVencimetno'
+  };
+
+  export type TbHasLicencaFuncionarioScalarFieldEnum = (typeof TbHasLicencaFuncionarioScalarFieldEnum)[keyof typeof TbHasLicencaFuncionarioScalarFieldEnum]
+
+
   export const TbStatusFunScalarFieldEnum: {
     idStatusFun: 'idStatusFun',
     descricaoStatusFun: 'descricaoStatusFun'
@@ -16341,6 +18449,23 @@ export namespace Prisma {
   };
 
   export type tbFuncionarioOrderByRelevanceFieldEnum = (typeof tbFuncionarioOrderByRelevanceFieldEnum)[keyof typeof tbFuncionarioOrderByRelevanceFieldEnum]
+
+
+  export const tbLicencaOrderByRelevanceFieldEnum: {
+    idLic: 'idLic',
+    descricaoLic: 'descricaoLic'
+  };
+
+  export type tbLicencaOrderByRelevanceFieldEnum = (typeof tbLicencaOrderByRelevanceFieldEnum)[keyof typeof tbLicencaOrderByRelevanceFieldEnum]
+
+
+  export const tbHasLicencaFuncionarioOrderByRelevanceFieldEnum: {
+    idHas: 'idHas',
+    idFunc: 'idFunc',
+    idLinc: 'idLinc'
+  };
+
+  export type tbHasLicencaFuncionarioOrderByRelevanceFieldEnum = (typeof tbHasLicencaFuncionarioOrderByRelevanceFieldEnum)[keyof typeof tbHasLicencaFuncionarioOrderByRelevanceFieldEnum]
 
 
   export const tbStatusFunOrderByRelevanceFieldEnum: {
@@ -16631,6 +18756,7 @@ export namespace Prisma {
     tbFuncao?: XOR<TbFuncaoNullableScalarRelationFilter, tbFuncaoWhereInput> | null
     tbCCusto?: XOR<TbCCustoNullableScalarRelationFilter, tbCCustoWhereInput> | null
     tbCadastro?: TbCadastroListRelationFilter
+    tbHasLicencaFuncionario?: TbHasLicencaFuncionarioListRelationFilter
   }
 
   export type tbFuncionarioOrderByWithRelationInput = {
@@ -16650,6 +18776,7 @@ export namespace Prisma {
     tbFuncao?: tbFuncaoOrderByWithRelationInput
     tbCCusto?: tbCCustoOrderByWithRelationInput
     tbCadastro?: tbCadastroOrderByRelationAggregateInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioOrderByRelationAggregateInput
     _relevance?: tbFuncionarioOrderByRelevanceInput
   }
 
@@ -16673,6 +18800,7 @@ export namespace Prisma {
     tbFuncao?: XOR<TbFuncaoNullableScalarRelationFilter, tbFuncaoWhereInput> | null
     tbCCusto?: XOR<TbCCustoNullableScalarRelationFilter, tbCCustoWhereInput> | null
     tbCadastro?: TbCadastroListRelationFilter
+    tbHasLicencaFuncionario?: TbHasLicencaFuncionarioListRelationFilter
   }, "idF" | "idMatFun">
 
   export type tbFuncionarioOrderByWithAggregationInput = {
@@ -16707,6 +18835,107 @@ export namespace Prisma {
     idUserFun?: StringNullableWithAggregatesFilter<"tbFuncionario"> | string | null
     idStatusFun?: StringNullableWithAggregatesFilter<"tbFuncionario"> | string | null
     idCustoFun?: StringNullableWithAggregatesFilter<"tbFuncionario"> | string | null
+  }
+
+  export type tbLicencaWhereInput = {
+    AND?: tbLicencaWhereInput | tbLicencaWhereInput[]
+    OR?: tbLicencaWhereInput[]
+    NOT?: tbLicencaWhereInput | tbLicencaWhereInput[]
+    idLic?: StringFilter<"tbLicenca"> | string
+    descricaoLic?: StringFilter<"tbLicenca"> | string
+    tbHasLicencaFuncionario?: TbHasLicencaFuncionarioListRelationFilter
+  }
+
+  export type tbLicencaOrderByWithRelationInput = {
+    idLic?: SortOrder
+    descricaoLic?: SortOrder
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioOrderByRelationAggregateInput
+    _relevance?: tbLicencaOrderByRelevanceInput
+  }
+
+  export type tbLicencaWhereUniqueInput = Prisma.AtLeast<{
+    idLic?: string
+    AND?: tbLicencaWhereInput | tbLicencaWhereInput[]
+    OR?: tbLicencaWhereInput[]
+    NOT?: tbLicencaWhereInput | tbLicencaWhereInput[]
+    descricaoLic?: StringFilter<"tbLicenca"> | string
+    tbHasLicencaFuncionario?: TbHasLicencaFuncionarioListRelationFilter
+  }, "idLic">
+
+  export type tbLicencaOrderByWithAggregationInput = {
+    idLic?: SortOrder
+    descricaoLic?: SortOrder
+    _count?: tbLicencaCountOrderByAggregateInput
+    _max?: tbLicencaMaxOrderByAggregateInput
+    _min?: tbLicencaMinOrderByAggregateInput
+  }
+
+  export type tbLicencaScalarWhereWithAggregatesInput = {
+    AND?: tbLicencaScalarWhereWithAggregatesInput | tbLicencaScalarWhereWithAggregatesInput[]
+    OR?: tbLicencaScalarWhereWithAggregatesInput[]
+    NOT?: tbLicencaScalarWhereWithAggregatesInput | tbLicencaScalarWhereWithAggregatesInput[]
+    idLic?: StringWithAggregatesFilter<"tbLicenca"> | string
+    descricaoLic?: StringWithAggregatesFilter<"tbLicenca"> | string
+  }
+
+  export type tbHasLicencaFuncionarioWhereInput = {
+    AND?: tbHasLicencaFuncionarioWhereInput | tbHasLicencaFuncionarioWhereInput[]
+    OR?: tbHasLicencaFuncionarioWhereInput[]
+    NOT?: tbHasLicencaFuncionarioWhereInput | tbHasLicencaFuncionarioWhereInput[]
+    idHas?: StringFilter<"tbHasLicencaFuncionario"> | string
+    idFunc?: StringFilter<"tbHasLicencaFuncionario"> | string
+    idLinc?: StringFilter<"tbHasLicencaFuncionario"> | string
+    dataInicio?: DateTimeFilter<"tbHasLicencaFuncionario"> | Date | string
+    dataVencimetno?: DateTimeFilter<"tbHasLicencaFuncionario"> | Date | string
+    tbFuncionario?: XOR<TbFuncionarioScalarRelationFilter, tbFuncionarioWhereInput>
+    tbLicenca?: XOR<TbLicencaScalarRelationFilter, tbLicencaWhereInput>
+  }
+
+  export type tbHasLicencaFuncionarioOrderByWithRelationInput = {
+    idHas?: SortOrder
+    idFunc?: SortOrder
+    idLinc?: SortOrder
+    dataInicio?: SortOrder
+    dataVencimetno?: SortOrder
+    tbFuncionario?: tbFuncionarioOrderByWithRelationInput
+    tbLicenca?: tbLicencaOrderByWithRelationInput
+    _relevance?: tbHasLicencaFuncionarioOrderByRelevanceInput
+  }
+
+  export type tbHasLicencaFuncionarioWhereUniqueInput = Prisma.AtLeast<{
+    idHas?: string
+    idFunc_idLinc?: tbHasLicencaFuncionarioIdFuncIdLincCompoundUniqueInput
+    AND?: tbHasLicencaFuncionarioWhereInput | tbHasLicencaFuncionarioWhereInput[]
+    OR?: tbHasLicencaFuncionarioWhereInput[]
+    NOT?: tbHasLicencaFuncionarioWhereInput | tbHasLicencaFuncionarioWhereInput[]
+    idFunc?: StringFilter<"tbHasLicencaFuncionario"> | string
+    idLinc?: StringFilter<"tbHasLicencaFuncionario"> | string
+    dataInicio?: DateTimeFilter<"tbHasLicencaFuncionario"> | Date | string
+    dataVencimetno?: DateTimeFilter<"tbHasLicencaFuncionario"> | Date | string
+    tbFuncionario?: XOR<TbFuncionarioScalarRelationFilter, tbFuncionarioWhereInput>
+    tbLicenca?: XOR<TbLicencaScalarRelationFilter, tbLicencaWhereInput>
+  }, "idHas" | "idFunc_idLinc">
+
+  export type tbHasLicencaFuncionarioOrderByWithAggregationInput = {
+    idHas?: SortOrder
+    idFunc?: SortOrder
+    idLinc?: SortOrder
+    dataInicio?: SortOrder
+    dataVencimetno?: SortOrder
+    _count?: tbHasLicencaFuncionarioCountOrderByAggregateInput
+    _max?: tbHasLicencaFuncionarioMaxOrderByAggregateInput
+    _min?: tbHasLicencaFuncionarioMinOrderByAggregateInput
+  }
+
+  export type tbHasLicencaFuncionarioScalarWhereWithAggregatesInput = {
+    AND?: tbHasLicencaFuncionarioScalarWhereWithAggregatesInput | tbHasLicencaFuncionarioScalarWhereWithAggregatesInput[]
+    OR?: tbHasLicencaFuncionarioScalarWhereWithAggregatesInput[]
+    NOT?: tbHasLicencaFuncionarioScalarWhereWithAggregatesInput | tbHasLicencaFuncionarioScalarWhereWithAggregatesInput[]
+    idHas?: StringWithAggregatesFilter<"tbHasLicencaFuncionario"> | string
+    idFunc?: StringWithAggregatesFilter<"tbHasLicencaFuncionario"> | string
+    idLinc?: StringWithAggregatesFilter<"tbHasLicencaFuncionario"> | string
+    dataInicio?: DateTimeWithAggregatesFilter<"tbHasLicencaFuncionario"> | Date | string
+    dataVencimetno?: DateTimeWithAggregatesFilter<"tbHasLicencaFuncionario"> | Date | string
   }
 
   export type tbStatusFunWhereInput = {
@@ -17555,6 +19784,7 @@ export namespace Prisma {
     tbFuncao?: tbFuncaoCreateNestedOneWithoutTbFuncionarioInput
     tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioUncheckedCreateInput = {
@@ -17570,6 +19800,7 @@ export namespace Prisma {
     idStatusFun?: string | null
     idCustoFun?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioUpdateInput = {
@@ -17585,6 +19816,7 @@ export namespace Prisma {
     tbFuncao?: tbFuncaoUpdateOneWithoutTbFuncionarioNestedInput
     tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateInput = {
@@ -17600,6 +19832,7 @@ export namespace Prisma {
     idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
     idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioCreateManyInput = {
@@ -17638,6 +19871,99 @@ export namespace Prisma {
     idUserFun?: NullableStringFieldUpdateOperationsInput | string | null
     idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
     idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type tbLicencaCreateInput = {
+    idLic?: string
+    descricaoLic: string
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioCreateNestedManyWithoutTbLicencaInput
+  }
+
+  export type tbLicencaUncheckedCreateInput = {
+    idLic?: string
+    descricaoLic: string
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedCreateNestedManyWithoutTbLicencaInput
+  }
+
+  export type tbLicencaUpdateInput = {
+    idLic?: StringFieldUpdateOperationsInput | string
+    descricaoLic?: StringFieldUpdateOperationsInput | string
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUpdateManyWithoutTbLicencaNestedInput
+  }
+
+  export type tbLicencaUncheckedUpdateInput = {
+    idLic?: StringFieldUpdateOperationsInput | string
+    descricaoLic?: StringFieldUpdateOperationsInput | string
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbLicencaNestedInput
+  }
+
+  export type tbLicencaCreateManyInput = {
+    idLic?: string
+    descricaoLic: string
+  }
+
+  export type tbLicencaUpdateManyMutationInput = {
+    idLic?: StringFieldUpdateOperationsInput | string
+    descricaoLic?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type tbLicencaUncheckedUpdateManyInput = {
+    idLic?: StringFieldUpdateOperationsInput | string
+    descricaoLic?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type tbHasLicencaFuncionarioCreateInput = {
+    idHas?: string
+    dataInicio: Date | string
+    dataVencimetno: Date | string
+    tbFuncionario: tbFuncionarioCreateNestedOneWithoutTbHasLicencaFuncionarioInput
+    tbLicenca: tbLicencaCreateNestedOneWithoutTbHasLicencaFuncionarioInput
+  }
+
+  export type tbHasLicencaFuncionarioUncheckedCreateInput = {
+    idHas?: string
+    idFunc: string
+    idLinc: string
+    dataInicio: Date | string
+    dataVencimetno: Date | string
+  }
+
+  export type tbHasLicencaFuncionarioUpdateInput = {
+    idHas?: StringFieldUpdateOperationsInput | string
+    dataInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataVencimetno?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbFuncionario?: tbFuncionarioUpdateOneRequiredWithoutTbHasLicencaFuncionarioNestedInput
+    tbLicenca?: tbLicencaUpdateOneRequiredWithoutTbHasLicencaFuncionarioNestedInput
+  }
+
+  export type tbHasLicencaFuncionarioUncheckedUpdateInput = {
+    idHas?: StringFieldUpdateOperationsInput | string
+    idFunc?: StringFieldUpdateOperationsInput | string
+    idLinc?: StringFieldUpdateOperationsInput | string
+    dataInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataVencimetno?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbHasLicencaFuncionarioCreateManyInput = {
+    idHas?: string
+    idFunc: string
+    idLinc: string
+    dataInicio: Date | string
+    dataVencimetno: Date | string
+  }
+
+  export type tbHasLicencaFuncionarioUpdateManyMutationInput = {
+    idHas?: StringFieldUpdateOperationsInput | string
+    dataInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataVencimetno?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbHasLicencaFuncionarioUncheckedUpdateManyInput = {
+    idHas?: StringFieldUpdateOperationsInput | string
+    idFunc?: StringFieldUpdateOperationsInput | string
+    idLinc?: StringFieldUpdateOperationsInput | string
+    dataInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataVencimetno?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type tbStatusFunCreateInput = {
@@ -18624,7 +20950,17 @@ export namespace Prisma {
     none?: tbCadastroWhereInput
   }
 
+  export type TbHasLicencaFuncionarioListRelationFilter = {
+    every?: tbHasLicencaFuncionarioWhereInput
+    some?: tbHasLicencaFuncionarioWhereInput
+    none?: tbHasLicencaFuncionarioWhereInput
+  }
+
   export type tbCadastroOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type tbHasLicencaFuncionarioOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -18674,6 +21010,72 @@ export namespace Prisma {
     idUserFun?: SortOrder
     idStatusFun?: SortOrder
     idCustoFun?: SortOrder
+  }
+
+  export type tbLicencaOrderByRelevanceInput = {
+    fields: tbLicencaOrderByRelevanceFieldEnum | tbLicencaOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type tbLicencaCountOrderByAggregateInput = {
+    idLic?: SortOrder
+    descricaoLic?: SortOrder
+  }
+
+  export type tbLicencaMaxOrderByAggregateInput = {
+    idLic?: SortOrder
+    descricaoLic?: SortOrder
+  }
+
+  export type tbLicencaMinOrderByAggregateInput = {
+    idLic?: SortOrder
+    descricaoLic?: SortOrder
+  }
+
+  export type TbFuncionarioScalarRelationFilter = {
+    is?: tbFuncionarioWhereInput
+    isNot?: tbFuncionarioWhereInput
+  }
+
+  export type TbLicencaScalarRelationFilter = {
+    is?: tbLicencaWhereInput
+    isNot?: tbLicencaWhereInput
+  }
+
+  export type tbHasLicencaFuncionarioOrderByRelevanceInput = {
+    fields: tbHasLicencaFuncionarioOrderByRelevanceFieldEnum | tbHasLicencaFuncionarioOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type tbHasLicencaFuncionarioIdFuncIdLincCompoundUniqueInput = {
+    idFunc: string
+    idLinc: string
+  }
+
+  export type tbHasLicencaFuncionarioCountOrderByAggregateInput = {
+    idHas?: SortOrder
+    idFunc?: SortOrder
+    idLinc?: SortOrder
+    dataInicio?: SortOrder
+    dataVencimetno?: SortOrder
+  }
+
+  export type tbHasLicencaFuncionarioMaxOrderByAggregateInput = {
+    idHas?: SortOrder
+    idFunc?: SortOrder
+    idLinc?: SortOrder
+    dataInicio?: SortOrder
+    dataVencimetno?: SortOrder
+  }
+
+  export type tbHasLicencaFuncionarioMinOrderByAggregateInput = {
+    idHas?: SortOrder
+    idFunc?: SortOrder
+    idLinc?: SortOrder
+    dataInicio?: SortOrder
+    dataVencimetno?: SortOrder
   }
 
   export type tbStatusFunOrderByRelevanceInput = {
@@ -19284,11 +21686,25 @@ export namespace Prisma {
     connect?: tbCadastroWhereUniqueInput | tbCadastroWhereUniqueInput[]
   }
 
+  export type tbHasLicencaFuncionarioCreateNestedManyWithoutTbFuncionarioInput = {
+    create?: XOR<tbHasLicencaFuncionarioCreateWithoutTbFuncionarioInput, tbHasLicencaFuncionarioUncheckedCreateWithoutTbFuncionarioInput> | tbHasLicencaFuncionarioCreateWithoutTbFuncionarioInput[] | tbHasLicencaFuncionarioUncheckedCreateWithoutTbFuncionarioInput[]
+    connectOrCreate?: tbHasLicencaFuncionarioCreateOrConnectWithoutTbFuncionarioInput | tbHasLicencaFuncionarioCreateOrConnectWithoutTbFuncionarioInput[]
+    createMany?: tbHasLicencaFuncionarioCreateManyTbFuncionarioInputEnvelope
+    connect?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+  }
+
   export type tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput = {
     create?: XOR<tbCadastroCreateWithoutTbFuncionarioInput, tbCadastroUncheckedCreateWithoutTbFuncionarioInput> | tbCadastroCreateWithoutTbFuncionarioInput[] | tbCadastroUncheckedCreateWithoutTbFuncionarioInput[]
     connectOrCreate?: tbCadastroCreateOrConnectWithoutTbFuncionarioInput | tbCadastroCreateOrConnectWithoutTbFuncionarioInput[]
     createMany?: tbCadastroCreateManyTbFuncionarioInputEnvelope
     connect?: tbCadastroWhereUniqueInput | tbCadastroWhereUniqueInput[]
+  }
+
+  export type tbHasLicencaFuncionarioUncheckedCreateNestedManyWithoutTbFuncionarioInput = {
+    create?: XOR<tbHasLicencaFuncionarioCreateWithoutTbFuncionarioInput, tbHasLicencaFuncionarioUncheckedCreateWithoutTbFuncionarioInput> | tbHasLicencaFuncionarioCreateWithoutTbFuncionarioInput[] | tbHasLicencaFuncionarioUncheckedCreateWithoutTbFuncionarioInput[]
+    connectOrCreate?: tbHasLicencaFuncionarioCreateOrConnectWithoutTbFuncionarioInput | tbHasLicencaFuncionarioCreateOrConnectWithoutTbFuncionarioInput[]
+    createMany?: tbHasLicencaFuncionarioCreateManyTbFuncionarioInputEnvelope
+    connect?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
   }
 
   export type tbStatusFunUpdateOneWithoutTbFuncionarioNestedInput = {
@@ -19345,6 +21761,20 @@ export namespace Prisma {
     deleteMany?: tbCadastroScalarWhereInput | tbCadastroScalarWhereInput[]
   }
 
+  export type tbHasLicencaFuncionarioUpdateManyWithoutTbFuncionarioNestedInput = {
+    create?: XOR<tbHasLicencaFuncionarioCreateWithoutTbFuncionarioInput, tbHasLicencaFuncionarioUncheckedCreateWithoutTbFuncionarioInput> | tbHasLicencaFuncionarioCreateWithoutTbFuncionarioInput[] | tbHasLicencaFuncionarioUncheckedCreateWithoutTbFuncionarioInput[]
+    connectOrCreate?: tbHasLicencaFuncionarioCreateOrConnectWithoutTbFuncionarioInput | tbHasLicencaFuncionarioCreateOrConnectWithoutTbFuncionarioInput[]
+    upsert?: tbHasLicencaFuncionarioUpsertWithWhereUniqueWithoutTbFuncionarioInput | tbHasLicencaFuncionarioUpsertWithWhereUniqueWithoutTbFuncionarioInput[]
+    createMany?: tbHasLicencaFuncionarioCreateManyTbFuncionarioInputEnvelope
+    set?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+    disconnect?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+    delete?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+    connect?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+    update?: tbHasLicencaFuncionarioUpdateWithWhereUniqueWithoutTbFuncionarioInput | tbHasLicencaFuncionarioUpdateWithWhereUniqueWithoutTbFuncionarioInput[]
+    updateMany?: tbHasLicencaFuncionarioUpdateManyWithWhereWithoutTbFuncionarioInput | tbHasLicencaFuncionarioUpdateManyWithWhereWithoutTbFuncionarioInput[]
+    deleteMany?: tbHasLicencaFuncionarioScalarWhereInput | tbHasLicencaFuncionarioScalarWhereInput[]
+  }
+
   export type tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput = {
     create?: XOR<tbCadastroCreateWithoutTbFuncionarioInput, tbCadastroUncheckedCreateWithoutTbFuncionarioInput> | tbCadastroCreateWithoutTbFuncionarioInput[] | tbCadastroUncheckedCreateWithoutTbFuncionarioInput[]
     connectOrCreate?: tbCadastroCreateOrConnectWithoutTbFuncionarioInput | tbCadastroCreateOrConnectWithoutTbFuncionarioInput[]
@@ -19357,6 +21787,90 @@ export namespace Prisma {
     update?: tbCadastroUpdateWithWhereUniqueWithoutTbFuncionarioInput | tbCadastroUpdateWithWhereUniqueWithoutTbFuncionarioInput[]
     updateMany?: tbCadastroUpdateManyWithWhereWithoutTbFuncionarioInput | tbCadastroUpdateManyWithWhereWithoutTbFuncionarioInput[]
     deleteMany?: tbCadastroScalarWhereInput | tbCadastroScalarWhereInput[]
+  }
+
+  export type tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbFuncionarioNestedInput = {
+    create?: XOR<tbHasLicencaFuncionarioCreateWithoutTbFuncionarioInput, tbHasLicencaFuncionarioUncheckedCreateWithoutTbFuncionarioInput> | tbHasLicencaFuncionarioCreateWithoutTbFuncionarioInput[] | tbHasLicencaFuncionarioUncheckedCreateWithoutTbFuncionarioInput[]
+    connectOrCreate?: tbHasLicencaFuncionarioCreateOrConnectWithoutTbFuncionarioInput | tbHasLicencaFuncionarioCreateOrConnectWithoutTbFuncionarioInput[]
+    upsert?: tbHasLicencaFuncionarioUpsertWithWhereUniqueWithoutTbFuncionarioInput | tbHasLicencaFuncionarioUpsertWithWhereUniqueWithoutTbFuncionarioInput[]
+    createMany?: tbHasLicencaFuncionarioCreateManyTbFuncionarioInputEnvelope
+    set?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+    disconnect?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+    delete?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+    connect?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+    update?: tbHasLicencaFuncionarioUpdateWithWhereUniqueWithoutTbFuncionarioInput | tbHasLicencaFuncionarioUpdateWithWhereUniqueWithoutTbFuncionarioInput[]
+    updateMany?: tbHasLicencaFuncionarioUpdateManyWithWhereWithoutTbFuncionarioInput | tbHasLicencaFuncionarioUpdateManyWithWhereWithoutTbFuncionarioInput[]
+    deleteMany?: tbHasLicencaFuncionarioScalarWhereInput | tbHasLicencaFuncionarioScalarWhereInput[]
+  }
+
+  export type tbHasLicencaFuncionarioCreateNestedManyWithoutTbLicencaInput = {
+    create?: XOR<tbHasLicencaFuncionarioCreateWithoutTbLicencaInput, tbHasLicencaFuncionarioUncheckedCreateWithoutTbLicencaInput> | tbHasLicencaFuncionarioCreateWithoutTbLicencaInput[] | tbHasLicencaFuncionarioUncheckedCreateWithoutTbLicencaInput[]
+    connectOrCreate?: tbHasLicencaFuncionarioCreateOrConnectWithoutTbLicencaInput | tbHasLicencaFuncionarioCreateOrConnectWithoutTbLicencaInput[]
+    createMany?: tbHasLicencaFuncionarioCreateManyTbLicencaInputEnvelope
+    connect?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+  }
+
+  export type tbHasLicencaFuncionarioUncheckedCreateNestedManyWithoutTbLicencaInput = {
+    create?: XOR<tbHasLicencaFuncionarioCreateWithoutTbLicencaInput, tbHasLicencaFuncionarioUncheckedCreateWithoutTbLicencaInput> | tbHasLicencaFuncionarioCreateWithoutTbLicencaInput[] | tbHasLicencaFuncionarioUncheckedCreateWithoutTbLicencaInput[]
+    connectOrCreate?: tbHasLicencaFuncionarioCreateOrConnectWithoutTbLicencaInput | tbHasLicencaFuncionarioCreateOrConnectWithoutTbLicencaInput[]
+    createMany?: tbHasLicencaFuncionarioCreateManyTbLicencaInputEnvelope
+    connect?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+  }
+
+  export type tbHasLicencaFuncionarioUpdateManyWithoutTbLicencaNestedInput = {
+    create?: XOR<tbHasLicencaFuncionarioCreateWithoutTbLicencaInput, tbHasLicencaFuncionarioUncheckedCreateWithoutTbLicencaInput> | tbHasLicencaFuncionarioCreateWithoutTbLicencaInput[] | tbHasLicencaFuncionarioUncheckedCreateWithoutTbLicencaInput[]
+    connectOrCreate?: tbHasLicencaFuncionarioCreateOrConnectWithoutTbLicencaInput | tbHasLicencaFuncionarioCreateOrConnectWithoutTbLicencaInput[]
+    upsert?: tbHasLicencaFuncionarioUpsertWithWhereUniqueWithoutTbLicencaInput | tbHasLicencaFuncionarioUpsertWithWhereUniqueWithoutTbLicencaInput[]
+    createMany?: tbHasLicencaFuncionarioCreateManyTbLicencaInputEnvelope
+    set?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+    disconnect?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+    delete?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+    connect?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+    update?: tbHasLicencaFuncionarioUpdateWithWhereUniqueWithoutTbLicencaInput | tbHasLicencaFuncionarioUpdateWithWhereUniqueWithoutTbLicencaInput[]
+    updateMany?: tbHasLicencaFuncionarioUpdateManyWithWhereWithoutTbLicencaInput | tbHasLicencaFuncionarioUpdateManyWithWhereWithoutTbLicencaInput[]
+    deleteMany?: tbHasLicencaFuncionarioScalarWhereInput | tbHasLicencaFuncionarioScalarWhereInput[]
+  }
+
+  export type tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbLicencaNestedInput = {
+    create?: XOR<tbHasLicencaFuncionarioCreateWithoutTbLicencaInput, tbHasLicencaFuncionarioUncheckedCreateWithoutTbLicencaInput> | tbHasLicencaFuncionarioCreateWithoutTbLicencaInput[] | tbHasLicencaFuncionarioUncheckedCreateWithoutTbLicencaInput[]
+    connectOrCreate?: tbHasLicencaFuncionarioCreateOrConnectWithoutTbLicencaInput | tbHasLicencaFuncionarioCreateOrConnectWithoutTbLicencaInput[]
+    upsert?: tbHasLicencaFuncionarioUpsertWithWhereUniqueWithoutTbLicencaInput | tbHasLicencaFuncionarioUpsertWithWhereUniqueWithoutTbLicencaInput[]
+    createMany?: tbHasLicencaFuncionarioCreateManyTbLicencaInputEnvelope
+    set?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+    disconnect?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+    delete?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+    connect?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+    update?: tbHasLicencaFuncionarioUpdateWithWhereUniqueWithoutTbLicencaInput | tbHasLicencaFuncionarioUpdateWithWhereUniqueWithoutTbLicencaInput[]
+    updateMany?: tbHasLicencaFuncionarioUpdateManyWithWhereWithoutTbLicencaInput | tbHasLicencaFuncionarioUpdateManyWithWhereWithoutTbLicencaInput[]
+    deleteMany?: tbHasLicencaFuncionarioScalarWhereInput | tbHasLicencaFuncionarioScalarWhereInput[]
+  }
+
+  export type tbFuncionarioCreateNestedOneWithoutTbHasLicencaFuncionarioInput = {
+    create?: XOR<tbFuncionarioCreateWithoutTbHasLicencaFuncionarioInput, tbFuncionarioUncheckedCreateWithoutTbHasLicencaFuncionarioInput>
+    connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbHasLicencaFuncionarioInput
+    connect?: tbFuncionarioWhereUniqueInput
+  }
+
+  export type tbLicencaCreateNestedOneWithoutTbHasLicencaFuncionarioInput = {
+    create?: XOR<tbLicencaCreateWithoutTbHasLicencaFuncionarioInput, tbLicencaUncheckedCreateWithoutTbHasLicencaFuncionarioInput>
+    connectOrCreate?: tbLicencaCreateOrConnectWithoutTbHasLicencaFuncionarioInput
+    connect?: tbLicencaWhereUniqueInput
+  }
+
+  export type tbFuncionarioUpdateOneRequiredWithoutTbHasLicencaFuncionarioNestedInput = {
+    create?: XOR<tbFuncionarioCreateWithoutTbHasLicencaFuncionarioInput, tbFuncionarioUncheckedCreateWithoutTbHasLicencaFuncionarioInput>
+    connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbHasLicencaFuncionarioInput
+    upsert?: tbFuncionarioUpsertWithoutTbHasLicencaFuncionarioInput
+    connect?: tbFuncionarioWhereUniqueInput
+    update?: XOR<XOR<tbFuncionarioUpdateToOneWithWhereWithoutTbHasLicencaFuncionarioInput, tbFuncionarioUpdateWithoutTbHasLicencaFuncionarioInput>, tbFuncionarioUncheckedUpdateWithoutTbHasLicencaFuncionarioInput>
+  }
+
+  export type tbLicencaUpdateOneRequiredWithoutTbHasLicencaFuncionarioNestedInput = {
+    create?: XOR<tbLicencaCreateWithoutTbHasLicencaFuncionarioInput, tbLicencaUncheckedCreateWithoutTbHasLicencaFuncionarioInput>
+    connectOrCreate?: tbLicencaCreateOrConnectWithoutTbHasLicencaFuncionarioInput
+    upsert?: tbLicencaUpsertWithoutTbHasLicencaFuncionarioInput
+    connect?: tbLicencaWhereUniqueInput
+    update?: XOR<XOR<tbLicencaUpdateToOneWithWhereWithoutTbHasLicencaFuncionarioInput, tbLicencaUpdateWithoutTbHasLicencaFuncionarioInput>, tbLicencaUncheckedUpdateWithoutTbHasLicencaFuncionarioInput>
   }
 
   export type tbFuncionarioCreateNestedManyWithoutTbStatusFunInput = {
@@ -20204,6 +22718,7 @@ export namespace Prisma {
     tbFuncao?: tbFuncaoCreateNestedOneWithoutTbFuncionarioInput
     tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioUncheckedCreateWithoutTbUserInput = {
@@ -20218,6 +22733,7 @@ export namespace Prisma {
     idStatusFun?: string | null
     idCustoFun?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioCreateOrConnectWithoutTbUserInput = {
@@ -20381,6 +22897,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type tbHasLicencaFuncionarioCreateWithoutTbFuncionarioInput = {
+    idHas?: string
+    dataInicio: Date | string
+    dataVencimetno: Date | string
+    tbLicenca: tbLicencaCreateNestedOneWithoutTbHasLicencaFuncionarioInput
+  }
+
+  export type tbHasLicencaFuncionarioUncheckedCreateWithoutTbFuncionarioInput = {
+    idHas?: string
+    idLinc: string
+    dataInicio: Date | string
+    dataVencimetno: Date | string
+  }
+
+  export type tbHasLicencaFuncionarioCreateOrConnectWithoutTbFuncionarioInput = {
+    where: tbHasLicencaFuncionarioWhereUniqueInput
+    create: XOR<tbHasLicencaFuncionarioCreateWithoutTbFuncionarioInput, tbHasLicencaFuncionarioUncheckedCreateWithoutTbFuncionarioInput>
+  }
+
+  export type tbHasLicencaFuncionarioCreateManyTbFuncionarioInputEnvelope = {
+    data: tbHasLicencaFuncionarioCreateManyTbFuncionarioInput | tbHasLicencaFuncionarioCreateManyTbFuncionarioInput[]
+    skipDuplicates?: boolean
+  }
+
   export type tbStatusFunUpsertWithoutTbFuncionarioInput = {
     update: XOR<tbStatusFunUpdateWithoutTbFuncionarioInput, tbStatusFunUncheckedUpdateWithoutTbFuncionarioInput>
     create: XOR<tbStatusFunCreateWithoutTbFuncionarioInput, tbStatusFunUncheckedCreateWithoutTbFuncionarioInput>
@@ -20523,6 +23063,185 @@ export namespace Prisma {
     idStatusPatCad?: StringFilter<"tbCadastro"> | string
   }
 
+  export type tbHasLicencaFuncionarioUpsertWithWhereUniqueWithoutTbFuncionarioInput = {
+    where: tbHasLicencaFuncionarioWhereUniqueInput
+    update: XOR<tbHasLicencaFuncionarioUpdateWithoutTbFuncionarioInput, tbHasLicencaFuncionarioUncheckedUpdateWithoutTbFuncionarioInput>
+    create: XOR<tbHasLicencaFuncionarioCreateWithoutTbFuncionarioInput, tbHasLicencaFuncionarioUncheckedCreateWithoutTbFuncionarioInput>
+  }
+
+  export type tbHasLicencaFuncionarioUpdateWithWhereUniqueWithoutTbFuncionarioInput = {
+    where: tbHasLicencaFuncionarioWhereUniqueInput
+    data: XOR<tbHasLicencaFuncionarioUpdateWithoutTbFuncionarioInput, tbHasLicencaFuncionarioUncheckedUpdateWithoutTbFuncionarioInput>
+  }
+
+  export type tbHasLicencaFuncionarioUpdateManyWithWhereWithoutTbFuncionarioInput = {
+    where: tbHasLicencaFuncionarioScalarWhereInput
+    data: XOR<tbHasLicencaFuncionarioUpdateManyMutationInput, tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbFuncionarioInput>
+  }
+
+  export type tbHasLicencaFuncionarioScalarWhereInput = {
+    AND?: tbHasLicencaFuncionarioScalarWhereInput | tbHasLicencaFuncionarioScalarWhereInput[]
+    OR?: tbHasLicencaFuncionarioScalarWhereInput[]
+    NOT?: tbHasLicencaFuncionarioScalarWhereInput | tbHasLicencaFuncionarioScalarWhereInput[]
+    idHas?: StringFilter<"tbHasLicencaFuncionario"> | string
+    idFunc?: StringFilter<"tbHasLicencaFuncionario"> | string
+    idLinc?: StringFilter<"tbHasLicencaFuncionario"> | string
+    dataInicio?: DateTimeFilter<"tbHasLicencaFuncionario"> | Date | string
+    dataVencimetno?: DateTimeFilter<"tbHasLicencaFuncionario"> | Date | string
+  }
+
+  export type tbHasLicencaFuncionarioCreateWithoutTbLicencaInput = {
+    idHas?: string
+    dataInicio: Date | string
+    dataVencimetno: Date | string
+    tbFuncionario: tbFuncionarioCreateNestedOneWithoutTbHasLicencaFuncionarioInput
+  }
+
+  export type tbHasLicencaFuncionarioUncheckedCreateWithoutTbLicencaInput = {
+    idHas?: string
+    idFunc: string
+    dataInicio: Date | string
+    dataVencimetno: Date | string
+  }
+
+  export type tbHasLicencaFuncionarioCreateOrConnectWithoutTbLicencaInput = {
+    where: tbHasLicencaFuncionarioWhereUniqueInput
+    create: XOR<tbHasLicencaFuncionarioCreateWithoutTbLicencaInput, tbHasLicencaFuncionarioUncheckedCreateWithoutTbLicencaInput>
+  }
+
+  export type tbHasLicencaFuncionarioCreateManyTbLicencaInputEnvelope = {
+    data: tbHasLicencaFuncionarioCreateManyTbLicencaInput | tbHasLicencaFuncionarioCreateManyTbLicencaInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type tbHasLicencaFuncionarioUpsertWithWhereUniqueWithoutTbLicencaInput = {
+    where: tbHasLicencaFuncionarioWhereUniqueInput
+    update: XOR<tbHasLicencaFuncionarioUpdateWithoutTbLicencaInput, tbHasLicencaFuncionarioUncheckedUpdateWithoutTbLicencaInput>
+    create: XOR<tbHasLicencaFuncionarioCreateWithoutTbLicencaInput, tbHasLicencaFuncionarioUncheckedCreateWithoutTbLicencaInput>
+  }
+
+  export type tbHasLicencaFuncionarioUpdateWithWhereUniqueWithoutTbLicencaInput = {
+    where: tbHasLicencaFuncionarioWhereUniqueInput
+    data: XOR<tbHasLicencaFuncionarioUpdateWithoutTbLicencaInput, tbHasLicencaFuncionarioUncheckedUpdateWithoutTbLicencaInput>
+  }
+
+  export type tbHasLicencaFuncionarioUpdateManyWithWhereWithoutTbLicencaInput = {
+    where: tbHasLicencaFuncionarioScalarWhereInput
+    data: XOR<tbHasLicencaFuncionarioUpdateManyMutationInput, tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbLicencaInput>
+  }
+
+  export type tbFuncionarioCreateWithoutTbHasLicencaFuncionarioInput = {
+    idF?: string
+    idMatFun: string
+    nomeFun: string
+    cpfFun?: string | null
+    dataAdmFun?: Date | string | null
+    dataDesFun?: Date | string | null
+    avatarFun?: string | null
+    tbStatusFun?: tbStatusFunCreateNestedOneWithoutTbFuncionarioInput
+    tbUser?: tbUserCreateNestedOneWithoutTbFuncioanrioInput
+    tbFuncao?: tbFuncaoCreateNestedOneWithoutTbFuncionarioInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
+    tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
+  }
+
+  export type tbFuncionarioUncheckedCreateWithoutTbHasLicencaFuncionarioInput = {
+    idF?: string
+    idMatFun: string
+    nomeFun: string
+    cpfFun?: string | null
+    dataAdmFun?: Date | string | null
+    dataDesFun?: Date | string | null
+    avatarFun?: string | null
+    idFuncaoFun?: string | null
+    idUserFun?: string | null
+    idStatusFun?: string | null
+    idCustoFun?: string | null
+    tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
+  }
+
+  export type tbFuncionarioCreateOrConnectWithoutTbHasLicencaFuncionarioInput = {
+    where: tbFuncionarioWhereUniqueInput
+    create: XOR<tbFuncionarioCreateWithoutTbHasLicencaFuncionarioInput, tbFuncionarioUncheckedCreateWithoutTbHasLicencaFuncionarioInput>
+  }
+
+  export type tbLicencaCreateWithoutTbHasLicencaFuncionarioInput = {
+    idLic?: string
+    descricaoLic: string
+  }
+
+  export type tbLicencaUncheckedCreateWithoutTbHasLicencaFuncionarioInput = {
+    idLic?: string
+    descricaoLic: string
+  }
+
+  export type tbLicencaCreateOrConnectWithoutTbHasLicencaFuncionarioInput = {
+    where: tbLicencaWhereUniqueInput
+    create: XOR<tbLicencaCreateWithoutTbHasLicencaFuncionarioInput, tbLicencaUncheckedCreateWithoutTbHasLicencaFuncionarioInput>
+  }
+
+  export type tbFuncionarioUpsertWithoutTbHasLicencaFuncionarioInput = {
+    update: XOR<tbFuncionarioUpdateWithoutTbHasLicencaFuncionarioInput, tbFuncionarioUncheckedUpdateWithoutTbHasLicencaFuncionarioInput>
+    create: XOR<tbFuncionarioCreateWithoutTbHasLicencaFuncionarioInput, tbFuncionarioUncheckedCreateWithoutTbHasLicencaFuncionarioInput>
+    where?: tbFuncionarioWhereInput
+  }
+
+  export type tbFuncionarioUpdateToOneWithWhereWithoutTbHasLicencaFuncionarioInput = {
+    where?: tbFuncionarioWhereInput
+    data: XOR<tbFuncionarioUpdateWithoutTbHasLicencaFuncionarioInput, tbFuncionarioUncheckedUpdateWithoutTbHasLicencaFuncionarioInput>
+  }
+
+  export type tbFuncionarioUpdateWithoutTbHasLicencaFuncionarioInput = {
+    idF?: StringFieldUpdateOperationsInput | string
+    idMatFun?: StringFieldUpdateOperationsInput | string
+    nomeFun?: StringFieldUpdateOperationsInput | string
+    cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
+    dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataDesFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
+    tbStatusFun?: tbStatusFunUpdateOneWithoutTbFuncionarioNestedInput
+    tbUser?: tbUserUpdateOneWithoutTbFuncioanrioNestedInput
+    tbFuncao?: tbFuncaoUpdateOneWithoutTbFuncionarioNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
+    tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
+  }
+
+  export type tbFuncionarioUncheckedUpdateWithoutTbHasLicencaFuncionarioInput = {
+    idF?: StringFieldUpdateOperationsInput | string
+    idMatFun?: StringFieldUpdateOperationsInput | string
+    nomeFun?: StringFieldUpdateOperationsInput | string
+    cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
+    dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataDesFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idFuncaoFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
+    tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+  }
+
+  export type tbLicencaUpsertWithoutTbHasLicencaFuncionarioInput = {
+    update: XOR<tbLicencaUpdateWithoutTbHasLicencaFuncionarioInput, tbLicencaUncheckedUpdateWithoutTbHasLicencaFuncionarioInput>
+    create: XOR<tbLicencaCreateWithoutTbHasLicencaFuncionarioInput, tbLicencaUncheckedCreateWithoutTbHasLicencaFuncionarioInput>
+    where?: tbLicencaWhereInput
+  }
+
+  export type tbLicencaUpdateToOneWithWhereWithoutTbHasLicencaFuncionarioInput = {
+    where?: tbLicencaWhereInput
+    data: XOR<tbLicencaUpdateWithoutTbHasLicencaFuncionarioInput, tbLicencaUncheckedUpdateWithoutTbHasLicencaFuncionarioInput>
+  }
+
+  export type tbLicencaUpdateWithoutTbHasLicencaFuncionarioInput = {
+    idLic?: StringFieldUpdateOperationsInput | string
+    descricaoLic?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type tbLicencaUncheckedUpdateWithoutTbHasLicencaFuncionarioInput = {
+    idLic?: StringFieldUpdateOperationsInput | string
+    descricaoLic?: StringFieldUpdateOperationsInput | string
+  }
+
   export type tbFuncionarioCreateWithoutTbStatusFunInput = {
     idF?: string
     idMatFun: string
@@ -20535,6 +23254,7 @@ export namespace Prisma {
     tbFuncao?: tbFuncaoCreateNestedOneWithoutTbFuncionarioInput
     tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioUncheckedCreateWithoutTbStatusFunInput = {
@@ -20549,6 +23269,7 @@ export namespace Prisma {
     idUserFun?: string | null
     idCustoFun?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioCreateOrConnectWithoutTbStatusFunInput = {
@@ -20589,6 +23310,7 @@ export namespace Prisma {
     tbUser?: tbUserCreateNestedOneWithoutTbFuncioanrioInput
     tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioUncheckedCreateWithoutTbFuncaoInput = {
@@ -20603,6 +23325,7 @@ export namespace Prisma {
     idStatusFun?: string | null
     idCustoFun?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioCreateOrConnectWithoutTbFuncaoInput = {
@@ -21116,6 +23839,7 @@ export namespace Prisma {
     tbUser?: tbUserCreateNestedOneWithoutTbFuncioanrioInput
     tbFuncao?: tbFuncaoCreateNestedOneWithoutTbFuncionarioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioUncheckedCreateWithoutTbCCustoInput = {
@@ -21130,6 +23854,7 @@ export namespace Prisma {
     idUserFun?: string | null
     idStatusFun?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioCreateOrConnectWithoutTbCCustoInput = {
@@ -21252,6 +23977,7 @@ export namespace Prisma {
     tbUser?: tbUserCreateNestedOneWithoutTbFuncioanrioInput
     tbFuncao?: tbFuncaoCreateNestedOneWithoutTbFuncionarioInput
     tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioUncheckedCreateWithoutTbCadastroInput = {
@@ -21266,6 +23992,7 @@ export namespace Prisma {
     idUserFun?: string | null
     idStatusFun?: string | null
     idCustoFun?: string | null
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedCreateNestedManyWithoutTbFuncionarioInput
   }
 
   export type tbFuncionarioCreateOrConnectWithoutTbCadastroInput = {
@@ -21358,6 +24085,7 @@ export namespace Prisma {
     tbUser?: tbUserUpdateOneWithoutTbFuncioanrioNestedInput
     tbFuncao?: tbFuncaoUpdateOneWithoutTbFuncionarioNestedInput
     tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateWithoutTbCadastroInput = {
@@ -21372,6 +24100,7 @@ export namespace Prisma {
     idUserFun?: NullableStringFieldUpdateOperationsInput | string | null
     idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
     idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbStatusPatUpsertWithoutTbCadastroInput = {
@@ -21646,6 +24375,7 @@ export namespace Prisma {
     tbFuncao?: tbFuncaoUpdateOneWithoutTbFuncionarioNestedInput
     tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateWithoutTbUserInput = {
@@ -21660,6 +24390,7 @@ export namespace Prisma {
     idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
     idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateManyWithoutTbUserInput = {
@@ -21683,6 +24414,13 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     idPatCad?: string | null
     idStatusPatCad: string
+  }
+
+  export type tbHasLicencaFuncionarioCreateManyTbFuncionarioInput = {
+    idHas?: string
+    idLinc: string
+    dataInicio: Date | string
+    dataVencimetno: Date | string
   }
 
   export type tbCadastroUpdateWithoutTbFuncionarioInput = {
@@ -21715,6 +24453,55 @@ export namespace Prisma {
     idStatusPatCad?: StringFieldUpdateOperationsInput | string
   }
 
+  export type tbHasLicencaFuncionarioUpdateWithoutTbFuncionarioInput = {
+    idHas?: StringFieldUpdateOperationsInput | string
+    dataInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataVencimetno?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbLicenca?: tbLicencaUpdateOneRequiredWithoutTbHasLicencaFuncionarioNestedInput
+  }
+
+  export type tbHasLicencaFuncionarioUncheckedUpdateWithoutTbFuncionarioInput = {
+    idHas?: StringFieldUpdateOperationsInput | string
+    idLinc?: StringFieldUpdateOperationsInput | string
+    dataInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataVencimetno?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbFuncionarioInput = {
+    idHas?: StringFieldUpdateOperationsInput | string
+    idLinc?: StringFieldUpdateOperationsInput | string
+    dataInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataVencimetno?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbHasLicencaFuncionarioCreateManyTbLicencaInput = {
+    idHas?: string
+    idFunc: string
+    dataInicio: Date | string
+    dataVencimetno: Date | string
+  }
+
+  export type tbHasLicencaFuncionarioUpdateWithoutTbLicencaInput = {
+    idHas?: StringFieldUpdateOperationsInput | string
+    dataInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataVencimetno?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbFuncionario?: tbFuncionarioUpdateOneRequiredWithoutTbHasLicencaFuncionarioNestedInput
+  }
+
+  export type tbHasLicencaFuncionarioUncheckedUpdateWithoutTbLicencaInput = {
+    idHas?: StringFieldUpdateOperationsInput | string
+    idFunc?: StringFieldUpdateOperationsInput | string
+    dataInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataVencimetno?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbLicencaInput = {
+    idHas?: StringFieldUpdateOperationsInput | string
+    idFunc?: StringFieldUpdateOperationsInput | string
+    dataInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataVencimetno?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type tbFuncionarioCreateManyTbStatusFunInput = {
     idF?: string
     idMatFun: string
@@ -21740,6 +24527,7 @@ export namespace Prisma {
     tbFuncao?: tbFuncaoUpdateOneWithoutTbFuncionarioNestedInput
     tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateWithoutTbStatusFunInput = {
@@ -21754,6 +24542,7 @@ export namespace Prisma {
     idUserFun?: NullableStringFieldUpdateOperationsInput | string | null
     idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateManyWithoutTbStatusFunInput = {
@@ -21794,6 +24583,7 @@ export namespace Prisma {
     tbUser?: tbUserUpdateOneWithoutTbFuncioanrioNestedInput
     tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateWithoutTbFuncaoInput = {
@@ -21808,6 +24598,7 @@ export namespace Prisma {
     idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
     idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateManyWithoutTbFuncaoInput = {
@@ -22154,6 +24945,7 @@ export namespace Prisma {
     tbUser?: tbUserUpdateOneWithoutTbFuncioanrioNestedInput
     tbFuncao?: tbFuncaoUpdateOneWithoutTbFuncionarioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateWithoutTbCCustoInput = {
@@ -22168,6 +24960,7 @@ export namespace Prisma {
     idUserFun?: NullableStringFieldUpdateOperationsInput | string | null
     idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbFuncionarioNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateManyWithoutTbCCustoInput = {

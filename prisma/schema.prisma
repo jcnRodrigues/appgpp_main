@@ -45,6 +45,28 @@ model tbFuncionario {
   tbFuncao    tbFuncao?    @relation(fields: [idFuncaoFun], references: [idFuncao])
   tbCCusto    tbCCusto?    @relation(fields: [idCustoFun], references: [idCCusto])
   tbCadastro  tbCadastro[]
+  tbHasLicencaFuncionario tbHasLicencaFuncionario[]
+}
+
+model tbLicenca {
+  idLic        String       @id @default(uuid())
+  descricaoLic String
+  tbHasLicencaFuncionario tbHasLicencaFuncionario[]
+}
+
+model tbHasLicencaFuncionario {
+  idHas         String        @id @default(uuid()) @map("id_has")
+  idFunc        String        @map("idfunc")
+  idLinc        String        @map("idLinc")
+  dataInicio    DateTime      @map("datainicio")
+  dataVencimetno DateTime     @map("datavencimetno")
+  tbFuncionario tbFuncionario @relation(fields: [idFunc], references: [idF], onDelete: Cascade)
+  tbLicenca     tbLicenca     @relation(fields: [idLinc], references: [idLic], onDelete: Cascade)
+
+  @@unique([idFunc, idLinc])
+  @@index([idFunc])
+  @@index([idLinc])
+  @@map("has_")
 }
 
 model tbStatusFun {
@@ -171,4 +193,8 @@ model VerificationToken {
   @@unique([identifier, token])
   @@map("VerificationTokens")
 }
+
+
+
+
 

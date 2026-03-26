@@ -23,6 +23,17 @@ interface CentroCusto {
     descricaoCCusto?: string;
 }
 
+interface LicencaDisponivel {
+    idLic: string;
+    descricaoLic: string;
+}
+
+type LicencaVinculo = {
+    idLic: string;
+    dataInicio: string;
+    dataVencimetno: string;
+};
+
 export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: string }) {
     const router = useRouter();
     const handleEnterToNext = useEnterToNext();
@@ -30,6 +41,8 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
     const [funcoes, setFuncoes] = useState<Funcao[]>([]);
     const [status, setStatus] = useState<StatusFuncionario[]>([]);
     const [centros, setCentros] = useState<CentroCusto[]>([]);
+    const [licencasDisponiveis, setLicencasDisponiveis] = useState<LicencaDisponivel[]>([]);
+
     const initialFuncionario = useMemo(() => ({
         idMatFun: '',
         nomeFun: '',
@@ -39,15 +52,16 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
         avatarFun: '',
         idFuncaoFun: '',
         idStatusFun: '',
-        idCustoFun: ''
+        idCustoFun: '',
+        licencasVinculos: [] as LicencaVinculo[]
     }), []);
+
     const {
         state: funcionario,
         setState: setFuncionario,
         clearDraft: clearFuncionarioDraft
     } = useFormDraft('funcionario-form-create', initialFuncionario, { enabled: !funcionarioId });
 
-    // Carregar dados iniciais
     useEffect(() => {
         const carregarDados = async () => {
             try {
@@ -57,12 +71,12 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                     setFuncoes(data.funcoes || []);
                     setStatus(data.status || []);
                     setCentros(data.centros || []);
+                    setLicencasDisponiveis(data.licencas || []);
                 }
             } catch (error) {
-                console.error('Erro ao carregar opções:', error);
+                console.error('Erro ao carregar opcoes:', error);
             }
 
-            // Se está editando, carregar dados do funcionário
             if (funcionarioId) {
                 try {
                     const funcionarioData = await fetch(`/api/funcionario/${funcionarioId}`);
@@ -77,28 +91,75 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                             avatarFun: data.avatarFun || '',
                             idFuncaoFun: data.idFuncaoFun || '',
                             idStatusFun: data.idStatusFun || '',
-                            idCustoFun: data.idCustoFun || ''
+                            idCustoFun: data.idCustoFun || '',
+                            licencasVinculos: Array.isArray(data.tbHasLicencaFuncionario)
+                                ? data.tbHasLicencaFuncionario.map((v: any) => ({
+                                    idLic: v.idLinc,
+                                    dataInicio: v.dataInicio ? new Date(v.dataInicio).toISOString().split('T')[0] : '',
+                                    dataVencimetno: v.dataVencimetno ? new Date(v.dataVencimetno).toISOString().split('T')[0] : ''
+                                }))
+                                : []
                         });
                     }
                 } catch (error) {
-                    console.error('Erro ao carregar funcionário:', error);
+                    console.error('Erro ao carregar funcionario:', error);
                 }
             }
         };
 
         carregarDados();
-    }, [funcionarioId]);
+    }, [funcionarioId, setFuncionario]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        // Campos que devem ser convertidos para uppercase
         const fieldsToUppercase = ['idMatFun', 'nomeFun', 'cpfFun'];
         const newValue = fieldsToUppercase.includes(name) ? value.toUpperCase() : value;
-        
+
         setFuncionario(prev => ({
             ...prev,
             [name]: newValue
         }));
+    };
+
+    const handleToggleLicenca = (idLic: string) => {
+        setFuncionario((prev) => {
+            const existe = prev.licencasVinculos.some((v) => v.idLic === idLic);
+            if (existe) {
+                return {
+                    ...prev,
+                    licencasVinculos: prev.licencasVinculos.filter((v) => v.idLic !== idLic)
+                };
+            }
+
+            return {
+                ...prev,
+                licencasVinculos: [
+                    ...prev.licencasVinculos,
+                    {
+                        idLic,
+                        dataInicio: new Date().toISOString().split('T')[0],
+                        dataVencimetno: ''
+                    }
+                ]
+            };
+        });
+    };
+
+    const handleChangeDataLicenca = (idLic: string, campo: 'dataInicio' | 'dataVencimetno', valor: string) => {
+        setFuncionario((prev) => ({
+            ...prev,
+            licencasVinculos: prev.licencasVinculos.map((v) =>
+                v.idLic === idLic ? { ...v, [campo]: valor } : v
+            )
+        }));
+    };
+
+    const isLicencaSelecionada = (idLic: string) => {
+        return funcionario.licencasVinculos.some((v) => v.idLic === idLic);
+    };
+
+    const getVinculoLicenca = (idLic: string) => {
+        return funcionario.licencasVinculos.find((v) => v.idLic === idLic);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -106,6 +167,20 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
         setLoading(true);
 
         try {
+            for (const vinculo of funcionario.licencasVinculos) {
+                if (!vinculo.dataInicio || !vinculo.dataVencimetno) {
+                    window.systemAlert?.('erro', 'Preencha as datas de inicio e vencimento das licencas selecionadas');
+                    setLoading(false);
+                    return;
+                }
+
+                if (vinculo.dataVencimetno < vinculo.dataInicio) {
+                    window.systemAlert?.('erro', 'A data de vencimento da licenca nao pode ser menor que a data de inicio');
+                    setLoading(false);
+                    return;
+                }
+            }
+
             const dados = {
                 idMatFun: funcionario.idMatFun,
                 nomeFun: funcionario.nomeFun,
@@ -115,7 +190,8 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                 avatarFun: funcionario.avatarFun || null,
                 idFuncaoFun: funcionario.idFuncaoFun || null,
                 idStatusFun: funcionario.idStatusFun || null,
-                idCustoFun: funcionario.idCustoFun || null
+                idCustoFun: funcionario.idCustoFun || null,
+                licencasVinculos: funcionario.licencasVinculos
             };
 
             let response;
@@ -135,18 +211,18 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
 
             if (response.ok) {
                 const mensagemSucesso = funcionarioId
-                    ? 'Funcionário atualizado com sucesso'
-                    : 'Funcionário criado com sucesso';
-                window.systemAlert?.("sucesso", mensagemSucesso);
+                    ? 'Funcionario atualizado com sucesso'
+                    : 'Funcionario criado com sucesso';
+                window.systemAlert?.('sucesso', mensagemSucesso);
                 if (!funcionarioId) clearFuncionarioDraft();
                 router.push('/funcionariosadd');
             } else {
                 const error = await response.json();
-                window.systemAlert?.("erro", 'Erro ao salvar funcionário: ' + error.message);
+                window.systemAlert?.('erro', 'Erro ao salvar funcionario: ' + error.message);
             }
         } catch (error) {
             console.error('Erro:', error);
-            window.systemAlert?.("erro", 'Erro ao salvar funcionário');
+            window.systemAlert?.('erro', 'Erro ao salvar funcionario');
         } finally {
             setLoading(false);
         }
@@ -155,26 +231,22 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
     return (
         <div className="bg-background min-h-screen py-6">
             <div className="max-w-2xl mx-auto px-4">
-                {/* Header */}
                 <div className="form-title-sticky flex items-center mb-6">
                     <Link href="/funcionariosadd" className="mr-4">
                         <ChevronLeft className="h-6 w-6 text-primary" />
                     </Link>
                     <h1 className="text-h3 font-bold">
-                        {funcionarioId ? 'Editar Funcionário' : 'Cadastrar Novo Funcionário'}
+                        {funcionarioId ? 'Editar Funcionario' : 'Cadastrar Novo Funcionario'}
                     </h1>
                 </div>
 
-                {/* Form */}
                 <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
-                    
-                    {/* Informações Pessoais */}
                     <div className="border-b pb-6">
-                        <h2 className="text-h4 font-bold mb-4">Informações Pessoais</h2>
-                        
+                        <h2 className="text-h4 font-bold mb-4">Informacoes Pessoais</h2>
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label className="block text-sm font-medium mb-2">Matrí­cula *</label>
+                                <label className="block text-sm font-medium mb-2">Matricula *</label>
                                 <input
                                     type="text"
                                     name="idMatFun"
@@ -194,7 +266,7 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                                     name="nomeFun"
                                     value={funcionario.nomeFun}
                                     onChange={handleChange}
-                                    placeholder="Ex: João Rodrigues"
+                                    placeholder="Ex: Joao Rodrigues"
                                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                                     required
                                 />
@@ -228,13 +300,12 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                         </div>
                     </div>
 
-                    {/* Datas e Funções */}
                     <div className="border-b pb-6">
                         <h2 className="text-h4 font-bold mb-4">Dados Profissionais</h2>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label className="block text-sm font-medium mb-2">Data de Admissão</label>
+                                <label className="block text-sm font-medium mb-2">Data de Admissao</label>
                                 <input
                                     type="date"
                                     name="dataAdmFun"
@@ -258,14 +329,14 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label className="block text-sm font-medium mb-2">Função</label>
+                                <label className="block text-sm font-medium mb-2">Funcao</label>
                                 <select
                                     name="idFuncaoFun"
                                     value={funcionario.idFuncaoFun}
                                     onChange={handleChange}
                                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                                 >
-                                    <option value="">Selecione uma função</option>
+                                    <option value="">Selecione uma funcao</option>
                                     {funcoes.map(funcao => (
                                         <option key={funcao.idFuncao} value={funcao.idFuncao}>
                                             {funcao.nomeFuncao}
@@ -303,14 +374,66 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                                 <option value="">Selecione um centro de custo</option>
                                 {centros.map(centro => (
                                     <option key={centro.idCCusto} value={centro.idCCusto}>
-                                        {centro.descricaoCCusto || 'Sem descrição'}
+                                        {centro.descricaoCCusto || 'Sem descricao'}
                                     </option>
                                 ))}
                             </select>
                         </div>
                     </div>
 
-                    {/* Botões */}
+                    <div className="border-b pb-6">
+                        <h2 className="text-h4 font-bold mb-4">Licencas Vinculadas</h2>
+                        {licencasDisponiveis.length === 0 ? (
+                            <p className="text-sm text-muted-foreground">Nenhuma licenca disponivel para vinculacao.</p>
+                        ) : (
+                            <div className="space-y-4 max-h-80 overflow-auto border rounded-lg p-4">
+                                {licencasDisponiveis.map((licenca) => {
+                                    const selecionada = isLicencaSelecionada(licenca.idLic);
+                                    const vinculo = getVinculoLicenca(licenca.idLic);
+
+                                    return (
+                                        <div key={licenca.idLic} className="border-b pb-3 last:border-b-0">
+                                            <label className="flex items-center gap-2 text-sm font-medium">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selecionada}
+                                                    onChange={() => handleToggleLicenca(licenca.idLic)}
+                                                />
+                                                <span>{licenca.descricaoLic}</span>
+                                            </label>
+
+                                            {selecionada && vinculo && (
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 ml-6">
+                                                    <div>
+                                                        <label className="block text-xs font-medium mb-1">Data Inicio</label>
+                                                        <input
+                                                            type="date"
+                                                            value={vinculo.dataInicio}
+                                                            onChange={(e) => handleChangeDataLicenca(licenca.idLic, 'dataInicio', e.target.value)}
+                                                            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                                            required
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <label className="block text-xs font-medium mb-1">Data Vencimento</label>
+                                                        <input
+                                                            type="date"
+                                                            value={vinculo.dataVencimetno}
+                                                            min={vinculo.dataInicio || undefined}
+                                                            onChange={(e) => handleChangeDataLicenca(licenca.idLic, 'dataVencimetno', e.target.value)}
+                                                            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                                            required
+                                                        />
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
+                    </div>
+
                     <div className="flex gap-4 justify-end pt-6">
                         <Link href="/funcionariosadd">
                             <Button variant="outline">Cancelar</Button>
@@ -320,7 +443,7 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                             disabled={loading}
                             className="bg-primary hover:bg-primary/90"
                         >
-                            {loading ? 'Salvando...' : funcionarioId ? 'Atualizar' : 'Criar Funcionário'}
+                            {loading ? 'Salvando...' : funcionarioId ? 'Atualizar' : 'Criar Funcionario'}
                         </Button>
                     </div>
                 </form>
@@ -328,10 +451,3 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
         </div>
     );
 }
-
-
-
-
-
-
-

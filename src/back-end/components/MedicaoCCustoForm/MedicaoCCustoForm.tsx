@@ -98,7 +98,7 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                         {centros.map((centro) => (
                             <option key={centro.idCCusto} value={centro.idCCusto}>
                                 {(centro.codigoCCusto ? `${centro.codigoCCusto} - ` : '') +
-                                    (centro.descricaoCCusto || 'Sem descriÃ§Ã£o')}
+                                    (centro.descricaoCCusto || 'Sem descrição')}
                             </option>
                         ))}
                     </select>
@@ -124,7 +124,7 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                 )}
 
                 <Button type="submit" className="bg-primary hover:bg-primary/90" disabled={loading}>
-                    {loading ? 'Processando...' : 'Conferir PatrimÃ´nios'}
+                    {loading ? 'Processando...' : 'Conferir Patrimônios'}
                 </Button>
             </form>
 
@@ -144,11 +144,11 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                             <p className="text-xl font-semibold text-orange-600">{resultado.resumo.divergentes}</p>
                         </div>
                         <div className="bg-white rounded-lg shadow p-4 text-center">
-                            <p className="text-xs text-gray-500">NÃ£o encontrados</p>
+                            <p className="text-xs text-gray-500">Não encontrados</p>
                             <p className="text-xl font-semibold text-red-600">{resultado.resumo.naoEncontrados}</p>
                         </div>
                         <div className="bg-white rounded-lg shadow p-4 text-center">
-                            <p className="text-xs text-gray-500">InvÃ¡lidos</p>
+                            <p className="text-xs text-gray-500">Inválidos</p>
                             <p className="text-xl font-semibold text-gray-600">{resultado.resumo.invalidos}</p>
                         </div>
                     </div>
@@ -159,7 +159,7 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                                 <thead className="bg-gray-50 border-b">
                                     <tr>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">Linha</th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">ID PatrimÃ´nio</th>
+                                        <th className="px-4 py-3 text-left text-sm font-semibold">ID Património</th>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">Valor Informado</th>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">Valor Sistema</th>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">Status</th>
@@ -203,12 +203,12 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                     {resultado.naoInformados.length > 0 && (
                         <div className="bg-white rounded-lg shadow p-4">
                             <h3 className="font-semibold mb-2">
-                                PatrimÃ´nios no centro de custo que nÃ£o vieram no arquivo
+                                Patrimônios no centro de custo que não vieram no arquivo
                             </h3>
                             <ul className="text-sm text-gray-700 list-disc pl-4">
                                 {resultado.naoInformados.map((item) => (
                                     <li key={item.idPat}>
-                                        {item.idPat} - {item.descricaoPat || 'Sem descriÃ§Ã£o'} (R$ {item.valorSistema?.toFixed(2) || '0.00'})
+                                        {item.idPat} - {item.descricaoPat || 'Sem descrição'} (R$ {item.valorSistema?.toFixed(2) || '0.00'})
                                     </li>
                                 ))}
                             </ul>

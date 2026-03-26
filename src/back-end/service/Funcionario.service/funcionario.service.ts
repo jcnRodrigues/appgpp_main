@@ -28,11 +28,53 @@ function buildFuncionarioWhere(filtro?: {
     };
 }
 
+type VinculoLicencaInput = {
+    idLic: string;
+    dataInicio: Date;
+    dataVencimetno: Date;
+};
+
+async function sincronizarLicencasDoFuncionario(funcionarioId: string, vinculos: VinculoLicencaInput[]) {
+    const idsSelecionados = vinculos.map((v) => v.idLic);
+
+    await prisma.$transaction(async (tx) => {
+        await tx.tbHasLicencaFuncionario.deleteMany({
+            where: {
+                idFunc: funcionarioId,
+                ...(idsSelecionados.length > 0
+                    ? { idLinc: { notIn: idsSelecionados } }
+                    : {})
+            }
+        });
+
+        for (const vinculo of vinculos) {
+            await tx.tbHasLicencaFuncionario.upsert({
+                where: {
+                    idFunc_idLinc: {
+                        idFunc: funcionarioId,
+                        idLinc: vinculo.idLic
+                    }
+                },
+                update: {
+                    dataInicio: vinculo.dataInicio,
+                    dataVencimetno: vinculo.dataVencimetno
+                },
+                create: {
+                    idFunc: funcionarioId,
+                    idLinc: vinculo.idLic,
+                    dataInicio: vinculo.dataInicio,
+                    dataVencimetno: vinculo.dataVencimetno
+                }
+            });
+        }
+    });
+}
+
 export async function getFuncionariosAppointmentByUserID(userId: string) {
     return await prisma.tbFuncionario.findMany({
         where: {
             idUserFun: userId
-        } 
+        }
     })
 }
 
@@ -42,7 +84,12 @@ export async function getFuncionariosCard() {
         include: {
             tbStatusFun: true,
             tbFuncao: true,
-            tbCCusto: true
+            tbCCusto: true,
+            tbHasLicencaFuncionario: {
+                include: {
+                    tbLicenca: true
+                }
+            }
         },
         orderBy: {
             nomeFun: "asc"
@@ -76,12 +123,16 @@ export async function getFuncionarioById(id: string) {
         include: {
             tbFuncao: true,
             tbCCusto: true,
-            tbStatusFun: true
+            tbStatusFun: true,
+            tbHasLicencaFuncionario: {
+                include: {
+                    tbLicenca: true
+                }
+            }
         }
     });
 }
 
-// Função para listar todos os funcionários com filtros
 export async function listarFuncionarios(filtro?: {
     nome?: string;
     status?: string;
@@ -95,7 +146,12 @@ export async function listarFuncionarios(filtro?: {
         include: {
             tbStatusFun: true,
             tbFuncao: true,
-            tbCCusto: true
+            tbCCusto: true,
+            tbHasLicencaFuncionario: {
+                include: {
+                    tbLicenca: true
+                }
+            }
         },
         skip: filtro?.skip || 0,
         take: filtro?.take || 100,
@@ -116,7 +172,6 @@ export async function contarFuncionarios(filtro?: {
     });
 }
 
-// Função para criar um novo funcionário
 export async function criarFuncionario(dados: {
     idMatFun: string;
     nomeFun: string;
@@ -127,8 +182,9 @@ export async function criarFuncionario(dados: {
     idStatusFun?: string;
     idCustoFun?: string;
     idUserFun?: string;
+    licencasVinculos?: VinculoLicencaInput[];
 }) {
-    return await prisma.tbFuncionario.create({
+    const funcionario = await prisma.tbFuncionario.create({
         data: {
             idMatFun: dados.idMatFun,
             nomeFun: dados.nomeFun,
@@ -139,16 +195,26 @@ export async function criarFuncionario(dados: {
             idStatusFun: dados.idStatusFun,
             idCustoFun: dados.idCustoFun,
             idUserFun: dados.idUserFun
-        },
+        }
+    });
+
+    await sincronizarLicencasDoFuncionario(funcionario.idF, dados.licencasVinculos || []);
+
+    return await prisma.tbFuncionario.findUnique({
+        where: { idF: funcionario.idF },
         include: {
             tbStatusFun: true,
             tbFuncao: true,
-            tbCCusto: true
+            tbCCusto: true,
+            tbHasLicencaFuncionario: {
+                include: {
+                    tbLicenca: true
+                }
+            }
         }
     });
 }
 
-// Função para atualizar um funcionário
 export async function atualizarFuncionario(idF: string, dados: Partial<{
     nomeFun: string;
     cpfFun?: string;
@@ -159,44 +225,75 @@ export async function atualizarFuncionario(idF: string, dados: Partial<{
     idStatusFun?: string;
     idCustoFun?: string;
     idUserFun?: string;
+    licencasVinculos?: VinculoLicencaInput[];
 }>) {
-    return await prisma.tbFuncionario.update({
+    const { licencasVinculos, ...dadosFuncionario } = dados;
+
+    await prisma.tbFuncionario.update({
         where: { idF },
-        data: dados,
+        data: dadosFuncionario
+    });
+
+    if (Array.isArray(licencasVinculos)) {
+        await sincronizarLicencasDoFuncionario(idF, licencasVinculos);
+    }
+
+    return await prisma.tbFuncionario.findUnique({
+        where: { idF },
         include: {
             tbStatusFun: true,
             tbFuncao: true,
-            tbCCusto: true
+            tbCCusto: true,
+            tbHasLicencaFuncionario: {
+                include: {
+                    tbLicenca: true
+                }
+            }
         }
     });
 }
 
-// Função para obter funções disponíveis
 export async function getFuncoes() {
     return await prisma.tbFuncao.findMany();
 }
 
-// Função para obter status disponíveis
 export async function getStatusFuncionario() {
     return await prisma.tbStatusFun.findMany();
 }
 
-// Função para obter centros de custo
 export async function getCentrosCustoFun() {
     return await prisma.tbCCusto.findMany();
 }
 
-// Função para obter funcionário pelo ID interno
+export async function getLicencasDisponiveisParaFuncionario() {
+    return await prisma.tbLicenca.findMany({
+        select: {
+            idLic: true,
+            descricaoLic: true
+        },
+        orderBy: {
+            descricaoLic: 'asc'
+        }
+    });
+}
+
 export async function getFuncionarioByIdInterno(idF: string) {
     return await prisma.tbFuncionario.findUnique({
         where: { idF },
         include: {
             tbFuncao: true,
             tbCCusto: true,
-            tbStatusFun: true
+            tbStatusFun: true,
+            tbHasLicencaFuncionario: {
+                include: {
+                    tbLicenca: true
+                },
+                orderBy: {
+                    tbLicenca: {
+                        descricaoLic: 'asc'
+                    }
+                }
+            }
         }
     });
 }
-
-
-

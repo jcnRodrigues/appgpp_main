@@ -150,6 +150,19 @@ exports.Prisma.TbFuncionarioScalarFieldEnum = {
   idCustoFun: 'idCustoFun'
 };
 
+exports.Prisma.TbLicencaScalarFieldEnum = {
+  idLic: 'idLic',
+  descricaoLic: 'descricaoLic'
+};
+
+exports.Prisma.TbHasLicencaFuncionarioScalarFieldEnum = {
+  idHas: 'idHas',
+  idFunc: 'idFunc',
+  idLinc: 'idLinc',
+  dataInicio: 'dataInicio',
+  dataVencimetno: 'dataVencimetno'
+};
+
 exports.Prisma.TbStatusFunScalarFieldEnum = {
   idStatusFun: 'idStatusFun',
   descricaoStatusFun: 'descricaoStatusFun'
@@ -298,6 +311,17 @@ exports.Prisma.tbFuncionarioOrderByRelevanceFieldEnum = {
   idCustoFun: 'idCustoFun'
 };
 
+exports.Prisma.tbLicencaOrderByRelevanceFieldEnum = {
+  idLic: 'idLic',
+  descricaoLic: 'descricaoLic'
+};
+
+exports.Prisma.tbHasLicencaFuncionarioOrderByRelevanceFieldEnum = {
+  idHas: 'idHas',
+  idFunc: 'idFunc',
+  idLinc: 'idLinc'
+};
+
 exports.Prisma.tbStatusFunOrderByRelevanceFieldEnum = {
   idStatusFun: 'idStatusFun',
   descricaoStatusFun: 'descricaoStatusFun'
@@ -388,6 +412,8 @@ exports.Prisma.VerificationTokenOrderByRelevanceFieldEnum = {
 exports.Prisma.ModelName = {
   tbUser: 'tbUser',
   tbFuncionario: 'tbFuncionario',
+  tbLicenca: 'tbLicenca',
+  tbHasLicencaFuncionario: 'tbHasLicencaFuncionario',
   tbStatusFun: 'tbStatusFun',
   tbFuncao: 'tbFuncao',
   tbPatrimonio: 'tbPatrimonio',

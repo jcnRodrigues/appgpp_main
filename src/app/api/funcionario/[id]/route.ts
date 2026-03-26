@@ -13,7 +13,7 @@ export async function GET(
 
         if (!funcionario) {
             return NextResponse.json(
-                { message: 'Funcionário não encontrado' },
+                { message: 'Funcionario nao encontrado' },
                 { status: 404 }
             );
         }
@@ -23,7 +23,7 @@ export async function GET(
             const centroId = funcionario.idCustoFun || '';
             if (!centros.includes(centroId)) {
                 return NextResponse.json(
-                    { message: 'Funcionário não encontrado' },
+                    { message: 'Funcionario nao encontrado' },
                     { status: 404 }
                 );
             }
@@ -31,9 +31,9 @@ export async function GET(
 
         return NextResponse.json(funcionario);
     } catch (error) {
-        console.error('Erro ao obter funcionário:', error);
+        console.error('Erro ao obter funcionario:', error);
         return NextResponse.json(
-            { message: 'Erro ao obter funcionário' },
+            { message: 'Erro ao obter funcionario' },
             { status: 500 }
         );
     }
@@ -47,7 +47,6 @@ export async function PUT(
         const { id } = await params;
         const dados = await request.json();
 
-        // Validação mínima
         if (!dados || Object.keys(dados).length === 0) {
             return NextResponse.json({ message: 'Nenhum dado para atualizar' }, { status: 400 });
         }
@@ -63,14 +62,21 @@ export async function PUT(
         if (typeof dados.idStatusFun !== 'undefined') updateData.idStatusFun = dados.idStatusFun;
         if (typeof dados.idCustoFun !== 'undefined') updateData.idCustoFun = dados.idCustoFun;
         if (typeof dados.idUserFun !== 'undefined') updateData.idUserFun = dados.idUserFun;
+        if (Array.isArray(dados.licencasVinculos)) {
+            updateData.licencasVinculos = dados.licencasVinculos.map((v: any) => ({
+                idLic: v.idLic,
+                dataInicio: new Date(v.dataInicio),
+                dataVencimetno: new Date(v.dataVencimetno)
+            }));
+        }
 
         const funcionario = await atualizarFuncionario(id, updateData);
 
         return NextResponse.json(funcionario);
     } catch (error: unknown) {
-        console.error('Erro ao atualizar funcionário:', error);
+        console.error('Erro ao atualizar funcionario:', error);
         return NextResponse.json(
-            { message: error instanceof Error ? error.message : 'Erro ao atualizar funcionário' },
+            { message: error instanceof Error ? error.message : 'Erro ao atualizar funcionario' },
             { status: 500 }
         );
     }
@@ -83,25 +89,23 @@ export async function DELETE(
     try {
         const { id } = await params;
 
-        // Verificar se funcionário existe
         const funcionario = await getFuncionarioByIdInterno(id);
         if (!funcionario) {
             return NextResponse.json(
-                { message: 'Funcionário não encontrado' },
+                { message: 'Funcionario nao encontrado' },
                 { status: 404 }
             );
         }
 
-        // Deletar funcionário
         await prisma.tbFuncionario.delete({
             where: { idF: id }
         });
 
-        return NextResponse.json({ message: 'Funcionário deletado com sucesso' });
+        return NextResponse.json({ message: 'Funcionario deletado com sucesso' });
     } catch (error: unknown) {
-        console.error('Erro ao deletar funcionário:', error);
+        console.error('Erro ao deletar funcionario:', error);
         return NextResponse.json(
-            { message: error instanceof Error ? error.message : 'Erro ao deletar funcionário' },
+            { message: error instanceof Error ? error.message : 'Erro ao deletar funcionario' },
             { status: 500 }
         );
     }

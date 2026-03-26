@@ -31,6 +31,7 @@ const FORMULARIOS_DISPONIVEIS = [
     { id: 'CENTRO_CUSTO', label: 'Centros de Custo' },
     { id: 'MEDICAO_CCUSTO', label: 'Medicao por Centro de Custo' },
     { id: 'FUNCOES', label: 'Funcoes' },
+    { id: 'LICENCAS_SOFTWARE', label: 'Licencas de Software' },
     { id: 'ALOCACOES', label: 'Alocacao de Patrimonios' },
     { id: 'ACESSO_USUARIOS', label: 'Acesso de Usuarios' }
 ];
@@ -298,5 +299,6 @@ export default function AccessUserForm({ usuarioId }: { usuarioId?: string }) {
         </div>
     );
 }
+
 
 

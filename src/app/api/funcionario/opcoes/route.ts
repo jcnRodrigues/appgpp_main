@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getFuncoes, getStatusFuncionario, getCentrosCustoFun } from '@/back-end/service/Funcionario.service/funcionario.service';
+import { getFuncoes, getStatusFuncionario, getCentrosCustoFun, getLicencasDisponiveisParaFuncionario } from '@/back-end/service/Funcionario.service/funcionario.service';
 import { getCentrosFiltro } from '@/lib/access';
 
 export async function GET(request: NextRequest) {
     try {
         const { centros, allowAll } = await getCentrosFiltro(request);
-        const [funcoes, status, centrosDb] = await Promise.all([
+        const [funcoes, status, centrosDb, licencas] = await Promise.all([
             getFuncoes(),
             getStatusFuncionario(),
-            getCentrosCustoFun()
+            getCentrosCustoFun(),
+            getLicencasDisponiveisParaFuncionario()
         ]);
 
         const centrosFiltrados = allowAll
@@ -18,12 +19,13 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({
             funcoes,
             status,
-            centros: centrosFiltrados
+            centros: centrosFiltrados,
+            licencas
         });
     } catch (error) {
-        console.error('Erro ao obter opções:', error);
+        console.error('Erro ao obter opcoes:', error);
         return NextResponse.json(
-            { message: 'Erro ao obter opções' },
+            { message: 'Erro ao obter opcoes' },
             { status: 500 }
         );
     }

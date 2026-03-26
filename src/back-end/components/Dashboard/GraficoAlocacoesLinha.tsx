@@ -19,6 +19,13 @@ interface RespostaApi {
     centros: string[];
 }
 
+const tooltipStyle = {
+    borderRadius: 8,
+    backgroundColor: 'var(--popover)',
+    border: '1px solid var(--border)',
+    color: 'var(--popover-foreground)'
+} as const;
+
 function formatarMes(mes: string) {
     const [ano, m] = mes.split('-');
     const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
@@ -83,7 +90,9 @@ export default function GraficoAlocacoesLinha() {
                     <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />
                     <Tooltip
                         labelFormatter={(mes) => formatarMes(mes)}
-                        contentStyle={{ borderRadius: 8 }}
+                        contentStyle={tooltipStyle}
+                        labelStyle={{ color: 'var(--popover-foreground)', fontWeight: 600 }}
+                        itemStyle={{ color: 'var(--popover-foreground)' }}
                         formatter={(value: number | undefined) => [value ?? 0, '']}
                     />
                     <Legend wrapperStyle={{ fontSize: 12 }} />

@@ -38,9 +38,9 @@ export async function GET(request: NextRequest) {
             total
         });
     } catch (error) {
-        console.error('Erro ao listar funcionários:', error);
+        console.error('Erro ao listar funcionarios:', error);
         return NextResponse.json(
-            { message: 'Erro ao listar funcionários' },
+            { message: 'Erro ao listar funcionarios' },
             { status: 500 }
         );
     }
@@ -50,13 +50,20 @@ export async function POST(request: NextRequest) {
     try {
         const dados = await request.json();
 
-        // Validação básica
         if (!dados.idMatFun || !dados.nomeFun) {
             return NextResponse.json(
-                { message: 'Campos obrigatórios faltando (idMatFun, nomeFun)' },
+                { message: 'Campos obrigatorios faltando (idMatFun, nomeFun)' },
                 { status: 400 }
             );
         }
+
+        const licencasVinculos = Array.isArray(dados.licencasVinculos)
+            ? dados.licencasVinculos.map((v: any) => ({
+                idLic: v.idLic,
+                dataInicio: new Date(v.dataInicio),
+                dataVencimetno: new Date(v.dataVencimetno)
+            }))
+            : [];
 
         const funcionario = await criarFuncionario({
             idMatFun: dados.idMatFun,
@@ -67,20 +74,21 @@ export async function POST(request: NextRequest) {
             idFuncaoFun: dados.idFuncaoFun,
             idStatusFun: dados.idStatusFun,
             idCustoFun: dados.idCustoFun,
-            idUserFun: dados.idUserFun
+            idUserFun: dados.idUserFun,
+            licencasVinculos
         });
 
         return NextResponse.json(funcionario, { status: 201 });
     } catch (error: any) {
-        console.error('Erro ao criar funcionário:', error);
+        console.error('Erro ao criar funcionario:', error);
         if (error.code === 'P2002') {
             return NextResponse.json(
-                { message: 'Matrícula já existe' },
+                { message: 'Matricula ja existe' },
                 { status: 400 }
             );
         }
         return NextResponse.json(
-            { message: error.message || 'Erro ao criar funcionário' },
+            { message: error.message || 'Erro ao criar funcionario' },
             { status: 500 }
         );
     }

@@ -25,6 +25,13 @@ interface RespostaApi {
     tipos: string[];
 }
 
+const tooltipStyle = {
+    borderRadius: 8,
+    backgroundColor: 'var(--popover)',
+    border: '1px solid var(--border)',
+    color: 'var(--popover-foreground)'
+} as const;
+
 export default function GraficoAlocacoesPorCentro() {
     const [dados, setDados] = useState<DataPoint[]>([]);
     const [tipos, setTipos] = useState<string[]>([]);
@@ -77,8 +84,10 @@ export default function GraficoAlocacoesPorCentro() {
                     <XAxis dataKey="centro" angle={-45} textAnchor="end" height={80} tick={{ fontSize: 12 }} />
                     <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />
                     <Tooltip
-                        cursor={{ fill: 'rgba(0,0,0,0.05)' }}
-                        contentStyle={{ borderRadius: 8 }}
+                        cursor={{ fill: 'rgba(43, 111, 113, 0.12)' }}
+                        contentStyle={tooltipStyle}
+                        labelStyle={{ color: 'var(--popover-foreground)', fontWeight: 600 }}
+                        itemStyle={{ color: 'var(--popover-foreground)' }}
                         formatter={(value: number | undefined) => [value ?? 0, '']}
                         labelFormatter={(label) => `Centro: ${label}`}
                     />
