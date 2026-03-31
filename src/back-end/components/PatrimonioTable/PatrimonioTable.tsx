@@ -48,12 +48,12 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
     const statusDropdownRef = useRef<HTMLDivElement | null>(null);
     const [loading, setLoading] = useState(false);
     const [paginaAtual, setPaginaAtual] = useState(1);
-    const itensPorPagina = 10;
+    const [itensPorPagina, setItensPorPagina] = useState(10);
     const [totalItens, setTotalItens] = useState(initialPatrimonios?.length || 0);
 
     useEffect(() => {
         setPaginaAtual(1);
-    }, [idFiltro, statusSelecionados, centroFiltro]);
+    }, [idFiltro, statusSelecionados, centroFiltro, itensPorPagina]);
 
     useEffect(() => {
         carregarPatrimonios();
@@ -149,6 +149,28 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
 
     const totalPaginas = Math.max(1, Math.ceil(totalItens / itensPorPagina));
     const inicio = (paginaAtual - 1) * itensPorPagina;
+
+    const getPaginasVisiveis = () => {
+        if (totalPaginas <= 7) {
+            return Array.from({ length: totalPaginas }, (_, index) => index + 1);
+        }
+
+        const paginas = new Set<number>([1, totalPaginas, paginaAtual]);
+
+        if (paginaAtual <= 4) {
+            [2, 3, 4, 5].forEach((p) => paginas.add(p));
+        } else if (paginaAtual >= totalPaginas - 3) {
+            [totalPaginas - 4, totalPaginas - 3, totalPaginas - 2, totalPaginas - 1].forEach((p) => paginas.add(p));
+        } else {
+            [paginaAtual - 1, paginaAtual, paginaAtual + 1].forEach((p) => paginas.add(p));
+        }
+
+        return Array.from(paginas)
+            .filter((p) => p >= 1 && p <= totalPaginas)
+            .sort((a, b) => a - b);
+    };
+
+    const paginasVisiveis = getPaginasVisiveis();
 
     const irParaPagina = (pagina: number) => {
         const paginaValida = Math.min(Math.max(pagina, 1), totalPaginas);
@@ -317,7 +339,21 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
 
             {/* Paginação */}
             <div className="flex flex-col gap-3 items-center">
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                    <label htmlFor="itensPorPagina" className="text-xs text-gray-600">
+                        Itens por página:
+                    </label>
+                    <select
+                        id="itensPorPagina"
+                        value={itensPorPagina}
+                        onChange={(e) => setItensPorPagina(Number(e.target.value))}
+                        className="h-9 rounded-md border border-input bg-background px-2 text-sm"
+                    >
+                        <option value={10}>10</option>
+                        <option value={25}>25</option>
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                    </select>
                     <Button type="button"
                         variant="outline"
                         size="sm"
@@ -326,21 +362,24 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                     >
                         Anterior
                     </Button>
-                    {Array.from({ length: totalPaginas }).map((_, index) => {
-                        const pagina = index + 1;
+                    {paginasVisiveis.map((pagina, index) => {
                         const ativa = pagina === paginaAtual;
+                        const paginaAnterior = paginasVisiveis[index - 1];
+                        const mostrarReticencias = Boolean(paginaAnterior) && pagina - paginaAnterior > 1;
                         return (
-                            <button type="button"
-                                key={pagina}
-                                onClick={() => irParaPagina(pagina)}
-                                className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
-                                    ativa
-                                        ? 'bg-accent/20 text-accent border border-accent/35'
-                                        : 'bg-card text-foreground border border-border hover:bg-secondary'
-                                }`}
-                            >
-                                {pagina}
-                            </button>
+                            <div key={pagina} className="flex items-center gap-2">
+                                {mostrarReticencias && <span className="px-1 text-sm text-muted-foreground">...</span>}
+                                <button type="button"
+                                    onClick={() => irParaPagina(pagina)}
+                                    className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
+                                        ativa
+                                            ? 'bg-accent/20 text-accent border border-accent/35'
+                                            : 'bg-card text-foreground border border-border hover:bg-secondary'
+                                    }`}
+                                >
+                                    {pagina}
+                                </button>
+                            </div>
                         );
                     })}
                     <Button type="button"

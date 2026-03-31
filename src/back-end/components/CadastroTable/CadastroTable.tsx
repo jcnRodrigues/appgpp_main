@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -35,7 +35,7 @@ export default function CadastroTable() {
     const [filtroFuncionario, setFiltroFuncionario] = useState('');
     const [filtroPatrimonio, setFiltroPatrimonio] = useState('');
     const [paginaAtual, setPaginaAtual] = useState(1);
-    const itensPorPagina = 10;
+    const [itensPorPagina, setItensPorPagina] = useState(10);
     const [totalItens, setTotalItens] = useState(0);
 
     const carregarAlocacoes = async () => {
@@ -61,11 +61,11 @@ export default function CadastroTable() {
 
     useEffect(() => {
         carregarAlocacoes();
-    }, [paginaAtual, filtroFuncionario, filtroPatrimonio]);
+    }, [paginaAtual, filtroFuncionario, filtroPatrimonio, itensPorPagina]);
 
     useEffect(() => {
         setPaginaAtual(1);
-    }, [filtroFuncionario, filtroPatrimonio]);
+    }, [filtroFuncionario, filtroPatrimonio, itensPorPagina]);
 
     const handleDelete = async (idCad: string) => {
         if (!confirm('Tem certeza que deseja deletar esta alocação?')) return;
@@ -100,10 +100,32 @@ export default function CadastroTable() {
         if (paginaAtual > totalPaginasAtual) {
             setPaginaAtual(totalPaginasAtual);
         }
-    }, [totalItens, paginaAtual]);
+    }, [totalItens, paginaAtual, itensPorPagina]);
 
     const totalPaginas = Math.max(1, Math.ceil(totalItens / itensPorPagina));
     const inicio = (paginaAtual - 1) * itensPorPagina;
+
+    const getPaginasVisiveis = () => {
+        if (totalPaginas <= 7) {
+            return Array.from({ length: totalPaginas }, (_, index) => index + 1);
+        }
+
+        const paginas = new Set<number>([1, totalPaginas, paginaAtual]);
+
+        if (paginaAtual <= 4) {
+            [2, 3, 4, 5].forEach((p) => paginas.add(p));
+        } else if (paginaAtual >= totalPaginas - 3) {
+            [totalPaginas - 4, totalPaginas - 3, totalPaginas - 2, totalPaginas - 1].forEach((p) => paginas.add(p));
+        } else {
+            [paginaAtual - 1, paginaAtual, paginaAtual + 1].forEach((p) => paginas.add(p));
+        }
+
+        return Array.from(paginas)
+            .filter((p) => p >= 1 && p <= totalPaginas)
+            .sort((a, b) => a - b);
+    };
+
+    const paginasVisiveis = getPaginasVisiveis();
 
     const irParaPagina = (pagina: number) => {
         const paginaValida = Math.min(Math.max(pagina, 1), totalPaginas);
@@ -137,7 +159,7 @@ export default function CadastroTable() {
                 return;
             }
 
-            // Recebe os dados binÃ¡rios do PDF (equivalente a responseType: 'arraybuffer')
+            // Recebe os dados binÃƒÂ¡rios do PDF (equivalente a responseType: 'arraybuffer')
             const arrayBuffer = await res.arrayBuffer();
             const blob = new Blob([arrayBuffer], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);
@@ -246,9 +268,9 @@ export default function CadastroTable() {
                                             className={`px-3 py-1 rounded-full text-xs font-semibold 
                                             ${alocacao.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
                                                     alocacao.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-purple-100 text-purpler-800' :
-                                                        alocacao.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
+                                                        alocacao.tbStatusPat?.descricaoStatPat === 'DEVOLUÃ‡ÃƒO' ? 'bg-red-100 text-red-800' :
                                                             alocacao.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-blue-100 text-blue-800' :
-                                                                alocacao.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-orange-100 text-orange-800' :
+                                                                alocacao.tbStatusPat?.descricaoStatPat === 'MANUTENÃ‡ÃƒO' ? 'bg-orange-100 text-orange-800' :
                                                                     'bg-yellow-100 text-yellow-800'
                                                 }`}>
                                             {alocacao.tbStatusPat?.descricaoStatPat || '-'}
@@ -293,9 +315,23 @@ export default function CadastroTable() {
                 </table>
             </div>
 
-            {/* Paginação */}
+            {/* PaginaÃ§Ã£o */}
             <div className="flex flex-col gap-3 items-center">
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                    <label htmlFor="itensPorPagina" className="text-xs text-gray-600">
+                        Itens por página:
+                    </label>
+                    <select
+                        id="itensPorPagina"
+                        value={itensPorPagina}
+                        onChange={(e) => setItensPorPagina(Number(e.target.value))}
+                        className="h-9 rounded-md border border-input bg-background px-2 text-sm"
+                    >
+                        <option value={10}>10</option>
+                        <option value={25}>25</option>
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                    </select>
                     <Button type="button"
                         variant="outline"
                         size="sm"
@@ -304,20 +340,23 @@ export default function CadastroTable() {
                     >
                         Anterior
                     </Button>
-                    {Array.from({ length: totalPaginas }).map((_, index) => {
-                        const pagina = index + 1;
+                    {paginasVisiveis.map((pagina, index) => {
                         const ativa = pagina === paginaAtual;
+                        const paginaAnterior = paginasVisiveis[index - 1];
+                        const mostrarReticencias = Boolean(paginaAnterior) && pagina - paginaAnterior > 1;
                         return (
-                            <button type="button"
-                                key={pagina}
-                                onClick={() => irParaPagina(pagina)}
-                                className={`h-9 w-9 rounded-lg text-sm font-medium transition ${ativa
-                                    ? 'bg-accent/20 text-accent border border-accent/35'
-                                    : 'bg-card text-foreground border border-border hover:bg-secondary'
-                                    }`}
-                            >
-                                {pagina}
-                            </button>
+                            <div key={pagina} className="flex items-center gap-2">
+                                {mostrarReticencias && <span className="px-1 text-sm text-muted-foreground">...</span>}
+                                <button type="button"
+                                    onClick={() => irParaPagina(pagina)}
+                                    className={`h-9 w-9 rounded-lg text-sm font-medium transition ${ativa
+                                        ? 'bg-accent/20 text-accent border border-accent/35'
+                                        : 'bg-card text-foreground border border-border hover:bg-secondary'
+                                        }`}
+                                >
+                                    {pagina}
+                                </button>
+                            </div>
                         );
                     })}
                     <Button type="button"
@@ -330,10 +369,12 @@ export default function CadastroTable() {
                     </Button>
                 </div>
                 <div className="text-xs text-gray-500">
-                    Exibindo {totalItens === 0 ? 0 : inicio + 1} – {Math.min(inicio + alocacoes.length, totalItens)} de {totalItens}
+                    Exibindo {totalItens === 0 ? 0 : inicio + 1} - {Math.min(inicio + alocacoes.length, totalItens)} de {totalItens}
                 </div>
             </div>
         </div>
     );
 }
+
+
 

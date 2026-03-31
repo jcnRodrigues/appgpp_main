@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react';
 import { Edit, Filter, Trash2 } from 'lucide-react';
@@ -18,7 +18,7 @@ export default function LicencaTable() {
     const [loading, setLoading] = useState(true);
     const [filtroDescricao, setFiltroDescricao] = useState('');
     const [paginaAtual, setPaginaAtual] = useState(1);
-    const itensPorPagina = 10;
+    const [itensPorPagina, setItensPorPagina] = useState(10);
     const [totalItens, setTotalItens] = useState(0);
 
     const carregarLicencas = async () => {
@@ -47,11 +47,11 @@ export default function LicencaTable() {
 
     useEffect(() => {
         carregarLicencas();
-    }, [paginaAtual, filtroDescricao]);
+    }, [paginaAtual, filtroDescricao, itensPorPagina]);
 
     useEffect(() => {
         setPaginaAtual(1);
-    }, [filtroDescricao]);
+    }, [filtroDescricao, itensPorPagina]);
 
     const handleDelete = async (idLic: string) => {
         if (!confirm('Tem certeza que deseja deletar esta licenca?')) return;
@@ -79,10 +79,32 @@ export default function LicencaTable() {
         if (paginaAtual > totalPaginasAtual) {
             setPaginaAtual(totalPaginasAtual);
         }
-    }, [totalItens, paginaAtual]);
+    }, [totalItens, paginaAtual, itensPorPagina]);
 
     const totalPaginas = Math.max(1, Math.ceil(totalItens / itensPorPagina));
     const inicio = (paginaAtual - 1) * itensPorPagina;
+
+    const getPaginasVisiveis = () => {
+        if (totalPaginas <= 7) {
+            return Array.from({ length: totalPaginas }, (_, index) => index + 1);
+        }
+
+        const paginas = new Set<number>([1, totalPaginas, paginaAtual]);
+
+        if (paginaAtual <= 4) {
+            [2, 3, 4, 5].forEach((p) => paginas.add(p));
+        } else if (paginaAtual >= totalPaginas - 3) {
+            [totalPaginas - 4, totalPaginas - 3, totalPaginas - 2, totalPaginas - 1].forEach((p) => paginas.add(p));
+        } else {
+            [paginaAtual - 1, paginaAtual, paginaAtual + 1].forEach((p) => paginas.add(p));
+        }
+
+        return Array.from(paginas)
+            .filter((p) => p >= 1 && p <= totalPaginas)
+            .sort((a, b) => a - b);
+    };
+
+    const paginasVisiveis = getPaginasVisiveis();
 
     const irParaPagina = (pagina: number) => {
         const paginaValida = Math.min(Math.max(pagina, 1), totalPaginas);
@@ -115,7 +137,7 @@ export default function LicencaTable() {
                         <tr className="border-b bg-gray-50">
                             <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Descricao</th>
                             <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Qtde Vinculos</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Acoes</th>
+                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -169,7 +191,21 @@ export default function LicencaTable() {
             </div>
 
             <div className="flex flex-col gap-3 items-center">
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                    <label htmlFor="itensPorPagina" className="text-xs text-gray-600">
+                        Itens por página:
+                    </label>
+                    <select
+                        id="itensPorPagina"
+                        value={itensPorPagina}
+                        onChange={(e) => setItensPorPagina(Number(e.target.value))}
+                        className="h-9 rounded-md border border-input bg-background px-2 text-sm"
+                    >
+                        <option value={10}>10</option>
+                        <option value={25}>25</option>
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                    </select>
                     <Button
                         type="button"
                         variant="outline"
@@ -179,22 +215,25 @@ export default function LicencaTable() {
                     >
                         Anterior
                     </Button>
-                    {Array.from({ length: totalPaginas }).map((_, index) => {
-                        const pagina = index + 1;
+                    {paginasVisiveis.map((pagina, index) => {
                         const ativa = pagina === paginaAtual;
+                        const paginaAnterior = paginasVisiveis[index - 1];
+                        const mostrarReticencias = Boolean(paginaAnterior) && pagina - paginaAnterior > 1;
                         return (
-                            <button
-                                type="button"
-                                key={pagina}
-                                onClick={() => irParaPagina(pagina)}
-                                className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
-                                    ativa
-                                        ? 'bg-accent/20 text-accent border border-accent/35'
-                                        : 'bg-card text-foreground border border-border hover:bg-secondary'
-                                }`}
-                            >
-                                {pagina}
-                            </button>
+                            <div key={pagina} className="flex items-center gap-2">
+                                {mostrarReticencias && <span className="px-1 text-sm text-muted-foreground">...</span>}
+                                <button
+                                    type="button"
+                                    onClick={() => irParaPagina(pagina)}
+                                    className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
+                                        ativa
+                                            ? 'bg-accent/20 text-accent border border-accent/35'
+                                            : 'bg-card text-foreground border border-border hover:bg-secondary'
+                                    }`}
+                                >
+                                    {pagina}
+                                </button>
+                            </div>
                         );
                     })}
                     <Button
@@ -204,7 +243,7 @@ export default function LicencaTable() {
                         onClick={() => irParaPagina(paginaAtual + 1)}
                         disabled={paginaAtual === totalPaginas || totalItens === 0}
                     >
-                        Proxima
+                        Próxima
                     </Button>
                 </div>
                 <div className="text-xs text-gray-500">
