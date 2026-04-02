@@ -8,6 +8,8 @@ import { getTipoPatId } from '@/back-end/service/TipoPatrimonio.service/tipoPatr
 import Link from 'next/link';
 import { Button } from '@/back-end/components/ui/button';
 import { UndoIcon } from 'lucide-react';
+import fs from 'node:fs';
+import path from 'node:path';
 
 type Props = { params: { id: string } };
 
@@ -21,7 +23,7 @@ export default async function TermoPage({ params }: Props) {
                 <div className="max-w-4xl mx-auto px-4 py-12 text-center">
                     <h1 className="text-2xl font-bold mb-4">Termo de Responsabilidade</h1>
                     <div className="bg-white p-8 rounded-lg shadow-sm">
-                        <p className="text-lg mb-6">Faça login para visualizar o termo</p>
+                        <p className="text-lg mb-6">Faca login para visualizar o termo</p>
                     </div>
                 </div>
             </div>
@@ -36,7 +38,7 @@ export default async function TermoPage({ params }: Props) {
             <>
                 <Header />
                 <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-                    <h2 className="text-xl font-semibold">Alocação não encontrada</h2>
+                    <h2 className="text-xl font-semibold">Alocacao nao encontrada</h2>
                 </div>
             </>
         );
@@ -60,47 +62,80 @@ export default async function TermoPage({ params }: Props) {
 
     const patrimonio = alocacao.tbPatrimonio;
     const tipoPatrimonio = await getTipoPatId(patrimonio?.idPat_TipoPat || '');
+    const tipoPatrimonioTitulo = (tipoPatrimonio?.descricaoTipPat || 'PATRIMONIO').split(/\s+/).filter(Boolean)[0] || 'PATRIMONIO';
+    const statusAlocacaoNormalizado = (alocacao.tbStatusPat?.descricaoStatPat || '').trim().toUpperCase();
+    const condicaoPorStatus =
+        statusAlocacaoNormalizado.includes('DEVOL')
+            ? 'Condicao da alocacao: equipamento devolvido. O usuario declara que realizou a devolucao do patrimonio e encerra, nesta data, a responsabilidade de guarda.'
+            : statusAlocacaoNormalizado.includes('TRANSFER')
+                ? 'Condicao da alocacao: equipamento transferido. O usuario declara ciencia da transferencia e da baixa da responsabilidade sobre o patrimonio nesta data.'
+                : statusAlocacaoNormalizado.includes('ATIVO')
+                    ? 'Condicao da alocacao: equipamento ativo. O usuario permanece integralmente responsavel pela guarda, uso adequado e conservacao do patrimonio.'
+                    : 'Condicao da alocacao: o usuario declara ciencia do status atual do patrimonio e de suas responsabilidades conforme as normas internas.';
+
+    const logoCandidates = [
+        '/iconPX.png',
+        '/Imagens/iconPX.png',
+        '/Imagens/parex.png',
+        '/Imagens/parex_logo.png'
+    ];
+
+    const logoPath = logoCandidates.find((candidate) =>
+        fs.existsSync(path.join(process.cwd(), 'public', candidate.replace(/^\//, '')))
+    );
 
     return (
         <div className="bg-background min-h-screen py-6">
             <div className="max-w-4xl mx-auto px-6 py-8 bg-white rounded-lg shadow ">
-                <div className="flex justify-center mb-6  pb-1 border-black">
-                    <div className="flex-shrink-0 border-2 border-black p-2">
-                        <Image src="/iconPX.png" alt="" width={100} height={50} className="object-center" />
+                <div className="grid grid-cols-[160px_1fr_130px] border border-black mb-6 min-h-[88px]">
+                    <div className="border-r border-black flex items-center justify-center p-2">
+                        {logoPath ? (
+                            <Image
+                                src={logoPath}
+                                alt="Logo Parex"
+                                width={130}
+                                height={58}
+                                className="h-auto w-auto max-h-[56px] object-contain"
+                            />
+                        ) : (
+                            <div className="text-center leading-tight">
+                                <div className="text-xl font-bold">PAREX</div>
+                                <div className="text-[10px] tracking-[1px]">ENGENHARIA</div>
+                            </div>
+                        )}
                     </div>
-                    <div className="flex-1 border-2 border-black px-2 py-1 text-center">
-                        <h2 className="text-base font-bold">USO {tipoPatrimonio?.descricaoTipPat || 'TIPO PATRIMÔNIO'} PAREX</h2>
-                        <p className="text-sm">Gerenciamento de Recursos Humanos</p>
+                    <div className="flex flex-col items-center justify-center px-3 text-center">
+                        <h2 className="text-[32px] font-bold leading-none">USO {tipoPatrimonioTitulo} PAREX</h2>
+                        <p className="text-[16px] font-semibold leading-tight mt-1">Gerenciamento de Recursos Humanos</p>
                     </div>
-                    <div className="flex-shrink-0 text-right">
-                        <table className="border-collapse border border-black text-xs">
-                            <tbody>
-                                <tr><td className="border-2 border-black px-2 py-1 font-semibold text-center">PMO</td></tr>
-                                <tr><td className="border-2 border-black px-2 py-1 text-center">FO-09-052</td></tr>
-                                <tr><td className="border-2 border-black px-2 py-1 text-center">REV.:00</td></tr>
-                                <tr><td className="border-2 border-black px-2 py-1 text-center">PÁG: 1 de 1</td></tr>
-                            </tbody>
-                        </table>
+                    <div className="border-l border-black grid grid-rows-4 text-xs font-semibold text-center">
+                        <div className="border-b border-black flex items-center justify-center">PMO</div>
+                        <div className="border-b border-black flex items-center justify-center">FO-09-052</div>
+                        <div className="border-b border-black flex items-center justify-center">REV.:00</div>
+                        <div className="flex items-center justify-center">PAG: 1 de 1</div>
                     </div>
                 </div>
+
                 <div className="text-sm text-gray-800 whitespace-pre-wrap m-4 text-justify">
                     <h2 className='text-center'>Termo de Responsabilidade</h2>
-                    <h4 className='text-center'>Uso {tipoPatrimonio?.descricaoTipPat || 'TIPO PATRIMÔNIO'} Parex – Funcionários</h4>
+                    <h4 className='text-center'>Uso {tipoPatrimonio?.descricaoTipPat || 'TIPO PATRIMONIO'} Parex - Funcionarios</h4>
 
                     {`
-\t Por este instrumento a PAREX entrega à guarda ao Sr., ${alocacao.tbFuncionario?.nomeFun || 'NOME'} – ${alocacao.tbFuncionario?.idMatFun || 'MATRICULA'} neste ato denominado USUÁRIO, inscrito no CPF nº ${alocacao.tbFuncionario?.cpfFun || 'CPF'}, um computador marca ${patrimonio?.descricaoPat ? patrimonio.descricaoPat.split(' ')[0] : 'MARCA'}, modelo ${patrimonio?.descricaoDetalhadaPat || 'MODELO'}, contendo: 01 carregador de bateria, patrimoniado sob o Número PAT${patrimonio?.idPat || 'PATRIMONIO'}, ficando o mesmo responsável por qualquer dano, perda ou furto, e da mesma forma, pelo zelo e manutenção deste equipamento, sob pena de ressarcimento à PAREX se algum destes fatos ocorrer e for constatada negligência por parte do USUÁRIO.
+\t Por este instrumento a PAREX entrega a guarda ao Sr., ${alocacao.tbFuncionario?.nomeFun || 'NOME'} - ${alocacao.tbFuncionario?.idMatFun || 'MATRICULA'} neste ato denominado USUARIO, inscrito no CPF no ${alocacao.tbFuncionario?.cpfFun || 'CPF'}, um computador marca ${patrimonio?.descricaoPat ? patrimonio.descricaoPat.split(' ')[0] : 'MARCA'}, modelo ${patrimonio?.descricaoDetalhadaPat || 'MODELO'}, contendo: 01 carregador de bateria, patrimoniado sob o Numero PAT${patrimonio?.idPat || 'PATRIMONIO'}, ficando o mesmo responsavel por qualquer dano, perda ou furto, e da mesma forma, pelo zelo e manutencao deste equipamento, sob pena de ressarcimento a PAREX se algum destes fatos ocorrer e for constatada negligencia por parte do USUARIO.
 
-\t O usuário permanece responsável também pelo equipamento quando da transferência do mesmo à outros funcionários / terceiros sem a prévia autorização da Coordenação de TI Corporativa.
+\t O usuario permanece responsavel tambem pelo equipamento quando da transferencia do mesmo a outros funcionarios / terceiros sem a previa autorizacao da Coordenacao de TI Corporativa.
 
-\t O USUÁRIO reconhece que a utilização do equipamento se dará somente no horário comercial de trabalho, ou seja, de 07h30min (Sete horas e trinta minutos) às 17h30min (dezessete horas e trinta minutos), com intervalo de 01h00min (Uma hora), de 2ª a 5ª feiras e das 07h30min (Sete horas e trinta minutos) às 16h30min (dezesseis horas e trinta minutos), com intervalo de 01h00min (Uma hora) às 6ª feiras e que o equipamento é para uso exclusivo no trabalho da empresa.
+\t O USUARIO reconhece que a utilizacao do equipamento se dara somente no horario comercial de trabalho, ou seja, de 07h30min (Sete horas e trinta minutos) as 17h30min (dezessete horas e trinta minutos), com intervalo de 01h00min (Uma hora), de 2a a 5a feiras e das 07h30min (Sete horas e trinta minutos) as 16h30min (dezesseis horas e trinta minutos), com intervalo de 01h00min (Uma hora) as 6a feiras e que o equipamento e para uso exclusivo no trabalho da empresa.
 
-\t É proibida a instalação de softwares sem a autorização da coordenação da TI. Este equipamento está licenciado com o sistema operacional Windows e o pacote Office (Word – Excel – Outlook – Power Point) e OBS se necessário incluir outros programas instalado que não estão na lista.
+\t E proibida a instalacao de softwares sem a autorizacao da coordenacao da TI. Este equipamento esta licenciado com o sistema operacional Windows e o pacote Office (Word - Excel - Outlook - Power Point) e OBS se necessario incluir outros programas instalado que nao estao na lista.
 
-\t PARAUAPEBAS PA, ${alocacao.tbPatrimonio?.dataEntPat ? new Date(alocacao.tbPatrimonio.dataEntPat).toLocaleDateString('pt-BR') : ''} 
+\t ${condicaoPorStatus}
 
-Matrícula: ${alocacao.tbFuncionario?.idMatFun}
-Nome: ${alocacao.tbFuncionario?.nomeFun}         
-CPF nº: ${alocacao.tbFuncionario?.cpfFun} 
+\t PARAUAPEBAS PA, ${alocacao.tbPatrimonio?.dataEntPat ? new Date(alocacao.tbPatrimonio.dataEntPat).toLocaleDateString('pt-BR') : ''}
+
+Matricula: ${alocacao.tbFuncionario?.idMatFun}
+Nome: ${alocacao.tbFuncionario?.nomeFun}
+CPF no: ${alocacao.tbFuncionario?.cpfFun}
 
 
 `}
@@ -112,7 +147,7 @@ CPF nº: ${alocacao.tbFuncionario?.cpfFun}
                     </div>
                     <div className="flex flex-col">
                         <div className="w-80 border-b-2" style={{ height: '1px' }} />
-                        <div className="text-sm">Assinatura do Responsável / Setor TI</div>
+                        <div className="text-sm">Assinatura do Responsavel / Setor TI</div>
                     </div>
                 </div>
                 <div className="mt-10 grid md:grid-cols-2">

@@ -4,9 +4,10 @@ import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
 import { Button } from '@/back-end/components/ui/button';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, Search, Check } from 'lucide-react';
 import Link from 'next/link';
 import { useFormDraft } from '@/back-end/hooks/useFormDraft';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/back-end/components/ui/sheet';
 
 interface Funcao {
     idFuncao: string;
@@ -34,6 +35,14 @@ type LicencaVinculo = {
     dataVencimetno: string;
 };
 
+function normalizarTexto(value: string) {
+    return value
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .trim();
+}
+
 export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: string }) {
     const router = useRouter();
     const handleEnterToNext = useEnterToNext();
@@ -42,6 +51,8 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
     const [status, setStatus] = useState<StatusFuncionario[]>([]);
     const [centros, setCentros] = useState<CentroCusto[]>([]);
     const [licencasDisponiveis, setLicencasDisponiveis] = useState<LicencaDisponivel[]>([]);
+    const [isFuncaoSheetOpen, setIsFuncaoSheetOpen] = useState(false);
+    const [funcaoSearch, setFuncaoSearch] = useState('');
 
     const initialFuncionario = useMemo(() => ({
         idMatFun: '',
@@ -61,6 +72,19 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
         setState: setFuncionario,
         clearDraft: clearFuncionarioDraft
     } = useFormDraft('funcionario-form-create', initialFuncionario, { enabled: !funcionarioId });
+
+    const funcoesFiltradas = useMemo(() => {
+        if (!funcaoSearch.trim()) return funcoes.slice(0, 50);
+
+        const busca = normalizarTexto(funcaoSearch);
+        return funcoes
+            .filter((funcao) => {
+                const id = normalizarTexto(funcao.idFuncao || '');
+                const nome = normalizarTexto(funcao.nomeFuncao || '');
+                return id.includes(busca) || nome.includes(busca);
+            })
+            .slice(0, 50);
+    }, [funcoes, funcaoSearch]);
 
     useEffect(() => {
         const carregarDados = async () => {
@@ -228,6 +252,12 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
         }
     };
 
+    const selecionarFuncao = (funcao: Funcao) => {
+        setFuncionario((prev) => ({ ...prev, idFuncaoFun: funcao.idFuncao }));
+        setIsFuncaoSheetOpen(false);
+        setFuncaoSearch('');
+    };
+
     return (
         <div className="bg-background min-h-screen py-6">
             <div className="max-w-2xl mx-auto px-4">
@@ -330,19 +360,31 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label className="block text-sm font-medium mb-2">Funcao</label>
-                                <select
-                                    name="idFuncaoFun"
-                                    value={funcionario.idFuncaoFun}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                >
-                                    <option value="">Selecione uma funcao</option>
-                                    {funcoes.map(funcao => (
-                                        <option key={funcao.idFuncao} value={funcao.idFuncao}>
-                                            {funcao.nomeFuncao}
-                                        </option>
-                                    ))}
-                                </select>
+                                <div className="flex w-full gap-2 items-stretch">
+                                    <select
+                                        name="idFuncaoFun"
+                                        value={funcionario.idFuncaoFun}
+                                        onChange={handleChange}
+                                        className="min-w-0 w-full flex-1 h-10 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                    >
+                                        <option value="">Selecione uma funcao</option>
+                                        {funcoes.map(funcao => (
+                                            <option key={funcao.idFuncao} value={funcao.idFuncao}>
+                                                {funcao.nomeFuncao}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={() => setIsFuncaoSheetOpen(true)}
+                                        className="h-10 w-10 shrink-0 p-0"
+                                        title="Pesquisar funcao"
+                                        aria-label="Pesquisar funcao"
+                                    >
+                                        <Search className="h-4 w-4" />
+                                    </Button>
+                                </div>
                             </div>
 
                             <div>
@@ -448,6 +490,70 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                     </div>
                 </form>
             </div>
+
+            <Sheet open={isFuncaoSheetOpen} onOpenChange={setIsFuncaoSheetOpen}>
+                <SheetContent side="right" className="w-[600px] sm:max-w-[600px]">
+                    <SheetHeader>
+                        <SheetTitle>Pesquisar Funcao</SheetTitle>
+                        <SheetDescription>
+                            Digite o nome ou codigo da funcao para buscar
+                        </SheetDescription>
+                    </SheetHeader>
+
+                    <div className="mt-4 space-y-4">
+                        <div className="relative">
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                            <input
+                                type="text"
+                                placeholder="Buscar por codigo ou funcao..."
+                                value={funcaoSearch}
+                                onChange={(e) => setFuncaoSearch(e.target.value)}
+                                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                autoFocus
+                            />
+                        </div>
+
+                        <div className="border rounded-lg max-h-[60vh] overflow-y-auto">
+                            <table className="w-full">
+                                <thead className="bg-gray-50 sticky top-0">
+                                    <tr>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Codigo</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Funcao</th>
+                                        <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600">Acao</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {funcoesFiltradas.length === 0 ? (
+                                        <tr>
+                                            <td colSpan={3} className="px-4 py-8 text-center text-gray-500">
+                                                Nenhuma funcao encontrada
+                                            </td>
+                                        </tr>
+                                    ) : (
+                                        funcoesFiltradas.map((funcao) => (
+                                            <tr key={funcao.idFuncao} className="border-t hover:bg-gray-50">
+                                                <td className="px-4 py-3 text-sm font-medium">{funcao.idFuncao}</td>
+                                                <td className="px-4 py-3 text-sm">{funcao.nomeFuncao}</td>
+                                                <td className="px-4 py-3 text-center">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => selecionarFuncao(funcao)}
+                                                        className="p-1 text-green-600 hover:bg-green-50 rounded"
+                                                        title="Selecionar"
+                                                    >
+                                                        <Check className="h-4 w-4" />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </SheetContent>
+            </Sheet>
         </div>
     );
 }
+

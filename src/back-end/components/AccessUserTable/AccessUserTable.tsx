@@ -108,7 +108,50 @@ export default function AccessUserTable() {
                 </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="md:hidden space-y-3">
+                {loading ? (
+                    <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500">Carregando...</div>
+                ) : usuariosFiltrados.length === 0 ? (
+                    <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500">Nenhum usuário encontrado</div>
+                ) : (
+                    usuariosFiltrados.map((usuario) => (
+                        <div key={usuario.id} className="bg-white rounded-lg shadow-md p-4 space-y-3">
+                            <div className="flex items-start justify-between gap-3">
+                                <div>
+                                    <div className="text-sm font-semibold text-gray-900">{usuario.nome}</div>
+                                    <div className="text-xs text-gray-500">{usuario.email}</div>
+                                </div>
+                                <span className={`px-2 py-1 rounded-full text-[11px] font-semibold ${usuario.status === 'ATIVO' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                    {usuario.status === 'ATIVO' ? 'Ativo' : 'Inativo'}
+                                </span>
+                            </div>
+                            <div className="grid grid-cols-2 gap-2 text-xs">
+                                <div className="text-gray-500">Tipo</div>
+                                <div className="text-gray-800 text-right">{usuario.authType === 'LOCAL' ? 'Local' : 'Google'}</div>
+                                <div className="text-gray-500">Centros</div>
+                                <div className="text-gray-800 text-right">{usuario.centros?.length || 0}</div>
+                            </div>
+                            <div className="flex items-center justify-end gap-2 pt-1">
+                                <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
+                                    <Link href={`/acesso-usuarios/cadastro?id=${usuario.id}`} title="Editar">
+                                        <Edit className="h-4 w-4" />
+                                    </Link>
+                                </Button>
+                                <button
+                                    type="button"
+                                    onClick={() => handleDelete(usuario.id)}
+                                    className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
+                                    title="Excluir"
+                                >
+                                    <Trash2 className="h-4 w-4" />
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                )}
+            </div>
+
+            <div className="hidden md:block bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full">
                         <thead className="bg-gray-50 border-b">
@@ -124,15 +167,11 @@ export default function AccessUserTable() {
                         <tbody>
                             {loading ? (
                                 <tr>
-                                    <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
-                                        Carregando...
-                                    </td>
+                                    <td colSpan={6} className="px-6 py-4 text-center text-gray-500">Carregando...</td>
                                 </tr>
                             ) : usuariosFiltrados.length === 0 ? (
                                 <tr>
-                                    <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
-                                        Nenhum usuario encontrado
-                                    </td>
+                                    <td colSpan={6} className="px-6 py-4 text-center text-gray-500">Nenhum usuario encontrado</td>
                                 </tr>
                             ) : (
                                 usuariosFiltrados.map((usuario) => (
@@ -177,5 +216,3 @@ export default function AccessUserTable() {
         </div>
     );
 }
-
-

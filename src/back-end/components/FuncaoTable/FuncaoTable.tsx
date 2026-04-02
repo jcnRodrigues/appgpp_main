@@ -129,7 +129,35 @@ export default function FuncaoTable() {
             </div>
 
             <div className="w-full">
-                <div className="overflow-x-auto bg-white rounded-lg shadow">
+                <div className="md:hidden space-y-3">
+                    {loading ? (
+                        <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">Carregando...</div>
+                    ) : funcoes.length === 0 ? (
+                        <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">Nenhuma função cadastrada</div>
+                    ) : (
+                        funcoes.map((funcao) => (
+                            <div key={funcao.idFuncao} className="bg-white rounded-lg shadow p-4 space-y-3">
+                                <div className="text-sm font-semibold text-gray-900">{funcao.nomeFuncao}</div>
+                                <div className="flex items-center justify-end gap-2 pt-1">
+                                    <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
+                                        <Link href={`/funcao/${funcao.idFuncao}/editar`} title="Editar">
+                                            <Edit className="h-4 w-4" />
+                                        </Link>
+                                    </Button>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleDelete(funcao.idFuncao)}
+                                        className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
+                                    >
+                                        <Trash2 className="h-4 w-4" />
+                                    </button>
+                                </div>
+                            </div>
+                        ))
+                    )}
+                </div>
+
+                <div className="hidden md:block overflow-x-auto bg-white rounded-lg shadow">
                     <table className="w-full">
                         <thead>
                             <tr className="border-b bg-gray-50">
@@ -247,4 +275,3 @@ export default function FuncaoTable() {
         </div>
     );
 }
-

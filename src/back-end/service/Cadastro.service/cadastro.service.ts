@@ -117,7 +117,8 @@ export async function listarAlocacoes(filtro?: {
             },
             tbPatrimonio: {
                 include: {
-                    tbStatusPat: true
+                    tbStatusPat: true,
+                    tbTipoPat: true
                 }
             }
         },
@@ -161,7 +162,8 @@ export async function buscarAlocacaoById(idCad: string) {
             tbPatrimonio: {
                 include: {
                     tbStatusPat: true,
-                    tbCCusto: true
+                    tbCCusto: true,
+                    tbTipoPat: true
                 }
             }
         }

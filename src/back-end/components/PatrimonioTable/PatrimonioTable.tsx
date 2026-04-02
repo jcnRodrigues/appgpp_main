@@ -250,8 +250,58 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                 </div>
             </div>
 
-            {/* Tabela */}
-            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            {/* Lista mobile */}
+            <div className="md:hidden space-y-3">
+                {loading ? (
+                    <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500">Carregando...</div>
+                ) : patrimonios.length === 0 ? (
+                    <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500">Nenhum patrimônio encontrado</div>
+                ) : (
+                    patrimonios.map((patrimonio) => (
+                        <div key={patrimonio.idP} className="bg-white rounded-lg shadow-md p-4 space-y-3">
+                            <div className="flex items-start justify-between gap-3">
+                                <div>
+                                    <div className="text-sm font-semibold text-gray-900">{patrimonio.idPat}</div>
+                                    <div className="text-xs text-gray-500">{patrimonio.descricaoPat}</div>
+                                </div>
+                                <span className={`px-2 py-1 rounded-full text-[11px] font-semibold ${
+                                    patrimonio.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
+                                    patrimonio.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
+                                    patrimonio.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-orange-100 text-orange-800' :
+                                    patrimonio.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-gray-100 text-purple-800' :
+                                    patrimonio.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-gray-100 text-blue-800' :
+                                    'bg-yellow-100 text-yellow-800'
+                                }`}>
+                                    {patrimonio.tbStatusPat?.descricaoStatPat || '-'}
+                                </span>
+                            </div>
+                            <div className="grid grid-cols-2 gap-2 text-xs">
+                                <div className="text-gray-500">Tipo</div>
+                                <div className="text-gray-800 text-right">{patrimonio.tbTipoPat?.descricaoTipPat || '-'}</div>
+                                <div className="text-gray-500">Valor</div>
+                                <div className="text-gray-800 text-right">R$ {patrimonio.valorPat?.toFixed(2) || '0.00'}</div>
+                                <div className="text-gray-500">Entrada</div>
+                                <div className="text-gray-800 text-right">{patrimonio.dataEntPat ? new Date(patrimonio.dataEntPat).toLocaleDateString('pt-BR') : '-'}</div>
+                                <div className="text-gray-500">Centro Custo</div>
+                                <div className="text-gray-800 text-right">{patrimonio.tbCCusto?.descricaoCCusto || '-'}</div>
+                            </div>
+                            <div className="flex items-center justify-end gap-2 pt-1">
+                                <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
+                                    <Link href={`/patrimonio/${patrimonio.idP}`} title="Editar">
+                                        <Edit className="h-4 w-4" />
+                                    </Link>
+                                </Button>
+                                <Button type="button" onClick={() => handleDelete(patrimonio.idP)} className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition" title="Deletar patrimônio">
+                                    <Trash2 className="h-4 w-4" />
+                                </Button>
+                            </div>
+                        </div>
+                    ))
+                )}
+            </div>
+
+            {/* Tabela desktop */}
+            <div className="hidden md:block bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full">
                         <thead className="bg-gray-50 border-b">
@@ -403,4 +453,3 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
         </div>
     );
 }
-

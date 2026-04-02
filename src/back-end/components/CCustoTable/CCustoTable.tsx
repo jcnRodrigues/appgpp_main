@@ -105,7 +105,42 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
 
     return (
         <div className="space-y-4">
-            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="md:hidden space-y-3">
+                {loading ? (
+                    <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500">Carregando...</div>
+                ) : centros.length === 0 ? (
+                    <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500">Nenhum centro de custo cadastrado.</div>
+                ) : (
+                    centros.map((c) => (
+                        <div key={c.idCCusto} className="bg-white rounded-lg shadow-md p-4 space-y-3">
+                            <div>
+                                <div className="text-sm font-semibold text-gray-900">{c.descricaoCCusto || '-'}</div>
+                                <div className="text-xs text-gray-500">Código: {c.codigoCCusto || '-'}</div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-2 text-xs">
+                                <div className="text-gray-500">Empresa</div>
+                                <div className="text-gray-800 text-right">{c.tbEmpresa?.fantasiaEmpresa || c.tbEmpresa?.razaoEmpresa || '-'}</div>
+                            </div>
+                            <div className="flex items-center justify-end gap-2 pt-1">
+                                <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
+                                    <Link href={`/ccusto/${c.idCCusto}`} title="Editar">
+                                        <Edit className="h-4 w-4" />
+                                    </Link>
+                                </Button>
+                                <button
+                                    type="button"
+                                    onClick={() => handleDelete(c.idCCusto, c.descricaoCCusto || 'Centro de Custo')}
+                                    className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
+                                >
+                                    <Trash2 className="h-4 w-4" />
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                )}
+            </div>
+
+            <div className="hidden md:block bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full">
                         <thead className="bg-gray-50 border-b">

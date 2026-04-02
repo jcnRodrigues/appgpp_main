@@ -125,6 +125,22 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
         setPaginaAtual(paginaValida);
     };
 
+    const maskCpf = (cpf?: string | null) => {
+        if (!cpf) return '-';
+
+        const digits = cpf.replace(/\D/g, '');
+        if (digits.length !== 11) return cpf;
+
+        return `***.***.***-${digits.slice(-2)}`;
+    };
+
+    const getStatusBadgeClass = (status?: string) => {
+        if (status === 'ADMITIDO') return 'bg-green-100 text-green-800';
+        if (status === 'DEMITIDO') return 'bg-red-100 text-red-800';
+        if (status === 'TRANSFERIDO') return 'bg-yellow-100 text-yellow-800';
+        return 'bg-gray-100 text-gray-800';
+    };
+
     return (
         <div className="space-y-4">
             {/* Filtros */}
@@ -161,20 +177,79 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                 </div>
             </div>
 
-            {/* Tabela */}
-            <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                <div className="overflow-x-auto">
-                    <table className="w-full">
+            {/* Lista mobile */}
+            <div className="md:hidden space-y-3">
+                {loading ? (
+                    <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500">
+                        Carregando...
+                    </div>
+                ) : funcionarios.length === 0 ? (
+                    <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500">
+                        Nenhum funcionário encontrado
+                    </div>
+                ) : (
+                    funcionarios.map((funcionario) => (
+                        <div key={funcionario.idF} className="bg-white rounded-lg shadow-md p-4 space-y-3">
+                            <div className="flex items-start justify-between gap-3">
+                                <div>
+                                    <div className="text-sm font-semibold text-gray-900">{funcionario.nomeFun}</div>
+                                    <div className="text-xs text-gray-500">Matrícula: {funcionario.idMatFun}</div>
+                                </div>
+                                <span className={`px-2 py-1 rounded-full text-[11px] font-semibold ${getStatusBadgeClass(funcionario.tbStatusFun?.descricaoStatusFun)}`}>
+                                    {funcionario.tbStatusFun?.descricaoStatusFun || '-'}
+                                </span>
+                            </div>
+                            <div className="grid grid-cols-2 gap-2 text-xs">
+                                <div className="text-gray-500">CPF</div>
+                                <div className="text-gray-800 text-right">{maskCpf(funcionario.cpfFun)}</div>
+                                <div className="text-gray-500">Função</div>
+                                <div className="text-gray-800 text-right">{funcionario.tbFuncao?.nomeFuncao || '-'}</div>
+                                <div className="text-gray-500">Admissão</div>
+                                <div className="text-gray-800 text-right">
+                                    {funcionario.dataAdmFun ? new Date(funcionario.dataAdmFun).toLocaleDateString('pt-BR') : '-'}
+                                </div>
+                                <div className="text-gray-500">Centro Custo</div>
+                                <div className="text-gray-800 text-right">{funcionario.tbCCusto?.descricaoCCusto || '-'}</div>
+                            </div>
+                            <div className="flex items-center justify-end gap-2 pt-1">
+                                <Button
+                                    asChild
+                                    variant="ghost"
+                                    size="icon"
+                                    className="text-blue-600 hover:bg-blue-100 rounded-lg transition"
+                                >
+                                    <Link href={`/funcionario/${funcionario.idF}`} title="Editar">
+                                        <Edit className="h-4 w-4" />
+                                    </Link>
+                                </Button>
+                                <button
+                                    type="button"
+                                    onClick={() => handleDelete(funcionario.idF)}
+                                    className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
+                                    title="Excluir"
+                                >
+                                    <Trash2 className="h-4 w-4" />
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                )}
+            </div>
+
+            {/* Tabela desktop */}
+            <div className="hidden md:block bg-white rounded-lg shadow-md overflow-hidden">
+                <div className="overflow-hidden">
+                    <table className="w-full table-fixed">
                         <thead className="bg-gray-50 border-b">
                             <tr>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Matrí­cula</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Nome</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">CPF</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Função</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Data Admissão</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Status</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Centro Custo</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Ações</th>
+                                <th className="w-[8%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Matrícula</th>
+                                <th className="w-[20%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Nome</th>
+                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">CPF</th>
+                                <th className="w-[15%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Função</th>
+                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Data Admissão</th>
+                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Status</th>
+                                <th className="w-[15%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Centro Custo</th>
+                                <th className="w-[8%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-nowrap">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -193,36 +268,31 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                             ) : (
                                 funcionarios.map((funcionario) => (
                                     <tr key={funcionario.idF} className="border-b hover:bg-gray-50 transition">
-                                        <td className="px-6 py-4 text-sm text-gray-900 font-medium">
+                                        <td className="px-3 py-4 text-xs md:text-sm text-gray-900 font-medium whitespace-normal break-words">
                                             {funcionario.idMatFun}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-700 max-w-xs truncate">
+                                        <td className="px-3 py-4 text-xs md:text-sm text-gray-700 whitespace-normal break-words">
                                             {funcionario.nomeFun}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-700">
-                                            {funcionario.cpfFun || '-'}
+                                        <td className="px-3 py-4 text-xs md:text-sm text-gray-700 whitespace-normal break-words">
+                                            {maskCpf(funcionario.cpfFun)}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-700">
+                                        <td className="px-3 py-4 text-xs md:text-sm text-gray-700 whitespace-normal break-words">
                                             {funcionario.tbFuncao?.nomeFuncao || '-'}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-700">
+                                        <td className="px-3 py-4 text-xs md:text-sm text-gray-700 whitespace-normal break-words">
                                             {funcionario.dataAdmFun ? new Date(funcionario.dataAdmFun).toLocaleDateString('pt-BR') : '-'}
                                         </td>
-                                        <td className="px-6 py-4 text-sm">
-                                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                                                funcionario.tbStatusFun?.descricaoStatusFun === 'ADMITIDO' ? 'bg-green-100 text-green-800' :
-                                                funcionario.tbStatusFun?.descricaoStatusFun === 'DEMITIDO' ? 'bg-red-100 text-red-800' :
-                                                funcionario.tbStatusFun?.descricaoStatusFun === 'TRANSFERIDO' ? 'bg-yellow-100 text-yellow-800' :
-                                                'bg-gray-100 text-gray-800'
-                                            }`}>
+                                        <td className="px-3 py-4 text-xs md:text-sm">
+                                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusBadgeClass(funcionario.tbStatusFun?.descricaoStatusFun)}`}>
                                                 {funcionario.tbStatusFun?.descricaoStatusFun || '-'}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-700">
+                                        <td className="px-3 py-4 text-xs md:text-sm text-gray-700 whitespace-normal break-words">
                                             {funcionario.tbCCusto?.descricaoCCusto || '-'}
                                         </td>
-                                        <td className="px-6 py-4 text-sm">
-                                            <div className="flex gap-2">
+                                        <td className="px-3 py-4 text-xs md:text-sm whitespace-nowrap">
+                                            <div className="flex items-center gap-1 md:gap-2">
                                                 <Button
                                                     asChild
                                                     variant="ghost"

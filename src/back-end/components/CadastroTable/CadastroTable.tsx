@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -21,6 +21,9 @@ interface Alocacao {
     tbPatrimonio: {
         idPat: string;
         descricaoPat: string;
+        tbTipoPat?: {
+            descricaoTipPat: string;
+        } | null;
     } | null;
     tbStatusPat?: {
         idStatusPat: string;
@@ -149,7 +152,9 @@ export default function CadastroTable() {
                     idMatFun: func.idMatFun,
                     cpfFun: func.cpfFun ?? null,
                     idPat: pat.idPat,
-                    descricaoPat: pat.descricaoPat
+                    descricaoPat: pat.descricaoPat,
+                    statusAlocacao: alocacao.tbStatusPat?.descricaoStatPat,
+                    tipoPatrimonio: pat.tbTipoPat?.descricaoTipPat
                 })
             });
 
@@ -209,7 +214,58 @@ export default function CadastroTable() {
             </div>
 
 
-            <div className="overflow-x-auto bg-white rounded-lg shadow">
+            <div className="md:hidden space-y-3">
+                {loading ? (
+                    <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">Carregando...</div>
+                ) : alocacoes.length === 0 ? (
+                    <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">Nenhuma alocação registrada</div>
+                ) : (
+                    alocacoes.map((alocacao) => (
+                        <div key={alocacao.idCad} className="bg-white rounded-lg shadow p-4 space-y-3">
+                            <div>
+                                <div className="text-sm font-semibold text-gray-900">{alocacao.tbFuncionario?.nomeFun || '-'}</div>
+                                <div className="text-xs text-gray-500">{alocacao.tbFuncionario?.idMatFun || '-'} • {alocacao.tbPatrimonio?.idPat || '-'}</div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-2 text-xs">
+                                <div className="text-gray-500">Patrimônio</div>
+                                <div className="text-gray-800 text-right">{alocacao.tbPatrimonio?.descricaoPat || '-'}</div>
+                                <div className="text-gray-500">Alocação</div>
+                                <div className="text-gray-800 text-right">{formatarData(alocacao.dataCadPat)}</div>
+                                <div className="text-gray-500">Devolução</div>
+                                <div className="text-gray-800 text-right">{formatarData(alocacao.dataDevPat)}</div>
+                                <div className="text-gray-500">Status</div>
+                                <div className="text-gray-800 text-right">{alocacao.tbStatusPat?.descricaoStatPat || '-'}</div>
+                            </div>
+                            <div className="flex items-center justify-end gap-2 pt-1">
+                                <button
+                                    type="button"
+                                    onClick={() => handleGerarTermoPdf(alocacao)}
+                                    disabled={pdfLoading === alocacao.idCad}
+                                    className="p-2 text-green-700 hover:bg-green-50 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none"
+                                    title={pdfLoading === alocacao.idCad ? 'Gerando PDF...' : 'Gerar Termo de Responsabilidade (PDF)'}
+                                >
+                                    <FileDown className="h-4 w-4" />
+                                </button>
+                                <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-50 rounded-lg transition">
+                                    <Link href={`/alocacoes/${alocacao.idCad}/editar`} title="Editar">
+                                        <Edit className="h-4 w-4" />
+                                    </Link>
+                                </Button>
+                                <button
+                                    type="button"
+                                    onClick={() => handleDelete(alocacao.idCad)}
+                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+                                    title="Excluir"
+                                >
+                                    <Trash2 className="h-4 w-4" />
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                )}
+            </div>
+
+            <div className="hidden md:block overflow-x-auto bg-white rounded-lg shadow">
                 <table className="w-full">
                     <thead>
                         <tr className="border-b bg-gray-50">
@@ -375,6 +431,7 @@ export default function CadastroTable() {
         </div>
     );
 }
+
 
 
 

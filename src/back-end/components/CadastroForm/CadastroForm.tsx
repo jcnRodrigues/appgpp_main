@@ -269,7 +269,7 @@ export default function CadastroForm({
                                     setFuncionariosFiltrados(funcionarios.slice(0, 50));
                                     setIsFuncionarioSheetOpen(true);
                                 }}
-                                title="Pesquisar funcionÃ¡rio"
+                                title="Pesquisar funcionário"
                                 className="h-10 w-10 shrink-0 p-0"
                             >
                                 <Search className="h-4 w-4" />

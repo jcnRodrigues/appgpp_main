@@ -8,6 +8,8 @@ import { useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Button } from "../ui/button";
 import { useTheme } from "../Providers/ThemeProvider";
+import Image from "next/image";
+
 
 
 type MenuItem = {
@@ -44,8 +46,16 @@ export default function Header() {
         <div className="sticky top-0 z-50 flex justify-between items-center mb-6 bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/70">
             <h1 className="text-h1 font-extrabold selected-none drop-shadow-sm">
                 <span className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl
-        shadow bg-[#e6f7f1] text-[#0f5132] font-bold text-lg tracking-tight">
-                    <Link href={"/"}>App - GPP</Link>
+        shadow  text-[#0f5132] font-bold text-lg tracking-tight">
+                    <Link href={"/"}>
+                        <Image
+                            src="/Imagens/image31_2.svg"
+                            alt="Logo App GPP"
+                            width={172}
+                            height={160}
+                            className="rounded-sm"
+                        />
+                    </Link>
                 </span>
             </h1>
             <div className="flex items-center gap-3">
@@ -85,7 +95,13 @@ export default function Header() {
                         <SheetContent className="border-1-accent p-4">
                             <SheetHeader>
                                 <SheetTitle className="text-primary text-center">
-                                    Menu
+                                    <Image
+                                        src="/Imagens/image31_2.svg"
+                                        alt="Logo App GPP"
+                                        width={50}
+                                        height={50}
+                                        className="rounded-sm"
+                                    />Menu
                                 </SheetTitle>
                             </SheetHeader>
 
@@ -94,7 +110,7 @@ export default function Header() {
                                     <div className=" flex items-center gap-4 mt-6 border-b border-border pb-6">
                                         <div className="h-14 w-14 rounded-full overflow-hidden flex-shrink-0">
                                             <img
-                                                src={session.user?.image || ""}
+                                                src={session.user?.image || `${"/Imagens/image31_2.svg"}`}
                                                 alt={session.user?.name || "User Avatar"}
                                                 className="h-full w-full object-cover items-center" />
                                         </div>

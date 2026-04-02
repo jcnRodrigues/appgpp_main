@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState } from 'react';
 import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
@@ -153,7 +153,39 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-lg shadow overflow-hidden">
+                    <div className="md:hidden space-y-3">
+                        {resultado.resultados.map((linha) => (
+                            <div key={`${linha.linha}-${linha.idPat}`} className="bg-white rounded-lg shadow p-4 space-y-2">
+                                <div className="flex items-start justify-between gap-3">
+                                    <div>
+                                        <div className="text-sm font-semibold text-gray-900">Patrimônio: {linha.idPat || '-'}</div>
+                                        <div className="text-xs text-gray-500">Linha: {linha.linha}</div>
+                                    </div>
+                                    <span
+                                        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                                            linha.status === 'OK'
+                                                ? 'bg-green-100 text-green-800'
+                                                : linha.status === 'VALOR_DIVERGENTE'
+                                                    ? 'bg-orange-100 text-orange-800'
+                                                    : linha.status === 'NAO_ENCONTRADO'
+                                                        ? 'bg-red-100 text-red-800'
+                                                        : 'bg-gray-100 text-gray-800'
+                                        }`}
+                                    >
+                                        {linha.mensagem}
+                                    </span>
+                                </div>
+                                <div className="grid grid-cols-2 gap-2 text-xs">
+                                    <div className="text-gray-500">Valor Informado</div>
+                                    <div className="text-gray-800 text-right">{linha.valorInformado !== null ? linha.valorInformado.toFixed(2) : '-'}</div>
+                                    <div className="text-gray-500">Valor Sistema</div>
+                                    <div className="text-gray-800 text-right">{linha.valorSistema !== null ? linha.valorSistema.toFixed(2) : '-'}</div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="hidden md:block bg-white rounded-lg shadow overflow-hidden">
                         <div className="overflow-x-auto">
                             <table className="w-full">
                                 <thead className="bg-gray-50 border-b">
@@ -219,4 +251,5 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
         </div>
     );
 }
+
 
