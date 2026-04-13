@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { Edit, Trash2, Filter, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/back-end/components/ui/button';
@@ -50,6 +50,18 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
     const [paginaAtual, setPaginaAtual] = useState(1);
     const [itensPorPagina, setItensPorPagina] = useState(10);
     const [totalItens, setTotalItens] = useState(initialPatrimonios?.length || 0);
+    const centroOpcoesOrdenadas = useMemo(() => {
+        return [...centroOpcoes].sort((a, b) => {
+            const descricaoA = (a.descricaoCCusto || '').trim();
+            const descricaoB = (b.descricaoCCusto || '').trim();
+            const byDescricao = descricaoA.localeCompare(descricaoB, 'pt-BR', { sensitivity: 'base' });
+            if (byDescricao !== 0) return byDescricao;
+
+            const codigoA = (a.codigoCCusto || '').trim();
+            const codigoB = (b.codigoCCusto || '').trim();
+            return codigoA.localeCompare(codigoB, 'pt-BR', { sensitivity: 'base' });
+        });
+    }, [centroOpcoes]);
 
     useEffect(() => {
         setPaginaAtual(1);
@@ -201,7 +213,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                             className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                         >
                             <option value="">Todos os centros de custo</option>
-                            {centroOpcoes.map((centro) => (
+                            {centroOpcoesOrdenadas.map((centro) => (
                                 <option key={centro.idCCusto} value={centro.idCCusto}>
                                     {centro.descricaoCCusto || 'Sem descricao'}{centro.codigoCCusto ? ` (${centro.codigoCCusto})` : ''}
                                 </option>

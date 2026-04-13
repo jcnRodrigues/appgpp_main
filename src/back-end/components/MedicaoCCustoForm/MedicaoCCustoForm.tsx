@@ -43,6 +43,20 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
     const [erro, setErro] = useState<string | null>(null);
     const [resultado, setResultado] = useState<RespostaMedicao | null>(null);
 
+    const resumoInconsistencias = resultado
+        ? {
+            divergentes: resultado.resumo.divergentes,
+            naoEncontrados: resultado.resumo.naoEncontrados,
+            invalidos: resultado.resumo.invalidos,
+            naoInformados: resultado.naoInformados.length,
+            total:
+                resultado.resumo.divergentes +
+                resultado.resumo.naoEncontrados +
+                resultado.resumo.invalidos +
+                resultado.naoInformados.length
+        }
+        : null;
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setErro(null);
@@ -130,6 +144,37 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
 
             {resultado && (
                 <div className="space-y-6">
+                    <div className={`rounded-lg border p-4 ${
+                        (resumoInconsistencias?.total || 0) > 0
+                            ? 'bg-amber-50 border-amber-200'
+                            : 'bg-green-50 border-green-200'
+                    }`}>
+                        <h3 className="font-semibold text-sm">Resumo de inconsistências da importação</h3>
+                        <p className="text-sm mt-1 text-gray-700">
+                            {(resumoInconsistencias?.total || 0) > 0
+                                ? `Foram encontradas ${resumoInconsistencias?.total} inconsistências no total.`
+                                : 'Nenhuma inconsistência encontrada na importação.'}
+                        </p>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3 text-sm">
+                            <div className="bg-white rounded border px-3 py-2">
+                                <p className="text-xs text-gray-500">Valor divergente</p>
+                                <p className="font-semibold text-orange-600">{resumoInconsistencias?.divergentes || 0}</p>
+                            </div>
+                            <div className="bg-white rounded border px-3 py-2">
+                                <p className="text-xs text-gray-500">Não encontrado</p>
+                                <p className="font-semibold text-red-600">{resumoInconsistencias?.naoEncontrados || 0}</p>
+                            </div>
+                            <div className="bg-white rounded border px-3 py-2">
+                                <p className="text-xs text-gray-500">Linha inválida</p>
+                                <p className="font-semibold text-gray-700">{resumoInconsistencias?.invalidos || 0}</p>
+                            </div>
+                            <div className="bg-white rounded border px-3 py-2">
+                                <p className="text-xs text-gray-500">Não informados no arquivo</p>
+                                <p className="font-semibold text-slate-700">{resumoInconsistencias?.naoInformados || 0}</p>
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
                         <div className="bg-white rounded-lg shadow p-4 text-center">
                             <p className="text-xs text-gray-500">Total de linhas</p>

@@ -33,7 +33,8 @@ const FORMULARIOS_DISPONIVEIS = [
     { id: 'FUNCOES', label: 'Funcoes' },
     { id: 'LICENCAS_SOFTWARE', label: 'Licencas de Software' },
     { id: 'ALOCACOES', label: 'Alocacao de Patrimonios' },
-    { id: 'ACESSO_USUARIOS', label: 'Acesso de Usuarios' }
+    { id: 'ACESSO_USUARIOS', label: 'Acesso de Usuarios' },
+    { id: 'IMPORTACAO_EXPORTACAO', label: 'Importacao e Exportacao de Dados' }
 ];
 
 const initialForm = {

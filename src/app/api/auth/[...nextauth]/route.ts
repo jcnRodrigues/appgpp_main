@@ -18,7 +18,8 @@ const FORMULARIOS_TODOS = [
     "FUNCOES",
     "LICENCAS_SOFTWARE",
     "ALOCACOES",
-    "ACESSO_USUARIOS"
+    "ACESSO_USUARIOS",
+    "IMPORTACAO_EXPORTACAO"
 ];
 
 function hashSenha(senha: string) {
