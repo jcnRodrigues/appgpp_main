@@ -7454,39 +7454,63 @@ export namespace Prisma {
 
   export type AggregateTbFuncao = {
     _count: TbFuncaoCountAggregateOutputType | null
+    _avg: TbFuncaoAvgAggregateOutputType | null
+    _sum: TbFuncaoSumAggregateOutputType | null
     _min: TbFuncaoMinAggregateOutputType | null
     _max: TbFuncaoMaxAggregateOutputType | null
   }
 
+  export type TbFuncaoAvgAggregateOutputType = {
+    codigoFuncao: number | null
+  }
+
+  export type TbFuncaoSumAggregateOutputType = {
+    codigoFuncao: number | null
+  }
+
   export type TbFuncaoMinAggregateOutputType = {
     idFuncao: string | null
+    codigoFuncao: number | null
     nomeFuncao: string | null
   }
 
   export type TbFuncaoMaxAggregateOutputType = {
     idFuncao: string | null
+    codigoFuncao: number | null
     nomeFuncao: string | null
   }
 
   export type TbFuncaoCountAggregateOutputType = {
     idFuncao: number
+    codigoFuncao: number
     nomeFuncao: number
     _all: number
   }
 
 
+  export type TbFuncaoAvgAggregateInputType = {
+    codigoFuncao?: true
+  }
+
+  export type TbFuncaoSumAggregateInputType = {
+    codigoFuncao?: true
+  }
+
   export type TbFuncaoMinAggregateInputType = {
     idFuncao?: true
+    codigoFuncao?: true
     nomeFuncao?: true
   }
 
   export type TbFuncaoMaxAggregateInputType = {
     idFuncao?: true
+    codigoFuncao?: true
     nomeFuncao?: true
   }
 
   export type TbFuncaoCountAggregateInputType = {
     idFuncao?: true
+    codigoFuncao?: true
     nomeFuncao?: true
     _all?: true
   }
@@ -7529,6 +7553,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: TbFuncaoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TbFuncaoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: TbFuncaoMinAggregateInputType
@@ -7559,14 +7595,19 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: TbFuncaoCountAggregateInputType | true
+    _avg?: TbFuncaoAvgAggregateInputType
+    _sum?: TbFuncaoSumAggregateInputType
     _min?: TbFuncaoMinAggregateInputType
     _max?: TbFuncaoMaxAggregateInputType
   }
 
   export type TbFuncaoGroupByOutputType = {
     idFuncao: string
+    codigoFuncao: number
     nomeFuncao: string
     _count: TbFuncaoCountAggregateOutputType | null
+    _avg: TbFuncaoAvgAggregateOutputType | null
+    _sum: TbFuncaoSumAggregateOutputType | null
     _min: TbFuncaoMinAggregateOutputType | null
     _max: TbFuncaoMaxAggregateOutputType | null
   }
@@ -7587,6 +7628,7 @@ export namespace Prisma {
 
   export type tbFuncaoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     idFuncao?: boolean
+    codigoFuncao?: boolean
     nomeFuncao?: boolean
     tbFuncionario?: boolean | tbFuncao$tbFuncionarioArgs<ExtArgs>
     _count?: boolean | TbFuncaoCountOutputTypeDefaultArgs<ExtArgs>
@@ -7596,10 +7638,11 @@ export namespace Prisma {
 
   export type tbFuncaoSelectScalar = {
     idFuncao?: boolean
+    codigoFuncao?: boolean
     nomeFuncao?: boolean
   }
 
-  export type tbFuncaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idFuncao" | "nomeFuncao", ExtArgs["result"]["tbFuncao"]>
+  export type tbFuncaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idFuncao" | "codigoFuncao" | "nomeFuncao", ExtArgs["result"]["tbFuncao"]>
   export type tbFuncaoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbFuncionario?: boolean | tbFuncao$tbFuncionarioArgs<ExtArgs>
     _count?: boolean | TbFuncaoCountOutputTypeDefaultArgs<ExtArgs>
@@ -7612,6 +7655,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       idFuncao: string
+      codigoFuncao: number
       nomeFuncao: string
     }, ExtArgs["result"]["tbFuncao"]>
     composites: {}
@@ -7984,6 +8028,7 @@ export namespace Prisma {
    */
   interface tbFuncaoFieldRefs {
     readonly idFuncao: FieldRef<"tbFuncao", 'String'>
+    readonly codigoFuncao: FieldRef<"tbFuncao", 'Int'>
     readonly nomeFuncao: FieldRef<"tbFuncao", 'String'>
   }
     
@@ -18256,6 +18301,7 @@ export namespace Prisma {
 
   export const TbFuncaoScalarFieldEnum: {
     idFuncao: 'idFuncao',
+    codigoFuncao: 'codigoFuncao',
     nomeFuncao: 'nomeFuncao'
   };
 
@@ -18624,16 +18670,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Float'
+   * Reference to a field of type 'Int'
    */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
     
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'Float'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
   /**
    * Deep Input Types
@@ -18984,12 +19030,14 @@ export namespace Prisma {
     OR?: tbFuncaoWhereInput[]
     NOT?: tbFuncaoWhereInput | tbFuncaoWhereInput[]
     idFuncao?: StringFilter<"tbFuncao"> | string
+    codigoFuncao?: IntFilter<"tbFuncao"> | number
     nomeFuncao?: StringFilter<"tbFuncao"> | string
     tbFuncionario?: TbFuncionarioListRelationFilter
   }
 
   export type tbFuncaoOrderByWithRelationInput = {
     idFuncao?: SortOrder
+    codigoFuncao?: SortOrder
     nomeFuncao?: SortOrder
     tbFuncionario?: tbFuncionarioOrderByRelationAggregateInput
     _relevance?: tbFuncaoOrderByRelevanceInput
@@ -18997,19 +19045,23 @@ export namespace Prisma {
 
   export type tbFuncaoWhereUniqueInput = Prisma.AtLeast<{
     idFuncao?: string
+    codigoFuncao?: number
     AND?: tbFuncaoWhereInput | tbFuncaoWhereInput[]
     OR?: tbFuncaoWhereInput[]
     NOT?: tbFuncaoWhereInput | tbFuncaoWhereInput[]
     nomeFuncao?: StringFilter<"tbFuncao"> | string
     tbFuncionario?: TbFuncionarioListRelationFilter
-  }, "idFuncao">
+  }, "idFuncao" | "codigoFuncao">
 
   export type tbFuncaoOrderByWithAggregationInput = {
     idFuncao?: SortOrder
+    codigoFuncao?: SortOrder
     nomeFuncao?: SortOrder
     _count?: tbFuncaoCountOrderByAggregateInput
+    _avg?: tbFuncaoAvgOrderByAggregateInput
     _max?: tbFuncaoMaxOrderByAggregateInput
     _min?: tbFuncaoMinOrderByAggregateInput
+    _sum?: tbFuncaoSumOrderByAggregateInput
   }
 
   export type tbFuncaoScalarWhereWithAggregatesInput = {
@@ -19017,6 +19069,7 @@ export namespace Prisma {
     OR?: tbFuncaoScalarWhereWithAggregatesInput[]
     NOT?: tbFuncaoScalarWhereWithAggregatesInput | tbFuncaoScalarWhereWithAggregatesInput[]
     idFuncao?: StringWithAggregatesFilter<"tbFuncao"> | string
+    codigoFuncao?: IntWithAggregatesFilter<"tbFuncao"> | number
     nomeFuncao?: StringWithAggregatesFilter<"tbFuncao"> | string
   }
 
@@ -20007,12 +20060,14 @@ export namespace Prisma {
 
   export type tbFuncaoCreateInput = {
     idFuncao?: string
+    codigoFuncao?: number
     nomeFuncao: string
     tbFuncionario?: tbFuncionarioCreateNestedManyWithoutTbFuncaoInput
   }
 
   export type tbFuncaoUncheckedCreateInput = {
     idFuncao?: string
+    codigoFuncao?: number
     nomeFuncao: string
     tbFuncionario?: tbFuncionarioUncheckedCreateNestedManyWithoutTbFuncaoInput
   }
@@ -20025,12 +20080,14 @@ export namespace Prisma {
 
   export type tbFuncaoUncheckedUpdateInput = {
     idFuncao?: StringFieldUpdateOperationsInput | string
+    codigoFuncao?: IntFieldUpdateOperationsInput | number
     nomeFuncao?: StringFieldUpdateOperationsInput | string
     tbFuncionario?: tbFuncionarioUncheckedUpdateManyWithoutTbFuncaoNestedInput
   }
 
   export type tbFuncaoCreateManyInput = {
     idFuncao?: string
+    codigoFuncao?: number
     nomeFuncao: string
   }
 
@@ -20041,6 +20098,7 @@ export namespace Prisma {
 
   export type tbFuncaoUncheckedUpdateManyInput = {
     idFuncao?: StringFieldUpdateOperationsInput | string
+    codigoFuncao?: IntFieldUpdateOperationsInput | number
     nomeFuncao?: StringFieldUpdateOperationsInput | string
   }
 
@@ -21099,6 +21157,17 @@ export namespace Prisma {
     descricaoStatusFun?: SortOrder
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type tbFuncaoOrderByRelevanceInput = {
     fields: tbFuncaoOrderByRelevanceFieldEnum | tbFuncaoOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -21107,17 +21176,44 @@ export namespace Prisma {
 
   export type tbFuncaoCountOrderByAggregateInput = {
     idFuncao?: SortOrder
+    codigoFuncao?: SortOrder
     nomeFuncao?: SortOrder
+  }
+
+  export type tbFuncaoAvgOrderByAggregateInput = {
+    codigoFuncao?: SortOrder
   }
 
   export type tbFuncaoMaxOrderByAggregateInput = {
     idFuncao?: SortOrder
+    codigoFuncao?: SortOrder
     nomeFuncao?: SortOrder
   }
 
   export type tbFuncaoMinOrderByAggregateInput = {
     idFuncao?: SortOrder
+    codigoFuncao?: SortOrder
     nomeFuncao?: SortOrder
+  }
+
+  export type tbFuncaoSumOrderByAggregateInput = {
+    codigoFuncao?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -21943,6 +22039,14 @@ export namespace Prisma {
     deleteMany?: tbFuncionarioScalarWhereInput | tbFuncionarioScalarWhereInput[]
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type tbFuncionarioUncheckedUpdateManyWithoutTbFuncaoNestedInput = {
     create?: XOR<tbFuncionarioCreateWithoutTbFuncaoInput, tbFuncionarioUncheckedCreateWithoutTbFuncaoInput> | tbFuncionarioCreateWithoutTbFuncaoInput[] | tbFuncionarioUncheckedCreateWithoutTbFuncaoInput[]
     connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbFuncaoInput | tbFuncionarioCreateOrConnectWithoutTbFuncaoInput[]
@@ -22652,6 +22756,22 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[]
@@ -22833,11 +22953,13 @@ export namespace Prisma {
 
   export type tbFuncaoCreateWithoutTbFuncionarioInput = {
     idFuncao?: string
+    codigoFuncao?: number
     nomeFuncao: string
   }
 
   export type tbFuncaoUncheckedCreateWithoutTbFuncionarioInput = {
     idFuncao?: string
+    codigoFuncao?: number
     nomeFuncao: string
   }
 
@@ -23003,6 +23125,7 @@ export namespace Prisma {
 
   export type tbFuncaoUncheckedUpdateWithoutTbFuncionarioInput = {
     idFuncao?: StringFieldUpdateOperationsInput | string
+    codigoFuncao?: IntFieldUpdateOperationsInput | number
     nomeFuncao?: StringFieldUpdateOperationsInput | string
   }
 

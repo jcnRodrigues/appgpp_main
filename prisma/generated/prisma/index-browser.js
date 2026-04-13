@@ -170,6 +170,7 @@ exports.Prisma.TbStatusFunScalarFieldEnum = {
 
 exports.Prisma.TbFuncaoScalarFieldEnum = {
   idFuncao: 'idFuncao',
+  codigoFuncao: 'codigoFuncao',
   nomeFuncao: 'nomeFuncao'
 };
 
