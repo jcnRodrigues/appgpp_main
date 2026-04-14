@@ -36,3 +36,12 @@ Configure no painel da Netlify as mesmas variaveis do `.env.example`, principalm
 - `GOOGLE_CLIENT_ID`
 - `GOOGLE_CLIENT_SECRET`
 - `NEXT_PUBLIC_DASHBOARD_REFRESH_MS`
+
+### Publicar via CLI (passos finais)
+
+```bash
+npx netlify login
+npx netlify init
+npx netlify env:import .env --context production
+npx netlify deploy --build --prod
+```
