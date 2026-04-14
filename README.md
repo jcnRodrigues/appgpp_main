@@ -10,52 +10,29 @@ npm run dev
 
 A aplicacao abre em `http://localhost:3000`.
 
-## Expor local com ngrok
+## Deploy na Netlify
 
-1. Instale as dependencias do projeto (o `ngrok` ja esta no `devDependencies`):
+O projeto ja esta configurado com:
 
-```bash
-npm install
-```
+- `netlify.toml`
+- plugin `@netlify/plugin-nextjs`
+- script `npm run netlify-build` (executa `prisma generate` + `next build`)
 
-2. Se quiser salvar o token no ngrok uma vez so:
-
-```bash
-npx ngrok config add-authtoken <SEU_TOKEN>
-```
-
-3. Execute o tunel publico:
+### Build command
 
 ```bash
-npm run dev:public
+npm run netlify-build
 ```
 
-Se o PowerShell bloquear `npm.ps1`, use:
+### Variaveis de ambiente (Netlify)
 
-```powershell
-npm.cmd run dev:public
-```
+Configure no painel da Netlify as mesmas variaveis do `.env.example`, principalmente:
 
-Variaveis opcionais:
-
-- `PORT`: porta local do Next.js (padrao `3000`)
-- `NGROK_DOMAIN`: dominio reservado no ngrok (quando voce tiver um)
-- `NGROK_AUTHTOKEN`: token do ngrok (o script configura automaticamente antes de abrir o tunel)
-- `NGROK_TARGET_HOST`: IP/host local que o ngrok deve tunelar (padrao: IPv4 ativo detectado automaticamente)
-
-Observacao: a cada execucao de `dev:public`, o script persiste automaticamente o IP ativo em `NGROK_TARGET_HOST` no `.env.local`.
-
-O script carrega automaticamente variaveis de `.env.local` (prioridade) e `.env`.
-Exemplo de `.env.local`:
-
-```env
-NGROK_AUTHTOKEN=SEU_TOKEN
-NGROK_DOMAIN=seu-dominio.ngrok.app
-PORT=3000
-```
-
-Exemplo com dominio reservado (PowerShell):
-
-```powershell
-$env:NGROK_AUTHTOKEN='SEU_TOKEN'; $env:NGROK_DOMAIN='seu-dominio.ngrok.app'; npm.cmd run dev:public
-```
+- `DATABASE_URL`
+- `NEXTAUTH_URL`
+- `NEXTAUTH_SECRET`
+- `ADMIN_EMAIL`
+- `ADMIN_PASSWORD`
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `NEXT_PUBLIC_DASHBOARD_REFRESH_MS`

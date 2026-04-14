@@ -8,6 +8,7 @@ import {
 } from '@/back-end/service/Cadastro.service/cadastro.service';
 import { getStatusPatrimonio } from '@/back-end/service/Patrimonio.services/patrimonio.service';
 import { getCentrosFiltro } from '@/lib/access';
+import { parseOptionalDateInput } from '@/lib/date-input';
 
 export async function GET(request: NextRequest) {
     try {
@@ -88,8 +89,8 @@ export async function POST(request: NextRequest) {
         const alocacao = await criarAlocacao({
             idPatCad: dados.idPatCad,
             idMatFunCad: dados.idMatFunCad,
-            dataCadPat: dados.dataCadPat ? new Date(dados.dataCadPat) : undefined,
-            dataDevPat: dados.dataDevPat ? new Date(dados.dataDevPat) : undefined,
+            dataCadPat: parseOptionalDateInput(dados.dataCadPat),
+            dataDevPat: parseOptionalDateInput(dados.dataDevPat),
             idStatusPatCad: dados.idStatusPatCad || undefined
         });
 

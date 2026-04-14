@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getPatrimonioCardById, atualizarPatrimonio } from '@/back-end/service/Patrimonio.services/patrimonio.service';
 import prisma from '../../../../../prisma/prisma';
 import { getCentrosFiltro } from '@/lib/access';
+import { parseNullableDateInput } from '@/lib/date-input';
 
 export async function GET(
     request: NextRequest,
@@ -57,8 +58,8 @@ export async function PUT(
         if (typeof dados.descricaoPat !== 'undefined') updateData.descricaoPat = dados.descricaoPat;
         if (typeof dados.descricaoDetalhadaPat !== 'undefined') updateData.descricaoDetalhadaPat = dados.descricaoDetalhadaPat;
         if (typeof dados.licencaPat !== 'undefined') updateData.licencaPat = dados.licencaPat;
-        if (typeof dados.dataEntPat !== 'undefined' && dados.dataEntPat !== null) updateData.dataEntPat = new Date(dados.dataEntPat);
-        if (typeof dados.dataSaiPat !== 'undefined' && dados.dataSaiPat !== null) updateData.dataSaiPat = new Date(dados.dataSaiPat);
+        if (typeof dados.dataEntPat !== 'undefined') updateData.dataEntPat = parseNullableDateInput(dados.dataEntPat);
+        if (typeof dados.dataSaiPat !== 'undefined') updateData.dataSaiPat = parseNullableDateInput(dados.dataSaiPat);
         if (typeof dados.notaFiscalPat !== 'undefined') updateData.notaFiscalPat = dados.notaFiscalPat;
         if (typeof dados.valorPat !== 'undefined') {
             const v = typeof dados.valorPat === 'number' ? dados.valorPat : parseFloat(dados.valorPat);

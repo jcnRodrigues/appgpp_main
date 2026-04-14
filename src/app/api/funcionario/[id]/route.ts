@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getFuncionarioByIdInterno, atualizarFuncionario } from '@/back-end/service/Funcionario.service/funcionario.service';
 import prisma from '../../../../../prisma/prisma';
 import { getCentrosFiltro } from '@/lib/access';
+import { parseDateInput, parseNullableDateInput } from '@/lib/date-input';
 
 export async function GET(
     request: NextRequest,
@@ -55,8 +56,8 @@ export async function PUT(
         const updateData: any = {};
         if (typeof dados.nomeFun !== 'undefined') updateData.nomeFun = dados.nomeFun;
         if (typeof dados.cpfFun !== 'undefined') updateData.cpfFun = dados.cpfFun;
-        if (typeof dados.dataAdmFun !== 'undefined' && dados.dataAdmFun !== null) updateData.dataAdmFun = new Date(dados.dataAdmFun);
-        if (typeof dados.dataDesFun !== 'undefined' && dados.dataDesFun !== null) updateData.dataDesFun = new Date(dados.dataDesFun);
+        if (typeof dados.dataAdmFun !== 'undefined') updateData.dataAdmFun = parseNullableDateInput(dados.dataAdmFun);
+        if (typeof dados.dataDesFun !== 'undefined') updateData.dataDesFun = parseNullableDateInput(dados.dataDesFun);
         if (typeof dados.avatarFun !== 'undefined') updateData.avatarFun = dados.avatarFun;
         if (typeof dados.idFuncaoFun !== 'undefined') updateData.idFuncaoFun = dados.idFuncaoFun;
         if (typeof dados.idStatusFun !== 'undefined') updateData.idStatusFun = dados.idStatusFun;
@@ -65,8 +66,8 @@ export async function PUT(
         if (Array.isArray(dados.licencasVinculos)) {
             updateData.licencasVinculos = dados.licencasVinculos.map((v: any) => ({
                 idLic: v.idLic,
-                dataInicio: new Date(v.dataInicio),
-                dataVencimetno: new Date(v.dataVencimetno)
+                dataInicio: parseDateInput(v.dataInicio),
+                dataVencimetno: parseDateInput(v.dataVencimetno)
             }));
         }
 

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { criarFuncionario, listarFuncionarios, contarFuncionarios } from '@/back-end/service/Funcionario.service/funcionario.service';
 import { getCentrosFiltro } from '@/lib/access';
+import { parseDateInput, parseOptionalDateInput } from '@/lib/date-input';
 
 export async function GET(request: NextRequest) {
     try {
@@ -60,8 +61,8 @@ export async function POST(request: NextRequest) {
         const licencasVinculos = Array.isArray(dados.licencasVinculos)
             ? dados.licencasVinculos.map((v: any) => ({
                 idLic: v.idLic,
-                dataInicio: new Date(v.dataInicio),
-                dataVencimetno: new Date(v.dataVencimetno)
+                dataInicio: parseDateInput(v.dataInicio),
+                dataVencimetno: parseDateInput(v.dataVencimetno)
             }))
             : [];
 
@@ -69,7 +70,7 @@ export async function POST(request: NextRequest) {
             idMatFun: dados.idMatFun,
             nomeFun: dados.nomeFun,
             cpfFun: dados.cpfFun,
-            dataAdmFun: dados.dataAdmFun ? new Date(dados.dataAdmFun) : undefined,
+            dataAdmFun: parseOptionalDateInput(dados.dataAdmFun),
             avatarFun: dados.avatarFun,
             idFuncaoFun: dados.idFuncaoFun,
             idStatusFun: dados.idStatusFun,

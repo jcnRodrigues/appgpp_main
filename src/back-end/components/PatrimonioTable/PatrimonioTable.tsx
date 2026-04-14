@@ -314,18 +314,18 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
 
             {/* Tabela desktop */}
             <div className="hidden md:block bg-white rounded-lg shadow-md overflow-hidden">
-                <div className="overflow-x-auto">
-                    <table className="w-full">
+                <div className="overflow-hidden">
+                    <table className="w-full table-fixed">
                         <thead className="bg-gray-50 border-b">
                             <tr>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">ID</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Descrição</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Tipo</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Valor</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Data Entrada</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Status</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Centro Custo</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Ações</th>
+                                <th className="w-[5%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">ID</th>
+                                <th className="w-[20%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Descrição</th>
+                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Tipo</th>
+                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Valor</th>
+                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Data Entrada</th>
+                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Status</th>
+                                <th className="w-[15%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Centro Custo</th>
+                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Ações</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -93,7 +93,18 @@ export default function CadastroTable() {
 
     const formatarData = (data: string | null) => {
         if (!data) return '-';
-        return new Date(data).toLocaleDateString('pt-BR');
+
+        // Preserva a data civil gravada no banco (evita deslocamento por fuso horario).
+        const match = data.match(/^(\d{4})-(\d{2})-(\d{2})/);
+        if (match) {
+            const [, ano, mes, dia] = match;
+            return `${dia}/${mes}/${ano}`;
+        }
+
+        const parsed = new Date(data);
+        if (Number.isNaN(parsed.getTime())) return '-';
+
+        return parsed.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
     };
 
     const [pdfLoading, setPdfLoading] = useState<string | null>(null);

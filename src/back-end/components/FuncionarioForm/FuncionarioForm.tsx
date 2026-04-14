@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
 import { Button } from '@/back-end/components/ui/button';
@@ -10,6 +10,7 @@ import { useFormDraft } from '@/back-end/hooks/useFormDraft';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/back-end/components/ui/sheet';
 
 interface Funcao {
+    [x: string]: ReactNode;
     idFuncao: string;
     nomeFuncao: string;
 }
@@ -532,7 +533,7 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                                     ) : (
                                         funcoesFiltradas.map((funcao) => (
                                             <tr key={funcao.idFuncao} className="border-t hover:bg-gray-50">
-                                                <td className="px-4 py-3 text-sm font-medium">{funcao.idFuncao}</td>
+                                                <td className="px-4 py-3 text-sm font-medium">{funcao.codigoFuncao}</td>
                                                 <td className="px-4 py-3 text-sm">{funcao.nomeFuncao}</td>
                                                 <td className="px-4 py-3 text-center">
                                                     <button

@@ -3,6 +3,13 @@
     "DockerRun.DisableAutoGenerateConfig": true,
     "chat.editRequests": "none",
     "chatgpt.runCodexInWindowsSubsystemForLinux": true,
+    "prisma.schemaPath": "prisma/schema.prisma",
+    "files.watcherExclude": {
+        "**/prisma/generated/**": true
+    },
+    "search.exclude": {
+        "**/prisma/generated/**": true
+    },
     "sqltools.connections": [
         {
             "mysqlOptions": {
@@ -18,6 +25,5 @@
             "database": "dbapp",
             "username": "root"
         }
-    ],
-
+    ]
 }

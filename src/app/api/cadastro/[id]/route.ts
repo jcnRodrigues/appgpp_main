@@ -5,6 +5,7 @@ import {
     deletarAlocacao 
 } from '@/back-end/service/Cadastro.service/cadastro.service';
 import { getCentrosFiltro } from '@/lib/access';
+import { parseNullableDateInput } from '@/lib/date-input';
 
 export async function GET(
     request: NextRequest,
@@ -49,10 +50,12 @@ export async function PUT(
     try {
         const { id } = await params;
         const dados = await request.json();
+        const hasDataCadPat = Object.prototype.hasOwnProperty.call(dados, 'dataCadPat');
+        const hasDataDevPat = Object.prototype.hasOwnProperty.call(dados, 'dataDevPat');
 
         const alocacao = await atualizarAlocacao(id, {
-            dataCadPat: dados.dataCadPat ? new Date(dados.dataCadPat) : undefined,
-            dataDevPat: dados.dataDevPat ? new Date(dados.dataDevPat) : undefined,
+            dataCadPat: hasDataCadPat ? parseNullableDateInput(dados.dataCadPat) ?? undefined : undefined,
+            dataDevPat: hasDataDevPat ? parseNullableDateInput(dados.dataDevPat) : undefined,
             idStatusPatCad: dados.idStatusPatCad || undefined
         });
 

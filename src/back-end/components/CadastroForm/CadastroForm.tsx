@@ -374,9 +374,9 @@ export default function CadastroForm({
             <Sheet open={isFuncionarioSheetOpen} onOpenChange={setIsFuncionarioSheetOpen}>
                 <SheetContent side="right" className="w-[600px] sm:max-w-[600px]">
                     <SheetHeader>
-                        <SheetTitle>Pesquisar FuncionÃ¡rio</SheetTitle>
+                        <SheetTitle>Pesquisar Funcionário</SheetTitle>
                         <SheetDescription>
-                            Digite o nome ou matrÃ­cula do funcionÃ¡rio para buscar
+                            Digite o nome ou matrícula do funcionário para buscar
                         </SheetDescription>
                     </SheetHeader>
 

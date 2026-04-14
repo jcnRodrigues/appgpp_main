@@ -277,7 +277,7 @@ export async function criarAlocacao(dados: {
 // Atualizar alocaÃ§Ã£o (principalmente para registrar devoluÃ§Ã£o)
 export async function atualizarAlocacao(idCad: string, dados: Partial<{
     dataCadPat?: Date;
-    dataDevPat?: Date;
+    dataDevPat?: Date | null;
     idStatusPatCad?: string;
 }>) {
     return await prisma.$transaction(async (tx) => {

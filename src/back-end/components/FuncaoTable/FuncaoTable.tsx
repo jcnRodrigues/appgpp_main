@@ -7,6 +7,7 @@ import { Button } from '@/back-end/components/ui/button';
 
 interface Funcao {
     idFuncao: string;
+    codigoFuncao: number;
     nomeFuncao: string;
 }
 
@@ -137,7 +138,8 @@ export default function FuncaoTable() {
                     ) : (
                         funcoes.map((funcao) => (
                             <div key={funcao.idFuncao} className="bg-white rounded-lg shadow p-4 space-y-3">
-                                <div className="text-sm font-semibold text-gray-900">{funcao.nomeFuncao}</div>
+                                <div className="text-sm text-gray-600">Codigo: <span className="font-semibold text-gray-900">{funcao.codigoFuncao}</span></div>
+                                <div className="text-sm text-gray-600">Funcao: <span className="font-semibold text-gray-900">{funcao.nomeFuncao}</span></div>
                                 <div className="flex items-center justify-end gap-2 pt-1">
                                     <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
                                         <Link href={`/funcao/${funcao.idFuncao}/editar`} title="Editar">
@@ -161,26 +163,28 @@ export default function FuncaoTable() {
                     <table className="w-full">
                         <thead>
                             <tr className="border-b bg-gray-50">
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Nome da Função</th>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Ações</th>
+                                <th className="w-[25%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Código</th>
+                                <th className="w-[50%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Nome da Função</th>
+                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             {loading ? (
                                 <tr>
-                                    <td colSpan={2} className="px-6 py-8 text-center text-gray-500">
+                                    <td colSpan={3} className="px-6 py-8 text-center text-gray-500">
                                         Carregando...
                                     </td>
                                 </tr>
                             ) : funcoes.length === 0 ? (
                                 <tr>
-                                    <td colSpan={2} className="px-6 py-8 text-center text-gray-500">
+                                    <td colSpan={3} className="px-6 py-8 text-center text-gray-500">
                                         Nenhuma função cadastrada
                                     </td>
                                 </tr>
                             ) : (
                                 funcoes.map(funcao => (
                                     <tr key={funcao.idFuncao} className="border-b hover:bg-gray-50 transition">
+                                        <td className="px-6 py-4 text-sm">{funcao.codigoFuncao}</td>
                                         <td className="px-6 py-4 text-sm">{funcao.nomeFuncao}</td>
                                         <td className="px-6 py-4 text-sm">
                                             <div className="flex gap-2">

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { criarPatrimonio, listarPatrimonios, contarPatrimonios } from '@/back-end/service/Patrimonio.services/patrimonio.service';
 import { getCentrosFiltro } from '@/lib/access';
+import { parseDateInput, parseOptionalDateInput } from '@/lib/date-input';
 
 export async function GET(request: NextRequest) {
     try {
@@ -75,8 +76,8 @@ export async function POST(request: NextRequest) {
             descricaoPat: dados.descricaoPat,
             descricaoDetalhadaPat: dados.descricaoDetalhadaPat,
             licencaPat: dados.licencaPat,
-            dataEntPat: new Date(dados.dataEntPat),
-            dataSaiPat: dados.dataSaiPat ? new Date(dados.dataSaiPat) : undefined,
+            dataEntPat: parseDateInput(dados.dataEntPat),
+            dataSaiPat: parseOptionalDateInput(dados.dataSaiPat),
             notaFiscalPat: dados.notaFiscalPat,
             valorPat: parseFloat(dados.valorPat),
             idPat_TipoPat: dados.idPat_TipoPat,
