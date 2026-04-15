@@ -6,8 +6,56 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import NextAuth from "next-auth/next";
 import crypto from "crypto";
+import fs from "fs";
+import path from "path";
 
 const prismaClient = prisma as any;
+
+function resolveNextAuthUrl() {
+    const envUrl = process.env.NEXTAUTH_URL?.trim() || "";
+    const netlifyUrl = process.env.URL?.trim() || "";
+    const isLocalhost = /localhost|127\.0\.0\.1/i.test(envUrl);
+
+    if (process.env.NODE_ENV === "production" && netlifyUrl && (!envUrl || isLocalhost)) {
+        return netlifyUrl;
+    }
+
+    return envUrl;
+}
+
+type GoogleWebCredentials = {
+    web?: {
+        client_id?: string;
+        client_secret?: string;
+    };
+};
+
+function getGoogleCredentials() {
+    const fromEnv = {
+        clientId: process.env.GOOGLE_CLIENT_ID?.trim() || "",
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET?.trim() || "",
+    };
+
+    try {
+        const credentialPath = path.resolve(process.cwd(), "client_secret.json");
+        if (!fs.existsSync(credentialPath)) return fromEnv;
+
+        const raw = fs.readFileSync(credentialPath, "utf-8");
+        const parsed = JSON.parse(raw) as GoogleWebCredentials;
+        const clientId = parsed?.web?.client_id?.trim() || fromEnv.clientId;
+        const clientSecret = parsed?.web?.client_secret?.trim() || fromEnv.clientSecret;
+
+        return { clientId, clientSecret };
+    } catch {
+        return fromEnv;
+    }
+}
+
+const googleCredentials = getGoogleCredentials();
+const resolvedNextAuthUrl = resolveNextAuthUrl();
+if (resolvedNextAuthUrl) {
+    process.env.NEXTAUTH_URL = resolvedNextAuthUrl;
+}
 
 const FORMULARIOS_TODOS = [
     "DASHBOARD",
@@ -83,12 +131,29 @@ async function ensureBootstrapGoogle(email: string, name?: string | null) {
     });
 }
 
+async function findUserForGoogleLogin(email: string) {
+    const googleUser = await prismaClient.tbUser.findFirst({
+        where: {
+            emailUser: email,
+            authTypeUser: "GOOGLE"
+        }
+    });
+    if (googleUser) return googleUser;
+
+    return prismaClient.tbUser.findFirst({
+        where: {
+            emailUser: email,
+            authTypeUser: "LOCAL"
+        }
+    });
+}
+
 export const AuthOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
         GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID as string,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+            clientId: googleCredentials.clientId,
+            clientSecret: googleCredentials.clientSecret,
             allowDangerousEmailAccountLinking: true,
         }),
         CredentialsProvider({
@@ -140,12 +205,7 @@ export const AuthOptions = {
 
                 await ensureBootstrapGoogle(email, user?.name);
 
-                const acesso = await prismaClient.tbUser.findFirst({
-                    where: {
-                        emailUser: email,
-                        authTypeUser: "GOOGLE"
-                    }
-                });
+                const acesso = await findUserForGoogleLogin(email);
                 if (!acesso || acesso.statusUser !== "ATIVO") return false;
             }
             return true;
@@ -165,12 +225,20 @@ export const AuthOptions = {
                 token.centros = user.centros || [];
                 token.status = user.status || "ATIVO";
             } else if (token?.email) {
-                const acesso = await prismaClient.tbUser.findFirst({
+                let acesso = await prismaClient.tbUser.findFirst({
                     where: {
                         emailUser: token.email,
                         authTypeUser: token.authType || "GOOGLE"
                     }
                 });
+                if (!acesso && token.authType === "GOOGLE") {
+                    acesso = await prismaClient.tbUser.findFirst({
+                        where: {
+                            emailUser: token.email,
+                            authTypeUser: "LOCAL"
+                        }
+                    });
+                }
                 if (acesso) {
                     token.name = acesso.nomeUser || token.name;
                     token.formularios = normalizeArray(acesso.formulariosUser);
