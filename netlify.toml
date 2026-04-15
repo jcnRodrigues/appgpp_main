@@ -1,9 +1,30 @@
 [build]
   command = "npm run netlify-build"
+  functions = "netlify/functions"
+  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "20"
   NPM_FLAGS = "--include=dev"
 
+# Aumentar limite de memória para builds maiores
+[build.processing]
+  skip_go_digest_check = false
+
+# Gerar cache para melhor performance
+[build.processing.html]
+  pretty_urls = true
+
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+# Timeout para builds longos (em segundos)
+[context.production]
+  command = "npm run netlify-build"
+  environment = { NODE_ENV = "production" }
+
+# Redirecionar URLs sem trailing slash
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
