@@ -8,6 +8,7 @@ function getRequiredFormulario(pathname: string) {
   if (pathname.startsWith("/ccustos") || pathname.startsWith("/ccusto")) return "CENTRO_CUSTO";
   if (pathname.startsWith("/funcionariosadd") || pathname.startsWith("/funcionario")) return "FUNCIONARIOS";
   if (pathname.startsWith("/patrimoniolist") || pathname.startsWith("/patrimonio")) return "PATRIMONIO";
+  if (pathname.startsWith("/monitor-patrimonios")) return "PATRIMONIO";
   if (pathname.startsWith("/funcoes") || pathname.startsWith("/funcao")) return "FUNCOES";
   if (pathname.startsWith("/alocacoes")) return "ALOCACOES";
   if (pathname.startsWith("/acesso-usuarios")) return "ACESSO_USUARIOS";

@@ -1,0 +1,99 @@
+==========================================
+VARIÁVEIS PARA NETLIFY - COPIE E COLE
+==========================================
+
+GERADO EM: 15 de Abril de 2026
+REPOSITÓRIO: https://github.com/jcnRodrigues/appgpp_main
+
+==========================================
+NEXTAUTH_SECRET (Gerado + Seguro)
+==========================================
+NEXTAUTH_SECRET = UmQzp8awFLOkxwft6SbPiOMcgP8mXubWu+l522PnzMQ=
+
+[Faça uma cópia de segurança deste valor!]
+
+==========================================
+PASSO 1: Prepare o Banco de Dados
+==========================================
+
+Escolha UMA opção:
+
+OPÇÃO A - PlanetScale (Recomendado - Grátis)
+  1. Acesse: https://planetscale.com
+  2. Crie conta e faça login
+  3. Clique "Create a database"
+  4. Nome: appgpp
+  5. Clique "Create database"
+  6. Vá para "Connections"
+  7. Copie a string do lado JavaScript (MySQL)
+  Ficará assim:
+  DATABASE_URL=mysql://xxxx:xxxxx@aws.connect.psdb.cloud/appgpp?sslaccept=strict
+
+OPÇÃO B - AWS RDS
+  1. Acesse: https://console.aws.amazon.com
+  2. Crie RDS MySQL Instance
+  3. Espere criar (5-10 min)
+  4. Copie endpoint
+  Ficará assim:
+  DATABASE_URL=mysql://admin:password@database.xxx.us-east-1.rds.amazonaws.com:3306/appgpp
+
+OPÇÃO C - Seu Servidor Linux/Windows com MySQL
+  DATABASE_URL=mysql://user:password@seu-servidor.com:3306/appgpp
+
+==========================================
+PASSO 2: Configure Google OAuth
+==========================================
+
+1. Acesse: https://console.cloud.google.com
+2. Crie novo projeto (nome: appgpp)
+3. Busque "Google+ API" e ative
+4. Vá para "Credenciais"
+5. Clique "Create Credentials" > "OAuth 2.0 Client ID"
+6. Tipo: Web Application
+7. Nome: appgpp
+8. URIs autorizadas (adicione):
+   - https://seu-site.netlify.app
+   - http://localhost:3000
+9. URIs redirecionados (adicione):
+   - https://seu-site.netlify.app/api/auth/callback/google
+   - http://localhost:3000/api/auth/callback/google
+10. Copie: Client ID e Client Secret
+
+Virá assim:
+GOOGLE_CLIENT_ID = xxxxxxx.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET = GOCSPX-xxxxxxxxxxxxxxx
+
+==========================================
+PASSO 3: Defina Admin + URL Netlify
+==========================================
+
+ADMIN_EMAIL = seu-email@empresa.com
+ADMIN_PASSWORD = SenhaForte123!Especial (mínimo 12 caracteres)
+
+NEXTAUTH_URL = (você descobrirá depois que conectar ao Netlify)
+            = https://seu-site-aleatorio.netlify.app
+
+==========================================
+RESUMO DAS 7 VARIÁVEIS
+==========================================
+
+1. DATABASE_URL = [PREENCHIDO ACIMA]
+2. NEXTAUTH_URL = https://seu-site.netlify.app
+3. NEXTAUTH_SECRET = UmQzp8awFLOkxwft6SbPiOMcgP8mXubWu+l522PnzMQ=
+4. GOOGLE_CLIENT_ID = [GOOGLE CLOUD]
+5. GOOGLE_CLIENT_SECRET = [GOOGLE CLOUD]
+6. ADMIN_EMAIL = admin@empresa.com
+7. ADMIN_PASSWORD = SenhaForte123!
+
+==========================================
+PRÓXIMO: Copie as Variáveis no Netlify
+==========================================
+
+1. Acesse: https://app.netlify.com
+2. Selecione o site "appgpp_main"
+3. Vá: Site Settings > Build & Deploy > Environment
+4. Cole as 7 variáveis (um valor por linha)
+5. Clique "Deploy site" novamente
+
+PRONTO!
+

@@ -32,6 +32,7 @@ export default function Header() {
         { icon: Home, label: "Home", href: "/", required: "DASHBOARD" },
         { icon: User, label: "Funcionários", href: "/funcionariosadd", required: "FUNCIONARIOS" },
         { icon: LaptopIcon, label: "Patrimônio", href: "/patrimoniolist", required: "PATRIMONIO" },
+        { icon: Monitor, label: "Monitor de Rede", href: "/monitor-patrimonios", required: "MONITOR_PATRIMONIOS" },
         { icon: LandmarkIcon, label: "Centros de Custo", href: "/ccustos", required: "CENTRO_CUSTO" },
         { icon: ClipboardCheck, label: "Medição por Centro de Custo", href: "/ccusto/medicao", required: "MEDICAO_CCUSTO" },
         { icon: UserSearchIcon, label: "Função", href: "/funcoes", required: "FUNCOES" },

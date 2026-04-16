@@ -28,6 +28,7 @@ const FORMULARIOS_DISPONIVEIS = [
     { id: 'DASHBOARD', label: 'Dashboard' },
     { id: 'FUNCIONARIOS', label: 'Funcionarios' },
     { id: 'PATRIMONIO', label: 'Patrimonio' },
+    { id: 'MONITOR_PATRIMONIOS', label: 'Monitor de Rede' },
     { id: 'CENTRO_CUSTO', label: 'Centros de Custo' },
     { id: 'MEDICAO_CCUSTO', label: 'Medicao por Centro de Custo' },
     { id: 'FUNCOES', label: 'Funcoes' },

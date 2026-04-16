@@ -1,0 +1,200 @@
+╔════════════════════════════════════════════════════════════════╗
+║            PLANO COMPLETO DE DEPLOY - NETLIFY                  ║
+║                    15 de Abril de 2026                         ║
+╚════════════════════════════════════════════════════════════════╝
+
+REPOSITÓRIO: https://github.com/jcnRodrigues/appgpp_main
+STATUS: ✅ Código pronto no GitHub (branch: main)
+
+════════════════════════════════════════════════════════════════
+FASE 1: PREPARAR BANCO DE DADOS (10-30 minutos)
+════════════════════════════════════════════════════════════════
+
+Opção A: PlanetScale (RECOMENDADO - Grátis + Rápido)
+  ✅ Melhor para começar
+  ✅ Sem cartão de crédito necessário (free tier)
+  
+  Passo-a-passo:
+  1. Acesse: https://planetscale.com
+  2. Faça signup (email + password)
+  3. Clique "Create a database"
+  4. Nome: appgpp
+  5. Selecione região: South America (São Paulo)
+  6. Clique "Create database" e espere criar (2-3 min)
+  7. Clique em "Connections"
+  8. Selecione "General" ou "Node.js"
+  9. Copie a string inteira (algo como):
+     
+     mysql://xxxxx:xxxxx@aws.connect.psdb.cloud/appgpp?sslaccept=strict
+  
+  10. GUARDE ESTE VALOR → DATABASE_URL
+
+Opção B: AWS RDS (Mais robusto, pago)
+  ✅ Escalável
+  ⚠️ Requer cartão de crédito
+  
+  (Pule os detalhes, mas basicamente: criar RDS MySQL > copiar endpoint)
+
+════════════════════════════════════════════════════════════════
+FASE 2: CONFIGURAR GOOGLE OAUTH (15-20 minutos)
+════════════════════════════════════════════════════════════════
+
+1. Acesse: https://console.cloud.google.com
+2. Clique "Select a Project" > "New Project"
+3. Nome: appgpp
+4. Clique "Create"
+5. Aguarde criar (aparece notificação)
+6. Busque "Google+ API" e ative
+7. Vá para "Credentials"
+8. Clique "Create Credentials" > "OAuth 2.0 Client ID"
+   (Se pedir, configure a "OAuth consent screen" primeiro)
+   
+9. Preencha OAuth Consent Screen:
+   - App name: appgpp
+   - User support email: seu-email@empresa.com
+   - Developer contact email: seu-email@empresa.com
+   - Clique "Save and Continue"
+   - Scopes: deixe padrão, clique "Save and Continue"
+   - Test users: clique "Save and Continue"
+   - Volta para OAuth consent screen, clique "Back to Dashboard"
+
+10. Novamente: "Create Credentials" > "OAuth 2.0 Client ID"
+11. Application type: "Web Application"
+12. Name: appgpp
+13. Authorized JavaScript origins (ADICIONE):
+    - http://localhost:3000
+    (Você adicionará a URL do Netlify depois que souber)
+
+14. Authorized redirect URIs (ADICIONE):
+    - http://localhost:3000/api/auth/callback/google
+    (Você adicionará a URL do Netlify depois)
+
+15. Clique "Create"
+16. Copie: Client ID
+17. Copie: Client Secret
+
+GUARDE ESTES VALORES → GOOGLE_CLIENT_ID + GOOGLE_CLIENT_SECRET
+
+════════════════════════════════════════════════════════════════
+FASE 3: DEPLOY NO NETLIFY (5-10 minutos)
+════════════════════════════════════════════════════════════════
+
+1. Acesse: https://app.netlify.com
+2. Faça login (com sua conta GitHub é mais fácil)
+3. Clique "Add new site"
+4. Escolha "Import an existing project"
+5. Selecione GitHub → Autorize Netlify
+6. Busque seu repositório: appgpp_main
+7. Clique "Import"
+8. Configure Build Settings:
+   - Branch: main
+   - Build command: npm run netlify-build
+   - Publish directory: .next
+   (Tudo já está correto, não precisa mudar nada)
+9. Clique "Deploy site"
+10. Aguarde build finalizando... (pode falhar porque não tem variáveis)
+
+Após o build falhar (esperado):
+11. Vá para: Site settings
+12. Clique: Build & Deploy > Environment
+13. Clique: Edit variables
+14. Adicione estas 7 variáveis (uma por uma):
+
+    Variável 1:
+    Name: DATABASE_URL
+    Value: <copie da PlanetScale acima>
+
+    Variável 2:
+    Name: NEXTAUTH_SECRET
+    Value: UmQzp8awFLOkxwft6SbPiOMcgP8mXubWu+l522PnzMQ=
+
+    Variável 3:
+    Name: NEXTAUTH_URL
+    Value: (copie da barra de endereço do Netlify, tipo):
+           https://seu-site-aleatorio.netlify.app
+
+    Variável 4:
+    Name: GOOGLE_CLIENT_ID
+    Value: <copie do Google Cloud acima>
+
+    Variável 5:
+    Name: GOOGLE_CLIENT_SECRET
+    Value: <copie do Google Cloud acima>
+
+    Variável 6:
+    Name: ADMIN_EMAIL
+    Value: seu-email@empresa.com
+
+    Variável 7:
+    Name: ADMIN_PASSWORD
+    Value: SenhaForte123! (mínimo 12 caracteres)
+
+15. Clique "Save"
+16. Vá para "Deploys"
+17. Clique "Trigger deploy" > "Deploy site"
+18. Espere fazer novo build (~5-10 minutos)
+
+✅ QUANDO VER "Published" - site está LIVE! ���
+
+════════════════════════════════════════════════════════════════
+FASE 4: ATUALIZAR GOOGLE OAUTH COM URL REAL (5 minutos)
+════════════════════════════════════════════════════════════════
+
+Agora que sabe a URL do Netlify, volte ao Google Cloud e adicione:
+
+1. Acesse: https://console.cloud.google.com
+2. Vá para Credentials > OAuth 2.0 Client ID > appgpp
+3. Authorized JavaScript origins (ADICIONE):
+   https://seu-site.netlify.app
+
+4. Authorized redirect URIs (ADICIONE):
+   https://seu-site.netlify.app/api/auth/callback/google
+
+5. Clique "Save"
+
+(Google leva alguns minutos para atualizar)
+
+════════════════════════════════════════════════════════════════
+FASE 5: TESTES FINAIS (5 minutos)
+════════════════════════════════════════════════════════════════
+
+1. Acesse: https://seu-site.netlify.app
+2. Clique "Sign in"
+3. Teste: Login com Google
+4. Teste: Login com admin@empresa.com + senha
+5. Acesse Dashboard
+6. Gere um PDF para validar Puppeteer
+7. Teste todos os formulários
+
+✅ SE TUDO FUNCIONAR = DEPLOYMENT COMPLETO!
+
+════════════════════════════════════════════════════════════════
+RESUMO: VALORES IMPORTANTES
+════════════════════════════════════════════════════════════════
+
+NEXTAUTH_SECRET (já gerado):
+  UmQzp8awFLOkxwft6SbPiOMcgP8mXubWu+l522PnzMQ=
+  ⚠️ GUARDE EM LOCAL SEGURO!
+
+DATABASE_URL: (você preencheu na PlanetScale)
+GOOGLE_CLIENT_ID: (você copied do Google Cloud)
+GOOGLE_CLIENT_SECRET: (você copied do Google Cloud)
+NEXTAUTH_URL: (descobrirá quando conectar ao Netlify)
+ADMIN_EMAIL: seu-email@empresa.com
+ADMIN_PASSWORD: sua-senha-segura
+
+════════════════════════════════════════════════════════════════
+��� COMECE AGORA: FASE 1 - PlanetScale
+════════════════════════════════════════════════════════════════
+
+Próximo passo:
+1. Abra https://planetscale.com
+2. Faça signup
+3. Crie database "appgpp"
+4. Copie CONNECTION STRING
+5. Volte aqui depois!
+
+Tempo estimado: 10 minutos para PlanetScale + 15 min Google = 25 min total até siteLIVE
+
+════════════════════════════════════════════════════════════════
+

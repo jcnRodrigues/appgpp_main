@@ -334,10 +334,10 @@ export default function CadastroTable() {
                                         <span
                                             className={`px-3 py-1 rounded-full text-xs font-semibold 
                                             ${alocacao.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
-                                                    alocacao.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-purple-100 text-purpler-800' :
-                                                        alocacao.tbStatusPat?.descricaoStatPat === 'DEVOLUÃ‡ÃƒO' ? 'bg-red-100 text-red-800' :
+                                                    alocacao.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-orange-100 text-orange-800' :
+                                                        alocacao.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
                                                             alocacao.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-blue-100 text-blue-800' :
-                                                                alocacao.tbStatusPat?.descricaoStatPat === 'MANUTENÃ‡ÃƒO' ? 'bg-orange-100 text-orange-800' :
+                                                                alocacao.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-purple-100 text-purple-800' : 
                                                                     'bg-yellow-100 text-yellow-800'
                                                 }`}>
                                             {alocacao.tbStatusPat?.descricaoStatPat || '-'}
