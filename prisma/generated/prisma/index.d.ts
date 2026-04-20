@@ -93,6 +93,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  * 
  */
 export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTokenPayload>
+/**
+ * Model tbUnifiConfig
+ * 
+ */
+export type tbUnifiConfig = $Result.DefaultSelection<Prisma.$tbUnifiConfigPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -378,6 +383,16 @@ export class PrismaClient<
     * ```
     */
   get verificationToken(): Prisma.VerificationTokenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tbUnifiConfig`: Exposes CRUD operations for the **tbUnifiConfig** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TbUnifiConfigs
+    * const tbUnifiConfigs = await prisma.tbUnifiConfig.findMany()
+    * ```
+    */
+  get tbUnifiConfig(): Prisma.tbUnifiConfigDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -833,7 +848,8 @@ export namespace Prisma {
     Account: 'Account',
     Session: 'Session',
     User: 'User',
-    VerificationToken: 'VerificationToken'
+    VerificationToken: 'VerificationToken',
+    tbUnifiConfig: 'tbUnifiConfig'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -852,7 +868,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tbUser" | "tbFuncionario" | "tbLicenca" | "tbHasLicencaFuncionario" | "tbStatusFun" | "tbFuncao" | "tbPatrimonio" | "tbTipoPat" | "tbStatusPat" | "tbEmpresa" | "tbCCusto" | "tbCadastro" | "account" | "session" | "user" | "verificationToken"
+      modelProps: "tbUser" | "tbFuncionario" | "tbLicenca" | "tbHasLicencaFuncionario" | "tbStatusFun" | "tbFuncao" | "tbPatrimonio" | "tbTipoPat" | "tbStatusPat" | "tbEmpresa" | "tbCCusto" | "tbCadastro" | "account" | "session" | "user" | "verificationToken" | "tbUnifiConfig"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1912,6 +1928,72 @@ export namespace Prisma {
           }
         }
       }
+      tbUnifiConfig: {
+        payload: Prisma.$tbUnifiConfigPayload<ExtArgs>
+        fields: Prisma.tbUnifiConfigFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.tbUnifiConfigFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbUnifiConfigPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.tbUnifiConfigFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbUnifiConfigPayload>
+          }
+          findFirst: {
+            args: Prisma.tbUnifiConfigFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbUnifiConfigPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.tbUnifiConfigFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbUnifiConfigPayload>
+          }
+          findMany: {
+            args: Prisma.tbUnifiConfigFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbUnifiConfigPayload>[]
+          }
+          create: {
+            args: Prisma.tbUnifiConfigCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbUnifiConfigPayload>
+          }
+          createMany: {
+            args: Prisma.tbUnifiConfigCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.tbUnifiConfigDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbUnifiConfigPayload>
+          }
+          update: {
+            args: Prisma.tbUnifiConfigUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbUnifiConfigPayload>
+          }
+          deleteMany: {
+            args: Prisma.tbUnifiConfigDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.tbUnifiConfigUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.tbUnifiConfigUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbUnifiConfigPayload>
+          }
+          aggregate: {
+            args: Prisma.TbUnifiConfigAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTbUnifiConfig>
+          }
+          groupBy: {
+            args: Prisma.tbUnifiConfigGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TbUnifiConfigGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.tbUnifiConfigCountArgs<ExtArgs>
+            result: $Utils.Optional<TbUnifiConfigCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2020,6 +2102,7 @@ export namespace Prisma {
     session?: SessionOmit
     user?: UserOmit
     verificationToken?: VerificationTokenOmit
+    tbUnifiConfig?: tbUnifiConfigOmit
   }
 
   /* Types for Logging */
@@ -18223,6 +18306,932 @@ export namespace Prisma {
 
 
   /**
+   * Model tbUnifiConfig
+   */
+
+  export type AggregateTbUnifiConfig = {
+    _count: TbUnifiConfigCountAggregateOutputType | null
+    _min: TbUnifiConfigMinAggregateOutputType | null
+    _max: TbUnifiConfigMaxAggregateOutputType | null
+  }
+
+  export type TbUnifiConfigMinAggregateOutputType = {
+    id: string | null
+    type: string | null
+    apiKey: string | null
+    host: string | null
+    username: string | null
+    password: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TbUnifiConfigMaxAggregateOutputType = {
+    id: string | null
+    type: string | null
+    apiKey: string | null
+    host: string | null
+    username: string | null
+    password: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TbUnifiConfigCountAggregateOutputType = {
+    id: number
+    type: number
+    apiKey: number
+    host: number
+    username: number
+    password: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TbUnifiConfigMinAggregateInputType = {
+    id?: true
+    type?: true
+    apiKey?: true
+    host?: true
+    username?: true
+    password?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TbUnifiConfigMaxAggregateInputType = {
+    id?: true
+    type?: true
+    apiKey?: true
+    host?: true
+    username?: true
+    password?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TbUnifiConfigCountAggregateInputType = {
+    id?: true
+    type?: true
+    apiKey?: true
+    host?: true
+    username?: true
+    password?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TbUnifiConfigAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbUnifiConfig to aggregate.
+     */
+    where?: tbUnifiConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbUnifiConfigs to fetch.
+     */
+    orderBy?: tbUnifiConfigOrderByWithRelationInput | tbUnifiConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: tbUnifiConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbUnifiConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbUnifiConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned tbUnifiConfigs
+    **/
+    _count?: true | TbUnifiConfigCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TbUnifiConfigMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TbUnifiConfigMaxAggregateInputType
+  }
+
+  export type GetTbUnifiConfigAggregateType<T extends TbUnifiConfigAggregateArgs> = {
+        [P in keyof T & keyof AggregateTbUnifiConfig]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTbUnifiConfig[P]>
+      : GetScalarType<T[P], AggregateTbUnifiConfig[P]>
+  }
+
+
+
+
+  export type tbUnifiConfigGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbUnifiConfigWhereInput
+    orderBy?: tbUnifiConfigOrderByWithAggregationInput | tbUnifiConfigOrderByWithAggregationInput[]
+    by: TbUnifiConfigScalarFieldEnum[] | TbUnifiConfigScalarFieldEnum
+    having?: tbUnifiConfigScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TbUnifiConfigCountAggregateInputType | true
+    _min?: TbUnifiConfigMinAggregateInputType
+    _max?: TbUnifiConfigMaxAggregateInputType
+  }
+
+  export type TbUnifiConfigGroupByOutputType = {
+    id: string
+    type: string
+    apiKey: string | null
+    host: string | null
+    username: string | null
+    password: string | null
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: TbUnifiConfigCountAggregateOutputType | null
+    _min: TbUnifiConfigMinAggregateOutputType | null
+    _max: TbUnifiConfigMaxAggregateOutputType | null
+  }
+
+  type GetTbUnifiConfigGroupByPayload<T extends tbUnifiConfigGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TbUnifiConfigGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TbUnifiConfigGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TbUnifiConfigGroupByOutputType[P]>
+            : GetScalarType<T[P], TbUnifiConfigGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type tbUnifiConfigSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    apiKey?: boolean
+    host?: boolean
+    username?: boolean
+    password?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["tbUnifiConfig"]>
+
+
+
+  export type tbUnifiConfigSelectScalar = {
+    id?: boolean
+    type?: boolean
+    apiKey?: boolean
+    host?: boolean
+    username?: boolean
+    password?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type tbUnifiConfigOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "apiKey" | "host" | "username" | "password" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["tbUnifiConfig"]>
+
+  export type $tbUnifiConfigPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "tbUnifiConfig"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      type: string
+      apiKey: string | null
+      host: string | null
+      username: string | null
+      password: string | null
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["tbUnifiConfig"]>
+    composites: {}
+  }
+
+  type tbUnifiConfigGetPayload<S extends boolean | null | undefined | tbUnifiConfigDefaultArgs> = $Result.GetResult<Prisma.$tbUnifiConfigPayload, S>
+
+  type tbUnifiConfigCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<tbUnifiConfigFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TbUnifiConfigCountAggregateInputType | true
+    }
+
+  export interface tbUnifiConfigDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['tbUnifiConfig'], meta: { name: 'tbUnifiConfig' } }
+    /**
+     * Find zero or one TbUnifiConfig that matches the filter.
+     * @param {tbUnifiConfigFindUniqueArgs} args - Arguments to find a TbUnifiConfig
+     * @example
+     * // Get one TbUnifiConfig
+     * const tbUnifiConfig = await prisma.tbUnifiConfig.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends tbUnifiConfigFindUniqueArgs>(args: SelectSubset<T, tbUnifiConfigFindUniqueArgs<ExtArgs>>): Prisma__tbUnifiConfigClient<$Result.GetResult<Prisma.$tbUnifiConfigPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TbUnifiConfig that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {tbUnifiConfigFindUniqueOrThrowArgs} args - Arguments to find a TbUnifiConfig
+     * @example
+     * // Get one TbUnifiConfig
+     * const tbUnifiConfig = await prisma.tbUnifiConfig.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends tbUnifiConfigFindUniqueOrThrowArgs>(args: SelectSubset<T, tbUnifiConfigFindUniqueOrThrowArgs<ExtArgs>>): Prisma__tbUnifiConfigClient<$Result.GetResult<Prisma.$tbUnifiConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TbUnifiConfig that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbUnifiConfigFindFirstArgs} args - Arguments to find a TbUnifiConfig
+     * @example
+     * // Get one TbUnifiConfig
+     * const tbUnifiConfig = await prisma.tbUnifiConfig.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends tbUnifiConfigFindFirstArgs>(args?: SelectSubset<T, tbUnifiConfigFindFirstArgs<ExtArgs>>): Prisma__tbUnifiConfigClient<$Result.GetResult<Prisma.$tbUnifiConfigPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TbUnifiConfig that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbUnifiConfigFindFirstOrThrowArgs} args - Arguments to find a TbUnifiConfig
+     * @example
+     * // Get one TbUnifiConfig
+     * const tbUnifiConfig = await prisma.tbUnifiConfig.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends tbUnifiConfigFindFirstOrThrowArgs>(args?: SelectSubset<T, tbUnifiConfigFindFirstOrThrowArgs<ExtArgs>>): Prisma__tbUnifiConfigClient<$Result.GetResult<Prisma.$tbUnifiConfigPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TbUnifiConfigs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbUnifiConfigFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TbUnifiConfigs
+     * const tbUnifiConfigs = await prisma.tbUnifiConfig.findMany()
+     * 
+     * // Get first 10 TbUnifiConfigs
+     * const tbUnifiConfigs = await prisma.tbUnifiConfig.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tbUnifiConfigWithIdOnly = await prisma.tbUnifiConfig.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends tbUnifiConfigFindManyArgs>(args?: SelectSubset<T, tbUnifiConfigFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbUnifiConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TbUnifiConfig.
+     * @param {tbUnifiConfigCreateArgs} args - Arguments to create a TbUnifiConfig.
+     * @example
+     * // Create one TbUnifiConfig
+     * const TbUnifiConfig = await prisma.tbUnifiConfig.create({
+     *   data: {
+     *     // ... data to create a TbUnifiConfig
+     *   }
+     * })
+     * 
+     */
+    create<T extends tbUnifiConfigCreateArgs>(args: SelectSubset<T, tbUnifiConfigCreateArgs<ExtArgs>>): Prisma__tbUnifiConfigClient<$Result.GetResult<Prisma.$tbUnifiConfigPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TbUnifiConfigs.
+     * @param {tbUnifiConfigCreateManyArgs} args - Arguments to create many TbUnifiConfigs.
+     * @example
+     * // Create many TbUnifiConfigs
+     * const tbUnifiConfig = await prisma.tbUnifiConfig.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends tbUnifiConfigCreateManyArgs>(args?: SelectSubset<T, tbUnifiConfigCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a TbUnifiConfig.
+     * @param {tbUnifiConfigDeleteArgs} args - Arguments to delete one TbUnifiConfig.
+     * @example
+     * // Delete one TbUnifiConfig
+     * const TbUnifiConfig = await prisma.tbUnifiConfig.delete({
+     *   where: {
+     *     // ... filter to delete one TbUnifiConfig
+     *   }
+     * })
+     * 
+     */
+    delete<T extends tbUnifiConfigDeleteArgs>(args: SelectSubset<T, tbUnifiConfigDeleteArgs<ExtArgs>>): Prisma__tbUnifiConfigClient<$Result.GetResult<Prisma.$tbUnifiConfigPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TbUnifiConfig.
+     * @param {tbUnifiConfigUpdateArgs} args - Arguments to update one TbUnifiConfig.
+     * @example
+     * // Update one TbUnifiConfig
+     * const tbUnifiConfig = await prisma.tbUnifiConfig.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends tbUnifiConfigUpdateArgs>(args: SelectSubset<T, tbUnifiConfigUpdateArgs<ExtArgs>>): Prisma__tbUnifiConfigClient<$Result.GetResult<Prisma.$tbUnifiConfigPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TbUnifiConfigs.
+     * @param {tbUnifiConfigDeleteManyArgs} args - Arguments to filter TbUnifiConfigs to delete.
+     * @example
+     * // Delete a few TbUnifiConfigs
+     * const { count } = await prisma.tbUnifiConfig.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends tbUnifiConfigDeleteManyArgs>(args?: SelectSubset<T, tbUnifiConfigDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TbUnifiConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbUnifiConfigUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TbUnifiConfigs
+     * const tbUnifiConfig = await prisma.tbUnifiConfig.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends tbUnifiConfigUpdateManyArgs>(args: SelectSubset<T, tbUnifiConfigUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one TbUnifiConfig.
+     * @param {tbUnifiConfigUpsertArgs} args - Arguments to update or create a TbUnifiConfig.
+     * @example
+     * // Update or create a TbUnifiConfig
+     * const tbUnifiConfig = await prisma.tbUnifiConfig.upsert({
+     *   create: {
+     *     // ... data to create a TbUnifiConfig
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TbUnifiConfig we want to update
+     *   }
+     * })
+     */
+    upsert<T extends tbUnifiConfigUpsertArgs>(args: SelectSubset<T, tbUnifiConfigUpsertArgs<ExtArgs>>): Prisma__tbUnifiConfigClient<$Result.GetResult<Prisma.$tbUnifiConfigPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TbUnifiConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbUnifiConfigCountArgs} args - Arguments to filter TbUnifiConfigs to count.
+     * @example
+     * // Count the number of TbUnifiConfigs
+     * const count = await prisma.tbUnifiConfig.count({
+     *   where: {
+     *     // ... the filter for the TbUnifiConfigs we want to count
+     *   }
+     * })
+    **/
+    count<T extends tbUnifiConfigCountArgs>(
+      args?: Subset<T, tbUnifiConfigCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TbUnifiConfigCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TbUnifiConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TbUnifiConfigAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TbUnifiConfigAggregateArgs>(args: Subset<T, TbUnifiConfigAggregateArgs>): Prisma.PrismaPromise<GetTbUnifiConfigAggregateType<T>>
+
+    /**
+     * Group by TbUnifiConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbUnifiConfigGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends tbUnifiConfigGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: tbUnifiConfigGroupByArgs['orderBy'] }
+        : { orderBy?: tbUnifiConfigGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, tbUnifiConfigGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTbUnifiConfigGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the tbUnifiConfig model
+   */
+  readonly fields: tbUnifiConfigFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for tbUnifiConfig.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__tbUnifiConfigClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the tbUnifiConfig model
+   */
+  interface tbUnifiConfigFieldRefs {
+    readonly id: FieldRef<"tbUnifiConfig", 'String'>
+    readonly type: FieldRef<"tbUnifiConfig", 'String'>
+    readonly apiKey: FieldRef<"tbUnifiConfig", 'String'>
+    readonly host: FieldRef<"tbUnifiConfig", 'String'>
+    readonly username: FieldRef<"tbUnifiConfig", 'String'>
+    readonly password: FieldRef<"tbUnifiConfig", 'String'>
+    readonly isActive: FieldRef<"tbUnifiConfig", 'Boolean'>
+    readonly createdAt: FieldRef<"tbUnifiConfig", 'DateTime'>
+    readonly updatedAt: FieldRef<"tbUnifiConfig", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * tbUnifiConfig findUnique
+   */
+  export type tbUnifiConfigFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbUnifiConfig
+     */
+    select?: tbUnifiConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbUnifiConfig
+     */
+    omit?: tbUnifiConfigOmit<ExtArgs> | null
+    /**
+     * Filter, which tbUnifiConfig to fetch.
+     */
+    where: tbUnifiConfigWhereUniqueInput
+  }
+
+  /**
+   * tbUnifiConfig findUniqueOrThrow
+   */
+  export type tbUnifiConfigFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbUnifiConfig
+     */
+    select?: tbUnifiConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbUnifiConfig
+     */
+    omit?: tbUnifiConfigOmit<ExtArgs> | null
+    /**
+     * Filter, which tbUnifiConfig to fetch.
+     */
+    where: tbUnifiConfigWhereUniqueInput
+  }
+
+  /**
+   * tbUnifiConfig findFirst
+   */
+  export type tbUnifiConfigFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbUnifiConfig
+     */
+    select?: tbUnifiConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbUnifiConfig
+     */
+    omit?: tbUnifiConfigOmit<ExtArgs> | null
+    /**
+     * Filter, which tbUnifiConfig to fetch.
+     */
+    where?: tbUnifiConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbUnifiConfigs to fetch.
+     */
+    orderBy?: tbUnifiConfigOrderByWithRelationInput | tbUnifiConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tbUnifiConfigs.
+     */
+    cursor?: tbUnifiConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbUnifiConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbUnifiConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tbUnifiConfigs.
+     */
+    distinct?: TbUnifiConfigScalarFieldEnum | TbUnifiConfigScalarFieldEnum[]
+  }
+
+  /**
+   * tbUnifiConfig findFirstOrThrow
+   */
+  export type tbUnifiConfigFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbUnifiConfig
+     */
+    select?: tbUnifiConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbUnifiConfig
+     */
+    omit?: tbUnifiConfigOmit<ExtArgs> | null
+    /**
+     * Filter, which tbUnifiConfig to fetch.
+     */
+    where?: tbUnifiConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbUnifiConfigs to fetch.
+     */
+    orderBy?: tbUnifiConfigOrderByWithRelationInput | tbUnifiConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tbUnifiConfigs.
+     */
+    cursor?: tbUnifiConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbUnifiConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbUnifiConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tbUnifiConfigs.
+     */
+    distinct?: TbUnifiConfigScalarFieldEnum | TbUnifiConfigScalarFieldEnum[]
+  }
+
+  /**
+   * tbUnifiConfig findMany
+   */
+  export type tbUnifiConfigFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbUnifiConfig
+     */
+    select?: tbUnifiConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbUnifiConfig
+     */
+    omit?: tbUnifiConfigOmit<ExtArgs> | null
+    /**
+     * Filter, which tbUnifiConfigs to fetch.
+     */
+    where?: tbUnifiConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbUnifiConfigs to fetch.
+     */
+    orderBy?: tbUnifiConfigOrderByWithRelationInput | tbUnifiConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing tbUnifiConfigs.
+     */
+    cursor?: tbUnifiConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbUnifiConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbUnifiConfigs.
+     */
+    skip?: number
+    distinct?: TbUnifiConfigScalarFieldEnum | TbUnifiConfigScalarFieldEnum[]
+  }
+
+  /**
+   * tbUnifiConfig create
+   */
+  export type tbUnifiConfigCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbUnifiConfig
+     */
+    select?: tbUnifiConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbUnifiConfig
+     */
+    omit?: tbUnifiConfigOmit<ExtArgs> | null
+    /**
+     * The data needed to create a tbUnifiConfig.
+     */
+    data: XOR<tbUnifiConfigCreateInput, tbUnifiConfigUncheckedCreateInput>
+  }
+
+  /**
+   * tbUnifiConfig createMany
+   */
+  export type tbUnifiConfigCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many tbUnifiConfigs.
+     */
+    data: tbUnifiConfigCreateManyInput | tbUnifiConfigCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * tbUnifiConfig update
+   */
+  export type tbUnifiConfigUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbUnifiConfig
+     */
+    select?: tbUnifiConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbUnifiConfig
+     */
+    omit?: tbUnifiConfigOmit<ExtArgs> | null
+    /**
+     * The data needed to update a tbUnifiConfig.
+     */
+    data: XOR<tbUnifiConfigUpdateInput, tbUnifiConfigUncheckedUpdateInput>
+    /**
+     * Choose, which tbUnifiConfig to update.
+     */
+    where: tbUnifiConfigWhereUniqueInput
+  }
+
+  /**
+   * tbUnifiConfig updateMany
+   */
+  export type tbUnifiConfigUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update tbUnifiConfigs.
+     */
+    data: XOR<tbUnifiConfigUpdateManyMutationInput, tbUnifiConfigUncheckedUpdateManyInput>
+    /**
+     * Filter which tbUnifiConfigs to update
+     */
+    where?: tbUnifiConfigWhereInput
+    /**
+     * Limit how many tbUnifiConfigs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbUnifiConfig upsert
+   */
+  export type tbUnifiConfigUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbUnifiConfig
+     */
+    select?: tbUnifiConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbUnifiConfig
+     */
+    omit?: tbUnifiConfigOmit<ExtArgs> | null
+    /**
+     * The filter to search for the tbUnifiConfig to update in case it exists.
+     */
+    where: tbUnifiConfigWhereUniqueInput
+    /**
+     * In case the tbUnifiConfig found by the `where` argument doesn't exist, create a new tbUnifiConfig with this data.
+     */
+    create: XOR<tbUnifiConfigCreateInput, tbUnifiConfigUncheckedCreateInput>
+    /**
+     * In case the tbUnifiConfig was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<tbUnifiConfigUpdateInput, tbUnifiConfigUncheckedUpdateInput>
+  }
+
+  /**
+   * tbUnifiConfig delete
+   */
+  export type tbUnifiConfigDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbUnifiConfig
+     */
+    select?: tbUnifiConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbUnifiConfig
+     */
+    omit?: tbUnifiConfigOmit<ExtArgs> | null
+    /**
+     * Filter which tbUnifiConfig to delete.
+     */
+    where: tbUnifiConfigWhereUniqueInput
+  }
+
+  /**
+   * tbUnifiConfig deleteMany
+   */
+  export type tbUnifiConfigDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbUnifiConfigs to delete
+     */
+    where?: tbUnifiConfigWhereInput
+    /**
+     * Limit how many tbUnifiConfigs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbUnifiConfig without action
+   */
+  export type tbUnifiConfigDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbUnifiConfig
+     */
+    select?: tbUnifiConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbUnifiConfig
+     */
+    omit?: tbUnifiConfigOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -18425,6 +19434,21 @@ export namespace Prisma {
   };
 
   export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
+
+
+  export const TbUnifiConfigScalarFieldEnum: {
+    id: 'id',
+    type: 'type',
+    apiKey: 'apiKey',
+    host: 'host',
+    username: 'username',
+    password: 'password',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TbUnifiConfigScalarFieldEnum = (typeof TbUnifiConfigScalarFieldEnum)[keyof typeof TbUnifiConfigScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -18636,6 +19660,18 @@ export namespace Prisma {
   export type VerificationTokenOrderByRelevanceFieldEnum = (typeof VerificationTokenOrderByRelevanceFieldEnum)[keyof typeof VerificationTokenOrderByRelevanceFieldEnum]
 
 
+  export const tbUnifiConfigOrderByRelevanceFieldEnum: {
+    id: 'id',
+    type: 'type',
+    apiKey: 'apiKey',
+    host: 'host',
+    username: 'username',
+    password: 'password'
+  };
+
+  export type tbUnifiConfigOrderByRelevanceFieldEnum = (typeof tbUnifiConfigOrderByRelevanceFieldEnum)[keyof typeof tbUnifiConfigOrderByRelevanceFieldEnum]
+
+
   /**
    * Field references
    */
@@ -18680,6 +19716,13 @@ export namespace Prisma {
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
   /**
    * Deep Input Types
@@ -19706,6 +20749,79 @@ export namespace Prisma {
     identifier?: StringWithAggregatesFilter<"VerificationToken"> | string
     token?: StringWithAggregatesFilter<"VerificationToken"> | string
     expires?: DateTimeNullableWithAggregatesFilter<"VerificationToken"> | Date | string | null
+  }
+
+  export type tbUnifiConfigWhereInput = {
+    AND?: tbUnifiConfigWhereInput | tbUnifiConfigWhereInput[]
+    OR?: tbUnifiConfigWhereInput[]
+    NOT?: tbUnifiConfigWhereInput | tbUnifiConfigWhereInput[]
+    id?: StringFilter<"tbUnifiConfig"> | string
+    type?: StringFilter<"tbUnifiConfig"> | string
+    apiKey?: StringNullableFilter<"tbUnifiConfig"> | string | null
+    host?: StringNullableFilter<"tbUnifiConfig"> | string | null
+    username?: StringNullableFilter<"tbUnifiConfig"> | string | null
+    password?: StringNullableFilter<"tbUnifiConfig"> | string | null
+    isActive?: BoolFilter<"tbUnifiConfig"> | boolean
+    createdAt?: DateTimeFilter<"tbUnifiConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"tbUnifiConfig"> | Date | string
+  }
+
+  export type tbUnifiConfigOrderByWithRelationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    apiKey?: SortOrderInput | SortOrder
+    host?: SortOrderInput | SortOrder
+    username?: SortOrderInput | SortOrder
+    password?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _relevance?: tbUnifiConfigOrderByRelevanceInput
+  }
+
+  export type tbUnifiConfigWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: tbUnifiConfigWhereInput | tbUnifiConfigWhereInput[]
+    OR?: tbUnifiConfigWhereInput[]
+    NOT?: tbUnifiConfigWhereInput | tbUnifiConfigWhereInput[]
+    type?: StringFilter<"tbUnifiConfig"> | string
+    apiKey?: StringNullableFilter<"tbUnifiConfig"> | string | null
+    host?: StringNullableFilter<"tbUnifiConfig"> | string | null
+    username?: StringNullableFilter<"tbUnifiConfig"> | string | null
+    password?: StringNullableFilter<"tbUnifiConfig"> | string | null
+    isActive?: BoolFilter<"tbUnifiConfig"> | boolean
+    createdAt?: DateTimeFilter<"tbUnifiConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"tbUnifiConfig"> | Date | string
+  }, "id">
+
+  export type tbUnifiConfigOrderByWithAggregationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    apiKey?: SortOrderInput | SortOrder
+    host?: SortOrderInput | SortOrder
+    username?: SortOrderInput | SortOrder
+    password?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: tbUnifiConfigCountOrderByAggregateInput
+    _max?: tbUnifiConfigMaxOrderByAggregateInput
+    _min?: tbUnifiConfigMinOrderByAggregateInput
+  }
+
+  export type tbUnifiConfigScalarWhereWithAggregatesInput = {
+    AND?: tbUnifiConfigScalarWhereWithAggregatesInput | tbUnifiConfigScalarWhereWithAggregatesInput[]
+    OR?: tbUnifiConfigScalarWhereWithAggregatesInput[]
+    NOT?: tbUnifiConfigScalarWhereWithAggregatesInput | tbUnifiConfigScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"tbUnifiConfig"> | string
+    type?: StringWithAggregatesFilter<"tbUnifiConfig"> | string
+    apiKey?: StringNullableWithAggregatesFilter<"tbUnifiConfig"> | string | null
+    host?: StringNullableWithAggregatesFilter<"tbUnifiConfig"> | string | null
+    username?: StringNullableWithAggregatesFilter<"tbUnifiConfig"> | string | null
+    password?: StringNullableWithAggregatesFilter<"tbUnifiConfig"> | string | null
+    isActive?: BoolWithAggregatesFilter<"tbUnifiConfig"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"tbUnifiConfig"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"tbUnifiConfig"> | Date | string
   }
 
   export type tbUserCreateInput = {
@@ -20752,6 +21868,90 @@ export namespace Prisma {
     expires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type tbUnifiConfigCreateInput = {
+    id?: string
+    type?: string
+    apiKey?: string | null
+    host?: string | null
+    username?: string | null
+    password?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type tbUnifiConfigUncheckedCreateInput = {
+    id?: string
+    type?: string
+    apiKey?: string | null
+    host?: string | null
+    username?: string | null
+    password?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type tbUnifiConfigUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbUnifiConfigUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbUnifiConfigCreateManyInput = {
+    id?: string
+    type?: string
+    apiKey?: string | null
+    host?: string | null
+    username?: string | null
+    password?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type tbUnifiConfigUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbUnifiConfigUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    apiKey?: NullableStringFieldUpdateOperationsInput | string | null
+    host?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -21693,6 +22893,61 @@ export namespace Prisma {
     expires?: SortOrder
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type tbUnifiConfigOrderByRelevanceInput = {
+    fields: tbUnifiConfigOrderByRelevanceFieldEnum | tbUnifiConfigOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type tbUnifiConfigCountOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    apiKey?: SortOrder
+    host?: SortOrder
+    username?: SortOrder
+    password?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type tbUnifiConfigMaxOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    apiKey?: SortOrder
+    host?: SortOrder
+    username?: SortOrder
+    password?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type tbUnifiConfigMinOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    apiKey?: SortOrder
+    host?: SortOrder
+    username?: SortOrder
+    password?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type tbFuncionarioCreateNestedManyWithoutTbUserInput = {
     create?: XOR<tbFuncionarioCreateWithoutTbUserInput, tbFuncionarioUncheckedCreateWithoutTbUserInput> | tbFuncionarioCreateWithoutTbUserInput[] | tbFuncionarioUncheckedCreateWithoutTbUserInput[]
     connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbUserInput | tbFuncionarioCreateOrConnectWithoutTbUserInput[]
@@ -22595,6 +23850,10 @@ export namespace Prisma {
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -22824,6 +24083,19 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type tbFuncionarioCreateWithoutTbUserInput = {

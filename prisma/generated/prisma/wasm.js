@@ -263,6 +263,18 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
   expires: 'expires'
 };
 
+exports.Prisma.TbUnifiConfigScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  apiKey: 'apiKey',
+  host: 'host',
+  username: 'username',
+  password: 'password',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -409,6 +421,15 @@ exports.Prisma.VerificationTokenOrderByRelevanceFieldEnum = {
   token: 'token'
 };
 
+exports.Prisma.tbUnifiConfigOrderByRelevanceFieldEnum = {
+  id: 'id',
+  type: 'type',
+  apiKey: 'apiKey',
+  host: 'host',
+  username: 'username',
+  password: 'password'
+};
+
 
 exports.Prisma.ModelName = {
   tbUser: 'tbUser',
@@ -426,7 +447,8 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
   User: 'User',
-  VerificationToken: 'VerificationToken'
+  VerificationToken: 'VerificationToken',
+  tbUnifiConfig: 'tbUnifiConfig'
 };
 
 /**

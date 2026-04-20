@@ -11,6 +11,8 @@ function getRequiredFormulario(pathname: string) {
   if (pathname.startsWith("/funcoes") || pathname.startsWith("/funcao")) return "FUNCOES";
   if (pathname.startsWith("/alocacoes")) return "ALOCACOES";
   if (pathname.startsWith("/acesso-usuarios")) return "ACESSO_USUARIOS";
+  if (pathname.startsWith("/unifi-config")) return "UNIFI_CONFIG";
+  if (pathname.startsWith("/monitor-patrimonios")) return "UNIFI_CONFIG";
   return null;
 }
 

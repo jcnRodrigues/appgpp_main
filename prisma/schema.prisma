@@ -195,6 +195,21 @@ model VerificationToken {
   @@map("VerificationTokens")
 }
 
+model tbUnifiConfig {
+  id           String   @id @default(uuid())
+  type         String   @default("cloud")
+  apiKey       String?
+  host         String?
+  username     String?
+  password     String?
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([createdAt])
+}
+
 
 
 

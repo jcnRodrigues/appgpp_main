@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
 
-import { ClipboardCheck, DatabaseBackup, Home, KeyRound, LandmarkIcon, LaptopIcon, LogOut, Menu, Monitor, Moon, PackagePlusIcon, Sun, User, UserSearchIcon, UserCog } from "lucide-react";
+import { ClipboardCheck, DatabaseBackup, Home, KeyRound, LandmarkIcon, LaptopIcon, LogOut, Menu, Monitor, Moon, PackagePlusIcon, Settings, Sun, User, UserSearchIcon, UserCog } from "lucide-react";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { useState } from "react";
@@ -32,6 +32,7 @@ export default function Header() {
         { icon: Home, label: "Home", href: "/", required: "DASHBOARD" },
         { icon: User, label: "Funcionários", href: "/funcionariosadd", required: "FUNCIONARIOS" },
         { icon: LaptopIcon, label: "Patrimônio", href: "/patrimoniolist", required: "PATRIMONIO" },
+        { icon: Settings, label: "Monitor de Rede Ubiquiti", href: "/monitor-patrimonios", required: "UNIFI_CONFIG" },
         { icon: LandmarkIcon, label: "Centros de Custo", href: "/ccustos", required: "CENTRO_CUSTO" },
         { icon: ClipboardCheck, label: "Medição por Centro de Custo", href: "/ccusto/medicao", required: "MEDICAO_CCUSTO" },
         { icon: UserSearchIcon, label: "Função", href: "/funcoes", required: "FUNCOES" },
@@ -121,7 +122,7 @@ export default function Header() {
                                                     <span className="text-sm text-muted-foreground">{session.user?.email}</span>
                                                 </div>
                                             </div>
-                                            <div className="mt-6 flex flex-col gap-5"> --
+                                            <div className="mt-6 flex flex-col gap-5">
                                                 {menuItens.filter((item) => canView(item.required)).map((item) => (
                                                     <a
                                                         key={item.label}
@@ -146,7 +147,7 @@ export default function Header() {
                                         </>
                                     ) : (
                                         <>
-                                            <div className="flex flex-col gap-3 mt-6"> 
+                                            <div className="flex flex-col gap-3 mt-6">
                                                 <Button
                                                     onClick={() => signIn('google')}
                                                     className="flex items-center gap-2 w-[90%] justify-center bg-white text-gray-800 border border-gray-300 hover:bg-gray-100"

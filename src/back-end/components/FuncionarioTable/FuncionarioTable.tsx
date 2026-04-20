@@ -320,7 +320,7 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
             </div>
 
             {/* PaginaÃ§Ã£o */}
-            <div className="flex flex-col gap-3 items-center">
+            <div className="flex flex-col items-center gap-2 mt-1">
                 <div className="flex flex-wrap items-center justify-center gap-2">
                     <label htmlFor="itensPorPagina" className="text-xs text-gray-600">
                         Itens por página:
@@ -373,14 +373,12 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                         Próxima
                     </Button>
                 </div>
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-gray-500 text-center">
                     Exibindo {totalItens === 0 ? 0 : inicio + 1} - {Math.min(inicio + funcionarios.length, totalItens)} de {totalItens}
                 </div>
-            </div>
-
-            {/* Informações */}
-            <div className="text-sm text-gray-600 text-center py-2">
-                Total de funcionários: {totalItens}
+                <div className="text-sm text-gray-600 text-center">
+                    Total de funcionários: {totalItens}
+                </div>
             </div>
         </div>
     );
