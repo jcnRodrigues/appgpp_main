@@ -319,7 +319,7 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                 </div>
             </div>
 
-            {/* PaginaÃ§Ã£o */}
+            {/* Paginação */}
             <div className="flex flex-col items-center gap-2 mt-1">
                 <div className="flex flex-wrap items-center justify-center gap-2">
                     <label htmlFor="itensPorPagina" className="text-xs text-gray-600">

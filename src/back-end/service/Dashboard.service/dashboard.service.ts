@@ -239,3 +239,34 @@ export async function alocacoesEvolucaoPorCentroCusto(centros?: string[]) {
 
     return { data, centros: centrosOrdenados };
 }
+
+export async function resumoCentrosCusto(centros?: string[]) {
+    const centrosFiltro = buildCentroFiltro(centros);
+    const centrosDb = await prisma.tbCCusto.findMany({
+        where: centrosFiltro ? { idCCusto: centrosFiltro } : undefined,
+        select: {
+            idCCusto: true,
+            codigoCCusto: true,
+            descricaoCCusto: true,
+            _count: {
+                select: {
+                    tbFuncionario: true,
+                    tbPatrimonio: true
+                }
+            }
+        },
+        orderBy: {
+            descricaoCCusto: 'asc'
+        }
+    });
+
+    return centrosDb.map((centro) => ({
+        id: centro.idCCusto,
+        codigo: centro.codigoCCusto || '',
+        nome: centro.descricaoCCusto || centro.codigoCCusto || centro.idCCusto,
+        funcionarios: centro._count.tbFuncionario,
+        patrimonios: centro._count.tbPatrimonio,
+        // Sem tabela historica de medicao por centro: usa previsao baseada no total de patrimonios.
+        previsaoMedicao: centro._count.tbPatrimonio
+    }));
+}

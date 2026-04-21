@@ -396,18 +396,21 @@ export default function MonitorPatrimoniosForm() {
   }
 
   if (!session?.user) {
-    return (
-      <div className="bg-background min-h-screen py-6">
-        <Header />
-        <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-          <h1 className="text-2xl font-bold mb-4">Configuração Ubiquiti</h1>
-          <div className="bg-white p-8 rounded-lg shadow-sm">
-            <p className="text-lg mb-6">Faça login para visualizar esta página</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+     return (
+       <div className="bg-background min-h-screen py-6">
+         <Header />
+         <div className="max-w-4xl mx-auto px-4 py-12 text-center">
+           <h1 className="text-2xl font-bold mb-4">Monitor de Rede Ubiquiti</h1>
+           <div className="bg-white p-8 rounded-lg shadow-sm">
+             <p className="text-lg mb-6">Faça login para visualizar esta página</p>
+                                     <Button asChild>
+                            <Link href="/">Ir para Login</Link>
+                        </Button>
+           </div>
+         </div>
+       </div>
+     );
+   }
 
   const normalizeText = (value?: string) => (value || '').trim().toLowerCase();
   const normalizeEntityKey = (value?: string) => {
@@ -973,7 +976,7 @@ export default function MonitorPatrimoniosForm() {
                           <tr key={key.id} className="border-b hover:bg-gray-50">
                             <td className="px-4 py-2 font-mono text-sm">{key.apiKey || 'N/A'}</td>
                             <td className="px-4 py-2">
-                              <span className={`px-2 py-1 rounded text-sm ${key.isActive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
+                              <span className={`px-2 py-1 rounded-full text-sm ${key.isActive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
                                 }`}>
                                 {key.isActive ? 'Ativa' : 'Inativa'}
                               </span>
