@@ -38,7 +38,7 @@ export default async function MedicaoCCustoPage() {
     return (
         <div className="bg-background min-h-screen py-6">
             <Header />
-            <div className="max-w-6xl mx-auto px-4">
+            <div className="max-w-[86.4rem] mx-auto px-4">
                 <div className="form-title-sticky flex items-center gap-4 mb-8 mt-4">
                     <Link href="/ccustos">
                         <ChevronLeft className="h-6 w-6 text-primary hover:text-primary/80 transition" />

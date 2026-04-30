@@ -49,7 +49,7 @@ export default function DashboardCards({ totalPatrimonios, totalFuncionarios }: 
   }, []);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
       <div className="bg-card text-card-foreground border border-border rounded-3xl p-6 relative shadow min-h-[180px]">
         <div className="flex items-center justify-between">
           <div>

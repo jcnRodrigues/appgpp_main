@@ -25,7 +25,7 @@ export default async function UnifiConfigPage() {
     return (
         <div className="bg-background min-h-screen py-6">
             <Header />
-            <div className="max-w-6xl mx-auto px-4">
+            <div className="max-w-[86.4rem] mx-auto px-4">
                 <div className="form-title-sticky flex items-center justify-between mb-8 mt-4">
                     <div className="flex items-center gap-4">
                         <Link href="/monitor-patrimonios" className="mr-4">

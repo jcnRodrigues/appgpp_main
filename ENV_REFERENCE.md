@@ -108,13 +108,13 @@ VALUE: seu-site.netlify.app,localhost:3000,127.0.0.1:3000
 
 Certifique-se de que todas estão configuradas:
 
-- [ ] `DATABASE_URL`
-- [ ] `NEXTAUTH_URL`
-- [ ] `NEXTAUTH_SECRET`
-- [ ] `GOOGLE_CLIENT_ID`
-- [ ] `GOOGLE_CLIENT_SECRET`
-- [ ] `ADMIN_EMAIL`
-- [ ] `ADMIN_PASSWORD`
+- [x] `DATABASE_URL`
+- [x] `NEXTAUTH_URL`
+- [x] `NEXTAUTH_SECRET`
+- [x] `GOOGLE_CLIENT_ID`
+- [x] `GOOGLE_CLIENT_SECRET`
+- [x] `ADMIN_EMAIL`
+- [x] `ADMIN_PASSWORD`
 - [ ] `NEXT_PUBLIC_DASHBOARD_REFRESH_MS` (opcional)
 
 ---
