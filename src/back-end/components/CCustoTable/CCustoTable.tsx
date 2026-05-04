@@ -142,7 +142,7 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
 
             <div className="hidden md:block bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="overflow-x-auto">
-                    <table className="w-full">
+                    <table className="w-full min-w-full">
                         <thead className="bg-gray-50 border-b">
                             <tr>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Código</th>
@@ -258,4 +258,8 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
         </div>
     );
 }
+
+
+
+
 

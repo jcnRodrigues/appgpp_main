@@ -9,12 +9,21 @@ interface Funcao {
     idFuncao: string;
     codigoFuncao: number;
     nomeFuncao: string;
+    quantidadeFuncionarios?: number;
+}
+
+interface CentroOption {
+    idCCusto: string;
+    descricaoCCusto?: string | null;
+    codigoCCusto?: string | null;
 }
 
 export default function FuncaoTable() {
     const [funcoes, setFuncoes] = useState<Funcao[]>([]);
+    const [centroOpcoes, setCentroOpcoes] = useState<CentroOption[]>([]);
     const [loading, setLoading] = useState(true);
     const [filtroNome, setFiltroNome] = useState('');
+    const [centroFiltro, setCentroFiltro] = useState('');
     const [paginaAtual, setPaginaAtual] = useState(1);
     const [itensPorPagina, setItensPorPagina] = useState(10);
     const [totalItens, setTotalItens] = useState(0);
@@ -24,6 +33,7 @@ export default function FuncaoTable() {
         try {
             const params = new URLSearchParams();
             if (filtroNome) params.append('nome', filtroNome);
+            if (centroFiltro) params.append('centroId', centroFiltro);
             params.append('skip', String((paginaAtual - 1) * itensPorPagina));
             params.append('take', String(itensPorPagina));
             const res = await fetch(`/api/funcao?${params}`);
@@ -36,7 +46,7 @@ export default function FuncaoTable() {
                 setTotalItens(0);
             }
         } catch (error) {
-            console.error('Erro ao carregar funções:', error);
+            console.error('Erro ao carregar funcoes:', error);
         } finally {
             setLoading(false);
         }
@@ -44,14 +54,29 @@ export default function FuncaoTable() {
 
     useEffect(() => {
         carregarFuncoes();
-    }, [paginaAtual, filtroNome]);
+    }, [paginaAtual, filtroNome, centroFiltro, itensPorPagina]);
 
     useEffect(() => {
         setPaginaAtual(1);
-    }, [filtroNome, itensPorPagina]);
+    }, [filtroNome, centroFiltro, itensPorPagina]);
+
+    useEffect(() => {
+        const carregarCentros = async () => {
+            try {
+                const response = await fetch('/api/ccusto?take=500');
+                if (!response.ok) return;
+                const data = await response.json();
+                setCentroOpcoes(data.data || []);
+            } catch (error) {
+                console.error('Erro ao carregar centros de custo:', error);
+            }
+        };
+
+        carregarCentros();
+    }, []);
 
     const handleDelete = async (idFuncao: string) => {
-        if (!confirm('Tem certeza que deseja deletar esta função?')) return;
+        if (!confirm('Tem certeza que deseja deletar esta funcao?')) return;
 
         try {
             const res = await fetch(`/api/funcao/${idFuncao}`, {
@@ -60,7 +85,7 @@ export default function FuncaoTable() {
 
             if (res.ok) {
                 await carregarFuncoes();
-                alert('Função deletada com sucesso');
+                alert('Funcao deletada com sucesso');
             } else {
                 const err = await res.json().catch(() => ({}));
                 alert(err.message || 'Erro ao deletar');
@@ -76,7 +101,7 @@ export default function FuncaoTable() {
         if (paginaAtual > totalPaginasAtual) {
             setPaginaAtual(totalPaginasAtual);
         }
-    }, [totalItens, paginaAtual]);
+    }, [totalItens, paginaAtual, itensPorPagina]);
 
     const totalPaginas = Math.max(1, Math.ceil(totalItens / itensPorPagina));
     const inicio = (paginaAtual - 1) * itensPorPagina;
@@ -125,6 +150,18 @@ export default function FuncaoTable() {
                             onChange={(e) => setFiltroNome(e.target.value)}
                             className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                         />
+                        <select
+                            value={centroFiltro}
+                            onChange={(e) => setCentroFiltro(e.target.value)}
+                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                            <option value="">Todos os centros de custo</option>
+                            {centroOpcoes.map((centro) => (
+                                <option key={centro.idCCusto} value={centro.idCCusto}>
+                                    {centro.descricaoCCusto || 'Sem descricao'}{centro.codigoCCusto ? ` (${centro.codigoCCusto})` : ''}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                 </div>
             </div>
@@ -134,12 +171,13 @@ export default function FuncaoTable() {
                     {loading ? (
                         <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">Carregando...</div>
                     ) : funcoes.length === 0 ? (
-                        <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">Nenhuma função cadastrada</div>
+                        <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">Nenhuma funcao cadastrada</div>
                     ) : (
                         funcoes.map((funcao) => (
                             <div key={funcao.idFuncao} className="bg-white rounded-lg shadow p-4 space-y-3">
                                 <div className="text-sm text-gray-600">Codigo: <span className="font-semibold text-gray-900">{funcao.codigoFuncao}</span></div>
                                 <div className="text-sm text-gray-600">Funcao: <span className="font-semibold text-gray-900">{funcao.nomeFuncao}</span></div>
+                                <div className="text-sm text-gray-600">Qtd Funcionarios: <span className="font-semibold text-gray-900">{funcao.quantidadeFuncionarios ?? 0}</span></div>
                                 <div className="flex items-center justify-end gap-2 pt-1">
                                     <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
                                         <Link href={`/funcao/${funcao.idFuncao}/editar`} title="Editar">
@@ -160,25 +198,26 @@ export default function FuncaoTable() {
                 </div>
 
                 <div className="hidden md:block overflow-x-auto bg-white rounded-lg shadow">
-                    <table className="w-full">
+                    <table className="w-full min-w-full">
                         <thead>
                             <tr className="border-b bg-gray-50">
-                                <th className="w-[25%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Código</th>
-                                <th className="w-[50%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Nome da Função</th>
-                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Ações</th>
+                                <th className="w-[20%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Codigo</th>
+                                <th className="w-[40%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Nome da Funcao</th>
+                                <th className="w-[20%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Quantidade</th>
+                                <th className="w-[20%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Acoes</th>
                             </tr>
                         </thead>
                         <tbody>
                             {loading ? (
                                 <tr>
-                                    <td colSpan={3} className="px-6 py-8 text-center text-gray-500">
+                                    <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
                                         Carregando...
                                     </td>
                                 </tr>
                             ) : funcoes.length === 0 ? (
                                 <tr>
-                                    <td colSpan={3} className="px-6 py-8 text-center text-gray-500">
-                                        Nenhuma função cadastrada
+                                    <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
+                                        Nenhuma funcao cadastrada
                                     </td>
                                 </tr>
                             ) : (
@@ -186,6 +225,7 @@ export default function FuncaoTable() {
                                     <tr key={funcao.idFuncao} className="border-b hover:bg-gray-50 transition">
                                         <td className="px-6 py-4 text-sm">{funcao.codigoFuncao}</td>
                                         <td className="px-6 py-4 text-sm">{funcao.nomeFuncao}</td>
+                                        <td className="px-6 py-4 text-sm">{funcao.quantidadeFuncionarios ?? 0}</td>
                                         <td className="px-6 py-4 text-sm">
                                             <div className="flex gap-2">
                                                 <Button
@@ -205,7 +245,7 @@ export default function FuncaoTable() {
                                                     <Trash2 className="h-4 w-4" />
                                                 </button>
                                             </div>
-                                        </td>  
+                                        </td>
                                     </tr>
                                 ))
                             )}
@@ -213,16 +253,15 @@ export default function FuncaoTable() {
                     </table>
                 </div>
             </div>
-            {/* Informações */}
+
             <div className="text-sm text-gray-600 text-center py-2">
-                Total de Funções: {totalItens}
+                Total de Funcoes: {totalItens}
             </div>
 
-            {/* Paginação */}
             <div className="flex flex-col gap-3 items-center">
                 <div className="flex flex-wrap items-center justify-center gap-2">
                     <label htmlFor="itensPorPagina" className="text-xs text-gray-600">
-                        Itens por página:
+                        Itens por pagina:
                     </label>
                     <select
                         id="itensPorPagina"
@@ -269,11 +308,11 @@ export default function FuncaoTable() {
                         onClick={() => irParaPagina(paginaAtual + 1)}
                         disabled={paginaAtual === totalPaginas || totalItens === 0}
                     >
-                        Próxima
+                        Proxima
                     </Button>
                 </div>
                 <div className="text-xs text-gray-500">
-                    Exibindo {totalItens === 0 ? 0 : inicio + 1} – {Math.min(inicio + funcoes.length, totalItens)} de {totalItens}
+                    Exibindo {totalItens === 0 ? 0 : inicio + 1} - {Math.min(inicio + funcoes.length, totalItens)} de {totalItens}
                 </div>
             </div>
         </div>

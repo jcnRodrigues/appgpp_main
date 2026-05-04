@@ -232,7 +232,7 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
 
                     <div className="hidden md:block bg-white rounded-lg shadow overflow-hidden">
                         <div className="overflow-x-auto">
-                            <table className="w-full">
+                            <table className="w-full min-w-full">
                                 <thead className="bg-gray-50 border-b">
                                     <tr>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">Linha</th>
@@ -296,5 +296,9 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
         </div>
     );
 }
+
+
+
+
 
 

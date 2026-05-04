@@ -14,6 +14,11 @@ interface Alocacao {
         idMatFun: string;
         nomeFun: string;
         cpfFun?: string | null;
+        tbCCusto?: {
+            idCCusto: string;
+            codigoCCusto?: string | null;
+            descricaoCCusto?: string | null;
+        } | null;
         tbStatusFun?: {
             descricaoStatusFun: string;
         } | null;
@@ -21,6 +26,11 @@ interface Alocacao {
     tbPatrimonio: {
         idPat: string;
         descricaoPat: string;
+        tbCCusto?: {
+            idCCusto: string;
+            codigoCCusto?: string | null;
+            descricaoCCusto?: string | null;
+        } | null;
         tbTipoPat?: {
             descricaoTipPat: string;
         } | null;
@@ -91,6 +101,13 @@ export default function CadastroTable() {
         }
     };
 
+    const getStatusBadgeClass = (status?: string) => {
+        if (status === 'ADMITIDO') return 'bg-green-100 text-green-800';
+        if (status === 'DEMITIDO') return 'bg-red-100 text-red-800';
+        if (status === 'TRANSFERIDO') return 'bg-yellow-100 text-yellow-800';
+        return 'bg-gray-100 text-gray-800';
+    };
+
     const formatarData = (data: string | null) => {
         if (!data) return '-';
 
@@ -108,6 +125,23 @@ export default function CadastroTable() {
     };
 
     const [pdfLoading, setPdfLoading] = useState<string | null>(null);
+
+    const formatarCentroCusto = (centro?: {
+        idCCusto: string;
+        codigoCCusto?: string | null;
+        descricaoCCusto?: string | null;
+    } | null) => {
+        if (!centro) return '-';
+        return centro.descricaoCCusto || centro.codigoCCusto || centro.idCCusto;
+    };
+
+    const compararCustos = (alocacao: Alocacao) => {
+        const custoFuncionario = alocacao.tbFuncionario?.tbCCusto?.idCCusto;
+        const custoPatrimonio = alocacao.tbPatrimonio?.tbCCusto?.idCCusto;
+
+        if (!custoFuncionario || !custoPatrimonio) return 'SEM_CUSTO';
+        return custoFuncionario === custoPatrimonio ? 'IGUAL' : 'DIFERENTE';
+    };
 
     useEffect(() => {
         const totalPaginasAtual = Math.max(1, Math.ceil(totalItens / itensPorPagina));
@@ -234,7 +268,7 @@ export default function CadastroTable() {
                     alocacoes.map((alocacao) => (
                         <div key={alocacao.idCad} className="bg-white rounded-lg shadow p-4 space-y-3">
                             <div>
-                                <div className="text-sm font-semibold text-gray-900">{alocacao.tbFuncionario?.nomeFun || '-'}</div>
+                                <div className="text-xs font-semibold text-gray-900">{alocacao.tbFuncionario?.nomeFun || '-'}</div>
                                 <div className="text-xs text-gray-500">{alocacao.tbFuncionario?.idMatFun || '-'} • {alocacao.tbPatrimonio?.idPat || '-'}</div>
                             </div>
                             <div className="grid grid-cols-2 gap-2 text-xs">
@@ -246,6 +280,18 @@ export default function CadastroTable() {
                                 <div className="text-gray-800 text-right">{formatarData(alocacao.dataDevPat)}</div>
                                 <div className="text-gray-500">Status</div>
                                 <div className="text-gray-800 text-right">{alocacao.tbStatusPat?.descricaoStatPat || '-'}</div>
+                                <div className="text-gray-500">Custo Funcionário</div>
+                                <div className="text-gray-800 text-right">{formatarCentroCusto(alocacao.tbFuncionario?.tbCCusto)}</div>
+                                <div className="text-gray-500">Custo Patrimônio</div>
+                                <div className="text-gray-800 text-right">{formatarCentroCusto(alocacao.tbPatrimonio?.tbCCusto)}</div>
+                                <div className="text-gray-500">Comparação</div>
+                                <div className="text-gray-800 text-right">
+                                    {compararCustos(alocacao) === 'IGUAL'
+                                        ? 'Permanecer custo'
+                                        : compararCustos(alocacao) === 'DIFERENTE'
+                                            ? 'Mudar custo'
+                                            : '-'}
+                                </div>
                             </div>
                             <div className="flex items-center justify-end gap-2 pt-1">
                                 <button
@@ -277,74 +323,84 @@ export default function CadastroTable() {
             </div>
 
             <div className="hidden md:block overflow-x-auto bg-white rounded-lg shadow">
-                <table className="w-full">
-                    <thead>
+                <table className="w-full min-w-[1200px] table-fixed">
+                    <thead className="bg-gray-50 border-b">
                         <tr className="border-b bg-gray-50">
-                            <th className="px-6 py-3 text-left text-sm font-semibold">Funcionário</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold">Status Funcionário</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold">Patrimônio</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold">Data Alocação</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold">Data Devolução</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold">Status</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold">Ações</th>
+                            <th className="w-[10%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Funcionário</th>
+                            <th className="w-[10%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Patrimônio</th>
+                            <th className="w-[3%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Data Alocação</th>
+                            <th className="w-[3%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Data Devolução</th>
+                            <th className="w-[5%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Comparação</th>
+                            <th className="w-[4%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Status</th>
+                            <th className="w-[4%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         {loading ? (
                             <tr>
-                                <td colSpan={7} className="px-6 py-8 text-center text-gray-500">
+                                <td colSpan={10} className="px-6 py-8 text-center text-gray-500">
                                     Carregando...
                                 </td>
                             </tr>
                         ) : alocacoes.length === 0 ? (
                             <tr>
-                                <td colSpan={7} className="px-6 py-8 text-center text-gray-500">
+                                <td colSpan={10} className="px-6 py-8 text-center text-gray-500">
                                     Nenhuma alocação registrada
                                 </td>
                             </tr>
                         ) : (
                             alocacoes.map(alocacao => (
                                 <tr key={alocacao.idCad} className="border-b hover:bg-gray-50 transition">
-                                    <td className="px-6 py-4 text-sm font-medium">
+                                    <td className="px-4 py-2.5 text-[11px] font-medium leading-snug">
                                         {alocacao.tbFuncionario?.idMatFun || '-'} - {alocacao.tbFuncionario?.nomeFun || '-'}
+                                        <p className="text-s text-gray-500">
+                                            <span className="inline-flex px-2 py-0.5 rounded-full text-[9px] font-semibold bg-green-100 text-green-800">
+                                                {formatarCentroCusto(alocacao.tbFuncionario?.tbCCusto)}
+                                            </span>
+                                        </p>
                                     </td>
-                                    <td className="px-6 py-4 text-sm">
-                                        <span 
-                                        className={`px-3 py-1 rounded-full text-xs font-semibold 
-                                        ${
-                                            alocacao.tbFuncionario?.tbStatusFun?.descricaoStatusFun === 'ADMITIDO' ? 'bg-green-100 text-green-800' :
-                                            alocacao.tbFuncionario?.tbStatusFun?.descricaoStatusFun === 'DEMITIDO' ? 'bg-red-100 text-red-800' :
-                                            alocacao.tbFuncionario?.tbStatusFun?.descricaoStatusFun === 'TRANSFERIDO' ? 'bg-yellow-100 text-yellow-800' :'bg-gray-100 text-gray-800'
-                                        }`}>
-                                            {alocacao.tbFuncionario?.tbStatusFun?.descricaoStatusFun || '-'}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 text-sm">
+                                    <td className="px-4 py-2.5 text-[11px]">
                                         {alocacao.tbPatrimonio?.idPat || '-'} - {alocacao.tbPatrimonio?.descricaoPat || '-'}
-
+                                        <p className="text-s text-gray-500">
+                                            <span className="inline-flex px-2 py-0.5 rounded-full text-[9px] font-semibold bg-green-100 text-green-800">
+                                                {formatarCentroCusto(alocacao.tbPatrimonio?.tbCCusto)}
+                                            </span>
+                                        </p>
                                     </td>
-
-                                    <td className="px-6 py-4 text-sm">
+                                    <td className="px-4 py-2.5 text-[11px]">
                                         {formatarData(alocacao.dataCadPat)}
                                     </td>
-                                    <td className="px-6 py-4 text-sm">
+                                    <td className="px-4 py-2.5 text-[11px]">
                                         {formatarData(alocacao.dataDevPat)}
                                     </td>
-                                    <td className="px-6 py-4 text-sm">
+                                    <td className="px-4 py-2.5 text-[11px]">
+                                        {compararCustos(alocacao) === 'IGUAL' ? (
+                                            <span className="inline-flex px-2 py-0.5 rounded-full text-[9px] font-semibold bg-green-100 text-green-800">
+                                                Permanecer custo
+                                            </span>
+                                        ) : compararCustos(alocacao) === 'DIFERENTE' ? (
+                                            <span className="inline-flex px-2 py-0.5 rounded-full text-[9px] font-semibold bg-red-100 text-red-800">
+                                                Mudar custo
+                                            </span>
+                                        ) : (
+                                            '-'
+                                        )}
+                                    </td>
+                                    <td className="px-4 py-2.5 text-[11px]">
                                         <span
-                                            className={`px-3 py-1 rounded-full text-xs font-semibold 
+                                            className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold 
                                             ${alocacao.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
                                                     alocacao.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-purple-100 text-purpler-800' :
-                                                        alocacao.tbStatusPat?.descricaoStatPat === 'DEVOLUÃ‡ÃƒO' ? 'bg-red-100 text-red-800' :
+                                                        alocacao.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
                                                             alocacao.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-blue-100 text-blue-800' :
-                                                                alocacao.tbStatusPat?.descricaoStatPat === 'MANUTENÃ‡ÃƒO' ? 'bg-orange-100 text-orange-800' :
+                                                                alocacao.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-orange-100 text-orange-800' :
                                                                     'bg-yellow-100 text-yellow-800'
                                                 }`}>
                                             {alocacao.tbStatusPat?.descricaoStatPat || '-'}
                                         </span>
 
                                     </td>
-                                    <td className="px-6 py-4 text-sm">
+                                    <td className="px-3 py-2.5 text-[11px]">
                                         <div className="flex gap-2 items-center">
                                             <button
                                                 type="button"
@@ -442,6 +498,12 @@ export default function CadastroTable() {
         </div>
     );
 }
+
+
+
+
+
+
 
 
 

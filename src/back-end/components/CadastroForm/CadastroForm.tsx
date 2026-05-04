@@ -234,7 +234,7 @@ export default function CadastroForm({
 
     return (
         <div className="bg-background min-h-screen py-6">
-            <div className="max-w-2xl mx-auto px-4">
+            <div className="max-w-[54.6rem] mx-auto px-4">
                 <div className="form-title-sticky flex items-center mb-6">
                     <Link href="/alocacoes" className="mr-4">
                         <ChevronLeft className="h-6 w-6 text-primary" />
@@ -394,7 +394,7 @@ export default function CadastroForm({
                         </div>
 
                         <div className="border rounded-lg max-h-[60vh] overflow-y-auto">
-                            <table className="w-full">
+                            <table className="w-full min-w-full">
                                 <thead className="bg-gray-50 sticky top-0">
                                     <tr>
                                         <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Matrícula</th>
@@ -468,7 +468,7 @@ export default function CadastroForm({
                         </div>
 
                         <div className="border rounded-lg max-h-[60vh] overflow-y-auto">
-                            <table className="w-full">
+                            <table className="w-full min-w-full">
                                 <thead className="bg-gray-50 sticky top-0">
                                     <tr>
                                         <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">ID</th>
@@ -524,6 +524,10 @@ export default function CadastroForm({
         </div>
     );
 }
+
+
+
+
 
 
 

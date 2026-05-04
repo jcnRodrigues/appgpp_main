@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect } from 'react';
 import { Edit, Trash2, Filter } from 'lucide-react';
@@ -150,7 +150,7 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                         <Filter className="h-5 w-5 text-primary" />
                         <h3 className="font-semibold">Filtros</h3>
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <input
                             type="text"
@@ -197,7 +197,7 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                 </div>
                                 <span className={`px-2 py-1 rounded-full text-[11px] font-semibold ${getStatusBadgeClass(funcionario.tbStatusFun?.descricaoStatusFun)}`}>
                                     {funcionario.tbStatusFun?.descricaoStatusFun || '-'}
-                                </span>
+                                </span> 
                             </div>
                             <div className="grid grid-cols-2 gap-2 text-xs">
                                 <div className="text-gray-500">CPF</div>
@@ -228,7 +228,7 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                     className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
                                     title="Excluir"
                                 >
-                                    <Trash2 className="h-4 w-4" />
+                                    <Trash2 className="h-4 w-4" /> 
                                 </button>
                             </div>
                         </div>
@@ -237,19 +237,18 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
             </div>
 
             {/* Tabela desktop */}
-            <div className="hidden md:block bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="hidden md:block bg-white rounded-lg shadow-md overflow-x-auto">
                 <div className="overflow-hidden">
-                    <table className="w-full table-fixed">
-                        <thead className="bg-gray-50 border-b">
+                    <table className="w-full min-w-[1200px] table-fixed">
+                        <thead>
                             <tr>
-                                <th className="w-[8%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Matrícula</th>
-                                <th className="w-[20%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Nome</th>
+                                <th className="w-[6%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Matrícula</th>
+                                <th className="w-[33%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Nome</th>
                                 <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">CPF</th>
-                                <th className="w-[15%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Função</th>
+                                <th className="w-[21%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Função</th>
                                 <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Data Admissão</th>
-                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Status</th>
-                                <th className="w-[15%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Centro Custo</th>
-                                <th className="w-[8%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-nowrap">Ações</th>
+                                <th className="w-[6%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Status</th>
+                                <th className="w-[6%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-nowrap">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -273,6 +272,11 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                         </td>
                                         <td className="px-3 py-4 text-xs md:text-sm text-gray-700 whitespace-normal break-words">
                                             {funcionario.nomeFun}
+                                            <p className="mt-1">
+                                                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusBadgeClass(funcionario.tbStatusFun?.descricaoStatusFun)}`}>
+                                                    {funcionario.tbCCusto?.descricaoCCusto || '-'}
+                                                </span>
+                                            </p>
                                         </td>
                                         <td className="px-3 py-4 text-xs md:text-sm text-gray-700 whitespace-normal break-words">
                                             {maskCpf(funcionario.cpfFun)}
@@ -289,7 +293,7 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                             </span>
                                         </td>
                                         <td className="px-3 py-4 text-xs md:text-sm text-gray-700 whitespace-normal break-words">
-                                            {funcionario.tbCCusto?.descricaoCCusto || '-'}
+
                                         </td>
                                         <td className="px-3 py-4 text-xs md:text-sm whitespace-nowrap">
                                             <div className="flex items-center gap-1 md:gap-2">
@@ -353,11 +357,10 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                 {mostrarReticencias && <span className="px-1 text-sm text-muted-foreground">...</span>}
                                 <button type="button"
                                     onClick={() => irParaPagina(pagina)}
-                                    className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
-                                        ativa
-                                            ? 'bg-accent/20 text-accent border border-accent/35'
-                                            : 'bg-card text-foreground border border-border hover:bg-secondary'
-                                    }`}
+                                    className={`h-9 w-9 rounded-lg text-sm font-medium transition ${ativa
+                                        ? 'bg-accent/20 text-accent border border-accent/35'
+                                        : 'bg-card text-foreground border border-border hover:bg-secondary'
+                                        }`}
                                 >
                                     {pagina}
                                 </button>
@@ -383,6 +386,10 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
         </div>
     );
 }
+
+
+
+
 
 
 

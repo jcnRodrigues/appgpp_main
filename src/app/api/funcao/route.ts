@@ -7,9 +7,10 @@ export async function GET(request: NextRequest) {
         const skip = parseInt(searchParams.get('skip') || '0');
         const take = parseInt(searchParams.get('take') || '10');
         const nome = (searchParams.get('nome') || '').trim();
+        const centroId = (searchParams.get('centroId') || '').trim();
 
-        const funcoes = await getFuncoes({ skip, take, nome });
-        const total = await contarFuncoes(nome);
+        const funcoes = await getFuncoes({ skip, take, nome, centroId: centroId || undefined });
+        const total = await contarFuncoes(nome, centroId || undefined);
 
         return NextResponse.json({
             data: funcoes,

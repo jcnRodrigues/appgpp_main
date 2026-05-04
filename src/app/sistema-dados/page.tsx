@@ -529,7 +529,7 @@ export default function SistemaDadosPage() {
                         )}
 
                         <div className="overflow-x-auto">
-                            <table className="w-full text-sm">
+                            <table className="w-full text-sm min-w-full">
                                 <thead className="bg-muted/40">
                                     <tr>
                                         <th className="text-left px-3 py-2">Tabela</th>
@@ -552,3 +552,7 @@ export default function SistemaDadosPage() {
         </div>
     );
 }
+
+
+
+

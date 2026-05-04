@@ -515,7 +515,7 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                         </div>
 
                         <div className="border rounded-lg max-h-[60vh] overflow-y-auto">
-                            <table className="w-full">
+                            <table className="w-full min-w-full">
                                 <thead className="bg-gray-50 sticky top-0">
                                     <tr>
                                         <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Codigo</th>
@@ -557,4 +557,8 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
         </div>
     );
 }
+
+
+
+
 

@@ -164,7 +164,7 @@ export default function LicencaTable() {
             </div>
 
             <div className="hidden md:block overflow-x-auto bg-white rounded-lg shadow">
-                <table className="w-full">
+                <table className="w-full min-w-full">
                     <thead>
                         <tr className="border-b bg-gray-50">
                             <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Descricao</th>
@@ -285,4 +285,8 @@ export default function LicencaTable() {
         </div>
     );
 }
+
+
+
+
 

@@ -189,6 +189,21 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
         setPaginaAtual(paginaValida);
     };
 
+    const getStatusPatBadgeClass = (status?: string) => {
+        if (status === 'ATIVO') return 'bg-green-100 text-green-800';
+        if (status === 'DEVOLUÇÃO') return 'bg-red-100 text-red-800';
+        if (status === 'INATIVO') return 'bg-orange-100 text-orange-800';
+        if (status === 'MANUTENÇÃO') return 'bg-gray-100 text-purple-800';
+        if (status === 'TRANSFERIDO') return 'bg-gray-100 text-blue-800';
+        return 'bg-yellow-100 text-yellow-800';
+    };
+
+  
+
+                
+                 
+                        
+
     return (
         <div className="space-y-4">
             {/* Filtros */}
@@ -276,14 +291,14 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                     <div className="text-sm font-semibold text-gray-900">{patrimonio.idPat}</div>
                                     <div className="text-xs text-gray-500">{patrimonio.descricaoPat}</div>
                                 </div>
-                                <span className={`px-2 py-1 rounded-full text-[11px] font-semibold ${
-                                    patrimonio.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
-                                    patrimonio.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
-                                    patrimonio.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-orange-100 text-orange-800' :
-                                    patrimonio.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-gray-100 text-purple-800' :
-                                    patrimonio.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-gray-100 text-blue-800' :
-                                    'bg-yellow-100 text-yellow-800'
-                                }`}>
+                                <span className={`px-2 py-1 rounded-full text-[11px] font-semibold 
+                                ${patrimonio.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
+                                        patrimonio.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
+                                            patrimonio.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-orange-100 text-orange-800' :
+                                                patrimonio.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-gray-100 text-purple-800' :
+                                                    patrimonio.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-gray-100 text-blue-800' :
+                                                        'bg-yellow-100 text-yellow-800'
+                                    }`}>
                                     {patrimonio.tbStatusPat?.descricaoStatPat || '-'}
                                 </span>
                             </div>
@@ -315,16 +330,15 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
             {/* Tabela desktop */}
             <div className="hidden md:block bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="overflow-hidden">
-                    <table className="w-full table-fixed">
-                        <thead className="bg-gray-50 border-b">
+                    <table className="w-full min-w-[1200px] table-fixed">
+                        <thead>
                             <tr>
                                 <th className="w-[5%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">ID</th>
-                                <th className="w-[20%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Descrição</th>
+                                <th className="w-[30%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Descrição</th>
                                 <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Tipo</th>
                                 <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Valor</th>
                                 <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Data Entrada</th>
                                 <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Status</th>
-                                <th className="w-[15%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Centro Custo</th>
                                 <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Ações</th>
                             </tr>
                         </thead>
@@ -349,6 +363,11 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                         </td>
                                         <td className="px-6 py-4 text-sm text-gray-700 max-w-xs truncate">
                                             {patrimonio.descricaoPat}
+                                            <p className="text-xs text-gray-500 mt-1">
+                                                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusPatBadgeClass(patrimonio.tbStatusPat?.descricaoStatPat)}`}>
+                                                    {patrimonio.tbCCusto?.descricaoCCusto || '-'}
+                                                </span>
+                                            </p>
                                         </td>
                                         <td className="px-6 py-4 text-sm text-gray-700">
                                             {patrimonio.tbTipoPat?.descricaoTipPat || '-'}
@@ -370,9 +389,6 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                                 }`}>
                                                 {patrimonio.tbStatusPat?.descricaoStatPat || '-'}
                                             </span>
-                                        </td>
-                                        <td className="px-6 py-4 text-sm text-gray-600">
-                                            {patrimonio.tbCCusto?.descricaoCCusto || '-'}
                                         </td>
                                         <td className="px-6 py-4 text-sm">
                                             <div className="flex gap-3 items-center">
@@ -433,11 +449,10 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                 {mostrarReticencias && <span className="px-1 text-sm text-muted-foreground">...</span>}
                                 <button type="button"
                                     onClick={() => irParaPagina(pagina)}
-                                    className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
-                                        ativa
-                                            ? 'bg-accent/20 text-accent border border-accent/35'
-                                            : 'bg-card text-foreground border border-border hover:bg-secondary'
-                                    }`}
+                                    className={`h-9 w-9 rounded-lg text-sm font-medium transition ${ativa
+                                        ? 'bg-accent/20 text-accent border border-accent/35'
+                                        : 'bg-card text-foreground border border-border hover:bg-secondary'
+                                        }`}
                                 >
                                     {pagina}
                                 </button>
@@ -465,3 +480,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
         </div>
     );
 }
+
+
+
+

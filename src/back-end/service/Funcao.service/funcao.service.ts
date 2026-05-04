@@ -11,23 +11,37 @@ function normalizarTexto(valor: string) {
 }
 
 // Funcao para buscar todas as funcoes
-export async function getFuncoes(paginacao?: { skip?: number; take?: number; nome?: string }) {
+export async function getFuncoes(paginacao?: { skip?: number; take?: number; nome?: string; centroId?: string }) {
     const nome = paginacao?.nome?.trim();
+    const centroId = paginacao?.centroId?.trim();
     const skip = paginacao?.skip ?? 0;
     const take = paginacao?.take ?? 10;
 
+    const whereCentro = centroId
+        ? {
+            tbFuncionario: {
+                some: {
+                    idCustoFun: centroId
+                }
+            }
+        }
+        : {};
+
     if (!nome) {
-        return await prisma.tbFuncao.findMany({
+        const funcoes = await prisma.tbFuncao.findMany({
+            where: whereCentro,
             skip,
             take,
             orderBy: {
                 nomeFuncao: 'asc'
             }
         });
+        return await adicionarQuantidadeFuncionarios(funcoes, centroId);
     }
 
     const filtroNormalizado = normalizarTexto(nome);
     const todasFuncoes = await prisma.tbFuncao.findMany({
+        where: whereCentro,
         orderBy: {
             nomeFuncao: 'asc'
         }
@@ -37,24 +51,67 @@ export async function getFuncoes(paginacao?: { skip?: number; take?: number; nom
         normalizarTexto(funcao.nomeFuncao).includes(filtroNormalizado)
     );
 
-    return filtradas.slice(skip, skip + take);
+    const paginadas = filtradas.slice(skip, skip + take);
+    return await adicionarQuantidadeFuncionarios(paginadas, centroId);
 }
 
-export async function contarFuncoes(nome?: string) {
+export async function contarFuncoes(nome?: string, centroId?: string) {
     const nomeFiltro = nome?.trim();
+    const centro = centroId?.trim();
+    const whereCentro = centro
+        ? {
+            tbFuncionario: {
+                some: {
+                    idCustoFun: centro
+                }
+            }
+        }
+        : {};
 
     if (!nomeFiltro) {
-        return await prisma.tbFuncao.count();
+        return await prisma.tbFuncao.count({ where: whereCentro });
     }
 
     const filtroNormalizado = normalizarTexto(nomeFiltro);
     const todasFuncoes = await prisma.tbFuncao.findMany({
+        where: whereCentro,
         select: { nomeFuncao: true }
     });
 
     return todasFuncoes.filter((funcao) =>
         normalizarTexto(funcao.nomeFuncao).includes(filtroNormalizado)
     ).length;
+}
+
+async function adicionarQuantidadeFuncionarios(
+    funcoes: Array<{ idFuncao: string; codigoFuncao: number; nomeFuncao: string }>,
+    centroId?: string
+) {
+    const idsFuncoes = funcoes.map((funcao) => funcao.idFuncao);
+
+    if (idsFuncoes.length === 0) return [];
+
+    const funcionariosAgrupados = await prisma.tbFuncionario.groupBy({
+        by: ['idFuncaoFun'],
+        where: {
+            idFuncaoFun: { in: idsFuncoes },
+            ...(centroId ? { idCustoFun: centroId } : {})
+        },
+        _count: {
+            idF: true
+        }
+    });
+
+    const contagemPorFuncao = new Map(
+        funcionariosAgrupados
+            .filter((item) => item.idFuncaoFun)
+            .map((item) => [item.idFuncaoFun as string, item._count.idF])
+    );
+
+    return funcoes.map((funcao) => ({
+        ...funcao,
+        quantidadeFuncionarios: contagemPorFuncao.get(funcao.idFuncao) ?? 0
+    }));
 }
 
 // Funcao para buscar uma funcao pelo ID

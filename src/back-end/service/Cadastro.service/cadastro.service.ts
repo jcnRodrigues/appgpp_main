@@ -112,13 +112,15 @@ export async function listarAlocacoes(filtro?: {
             tbStatusPat: true,
             tbFuncionario: {
                 include: {
-                    tbStatusFun: true
+                    tbStatusFun: true,
+                    tbCCusto: true
                 }
             },
             tbPatrimonio: {
                 include: {
                     tbStatusPat: true,
-                    tbTipoPat: true
+                    tbTipoPat: true,
+                    tbCCusto: true
                 }
             }
         },
