@@ -31,10 +31,13 @@ function buildAlocacaoWhere(filtro?: {
     idPat?: string;
     funcionarioBusca?: string;
     patrimonioBusca?: string;
+    centroBusca?: string;
+    statusIds?: string[];
     centros?: string[];
 }) {
     const funcionarioBusca = filtro?.funcionarioBusca?.trim();
     const patrimonioBusca = filtro?.patrimonioBusca?.trim();
+    const centroBusca = filtro?.centroBusca?.trim();
 
     return {
         ...(filtro?.idMatFun && {
@@ -42,6 +45,11 @@ function buildAlocacaoWhere(filtro?: {
         }),
         ...(filtro?.idPat && {
             idPatCad: filtro.idPat
+        }),
+        ...(filtro?.statusIds && filtro.statusIds.length > 0 && {
+            idStatusPatCad: {
+                in: filtro.statusIds
+            }
         }),
         ...(filtro?.centros && filtro.centros.length > 0 && {
             OR: [
@@ -92,6 +100,32 @@ function buildAlocacaoWhere(filtro?: {
                     }
                 ]
             }
+        }),
+        ...(centroBusca && {
+            AND: [
+                {
+                    OR: [
+                        {
+                            tbFuncionario: {
+                                OR: [
+                                    { idCustoFun: { contains: centroBusca } },
+                                    { tbCCusto: { codigoCCusto: { contains: centroBusca } } },
+                                    { tbCCusto: { descricaoCCusto: { contains: centroBusca } } }
+                                ]
+                            }
+                        },
+                        {
+                            tbPatrimonio: {
+                                OR: [
+                                    { idPat_CustoPat: { contains: centroBusca } },
+                                    { tbCCusto: { codigoCCusto: { contains: centroBusca } } },
+                                    { tbCCusto: { descricaoCCusto: { contains: centroBusca } } }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
         })
     };
 }
@@ -102,6 +136,8 @@ export async function listarAlocacoes(filtro?: {
     idPat?: string;
     funcionarioBusca?: string;
     patrimonioBusca?: string;
+    centroBusca?: string;
+    statusIds?: string[];
     centros?: string[];
     skip?: number;
     take?: number;
@@ -137,6 +173,8 @@ export async function contarAlocacoes(filtro?: {
     idPat?: string;
     funcionarioBusca?: string;
     patrimonioBusca?: string;
+    centroBusca?: string;
+    statusIds?: string[];
     centros?: string[];
 }) {
     return await prisma.tbCadastro.count({

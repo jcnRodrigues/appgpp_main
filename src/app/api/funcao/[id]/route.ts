@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getFuncaoById, atualizarFuncao, deletarFuncao } from '@/back-end/service/Funcao.service/funcao.service';
+import { hasDeleteAnyPermission } from '@/lib/access';
 
 export async function GET(
     request: NextRequest,
@@ -67,6 +68,10 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const canDelete = await hasDeleteAnyPermission(request);
+        if (!canDelete) {
+            return NextResponse.json({ message: 'Sem permissão para deletar' }, { status: 403 });
+        }
         const { id } = await params;
         await deletarFuncao(id);
 

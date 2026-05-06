@@ -68,7 +68,8 @@ const FORMULARIOS_TODOS = [
     "ALOCACOES",
     "ACESSO_USUARIOS",
     "IMPORTACAO_EXPORTACAO",
-    "UNIFI_CONFIG"
+    "UNIFI_CONFIG",
+    "DELETE_ANY"
 ];
 
 function hashSenha(senha: string) {
@@ -265,7 +266,6 @@ export const AuthOptions = {
 
 const handler = NextAuth(AuthOptions);
 export { handler as GET, handler as POST };
-
 
 
 

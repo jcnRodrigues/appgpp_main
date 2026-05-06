@@ -7,6 +7,7 @@ import {
   getUnifiConfig,
   saveUnifiConfig,
 } from '@/back-end/service/unifi.service';
+import { hasDeleteAnyPermission } from '@/lib/access';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -81,6 +82,11 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const canDelete = await hasDeleteAnyPermission(request);
+  if (!canDelete) {
+    return NextResponse.json({ error: 'Sem permissão para deletar' }, { status: 403 });
+  }
+
   const searchParams = request.nextUrl.searchParams;
   const id = searchParams.get('id');
 

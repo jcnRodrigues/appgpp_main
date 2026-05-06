@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { Edit, Trash2, Filter, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/back-end/components/ui/button';
+import DeleteGuardButton from '@/back-end/components/DeleteGuardButton/DeleteGuardButton';
 
 interface Patrimonio {
     idP: string;
@@ -318,9 +319,9 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                         <Edit className="h-4 w-4" />
                                     </Link>
                                 </Button>
-                                <Button type="button" onClick={() => handleDelete(patrimonio.idP)} className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition" title="Deletar patrimônio">
+                                <DeleteGuardButton resource="patrimonio" recordId={patrimonio.idP} onAuthorizedDelete={() => handleDelete(patrimonio.idP)} className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition" title="Deletar patrimônio">
                                     <Trash2 className="h-4 w-4" />
-                                </Button>
+                                </DeleteGuardButton>
                             </div>
                         </div>
                     ))
@@ -364,7 +365,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                         <td className="px-6 py-4 text-sm text-gray-700 max-w-xs truncate">
                                             {patrimonio.descricaoPat}
                                             <p className="text-xs text-gray-500 mt-1">
-                                                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusPatBadgeClass(patrimonio.tbStatusPat?.descricaoStatPat)}`}>
+                                                <span className={`px-3 py-1 rounded-full text-xs text-[8px] font-semibold ${getStatusPatBadgeClass(patrimonio.tbStatusPat?.descricaoStatPat)}`}>
                                                     {patrimonio.tbCCusto?.descricaoCCusto || '-'}
                                                 </span>
                                             </p>
@@ -402,9 +403,9 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                                         <Edit className="h-4 w-4" />
                                                     </Link>
                                                 </Button>
-                                                <Button type="button" onClick={() => handleDelete(patrimonio.idP)} className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition" title="Deletar patrimÃ´nio">
+                                                <DeleteGuardButton resource="patrimonio" recordId={patrimonio.idP} onAuthorizedDelete={() => handleDelete(patrimonio.idP)} className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition" title="Deletar patrimônio">
                                                     <Trash2 className="h-4 w-4" />
-                                                </Button>
+                                                </DeleteGuardButton>
                                             </div>
                                         </td>
                                     </tr>
@@ -480,7 +481,5 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
         </div>
     );
 }
-
-
 
 

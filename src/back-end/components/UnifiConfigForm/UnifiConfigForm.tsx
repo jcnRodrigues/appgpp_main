@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ExternalLink } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 
 interface UnifiConfig {
   id?: string;
@@ -23,6 +24,7 @@ interface ConsoleData {
 
 export default function UnifiConfigForm() {
   const router = useRouter();
+  const { data: session } = useSession();
   const [config, setConfig] = useState<UnifiConfig>({ type: 'cloud' });
   const [loading, setLoading] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -144,6 +146,15 @@ export default function UnifiConfigForm() {
     }
   };
 
+  const handleDeleteClick = () => {
+    const formularios = ((session?.user as any)?.formularios || []) as string[];
+    if (Array.isArray(formularios) && formularios.includes('DELETE_ANY')) {
+      handleDelete();
+      return;
+    }
+    router.push(`/autorizacao-delete?resource=unifi_config&returnTo=${encodeURIComponent('/unifi-config')}`);
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow">
       <h2 className="text-2xl font-bold mb-6">Configuração do Ubiquiti Unifi</h2>
@@ -257,9 +268,10 @@ export default function UnifiConfigForm() {
         </button>
         {config.id && (
           <button
-            onClick={handleDelete}
+            onClick={handleDeleteClick}
             disabled={loading}
-            className="flex-1 bg-red-500 text-white py-2 rounded hover:bg-red-600 disabled:bg-gray-400"
+            className="flex-1 bg-red-500 text-white py-2 rounded hover:bg-red-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            title="Deletar configuração"
           >
             {loading ? 'Deletando...' : 'Deletar Configuração'}
           </button>

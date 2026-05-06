@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCentroCustoById, atualizarCentroCusto, deletarCentroCusto } from '@/back-end/service/CentroCusto.service/centrocusto.service';
-import { getCentrosFiltro } from '@/lib/access';
+import { getCentrosFiltro, hasDeleteAnyPermission } from '@/lib/access';
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     try {
@@ -37,6 +37,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     try {
+        const canDelete = await hasDeleteAnyPermission(request);
+        if (!canDelete) {
+            return NextResponse.json({ message: 'Sem permissão para deletar' }, { status: 403 });
+        }
         const { id } = await params;
         await deletarCentroCusto(id);
         return NextResponse.json({ message: 'Centro de custo deletado' });

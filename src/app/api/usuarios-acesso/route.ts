@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import prisma from '../../../../prisma/prisma';
+import { hasDeleteAnyPermission } from '@/lib/access';
 
 const prismaClient = prisma as any;
 
@@ -207,6 +208,10 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
     try {
+        const canDelete = await hasDeleteAnyPermission(request);
+        if (!canDelete) {
+            return NextResponse.json({ message: 'Sem permissão para deletar' }, { status: 403 });
+        }
         const { searchParams } = new URL(request.url);
         const id = searchParams.get('id');
 

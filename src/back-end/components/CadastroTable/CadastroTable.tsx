@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import Link from 'next/link';
 import { Edit, Trash2, FileDown, Filter } from 'lucide-react';
 import { Button } from '@/back-end/components/ui/button';
+import DeleteGuardButton from '@/back-end/components/DeleteGuardButton/DeleteGuardButton';
 
 interface Alocacao {
     idCad: string;
@@ -42,14 +43,42 @@ interface Alocacao {
 
 }
 
+interface CentroOption {
+    idCCusto: string;
+    descricaoCCusto?: string | null;
+    codigoCCusto?: string | null;
+}
+
+interface StatusOption {
+    idStatusPat: string;
+    descricaoStatPat: string;
+}
+
 export default function CadastroTable() {
     const [alocacoes, setAlocacoes] = useState<Alocacao[]>([]);
     const [loading, setLoading] = useState(true);
     const [filtroFuncionario, setFiltroFuncionario] = useState('');
     const [filtroPatrimonio, setFiltroPatrimonio] = useState('');
+    const [filtroCentroCusto, setFiltroCentroCusto] = useState('');
+    const [filtroStatusIds, setFiltroStatusIds] = useState<string[]>([]);
+    const [centroOpcoes, setCentroOpcoes] = useState<CentroOption[]>([]);
+    const [statusOpcoes, setStatusOpcoes] = useState<StatusOption[]>([]);
     const [paginaAtual, setPaginaAtual] = useState(1);
     const [itensPorPagina, setItensPorPagina] = useState(10);
     const [totalItens, setTotalItens] = useState(0);
+    const statusDropdownRef = useRef<HTMLDetailsElement | null>(null);
+    const centroOpcoesOrdenadas = useMemo(() => {
+        return [...centroOpcoes].sort((a, b) => {
+            const descricaoA = (a.descricaoCCusto || '').trim();
+            const descricaoB = (b.descricaoCCusto || '').trim();
+            const byDescricao = descricaoA.localeCompare(descricaoB, 'pt-BR', { sensitivity: 'base' });
+            if (byDescricao !== 0) return byDescricao;
+
+            const codigoA = (a.codigoCCusto || '').trim();
+            const codigoB = (b.codigoCCusto || '').trim();
+            return codigoA.localeCompare(codigoB, 'pt-BR', { sensitivity: 'base' });
+        });
+    }, [centroOpcoes]);
 
     const carregarAlocacoes = async () => {
         setLoading(true);
@@ -57,6 +86,8 @@ export default function CadastroTable() {
             const params = new URLSearchParams();
             if (filtroFuncionario) params.append('funcionarioBusca', filtroFuncionario);
             if (filtroPatrimonio) params.append('patrimonioBusca', filtroPatrimonio);
+            if (filtroCentroCusto) params.append('centroBusca', filtroCentroCusto);
+            filtroStatusIds.forEach((statusId) => params.append('statusId', statusId));
             params.append('skip', String((paginaAtual - 1) * itensPorPagina));
             params.append('take', String(itensPorPagina));
             const res = await fetch(`/api/cadastro?${params}`);
@@ -74,11 +105,57 @@ export default function CadastroTable() {
 
     useEffect(() => {
         carregarAlocacoes();
-    }, [paginaAtual, filtroFuncionario, filtroPatrimonio, itensPorPagina]);
+    }, [paginaAtual, filtroFuncionario, filtroPatrimonio, filtroCentroCusto, filtroStatusIds, itensPorPagina]);
 
     useEffect(() => {
         setPaginaAtual(1);
-    }, [filtroFuncionario, filtroPatrimonio, itensPorPagina]);
+    }, [filtroFuncionario, filtroPatrimonio, filtroCentroCusto, filtroStatusIds, itensPorPagina]);
+
+    useEffect(() => {
+        const carregarCentros = async () => {
+            try {
+                const response = await fetch('/api/ccusto?take=500&forAcessoUsuario=1');
+                if (!response.ok) return;
+                const data = await response.json();
+                setCentroOpcoes(data.data || []);
+            } catch (error) {
+                console.error('Erro ao carregar centros de custo:', error);
+            }
+        };
+
+        carregarCentros();
+    }, []);
+
+    useEffect(() => {
+        const carregarStatus = async () => {
+            try {
+                const response = await fetch('/api/cadastro?opcoes=true');
+                if (!response.ok) return;
+                const data = await response.json();
+                setStatusOpcoes(data.statusPatrimonio || []);
+            } catch (error) {
+                console.error('Erro ao carregar status de patrimonio:', error);
+            }
+        };
+
+        carregarStatus();
+    }, []);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const dropdown = statusDropdownRef.current;
+            if (!dropdown || !dropdown.open) return;
+            const target = event.target as Node | null;
+            if (target && !dropdown.contains(target)) {
+                dropdown.open = false;
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const handleDelete = async (idCad: string) => {
         if (!confirm('Tem certeza que deseja deletar esta alocação?')) return;
@@ -239,7 +316,7 @@ export default function CadastroTable() {
                         <h3 className="font-semibold">Filtros</h3>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <input
                             type="text"
                             placeholder="Filtrar funcionario (matricula ou nome)..."
@@ -254,6 +331,47 @@ export default function CadastroTable() {
                             onChange={(e) => setFiltroPatrimonio(e.target.value)}
                             className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                         />
+                        <select
+                            value={filtroCentroCusto}
+                            onChange={(e) => setFiltroCentroCusto(e.target.value)}
+                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                            <option value="">Todos os centros de custo</option>
+                            {centroOpcoesOrdenadas.map((centro) => (
+                                <option key={centro.idCCusto} value={centro.idCCusto}>
+                                    {centro.descricaoCCusto || 'Sem descricao'}{centro.codigoCCusto ? ` (${centro.codigoCCusto})` : ''}
+                                </option>
+                            ))}
+                        </select>
+                        <details ref={statusDropdownRef} className="relative">
+                            <summary className="list-none px-4 py-2 border rounded-lg cursor-pointer select-none flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-primary">
+                                <span className="text-sm text-gray-700">
+                                    {filtroStatusIds.length > 0
+                                        ? `${filtroStatusIds.length} status selecionado(s)`
+                                        : 'Todos os status'}
+                                </span>
+                                <span className="text-gray-500 text-xs">▼</span>
+                            </summary>
+                            <div className="absolute z-40 mt-1 w-full bg-white border rounded-lg shadow-lg p-3 max-h-56 overflow-y-auto space-y-2">
+                                {statusOpcoes.map((status) => (
+                                    <label key={status.idStatusPat} className="flex items-center gap-2 text-sm cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            checked={filtroStatusIds.includes(status.idStatusPat)}
+                                            onChange={(e) => {
+                                                if (e.target.checked) {
+                                                    setFiltroStatusIds((prev) => [...prev, status.idStatusPat]);
+                                                    return;
+                                                }
+                                                setFiltroStatusIds((prev) => prev.filter((id) => id !== status.idStatusPat));
+                                            }}
+                                            className="h-4 w-4 accent-primary"
+                                        />
+                                        <span>{status.descricaoStatPat}</span>
+                                    </label>
+                                ))}
+                            </div>
+                        </details>
                     </div>
                 </div>
             </div>
@@ -308,14 +426,15 @@ export default function CadastroTable() {
                                         <Edit className="h-4 w-4" />
                                     </Link>
                                 </Button>
-                                <button
-                                    type="button"
-                                    onClick={() => handleDelete(alocacao.idCad)}
+                                <DeleteGuardButton
+                                    resource="cadastro"
+                                    recordId={alocacao.idCad}
+                                    onAuthorizedDelete={() => handleDelete(alocacao.idCad)}
                                     className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
                                     title="Excluir"
                                 >
                                     <Trash2 className="h-4 w-4" />
-                                </button>
+                                </DeleteGuardButton>
                             </div>
                         </div>
                     ))
@@ -354,15 +473,15 @@ export default function CadastroTable() {
                                     <td className="px-4 py-2.5 text-[11px] font-medium leading-snug">
                                         {alocacao.tbFuncionario?.idMatFun || '-'} - {alocacao.tbFuncionario?.nomeFun || '-'}
                                         <p className="text-s text-gray-500">
-                                            <span className="inline-flex px-2 py-0.5 rounded-full text-[9px] font-semibold bg-green-100 text-green-800">
-                                                {formatarCentroCusto(alocacao.tbFuncionario?.tbCCusto)}
-                                            </span>
+                                            <span className={`px-3 py-1 rounded-full text-xs text-[8px] font-semibold ${getStatusBadgeClass(alocacao.tbFuncionario?.tbStatusFun?.descricaoStatusFun)}`}>
+                                                    {alocacao.tbFuncionario?.tbCCusto?.descricaoCCusto || '-'}
+                                                </span>
                                         </p>
                                     </td>
                                     <td className="px-4 py-2.5 text-[11px]">
                                         {alocacao.tbPatrimonio?.idPat || '-'} - {alocacao.tbPatrimonio?.descricaoPat || '-'}
                                         <p className="text-s text-gray-500">
-                                            <span className="inline-flex px-2 py-0.5 rounded-full text-[9px] font-semibold bg-green-100 text-green-800">
+                                            <span className="inline-flex px-2 py-0.5 rounded-full text-[8px] font-semibold bg-green-100 text-green-800">
                                                 {formatarCentroCusto(alocacao.tbPatrimonio?.tbCCusto)}
                                             </span>
                                         </p>
@@ -375,11 +494,11 @@ export default function CadastroTable() {
                                     </td>
                                     <td className="px-4 py-2.5 text-[11px]">
                                         {compararCustos(alocacao) === 'IGUAL' ? (
-                                            <span className="inline-flex px-2 py-0.5 rounded-full text-[9px] font-semibold bg-green-100 text-green-800">
+                                            <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-100 text-green-800">
                                                 Permanecer custo
                                             </span>
                                         ) : compararCustos(alocacao) === 'DIFERENTE' ? (
-                                            <span className="inline-flex px-2 py-0.5 rounded-full text-[9px] font-semibold bg-red-100 text-red-800">
+                                            <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold bg-red-100 text-red-800">
                                                 Mudar custo
                                             </span>
                                         ) : (
@@ -400,7 +519,7 @@ export default function CadastroTable() {
                                         </span>
 
                                     </td>
-                                    <td className="px-3 py-2.5 text-[11px]">
+                                    <td className="px-3 py-2.5 text-[10px]">
                                         <div className="flex gap-2 items-center">
                                             <button
                                                 type="button"
@@ -421,14 +540,15 @@ export default function CadastroTable() {
                                                     <Edit className="h-4 w-4" />
                                                 </Link>
                                             </Button>
-                                            <button
-                                                type="button"
-                                                onClick={() => handleDelete(alocacao.idCad)}
+                                            <DeleteGuardButton
+                                                resource="cadastro"
+                                                recordId={alocacao.idCad}
+                                                onAuthorizedDelete={() => handleDelete(alocacao.idCad)}
                                                 className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
                                                 title="Excluir"
                                             >
                                                 <Trash2 className="h-4 w-4" />
-                                            </button>
+                                            </DeleteGuardButton>
                                         </div>
                                     </td>
                                 </tr>

@@ -4,7 +4,7 @@ import {
     atualizarAlocacao, 
     deletarAlocacao 
 } from '@/back-end/service/Cadastro.service/cadastro.service';
-import { getCentrosFiltro } from '@/lib/access';
+import { getCentrosFiltro, hasDeleteAnyPermission } from '@/lib/access';
 import { parseNullableDateInput } from '@/lib/date-input';
 
 export async function GET(
@@ -80,6 +80,10 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const canDelete = await hasDeleteAnyPermission(request);
+        if (!canDelete) {
+            return NextResponse.json({ message: 'Sem permissão para deletar' }, { status: 403 });
+        }
         const { id } = await params;
         await deletarAlocacao(id);
 

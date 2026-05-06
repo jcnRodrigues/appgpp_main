@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Edit, Trash2, Filter } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/back-end/components/ui/button';
+import DeleteGuardButton from '@/back-end/components/DeleteGuardButton/DeleteGuardButton';
 
 interface Funcionario {
     idF: string;
@@ -45,6 +46,11 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
     useEffect(() => {
         carregarFuncionarios();
     }, [filtro, statusFiltro, funcaoFiltro, paginaAtual]);
+
+
+    
+
+
 
     const carregarFuncionarios = async () => {
         setLoading(true);
@@ -144,9 +150,9 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
     return (
         <div className="space-y-4">
             {/* Filtros */}
-            <div className="sticky top-[calc(var(--app-header-height)+96px)] z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-2">
-                <div className="bg-white rounded-lg shadow-md p-4 space-y-4">
-                    <div className="flex items-center gap-2 mb-4">
+            <div className="sticky top-[calc(var(--app-header-height)+70px)] z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-1">
+                <div className="bg-white rounded-lg shadow-md p-2 space-y-2">
+                    <div className="flex items-center gap-2 mb-2">
                         <Filter className="h-5 w-5 text-primary" />
                         <h3 className="font-semibold">Filtros</h3>
                     </div>
@@ -222,14 +228,15 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                         <Edit className="h-4 w-4" />
                                     </Link>
                                 </Button>
-                                <button
-                                    type="button"
-                                    onClick={() => handleDelete(funcionario.idF)}
+                                <DeleteGuardButton
+                                    resource="funcionario"
+                                    recordId={funcionario.idF}
+                                    onAuthorizedDelete={() => handleDelete(funcionario.idF)}
                                     className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
                                     title="Excluir"
                                 >
                                     <Trash2 className="h-4 w-4" /> 
-                                </button>
+                                </DeleteGuardButton>
                             </div>
                         </div>
                     ))
@@ -242,13 +249,13 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                     <table className="w-full min-w-[1200px] table-fixed">
                         <thead>
                             <tr>
-                                <th className="w-[6%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Matrícula</th>
-                                <th className="w-[33%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Nome</th>
-                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">CPF</th>
-                                <th className="w-[21%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Função</th>
-                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Data Admissão</th>
-                                <th className="w-[6%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Status</th>
-                                <th className="w-[6%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-nowrap">Ações</th>
+                                <th className="w-[6%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Matrícula</th>
+                                <th className="w-[33%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Nome</th>
+                                <th className="w-[10%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">CPF</th>
+                                <th className="w-[21%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Função</th>
+                                <th className="w-[10%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Data Admissão</th>
+                                <th className="w-[6%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Status</th>
+                                <th className="w-[6%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-nowrap">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -273,7 +280,7 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                         <td className="px-3 py-4 text-xs md:text-sm text-gray-700 whitespace-normal break-words">
                                             {funcionario.nomeFun}
                                             <p className="mt-1">
-                                                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusBadgeClass(funcionario.tbStatusFun?.descricaoStatusFun)}`}>
+                                                <span className={`px-3 py-1 rounded-full text-xs text-[8px] font-semibold ${getStatusBadgeClass(funcionario.tbStatusFun?.descricaoStatusFun)}`}>
                                                     {funcionario.tbCCusto?.descricaoCCusto || '-'}
                                                 </span>
                                             </p>
@@ -307,12 +314,15 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                                         <Edit className="h-4 w-4" />
                                                     </Link>
                                                 </Button>
-                                                <button type="button"
-                                                    onClick={() => handleDelete(funcionario.idF)}
+                                                <DeleteGuardButton
+                                                    resource="funcionario"
+                                                    recordId={funcionario.idF}
+                                                    onAuthorizedDelete={() => handleDelete(funcionario.idF)}
                                                     className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
+                                                    title="Excluir"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
-                                                </button>
+                                                </DeleteGuardButton>
                                             </div>
                                         </td>
                                     </tr>

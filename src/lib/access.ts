@@ -40,3 +40,8 @@ export async function getCentrosFiltro(req: NextRequest) {
     const { centros, allowAll, authenticated } = await getAccessContext(req);
     return { centros, allowAll, authenticated };
 }
+
+export async function hasDeleteAnyPermission(req: NextRequest) {
+    const { formularios, authenticated } = await getAccessContext(req);
+    return authenticated && formularios.includes('DELETE_ANY');
+}

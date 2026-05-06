@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getFuncionarioByIdInterno, atualizarFuncionario } from '@/back-end/service/Funcionario.service/funcionario.service';
 import prisma from '../../../../../prisma/prisma';
-import { getCentrosFiltro } from '@/lib/access';
+import { getCentrosFiltro, hasDeleteAnyPermission } from '@/lib/access';
 import { parseDateInput, parseNullableDateInput } from '@/lib/date-input';
 
 export async function GET(
@@ -88,6 +88,10 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const canDelete = await hasDeleteAnyPermission(request);
+        if (!canDelete) {
+            return NextResponse.json({ message: 'Sem permissão para deletar' }, { status: 403 });
+        }
         const { id } = await params;
 
         const funcionario = await getFuncionarioByIdInterno(id);

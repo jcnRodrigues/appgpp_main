@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Edit, Filter, Trash2 } from 'lucide-react';
 import { Button } from '@/back-end/components/ui/button';
+import DeleteGuardButton from '@/back-end/components/DeleteGuardButton/DeleteGuardButton';
 
 interface Funcao {
     idFuncao: string;
@@ -184,13 +185,15 @@ export default function FuncaoTable() {
                                             <Edit className="h-4 w-4" />
                                         </Link>
                                     </Button>
-                                    <button
-                                        type="button"
-                                        onClick={() => handleDelete(funcao.idFuncao)}
+                                    <DeleteGuardButton
+                                        resource="funcao"
+                                        recordId={funcao.idFuncao}
+                                        onAuthorizedDelete={() => handleDelete(funcao.idFuncao)}
                                         className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
+                                        title="Excluir"
                                     >
                                         <Trash2 className="h-4 w-4" />
-                                    </button>
+                                    </DeleteGuardButton>
                                 </div>
                             </div>
                         ))
@@ -238,12 +241,15 @@ export default function FuncaoTable() {
                                                         <Edit className="h-4 w-4" />
                                                     </Link>
                                                 </Button>
-                                                <button type="button"
-                                                    onClick={() => handleDelete(funcao.idFuncao)}
+                                                <DeleteGuardButton
+                                                    resource="funcao"
+                                                    recordId={funcao.idFuncao}
+                                                    onAuthorizedDelete={() => handleDelete(funcao.idFuncao)}
                                                     className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
+                                                    title="Excluir"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
-                                                </button>
+                                                </DeleteGuardButton>
                                             </div>
                                         </td>
                                     </tr>

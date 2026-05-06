@@ -17,6 +17,8 @@ export async function GET(request: NextRequest) {
         const idPat = searchParams.get('patrimonio');
         const funcionarioBusca = searchParams.get('funcionarioBusca');
         const patrimonioBusca = searchParams.get('patrimonioBusca');
+        const centroBusca = searchParams.get('centroBusca');
+        const statusIds = searchParams.getAll('statusId').filter(Boolean);
         const opcoes = searchParams.get('opcoes');
         const skip = parseInt(searchParams.get('skip') || '0');
         const take = parseInt(searchParams.get('take') || '10');
@@ -49,6 +51,8 @@ export async function GET(request: NextRequest) {
             idPat: idPat || undefined,
             funcionarioBusca: funcionarioBusca || undefined,
             patrimonioBusca: patrimonioBusca || undefined,
+            centroBusca: centroBusca || undefined,
+            statusIds: statusIds.length > 0 ? statusIds : undefined,
             centros: filtroCentros,
             skip,
             take
@@ -58,6 +62,8 @@ export async function GET(request: NextRequest) {
             idPat: idPat || undefined,
             funcionarioBusca: funcionarioBusca || undefined,
             patrimonioBusca: patrimonioBusca || undefined,
+            centroBusca: centroBusca || undefined,
+            statusIds: statusIds.length > 0 ? statusIds : undefined,
             centros: filtroCentros
         });
 

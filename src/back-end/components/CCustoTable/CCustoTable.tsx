@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/back-end/components/ui/button';
+import DeleteGuardButton from '@/back-end/components/DeleteGuardButton/DeleteGuardButton';
 
 interface Centro {
     idCCusto: string;
@@ -127,13 +128,15 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
                                         <Edit className="h-4 w-4" />
                                     </Link>
                                 </Button>
-                                <button
-                                    type="button"
-                                    onClick={() => handleDelete(c.idCCusto, c.descricaoCCusto || 'Centro de Custo')}
+                                <DeleteGuardButton
+                                    resource="ccusto"
+                                    recordId={c.idCCusto}
+                                    onAuthorizedDelete={() => handleDelete(c.idCCusto, c.descricaoCCusto || 'Centro de Custo')}
                                     className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
+                                    title="Excluir"
                                 >
                                     <Trash2 className="h-4 w-4" />
-                                </button>
+                                </DeleteGuardButton>
                             </div>
                         </div>
                     ))
@@ -182,12 +185,15 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
                                                         <Edit className="h-4 w-4" />
                                                     </Link>
                                                 </Button>
-                                                <button type="button"
-                                                    onClick={() => handleDelete(c.idCCusto, c.descricaoCCusto || 'Centro de Custo')}
+                                                <DeleteGuardButton
+                                                    resource="ccusto"
+                                                    recordId={c.idCCusto}
+                                                    onAuthorizedDelete={() => handleDelete(c.idCCusto, c.descricaoCCusto || 'Centro de Custo')}
                                                     className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
+                                                    title="Excluir"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
-                                                </button>
+                                                </DeleteGuardButton>
                                             </div>
                                         </td>
                                     </tr>
