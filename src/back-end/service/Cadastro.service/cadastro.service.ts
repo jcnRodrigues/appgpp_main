@@ -130,7 +130,7 @@ function buildAlocacaoWhere(filtro?: {
     };
 }
 
-// Buscar todas as alocaÃ§Ãµes de patrimÃ´nio
+// Buscar todas as alocações de patrimônio
 export async function listarAlocacoes(filtro?: {
     idMatFun?: string;
     idPat?: string;
@@ -142,9 +142,26 @@ export async function listarAlocacoes(filtro?: {
     skip?: number;
     take?: number;
 }) {
+    const where = buildAlocacaoWhere(filtro) as any;
+    if (!filtro?.statusIds || filtro.statusIds.length === 0) {
+        where.tbStatusPat = {
+            descricaoStatPat: {
+                not: {
+                    contains: "TRANSFER"
+                }
+            }
+        };
+    }
+
     return await prisma.tbCadastro.findMany({
-        where: buildAlocacaoWhere(filtro),
+        where,
         include: {
+            tbDevolucao: {
+                orderBy: {
+                    dataInicioDevolucao: "desc"
+                },
+                take: 1
+            },
             tbStatusPat: true,
             tbFuncionario: {
                 include: {
@@ -156,7 +173,13 @@ export async function listarAlocacoes(filtro?: {
                 include: {
                     tbStatusPat: true,
                     tbTipoPat: true,
-                    tbCCusto: true
+                    tbCCusto: true,
+                    tbDevolucao: {
+                        orderBy: {
+                            dataInicioDevolucao: "desc"
+                        },
+                        take: 1
+                    }
                 }
             }
         },
@@ -177,16 +200,43 @@ export async function contarAlocacoes(filtro?: {
     statusIds?: string[];
     centros?: string[];
 }) {
+    const where = buildAlocacaoWhere(filtro) as any;
+    if (!filtro?.statusIds || filtro.statusIds.length === 0) {
+        where.tbStatusPat = {
+            descricaoStatPat: {
+                not: {
+                    contains: "TRANSFER"
+                }
+            }
+        };
+    }
+
     return await prisma.tbCadastro.count({
-        where: buildAlocacaoWhere(filtro)
+        where
     });
 }
 
-// Buscar uma alocaÃ§Ã£o especÃ­fica
+// Buscar uma alocação específica
 export async function buscarAlocacaoById(idCad: string) {
     return await prisma.tbCadastro.findUnique({
         where: { idCad },
         include: {
+            tbTransferenciaAlocacao: {
+                orderBy: {
+                    dataTransferencia: "desc"
+                },
+                include: {
+                    tbFuncionario: true,
+                    tbFuncionarioDestino: true,
+                    tbUser: true
+                }
+            },
+            tbDevolucao: {
+                orderBy: {
+                    dataInicioDevolucao: "desc"
+                },
+                take: 1
+            },
             tbStatusPat: true,
             tbFuncionario: {
                 include: {
@@ -201,25 +251,44 @@ export async function buscarAlocacaoById(idCad: string) {
             },
             tbPatrimonio: {
                 include: {
+                    tbCadastro: {
+                        where: {
+                            dataDevPat: null
+                        },
+                        orderBy: {
+                            dataCadPat: "desc"
+                        },
+                        take: 1,
+                        include: {
+                            tbFuncionario: true
+                        }
+                    },
                     tbStatusPat: true,
                     tbCCusto: true,
-                    tbTipoPat: true
+                    tbTipoPat: true,
+                    tbDevolucao: {
+                        orderBy: {
+                            dataInicioDevolucao: "desc"
+                        },
+                        take: 1
+                    }
                 }
             }
         }
     });
 }
 
-// Criar nova alocaÃ§Ã£o
+// Criar nova alocação
 export async function criarAlocacao(dados: {
     idPatCad: string;
     idMatFunCad: string;
     dataCadPat?: Date;
     dataDevPat?: Date;
     idStatusPatCad?: string;
+    motivoDevolucao?: string | null;
 }) {
     return await prisma.$transaction(async (tx) => {
-        // Validar se o patrimÃ´nio existe
+        // Validar se o patrimônio existe
         const patrimonio = await tx.tbPatrimonio.findUnique({
             where: { idPat: dados.idPatCad },
             include: {
@@ -228,16 +297,32 @@ export async function criarAlocacao(dados: {
         });
 
         if (!patrimonio) {
-            throw new Error("PatrimÃ´nio nÃ£o encontrado");
+            throw new Error("patrimônio não encontrado");
         }
 
-        // Validar se o funcionÃ¡rio existe
+        // Validar se o funcionário existe
         const funcionario = await tx.tbFuncionario.findUnique({
             where: { idMatFun: dados.idMatFunCad }
         });
 
         if (!funcionario) {
-            throw new Error("FuncionÃ¡rio nÃ£o encontrado");
+            throw new Error("funcionário não encontrado");
+        }
+
+        const devolucaoFornecedorFinalizada = await tx.tbDevolucao.findFirst({
+            where: {
+                idPatrimonio: dados.idPatCad,
+                dataFimDevolucao: {
+                    not: null
+                }
+            },
+            orderBy: {
+                dataFimDevolucao: "desc"
+            }
+        });
+
+        if (devolucaoFornecedorFinalizada) {
+            throw new Error("patrimônio com devolução finalizada ao fornecedor não pode ser alocado.");
         }
 
         const statusDescricao = patrimonio.tbStatusPat?.descricaoStatPat?.toLowerCase() || "";
@@ -254,7 +339,7 @@ export async function criarAlocacao(dados: {
         });
 
         if (alocacaoAtiva && !statusDevolvido) {
-            throw new Error("PatrimÃ´nio jÃ¡ estÃ¡ alocado. Registre a devoluÃ§Ã£o antes de realocar.");
+            throw new Error("patrimônio já está alocado. Registre a devolução antes de realocar.");
         }
 
         if (alocacaoAtiva && statusDevolvido) {
@@ -262,11 +347,20 @@ export async function criarAlocacao(dados: {
                 where: { idCad: alocacaoAtiva.idCad },
                 data: { dataDevPat: new Date() }
             });
+            await tx.tbDevolucao.updateMany({
+                where: {
+                    idPatrimonio: dados.idPatCad,
+                    dataFimDevolucao: null
+                },
+                data: {
+                    dataFimDevolucao: dados.dataCadPat || new Date()
+                }
+            });
         }
 
         const statusAtivoId = await getStatusIdByDescricao(tx, { exact: ["ATIVO"] });
         const statusDevolvidoId = await getStatusIdByDescricao(tx, {
-            exact: ["DEVOLVIDO", "DEVOLUÃ‡ÃƒO", "DEVOLUCAO"],
+            exact: ["DEVOLVIDO", "DEVOLUÇÃO", "DEVOLUCAO"],
             contains: ["devolv"]
         });
         const statusCadastroId =
@@ -278,7 +372,7 @@ export async function criarAlocacao(dados: {
             (await getStatusIdByDescricao(tx, { contains: ["devolv"] }));
 
         if (!statusCadastroId) {
-            throw new Error("Status do patrimÃ´nio nÃ£o encontrado para o cadastro.");
+            throw new Error("Status do patrimônio não encontrado para o cadastro.");
         }
 
         const novaAlocacao = await tx.tbCadastro.create({
@@ -314,30 +408,60 @@ export async function criarAlocacao(dados: {
     });
 }
 
-// Atualizar alocaÃ§Ã£o (principalmente para registrar devoluÃ§Ã£o)
+// Atualizar alocação (principalmente para registrar devolução)
 export async function atualizarAlocacao(idCad: string, dados: Partial<{
     dataCadPat?: Date;
     dataDevPat?: Date | null;
     idStatusPatCad?: string;
+    motivoDevolucao?: string | null;
+    observacaoTransferencia?: string | null;
+    idUserTransferencia?: string | null;
 }>) {
     return await prisma.$transaction(async (tx) => {
+        const dataCadastroUpdate: Partial<{
+            dataCadPat?: Date;
+            dataDevPat?: Date | null;
+            idStatusPatCad?: string;
+        }> = {};
+
+        if (typeof dados.dataCadPat !== "undefined") dataCadastroUpdate.dataCadPat = dados.dataCadPat;
+        if (typeof dados.dataDevPat !== "undefined") dataCadastroUpdate.dataDevPat = dados.dataDevPat;
+        if (typeof dados.idStatusPatCad !== "undefined") dataCadastroUpdate.idStatusPatCad = dados.idStatusPatCad;
+
+        const registroAnterior = await tx.tbCadastro.findUnique({
+            where: { idCad },
+            include: {
+                tbStatusPat: true
+            }
+        });
+
+        if (!registroAnterior) {
+            throw new Error("Alocação não encontrada.");
+        }
+
         const alocacao = await tx.tbCadastro.update({
             where: { idCad },
-            data: dados,
+            data: dataCadastroUpdate,
             include: {
                 tbFuncionario: true,
-                tbPatrimonio: true
+                tbPatrimonio: true,
+                tbStatusPat: true
             }
         });
 
         if (alocacao.idPatCad) {
             const statusDevolvidoId = await getStatusIdByDescricao(tx, {
-                exact: ["DEVOLVIDO", "DEVOLUÃ‡ÃƒO", "DEVOLUCAO"],
+                exact: ["DEVOLVIDO", "DEVOLUÇÃO", "DEVOLUCAO"],
                 contains: ["devolv"]
             });
             const statusAtivoId = await getStatusIdByDescricao(tx, { exact: ["ATIVO"] });
+            const statusTransferidoId = await getStatusIdByDescricao(tx, {
+                exact: ["TRANSFERIDO"],
+                contains: ["transfer"]
+            });
+            const statusDefinidoExplicitamente = typeof dados.idStatusPatCad !== "undefined";
 
-            if (dados.dataDevPat instanceof Date) {
+            if (!statusDefinidoExplicitamente && dados.dataDevPat instanceof Date) {
                 if (statusDevolvidoId) {
                     await tx.tbPatrimonio.update({
                         where: { idPat: alocacao.idPatCad },
@@ -348,7 +472,7 @@ export async function atualizarAlocacao(idCad: string, dados: Partial<{
                         data: { idStatusPatCad: statusDevolvidoId }
                     });
                 }
-            } else if (dados.dataDevPat === null) {
+            } else if (!statusDefinidoExplicitamente && dados.dataDevPat === null) {
                 if (statusAtivoId) {
                     await tx.tbPatrimonio.update({
                         where: { idPat: alocacao.idPatCad },
@@ -360,20 +484,51 @@ export async function atualizarAlocacao(idCad: string, dados: Partial<{
                     });
                 }
             }
+
+            if (statusDefinidoExplicitamente && dados.idStatusPatCad) {
+                await tx.tbPatrimonio.update({
+                    where: { idPat: alocacao.idPatCad },
+                    data: { idPat_StatusPat: dados.idStatusPatCad }
+                });
+            }
+
+            const eraTransferido = registroAnterior.idStatusPatCad === statusTransferidoId;
+            const virouTransferido = alocacao.idStatusPatCad === statusTransferidoId;
+
+            if (statusTransferidoId && !eraTransferido && virouTransferido) {
+                try {
+                    await tx.tbTransferenciaAlocacao.create({
+                        data: {
+                            idCadastro: alocacao.idCad,
+                            idPatrimonio: alocacao.idPatCad,
+                            idMatriculaFuncionario: alocacao.idMatFunCad || null,
+                            idMatriculaFuncionarioDestino: null,
+                            statusAnterior: registroAnterior.tbStatusPat?.descricaoStatPat || null,
+                            statusNovo: alocacao.tbStatusPat?.descricaoStatPat || "TRANSFERIDO",
+                            observacao: dados.observacaoTransferencia || dados.motivoDevolucao || null,
+                            idUserTransferencia: dados.idUserTransferencia || null,
+                            dataTransferencia: new Date()
+                        }
+                    });
+                } catch (error: any) {
+                    // Permite atualização da alocação mesmo sem a migration da tabela de histórico aplicada.
+                    if (error?.code !== "P2021") throw error;
+                }
+            }
         }
 
         return alocacao;
     });
 }
 
-// Deletar alocaÃ§Ã£o
+// Deletar alocação
 export async function deletarAlocacao(idCad: string) {
     return await prisma.tbCadastro.delete({
         where: { idCad }
     });
 }
 
-// Buscar funcionÃ¡rios disponÃ­veis
+// Buscar funcionários disponíveis
 export async function listarFuncionarios(centros?: string[]) {
     return await prisma.tbFuncionario.findMany({
         where: centros && centros.length > 0 ? { idCustoFun: { in: centros } } : undefined,
@@ -383,7 +538,7 @@ export async function listarFuncionarios(centros?: string[]) {
     });
 }
 
-// Buscar patrimÃ´nios disponÃ­veis
+// Buscar patrimônios disponíveis
 export async function listarPatrimonios(centros?: string[]) {
     return await prisma.tbPatrimonio.findMany({
         where: {
@@ -401,9 +556,28 @@ export async function listarPatrimonios(centros?: string[]) {
                     }
                 }
             ],
+            NOT: {
+                tbDevolucao: {
+                    some: {
+                        dataFimDevolucao: {
+                            not: null
+                        }
+                    }
+                }
+            },
             ...(centros && centros.length > 0 && {
                 idPat_CustoPat: { in: centros }
             })
+        },
+        include: {
+            tbStatusPat: true,
+            tbCCusto: true,
+            tbDevolucao: {
+                orderBy: {
+                    dataInicioDevolucao: "desc"
+                },
+                take: 1
+            }
         },
         orderBy: {
             descricaoPat: 'asc'
@@ -411,7 +585,97 @@ export async function listarPatrimonios(centros?: string[]) {
     });
 }
 
-// Buscar patrimÃ´nios alocados a um funcionÃ¡rio
+export async function transferirAlocacao(idCad: string, dados: {
+    idMatFunDestino: string;
+    dataTransferencia?: Date;
+    observacaoTransferencia?: string | null;
+    idUserTransferencia?: string | null;
+}) {
+    return await prisma.$transaction(async (tx) => {
+        const alocacaoAtual = await tx.tbCadastro.findUnique({
+            where: { idCad },
+            include: {
+                tbStatusPat: true,
+                tbFuncionario: true,
+                tbPatrimonio: true
+            }
+        });
+
+        if (!alocacaoAtual) {
+            throw new Error("Alocação não encontrada.");
+        }
+        if (!alocacaoAtual.idPatCad) {
+            throw new Error("Alocação sem patrimônio vinculado.");
+        }
+
+        const funcionarioDestino = await tx.tbFuncionario.findUnique({
+            where: { idMatFun: dados.idMatFunDestino }
+        });
+        if (!funcionarioDestino) {
+            throw new Error("Funcionário de destino não encontrado.");
+        }
+
+        const statusTransferidoId = await getStatusIdByDescricao(tx, {
+            exact: ["TRANSFERIDO"],
+            contains: ["transfer"]
+        });
+        const statusAtivoId = await getStatusIdByDescricao(tx, { exact: ["ATIVO"] })
+            || await getStatusIdByDescricao(tx, { contains: ["ativo"] });
+
+        if (!statusTransferidoId) {
+            throw new Error("Status TRANSFERIDO não encontrado.");
+        }
+        if (!statusAtivoId) {
+            throw new Error("Status ATIVO não encontrado.");
+        }
+
+        const dataTransferencia = dados.dataTransferencia || new Date();
+
+        await tx.tbCadastro.update({
+            where: { idCad: alocacaoAtual.idCad },
+            data: {
+                idStatusPatCad: statusTransferidoId,
+                dataDevPat: dataTransferencia
+            }
+        });
+
+        await tx.tbTransferenciaAlocacao.create({
+            data: {
+                idCadastro: alocacaoAtual.idCad,
+                idPatrimonio: alocacaoAtual.idPatCad,
+                idMatriculaFuncionario: alocacaoAtual.idMatFunCad || null,
+                idMatriculaFuncionarioDestino: dados.idMatFunDestino,
+                statusAnterior: alocacaoAtual.tbStatusPat?.descricaoStatPat || null,
+                statusNovo: "TRANSFERIDO",
+                observacao: dados.observacaoTransferencia || null,
+                idUserTransferencia: dados.idUserTransferencia || null,
+                dataTransferencia
+            }
+        });
+
+        const novaAlocacao = await tx.tbCadastro.create({
+            data: {
+                idPatCad: alocacaoAtual.idPatCad,
+                idMatFunCad: dados.idMatFunDestino,
+                dataCadPat: dataTransferencia,
+                dataDevPat: null,
+                idStatusPatCad: statusAtivoId
+            },
+            include: {
+                tbFuncionario: true,
+                tbPatrimonio: true,
+                tbStatusPat: true
+            }
+        });
+
+        return {
+            alocacaoTransferida: alocacaoAtual.idCad,
+            novaAlocacao
+        };
+    });
+}
+
+// Buscar patrimônios alocados a um funcionário
 export async function patrimoniosPorFuncionario(idMatFun: string) {
     return await prisma.tbCadastro.findMany({
         where: {
@@ -424,7 +688,7 @@ export async function patrimoniosPorFuncionario(idMatFun: string) {
     });
 }
 
-// Buscar alocaÃ§Ãµes de um patrimÃ´nio
+// Buscar alocações de um patrimônio
 export async function alocacoesPorPatrimonio(idPat: string) {
     return await prisma.tbCadastro.findMany({
         where: {
@@ -438,4 +702,6 @@ export async function alocacoesPorPatrimonio(idPat: string) {
         }
     });
 }
+
+
 

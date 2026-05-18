@@ -2,7 +2,10 @@
 
 import { useState } from 'react';
 import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
-import { Button } from '@/back-end/components/ui/button';
+import { Eye, EyeOff } from 'lucide-react';
+import ConferirPatrimoniosButton from '@/back-end/components/MedicaoCCustoForm/ConferirPatrimoniosButton';
+import GerarRelatorioMedicaoButton from '@/back-end/components/MedicaoCCustoForm/GerarRelatorioMedicaoButton';
+import GerarRelatorioMedicaoPdfButton from '@/back-end/components/MedicaoCCustoForm/GerarRelatorioMedicaoPdfButton';
 
 type CentroCustoOption = {
     idCCusto: string;
@@ -13,8 +16,14 @@ type CentroCustoOption = {
 type LinhaResultado = {
     linha: number;
     idPat: string;
+    descricaoPat: string | null;
+    matriculaAlocada: string | null;
+    nomeFuncionarioAlocado: string | null;
+    statusPatrimonio: string | null;
     valorInformado: number | null;
     valorSistema: number | null;
+    detalheRateio: string | null;
+    movimentosPatrimonio: string | null;
     status: 'OK' | 'VALOR_DIVERGENTE' | 'NAO_ENCONTRADO' | 'INVALIDO';
     mensagem: string;
 };
@@ -32,6 +41,9 @@ type RespostaMedicao = {
         idPat: string;
         descricaoPat: string | null;
         valorSistema: number | null;
+        statusPatrimonio?: string | null;
+        devolvido?: boolean;
+        detalheDevolucao?: string | null;
     }>;
 };
 
@@ -42,6 +54,27 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState<string | null>(null);
     const [resultado, setResultado] = useState<RespostaMedicao | null>(null);
+    const [mostrarNaoInformados, setMostrarNaoInformados] = useState(false);
+    const hoje = new Date().toISOString().slice(0, 10);
+    const [dataInicioMedicao, setDataInicioMedicao] = useState(hoje);
+    const [dataFimMedicao, setDataFimMedicao] = useState(hoje);
+    const dataAtual = new Date();
+    const [mesBm, setMesBm] = useState(String(dataAtual.getMonth() + 1).padStart(2, '0'));
+    const [anoBm, setAnoBm] = useState(String(dataAtual.getFullYear()));
+
+    const compararIdPatrimonio = (a: string, b: string) =>
+        a.localeCompare(b, 'pt-BR', { numeric: true, sensitivity: 'base' });
+
+    const formatarMoeda = (valor: number) =>
+        new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
+    const formatarMoedaOuTraco = (valor: number | null) =>
+        valor === null ? '-' : formatarMoeda(valor);
+    const centroSelecionadoObj = centros.find((c) => c.idCCusto === centroSelecionado);
+    const codigoCentroSelecionado =
+        centroSelecionadoObj?.codigoCCusto || null;
+    const centroSelecionadoLabel = centroSelecionadoObj
+        ? `${centroSelecionadoObj.codigoCCusto ? `${centroSelecionadoObj.codigoCCusto} - ` : ''}${centroSelecionadoObj.descricaoCCusto || 'Sem descrição'}`
+        : null;
 
     const resumoInconsistencias = resultado
         ? {
@@ -49,6 +82,22 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
             naoEncontrados: resultado.resumo.naoEncontrados,
             invalidos: resultado.resumo.invalidos,
             naoInformados: resultado.naoInformados.length,
+            valorDivergentes: resultado.resultados
+                .filter((r) => r.status === 'VALOR_DIVERGENTE')
+                .reduce((acc, r) => acc + Math.abs((r.valorInformado ?? 0) - (r.valorSistema ?? 0)), 0),
+            valorNaoEncontrados: resultado.resultados
+                .filter((r) => r.status === 'NAO_ENCONTRADO')
+                .reduce((acc, r) => acc + (r.valorInformado ?? 0), 0),
+            valorInvalidos: resultado.resultados
+                .filter((r) => r.status === 'INVALIDO')
+                .reduce((acc, r) => acc + (r.valorInformado ?? 0), 0),
+            valorNaoInformados: resultado.naoInformados
+                .reduce((acc, r) => acc + (r.valorSistema ?? 0), 0),
+            valorTotalLinhas: resultado.resultados
+                .reduce((acc, r) => acc + (r.valorSistema ?? 0), 0),
+            valorOk: resultado.resultados
+                .filter((r) => r.status === 'OK')
+                .reduce((acc, r) => acc + (r.valorSistema ?? 0), 0),
             total:
                 resultado.resumo.divergentes +
                 resultado.resumo.naoEncontrados +
@@ -56,6 +105,18 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                 resultado.naoInformados.length
         }
         : null;
+
+    const resultadosOrdenados = resultado
+        ? [...resultado.resultados].sort((a, b) => {
+            const linhaDiff = a.linha - b.linha;
+            if (linhaDiff !== 0) return linhaDiff;
+            return compararIdPatrimonio(a.idPat || '', b.idPat || '');
+        })
+        : [];
+
+    const naoInformadosOrdenados = resultado
+        ? [...resultado.naoInformados].sort((a, b) => compararIdPatrimonio(a.idPat || '', b.idPat || ''))
+        : [];
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -70,12 +131,26 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
             setErro('Selecione um arquivo Excel.');
             return;
         }
+        if (!dataInicioMedicao) {
+            setErro('Informe a data de início da medição.');
+            return;
+        }
+        if (!dataFimMedicao) {
+            setErro('Informe a data de fim da medição.');
+            return;
+        }
+        if (dataInicioMedicao > dataFimMedicao) {
+            setErro('A data de início não pode ser maior que a data de fim da medição.');
+            return;
+        }
 
         setLoading(true);
         try {
             const formData = new FormData();
             formData.append('idCCusto', centroSelecionado);
             formData.append('file', arquivo);
+            formData.append('dataInicioMedicao', dataInicioMedicao);
+            formData.append('dataFimMedicao', dataFimMedicao);
 
             const res = await fetch('/api/ccusto/medicao', {
                 method: 'POST',
@@ -89,7 +164,16 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
             }
 
             const data = (await res.json()) as RespostaMedicao;
-            setResultado(data);
+            const resultadosOrdenados = [...(data.resultados || [])].sort((a, b) => {
+                const linhaA = Number(a.linha) || 0;
+                const linhaB = Number(b.linha) || 0;
+                if (linhaA !== linhaB) return linhaA - linhaB;
+                return compararIdPatrimonio(a.idPat || '', b.idPat || '');
+            });
+            setResultado({
+                ...data,
+                resultados: resultadosOrdenados
+            });
         } catch (error) {
             console.error(error);
             setErro('Erro ao processar o arquivo.');
@@ -101,6 +185,27 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
     return (
         <div className="space-y-6">
             <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-md p-6 space-y-4">
+                <div className="flex flex-wrap items-center justify-end gap-2">
+                    <ConferirPatrimoniosButton loading={loading} />
+                    <GerarRelatorioMedicaoButton
+                        resultado={resultado}
+                        disabled={loading}
+                        codigoCentroCusto={codigoCentroSelecionado}
+                        mesBm={mesBm}
+                        anoBm={anoBm}
+                    />
+                    <GerarRelatorioMedicaoPdfButton
+                        resultado={resultado}
+                        disabled={loading}
+                        codigoCentroCusto={codigoCentroSelecionado}
+                        centroCustoLabel={centroSelecionadoLabel}
+                        periodoInicioMedicao={dataInicioMedicao}
+                        periodoFimMedicao={dataFimMedicao}
+                        mesBm={mesBm}
+                        anoBm={anoBm}
+                    />
+                </div>
+
                 <div>
                     <label className="block text-sm font-medium mb-2">Centro de Custo</label>
                     <select
@@ -131,24 +236,62 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                     </p>
                 </div>
 
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium mb-2">Data Início da Medição</label>
+                        <input
+                            type="date"
+                            value={dataInicioMedicao}
+                            onChange={(e) => setDataInicioMedicao(e.target.value)}
+                            className="w-full border rounded-lg px-3 py-2"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium mb-2">Data Fim da Medição</label>
+                        <input
+                            type="date"
+                            value={dataFimMedicao}
+                            onChange={(e) => setDataFimMedicao(e.target.value)}
+                            className="w-full border rounded-lg px-3 py-2"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium mb-2">Mês BM</label>
+                        <input
+                            type="number"
+                            min={1}
+                            max={12}
+                            value={mesBm}
+                            onChange={(e) => setMesBm(e.target.value)}
+                            className="w-full border rounded-lg px-3 py-2"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium mb-2">Ano BM</label>
+                        <input
+                            type="number"
+                            min={2000}
+                            max={2099}
+                            value={anoBm}
+                            onChange={(e) => setAnoBm(e.target.value)}
+                            className="w-full border rounded-lg px-3 py-2"
+                        />
+                    </div>
+                </div>
+
                 {erro && (
                     <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
                         {erro}
                     </div>
                 )}
-
-                <Button type="submit" className="bg-primary hover:bg-primary/90" disabled={loading}>
-                    {loading ? 'Processando...' : 'Conferir Patrimônios'}
-                </Button>
             </form>
 
             {resultado && (
                 <div className="space-y-6">
-                    <div className={`rounded-lg border p-4 ${
-                        (resumoInconsistencias?.total || 0) > 0
-                            ? 'bg-amber-50 border-amber-200'
-                            : 'bg-green-50 border-green-200'
-                    }`}>
+                    <div className={`rounded-lg border p-4 ${(resumoInconsistencias?.total || 0) > 0
+                        ? 'bg-amber border-amber-200'
+                        : 'bg-green-50 border-green-200'
+                        }`}>
                         <h3 className="font-semibold text-sm">Resumo de inconsistências da importação</h3>
                         <p className="text-sm mt-1 text-gray-700">
                             {(resumoInconsistencias?.total || 0) > 0
@@ -159,18 +302,22 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                             <div className="bg-white rounded border px-3 py-2">
                                 <p className="text-xs text-gray-500">Valor divergente</p>
                                 <p className="font-semibold text-orange-600">{resumoInconsistencias?.divergentes || 0}</p>
+                                <p className="text-xs text-gray-500">{formatarMoeda(resumoInconsistencias?.valorDivergentes || 0)}</p>
                             </div>
                             <div className="bg-white rounded border px-3 py-2">
                                 <p className="text-xs text-gray-500">Não encontrado</p>
                                 <p className="font-semibold text-red-600">{resumoInconsistencias?.naoEncontrados || 0}</p>
+                                <p className="text-xs text-gray-500">{formatarMoeda(resumoInconsistencias?.valorNaoEncontrados || 0)}</p>
                             </div>
                             <div className="bg-white rounded border px-3 py-2">
                                 <p className="text-xs text-gray-500">Linha inválida</p>
                                 <p className="font-semibold text-gray-700">{resumoInconsistencias?.invalidos || 0}</p>
+                                <p className="text-xs text-gray-500">{formatarMoeda(resumoInconsistencias?.valorInvalidos || 0)}</p>
                             </div>
                             <div className="bg-white rounded border px-3 py-2">
                                 <p className="text-xs text-gray-500">Não informados no arquivo</p>
                                 <p className="font-semibold text-slate-700">{resumoInconsistencias?.naoInformados || 0}</p>
+                                <p className="text-xs text-gray-500">{formatarMoeda(resumoInconsistencias?.valorNaoInformados || 0)}</p>
                             </div>
                         </div>
                     </div>
@@ -179,52 +326,69 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                         <div className="bg-white rounded-lg shadow p-4 text-center">
                             <p className="text-xs text-gray-500">Total de linhas</p>
                             <p className="text-xl font-semibold">{resultado.resumo.totalLinhas}</p>
+                            <p className="text-xs text-gray-500 mt-1">{formatarMoeda(resumoInconsistencias?.valorTotalLinhas || 0)}</p>
                         </div>
                         <div className="bg-white rounded-lg shadow p-4 text-center">
                             <p className="text-xs text-gray-500">OK</p>
                             <p className="text-xl font-semibold text-green-600">{resultado.resumo.ok}</p>
+                            <p className="text-xs text-gray-500 mt-1">{formatarMoeda(resumoInconsistencias?.valorOk || 0)}</p>
                         </div>
                         <div className="bg-white rounded-lg shadow p-4 text-center">
                             <p className="text-xs text-gray-500">Divergentes</p>
                             <p className="text-xl font-semibold text-orange-600">{resultado.resumo.divergentes}</p>
+                            <p className="text-xs text-gray-500 mt-1">{formatarMoeda(resumoInconsistencias?.valorDivergentes || 0)}</p>
                         </div>
                         <div className="bg-white rounded-lg shadow p-4 text-center">
                             <p className="text-xs text-gray-500">Não encontrados</p>
                             <p className="text-xl font-semibold text-red-600">{resultado.resumo.naoEncontrados}</p>
+                            <p className="text-xs text-gray-500 mt-1">{formatarMoeda(resumoInconsistencias?.valorNaoEncontrados || 0)}</p>
                         </div>
                         <div className="bg-white rounded-lg shadow p-4 text-center">
                             <p className="text-xs text-gray-500">Inválidos</p>
                             <p className="text-xl font-semibold text-gray-600">{resultado.resumo.invalidos}</p>
+                            <p className="text-xs text-gray-500 mt-1">{formatarMoeda(resumoInconsistencias?.valorInvalidos || 0)}</p>
                         </div>
                     </div>
 
                     <div className="md:hidden space-y-3">
-                        {resultado.resultados.map((linha) => (
+                        {resultadosOrdenados.map((linha) => (
                             <div key={`${linha.linha}-${linha.idPat}`} className="bg-white rounded-lg shadow p-4 space-y-2">
                                 <div className="flex items-start justify-between gap-3">
                                     <div>
                                         <div className="text-sm font-semibold text-gray-900">Patrimônio: {linha.idPat || '-'}</div>
+                                        <div className="text-xs text-gray-500">{linha.descricaoPat || 'Sem descrição'}</div>
                                         <div className="text-xs text-gray-500">Linha: {linha.linha}</div>
+                                        <div className="text-xs text-gray-500">Matrícula: {linha.matriculaAlocada || '-'}</div>
+                                        <div className="text-xs text-gray-500">Funcionário: {linha.nomeFuncionarioAlocado || '-'}</div>
+                                        <div className="text-xs text-gray-500">Status Patrimônio: {linha.statusPatrimonio || '-'}</div>
                                     </div>
                                     <span
-                                        className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                                            linha.status === 'OK'
-                                                ? 'bg-green-100 text-green-800'
-                                                : linha.status === 'VALOR_DIVERGENTE'
-                                                    ? 'bg-orange-100 text-orange-800'
-                                                    : linha.status === 'NAO_ENCONTRADO'
-                                                        ? 'bg-red-100 text-red-800'
-                                                        : 'bg-gray-100 text-gray-800'
-                                        }`}
+                                        className={`px-2 py-1 rounded-full text-xs font-semibold ${linha.status === 'OK'
+                                            ? 'bg-green-100 text-green-800'
+                                            : linha.status === 'VALOR_DIVERGENTE'
+                                                ? 'bg-orange-100 text-orange-800'
+                                                : linha.status === 'NAO_ENCONTRADO'
+                                                    ? 'bg-red-100 text-red-800'
+                                                    : 'bg-gray-100 text-gray-800'
+                                            }`}
                                     >
                                         {linha.mensagem}
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-2 gap-2 text-xs">
                                     <div className="text-gray-500">Valor Informado</div>
-                                    <div className="text-gray-800 text-right">{linha.valorInformado !== null ? linha.valorInformado.toFixed(2) : '-'}</div>
+                                    <div className="text-gray-800 text-right">{formatarMoedaOuTraco(linha.valorInformado)}</div>
                                     <div className="text-gray-500">Valor Sistema</div>
-                                    <div className="text-gray-800 text-right">{linha.valorSistema !== null ? linha.valorSistema.toFixed(2) : '-'}</div>
+                                    <div className="text-gray-800 text-right">
+                                        {formatarMoedaOuTraco(linha.valorSistema)}
+                                        {linha.detalheRateio && (
+                                            <div className="text-[10px] text-gray-500 mt-1 whitespace-normal text-right">
+                                                {linha.detalheRateio}
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="text-gray-500">Movimentos</div>
+                                    <div className="text-gray-800 text-right">{linha.movimentosPatrimonio || '-'}</div>
                                 </div>
                             </div>
                         ))}
@@ -236,36 +400,75 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                                 <thead className="bg-gray-50 border-b">
                                     <tr>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">Linha</th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">ID Património</th>
+                                        <th className="px-4 py-3 text-left text-sm font-semibold">ID Patrimônio</th>
+                                        <th className="px-4 py-3 text-left text-sm font-semibold">Matrícula Alocada</th>
+                                        <th className="px-4 py-3 text-left text-sm font-semibold">Status Patrimônio</th>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">Valor Informado</th>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">Valor Sistema</th>
+                                        <th className="px-4 py-3 text-left text-sm font-semibold">Movimentos do Patrimônio</th>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {resultado.resultados.map((linha) => (
+                                    {resultadosOrdenados.map((linha) => (
                                         <tr key={`${linha.linha}-${linha.idPat}`} className="border-b">
-                                            <td className="px-4 py-3 text-sm">{linha.linha}</td>
-                                            <td className="px-4 py-3 text-sm">{linha.idPat || '-'}</td>
-                                            <td className="px-4 py-3 text-sm">
-                                                {linha.valorInformado !== null
-                                                    ? linha.valorInformado.toFixed(2)
-                                                    : '-'}
+                                            <td className="px-4 py-3 text-sm text-[12px]">
+                                                {linha.linha - 1}
                                             </td>
-                                            <td className="px-4 py-3 text-sm">
-                                                {linha.valorSistema !== null ? linha.valorSistema.toFixed(2) : '-'}
+                                            <td className="px-4 py-3 text-sm text-[12px]">
+                                                <div>{linha.idPat || '-'}</div>
+                                                <div className="text-[10px] text-gray-500 mt-0.5">{linha.descricaoPat || 'Sem descrição'}</div>
+                                                
+                                            </td>
+                                            <td className="px-4 py-3 text-sm text-[12px]">
+                                                <div>{linha.matriculaAlocada || '-'}</div>
+                                                <div className="text-[10px] text-gray-500 mt-0.5">{linha.nomeFuncionarioAlocado || '-'}</div>
+                                            </td>
+                                            <td className="px-4 py-3 text-sm text-[12px]">
+                                                {linha.statusPatrimonio ? (
+                                                    <span
+                                                        className={`px-3 py-1 rounded-full text-xs text-[9px] font-semibold 
+                                                                ${linha.statusPatrimonio === 'ATIVO' ? 'bg-green-100 text-green-800' :
+                                                                linha.statusPatrimonio === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
+                                                                    linha.statusPatrimonio === 'INATIVO' ? 'bg-orange-100 text-orange-800' :
+                                                                        linha.statusPatrimonio === 'MANUTENÇÃO' ? 'bg-gray-100 text-purple-800' :
+                                                                            linha.statusPatrimonio === 'TRANSFERIDO' ? 'bg-gray-100 text-blue-800' :
+                                                                                'bg-gray-100 text-gray-800'
+                                                            }`}
+                                                    >
+                                                        {linha.statusPatrimonio || '-'}
+                                                    </span>
+                                                ) : (
+                                                    <span className="inline-block rounded-full bg-slate-100 text-slate-700 px-2 py-0.5 text-xs text-[9px] font-semibold">
+                                                        SEM STATUS
+                                                    </span>
+                                                )}
+                                            </td>
+                                            <td className="px-4 py-3 text-sm text-[12px]">
+                                                {formatarMoedaOuTraco(linha.valorInformado)}
+                                            </td>
+                                            <td className="px-4 py-3 text-sm text-[12px]">
+                                                {formatarMoedaOuTraco(linha.valorSistema)}
+                                                {linha.detalheRateio && (
+                                                    <div className="text-xs text-[8px] text-gray-500 mt-1">
+                                                        {linha.detalheRateio}
+                                                    </div>
+                                                )}
+                                            </td>
+                                            <td className="px-4 py-3 text-sm text-[11px] text-gray-700">
+                                                {linha.movimentosPatrimonio || '-'}
                                             </td>
                                             <td className="px-4 py-3 text-sm">
                                                 <span
-                                                    className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                                                        linha.status === 'OK'
+                                                    className={`px-2 py-1 rounded-full text-xs text-[9px] font-semibold 
+                                                        ${linha.status === 'OK'
                                                             ? 'bg-green-100 text-green-800'
                                                             : linha.status === 'VALOR_DIVERGENTE'
                                                                 ? 'bg-orange-100 text-orange-800'
                                                                 : linha.status === 'NAO_ENCONTRADO'
                                                                     ? 'bg-red-100 text-red-800'
                                                                     : 'bg-gray-100 text-gray-800'
-                                                    }`}
+                                                        }`}
                                                 >
                                                     {linha.mensagem}
                                                 </span>
@@ -279,16 +482,71 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
 
                     {resultado.naoInformados.length > 0 && (
                         <div className="bg-white rounded-lg shadow p-4">
-                            <h3 className="font-semibold mb-2">
-                                Patrimônios no centro de custo que não vieram no arquivo
-                            </h3>
-                            <ul className="text-sm text-gray-700 list-disc pl-4">
-                                {resultado.naoInformados.map((item) => (
-                                    <li key={item.idPat}>
-                                        {item.idPat} - {item.descricaoPat || 'Sem descrição'} (R$ {item.valorSistema?.toFixed(2) || '0.00'})
-                                    </li>
-                                ))}
-                            </ul>
+                            <div className="flex items-center justify-between mb-3">
+                                <h2 className="font-semibold">
+                                    Patrimônios no centro de custo que não vieram no arquivo
+                                </h2>
+                                <button
+                                    type="button"
+                                    onClick={() => setMostrarNaoInformados((prev) => !prev)}
+                                    className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition"
+                                    aria-label={mostrarNaoInformados ? 'Ocultar seção' : 'Visualizar seção'}
+                                >
+                                    {mostrarNaoInformados ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                                    <span>{mostrarNaoInformados ? 'Ocultar' : 'Visualizar'}</span>
+                                </button>
+                            </div>
+                            {mostrarNaoInformados && (
+                                <div className="overflow-x-auto">
+                                    <table className="w-full min-w-[720px] text-sm">
+                                        <thead className="bg-gray-50 border-b">
+                                            <tr>
+                                                <th className="px-3 py-2 text-left font-semibold">ID Patrimônio</th>
+                                                <th className="px-3 py-2 text-left font-semibold">Descrição</th>
+                                                <th className="px-3 py-2 text-left font-semibold">Valor Sistema</th>
+                                                <th className="px-3 py-2 text-left font-semibold">Situação</th>
+                                                <th className="px-3 py-2 text-left font-semibold">Detalhe</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {naoInformadosOrdenados.map((item) => (
+                                                <tr key={item.idPat} className="border-b align-top">
+                                                    <td className="px-3 py-2 text-[12px]">
+                                                        {item.idPat}
+                                                        </td>
+                                                    <td className="px-3 py-2 text-[12px]">
+                                                        {item.descricaoPat || 'Sem descrição'}
+                                                        </td>
+                                                    <td className="px-3 py-2 text-[12px]">
+                                                        {formatarMoeda(item.valorSistema ?? 0)}
+                                                        </td>
+                                                    <td className="px-3 py-2">
+                                                        {item.statusPatrimonio ? (
+                                                            <span
+                                                                className={`px-3 py-1 rounded-full text-xs text-[9px] font-semibold 
+                                                                ${item.statusPatrimonio === 'ATIVO' ? 'bg-green-100 text-green-800' :
+                                                                        item.statusPatrimonio === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
+                                                                            item.statusPatrimonio === 'INATIVO' ? 'bg-orange-100 text-orange-800' :
+                                                                                item.statusPatrimonio === 'MANUTENÇÃO' ? 'bg-gray-100 text-purple-800' :
+                                                                                    item.statusPatrimonio === 'TRANSFERIDO' ? 'bg-gray-100 text-blue-800' :
+                                                                                        'bg-gray-100 text-gray-800'
+                                                                    }`}
+                                                            >
+                                                                {item.statusPatrimonio || '-'}
+                                                            </span>
+                                                        ) : (
+                                                            <span className="inline-block rounded-full bg-slate-100 text-slate-700 px-2 py-0.5 text-xs font-semibold">
+                                                                SEM STATUS
+                                                            </span>
+                                                        )}
+                                                    </td>
+                                                    <td className="px-3 py-2 text-xs text-gray-700">{item.detalheDevolucao || '-'}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
@@ -296,9 +554,3 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
         </div>
     );
 }
-
-
-
-
-
-

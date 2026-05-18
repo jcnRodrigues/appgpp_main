@@ -17,14 +17,15 @@ function sortCentros<T extends { descricaoCCusto?: string | null; codigoCCusto?:
 
 export async function GET(request: NextRequest) {
     try {
-        const { centros, allowAll } = await getCentrosFiltro(request);
+        const { centros, allowAll, authenticated } = await getCentrosFiltro(request);
+        const allowAllEfetivo = allowAll || (authenticated && centros.length === 0);
         const [tipos, status, centrosDb] = await Promise.all([
             getTiposPatrimonio(),
             getStatusPatrimonio(),
             getCentrosCusto()
         ]);
 
-        const centrosFiltrados = allowAll
+        const centrosFiltrados = allowAllEfetivo
             ? centrosDb
             : centrosDb.filter((c: any) => centros.includes(c.idCCusto));
 

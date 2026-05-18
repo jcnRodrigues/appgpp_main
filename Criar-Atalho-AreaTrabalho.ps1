@@ -4,6 +4,7 @@ param(
 
 $projectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $target = Join-Path $projectRoot "Abrir-AppGPP.cmd"
+$iconPath = Join-Path $projectRoot "public\Imagens\AppGPP.ico"
 $desktop = [Environment]::GetFolderPath("Desktop")
 $linkPath = Join-Path $desktop ("{0}.lnk" -f $ShortcutName)
 
@@ -16,7 +17,11 @@ $wsh = New-Object -ComObject WScript.Shell
 $shortcut = $wsh.CreateShortcut($linkPath)
 $shortcut.TargetPath = $target
 $shortcut.WorkingDirectory = $projectRoot
-$shortcut.IconLocation = "$env:SystemRoot\System32\SHELL32.dll,220"
+if (Test-Path -LiteralPath $iconPath) {
+  $shortcut.IconLocation = $iconPath
+} else {
+  $shortcut.IconLocation = "$env:SystemRoot\System32\SHELL32.dll,220"
+}
 $shortcut.Save()
 
 Write-Host "Atalho criado em: $linkPath"

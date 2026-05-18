@@ -1,8 +1,16 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { getPatrimonioCardById, atualizarPatrimonio } from '@/back-end/service/Patrimonio.services/patrimonio.service';
 import prisma from '../../../../../prisma/prisma';
 import { getCentrosFiltro, hasDeleteAnyPermission } from '@/lib/access';
 import { parseNullableDateInput } from '@/lib/date-input';
+
+function normalizar(valor?: string | null) {
+    return (valor || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim()
+        .toLowerCase();
+}
 
 export async function GET(
     request: NextRequest,
@@ -14,7 +22,7 @@ export async function GET(
 
         if (!patrimonio) {
             return NextResponse.json(
-                { message: 'Patrimônio não encontrado' },
+                { message: 'PatrimÃ´nio nÃ£o encontrado' },
                 { status: 404 }
             );
         }
@@ -24,7 +32,7 @@ export async function GET(
             const centroId = patrimonio.idPat_CustoPat || '';
             if (!centros.includes(centroId)) {
                 return NextResponse.json(
-                    { message: 'Patrimônio não encontrado' },
+                    { message: 'PatrimÃ´nio nÃ£o encontrado' },
                     { status: 404 }
                 );
             }
@@ -32,9 +40,9 @@ export async function GET(
 
         return NextResponse.json(patrimonio);
     } catch (error) {
-        console.error('Erro ao obter patrimônio:', error);
+        console.error('Erro ao obter patrimÃ´nio:', error);
         return NextResponse.json(
-            { message: 'Erro ao obter patrimônio' },
+            { message: 'Erro ao obter patrimÃ´nio' },
             { status: 500 }
         );
     }
@@ -48,12 +56,11 @@ export async function PUT(
         const { id } = await params;
         const dados = await request.json();
 
-        // Validação mínima
+        // ValidaÃ§Ã£o mÃ­nima
         if (!dados || Object.keys(dados).length === 0) {
             return NextResponse.json({ message: 'Nenhum dado para atualizar' }, { status: 400 });
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const updateData: any = {};
         if (typeof dados.descricaoPat !== 'undefined') updateData.descricaoPat = dados.descricaoPat;
         if (typeof dados.descricaoDetalhadaPat !== 'undefined') updateData.descricaoDetalhadaPat = dados.descricaoDetalhadaPat;
@@ -63,7 +70,7 @@ export async function PUT(
         if (typeof dados.notaFiscalPat !== 'undefined') updateData.notaFiscalPat = dados.notaFiscalPat;
         if (typeof dados.valorPat !== 'undefined') {
             const v = typeof dados.valorPat === 'number' ? dados.valorPat : parseFloat(dados.valorPat);
-            if (Number.isNaN(v)) return NextResponse.json({ message: 'Valor inválido' }, { status: 400 });
+            if (Number.isNaN(v)) return NextResponse.json({ message: 'Valor invÃ¡lido' }, { status: 400 });
             updateData.valorPat = v;
         }
         if (typeof dados.idPat_TipoPat !== 'undefined') updateData.idPat_TipoPat = dados.idPat_TipoPat;
@@ -72,11 +79,63 @@ export async function PUT(
 
         const patrimonio = await atualizarPatrimonio(id, updateData);
 
+        if (patrimonio.idPat_StatusPat) {
+            const status = await prisma.tbStatusPat.findUnique({
+                where: { idStatusPat: patrimonio.idPat_StatusPat }
+            });
+            const isDevolucao = normalizar(status?.descricaoStatPat).includes('devolu');
+
+            if (isDevolucao) {
+                const dataDevolucao = parseNullableDateInput(dados.dataDevPat) || parseNullableDateInput(dados.dataSaiPat) || new Date();
+                const devolucaoAberta = await prisma.tbDevolucao.findFirst({
+                    where: {
+                        idPatrimonio: patrimonio.idPat,
+                        dataFimDevolucao: null
+                    },
+                    orderBy: {
+                        dataInicioDevolucao: 'desc'
+                    }
+                });
+
+                if (devolucaoAberta) {
+                    await prisma.tbDevolucao.update({
+                        where: { idDevolucao: devolucaoAberta.idDevolucao },
+                        data: {
+                            dataInicioDevolucao: dataDevolucao,
+                            motivoDevolucao: typeof dados.motivoDevolucao === 'string' ? dados.motivoDevolucao.trim() || null : null,
+                            notaFiscalDevolucao: typeof dados.notaFiscalDevolucao === 'string' ? dados.notaFiscalDevolucao.trim() || null : null,
+                            dataFimDevolucao: parseNullableDateInput(dados.dataChegadaFornecedor)
+                        }
+                    });
+                } else {
+                    await prisma.tbDevolucao.create({
+                        data: {
+                            idPatrimonio: patrimonio.idPat,
+                            dataInicioDevolucao: dataDevolucao,
+                            motivoDevolucao: typeof dados.motivoDevolucao === 'string' ? dados.motivoDevolucao.trim() || null : null,
+                            notaFiscalDevolucao: typeof dados.notaFiscalDevolucao === 'string' ? dados.notaFiscalDevolucao.trim() || null : null,
+                            dataFimDevolucao: parseNullableDateInput(dados.dataChegadaFornecedor)
+                        }
+                    });
+                }
+            } else {
+                await prisma.tbDevolucao.updateMany({
+                    where: {
+                        idPatrimonio: patrimonio.idPat,
+                        dataFimDevolucao: null
+                    },
+                    data: {
+                        dataFimDevolucao: new Date()
+                    }
+                });
+            }
+        }
+
         return NextResponse.json(patrimonio);
     } catch (error: unknown) {
-        console.error('Erro ao atualizar patrimônio:', error);
+        console.error('Erro ao atualizar patrimÃ´nio:', error);
         return NextResponse.json(
-            { message: error instanceof Error ? error.message : 'Erro ao atualizar patrimônio' },
+            { message: error instanceof Error ? error.message : 'Erro ao atualizar patrimÃ´nio' },
             { status: 500 }
         );
     }
@@ -89,33 +148,34 @@ export async function DELETE(
     try {
         const canDelete = await hasDeleteAnyPermission(request);
         if (!canDelete) {
-            return NextResponse.json({ message: 'Sem permissão para deletar' }, { status: 403 });
+            return NextResponse.json({ message: 'Sem permissÃ£o para deletar' }, { status: 403 });
         }
         const { id } = await params;
-        // Verificar se patrimônio existe
+        // Verificar se patrimÃ´nio existe
         const patrimonio = await getPatrimonioCardById(id);
         if (!patrimonio) {
             return NextResponse.json(
-                { message: 'Patrimônio não encontrado' },
+                { message: 'PatrimÃ´nio nÃ£o encontrado' },
                 { status: 404 }
             );
         }
 
-        // Deletar patrimônio
+        // Deletar patrimÃ´nio
         await prisma.tbPatrimonio.delete({
             where: { idP: id }
         });
 
         return NextResponse.json({
-            message: 'Patrimônio deletado com sucesso'
+            message: 'PatrimÃ´nio deletado com sucesso'
         });
     } catch (error: unknown) {
-        console.error('Erro ao deletar patrimônio:', error);
+        console.error('Erro ao deletar patrimÃ´nio:', error);
         return NextResponse.json(
-            { message: error instanceof Error ? error.message : 'Erro ao deletar patrimônio' },
+            { message: error instanceof Error ? error.message : 'Erro ao deletar patrimÃ´nio' },
             { status: 500 }
         );
     }
 
     
 }
+

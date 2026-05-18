@@ -1,6 +1,6 @@
-'use client'
+﻿'use client'
 
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { Edit, Trash2, FileDown, Filter } from 'lucide-react';
 import { Button } from '@/back-end/components/ui/button';
@@ -10,7 +10,11 @@ interface Alocacao {
     idCad: string;
     dataCadPat: string | null;
     dataDevPat: string | null;
-
+    tbDevolucao?: {
+        dataInicioDevolucao: string;
+        dataFimDevolucao: string | null;
+        motivoDevolucao: string | null;
+    }[];
     tbFuncionario: {
         idMatFun: string;
         nomeFun: string;
@@ -27,6 +31,11 @@ interface Alocacao {
     tbPatrimonio: {
         idPat: string;
         descricaoPat: string;
+        tbDevolucao?: {
+            dataInicioDevolucao: string;
+            dataFimDevolucao: string | null;
+            motivoDevolucao: string | null;
+        }[];
         tbCCusto?: {
             idCCusto: string;
             codigoCCusto?: string | null;
@@ -40,7 +49,6 @@ interface Alocacao {
         idStatusPat: string;
         descricaoStatPat: string;
     } | null;
-
 }
 
 interface CentroOption {
@@ -66,7 +74,9 @@ export default function CadastroTable() {
     const [paginaAtual, setPaginaAtual] = useState(1);
     const [itensPorPagina, setItensPorPagina] = useState(10);
     const [totalItens, setTotalItens] = useState(0);
+    const [pdfLoading, setPdfLoading] = useState<string | null>(null);
     const statusDropdownRef = useRef<HTMLDetailsElement | null>(null);
+
     const centroOpcoesOrdenadas = useMemo(() => {
         return [...centroOpcoes].sort((a, b) => {
             const descricaoA = (a.descricaoCCusto || '').trim();
@@ -80,7 +90,7 @@ export default function CadastroTable() {
         });
     }, [centroOpcoes]);
 
-    const carregarAlocacoes = async () => {
+    const carregarAlocacoes = useCallback(async () => {
         setLoading(true);
         try {
             const params = new URLSearchParams();
@@ -90,6 +100,7 @@ export default function CadastroTable() {
             filtroStatusIds.forEach((statusId) => params.append('statusId', statusId));
             params.append('skip', String((paginaAtual - 1) * itensPorPagina));
             params.append('take', String(itensPorPagina));
+
             const res = await fetch(`/api/cadastro?${params}`);
             if (res.ok) {
                 const data = await res.json();
@@ -101,11 +112,11 @@ export default function CadastroTable() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [filtroFuncionario, filtroPatrimonio, filtroCentroCusto, filtroStatusIds, paginaAtual, itensPorPagina]);
 
     useEffect(() => {
         carregarAlocacoes();
-    }, [paginaAtual, filtroFuncionario, filtroPatrimonio, filtroCentroCusto, filtroStatusIds, itensPorPagina]);
+    }, [carregarAlocacoes]);
 
     useEffect(() => {
         setPaginaAtual(1);
@@ -122,7 +133,6 @@ export default function CadastroTable() {
                 console.error('Erro ao carregar centros de custo:', error);
             }
         };
-
         carregarCentros();
     }, []);
 
@@ -134,10 +144,9 @@ export default function CadastroTable() {
                 const data = await response.json();
                 setStatusOpcoes(data.statusPatrimonio || []);
             } catch (error) {
-                console.error('Erro ao carregar status de patrimonio:', error);
+                console.error('Erro ao carregar status de patrimônio:', error);
             }
         };
-
         carregarStatus();
     }, []);
 
@@ -152,19 +161,18 @@ export default function CadastroTable() {
         };
 
         document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
+        return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
+
+    useEffect(() => {
+        const totalPaginasAtual = Math.max(1, Math.ceil(totalItens / itensPorPagina));
+        if (paginaAtual > totalPaginasAtual) setPaginaAtual(totalPaginasAtual);
+    }, [totalItens, paginaAtual, itensPorPagina]);
 
     const handleDelete = async (idCad: string) => {
         if (!confirm('Tem certeza que deseja deletar esta alocação?')) return;
-
         try {
-            const res = await fetch(`/api/cadastro/${idCad}`, {
-                method: 'DELETE'
-            });
-
+            const res = await fetch(`/api/cadastro/${idCad}`, { method: 'DELETE' });
             if (res.ok) {
                 await carregarAlocacoes();
                 alert('Alocação deletada com sucesso');
@@ -184,24 +192,26 @@ export default function CadastroTable() {
         if (status === 'TRANSFERIDO') return 'bg-yellow-100 text-yellow-800';
         return 'bg-gray-100 text-gray-800';
     };
+    const getStatusPatBadgeClass = (status?: string) => {
+        if (status === 'ATIVO') return 'bg-green-100 text-green-800';
+        if (status === 'INATIVO') return 'bg-purple-100 text-purple-800';
+        if (status === 'DEVOLUÇÃO') return 'bg-red-100 text-red-800';
+        if (status === 'TRANSFERIDO') return 'bg-blue-100 text-blue-800';
+        if (status === 'MANUTENÇÃO') return 'bg-orange-100 text-orange-800';
+        return 'bg-yellow-100 text-yellow-800';
+    };
 
     const formatarData = (data: string | null) => {
         if (!data) return '-';
-
-        // Preserva a data civil gravada no banco (evita deslocamento por fuso horario).
         const match = data.match(/^(\d{4})-(\d{2})-(\d{2})/);
         if (match) {
             const [, ano, mes, dia] = match;
             return `${dia}/${mes}/${ano}`;
         }
-
         const parsed = new Date(data);
         if (Number.isNaN(parsed.getTime())) return '-';
-
         return parsed.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
     };
-
-    const [pdfLoading, setPdfLoading] = useState<string | null>(null);
 
     const formatarCentroCusto = (centro?: {
         idCCusto: string;
@@ -215,46 +225,8 @@ export default function CadastroTable() {
     const compararCustos = (alocacao: Alocacao) => {
         const custoFuncionario = alocacao.tbFuncionario?.tbCCusto?.idCCusto;
         const custoPatrimonio = alocacao.tbPatrimonio?.tbCCusto?.idCCusto;
-
         if (!custoFuncionario || !custoPatrimonio) return 'SEM_CUSTO';
         return custoFuncionario === custoPatrimonio ? 'IGUAL' : 'DIFERENTE';
-    };
-
-    useEffect(() => {
-        const totalPaginasAtual = Math.max(1, Math.ceil(totalItens / itensPorPagina));
-        if (paginaAtual > totalPaginasAtual) {
-            setPaginaAtual(totalPaginasAtual);
-        }
-    }, [totalItens, paginaAtual, itensPorPagina]);
-
-    const totalPaginas = Math.max(1, Math.ceil(totalItens / itensPorPagina));
-    const inicio = (paginaAtual - 1) * itensPorPagina;
-
-    const getPaginasVisiveis = () => {
-        if (totalPaginas <= 7) {
-            return Array.from({ length: totalPaginas }, (_, index) => index + 1);
-        }
-
-        const paginas = new Set<number>([1, totalPaginas, paginaAtual]);
-
-        if (paginaAtual <= 4) {
-            [2, 3, 4, 5].forEach((p) => paginas.add(p));
-        } else if (paginaAtual >= totalPaginas - 3) {
-            [totalPaginas - 4, totalPaginas - 3, totalPaginas - 2, totalPaginas - 1].forEach((p) => paginas.add(p));
-        } else {
-            [paginaAtual - 1, paginaAtual, paginaAtual + 1].forEach((p) => paginas.add(p));
-        }
-
-        return Array.from(paginas)
-            .filter((p) => p >= 1 && p <= totalPaginas)
-            .sort((a, b) => a - b);
-    };
-
-    const paginasVisiveis = getPaginasVisiveis();
-
-    const irParaPagina = (pagina: number) => {
-        const paginaValida = Math.min(Math.max(pagina, 1), totalPaginas);
-        setPaginaAtual(paginaValida);
     };
 
     const handleGerarTermoPdf = async (alocacao: Alocacao) => {
@@ -264,6 +236,7 @@ export default function CadastroTable() {
             alert('Dados do funcionário ou patrimônio não disponíveis para gerar o termo.');
             return;
         }
+
         setPdfLoading(alocacao.idCad);
         try {
             const res = await fetch('/api/cadastro/termo-pdf', {
@@ -286,7 +259,6 @@ export default function CadastroTable() {
                 return;
             }
 
-            // Recebe os dados binÃƒÂ¡rios do PDF (equivalente a responseType: 'arraybuffer')
             const arrayBuffer = await res.arrayBuffer();
             const blob = new Blob([arrayBuffer], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);
@@ -297,7 +269,6 @@ export default function CadastroTable() {
             link.click();
             link.remove();
             URL.revokeObjectURL(url);
-
             alert('PDF gerado com sucesso. Iniciando o download...');
         } catch (e) {
             console.error(e);
@@ -307,6 +278,25 @@ export default function CadastroTable() {
         }
     };
 
+    const totalPaginas = Math.max(1, Math.ceil(totalItens / itensPorPagina));
+    const inicio = (paginaAtual - 1) * itensPorPagina;
+
+    const getPaginasVisiveis = () => {
+        if (totalPaginas <= 7) return Array.from({ length: totalPaginas }, (_, index) => index + 1);
+        const paginas = new Set<number>([1, totalPaginas, paginaAtual]);
+        if (paginaAtual <= 4) {
+            [2, 3, 4, 5].forEach((p) => paginas.add(p));
+        } else if (paginaAtual >= totalPaginas - 3) {
+            [totalPaginas - 4, totalPaginas - 3, totalPaginas - 2, totalPaginas - 1].forEach((p) => paginas.add(p));
+        } else {
+            [paginaAtual - 1, paginaAtual, paginaAtual + 1].forEach((p) => paginas.add(p));
+        }
+        return Array.from(paginas).filter((p) => p >= 1 && p <= totalPaginas).sort((a, b) => a - b);
+    };
+
+    const paginasVisiveis = getPaginasVisiveis();
+    const irParaPagina = (pagina: number) => setPaginaAtual(Math.min(Math.max(pagina, 1), totalPaginas));
+
     return (
         <div className="w-full space-y-4">
             <div className="sticky top-[calc(var(--app-header-height)+96px)] z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-2">
@@ -315,58 +305,32 @@ export default function CadastroTable() {
                         <Filter className="h-5 w-5 text-primary" />
                         <h3 className="font-semibold">Filtros</h3>
                     </div>
-
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <input
-                            type="text"
-                            placeholder="Filtrar funcionario (matricula ou nome)..."
-                            value={filtroFuncionario}
-                            onChange={(e) => setFiltroFuncionario(e.target.value)}
-                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                        />
-                        <input
-                            type="text"
-                            placeholder="Filtrar patrimonio (codigo ou descricao)..."
-                            value={filtroPatrimonio}
-                            onChange={(e) => setFiltroPatrimonio(e.target.value)}
-                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                        />
-                        <select
-                            value={filtroCentroCusto}
-                            onChange={(e) => setFiltroCentroCusto(e.target.value)}
-                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                        >
+                        <input type="text" placeholder="Filtrar funcionário (matrícula ou nome)..." value={filtroFuncionario} onChange={(e) => setFiltroFuncionario(e.target.value)} className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+                        <input type="text" placeholder="Filtrar patrimônio (código ou descrição)..." value={filtroPatrimonio} onChange={(e) => setFiltroPatrimonio(e.target.value)} className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+                        <select value={filtroCentroCusto} onChange={(e) => setFiltroCentroCusto(e.target.value)} className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
                             <option value="">Todos os centros de custo</option>
                             {centroOpcoesOrdenadas.map((centro) => (
                                 <option key={centro.idCCusto} value={centro.idCCusto}>
-                                    {centro.descricaoCCusto || 'Sem descricao'}{centro.codigoCCusto ? ` (${centro.codigoCCusto})` : ''}
+                                    {centro.descricaoCCusto || 'Sem descrição'}{centro.codigoCCusto ? ` (${centro.codigoCCusto})` : ''}
                                 </option>
                             ))}
                         </select>
                         <details ref={statusDropdownRef} className="relative">
                             <summary className="list-none px-4 py-2 border rounded-lg cursor-pointer select-none flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-primary">
-                                <span className="text-sm text-gray-700">
-                                    {filtroStatusIds.length > 0
-                                        ? `${filtroStatusIds.length} status selecionado(s)`
-                                        : 'Todos os status'}
-                                </span>
+                                <span className="text-sm text-gray-700">{filtroStatusIds.length > 0 ? `${filtroStatusIds.length} status selecionado(s)` : 'Todos os status'}</span>
                                 <span className="text-gray-500 text-xs">▼</span>
                             </summary>
                             <div className="absolute z-40 mt-1 w-full bg-white border rounded-lg shadow-lg p-3 max-h-56 overflow-y-auto space-y-2">
                                 {statusOpcoes.map((status) => (
                                     <label key={status.idStatusPat} className="flex items-center gap-2 text-sm cursor-pointer">
-                                        <input
-                                            type="checkbox"
-                                            checked={filtroStatusIds.includes(status.idStatusPat)}
-                                            onChange={(e) => {
-                                                if (e.target.checked) {
-                                                    setFiltroStatusIds((prev) => [...prev, status.idStatusPat]);
-                                                    return;
-                                                }
-                                                setFiltroStatusIds((prev) => prev.filter((id) => id !== status.idStatusPat));
-                                            }}
-                                            className="h-4 w-4 accent-primary"
-                                        />
+                                        <input type="checkbox" checked={filtroStatusIds.includes(status.idStatusPat)} onChange={(e) => {
+                                            if (e.target.checked) {
+                                                setFiltroStatusIds((prev) => [...prev, status.idStatusPat]);
+                                                return;
+                                            }
+                                            setFiltroStatusIds((prev) => prev.filter((id) => id !== status.idStatusPat));
+                                        }} className="h-4 w-4 accent-primary" />
                                         <span>{status.descricaoStatPat}</span>
                                     </label>
                                 ))}
@@ -376,69 +340,38 @@ export default function CadastroTable() {
                 </div>
             </div>
 
-
             <div className="md:hidden space-y-3">
                 {loading ? (
                     <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">Carregando...</div>
                 ) : alocacoes.length === 0 ? (
                     <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">Nenhuma alocação registrada</div>
-                ) : (
-                    alocacoes.map((alocacao) => (
-                        <div key={alocacao.idCad} className="bg-white rounded-lg shadow p-4 space-y-3">
-                            <div>
-                                <div className="text-xs font-semibold text-gray-900">{alocacao.tbFuncionario?.nomeFun || '-'}</div>
-                                <div className="text-xs text-gray-500">{alocacao.tbFuncionario?.idMatFun || '-'} • {alocacao.tbPatrimonio?.idPat || '-'}</div>
-                            </div>
-                            <div className="grid grid-cols-2 gap-2 text-xs">
-                                <div className="text-gray-500">Patrimônio</div>
-                                <div className="text-gray-800 text-right">{alocacao.tbPatrimonio?.descricaoPat || '-'}</div>
-                                <div className="text-gray-500">Alocação</div>
-                                <div className="text-gray-800 text-right">{formatarData(alocacao.dataCadPat)}</div>
-                                <div className="text-gray-500">Devolução</div>
-                                <div className="text-gray-800 text-right">{formatarData(alocacao.dataDevPat)}</div>
-                                <div className="text-gray-500">Status</div>
-                                <div className="text-gray-800 text-right">{alocacao.tbStatusPat?.descricaoStatPat || '-'}</div>
-                                <div className="text-gray-500">Custo Funcionário</div>
-                                <div className="text-gray-800 text-right">{formatarCentroCusto(alocacao.tbFuncionario?.tbCCusto)}</div>
-                                <div className="text-gray-500">Custo Patrimônio</div>
-                                <div className="text-gray-800 text-right">{formatarCentroCusto(alocacao.tbPatrimonio?.tbCCusto)}</div>
-                                <div className="text-gray-500">Comparação</div>
-                                <div className="text-gray-800 text-right">
-                                    {compararCustos(alocacao) === 'IGUAL'
-                                        ? 'Permanecer custo'
-                                        : compararCustos(alocacao) === 'DIFERENTE'
-                                            ? 'Mudar custo'
-                                            : '-'}
-                                </div>
-                            </div>
-                            <div className="flex items-center justify-end gap-2 pt-1">
-                                <button
-                                    type="button"
-                                    onClick={() => handleGerarTermoPdf(alocacao)}
-                                    disabled={pdfLoading === alocacao.idCad}
-                                    className="p-2 text-green-700 hover:bg-green-50 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none"
-                                    title={pdfLoading === alocacao.idCad ? 'Gerando PDF...' : 'Gerar Termo de Responsabilidade (PDF)'}
-                                >
-                                    <FileDown className="h-4 w-4" />
-                                </button>
-                                <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-50 rounded-lg transition">
-                                    <Link href={`/alocacoes/${alocacao.idCad}/editar`} title="Editar">
-                                        <Edit className="h-4 w-4" />
-                                    </Link>
-                                </Button>
-                                <DeleteGuardButton
-                                    resource="cadastro"
-                                    recordId={alocacao.idCad}
-                                    onAuthorizedDelete={() => handleDelete(alocacao.idCad)}
-                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
-                                    title="Excluir"
-                                >
-                                    <Trash2 className="h-4 w-4" />
-                                </DeleteGuardButton>
-                            </div>
+                ) : alocacoes.map((alocacao) => (
+                    <div key={alocacao.idCad} className="bg-white rounded-lg shadow p-4 space-y-3">
+                        <div>
+                            <div className="text-xs font-semibold text-gray-900">{alocacao.tbFuncionario?.nomeFun || '-'}</div>
+                            <div className="text-xs text-gray-500">{alocacao.tbFuncionario?.idMatFun || '-'} • {alocacao.tbPatrimonio?.idPat || '-'}</div>
                         </div>
-                    ))
-                )}
+                        <div className="grid grid-cols-2 gap-2 text-xs">
+                            <div className="text-gray-500">Patrimônio</div><div className="text-gray-800 text-right">{alocacao.tbPatrimonio?.descricaoPat || '-'}</div>
+                            <div className="text-gray-500">Alocação</div><div className="text-gray-800 text-right">{formatarData(alocacao.dataCadPat)}</div>
+                            <div className="text-gray-500">Devolução Interna</div><div className="text-gray-800 text-right">{formatarData(alocacao.dataDevPat)}</div>
+                            <div className="text-gray-500">Status</div><div className="text-gray-800 text-right">{alocacao.tbStatusPat?.descricaoStatPat || '-'}</div>
+                            <div className="text-gray-500">Início Devolução</div><div className="text-gray-800 text-right">{formatarData(alocacao.tbPatrimonio?.tbDevolucao?.[0]?.dataInicioDevolucao || null)}</div>
+                            <div className="text-gray-500">Fim Devolução</div><div className="text-gray-800 text-right">{formatarData(alocacao.tbPatrimonio?.tbDevolucao?.[0]?.dataFimDevolucao || null)}</div>
+                            <div className="text-gray-500">Custo Funcionário</div><div className="text-gray-800 text-right">{formatarCentroCusto(alocacao.tbFuncionario?.tbCCusto)}</div>
+                            <div className="text-gray-500">Custo Patrimônio</div><div className="text-gray-800 text-right">{formatarCentroCusto(alocacao.tbPatrimonio?.tbCCusto)}</div>
+                            <div className="text-gray-500">Comparação</div>
+                            <div className="text-gray-800 text-right">{compararCustos(alocacao) === 'IGUAL' ? 'Permanecer custo' : compararCustos(alocacao) === 'DIFERENTE' ? 'Mudar custo' : '-'}</div>
+                        </div>
+                        <div className="flex items-center justify-end gap-2 pt-1">
+                            <button type="button" onClick={() => handleGerarTermoPdf(alocacao)} disabled={pdfLoading === alocacao.idCad} className="p-2 text-green-700 hover:bg-green-50 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none" title={pdfLoading === alocacao.idCad ? 'Gerando PDF...' : 'Gerar Termo de Responsabilidade (PDF)'}>
+                                <FileDown className="h-4 w-4" />
+                            </button>
+                            <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-50 rounded-lg transition"><Link href={`/alocacoes/${alocacao.idCad}/editar`} title="Editar"><Edit className="h-4 w-4" /></Link></Button>
+                            <DeleteGuardButton resource="cadastro" recordId={alocacao.idCad} onAuthorizedDelete={() => handleDelete(alocacao.idCad)} className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Excluir"><Trash2 className="h-4 w-4" /></DeleteGuardButton>
+                        </div>
+                    </div>
+                ))}
             </div>
 
             <div className="hidden md:block overflow-x-auto bg-white rounded-lg shadow">
@@ -448,141 +381,102 @@ export default function CadastroTable() {
                             <th className="w-[10%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Funcionário</th>
                             <th className="w-[10%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Patrimônio</th>
                             <th className="w-[3%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Data Alocação</th>
-                            <th className="w-[3%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Data Devolução</th>
-                            <th className="w-[5%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Comparação</th>
+                            <th className="w-[3%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Data Devolução Interna</th>
+                            <th className="w-[3%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Início Devolução</th>
+                            <th className="w-[3%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Fim Devolução</th>
+                            <th className="w-[6%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Comparação</th>
                             <th className="w-[4%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Status</th>
-                            <th className="w-[4%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Ações</th>
+                            <th className="w-[5%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         {loading ? (
-                            <tr>
-                                <td colSpan={10} className="px-6 py-8 text-center text-gray-500">
-                                    Carregando...
-                                </td>
-                            </tr>
+                            <tr><td colSpan={10} className="px-6 py-8 text-center text-gray-500">Carregando...</td></tr>
                         ) : alocacoes.length === 0 ? (
-                            <tr>
-                                <td colSpan={10} className="px-6 py-8 text-center text-gray-500">
-                                    Nenhuma alocação registrada
+                            <tr><td colSpan={10} className="px-6 py-8 text-center text-gray-500">Nenhuma alocação registrada</td></tr>
+                        ) : alocacoes.map((alocacao) => (
+                            <tr key={alocacao.idCad} className="border-b hover:bg-gray-50 transition">
+                                <td className="px-4 py-2.5 text-[11px] font-medium leading-snug">
+                                    {alocacao.tbFuncionario?.idMatFun || '-'} - {alocacao.tbFuncionario?.nomeFun || '-'}
+                                    <p className="text-s text-gray-500">
+                                        <span className={`px-3 py-1 rounded-full text-xs text-[7px] font-semibold 
+                                            ${getStatusBadgeClass(alocacao.tbFuncionario?.tbStatusFun?.descricaoStatusFun)}`}>
+                                            {alocacao.tbFuncionario?.tbCCusto?.descricaoCCusto || '-'}
+                                        </span>
+                                    </p>
+                                </td>
+                                <td className="px-4 py-2.5 text-[11px]">
+                                    {alocacao.tbPatrimonio?.idPat || '-'} - {alocacao.tbPatrimonio?.descricaoPat || '-'}
+                                    <p className="text-s text-gray-500">
+                                        <span className={`inline-flex px-2 py-0.5 rounded-full text-[7px] font-semibold bg-green-100 text-green-800
+                                        ${getStatusPatBadgeClass(alocacao.tbStatusPat?.descricaoStatPat)}`}>
+                                            {formatarCentroCusto(alocacao.tbPatrimonio?.tbCCusto)}
+                                        </span>
+                                    </p>
+                                </td>
+                                <td className="px-4 py-2.5 text-[11px]">
+                                    {formatarData(alocacao.dataCadPat)}
+                                </td>
+                                <td className="px-4 py-2.5 text-[11px]">
+                                    {formatarData(alocacao.dataDevPat)}
+                                </td>
+                                <td className="px-4 py-2.5 text-[11px]">
+                                    {formatarData(alocacao.tbPatrimonio?.tbDevolucao?.[0]?.dataInicioDevolucao || null)}
+                                </td>
+                                <td className="px-4 py-2.5 text-[11px]">
+                                    {formatarData(alocacao.tbPatrimonio?.tbDevolucao?.[0]?.dataFimDevolucao || null)}
+                                </td>
+                                <td className="px-4 py-2.5 text-[11px]">
+                                    {compararCustos(alocacao) === 'IGUAL' ?
+                                        <span className="inline-flex px-2 py-0.5 rounded-full text-[9px] font-semibold bg-green-100 text-green-800">
+                                            Permanecer custo
+                                        </span>
+                                        : compararCustos(alocacao) === 'DIFERENTE' ?
+                                            <span className="inline-flex px-2 py-0.5 rounded-full text-[9px] font-semibold bg-red-100 text-red-800">
+                                                Mudar custo
+                                            </span> : '-'}
+                                </td>
+                                <td className="px-4 py-2.5 text-[11px]">
+                                    <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-semibold 
+                                        ${getStatusPatBadgeClass(alocacao.tbStatusPat?.descricaoStatPat)}`}>{alocacao.tbStatusPat?.descricaoStatPat || '-'}
+                                    </span>
+                                </td>
+                                <td className="px-3 py-2.5 text-[10px]">
+                                    <div className="flex gap-2 items-center">
+                                        <button
+                                            type="button"
+                                            onClick={() => handleGerarTermoPdf(alocacao)}
+                                            disabled={pdfLoading === alocacao.idCad}
+                                            className="p-2 text-green-700 hover:bg-green-50 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none" title={pdfLoading === alocacao.idCad ? 'Gerando PDF...' : 'Gerar Termo de Responsabilidade (PDF)'}>
+                                            <FileDown className="h-4 w-4" />
+                                        </button>
+                                        <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-50 rounded-lg transition">
+                                            <Link href={`/alocacoes/${alocacao.idCad}/editar`} title="Editar">
+                                                <Edit className="h-4 w-4" />
+                                            </Link>
+                                        </Button>
+                                        <DeleteGuardButton
+                                            resource="cadastro"
+                                            recordId={alocacao.idCad}
+                                            onAuthorizedDelete={() => handleDelete(alocacao.idCad)}
+                                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Excluir">
+                                            <Trash2 className="h-4 w-4" />
+                                        </DeleteGuardButton>
+                                    </div>
                                 </td>
                             </tr>
-                        ) : (
-                            alocacoes.map(alocacao => (
-                                <tr key={alocacao.idCad} className="border-b hover:bg-gray-50 transition">
-                                    <td className="px-4 py-2.5 text-[11px] font-medium leading-snug">
-                                        {alocacao.tbFuncionario?.idMatFun || '-'} - {alocacao.tbFuncionario?.nomeFun || '-'}
-                                        <p className="text-s text-gray-500">
-                                            <span className={`px-3 py-1 rounded-full text-xs text-[8px] font-semibold ${getStatusBadgeClass(alocacao.tbFuncionario?.tbStatusFun?.descricaoStatusFun)}`}>
-                                                    {alocacao.tbFuncionario?.tbCCusto?.descricaoCCusto || '-'}
-                                                </span>
-                                        </p>
-                                    </td>
-                                    <td className="px-4 py-2.5 text-[11px]">
-                                        {alocacao.tbPatrimonio?.idPat || '-'} - {alocacao.tbPatrimonio?.descricaoPat || '-'}
-                                        <p className="text-s text-gray-500">
-                                            <span className="inline-flex px-2 py-0.5 rounded-full text-[8px] font-semibold bg-green-100 text-green-800">
-                                                {formatarCentroCusto(alocacao.tbPatrimonio?.tbCCusto)}
-                                            </span>
-                                        </p>
-                                    </td>
-                                    <td className="px-4 py-2.5 text-[11px]">
-                                        {formatarData(alocacao.dataCadPat)}
-                                    </td>
-                                    <td className="px-4 py-2.5 text-[11px]">
-                                        {formatarData(alocacao.dataDevPat)}
-                                    </td>
-                                    <td className="px-4 py-2.5 text-[11px]">
-                                        {compararCustos(alocacao) === 'IGUAL' ? (
-                                            <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-100 text-green-800">
-                                                Permanecer custo
-                                            </span>
-                                        ) : compararCustos(alocacao) === 'DIFERENTE' ? (
-                                            <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold bg-red-100 text-red-800">
-                                                Mudar custo
-                                            </span>
-                                        ) : (
-                                            '-'
-                                        )}
-                                    </td>
-                                    <td className="px-4 py-2.5 text-[11px]">
-                                        <span
-                                            className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold 
-                                            ${alocacao.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
-                                                    alocacao.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-purple-100 text-purpler-800' :
-                                                        alocacao.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
-                                                            alocacao.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-blue-100 text-blue-800' :
-                                                                alocacao.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-orange-100 text-orange-800' :
-                                                                    'bg-yellow-100 text-yellow-800'
-                                                }`}>
-                                            {alocacao.tbStatusPat?.descricaoStatPat || '-'}
-                                        </span>
-
-                                    </td>
-                                    <td className="px-3 py-2.5 text-[10px]">
-                                        <div className="flex gap-2 items-center">
-                                            <button
-                                                type="button"
-                                                onClick={() => handleGerarTermoPdf(alocacao)}
-                                                disabled={pdfLoading === alocacao.idCad}
-                                                className="p-2 text-green-700 hover:bg-green-50 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none"
-                                                title={pdfLoading === alocacao.idCad ? 'Gerando PDF...' : 'Gerar Termo de Responsabilidade (PDF)'}
-                                            >
-                                                <FileDown className="h-4 w-4" />
-                                            </button>
-                                            <Button
-                                                asChild
-                                                variant="ghost"
-                                                size="icon"
-                                                className="text-blue-600 hover:bg-blue-50 rounded-lg transition"
-                                            >
-                                                <Link href={`/alocacoes/${alocacao.idCad}/editar`} title="Editar">
-                                                    <Edit className="h-4 w-4" />
-                                                </Link>
-                                            </Button>
-                                            <DeleteGuardButton
-                                                resource="cadastro"
-                                                recordId={alocacao.idCad}
-                                                onAuthorizedDelete={() => handleDelete(alocacao.idCad)}
-                                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
-                                                title="Excluir"
-                                            >
-                                                <Trash2 className="h-4 w-4" />
-                                            </DeleteGuardButton>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))
-                        )}
+                        ))}
                     </tbody>
                 </table>
             </div>
 
-            {/* PaginaÃ§Ã£o */}
             <div className="flex flex-col gap-3 items-center">
                 <div className="flex flex-wrap items-center justify-center gap-2">
-                    <label htmlFor="itensPorPagina" className="text-xs text-gray-600">
-                        Itens por página:
-                    </label>
-                    <select
-                        id="itensPorPagina"
-                        value={itensPorPagina}
-                        onChange={(e) => setItensPorPagina(Number(e.target.value))}
-                        className="h-9 rounded-md border border-input bg-background px-2 text-sm"
-                    >
-                        <option value={10}>10</option>
-                        <option value={25}>25</option>
-                        <option value={50}>50</option>
-                        <option value={100}>100</option>
+                    <label htmlFor="itensPorPagina" className="text-xs text-gray-600">Itens por página:</label>
+                    <select id="itensPorPagina" value={itensPorPagina} onChange={(e) => setItensPorPagina(Number(e.target.value))} className="h-9 rounded-md border border-input bg-background px-2 text-sm">
+                        <option value={10}>10</option><option value={25}>25</option><option value={50}>50</option><option value={100}>100</option>
                     </select>
-                    <Button type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() => irParaPagina(paginaAtual - 1)}
-                        disabled={paginaAtual === 1 || totalItens === 0}
-                    >
-                        Anterior
-                    </Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => irParaPagina(paginaAtual - 1)} disabled={paginaAtual === 1 || totalItens === 0}>Anterior</Button>
                     {paginasVisiveis.map((pagina, index) => {
                         const ativa = pagina === paginaAtual;
                         const paginaAnterior = paginasVisiveis[index - 1];
@@ -590,24 +484,22 @@ export default function CadastroTable() {
                         return (
                             <div key={pagina} className="flex items-center gap-2">
                                 {mostrarReticencias && <span className="px-1 text-sm text-muted-foreground">...</span>}
-                                <button type="button"
+                                <button
+                                    type="button"
                                     onClick={() => irParaPagina(pagina)}
-                                    className={`h-9 w-9 rounded-lg text-sm font-medium transition ${ativa
-                                        ? 'bg-accent/20 text-accent border border-accent/35'
-                                        : 'bg-card text-foreground border border-border hover:bg-secondary'
-                                        }`}
-                                >
+                                    className={`h-9 w-9 rounded-lg text-sm font-medium transition 
+                                ${ativa ? 'bg-accent/20 text-accent border border-accent/35' : 'bg-card text-foreground border border-border hover:bg-secondary'}`}>
                                     {pagina}
                                 </button>
                             </div>
                         );
                     })}
-                    <Button type="button"
+                    <Button
+                        type="button"
                         variant="outline"
                         size="sm"
                         onClick={() => irParaPagina(paginaAtual + 1)}
-                        disabled={paginaAtual === totalPaginas || totalItens === 0}
-                    >
+                        disabled={paginaAtual === totalPaginas || totalItens === 0}>
                         Próxima
                     </Button>
                 </div>
@@ -618,13 +510,3 @@ export default function CadastroTable() {
         </div>
     );
 }
-
-
-
-
-
-
-
-
-
-

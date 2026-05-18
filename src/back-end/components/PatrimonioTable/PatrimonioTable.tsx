@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Edit, Trash2, Filter, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/back-end/components/ui/button';
@@ -21,6 +21,13 @@ interface Patrimonio {
     tbCCusto?: {
         descricaoCCusto?: string | null;
     } | null;
+    tbDevolucao?: Array<{
+        dataInicioDevolucao: string | Date;
+        motivoDevolucao?: string | null;
+        notaFiscalDevolucao?: string | null;
+    }>;
+    isHistorico?: boolean;
+    cicloPatrimonio?: number;
 }
 
 interface StatusOption {
@@ -39,6 +46,34 @@ interface PatrimonioTableProps {
 }
 
 export default function PatrimonioTable({ patrimonios: initialPatrimonios }: PatrimonioTableProps) {
+    const isStatusDevolvido = (status?: string | null) => {
+        if (!status) return false;
+        const normalizado = status
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toUpperCase();
+        return normalizado.includes('DEVOLU');
+    };
+
+    const formatarIdPatrimonio = (patrimonio: Patrimonio) => {
+        const statusDescricao = patrimonio.tbStatusPat?.descricaoStatPat;
+        const devolvido = patrimonio.isHistorico || isStatusDevolvido(statusDescricao);
+        const idBase = devolvido ? `${patrimonio.idPat}-D` : patrimonio.idPat;
+        const ciclo = patrimonio.cicloPatrimonio || 1;
+        return `${idBase} (C${ciclo})`;
+    };
+
+    const isLinhaDevolucao = (patrimonio: Patrimonio) => {
+        return patrimonio.isHistorico || isStatusDevolvido(patrimonio.tbStatusPat?.descricaoStatPat);
+    };
+
+    const formatarData = (valor?: string | Date | null) => {
+        if (!valor) return '-';
+        const data = new Date(valor);
+        if (Number.isNaN(data.getTime())) return '-';
+        return new Intl.DateTimeFormat('pt-BR', { timeZone: 'UTC' }).format(data);
+    };
+
     const [patrimonios, setPatrimonios] = useState<Patrimonio[]>(initialPatrimonios || []);
     const [idFiltro, setIdFiltro] = useState('');
     const [statusSelecionados, setStatusSelecionados] = useState<string[]>([]);
@@ -67,10 +102,6 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
     useEffect(() => {
         setPaginaAtual(1);
     }, [idFiltro, statusSelecionados, centroFiltro, itensPorPagina]);
-
-    useEffect(() => {
-        carregarPatrimonios();
-    }, [idFiltro, statusSelecionados, centroFiltro, paginaAtual]);
 
     useEffect(() => {
         const carregarOpcoes = async () => {
@@ -103,7 +134,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
         };
     }, []);
 
-    const carregarPatrimonios = async () => {
+    const carregarPatrimonios = useCallback(async () => {
         setLoading(true);
         try {
             const params = new URLSearchParams();
@@ -124,7 +155,11 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
         } finally {
             setLoading(false);
         }
-    };
+    }, [idFiltro, statusSelecionados, centroFiltro, paginaAtual, itensPorPagina]);
+
+    useEffect(() => {
+        carregarPatrimonios();
+    }, [carregarPatrimonios]);
 
     const toggleStatus = (idStatusPat: string) => {
         setStatusSelecionados((prev) =>
@@ -158,7 +193,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
         if (paginaAtual > totalPaginasAtual) {
             setPaginaAtual(totalPaginasAtual);
         }
-    }, [totalItens, paginaAtual]);
+    }, [totalItens, paginaAtual, itensPorPagina]);
 
     const totalPaginas = Math.max(1, Math.ceil(totalItens / itensPorPagina));
     const inicio = (paginaAtual - 1) * itensPorPagina;
@@ -194,16 +229,10 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
         if (status === 'ATIVO') return 'bg-green-100 text-green-800';
         if (status === 'DEVOLUÇÃO') return 'bg-red-100 text-red-800';
         if (status === 'INATIVO') return 'bg-orange-100 text-orange-800';
-        if (status === 'MANUTENÇÃO') return 'bg-gray-100 text-purple-800';
-        if (status === 'TRANSFERIDO') return 'bg-gray-100 text-blue-800';
-        return 'bg-yellow-100 text-yellow-800';
+        if (status === 'MANUTENÇÃO') return 'bg-purple-100 text-purple-800';
+        if (status === 'TRANSFERIDO') return 'bg-blue-100 text-blue-800';
+        return 'bg-gray-100 text-gray-800';
     };
-
-  
-
-                
-                 
-                        
 
     return (
         <div className="space-y-4">
@@ -289,16 +318,16 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                         <div key={patrimonio.idP} className="bg-white rounded-lg shadow-md p-4 space-y-3">
                             <div className="flex items-start justify-between gap-3">
                                 <div>
-                                    <div className="text-sm font-semibold text-gray-900">{patrimonio.idPat}</div>
+                                    <div className="text-sm font-semibold text-gray-900 whitespace-nowrap">{formatarIdPatrimonio(patrimonio)}</div>
                                     <div className="text-xs text-gray-500">{patrimonio.descricaoPat}</div>
                                 </div>
-                                <span className={`px-2 py-1 rounded-full text-[11px] font-semibold 
+                                <span className={`px-2 py-1 rounded-full text-[9px] font-semibold 
                                 ${patrimonio.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
                                         patrimonio.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
                                             patrimonio.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-orange-100 text-orange-800' :
                                                 patrimonio.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-gray-100 text-purple-800' :
                                                     patrimonio.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-gray-100 text-blue-800' :
-                                                        'bg-yellow-100 text-yellow-800'
+                                                        'bg-gray-100 text-gray-800'
                                     }`}>
                                     {patrimonio.tbStatusPat?.descricaoStatPat || '-'}
                                 </span>
@@ -309,19 +338,32 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                 <div className="text-gray-500">Valor</div>
                                 <div className="text-gray-800 text-right">R$ {patrimonio.valorPat?.toFixed(2) || '0.00'}</div>
                                 <div className="text-gray-500">Entrada</div>
-                                <div className="text-gray-800 text-right">{patrimonio.dataEntPat ? new Date(patrimonio.dataEntPat).toLocaleDateString('pt-BR') : '-'}</div>
+                                <div className="text-gray-800 text-right">{formatarData(patrimonio.dataEntPat)}</div>
                                 <div className="text-gray-500">Centro Custo</div>
                                 <div className="text-gray-800 text-right">{patrimonio.tbCCusto?.descricaoCCusto || '-'}</div>
+                                <div className="text-gray-500">Data devolução</div>
+                                <div className="text-gray-800 text-right">{isLinhaDevolucao(patrimonio) ? formatarData(patrimonio.tbDevolucao?.[0]?.dataInicioDevolucao) : '-'}</div>
+                                <div className="text-gray-500">NF devolução</div>
+                                <div className="text-gray-800 text-right">{isLinhaDevolucao(patrimonio) ? (patrimonio.tbDevolucao?.[0]?.notaFiscalDevolucao || '-') : '-'}</div>
                             </div>
+                            {isLinhaDevolucao(patrimonio) && patrimonio.tbDevolucao?.[0]?.motivoDevolucao && (
+                                <p className="text-xs text-gray-600 border-t pt-2">{patrimonio.tbDevolucao[0].motivoDevolucao}</p>
+                            )}
                             <div className="flex items-center justify-end gap-2 pt-1">
-                                <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
-                                    <Link href={`/patrimonio/${patrimonio.idP}`} title="Editar">
-                                        <Edit className="h-4 w-4" />
-                                    </Link>
-                                </Button>
-                                <DeleteGuardButton resource="patrimonio" recordId={patrimonio.idP} onAuthorizedDelete={() => handleDelete(patrimonio.idP)} className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition" title="Deletar patrimônio">
-                                    <Trash2 className="h-4 w-4" />
-                                </DeleteGuardButton>
+                                {!patrimonio.isHistorico ? (
+                                    <>
+                                        <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
+                                            <Link href={`/patrimonio/${patrimonio.idP}`} title="Editar">
+                                                <Edit className="h-4 w-4" />
+                                            </Link>
+                                        </Button>
+                                        <DeleteGuardButton resource="patrimonio" recordId={patrimonio.idP} onAuthorizedDelete={() => handleDelete(patrimonio.idP)} className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition" title="Deletar patrimônio">
+                                            <Trash2 className="h-4 w-4" />
+                                        </DeleteGuardButton>
+                                    </>
+                                ) : (
+                                    <span className="text-xs text-amber-700 font-medium">Histórico</span>
+                                )}
                             </div>
                         </div>
                     ))
@@ -334,38 +376,41 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                     <table className="w-full min-w-[1200px] table-fixed">
                         <thead>
                             <tr>
-                                <th className="w-[5%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">ID</th>
-                                <th className="w-[30%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Descrição</th>
-                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Tipo</th>
+                                <th className="w-[6%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">ID</th>
+                                <th className="w-[21%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Descrição</th>
+                                <th className="w-[8%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Tipo</th>
                                 <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Valor</th>
                                 <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Data Entrada</th>
-                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Status</th>
+                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Data Devolução</th>
+                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">NF Devolução</th>
+                                <th className="w-[8%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Status</th>
                                 <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             {loading ? (
                                 <tr>
-                                    <td colSpan={8} className="px-6 py-4 text-center text-gray-500">
+                                    <td colSpan={9} className="px-6 py-4 text-center text-gray-500">
                                         Carregando...
                                     </td>
                                 </tr>
                             ) : patrimonios.length === 0 ? (
                                 <tr>
-                                    <td colSpan={8} className="px-6 py-4 text-center text-gray-500">
+                                    <td colSpan={9} className="px-6 py-4 text-center text-gray-500">
                                         Nenhum patrimônio encontrado
                                     </td>
                                 </tr>
                             ) : (
                                 patrimonios.map((patrimonio) => (
-                                    <tr key={patrimonio.idP} className="border-b hover:bg-gray-50 transition">
-                                        <td className="px-6 py-4 text-sm text-gray-800 font-medium">
-                                            {patrimonio.idPat}
+                                    <tr key={patrimonio.idP} className="border-b hover:bg-gray-50 text-[9px] transition">
+                                        <td className="px-6 py-4 text-sm text-[10px] text-gray-800 font-medium whitespace-nowrap">
+                                            {formatarIdPatrimonio(patrimonio)}
                                         </td>
                                         <td className="px-6 py-4 text-sm text-gray-700 max-w-xs truncate">
                                             {patrimonio.descricaoPat}
                                             <p className="text-xs text-gray-500 mt-1">
-                                                <span className={`px-3 py-1 rounded-full text-xs text-[8px] font-semibold ${getStatusPatBadgeClass(patrimonio.tbStatusPat?.descricaoStatPat)}`}>
+                                                <span className={`px-3 py-1 rounded-full text-xs text-[8px] font-semibold 
+                                                    ${getStatusPatBadgeClass(patrimonio.tbStatusPat?.descricaoStatPat)}`}>
                                                     {patrimonio.tbCCusto?.descricaoCCusto || '-'}
                                                 </span>
                                             </p>
@@ -377,35 +422,47 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                             R$ {patrimonio.valorPat?.toFixed(2) || '0.00'}
                                         </td>
                                         <td className="px-6 py-4 text-sm text-gray-700">
-                                            {patrimonio.dataEntPat ? new Date(patrimonio.dataEntPat).toLocaleDateString('pt-BR') : '-'}
+                                            {formatarData(patrimonio.dataEntPat)}
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-gray-700">
+                                            {isLinhaDevolucao(patrimonio) ? formatarData(patrimonio.tbDevolucao?.[0]?.dataInicioDevolucao) : '-'}
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-gray-700">
+                                            {isLinhaDevolucao(patrimonio) ? (patrimonio.tbDevolucao?.[0]?.notaFiscalDevolucao || '-') : '-'}
                                         </td>
                                         <td className="px-6 py-4 text-sm">
-                                            <span className={`px-3 py-1 rounded-full text-xs font-semibold 
+                                            <span className={`px-3 py-1 rounded-full text-xs text-[9px] font-semibold 
                                             ${patrimonio.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
                                                     patrimonio.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
                                                         patrimonio.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-orange-100 text-orange-800' :
                                                             patrimonio.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-gray-100 text-purple-800' :
-                                                                patrimonio.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-gray-100 text-blue-800' :
-                                                                    'bg-yellow-100 text-yellow-800'
+                                                                patrimonio.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-blue-100 text-blue-800' :
+                                                                    'bg-gray-100 text-gray-800'
                                                 }`}>
                                                 {patrimonio.tbStatusPat?.descricaoStatPat || '-'}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-sm">
                                             <div className="flex gap-3 items-center">
-                                                <Button
-                                                    asChild
-                                                    size="sm"
-                                                    variant="default"
-                                                    className="w-full gap-2 bg-gray-100 text-blue-600 hover:bg-blue-100 rounded-lg transition"
-                                                >
-                                                    <Link href={`/patrimonio/${patrimonio.idP}`} className="flex-1" title="Editar">
-                                                        <Edit className="h-4 w-4" />
-                                                    </Link>
-                                                </Button>
-                                                <DeleteGuardButton resource="patrimonio" recordId={patrimonio.idP} onAuthorizedDelete={() => handleDelete(patrimonio.idP)} className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition" title="Deletar patrimônio">
-                                                    <Trash2 className="h-4 w-4" />
-                                                </DeleteGuardButton>
+                                                {!patrimonio.isHistorico ? (
+                                                    <>
+                                                        <Button
+                                                            asChild
+                                                            size="sm"
+                                                            variant="default"
+                                                            className="w-full gap-2 bg-gray-100 text-blue-600 hover:bg-blue-100 rounded-lg transition"
+                                                        >
+                                                            <Link href={`/patrimonio/${patrimonio.idP}`} className="flex-1" title="Editar">
+                                                                <Edit className="h-4 w-4" />
+                                                            </Link>
+                                                        </Button>
+                                                        <DeleteGuardButton resource="patrimonio" recordId={patrimonio.idP} onAuthorizedDelete={() => handleDelete(patrimonio.idP)} className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition" title="Deletar patrimônio">
+                                                            <Trash2 className="h-4 w-4" />
+                                                        </DeleteGuardButton>
+                                                    </>
+                                                ) : (
+                                                    <span className="text-xs text-amber-700 font-medium">Histórico</span>
+                                                )}
                                             </div>
                                         </td>
                                     </tr>
@@ -481,5 +538,3 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
         </div>
     );
 }
-
-

@@ -12,40 +12,44 @@ datasource db {
 }
 
 model tbUser {
-  id              String          @id @default(uuid())
-  idUser          String?         @unique
-  nomeUser        String?
-  emailUser       String?         @unique
-  emailVerified   DateTime?
-  senhaUser       String?
-  avatarUser      String?
-  authTypeUser    String?
-  formulariosUser Json?
-  centrosUser     Json?
-  statusUser      String          @default("ATIVO")
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-  tbFuncioanrio   tbFuncionario[]
+  id                            String                           @id @default(uuid())
+  idUser                        String?                          @unique
+  nomeUser                      String?
+  emailUser                     String?                          @unique
+  emailVerified                 DateTime?
+  senhaUser                     String?
+  avatarUser                    String?
+  authTypeUser                  String?
+  formulariosUser               Json?
+  centrosUser                   Json?
+  statusUser                    String                           @default("ATIVO")
+  createdAt                     DateTime                         @default(now())
+  updatedAt                     DateTime                         @updatedAt
+  tbFuncioanrio                 tbFuncionario[]
+  transferenciasCustoPatrimonio tbTransferenciaCustoPatrimonio[]
+  transferenciasAlocacao        tbTransferenciaAlocacao[]
 }
 
 model tbFuncionario {
-  idF                     String                    @id @default(uuid())
-  idMatFun                String                    @unique
-  nomeFun                 String
-  cpfFun                  String?
-  dataAdmFun              DateTime?
-  dataDesFun              DateTime?
-  avatarFun               String?
-  idFuncaoFun             String?
-  idUserFun               String?
-  idStatusFun             String?
-  idCustoFun              String?
-  tbStatusFun             tbStatusFun?              @relation(fields: [idStatusFun], references: [idStatusFun])
-  tbUser                  tbUser?                   @relation(fields: [idUserFun], references: [id])
-  tbFuncao                tbFuncao?                 @relation(fields: [idFuncaoFun], references: [idFuncao])
-  tbCCusto                tbCCusto?                 @relation(fields: [idCustoFun], references: [idCCusto])
-  tbCadastro              tbCadastro[]
-  tbHasLicencaFuncionario tbHasLicencaFuncionario[]
+  idF                            String                    @id @default(uuid())
+  idMatFun                       String                    @unique
+  nomeFun                        String
+  cpfFun                         String?
+  dataAdmFun                     DateTime?
+  dataDesFun                     DateTime?
+  avatarFun                      String?
+  idFuncaoFun                    String?
+  idUserFun                      String?
+  idStatusFun                    String?
+  idCustoFun                     String?
+  tbStatusFun                    tbStatusFun?              @relation(fields: [idStatusFun], references: [idStatusFun])
+  tbUser                         tbUser?                   @relation(fields: [idUserFun], references: [id])
+  tbFuncao                       tbFuncao?                 @relation(fields: [idFuncaoFun], references: [idFuncao])
+  tbCCusto                       tbCCusto?                 @relation(fields: [idCustoFun], references: [idCCusto])
+  tbCadastro                     tbCadastro[]
+  tbHasLicencaFuncionario        tbHasLicencaFuncionario[]
+  tbTransferenciaAlocacaoOrigem  tbTransferenciaAlocacao[] @relation("TransferenciaAlocacaoOrigem")
+  tbTransferenciaAlocacaoDestino tbTransferenciaAlocacao[] @relation("TransferenciaAlocacaoDestino")
 }
 
 model tbLicenca {
@@ -83,37 +87,43 @@ model tbFuncao {
 }
 
 model tbPatrimonio {
-  idP                   String       @id @default(uuid())
-  idPat                 String       @unique
-  descricaoPat          String
-  descricaoDetalhadaPat String?
-  licencaPat            String?
-  dataEntPat            DateTime
-  dataSaiPat            DateTime?
-  notaFiscalPat         String?
-  valorPat              Float
-  createdAt             DateTime?    @default(now())
-  updatedAt             DateTime?    @updatedAt
-  idPat_TipoPat         String?
-  tbTipoPat             tbTipoPat?   @relation(fields: [idPat_TipoPat], references: [idTipPat])
-  idPat_StatusPat       String?
-  tbStatusPat           tbStatusPat? @relation(fields: [idPat_StatusPat], references: [idStatusPat])
-  idPat_CustoPat        String?
-  tbCCusto              tbCCusto?    @relation(fields: [idPat_CustoPat], references: [idCCusto])
-  tbCadastro            tbCadastro[]
+  idP                            String                           @id @default(uuid())
+  idPat                          String                           @unique
+  descricaoPat                   String
+  descricaoDetalhadaPat          String?
+  licencaPat                     String?
+  dataEntPat                     DateTime
+  dataSaiPat                     DateTime?
+  notaFiscalPat                  String?
+  valorPat                       Float
+  createdAt                      DateTime?                        @default(now())
+  updatedAt                      DateTime?                        @updatedAt
+  idPat_TipoPat                  String?
+  tbTipoPat                      tbTipoPat?                       @relation(fields: [idPat_TipoPat], references: [idTipPat])
+  idPat_StatusPat                String?
+  tbStatusPat                    tbStatusPat?                     @relation(fields: [idPat_StatusPat], references: [idStatusPat])
+  idPat_CustoPat                 String?
+  tbCCusto                       tbCCusto?                        @relation(fields: [idPat_CustoPat], references: [idCCusto])
+  tbCadastro                     tbCadastro[]
+  tbDevolucao                    tbDevolucao[]
+  tbPatrimonioHistorico          tbPatrimonioHistorico[]
+  tbTransferenciaCustoPatrimonio tbTransferenciaCustoPatrimonio[]
+  tbTransferenciaAlocacao        tbTransferenciaAlocacao[]
 }
 
 model tbTipoPat {
-  idTipPat        String         @id @default(uuid())
-  descricaoTipPat String?
-  tbPatrimonio    tbPatrimonio[]
+  idTipPat              String                  @id @default(uuid())
+  descricaoTipPat       String?
+  tbPatrimonio          tbPatrimonio[]
+  tbPatrimonioHistorico tbPatrimonioHistorico[]
 }
 
 model tbStatusPat {
-  idStatusPat      String         @id @default(uuid())
-  descricaoStatPat String
-  tbPatrimonio     tbPatrimonio[]
-  tbCadastro       tbCadastro[]
+  idStatusPat           String                  @id @default(uuid())
+  descricaoStatPat      String
+  tbPatrimonio          tbPatrimonio[]
+  tbCadastro            tbCadastro[]
+  tbPatrimonioHistorico tbPatrimonioHistorico[]
 }
 
 model tbEmpresa {
@@ -126,27 +136,124 @@ model tbEmpresa {
 }
 
 model tbCCusto {
-  idCCusto        String          @id @default(uuid())
-  codigoCCusto    String?
-  descricaoCCusto String?
-  idEmp_Custo     String?
-  tbEmpresa       tbEmpresa?      @relation(fields: [idEmp_Custo], references: [idEmp])
-  tbPatrimonio    tbPatrimonio[]
-  tbFuncionario   tbFuncionario[]
+  idCCusto              String                           @id @default(uuid())
+  codigoCCusto          String?
+  descricaoCCusto       String?
+  idEmp_Custo           String?
+  tbEmpresa             tbEmpresa?                       @relation(fields: [idEmp_Custo], references: [idEmp])
+  tbPatrimonio          tbPatrimonio[]
+  tbFuncionario         tbFuncionario[]
+  tbPatrimonioHistorico tbPatrimonioHistorico[]
+  transferenciasOrigem  tbTransferenciaCustoPatrimonio[] @relation("TransferenciaOrigem")
+  transferenciasDestino tbTransferenciaCustoPatrimonio[] @relation("TransferenciaDestino")
+}
+
+model tbTransferenciaCustoPatrimonio {
+  idTransferencia     String   @id @default(uuid())
+  idPatrimonio        String
+  idCustoOrigem       String?
+  idCustoDestino      String
+  valorTransferido    Float?
+  observacao          String?
+  idUserTransferencia String?
+  dataTransferencia   DateTime @default(now())
+  createdAt           DateTime @default(now())
+
+  tbPatrimonio tbPatrimonio @relation(fields: [idPatrimonio], references: [idP], onDelete: Cascade)
+  custoOrigem  tbCCusto?    @relation("TransferenciaOrigem", fields: [idCustoOrigem], references: [idCCusto])
+  custoDestino tbCCusto     @relation("TransferenciaDestino", fields: [idCustoDestino], references: [idCCusto])
+  tbUser       tbUser?      @relation(fields: [idUserTransferencia], references: [id])
+
+  @@index([idPatrimonio, dataTransferencia], map: "idx_transf_pat_data")
+  @@index([idCustoOrigem], map: "idx_transf_origem")
+  @@index([idCustoDestino], map: "idx_transf_destino")
+  @@index([idUserTransferencia], map: "idx_transf_user")
 }
 
 model tbCadastro {
-  idCad          String         @id @default(uuid())
-  dataCadPat     DateTime?
-  dataDevPat     DateTime?
-  createdAt      DateTime?      @default(now())
-  updatedAt      DateTime?      @updatedAt
-  idPatCad       String?
-  tbPatrimonio   tbPatrimonio?  @relation(fields: [idPatCad], references: [idPat])
-  idMatFunCad    String?
-  tbFuncionario  tbFuncionario? @relation(fields: [idMatFunCad], references: [idMatFun])
-  idStatusPatCad String
-  tbStatusPat    tbStatusPat?   @relation(fields: [idStatusPatCad], references: [idStatusPat])
+  idCad                   String                    @id @default(uuid())
+  dataCadPat              DateTime?
+  dataDevPat              DateTime?
+  createdAt               DateTime?                 @default(now())
+  updatedAt               DateTime?                 @updatedAt
+  idPatCad                String?
+  tbPatrimonio            tbPatrimonio?             @relation(fields: [idPatCad], references: [idPat])
+  idMatFunCad             String?
+  tbFuncionario           tbFuncionario?            @relation(fields: [idMatFunCad], references: [idMatFun])
+  idStatusPatCad          String
+  tbStatusPat             tbStatusPat?              @relation(fields: [idStatusPatCad], references: [idStatusPat])
+  tbDevolucao             tbDevolucao[]
+  tbTransferenciaAlocacao tbTransferenciaAlocacao[]
+}
+
+model tbTransferenciaAlocacao {
+  idTransferenciaAlocacao       String   @id @default(uuid())
+  idCadastro                    String
+  idPatrimonio                  String
+  idMatriculaFuncionario        String?
+  idMatriculaFuncionarioDestino String?
+  statusAnterior                String?
+  statusNovo                    String
+  observacao                    String?
+  idUserTransferencia           String?
+  dataTransferencia             DateTime @default(now())
+  createdAt                     DateTime @default(now())
+
+  tbCadastro           tbCadastro     @relation(fields: [idCadastro], references: [idCad], onDelete: Cascade)
+  tbPatrimonio         tbPatrimonio   @relation(fields: [idPatrimonio], references: [idPat], onDelete: Cascade)
+  tbFuncionario        tbFuncionario? @relation("TransferenciaAlocacaoOrigem", fields: [idMatriculaFuncionario], references: [idMatFun], onDelete: SetNull)
+  tbFuncionarioDestino tbFuncionario? @relation("TransferenciaAlocacaoDestino", fields: [idMatriculaFuncionarioDestino], references: [idMatFun], onDelete: SetNull)
+  tbUser               tbUser?        @relation(fields: [idUserTransferencia], references: [id], onDelete: SetNull)
+
+  @@index([idCadastro, dataTransferencia], map: "idx_transf_aloc_cadastro_data")
+  @@index([idPatrimonio], map: "idx_transf_aloc_patrimonio")
+  @@index([idMatriculaFuncionario], map: "idx_transf_aloc_func")
+  @@index([idMatriculaFuncionarioDestino], map: "idx_transf_aloc_func_destino")
+  @@index([idUserTransferencia], map: "idx_transf_aloc_user")
+}
+
+model tbDevolucao {
+  idDevolucao         String    @id @default(uuid())
+  idPatrimonio        String
+  idCadastro          String?
+  dataInicioDevolucao DateTime
+  dataFimDevolucao    DateTime?
+  motivoDevolucao     String?
+  notaFiscalDevolucao String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  tbPatrimonio tbPatrimonio @relation(fields: [idPatrimonio], references: [idPat], onDelete: Cascade)
+  tbCadastro   tbCadastro?  @relation(fields: [idCadastro], references: [idCad], onDelete: SetNull)
+
+  @@index([idPatrimonio, dataInicioDevolucao], map: "idx_devolucao_pat_inicio")
+  @@index([idCadastro], map: "idx_devolucao_cadastro")
+}
+
+model tbPatrimonioHistorico {
+  idHistorico          String    @id @default(uuid())
+  idPatrimonioOriginal String
+  idPat                String
+  descricaoPat         String
+  valorPat             Float
+  dataEntPat           DateTime
+  dataSaiPat           DateTime?
+  notaFiscalPat        String?
+  idPat_TipoPat        String?
+  idPat_StatusPat      String?
+  idPat_CustoPat       String?
+  dataDevolucao        DateTime?
+  motivoDevolucao      String?
+  notaFiscalDevolucao  String?
+  createdAt            DateTime  @default(now())
+
+  tbPatrimonio tbPatrimonio @relation(fields: [idPatrimonioOriginal], references: [idP], onDelete: Cascade)
+  tbTipoPat    tbTipoPat?   @relation(fields: [idPat_TipoPat], references: [idTipPat])
+  tbStatusPat  tbStatusPat? @relation(fields: [idPat_StatusPat], references: [idStatusPat])
+  tbCCusto     tbCCusto?    @relation(fields: [idPat_CustoPat], references: [idCCusto])
+
+  @@index([idPatrimonioOriginal], map: "idx_hist_pat_original")
+  @@index([createdAt], map: "idx_hist_created_at")
 }
 
 model Account {

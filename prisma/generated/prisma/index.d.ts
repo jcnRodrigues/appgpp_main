@@ -69,10 +69,30 @@ export type tbEmpresa = $Result.DefaultSelection<Prisma.$tbEmpresaPayload>
  */
 export type tbCCusto = $Result.DefaultSelection<Prisma.$tbCCustoPayload>
 /**
+ * Model tbTransferenciaCustoPatrimonio
+ * 
+ */
+export type tbTransferenciaCustoPatrimonio = $Result.DefaultSelection<Prisma.$tbTransferenciaCustoPatrimonioPayload>
+/**
  * Model tbCadastro
  * 
  */
 export type tbCadastro = $Result.DefaultSelection<Prisma.$tbCadastroPayload>
+/**
+ * Model tbTransferenciaAlocacao
+ * 
+ */
+export type tbTransferenciaAlocacao = $Result.DefaultSelection<Prisma.$tbTransferenciaAlocacaoPayload>
+/**
+ * Model tbDevolucao
+ * 
+ */
+export type tbDevolucao = $Result.DefaultSelection<Prisma.$tbDevolucaoPayload>
+/**
+ * Model tbPatrimonioHistorico
+ * 
+ */
+export type tbPatrimonioHistorico = $Result.DefaultSelection<Prisma.$tbPatrimonioHistoricoPayload>
 /**
  * Model Account
  * 
@@ -335,6 +355,16 @@ export class PrismaClient<
   get tbCCusto(): Prisma.tbCCustoDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.tbTransferenciaCustoPatrimonio`: Exposes CRUD operations for the **tbTransferenciaCustoPatrimonio** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TbTransferenciaCustoPatrimonios
+    * const tbTransferenciaCustoPatrimonios = await prisma.tbTransferenciaCustoPatrimonio.findMany()
+    * ```
+    */
+  get tbTransferenciaCustoPatrimonio(): Prisma.tbTransferenciaCustoPatrimonioDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.tbCadastro`: Exposes CRUD operations for the **tbCadastro** model.
     * Example usage:
     * ```ts
@@ -343,6 +373,36 @@ export class PrismaClient<
     * ```
     */
   get tbCadastro(): Prisma.tbCadastroDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tbTransferenciaAlocacao`: Exposes CRUD operations for the **tbTransferenciaAlocacao** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TbTransferenciaAlocacaos
+    * const tbTransferenciaAlocacaos = await prisma.tbTransferenciaAlocacao.findMany()
+    * ```
+    */
+  get tbTransferenciaAlocacao(): Prisma.tbTransferenciaAlocacaoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tbDevolucao`: Exposes CRUD operations for the **tbDevolucao** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TbDevolucaos
+    * const tbDevolucaos = await prisma.tbDevolucao.findMany()
+    * ```
+    */
+  get tbDevolucao(): Prisma.tbDevolucaoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tbPatrimonioHistorico`: Exposes CRUD operations for the **tbPatrimonioHistorico** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TbPatrimonioHistoricos
+    * const tbPatrimonioHistoricos = await prisma.tbPatrimonioHistorico.findMany()
+    * ```
+    */
+  get tbPatrimonioHistorico(): Prisma.tbPatrimonioHistoricoDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.account`: Exposes CRUD operations for the **Account** model.
@@ -844,7 +904,11 @@ export namespace Prisma {
     tbStatusPat: 'tbStatusPat',
     tbEmpresa: 'tbEmpresa',
     tbCCusto: 'tbCCusto',
+    tbTransferenciaCustoPatrimonio: 'tbTransferenciaCustoPatrimonio',
     tbCadastro: 'tbCadastro',
+    tbTransferenciaAlocacao: 'tbTransferenciaAlocacao',
+    tbDevolucao: 'tbDevolucao',
+    tbPatrimonioHistorico: 'tbPatrimonioHistorico',
     Account: 'Account',
     Session: 'Session',
     User: 'User',
@@ -868,7 +932,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tbUser" | "tbFuncionario" | "tbLicenca" | "tbHasLicencaFuncionario" | "tbStatusFun" | "tbFuncao" | "tbPatrimonio" | "tbTipoPat" | "tbStatusPat" | "tbEmpresa" | "tbCCusto" | "tbCadastro" | "account" | "session" | "user" | "verificationToken" | "tbUnifiConfig"
+      modelProps: "tbUser" | "tbFuncionario" | "tbLicenca" | "tbHasLicencaFuncionario" | "tbStatusFun" | "tbFuncao" | "tbPatrimonio" | "tbTipoPat" | "tbStatusPat" | "tbEmpresa" | "tbCCusto" | "tbTransferenciaCustoPatrimonio" | "tbCadastro" | "tbTransferenciaAlocacao" | "tbDevolucao" | "tbPatrimonioHistorico" | "account" | "session" | "user" | "verificationToken" | "tbUnifiConfig"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1598,6 +1662,72 @@ export namespace Prisma {
           }
         }
       }
+      tbTransferenciaCustoPatrimonio: {
+        payload: Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>
+        fields: Prisma.tbTransferenciaCustoPatrimonioFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.tbTransferenciaCustoPatrimonioFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbTransferenciaCustoPatrimonioPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.tbTransferenciaCustoPatrimonioFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbTransferenciaCustoPatrimonioPayload>
+          }
+          findFirst: {
+            args: Prisma.tbTransferenciaCustoPatrimonioFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbTransferenciaCustoPatrimonioPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.tbTransferenciaCustoPatrimonioFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbTransferenciaCustoPatrimonioPayload>
+          }
+          findMany: {
+            args: Prisma.tbTransferenciaCustoPatrimonioFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbTransferenciaCustoPatrimonioPayload>[]
+          }
+          create: {
+            args: Prisma.tbTransferenciaCustoPatrimonioCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbTransferenciaCustoPatrimonioPayload>
+          }
+          createMany: {
+            args: Prisma.tbTransferenciaCustoPatrimonioCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.tbTransferenciaCustoPatrimonioDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbTransferenciaCustoPatrimonioPayload>
+          }
+          update: {
+            args: Prisma.tbTransferenciaCustoPatrimonioUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbTransferenciaCustoPatrimonioPayload>
+          }
+          deleteMany: {
+            args: Prisma.tbTransferenciaCustoPatrimonioDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.tbTransferenciaCustoPatrimonioUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.tbTransferenciaCustoPatrimonioUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbTransferenciaCustoPatrimonioPayload>
+          }
+          aggregate: {
+            args: Prisma.TbTransferenciaCustoPatrimonioAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTbTransferenciaCustoPatrimonio>
+          }
+          groupBy: {
+            args: Prisma.tbTransferenciaCustoPatrimonioGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TbTransferenciaCustoPatrimonioGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.tbTransferenciaCustoPatrimonioCountArgs<ExtArgs>
+            result: $Utils.Optional<TbTransferenciaCustoPatrimonioCountAggregateOutputType> | number
+          }
+        }
+      }
       tbCadastro: {
         payload: Prisma.$tbCadastroPayload<ExtArgs>
         fields: Prisma.tbCadastroFieldRefs
@@ -1661,6 +1791,204 @@ export namespace Prisma {
           count: {
             args: Prisma.tbCadastroCountArgs<ExtArgs>
             result: $Utils.Optional<TbCadastroCountAggregateOutputType> | number
+          }
+        }
+      }
+      tbTransferenciaAlocacao: {
+        payload: Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>
+        fields: Prisma.tbTransferenciaAlocacaoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.tbTransferenciaAlocacaoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbTransferenciaAlocacaoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.tbTransferenciaAlocacaoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbTransferenciaAlocacaoPayload>
+          }
+          findFirst: {
+            args: Prisma.tbTransferenciaAlocacaoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbTransferenciaAlocacaoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.tbTransferenciaAlocacaoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbTransferenciaAlocacaoPayload>
+          }
+          findMany: {
+            args: Prisma.tbTransferenciaAlocacaoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbTransferenciaAlocacaoPayload>[]
+          }
+          create: {
+            args: Prisma.tbTransferenciaAlocacaoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbTransferenciaAlocacaoPayload>
+          }
+          createMany: {
+            args: Prisma.tbTransferenciaAlocacaoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.tbTransferenciaAlocacaoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbTransferenciaAlocacaoPayload>
+          }
+          update: {
+            args: Prisma.tbTransferenciaAlocacaoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbTransferenciaAlocacaoPayload>
+          }
+          deleteMany: {
+            args: Prisma.tbTransferenciaAlocacaoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.tbTransferenciaAlocacaoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.tbTransferenciaAlocacaoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbTransferenciaAlocacaoPayload>
+          }
+          aggregate: {
+            args: Prisma.TbTransferenciaAlocacaoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTbTransferenciaAlocacao>
+          }
+          groupBy: {
+            args: Prisma.tbTransferenciaAlocacaoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TbTransferenciaAlocacaoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.tbTransferenciaAlocacaoCountArgs<ExtArgs>
+            result: $Utils.Optional<TbTransferenciaAlocacaoCountAggregateOutputType> | number
+          }
+        }
+      }
+      tbDevolucao: {
+        payload: Prisma.$tbDevolucaoPayload<ExtArgs>
+        fields: Prisma.tbDevolucaoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.tbDevolucaoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbDevolucaoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.tbDevolucaoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbDevolucaoPayload>
+          }
+          findFirst: {
+            args: Prisma.tbDevolucaoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbDevolucaoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.tbDevolucaoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbDevolucaoPayload>
+          }
+          findMany: {
+            args: Prisma.tbDevolucaoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbDevolucaoPayload>[]
+          }
+          create: {
+            args: Prisma.tbDevolucaoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbDevolucaoPayload>
+          }
+          createMany: {
+            args: Prisma.tbDevolucaoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.tbDevolucaoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbDevolucaoPayload>
+          }
+          update: {
+            args: Prisma.tbDevolucaoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbDevolucaoPayload>
+          }
+          deleteMany: {
+            args: Prisma.tbDevolucaoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.tbDevolucaoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.tbDevolucaoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbDevolucaoPayload>
+          }
+          aggregate: {
+            args: Prisma.TbDevolucaoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTbDevolucao>
+          }
+          groupBy: {
+            args: Prisma.tbDevolucaoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TbDevolucaoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.tbDevolucaoCountArgs<ExtArgs>
+            result: $Utils.Optional<TbDevolucaoCountAggregateOutputType> | number
+          }
+        }
+      }
+      tbPatrimonioHistorico: {
+        payload: Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>
+        fields: Prisma.tbPatrimonioHistoricoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.tbPatrimonioHistoricoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbPatrimonioHistoricoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.tbPatrimonioHistoricoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbPatrimonioHistoricoPayload>
+          }
+          findFirst: {
+            args: Prisma.tbPatrimonioHistoricoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbPatrimonioHistoricoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.tbPatrimonioHistoricoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbPatrimonioHistoricoPayload>
+          }
+          findMany: {
+            args: Prisma.tbPatrimonioHistoricoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbPatrimonioHistoricoPayload>[]
+          }
+          create: {
+            args: Prisma.tbPatrimonioHistoricoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbPatrimonioHistoricoPayload>
+          }
+          createMany: {
+            args: Prisma.tbPatrimonioHistoricoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.tbPatrimonioHistoricoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbPatrimonioHistoricoPayload>
+          }
+          update: {
+            args: Prisma.tbPatrimonioHistoricoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbPatrimonioHistoricoPayload>
+          }
+          deleteMany: {
+            args: Prisma.tbPatrimonioHistoricoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.tbPatrimonioHistoricoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.tbPatrimonioHistoricoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbPatrimonioHistoricoPayload>
+          }
+          aggregate: {
+            args: Prisma.TbPatrimonioHistoricoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTbPatrimonioHistorico>
+          }
+          groupBy: {
+            args: Prisma.tbPatrimonioHistoricoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TbPatrimonioHistoricoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.tbPatrimonioHistoricoCountArgs<ExtArgs>
+            result: $Utils.Optional<TbPatrimonioHistoricoCountAggregateOutputType> | number
           }
         }
       }
@@ -2097,7 +2425,11 @@ export namespace Prisma {
     tbStatusPat?: tbStatusPatOmit
     tbEmpresa?: tbEmpresaOmit
     tbCCusto?: tbCCustoOmit
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioOmit
     tbCadastro?: tbCadastroOmit
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoOmit
+    tbDevolucao?: tbDevolucaoOmit
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoOmit
     account?: AccountOmit
     session?: SessionOmit
     user?: UserOmit
@@ -2203,10 +2535,14 @@ export namespace Prisma {
 
   export type TbUserCountOutputType = {
     tbFuncioanrio: number
+    transferenciasCustoPatrimonio: number
+    transferenciasAlocacao: number
   }
 
   export type TbUserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbFuncioanrio?: boolean | TbUserCountOutputTypeCountTbFuncioanrioArgs
+    transferenciasCustoPatrimonio?: boolean | TbUserCountOutputTypeCountTransferenciasCustoPatrimonioArgs
+    transferenciasAlocacao?: boolean | TbUserCountOutputTypeCountTransferenciasAlocacaoArgs
   }
 
   // Custom InputTypes
@@ -2227,6 +2563,20 @@ export namespace Prisma {
     where?: tbFuncionarioWhereInput
   }
 
+  /**
+   * TbUserCountOutputType without action
+   */
+  export type TbUserCountOutputTypeCountTransferenciasCustoPatrimonioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbTransferenciaCustoPatrimonioWhereInput
+  }
+
+  /**
+   * TbUserCountOutputType without action
+   */
+  export type TbUserCountOutputTypeCountTransferenciasAlocacaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbTransferenciaAlocacaoWhereInput
+  }
+
 
   /**
    * Count Type TbFuncionarioCountOutputType
@@ -2235,11 +2585,15 @@ export namespace Prisma {
   export type TbFuncionarioCountOutputType = {
     tbCadastro: number
     tbHasLicencaFuncionario: number
+    tbTransferenciaAlocacaoOrigem: number
+    tbTransferenciaAlocacaoDestino: number
   }
 
   export type TbFuncionarioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbCadastro?: boolean | TbFuncionarioCountOutputTypeCountTbCadastroArgs
     tbHasLicencaFuncionario?: boolean | TbFuncionarioCountOutputTypeCountTbHasLicencaFuncionarioArgs
+    tbTransferenciaAlocacaoOrigem?: boolean | TbFuncionarioCountOutputTypeCountTbTransferenciaAlocacaoOrigemArgs
+    tbTransferenciaAlocacaoDestino?: boolean | TbFuncionarioCountOutputTypeCountTbTransferenciaAlocacaoDestinoArgs
   }
 
   // Custom InputTypes
@@ -2265,6 +2619,20 @@ export namespace Prisma {
    */
   export type TbFuncionarioCountOutputTypeCountTbHasLicencaFuncionarioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: tbHasLicencaFuncionarioWhereInput
+  }
+
+  /**
+   * TbFuncionarioCountOutputType without action
+   */
+  export type TbFuncionarioCountOutputTypeCountTbTransferenciaAlocacaoOrigemArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbTransferenciaAlocacaoWhereInput
+  }
+
+  /**
+   * TbFuncionarioCountOutputType without action
+   */
+  export type TbFuncionarioCountOutputTypeCountTbTransferenciaAlocacaoDestinoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbTransferenciaAlocacaoWhereInput
   }
 
 
@@ -2367,10 +2735,18 @@ export namespace Prisma {
 
   export type TbPatrimonioCountOutputType = {
     tbCadastro: number
+    tbDevolucao: number
+    tbPatrimonioHistorico: number
+    tbTransferenciaCustoPatrimonio: number
+    tbTransferenciaAlocacao: number
   }
 
   export type TbPatrimonioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbCadastro?: boolean | TbPatrimonioCountOutputTypeCountTbCadastroArgs
+    tbDevolucao?: boolean | TbPatrimonioCountOutputTypeCountTbDevolucaoArgs
+    tbPatrimonioHistorico?: boolean | TbPatrimonioCountOutputTypeCountTbPatrimonioHistoricoArgs
+    tbTransferenciaCustoPatrimonio?: boolean | TbPatrimonioCountOutputTypeCountTbTransferenciaCustoPatrimonioArgs
+    tbTransferenciaAlocacao?: boolean | TbPatrimonioCountOutputTypeCountTbTransferenciaAlocacaoArgs
   }
 
   // Custom InputTypes
@@ -2391,6 +2767,34 @@ export namespace Prisma {
     where?: tbCadastroWhereInput
   }
 
+  /**
+   * TbPatrimonioCountOutputType without action
+   */
+  export type TbPatrimonioCountOutputTypeCountTbDevolucaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbDevolucaoWhereInput
+  }
+
+  /**
+   * TbPatrimonioCountOutputType without action
+   */
+  export type TbPatrimonioCountOutputTypeCountTbPatrimonioHistoricoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbPatrimonioHistoricoWhereInput
+  }
+
+  /**
+   * TbPatrimonioCountOutputType without action
+   */
+  export type TbPatrimonioCountOutputTypeCountTbTransferenciaCustoPatrimonioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbTransferenciaCustoPatrimonioWhereInput
+  }
+
+  /**
+   * TbPatrimonioCountOutputType without action
+   */
+  export type TbPatrimonioCountOutputTypeCountTbTransferenciaAlocacaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbTransferenciaAlocacaoWhereInput
+  }
+
 
   /**
    * Count Type TbTipoPatCountOutputType
@@ -2398,10 +2802,12 @@ export namespace Prisma {
 
   export type TbTipoPatCountOutputType = {
     tbPatrimonio: number
+    tbPatrimonioHistorico: number
   }
 
   export type TbTipoPatCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbPatrimonio?: boolean | TbTipoPatCountOutputTypeCountTbPatrimonioArgs
+    tbPatrimonioHistorico?: boolean | TbTipoPatCountOutputTypeCountTbPatrimonioHistoricoArgs
   }
 
   // Custom InputTypes
@@ -2422,6 +2828,13 @@ export namespace Prisma {
     where?: tbPatrimonioWhereInput
   }
 
+  /**
+   * TbTipoPatCountOutputType without action
+   */
+  export type TbTipoPatCountOutputTypeCountTbPatrimonioHistoricoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbPatrimonioHistoricoWhereInput
+  }
+
 
   /**
    * Count Type TbStatusPatCountOutputType
@@ -2430,11 +2843,13 @@ export namespace Prisma {
   export type TbStatusPatCountOutputType = {
     tbPatrimonio: number
     tbCadastro: number
+    tbPatrimonioHistorico: number
   }
 
   export type TbStatusPatCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbPatrimonio?: boolean | TbStatusPatCountOutputTypeCountTbPatrimonioArgs
     tbCadastro?: boolean | TbStatusPatCountOutputTypeCountTbCadastroArgs
+    tbPatrimonioHistorico?: boolean | TbStatusPatCountOutputTypeCountTbPatrimonioHistoricoArgs
   }
 
   // Custom InputTypes
@@ -2460,6 +2875,13 @@ export namespace Prisma {
    */
   export type TbStatusPatCountOutputTypeCountTbCadastroArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: tbCadastroWhereInput
+  }
+
+  /**
+   * TbStatusPatCountOutputType without action
+   */
+  export type TbStatusPatCountOutputTypeCountTbPatrimonioHistoricoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbPatrimonioHistoricoWhereInput
   }
 
 
@@ -2501,11 +2923,17 @@ export namespace Prisma {
   export type TbCCustoCountOutputType = {
     tbPatrimonio: number
     tbFuncionario: number
+    tbPatrimonioHistorico: number
+    transferenciasOrigem: number
+    transferenciasDestino: number
   }
 
   export type TbCCustoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbPatrimonio?: boolean | TbCCustoCountOutputTypeCountTbPatrimonioArgs
     tbFuncionario?: boolean | TbCCustoCountOutputTypeCountTbFuncionarioArgs
+    tbPatrimonioHistorico?: boolean | TbCCustoCountOutputTypeCountTbPatrimonioHistoricoArgs
+    transferenciasOrigem?: boolean | TbCCustoCountOutputTypeCountTransferenciasOrigemArgs
+    transferenciasDestino?: boolean | TbCCustoCountOutputTypeCountTransferenciasDestinoArgs
   }
 
   // Custom InputTypes
@@ -2531,6 +2959,67 @@ export namespace Prisma {
    */
   export type TbCCustoCountOutputTypeCountTbFuncionarioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: tbFuncionarioWhereInput
+  }
+
+  /**
+   * TbCCustoCountOutputType without action
+   */
+  export type TbCCustoCountOutputTypeCountTbPatrimonioHistoricoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbPatrimonioHistoricoWhereInput
+  }
+
+  /**
+   * TbCCustoCountOutputType without action
+   */
+  export type TbCCustoCountOutputTypeCountTransferenciasOrigemArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbTransferenciaCustoPatrimonioWhereInput
+  }
+
+  /**
+   * TbCCustoCountOutputType without action
+   */
+  export type TbCCustoCountOutputTypeCountTransferenciasDestinoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbTransferenciaCustoPatrimonioWhereInput
+  }
+
+
+  /**
+   * Count Type TbCadastroCountOutputType
+   */
+
+  export type TbCadastroCountOutputType = {
+    tbDevolucao: number
+    tbTransferenciaAlocacao: number
+  }
+
+  export type TbCadastroCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tbDevolucao?: boolean | TbCadastroCountOutputTypeCountTbDevolucaoArgs
+    tbTransferenciaAlocacao?: boolean | TbCadastroCountOutputTypeCountTbTransferenciaAlocacaoArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TbCadastroCountOutputType without action
+   */
+  export type TbCadastroCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TbCadastroCountOutputType
+     */
+    select?: TbCadastroCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TbCadastroCountOutputType without action
+   */
+  export type TbCadastroCountOutputTypeCountTbDevolucaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbDevolucaoWhereInput
+  }
+
+  /**
+   * TbCadastroCountOutputType without action
+   */
+  export type TbCadastroCountOutputTypeCountTbTransferenciaAlocacaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbTransferenciaAlocacaoWhereInput
   }
 
 
@@ -2799,6 +3288,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     tbFuncioanrio?: boolean | tbUser$tbFuncioanrioArgs<ExtArgs>
+    transferenciasCustoPatrimonio?: boolean | tbUser$transferenciasCustoPatrimonioArgs<ExtArgs>
+    transferenciasAlocacao?: boolean | tbUser$transferenciasAlocacaoArgs<ExtArgs>
     _count?: boolean | TbUserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tbUser"]>
 
@@ -2823,6 +3314,8 @@ export namespace Prisma {
   export type tbUserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "idUser" | "nomeUser" | "emailUser" | "emailVerified" | "senhaUser" | "avatarUser" | "authTypeUser" | "formulariosUser" | "centrosUser" | "statusUser" | "createdAt" | "updatedAt", ExtArgs["result"]["tbUser"]>
   export type tbUserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbFuncioanrio?: boolean | tbUser$tbFuncioanrioArgs<ExtArgs>
+    transferenciasCustoPatrimonio?: boolean | tbUser$transferenciasCustoPatrimonioArgs<ExtArgs>
+    transferenciasAlocacao?: boolean | tbUser$transferenciasAlocacaoArgs<ExtArgs>
     _count?: boolean | TbUserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -2830,6 +3323,8 @@ export namespace Prisma {
     name: "tbUser"
     objects: {
       tbFuncioanrio: Prisma.$tbFuncionarioPayload<ExtArgs>[]
+      transferenciasCustoPatrimonio: Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>[]
+      transferenciasAlocacao: Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3186,6 +3681,8 @@ export namespace Prisma {
   export interface Prisma__tbUserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tbFuncioanrio<T extends tbUser$tbFuncioanrioArgs<ExtArgs> = {}>(args?: Subset<T, tbUser$tbFuncioanrioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbFuncionarioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    transferenciasCustoPatrimonio<T extends tbUser$transferenciasCustoPatrimonioArgs<ExtArgs> = {}>(args?: Subset<T, tbUser$transferenciasCustoPatrimonioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    transferenciasAlocacao<T extends tbUser$transferenciasAlocacaoArgs<ExtArgs> = {}>(args?: Subset<T, tbUser$transferenciasAlocacaoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3595,6 +4092,54 @@ export namespace Prisma {
   }
 
   /**
+   * tbUser.transferenciasCustoPatrimonio
+   */
+  export type tbUser$transferenciasCustoPatrimonioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaCustoPatrimonio
+     */
+    select?: tbTransferenciaCustoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaCustoPatrimonio
+     */
+    omit?: tbTransferenciaCustoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaCustoPatrimonioInclude<ExtArgs> | null
+    where?: tbTransferenciaCustoPatrimonioWhereInput
+    orderBy?: tbTransferenciaCustoPatrimonioOrderByWithRelationInput | tbTransferenciaCustoPatrimonioOrderByWithRelationInput[]
+    cursor?: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbTransferenciaCustoPatrimonioScalarFieldEnum | TbTransferenciaCustoPatrimonioScalarFieldEnum[]
+  }
+
+  /**
+   * tbUser.transferenciasAlocacao
+   */
+  export type tbUser$transferenciasAlocacaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaAlocacao
+     */
+    select?: tbTransferenciaAlocacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaAlocacao
+     */
+    omit?: tbTransferenciaAlocacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaAlocacaoInclude<ExtArgs> | null
+    where?: tbTransferenciaAlocacaoWhereInput
+    orderBy?: tbTransferenciaAlocacaoOrderByWithRelationInput | tbTransferenciaAlocacaoOrderByWithRelationInput[]
+    cursor?: tbTransferenciaAlocacaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbTransferenciaAlocacaoScalarFieldEnum | TbTransferenciaAlocacaoScalarFieldEnum[]
+  }
+
+  /**
    * tbUser without action
    */
   export type tbUserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3831,6 +4376,8 @@ export namespace Prisma {
     tbCCusto?: boolean | tbFuncionario$tbCCustoArgs<ExtArgs>
     tbCadastro?: boolean | tbFuncionario$tbCadastroArgs<ExtArgs>
     tbHasLicencaFuncionario?: boolean | tbFuncionario$tbHasLicencaFuncionarioArgs<ExtArgs>
+    tbTransferenciaAlocacaoOrigem?: boolean | tbFuncionario$tbTransferenciaAlocacaoOrigemArgs<ExtArgs>
+    tbTransferenciaAlocacaoDestino?: boolean | tbFuncionario$tbTransferenciaAlocacaoDestinoArgs<ExtArgs>
     _count?: boolean | TbFuncionarioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tbFuncionario"]>
 
@@ -3858,6 +4405,8 @@ export namespace Prisma {
     tbCCusto?: boolean | tbFuncionario$tbCCustoArgs<ExtArgs>
     tbCadastro?: boolean | tbFuncionario$tbCadastroArgs<ExtArgs>
     tbHasLicencaFuncionario?: boolean | tbFuncionario$tbHasLicencaFuncionarioArgs<ExtArgs>
+    tbTransferenciaAlocacaoOrigem?: boolean | tbFuncionario$tbTransferenciaAlocacaoOrigemArgs<ExtArgs>
+    tbTransferenciaAlocacaoDestino?: boolean | tbFuncionario$tbTransferenciaAlocacaoDestinoArgs<ExtArgs>
     _count?: boolean | TbFuncionarioCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3870,6 +4419,8 @@ export namespace Prisma {
       tbCCusto: Prisma.$tbCCustoPayload<ExtArgs> | null
       tbCadastro: Prisma.$tbCadastroPayload<ExtArgs>[]
       tbHasLicencaFuncionario: Prisma.$tbHasLicencaFuncionarioPayload<ExtArgs>[]
+      tbTransferenciaAlocacaoOrigem: Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>[]
+      tbTransferenciaAlocacaoDestino: Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       idF: string
@@ -4229,6 +4780,8 @@ export namespace Prisma {
     tbCCusto<T extends tbFuncionario$tbCCustoArgs<ExtArgs> = {}>(args?: Subset<T, tbFuncionario$tbCCustoArgs<ExtArgs>>): Prisma__tbCCustoClient<$Result.GetResult<Prisma.$tbCCustoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tbCadastro<T extends tbFuncionario$tbCadastroArgs<ExtArgs> = {}>(args?: Subset<T, tbFuncionario$tbCadastroArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbCadastroPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tbHasLicencaFuncionario<T extends tbFuncionario$tbHasLicencaFuncionarioArgs<ExtArgs> = {}>(args?: Subset<T, tbFuncionario$tbHasLicencaFuncionarioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbHasLicencaFuncionarioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tbTransferenciaAlocacaoOrigem<T extends tbFuncionario$tbTransferenciaAlocacaoOrigemArgs<ExtArgs> = {}>(args?: Subset<T, tbFuncionario$tbTransferenciaAlocacaoOrigemArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tbTransferenciaAlocacaoDestino<T extends tbFuncionario$tbTransferenciaAlocacaoDestinoArgs<ExtArgs> = {}>(args?: Subset<T, tbFuncionario$tbTransferenciaAlocacaoDestinoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4733,6 +5286,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TbHasLicencaFuncionarioScalarFieldEnum | TbHasLicencaFuncionarioScalarFieldEnum[]
+  }
+
+  /**
+   * tbFuncionario.tbTransferenciaAlocacaoOrigem
+   */
+  export type tbFuncionario$tbTransferenciaAlocacaoOrigemArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaAlocacao
+     */
+    select?: tbTransferenciaAlocacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaAlocacao
+     */
+    omit?: tbTransferenciaAlocacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaAlocacaoInclude<ExtArgs> | null
+    where?: tbTransferenciaAlocacaoWhereInput
+    orderBy?: tbTransferenciaAlocacaoOrderByWithRelationInput | tbTransferenciaAlocacaoOrderByWithRelationInput[]
+    cursor?: tbTransferenciaAlocacaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbTransferenciaAlocacaoScalarFieldEnum | TbTransferenciaAlocacaoScalarFieldEnum[]
+  }
+
+  /**
+   * tbFuncionario.tbTransferenciaAlocacaoDestino
+   */
+  export type tbFuncionario$tbTransferenciaAlocacaoDestinoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaAlocacao
+     */
+    select?: tbTransferenciaAlocacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaAlocacao
+     */
+    omit?: tbTransferenciaAlocacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaAlocacaoInclude<ExtArgs> | null
+    where?: tbTransferenciaAlocacaoWhereInput
+    orderBy?: tbTransferenciaAlocacaoOrderByWithRelationInput | tbTransferenciaAlocacaoOrderByWithRelationInput[]
+    cursor?: tbTransferenciaAlocacaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbTransferenciaAlocacaoScalarFieldEnum | TbTransferenciaAlocacaoScalarFieldEnum[]
   }
 
   /**
@@ -8772,6 +9373,10 @@ export namespace Prisma {
     tbStatusPat?: boolean | tbPatrimonio$tbStatusPatArgs<ExtArgs>
     tbCCusto?: boolean | tbPatrimonio$tbCCustoArgs<ExtArgs>
     tbCadastro?: boolean | tbPatrimonio$tbCadastroArgs<ExtArgs>
+    tbDevolucao?: boolean | tbPatrimonio$tbDevolucaoArgs<ExtArgs>
+    tbPatrimonioHistorico?: boolean | tbPatrimonio$tbPatrimonioHistoricoArgs<ExtArgs>
+    tbTransferenciaCustoPatrimonio?: boolean | tbPatrimonio$tbTransferenciaCustoPatrimonioArgs<ExtArgs>
+    tbTransferenciaAlocacao?: boolean | tbPatrimonio$tbTransferenciaAlocacaoArgs<ExtArgs>
     _count?: boolean | TbPatrimonioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tbPatrimonio"]>
 
@@ -8800,6 +9405,10 @@ export namespace Prisma {
     tbStatusPat?: boolean | tbPatrimonio$tbStatusPatArgs<ExtArgs>
     tbCCusto?: boolean | tbPatrimonio$tbCCustoArgs<ExtArgs>
     tbCadastro?: boolean | tbPatrimonio$tbCadastroArgs<ExtArgs>
+    tbDevolucao?: boolean | tbPatrimonio$tbDevolucaoArgs<ExtArgs>
+    tbPatrimonioHistorico?: boolean | tbPatrimonio$tbPatrimonioHistoricoArgs<ExtArgs>
+    tbTransferenciaCustoPatrimonio?: boolean | tbPatrimonio$tbTransferenciaCustoPatrimonioArgs<ExtArgs>
+    tbTransferenciaAlocacao?: boolean | tbPatrimonio$tbTransferenciaAlocacaoArgs<ExtArgs>
     _count?: boolean | TbPatrimonioCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -8810,6 +9419,10 @@ export namespace Prisma {
       tbStatusPat: Prisma.$tbStatusPatPayload<ExtArgs> | null
       tbCCusto: Prisma.$tbCCustoPayload<ExtArgs> | null
       tbCadastro: Prisma.$tbCadastroPayload<ExtArgs>[]
+      tbDevolucao: Prisma.$tbDevolucaoPayload<ExtArgs>[]
+      tbPatrimonioHistorico: Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>[]
+      tbTransferenciaCustoPatrimonio: Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>[]
+      tbTransferenciaAlocacao: Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       idP: string
@@ -9170,6 +9783,10 @@ export namespace Prisma {
     tbStatusPat<T extends tbPatrimonio$tbStatusPatArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonio$tbStatusPatArgs<ExtArgs>>): Prisma__tbStatusPatClient<$Result.GetResult<Prisma.$tbStatusPatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tbCCusto<T extends tbPatrimonio$tbCCustoArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonio$tbCCustoArgs<ExtArgs>>): Prisma__tbCCustoClient<$Result.GetResult<Prisma.$tbCCustoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tbCadastro<T extends tbPatrimonio$tbCadastroArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonio$tbCadastroArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbCadastroPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tbDevolucao<T extends tbPatrimonio$tbDevolucaoArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonio$tbDevolucaoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbDevolucaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tbPatrimonioHistorico<T extends tbPatrimonio$tbPatrimonioHistoricoArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonio$tbPatrimonioHistoricoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tbTransferenciaCustoPatrimonio<T extends tbPatrimonio$tbTransferenciaCustoPatrimonioArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonio$tbTransferenciaCustoPatrimonioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tbTransferenciaAlocacao<T extends tbPatrimonio$tbTransferenciaAlocacaoArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonio$tbTransferenciaAlocacaoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9637,6 +10254,102 @@ export namespace Prisma {
   }
 
   /**
+   * tbPatrimonio.tbDevolucao
+   */
+  export type tbPatrimonio$tbDevolucaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbDevolucao
+     */
+    select?: tbDevolucaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbDevolucao
+     */
+    omit?: tbDevolucaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbDevolucaoInclude<ExtArgs> | null
+    where?: tbDevolucaoWhereInput
+    orderBy?: tbDevolucaoOrderByWithRelationInput | tbDevolucaoOrderByWithRelationInput[]
+    cursor?: tbDevolucaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbDevolucaoScalarFieldEnum | TbDevolucaoScalarFieldEnum[]
+  }
+
+  /**
+   * tbPatrimonio.tbPatrimonioHistorico
+   */
+  export type tbPatrimonio$tbPatrimonioHistoricoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbPatrimonioHistorico
+     */
+    select?: tbPatrimonioHistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbPatrimonioHistorico
+     */
+    omit?: tbPatrimonioHistoricoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbPatrimonioHistoricoInclude<ExtArgs> | null
+    where?: tbPatrimonioHistoricoWhereInput
+    orderBy?: tbPatrimonioHistoricoOrderByWithRelationInput | tbPatrimonioHistoricoOrderByWithRelationInput[]
+    cursor?: tbPatrimonioHistoricoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbPatrimonioHistoricoScalarFieldEnum | TbPatrimonioHistoricoScalarFieldEnum[]
+  }
+
+  /**
+   * tbPatrimonio.tbTransferenciaCustoPatrimonio
+   */
+  export type tbPatrimonio$tbTransferenciaCustoPatrimonioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaCustoPatrimonio
+     */
+    select?: tbTransferenciaCustoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaCustoPatrimonio
+     */
+    omit?: tbTransferenciaCustoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaCustoPatrimonioInclude<ExtArgs> | null
+    where?: tbTransferenciaCustoPatrimonioWhereInput
+    orderBy?: tbTransferenciaCustoPatrimonioOrderByWithRelationInput | tbTransferenciaCustoPatrimonioOrderByWithRelationInput[]
+    cursor?: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbTransferenciaCustoPatrimonioScalarFieldEnum | TbTransferenciaCustoPatrimonioScalarFieldEnum[]
+  }
+
+  /**
+   * tbPatrimonio.tbTransferenciaAlocacao
+   */
+  export type tbPatrimonio$tbTransferenciaAlocacaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaAlocacao
+     */
+    select?: tbTransferenciaAlocacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaAlocacao
+     */
+    omit?: tbTransferenciaAlocacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaAlocacaoInclude<ExtArgs> | null
+    where?: tbTransferenciaAlocacaoWhereInput
+    orderBy?: tbTransferenciaAlocacaoOrderByWithRelationInput | tbTransferenciaAlocacaoOrderByWithRelationInput[]
+    cursor?: tbTransferenciaAlocacaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbTransferenciaAlocacaoScalarFieldEnum | TbTransferenciaAlocacaoScalarFieldEnum[]
+  }
+
+  /**
    * tbPatrimonio without action
    */
   export type tbPatrimonioDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9796,6 +10509,7 @@ export namespace Prisma {
     idTipPat?: boolean
     descricaoTipPat?: boolean
     tbPatrimonio?: boolean | tbTipoPat$tbPatrimonioArgs<ExtArgs>
+    tbPatrimonioHistorico?: boolean | tbTipoPat$tbPatrimonioHistoricoArgs<ExtArgs>
     _count?: boolean | TbTipoPatCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tbTipoPat"]>
 
@@ -9809,6 +10523,7 @@ export namespace Prisma {
   export type tbTipoPatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idTipPat" | "descricaoTipPat", ExtArgs["result"]["tbTipoPat"]>
   export type tbTipoPatInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbPatrimonio?: boolean | tbTipoPat$tbPatrimonioArgs<ExtArgs>
+    tbPatrimonioHistorico?: boolean | tbTipoPat$tbPatrimonioHistoricoArgs<ExtArgs>
     _count?: boolean | TbTipoPatCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -9816,6 +10531,7 @@ export namespace Prisma {
     name: "tbTipoPat"
     objects: {
       tbPatrimonio: Prisma.$tbPatrimonioPayload<ExtArgs>[]
+      tbPatrimonioHistorico: Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       idTipPat: string
@@ -10161,6 +10877,7 @@ export namespace Prisma {
   export interface Prisma__tbTipoPatClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tbPatrimonio<T extends tbTipoPat$tbPatrimonioArgs<ExtArgs> = {}>(args?: Subset<T, tbTipoPat$tbPatrimonioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tbPatrimonioHistorico<T extends tbTipoPat$tbPatrimonioHistoricoArgs<ExtArgs> = {}>(args?: Subset<T, tbTipoPat$tbPatrimonioHistoricoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10559,6 +11276,30 @@ export namespace Prisma {
   }
 
   /**
+   * tbTipoPat.tbPatrimonioHistorico
+   */
+  export type tbTipoPat$tbPatrimonioHistoricoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbPatrimonioHistorico
+     */
+    select?: tbPatrimonioHistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbPatrimonioHistorico
+     */
+    omit?: tbPatrimonioHistoricoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbPatrimonioHistoricoInclude<ExtArgs> | null
+    where?: tbPatrimonioHistoricoWhereInput
+    orderBy?: tbPatrimonioHistoricoOrderByWithRelationInput | tbPatrimonioHistoricoOrderByWithRelationInput[]
+    cursor?: tbPatrimonioHistoricoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbPatrimonioHistoricoScalarFieldEnum | TbPatrimonioHistoricoScalarFieldEnum[]
+  }
+
+  /**
    * tbTipoPat without action
    */
   export type tbTipoPatDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10719,6 +11460,7 @@ export namespace Prisma {
     descricaoStatPat?: boolean
     tbPatrimonio?: boolean | tbStatusPat$tbPatrimonioArgs<ExtArgs>
     tbCadastro?: boolean | tbStatusPat$tbCadastroArgs<ExtArgs>
+    tbPatrimonioHistorico?: boolean | tbStatusPat$tbPatrimonioHistoricoArgs<ExtArgs>
     _count?: boolean | TbStatusPatCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tbStatusPat"]>
 
@@ -10733,6 +11475,7 @@ export namespace Prisma {
   export type tbStatusPatInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbPatrimonio?: boolean | tbStatusPat$tbPatrimonioArgs<ExtArgs>
     tbCadastro?: boolean | tbStatusPat$tbCadastroArgs<ExtArgs>
+    tbPatrimonioHistorico?: boolean | tbStatusPat$tbPatrimonioHistoricoArgs<ExtArgs>
     _count?: boolean | TbStatusPatCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -10741,6 +11484,7 @@ export namespace Prisma {
     objects: {
       tbPatrimonio: Prisma.$tbPatrimonioPayload<ExtArgs>[]
       tbCadastro: Prisma.$tbCadastroPayload<ExtArgs>[]
+      tbPatrimonioHistorico: Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       idStatusPat: string
@@ -11087,6 +11831,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tbPatrimonio<T extends tbStatusPat$tbPatrimonioArgs<ExtArgs> = {}>(args?: Subset<T, tbStatusPat$tbPatrimonioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tbCadastro<T extends tbStatusPat$tbCadastroArgs<ExtArgs> = {}>(args?: Subset<T, tbStatusPat$tbCadastroArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbCadastroPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tbPatrimonioHistorico<T extends tbStatusPat$tbPatrimonioHistoricoArgs<ExtArgs> = {}>(args?: Subset<T, tbStatusPat$tbPatrimonioHistoricoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11506,6 +12251,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TbCadastroScalarFieldEnum | TbCadastroScalarFieldEnum[]
+  }
+
+  /**
+   * tbStatusPat.tbPatrimonioHistorico
+   */
+  export type tbStatusPat$tbPatrimonioHistoricoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbPatrimonioHistorico
+     */
+    select?: tbPatrimonioHistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbPatrimonioHistorico
+     */
+    omit?: tbPatrimonioHistoricoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbPatrimonioHistoricoInclude<ExtArgs> | null
+    where?: tbPatrimonioHistoricoWhereInput
+    orderBy?: tbPatrimonioHistoricoOrderByWithRelationInput | tbPatrimonioHistoricoOrderByWithRelationInput[]
+    cursor?: tbPatrimonioHistoricoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbPatrimonioHistoricoScalarFieldEnum | TbPatrimonioHistoricoScalarFieldEnum[]
   }
 
   /**
@@ -12641,6 +13410,9 @@ export namespace Prisma {
     tbEmpresa?: boolean | tbCCusto$tbEmpresaArgs<ExtArgs>
     tbPatrimonio?: boolean | tbCCusto$tbPatrimonioArgs<ExtArgs>
     tbFuncionario?: boolean | tbCCusto$tbFuncionarioArgs<ExtArgs>
+    tbPatrimonioHistorico?: boolean | tbCCusto$tbPatrimonioHistoricoArgs<ExtArgs>
+    transferenciasOrigem?: boolean | tbCCusto$transferenciasOrigemArgs<ExtArgs>
+    transferenciasDestino?: boolean | tbCCusto$transferenciasDestinoArgs<ExtArgs>
     _count?: boolean | TbCCustoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tbCCusto"]>
 
@@ -12658,6 +13430,9 @@ export namespace Prisma {
     tbEmpresa?: boolean | tbCCusto$tbEmpresaArgs<ExtArgs>
     tbPatrimonio?: boolean | tbCCusto$tbPatrimonioArgs<ExtArgs>
     tbFuncionario?: boolean | tbCCusto$tbFuncionarioArgs<ExtArgs>
+    tbPatrimonioHistorico?: boolean | tbCCusto$tbPatrimonioHistoricoArgs<ExtArgs>
+    transferenciasOrigem?: boolean | tbCCusto$transferenciasOrigemArgs<ExtArgs>
+    transferenciasDestino?: boolean | tbCCusto$transferenciasDestinoArgs<ExtArgs>
     _count?: boolean | TbCCustoCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -12667,6 +13442,9 @@ export namespace Prisma {
       tbEmpresa: Prisma.$tbEmpresaPayload<ExtArgs> | null
       tbPatrimonio: Prisma.$tbPatrimonioPayload<ExtArgs>[]
       tbFuncionario: Prisma.$tbFuncionarioPayload<ExtArgs>[]
+      tbPatrimonioHistorico: Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>[]
+      transferenciasOrigem: Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>[]
+      transferenciasDestino: Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       idCCusto: string
@@ -13016,6 +13794,9 @@ export namespace Prisma {
     tbEmpresa<T extends tbCCusto$tbEmpresaArgs<ExtArgs> = {}>(args?: Subset<T, tbCCusto$tbEmpresaArgs<ExtArgs>>): Prisma__tbEmpresaClient<$Result.GetResult<Prisma.$tbEmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tbPatrimonio<T extends tbCCusto$tbPatrimonioArgs<ExtArgs> = {}>(args?: Subset<T, tbCCusto$tbPatrimonioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tbFuncionario<T extends tbCCusto$tbFuncionarioArgs<ExtArgs> = {}>(args?: Subset<T, tbCCusto$tbFuncionarioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbFuncionarioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tbPatrimonioHistorico<T extends tbCCusto$tbPatrimonioHistoricoArgs<ExtArgs> = {}>(args?: Subset<T, tbCCusto$tbPatrimonioHistoricoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    transferenciasOrigem<T extends tbCCusto$transferenciasOrigemArgs<ExtArgs> = {}>(args?: Subset<T, tbCCusto$transferenciasOrigemArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    transferenciasDestino<T extends tbCCusto$transferenciasDestinoArgs<ExtArgs> = {}>(args?: Subset<T, tbCCusto$transferenciasDestinoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13459,6 +14240,78 @@ export namespace Prisma {
   }
 
   /**
+   * tbCCusto.tbPatrimonioHistorico
+   */
+  export type tbCCusto$tbPatrimonioHistoricoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbPatrimonioHistorico
+     */
+    select?: tbPatrimonioHistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbPatrimonioHistorico
+     */
+    omit?: tbPatrimonioHistoricoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbPatrimonioHistoricoInclude<ExtArgs> | null
+    where?: tbPatrimonioHistoricoWhereInput
+    orderBy?: tbPatrimonioHistoricoOrderByWithRelationInput | tbPatrimonioHistoricoOrderByWithRelationInput[]
+    cursor?: tbPatrimonioHistoricoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbPatrimonioHistoricoScalarFieldEnum | TbPatrimonioHistoricoScalarFieldEnum[]
+  }
+
+  /**
+   * tbCCusto.transferenciasOrigem
+   */
+  export type tbCCusto$transferenciasOrigemArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaCustoPatrimonio
+     */
+    select?: tbTransferenciaCustoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaCustoPatrimonio
+     */
+    omit?: tbTransferenciaCustoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaCustoPatrimonioInclude<ExtArgs> | null
+    where?: tbTransferenciaCustoPatrimonioWhereInput
+    orderBy?: tbTransferenciaCustoPatrimonioOrderByWithRelationInput | tbTransferenciaCustoPatrimonioOrderByWithRelationInput[]
+    cursor?: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbTransferenciaCustoPatrimonioScalarFieldEnum | TbTransferenciaCustoPatrimonioScalarFieldEnum[]
+  }
+
+  /**
+   * tbCCusto.transferenciasDestino
+   */
+  export type tbCCusto$transferenciasDestinoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaCustoPatrimonio
+     */
+    select?: tbTransferenciaCustoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaCustoPatrimonio
+     */
+    omit?: tbTransferenciaCustoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaCustoPatrimonioInclude<ExtArgs> | null
+    where?: tbTransferenciaCustoPatrimonioWhereInput
+    orderBy?: tbTransferenciaCustoPatrimonioOrderByWithRelationInput | tbTransferenciaCustoPatrimonioOrderByWithRelationInput[]
+    cursor?: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbTransferenciaCustoPatrimonioScalarFieldEnum | TbTransferenciaCustoPatrimonioScalarFieldEnum[]
+  }
+
+  /**
    * tbCCusto without action
    */
   export type tbCCustoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13474,6 +14327,1063 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: tbCCustoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model tbTransferenciaCustoPatrimonio
+   */
+
+  export type AggregateTbTransferenciaCustoPatrimonio = {
+    _count: TbTransferenciaCustoPatrimonioCountAggregateOutputType | null
+    _avg: TbTransferenciaCustoPatrimonioAvgAggregateOutputType | null
+    _sum: TbTransferenciaCustoPatrimonioSumAggregateOutputType | null
+    _min: TbTransferenciaCustoPatrimonioMinAggregateOutputType | null
+    _max: TbTransferenciaCustoPatrimonioMaxAggregateOutputType | null
+  }
+
+  export type TbTransferenciaCustoPatrimonioAvgAggregateOutputType = {
+    valorTransferido: number | null
+  }
+
+  export type TbTransferenciaCustoPatrimonioSumAggregateOutputType = {
+    valorTransferido: number | null
+  }
+
+  export type TbTransferenciaCustoPatrimonioMinAggregateOutputType = {
+    idTransferencia: string | null
+    idPatrimonio: string | null
+    idCustoOrigem: string | null
+    idCustoDestino: string | null
+    valorTransferido: number | null
+    observacao: string | null
+    idUserTransferencia: string | null
+    dataTransferencia: Date | null
+    createdAt: Date | null
+  }
+
+  export type TbTransferenciaCustoPatrimonioMaxAggregateOutputType = {
+    idTransferencia: string | null
+    idPatrimonio: string | null
+    idCustoOrigem: string | null
+    idCustoDestino: string | null
+    valorTransferido: number | null
+    observacao: string | null
+    idUserTransferencia: string | null
+    dataTransferencia: Date | null
+    createdAt: Date | null
+  }
+
+  export type TbTransferenciaCustoPatrimonioCountAggregateOutputType = {
+    idTransferencia: number
+    idPatrimonio: number
+    idCustoOrigem: number
+    idCustoDestino: number
+    valorTransferido: number
+    observacao: number
+    idUserTransferencia: number
+    dataTransferencia: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TbTransferenciaCustoPatrimonioAvgAggregateInputType = {
+    valorTransferido?: true
+  }
+
+  export type TbTransferenciaCustoPatrimonioSumAggregateInputType = {
+    valorTransferido?: true
+  }
+
+  export type TbTransferenciaCustoPatrimonioMinAggregateInputType = {
+    idTransferencia?: true
+    idPatrimonio?: true
+    idCustoOrigem?: true
+    idCustoDestino?: true
+    valorTransferido?: true
+    observacao?: true
+    idUserTransferencia?: true
+    dataTransferencia?: true
+    createdAt?: true
+  }
+
+  export type TbTransferenciaCustoPatrimonioMaxAggregateInputType = {
+    idTransferencia?: true
+    idPatrimonio?: true
+    idCustoOrigem?: true
+    idCustoDestino?: true
+    valorTransferido?: true
+    observacao?: true
+    idUserTransferencia?: true
+    dataTransferencia?: true
+    createdAt?: true
+  }
+
+  export type TbTransferenciaCustoPatrimonioCountAggregateInputType = {
+    idTransferencia?: true
+    idPatrimonio?: true
+    idCustoOrigem?: true
+    idCustoDestino?: true
+    valorTransferido?: true
+    observacao?: true
+    idUserTransferencia?: true
+    dataTransferencia?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TbTransferenciaCustoPatrimonioAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbTransferenciaCustoPatrimonio to aggregate.
+     */
+    where?: tbTransferenciaCustoPatrimonioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbTransferenciaCustoPatrimonios to fetch.
+     */
+    orderBy?: tbTransferenciaCustoPatrimonioOrderByWithRelationInput | tbTransferenciaCustoPatrimonioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbTransferenciaCustoPatrimonios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbTransferenciaCustoPatrimonios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned tbTransferenciaCustoPatrimonios
+    **/
+    _count?: true | TbTransferenciaCustoPatrimonioCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TbTransferenciaCustoPatrimonioAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TbTransferenciaCustoPatrimonioSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TbTransferenciaCustoPatrimonioMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TbTransferenciaCustoPatrimonioMaxAggregateInputType
+  }
+
+  export type GetTbTransferenciaCustoPatrimonioAggregateType<T extends TbTransferenciaCustoPatrimonioAggregateArgs> = {
+        [P in keyof T & keyof AggregateTbTransferenciaCustoPatrimonio]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTbTransferenciaCustoPatrimonio[P]>
+      : GetScalarType<T[P], AggregateTbTransferenciaCustoPatrimonio[P]>
+  }
+
+
+
+
+  export type tbTransferenciaCustoPatrimonioGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbTransferenciaCustoPatrimonioWhereInput
+    orderBy?: tbTransferenciaCustoPatrimonioOrderByWithAggregationInput | tbTransferenciaCustoPatrimonioOrderByWithAggregationInput[]
+    by: TbTransferenciaCustoPatrimonioScalarFieldEnum[] | TbTransferenciaCustoPatrimonioScalarFieldEnum
+    having?: tbTransferenciaCustoPatrimonioScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TbTransferenciaCustoPatrimonioCountAggregateInputType | true
+    _avg?: TbTransferenciaCustoPatrimonioAvgAggregateInputType
+    _sum?: TbTransferenciaCustoPatrimonioSumAggregateInputType
+    _min?: TbTransferenciaCustoPatrimonioMinAggregateInputType
+    _max?: TbTransferenciaCustoPatrimonioMaxAggregateInputType
+  }
+
+  export type TbTransferenciaCustoPatrimonioGroupByOutputType = {
+    idTransferencia: string
+    idPatrimonio: string
+    idCustoOrigem: string | null
+    idCustoDestino: string
+    valorTransferido: number | null
+    observacao: string | null
+    idUserTransferencia: string | null
+    dataTransferencia: Date
+    createdAt: Date
+    _count: TbTransferenciaCustoPatrimonioCountAggregateOutputType | null
+    _avg: TbTransferenciaCustoPatrimonioAvgAggregateOutputType | null
+    _sum: TbTransferenciaCustoPatrimonioSumAggregateOutputType | null
+    _min: TbTransferenciaCustoPatrimonioMinAggregateOutputType | null
+    _max: TbTransferenciaCustoPatrimonioMaxAggregateOutputType | null
+  }
+
+  type GetTbTransferenciaCustoPatrimonioGroupByPayload<T extends tbTransferenciaCustoPatrimonioGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TbTransferenciaCustoPatrimonioGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TbTransferenciaCustoPatrimonioGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TbTransferenciaCustoPatrimonioGroupByOutputType[P]>
+            : GetScalarType<T[P], TbTransferenciaCustoPatrimonioGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type tbTransferenciaCustoPatrimonioSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    idTransferencia?: boolean
+    idPatrimonio?: boolean
+    idCustoOrigem?: boolean
+    idCustoDestino?: boolean
+    valorTransferido?: boolean
+    observacao?: boolean
+    idUserTransferencia?: boolean
+    dataTransferencia?: boolean
+    createdAt?: boolean
+    tbPatrimonio?: boolean | tbPatrimonioDefaultArgs<ExtArgs>
+    custoOrigem?: boolean | tbTransferenciaCustoPatrimonio$custoOrigemArgs<ExtArgs>
+    custoDestino?: boolean | tbCCustoDefaultArgs<ExtArgs>
+    tbUser?: boolean | tbTransferenciaCustoPatrimonio$tbUserArgs<ExtArgs>
+  }, ExtArgs["result"]["tbTransferenciaCustoPatrimonio"]>
+
+
+
+  export type tbTransferenciaCustoPatrimonioSelectScalar = {
+    idTransferencia?: boolean
+    idPatrimonio?: boolean
+    idCustoOrigem?: boolean
+    idCustoDestino?: boolean
+    valorTransferido?: boolean
+    observacao?: boolean
+    idUserTransferencia?: boolean
+    dataTransferencia?: boolean
+    createdAt?: boolean
+  }
+
+  export type tbTransferenciaCustoPatrimonioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idTransferencia" | "idPatrimonio" | "idCustoOrigem" | "idCustoDestino" | "valorTransferido" | "observacao" | "idUserTransferencia" | "dataTransferencia" | "createdAt", ExtArgs["result"]["tbTransferenciaCustoPatrimonio"]>
+  export type tbTransferenciaCustoPatrimonioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tbPatrimonio?: boolean | tbPatrimonioDefaultArgs<ExtArgs>
+    custoOrigem?: boolean | tbTransferenciaCustoPatrimonio$custoOrigemArgs<ExtArgs>
+    custoDestino?: boolean | tbCCustoDefaultArgs<ExtArgs>
+    tbUser?: boolean | tbTransferenciaCustoPatrimonio$tbUserArgs<ExtArgs>
+  }
+
+  export type $tbTransferenciaCustoPatrimonioPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "tbTransferenciaCustoPatrimonio"
+    objects: {
+      tbPatrimonio: Prisma.$tbPatrimonioPayload<ExtArgs>
+      custoOrigem: Prisma.$tbCCustoPayload<ExtArgs> | null
+      custoDestino: Prisma.$tbCCustoPayload<ExtArgs>
+      tbUser: Prisma.$tbUserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      idTransferencia: string
+      idPatrimonio: string
+      idCustoOrigem: string | null
+      idCustoDestino: string
+      valorTransferido: number | null
+      observacao: string | null
+      idUserTransferencia: string | null
+      dataTransferencia: Date
+      createdAt: Date
+    }, ExtArgs["result"]["tbTransferenciaCustoPatrimonio"]>
+    composites: {}
+  }
+
+  type tbTransferenciaCustoPatrimonioGetPayload<S extends boolean | null | undefined | tbTransferenciaCustoPatrimonioDefaultArgs> = $Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload, S>
+
+  type tbTransferenciaCustoPatrimonioCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<tbTransferenciaCustoPatrimonioFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TbTransferenciaCustoPatrimonioCountAggregateInputType | true
+    }
+
+  export interface tbTransferenciaCustoPatrimonioDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['tbTransferenciaCustoPatrimonio'], meta: { name: 'tbTransferenciaCustoPatrimonio' } }
+    /**
+     * Find zero or one TbTransferenciaCustoPatrimonio that matches the filter.
+     * @param {tbTransferenciaCustoPatrimonioFindUniqueArgs} args - Arguments to find a TbTransferenciaCustoPatrimonio
+     * @example
+     * // Get one TbTransferenciaCustoPatrimonio
+     * const tbTransferenciaCustoPatrimonio = await prisma.tbTransferenciaCustoPatrimonio.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends tbTransferenciaCustoPatrimonioFindUniqueArgs>(args: SelectSubset<T, tbTransferenciaCustoPatrimonioFindUniqueArgs<ExtArgs>>): Prisma__tbTransferenciaCustoPatrimonioClient<$Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TbTransferenciaCustoPatrimonio that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {tbTransferenciaCustoPatrimonioFindUniqueOrThrowArgs} args - Arguments to find a TbTransferenciaCustoPatrimonio
+     * @example
+     * // Get one TbTransferenciaCustoPatrimonio
+     * const tbTransferenciaCustoPatrimonio = await prisma.tbTransferenciaCustoPatrimonio.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends tbTransferenciaCustoPatrimonioFindUniqueOrThrowArgs>(args: SelectSubset<T, tbTransferenciaCustoPatrimonioFindUniqueOrThrowArgs<ExtArgs>>): Prisma__tbTransferenciaCustoPatrimonioClient<$Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TbTransferenciaCustoPatrimonio that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbTransferenciaCustoPatrimonioFindFirstArgs} args - Arguments to find a TbTransferenciaCustoPatrimonio
+     * @example
+     * // Get one TbTransferenciaCustoPatrimonio
+     * const tbTransferenciaCustoPatrimonio = await prisma.tbTransferenciaCustoPatrimonio.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends tbTransferenciaCustoPatrimonioFindFirstArgs>(args?: SelectSubset<T, tbTransferenciaCustoPatrimonioFindFirstArgs<ExtArgs>>): Prisma__tbTransferenciaCustoPatrimonioClient<$Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TbTransferenciaCustoPatrimonio that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbTransferenciaCustoPatrimonioFindFirstOrThrowArgs} args - Arguments to find a TbTransferenciaCustoPatrimonio
+     * @example
+     * // Get one TbTransferenciaCustoPatrimonio
+     * const tbTransferenciaCustoPatrimonio = await prisma.tbTransferenciaCustoPatrimonio.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends tbTransferenciaCustoPatrimonioFindFirstOrThrowArgs>(args?: SelectSubset<T, tbTransferenciaCustoPatrimonioFindFirstOrThrowArgs<ExtArgs>>): Prisma__tbTransferenciaCustoPatrimonioClient<$Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TbTransferenciaCustoPatrimonios that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbTransferenciaCustoPatrimonioFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TbTransferenciaCustoPatrimonios
+     * const tbTransferenciaCustoPatrimonios = await prisma.tbTransferenciaCustoPatrimonio.findMany()
+     * 
+     * // Get first 10 TbTransferenciaCustoPatrimonios
+     * const tbTransferenciaCustoPatrimonios = await prisma.tbTransferenciaCustoPatrimonio.findMany({ take: 10 })
+     * 
+     * // Only select the `idTransferencia`
+     * const tbTransferenciaCustoPatrimonioWithIdTransferenciaOnly = await prisma.tbTransferenciaCustoPatrimonio.findMany({ select: { idTransferencia: true } })
+     * 
+     */
+    findMany<T extends tbTransferenciaCustoPatrimonioFindManyArgs>(args?: SelectSubset<T, tbTransferenciaCustoPatrimonioFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TbTransferenciaCustoPatrimonio.
+     * @param {tbTransferenciaCustoPatrimonioCreateArgs} args - Arguments to create a TbTransferenciaCustoPatrimonio.
+     * @example
+     * // Create one TbTransferenciaCustoPatrimonio
+     * const TbTransferenciaCustoPatrimonio = await prisma.tbTransferenciaCustoPatrimonio.create({
+     *   data: {
+     *     // ... data to create a TbTransferenciaCustoPatrimonio
+     *   }
+     * })
+     * 
+     */
+    create<T extends tbTransferenciaCustoPatrimonioCreateArgs>(args: SelectSubset<T, tbTransferenciaCustoPatrimonioCreateArgs<ExtArgs>>): Prisma__tbTransferenciaCustoPatrimonioClient<$Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TbTransferenciaCustoPatrimonios.
+     * @param {tbTransferenciaCustoPatrimonioCreateManyArgs} args - Arguments to create many TbTransferenciaCustoPatrimonios.
+     * @example
+     * // Create many TbTransferenciaCustoPatrimonios
+     * const tbTransferenciaCustoPatrimonio = await prisma.tbTransferenciaCustoPatrimonio.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends tbTransferenciaCustoPatrimonioCreateManyArgs>(args?: SelectSubset<T, tbTransferenciaCustoPatrimonioCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a TbTransferenciaCustoPatrimonio.
+     * @param {tbTransferenciaCustoPatrimonioDeleteArgs} args - Arguments to delete one TbTransferenciaCustoPatrimonio.
+     * @example
+     * // Delete one TbTransferenciaCustoPatrimonio
+     * const TbTransferenciaCustoPatrimonio = await prisma.tbTransferenciaCustoPatrimonio.delete({
+     *   where: {
+     *     // ... filter to delete one TbTransferenciaCustoPatrimonio
+     *   }
+     * })
+     * 
+     */
+    delete<T extends tbTransferenciaCustoPatrimonioDeleteArgs>(args: SelectSubset<T, tbTransferenciaCustoPatrimonioDeleteArgs<ExtArgs>>): Prisma__tbTransferenciaCustoPatrimonioClient<$Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TbTransferenciaCustoPatrimonio.
+     * @param {tbTransferenciaCustoPatrimonioUpdateArgs} args - Arguments to update one TbTransferenciaCustoPatrimonio.
+     * @example
+     * // Update one TbTransferenciaCustoPatrimonio
+     * const tbTransferenciaCustoPatrimonio = await prisma.tbTransferenciaCustoPatrimonio.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends tbTransferenciaCustoPatrimonioUpdateArgs>(args: SelectSubset<T, tbTransferenciaCustoPatrimonioUpdateArgs<ExtArgs>>): Prisma__tbTransferenciaCustoPatrimonioClient<$Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TbTransferenciaCustoPatrimonios.
+     * @param {tbTransferenciaCustoPatrimonioDeleteManyArgs} args - Arguments to filter TbTransferenciaCustoPatrimonios to delete.
+     * @example
+     * // Delete a few TbTransferenciaCustoPatrimonios
+     * const { count } = await prisma.tbTransferenciaCustoPatrimonio.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends tbTransferenciaCustoPatrimonioDeleteManyArgs>(args?: SelectSubset<T, tbTransferenciaCustoPatrimonioDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TbTransferenciaCustoPatrimonios.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbTransferenciaCustoPatrimonioUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TbTransferenciaCustoPatrimonios
+     * const tbTransferenciaCustoPatrimonio = await prisma.tbTransferenciaCustoPatrimonio.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends tbTransferenciaCustoPatrimonioUpdateManyArgs>(args: SelectSubset<T, tbTransferenciaCustoPatrimonioUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one TbTransferenciaCustoPatrimonio.
+     * @param {tbTransferenciaCustoPatrimonioUpsertArgs} args - Arguments to update or create a TbTransferenciaCustoPatrimonio.
+     * @example
+     * // Update or create a TbTransferenciaCustoPatrimonio
+     * const tbTransferenciaCustoPatrimonio = await prisma.tbTransferenciaCustoPatrimonio.upsert({
+     *   create: {
+     *     // ... data to create a TbTransferenciaCustoPatrimonio
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TbTransferenciaCustoPatrimonio we want to update
+     *   }
+     * })
+     */
+    upsert<T extends tbTransferenciaCustoPatrimonioUpsertArgs>(args: SelectSubset<T, tbTransferenciaCustoPatrimonioUpsertArgs<ExtArgs>>): Prisma__tbTransferenciaCustoPatrimonioClient<$Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TbTransferenciaCustoPatrimonios.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbTransferenciaCustoPatrimonioCountArgs} args - Arguments to filter TbTransferenciaCustoPatrimonios to count.
+     * @example
+     * // Count the number of TbTransferenciaCustoPatrimonios
+     * const count = await prisma.tbTransferenciaCustoPatrimonio.count({
+     *   where: {
+     *     // ... the filter for the TbTransferenciaCustoPatrimonios we want to count
+     *   }
+     * })
+    **/
+    count<T extends tbTransferenciaCustoPatrimonioCountArgs>(
+      args?: Subset<T, tbTransferenciaCustoPatrimonioCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TbTransferenciaCustoPatrimonioCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TbTransferenciaCustoPatrimonio.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TbTransferenciaCustoPatrimonioAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TbTransferenciaCustoPatrimonioAggregateArgs>(args: Subset<T, TbTransferenciaCustoPatrimonioAggregateArgs>): Prisma.PrismaPromise<GetTbTransferenciaCustoPatrimonioAggregateType<T>>
+
+    /**
+     * Group by TbTransferenciaCustoPatrimonio.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbTransferenciaCustoPatrimonioGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends tbTransferenciaCustoPatrimonioGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: tbTransferenciaCustoPatrimonioGroupByArgs['orderBy'] }
+        : { orderBy?: tbTransferenciaCustoPatrimonioGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, tbTransferenciaCustoPatrimonioGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTbTransferenciaCustoPatrimonioGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the tbTransferenciaCustoPatrimonio model
+   */
+  readonly fields: tbTransferenciaCustoPatrimonioFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for tbTransferenciaCustoPatrimonio.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__tbTransferenciaCustoPatrimonioClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tbPatrimonio<T extends tbPatrimonioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonioDefaultArgs<ExtArgs>>): Prisma__tbPatrimonioClient<$Result.GetResult<Prisma.$tbPatrimonioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    custoOrigem<T extends tbTransferenciaCustoPatrimonio$custoOrigemArgs<ExtArgs> = {}>(args?: Subset<T, tbTransferenciaCustoPatrimonio$custoOrigemArgs<ExtArgs>>): Prisma__tbCCustoClient<$Result.GetResult<Prisma.$tbCCustoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    custoDestino<T extends tbCCustoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, tbCCustoDefaultArgs<ExtArgs>>): Prisma__tbCCustoClient<$Result.GetResult<Prisma.$tbCCustoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tbUser<T extends tbTransferenciaCustoPatrimonio$tbUserArgs<ExtArgs> = {}>(args?: Subset<T, tbTransferenciaCustoPatrimonio$tbUserArgs<ExtArgs>>): Prisma__tbUserClient<$Result.GetResult<Prisma.$tbUserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the tbTransferenciaCustoPatrimonio model
+   */
+  interface tbTransferenciaCustoPatrimonioFieldRefs {
+    readonly idTransferencia: FieldRef<"tbTransferenciaCustoPatrimonio", 'String'>
+    readonly idPatrimonio: FieldRef<"tbTransferenciaCustoPatrimonio", 'String'>
+    readonly idCustoOrigem: FieldRef<"tbTransferenciaCustoPatrimonio", 'String'>
+    readonly idCustoDestino: FieldRef<"tbTransferenciaCustoPatrimonio", 'String'>
+    readonly valorTransferido: FieldRef<"tbTransferenciaCustoPatrimonio", 'Float'>
+    readonly observacao: FieldRef<"tbTransferenciaCustoPatrimonio", 'String'>
+    readonly idUserTransferencia: FieldRef<"tbTransferenciaCustoPatrimonio", 'String'>
+    readonly dataTransferencia: FieldRef<"tbTransferenciaCustoPatrimonio", 'DateTime'>
+    readonly createdAt: FieldRef<"tbTransferenciaCustoPatrimonio", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * tbTransferenciaCustoPatrimonio findUnique
+   */
+  export type tbTransferenciaCustoPatrimonioFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaCustoPatrimonio
+     */
+    select?: tbTransferenciaCustoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaCustoPatrimonio
+     */
+    omit?: tbTransferenciaCustoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaCustoPatrimonioInclude<ExtArgs> | null
+    /**
+     * Filter, which tbTransferenciaCustoPatrimonio to fetch.
+     */
+    where: tbTransferenciaCustoPatrimonioWhereUniqueInput
+  }
+
+  /**
+   * tbTransferenciaCustoPatrimonio findUniqueOrThrow
+   */
+  export type tbTransferenciaCustoPatrimonioFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaCustoPatrimonio
+     */
+    select?: tbTransferenciaCustoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaCustoPatrimonio
+     */
+    omit?: tbTransferenciaCustoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaCustoPatrimonioInclude<ExtArgs> | null
+    /**
+     * Filter, which tbTransferenciaCustoPatrimonio to fetch.
+     */
+    where: tbTransferenciaCustoPatrimonioWhereUniqueInput
+  }
+
+  /**
+   * tbTransferenciaCustoPatrimonio findFirst
+   */
+  export type tbTransferenciaCustoPatrimonioFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaCustoPatrimonio
+     */
+    select?: tbTransferenciaCustoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaCustoPatrimonio
+     */
+    omit?: tbTransferenciaCustoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaCustoPatrimonioInclude<ExtArgs> | null
+    /**
+     * Filter, which tbTransferenciaCustoPatrimonio to fetch.
+     */
+    where?: tbTransferenciaCustoPatrimonioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbTransferenciaCustoPatrimonios to fetch.
+     */
+    orderBy?: tbTransferenciaCustoPatrimonioOrderByWithRelationInput | tbTransferenciaCustoPatrimonioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tbTransferenciaCustoPatrimonios.
+     */
+    cursor?: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbTransferenciaCustoPatrimonios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbTransferenciaCustoPatrimonios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tbTransferenciaCustoPatrimonios.
+     */
+    distinct?: TbTransferenciaCustoPatrimonioScalarFieldEnum | TbTransferenciaCustoPatrimonioScalarFieldEnum[]
+  }
+
+  /**
+   * tbTransferenciaCustoPatrimonio findFirstOrThrow
+   */
+  export type tbTransferenciaCustoPatrimonioFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaCustoPatrimonio
+     */
+    select?: tbTransferenciaCustoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaCustoPatrimonio
+     */
+    omit?: tbTransferenciaCustoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaCustoPatrimonioInclude<ExtArgs> | null
+    /**
+     * Filter, which tbTransferenciaCustoPatrimonio to fetch.
+     */
+    where?: tbTransferenciaCustoPatrimonioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbTransferenciaCustoPatrimonios to fetch.
+     */
+    orderBy?: tbTransferenciaCustoPatrimonioOrderByWithRelationInput | tbTransferenciaCustoPatrimonioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tbTransferenciaCustoPatrimonios.
+     */
+    cursor?: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbTransferenciaCustoPatrimonios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbTransferenciaCustoPatrimonios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tbTransferenciaCustoPatrimonios.
+     */
+    distinct?: TbTransferenciaCustoPatrimonioScalarFieldEnum | TbTransferenciaCustoPatrimonioScalarFieldEnum[]
+  }
+
+  /**
+   * tbTransferenciaCustoPatrimonio findMany
+   */
+  export type tbTransferenciaCustoPatrimonioFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaCustoPatrimonio
+     */
+    select?: tbTransferenciaCustoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaCustoPatrimonio
+     */
+    omit?: tbTransferenciaCustoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaCustoPatrimonioInclude<ExtArgs> | null
+    /**
+     * Filter, which tbTransferenciaCustoPatrimonios to fetch.
+     */
+    where?: tbTransferenciaCustoPatrimonioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbTransferenciaCustoPatrimonios to fetch.
+     */
+    orderBy?: tbTransferenciaCustoPatrimonioOrderByWithRelationInput | tbTransferenciaCustoPatrimonioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing tbTransferenciaCustoPatrimonios.
+     */
+    cursor?: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbTransferenciaCustoPatrimonios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbTransferenciaCustoPatrimonios.
+     */
+    skip?: number
+    distinct?: TbTransferenciaCustoPatrimonioScalarFieldEnum | TbTransferenciaCustoPatrimonioScalarFieldEnum[]
+  }
+
+  /**
+   * tbTransferenciaCustoPatrimonio create
+   */
+  export type tbTransferenciaCustoPatrimonioCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaCustoPatrimonio
+     */
+    select?: tbTransferenciaCustoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaCustoPatrimonio
+     */
+    omit?: tbTransferenciaCustoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaCustoPatrimonioInclude<ExtArgs> | null
+    /**
+     * The data needed to create a tbTransferenciaCustoPatrimonio.
+     */
+    data: XOR<tbTransferenciaCustoPatrimonioCreateInput, tbTransferenciaCustoPatrimonioUncheckedCreateInput>
+  }
+
+  /**
+   * tbTransferenciaCustoPatrimonio createMany
+   */
+  export type tbTransferenciaCustoPatrimonioCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many tbTransferenciaCustoPatrimonios.
+     */
+    data: tbTransferenciaCustoPatrimonioCreateManyInput | tbTransferenciaCustoPatrimonioCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * tbTransferenciaCustoPatrimonio update
+   */
+  export type tbTransferenciaCustoPatrimonioUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaCustoPatrimonio
+     */
+    select?: tbTransferenciaCustoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaCustoPatrimonio
+     */
+    omit?: tbTransferenciaCustoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaCustoPatrimonioInclude<ExtArgs> | null
+    /**
+     * The data needed to update a tbTransferenciaCustoPatrimonio.
+     */
+    data: XOR<tbTransferenciaCustoPatrimonioUpdateInput, tbTransferenciaCustoPatrimonioUncheckedUpdateInput>
+    /**
+     * Choose, which tbTransferenciaCustoPatrimonio to update.
+     */
+    where: tbTransferenciaCustoPatrimonioWhereUniqueInput
+  }
+
+  /**
+   * tbTransferenciaCustoPatrimonio updateMany
+   */
+  export type tbTransferenciaCustoPatrimonioUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update tbTransferenciaCustoPatrimonios.
+     */
+    data: XOR<tbTransferenciaCustoPatrimonioUpdateManyMutationInput, tbTransferenciaCustoPatrimonioUncheckedUpdateManyInput>
+    /**
+     * Filter which tbTransferenciaCustoPatrimonios to update
+     */
+    where?: tbTransferenciaCustoPatrimonioWhereInput
+    /**
+     * Limit how many tbTransferenciaCustoPatrimonios to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbTransferenciaCustoPatrimonio upsert
+   */
+  export type tbTransferenciaCustoPatrimonioUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaCustoPatrimonio
+     */
+    select?: tbTransferenciaCustoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaCustoPatrimonio
+     */
+    omit?: tbTransferenciaCustoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaCustoPatrimonioInclude<ExtArgs> | null
+    /**
+     * The filter to search for the tbTransferenciaCustoPatrimonio to update in case it exists.
+     */
+    where: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    /**
+     * In case the tbTransferenciaCustoPatrimonio found by the `where` argument doesn't exist, create a new tbTransferenciaCustoPatrimonio with this data.
+     */
+    create: XOR<tbTransferenciaCustoPatrimonioCreateInput, tbTransferenciaCustoPatrimonioUncheckedCreateInput>
+    /**
+     * In case the tbTransferenciaCustoPatrimonio was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<tbTransferenciaCustoPatrimonioUpdateInput, tbTransferenciaCustoPatrimonioUncheckedUpdateInput>
+  }
+
+  /**
+   * tbTransferenciaCustoPatrimonio delete
+   */
+  export type tbTransferenciaCustoPatrimonioDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaCustoPatrimonio
+     */
+    select?: tbTransferenciaCustoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaCustoPatrimonio
+     */
+    omit?: tbTransferenciaCustoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaCustoPatrimonioInclude<ExtArgs> | null
+    /**
+     * Filter which tbTransferenciaCustoPatrimonio to delete.
+     */
+    where: tbTransferenciaCustoPatrimonioWhereUniqueInput
+  }
+
+  /**
+   * tbTransferenciaCustoPatrimonio deleteMany
+   */
+  export type tbTransferenciaCustoPatrimonioDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbTransferenciaCustoPatrimonios to delete
+     */
+    where?: tbTransferenciaCustoPatrimonioWhereInput
+    /**
+     * Limit how many tbTransferenciaCustoPatrimonios to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbTransferenciaCustoPatrimonio.custoOrigem
+   */
+  export type tbTransferenciaCustoPatrimonio$custoOrigemArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbCCusto
+     */
+    select?: tbCCustoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbCCusto
+     */
+    omit?: tbCCustoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbCCustoInclude<ExtArgs> | null
+    where?: tbCCustoWhereInput
+  }
+
+  /**
+   * tbTransferenciaCustoPatrimonio.tbUser
+   */
+  export type tbTransferenciaCustoPatrimonio$tbUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbUser
+     */
+    select?: tbUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbUser
+     */
+    omit?: tbUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbUserInclude<ExtArgs> | null
+    where?: tbUserWhereInput
+  }
+
+  /**
+   * tbTransferenciaCustoPatrimonio without action
+   */
+  export type tbTransferenciaCustoPatrimonioDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaCustoPatrimonio
+     */
+    select?: tbTransferenciaCustoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaCustoPatrimonio
+     */
+    omit?: tbTransferenciaCustoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaCustoPatrimonioInclude<ExtArgs> | null
   }
 
 
@@ -13668,6 +15578,9 @@ export namespace Prisma {
     tbPatrimonio?: boolean | tbCadastro$tbPatrimonioArgs<ExtArgs>
     tbFuncionario?: boolean | tbCadastro$tbFuncionarioArgs<ExtArgs>
     tbStatusPat?: boolean | tbCadastro$tbStatusPatArgs<ExtArgs>
+    tbDevolucao?: boolean | tbCadastro$tbDevolucaoArgs<ExtArgs>
+    tbTransferenciaAlocacao?: boolean | tbCadastro$tbTransferenciaAlocacaoArgs<ExtArgs>
+    _count?: boolean | TbCadastroCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tbCadastro"]>
 
 
@@ -13688,6 +15601,9 @@ export namespace Prisma {
     tbPatrimonio?: boolean | tbCadastro$tbPatrimonioArgs<ExtArgs>
     tbFuncionario?: boolean | tbCadastro$tbFuncionarioArgs<ExtArgs>
     tbStatusPat?: boolean | tbCadastro$tbStatusPatArgs<ExtArgs>
+    tbDevolucao?: boolean | tbCadastro$tbDevolucaoArgs<ExtArgs>
+    tbTransferenciaAlocacao?: boolean | tbCadastro$tbTransferenciaAlocacaoArgs<ExtArgs>
+    _count?: boolean | TbCadastroCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $tbCadastroPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13696,6 +15612,8 @@ export namespace Prisma {
       tbPatrimonio: Prisma.$tbPatrimonioPayload<ExtArgs> | null
       tbFuncionario: Prisma.$tbFuncionarioPayload<ExtArgs> | null
       tbStatusPat: Prisma.$tbStatusPatPayload<ExtArgs> | null
+      tbDevolucao: Prisma.$tbDevolucaoPayload<ExtArgs>[]
+      tbTransferenciaAlocacao: Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       idCad: string
@@ -14049,6 +15967,8 @@ export namespace Prisma {
     tbPatrimonio<T extends tbCadastro$tbPatrimonioArgs<ExtArgs> = {}>(args?: Subset<T, tbCadastro$tbPatrimonioArgs<ExtArgs>>): Prisma__tbPatrimonioClient<$Result.GetResult<Prisma.$tbPatrimonioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tbFuncionario<T extends tbCadastro$tbFuncionarioArgs<ExtArgs> = {}>(args?: Subset<T, tbCadastro$tbFuncionarioArgs<ExtArgs>>): Prisma__tbFuncionarioClient<$Result.GetResult<Prisma.$tbFuncionarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tbStatusPat<T extends tbCadastro$tbStatusPatArgs<ExtArgs> = {}>(args?: Subset<T, tbCadastro$tbStatusPatArgs<ExtArgs>>): Prisma__tbStatusPatClient<$Result.GetResult<Prisma.$tbStatusPatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    tbDevolucao<T extends tbCadastro$tbDevolucaoArgs<ExtArgs> = {}>(args?: Subset<T, tbCadastro$tbDevolucaoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbDevolucaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tbTransferenciaAlocacao<T extends tbCadastro$tbTransferenciaAlocacaoArgs<ExtArgs> = {}>(args?: Subset<T, tbCadastro$tbTransferenciaAlocacaoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14486,6 +16406,54 @@ export namespace Prisma {
   }
 
   /**
+   * tbCadastro.tbDevolucao
+   */
+  export type tbCadastro$tbDevolucaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbDevolucao
+     */
+    select?: tbDevolucaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbDevolucao
+     */
+    omit?: tbDevolucaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbDevolucaoInclude<ExtArgs> | null
+    where?: tbDevolucaoWhereInput
+    orderBy?: tbDevolucaoOrderByWithRelationInput | tbDevolucaoOrderByWithRelationInput[]
+    cursor?: tbDevolucaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbDevolucaoScalarFieldEnum | TbDevolucaoScalarFieldEnum[]
+  }
+
+  /**
+   * tbCadastro.tbTransferenciaAlocacao
+   */
+  export type tbCadastro$tbTransferenciaAlocacaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaAlocacao
+     */
+    select?: tbTransferenciaAlocacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaAlocacao
+     */
+    omit?: tbTransferenciaAlocacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaAlocacaoInclude<ExtArgs> | null
+    where?: tbTransferenciaAlocacaoWhereInput
+    orderBy?: tbTransferenciaAlocacaoOrderByWithRelationInput | tbTransferenciaAlocacaoOrderByWithRelationInput[]
+    cursor?: tbTransferenciaAlocacaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbTransferenciaAlocacaoScalarFieldEnum | TbTransferenciaAlocacaoScalarFieldEnum[]
+  }
+
+  /**
    * tbCadastro without action
    */
   export type tbCadastroDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14501,6 +16469,3212 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: tbCadastroInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model tbTransferenciaAlocacao
+   */
+
+  export type AggregateTbTransferenciaAlocacao = {
+    _count: TbTransferenciaAlocacaoCountAggregateOutputType | null
+    _min: TbTransferenciaAlocacaoMinAggregateOutputType | null
+    _max: TbTransferenciaAlocacaoMaxAggregateOutputType | null
+  }
+
+  export type TbTransferenciaAlocacaoMinAggregateOutputType = {
+    idTransferenciaAlocacao: string | null
+    idCadastro: string | null
+    idPatrimonio: string | null
+    idMatriculaFuncionario: string | null
+    idMatriculaFuncionarioDestino: string | null
+    statusAnterior: string | null
+    statusNovo: string | null
+    observacao: string | null
+    idUserTransferencia: string | null
+    dataTransferencia: Date | null
+    createdAt: Date | null
+  }
+
+  export type TbTransferenciaAlocacaoMaxAggregateOutputType = {
+    idTransferenciaAlocacao: string | null
+    idCadastro: string | null
+    idPatrimonio: string | null
+    idMatriculaFuncionario: string | null
+    idMatriculaFuncionarioDestino: string | null
+    statusAnterior: string | null
+    statusNovo: string | null
+    observacao: string | null
+    idUserTransferencia: string | null
+    dataTransferencia: Date | null
+    createdAt: Date | null
+  }
+
+  export type TbTransferenciaAlocacaoCountAggregateOutputType = {
+    idTransferenciaAlocacao: number
+    idCadastro: number
+    idPatrimonio: number
+    idMatriculaFuncionario: number
+    idMatriculaFuncionarioDestino: number
+    statusAnterior: number
+    statusNovo: number
+    observacao: number
+    idUserTransferencia: number
+    dataTransferencia: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TbTransferenciaAlocacaoMinAggregateInputType = {
+    idTransferenciaAlocacao?: true
+    idCadastro?: true
+    idPatrimonio?: true
+    idMatriculaFuncionario?: true
+    idMatriculaFuncionarioDestino?: true
+    statusAnterior?: true
+    statusNovo?: true
+    observacao?: true
+    idUserTransferencia?: true
+    dataTransferencia?: true
+    createdAt?: true
+  }
+
+  export type TbTransferenciaAlocacaoMaxAggregateInputType = {
+    idTransferenciaAlocacao?: true
+    idCadastro?: true
+    idPatrimonio?: true
+    idMatriculaFuncionario?: true
+    idMatriculaFuncionarioDestino?: true
+    statusAnterior?: true
+    statusNovo?: true
+    observacao?: true
+    idUserTransferencia?: true
+    dataTransferencia?: true
+    createdAt?: true
+  }
+
+  export type TbTransferenciaAlocacaoCountAggregateInputType = {
+    idTransferenciaAlocacao?: true
+    idCadastro?: true
+    idPatrimonio?: true
+    idMatriculaFuncionario?: true
+    idMatriculaFuncionarioDestino?: true
+    statusAnterior?: true
+    statusNovo?: true
+    observacao?: true
+    idUserTransferencia?: true
+    dataTransferencia?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TbTransferenciaAlocacaoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbTransferenciaAlocacao to aggregate.
+     */
+    where?: tbTransferenciaAlocacaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbTransferenciaAlocacaos to fetch.
+     */
+    orderBy?: tbTransferenciaAlocacaoOrderByWithRelationInput | tbTransferenciaAlocacaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: tbTransferenciaAlocacaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbTransferenciaAlocacaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbTransferenciaAlocacaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned tbTransferenciaAlocacaos
+    **/
+    _count?: true | TbTransferenciaAlocacaoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TbTransferenciaAlocacaoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TbTransferenciaAlocacaoMaxAggregateInputType
+  }
+
+  export type GetTbTransferenciaAlocacaoAggregateType<T extends TbTransferenciaAlocacaoAggregateArgs> = {
+        [P in keyof T & keyof AggregateTbTransferenciaAlocacao]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTbTransferenciaAlocacao[P]>
+      : GetScalarType<T[P], AggregateTbTransferenciaAlocacao[P]>
+  }
+
+
+
+
+  export type tbTransferenciaAlocacaoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbTransferenciaAlocacaoWhereInput
+    orderBy?: tbTransferenciaAlocacaoOrderByWithAggregationInput | tbTransferenciaAlocacaoOrderByWithAggregationInput[]
+    by: TbTransferenciaAlocacaoScalarFieldEnum[] | TbTransferenciaAlocacaoScalarFieldEnum
+    having?: tbTransferenciaAlocacaoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TbTransferenciaAlocacaoCountAggregateInputType | true
+    _min?: TbTransferenciaAlocacaoMinAggregateInputType
+    _max?: TbTransferenciaAlocacaoMaxAggregateInputType
+  }
+
+  export type TbTransferenciaAlocacaoGroupByOutputType = {
+    idTransferenciaAlocacao: string
+    idCadastro: string
+    idPatrimonio: string
+    idMatriculaFuncionario: string | null
+    idMatriculaFuncionarioDestino: string | null
+    statusAnterior: string | null
+    statusNovo: string
+    observacao: string | null
+    idUserTransferencia: string | null
+    dataTransferencia: Date
+    createdAt: Date
+    _count: TbTransferenciaAlocacaoCountAggregateOutputType | null
+    _min: TbTransferenciaAlocacaoMinAggregateOutputType | null
+    _max: TbTransferenciaAlocacaoMaxAggregateOutputType | null
+  }
+
+  type GetTbTransferenciaAlocacaoGroupByPayload<T extends tbTransferenciaAlocacaoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TbTransferenciaAlocacaoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TbTransferenciaAlocacaoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TbTransferenciaAlocacaoGroupByOutputType[P]>
+            : GetScalarType<T[P], TbTransferenciaAlocacaoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type tbTransferenciaAlocacaoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    idTransferenciaAlocacao?: boolean
+    idCadastro?: boolean
+    idPatrimonio?: boolean
+    idMatriculaFuncionario?: boolean
+    idMatriculaFuncionarioDestino?: boolean
+    statusAnterior?: boolean
+    statusNovo?: boolean
+    observacao?: boolean
+    idUserTransferencia?: boolean
+    dataTransferencia?: boolean
+    createdAt?: boolean
+    tbCadastro?: boolean | tbCadastroDefaultArgs<ExtArgs>
+    tbPatrimonio?: boolean | tbPatrimonioDefaultArgs<ExtArgs>
+    tbFuncionario?: boolean | tbTransferenciaAlocacao$tbFuncionarioArgs<ExtArgs>
+    tbFuncionarioDestino?: boolean | tbTransferenciaAlocacao$tbFuncionarioDestinoArgs<ExtArgs>
+    tbUser?: boolean | tbTransferenciaAlocacao$tbUserArgs<ExtArgs>
+  }, ExtArgs["result"]["tbTransferenciaAlocacao"]>
+
+
+
+  export type tbTransferenciaAlocacaoSelectScalar = {
+    idTransferenciaAlocacao?: boolean
+    idCadastro?: boolean
+    idPatrimonio?: boolean
+    idMatriculaFuncionario?: boolean
+    idMatriculaFuncionarioDestino?: boolean
+    statusAnterior?: boolean
+    statusNovo?: boolean
+    observacao?: boolean
+    idUserTransferencia?: boolean
+    dataTransferencia?: boolean
+    createdAt?: boolean
+  }
+
+  export type tbTransferenciaAlocacaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idTransferenciaAlocacao" | "idCadastro" | "idPatrimonio" | "idMatriculaFuncionario" | "idMatriculaFuncionarioDestino" | "statusAnterior" | "statusNovo" | "observacao" | "idUserTransferencia" | "dataTransferencia" | "createdAt", ExtArgs["result"]["tbTransferenciaAlocacao"]>
+  export type tbTransferenciaAlocacaoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tbCadastro?: boolean | tbCadastroDefaultArgs<ExtArgs>
+    tbPatrimonio?: boolean | tbPatrimonioDefaultArgs<ExtArgs>
+    tbFuncionario?: boolean | tbTransferenciaAlocacao$tbFuncionarioArgs<ExtArgs>
+    tbFuncionarioDestino?: boolean | tbTransferenciaAlocacao$tbFuncionarioDestinoArgs<ExtArgs>
+    tbUser?: boolean | tbTransferenciaAlocacao$tbUserArgs<ExtArgs>
+  }
+
+  export type $tbTransferenciaAlocacaoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "tbTransferenciaAlocacao"
+    objects: {
+      tbCadastro: Prisma.$tbCadastroPayload<ExtArgs>
+      tbPatrimonio: Prisma.$tbPatrimonioPayload<ExtArgs>
+      tbFuncionario: Prisma.$tbFuncionarioPayload<ExtArgs> | null
+      tbFuncionarioDestino: Prisma.$tbFuncionarioPayload<ExtArgs> | null
+      tbUser: Prisma.$tbUserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      idTransferenciaAlocacao: string
+      idCadastro: string
+      idPatrimonio: string
+      idMatriculaFuncionario: string | null
+      idMatriculaFuncionarioDestino: string | null
+      statusAnterior: string | null
+      statusNovo: string
+      observacao: string | null
+      idUserTransferencia: string | null
+      dataTransferencia: Date
+      createdAt: Date
+    }, ExtArgs["result"]["tbTransferenciaAlocacao"]>
+    composites: {}
+  }
+
+  type tbTransferenciaAlocacaoGetPayload<S extends boolean | null | undefined | tbTransferenciaAlocacaoDefaultArgs> = $Result.GetResult<Prisma.$tbTransferenciaAlocacaoPayload, S>
+
+  type tbTransferenciaAlocacaoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<tbTransferenciaAlocacaoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TbTransferenciaAlocacaoCountAggregateInputType | true
+    }
+
+  export interface tbTransferenciaAlocacaoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['tbTransferenciaAlocacao'], meta: { name: 'tbTransferenciaAlocacao' } }
+    /**
+     * Find zero or one TbTransferenciaAlocacao that matches the filter.
+     * @param {tbTransferenciaAlocacaoFindUniqueArgs} args - Arguments to find a TbTransferenciaAlocacao
+     * @example
+     * // Get one TbTransferenciaAlocacao
+     * const tbTransferenciaAlocacao = await prisma.tbTransferenciaAlocacao.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends tbTransferenciaAlocacaoFindUniqueArgs>(args: SelectSubset<T, tbTransferenciaAlocacaoFindUniqueArgs<ExtArgs>>): Prisma__tbTransferenciaAlocacaoClient<$Result.GetResult<Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TbTransferenciaAlocacao that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {tbTransferenciaAlocacaoFindUniqueOrThrowArgs} args - Arguments to find a TbTransferenciaAlocacao
+     * @example
+     * // Get one TbTransferenciaAlocacao
+     * const tbTransferenciaAlocacao = await prisma.tbTransferenciaAlocacao.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends tbTransferenciaAlocacaoFindUniqueOrThrowArgs>(args: SelectSubset<T, tbTransferenciaAlocacaoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__tbTransferenciaAlocacaoClient<$Result.GetResult<Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TbTransferenciaAlocacao that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbTransferenciaAlocacaoFindFirstArgs} args - Arguments to find a TbTransferenciaAlocacao
+     * @example
+     * // Get one TbTransferenciaAlocacao
+     * const tbTransferenciaAlocacao = await prisma.tbTransferenciaAlocacao.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends tbTransferenciaAlocacaoFindFirstArgs>(args?: SelectSubset<T, tbTransferenciaAlocacaoFindFirstArgs<ExtArgs>>): Prisma__tbTransferenciaAlocacaoClient<$Result.GetResult<Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TbTransferenciaAlocacao that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbTransferenciaAlocacaoFindFirstOrThrowArgs} args - Arguments to find a TbTransferenciaAlocacao
+     * @example
+     * // Get one TbTransferenciaAlocacao
+     * const tbTransferenciaAlocacao = await prisma.tbTransferenciaAlocacao.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends tbTransferenciaAlocacaoFindFirstOrThrowArgs>(args?: SelectSubset<T, tbTransferenciaAlocacaoFindFirstOrThrowArgs<ExtArgs>>): Prisma__tbTransferenciaAlocacaoClient<$Result.GetResult<Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TbTransferenciaAlocacaos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbTransferenciaAlocacaoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TbTransferenciaAlocacaos
+     * const tbTransferenciaAlocacaos = await prisma.tbTransferenciaAlocacao.findMany()
+     * 
+     * // Get first 10 TbTransferenciaAlocacaos
+     * const tbTransferenciaAlocacaos = await prisma.tbTransferenciaAlocacao.findMany({ take: 10 })
+     * 
+     * // Only select the `idTransferenciaAlocacao`
+     * const tbTransferenciaAlocacaoWithIdTransferenciaAlocacaoOnly = await prisma.tbTransferenciaAlocacao.findMany({ select: { idTransferenciaAlocacao: true } })
+     * 
+     */
+    findMany<T extends tbTransferenciaAlocacaoFindManyArgs>(args?: SelectSubset<T, tbTransferenciaAlocacaoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TbTransferenciaAlocacao.
+     * @param {tbTransferenciaAlocacaoCreateArgs} args - Arguments to create a TbTransferenciaAlocacao.
+     * @example
+     * // Create one TbTransferenciaAlocacao
+     * const TbTransferenciaAlocacao = await prisma.tbTransferenciaAlocacao.create({
+     *   data: {
+     *     // ... data to create a TbTransferenciaAlocacao
+     *   }
+     * })
+     * 
+     */
+    create<T extends tbTransferenciaAlocacaoCreateArgs>(args: SelectSubset<T, tbTransferenciaAlocacaoCreateArgs<ExtArgs>>): Prisma__tbTransferenciaAlocacaoClient<$Result.GetResult<Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TbTransferenciaAlocacaos.
+     * @param {tbTransferenciaAlocacaoCreateManyArgs} args - Arguments to create many TbTransferenciaAlocacaos.
+     * @example
+     * // Create many TbTransferenciaAlocacaos
+     * const tbTransferenciaAlocacao = await prisma.tbTransferenciaAlocacao.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends tbTransferenciaAlocacaoCreateManyArgs>(args?: SelectSubset<T, tbTransferenciaAlocacaoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a TbTransferenciaAlocacao.
+     * @param {tbTransferenciaAlocacaoDeleteArgs} args - Arguments to delete one TbTransferenciaAlocacao.
+     * @example
+     * // Delete one TbTransferenciaAlocacao
+     * const TbTransferenciaAlocacao = await prisma.tbTransferenciaAlocacao.delete({
+     *   where: {
+     *     // ... filter to delete one TbTransferenciaAlocacao
+     *   }
+     * })
+     * 
+     */
+    delete<T extends tbTransferenciaAlocacaoDeleteArgs>(args: SelectSubset<T, tbTransferenciaAlocacaoDeleteArgs<ExtArgs>>): Prisma__tbTransferenciaAlocacaoClient<$Result.GetResult<Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TbTransferenciaAlocacao.
+     * @param {tbTransferenciaAlocacaoUpdateArgs} args - Arguments to update one TbTransferenciaAlocacao.
+     * @example
+     * // Update one TbTransferenciaAlocacao
+     * const tbTransferenciaAlocacao = await prisma.tbTransferenciaAlocacao.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends tbTransferenciaAlocacaoUpdateArgs>(args: SelectSubset<T, tbTransferenciaAlocacaoUpdateArgs<ExtArgs>>): Prisma__tbTransferenciaAlocacaoClient<$Result.GetResult<Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TbTransferenciaAlocacaos.
+     * @param {tbTransferenciaAlocacaoDeleteManyArgs} args - Arguments to filter TbTransferenciaAlocacaos to delete.
+     * @example
+     * // Delete a few TbTransferenciaAlocacaos
+     * const { count } = await prisma.tbTransferenciaAlocacao.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends tbTransferenciaAlocacaoDeleteManyArgs>(args?: SelectSubset<T, tbTransferenciaAlocacaoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TbTransferenciaAlocacaos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbTransferenciaAlocacaoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TbTransferenciaAlocacaos
+     * const tbTransferenciaAlocacao = await prisma.tbTransferenciaAlocacao.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends tbTransferenciaAlocacaoUpdateManyArgs>(args: SelectSubset<T, tbTransferenciaAlocacaoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one TbTransferenciaAlocacao.
+     * @param {tbTransferenciaAlocacaoUpsertArgs} args - Arguments to update or create a TbTransferenciaAlocacao.
+     * @example
+     * // Update or create a TbTransferenciaAlocacao
+     * const tbTransferenciaAlocacao = await prisma.tbTransferenciaAlocacao.upsert({
+     *   create: {
+     *     // ... data to create a TbTransferenciaAlocacao
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TbTransferenciaAlocacao we want to update
+     *   }
+     * })
+     */
+    upsert<T extends tbTransferenciaAlocacaoUpsertArgs>(args: SelectSubset<T, tbTransferenciaAlocacaoUpsertArgs<ExtArgs>>): Prisma__tbTransferenciaAlocacaoClient<$Result.GetResult<Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TbTransferenciaAlocacaos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbTransferenciaAlocacaoCountArgs} args - Arguments to filter TbTransferenciaAlocacaos to count.
+     * @example
+     * // Count the number of TbTransferenciaAlocacaos
+     * const count = await prisma.tbTransferenciaAlocacao.count({
+     *   where: {
+     *     // ... the filter for the TbTransferenciaAlocacaos we want to count
+     *   }
+     * })
+    **/
+    count<T extends tbTransferenciaAlocacaoCountArgs>(
+      args?: Subset<T, tbTransferenciaAlocacaoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TbTransferenciaAlocacaoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TbTransferenciaAlocacao.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TbTransferenciaAlocacaoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TbTransferenciaAlocacaoAggregateArgs>(args: Subset<T, TbTransferenciaAlocacaoAggregateArgs>): Prisma.PrismaPromise<GetTbTransferenciaAlocacaoAggregateType<T>>
+
+    /**
+     * Group by TbTransferenciaAlocacao.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbTransferenciaAlocacaoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends tbTransferenciaAlocacaoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: tbTransferenciaAlocacaoGroupByArgs['orderBy'] }
+        : { orderBy?: tbTransferenciaAlocacaoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, tbTransferenciaAlocacaoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTbTransferenciaAlocacaoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the tbTransferenciaAlocacao model
+   */
+  readonly fields: tbTransferenciaAlocacaoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for tbTransferenciaAlocacao.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__tbTransferenciaAlocacaoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tbCadastro<T extends tbCadastroDefaultArgs<ExtArgs> = {}>(args?: Subset<T, tbCadastroDefaultArgs<ExtArgs>>): Prisma__tbCadastroClient<$Result.GetResult<Prisma.$tbCadastroPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tbPatrimonio<T extends tbPatrimonioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonioDefaultArgs<ExtArgs>>): Prisma__tbPatrimonioClient<$Result.GetResult<Prisma.$tbPatrimonioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tbFuncionario<T extends tbTransferenciaAlocacao$tbFuncionarioArgs<ExtArgs> = {}>(args?: Subset<T, tbTransferenciaAlocacao$tbFuncionarioArgs<ExtArgs>>): Prisma__tbFuncionarioClient<$Result.GetResult<Prisma.$tbFuncionarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    tbFuncionarioDestino<T extends tbTransferenciaAlocacao$tbFuncionarioDestinoArgs<ExtArgs> = {}>(args?: Subset<T, tbTransferenciaAlocacao$tbFuncionarioDestinoArgs<ExtArgs>>): Prisma__tbFuncionarioClient<$Result.GetResult<Prisma.$tbFuncionarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    tbUser<T extends tbTransferenciaAlocacao$tbUserArgs<ExtArgs> = {}>(args?: Subset<T, tbTransferenciaAlocacao$tbUserArgs<ExtArgs>>): Prisma__tbUserClient<$Result.GetResult<Prisma.$tbUserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the tbTransferenciaAlocacao model
+   */
+  interface tbTransferenciaAlocacaoFieldRefs {
+    readonly idTransferenciaAlocacao: FieldRef<"tbTransferenciaAlocacao", 'String'>
+    readonly idCadastro: FieldRef<"tbTransferenciaAlocacao", 'String'>
+    readonly idPatrimonio: FieldRef<"tbTransferenciaAlocacao", 'String'>
+    readonly idMatriculaFuncionario: FieldRef<"tbTransferenciaAlocacao", 'String'>
+    readonly idMatriculaFuncionarioDestino: FieldRef<"tbTransferenciaAlocacao", 'String'>
+    readonly statusAnterior: FieldRef<"tbTransferenciaAlocacao", 'String'>
+    readonly statusNovo: FieldRef<"tbTransferenciaAlocacao", 'String'>
+    readonly observacao: FieldRef<"tbTransferenciaAlocacao", 'String'>
+    readonly idUserTransferencia: FieldRef<"tbTransferenciaAlocacao", 'String'>
+    readonly dataTransferencia: FieldRef<"tbTransferenciaAlocacao", 'DateTime'>
+    readonly createdAt: FieldRef<"tbTransferenciaAlocacao", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * tbTransferenciaAlocacao findUnique
+   */
+  export type tbTransferenciaAlocacaoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaAlocacao
+     */
+    select?: tbTransferenciaAlocacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaAlocacao
+     */
+    omit?: tbTransferenciaAlocacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaAlocacaoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbTransferenciaAlocacao to fetch.
+     */
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+  }
+
+  /**
+   * tbTransferenciaAlocacao findUniqueOrThrow
+   */
+  export type tbTransferenciaAlocacaoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaAlocacao
+     */
+    select?: tbTransferenciaAlocacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaAlocacao
+     */
+    omit?: tbTransferenciaAlocacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaAlocacaoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbTransferenciaAlocacao to fetch.
+     */
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+  }
+
+  /**
+   * tbTransferenciaAlocacao findFirst
+   */
+  export type tbTransferenciaAlocacaoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaAlocacao
+     */
+    select?: tbTransferenciaAlocacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaAlocacao
+     */
+    omit?: tbTransferenciaAlocacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaAlocacaoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbTransferenciaAlocacao to fetch.
+     */
+    where?: tbTransferenciaAlocacaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbTransferenciaAlocacaos to fetch.
+     */
+    orderBy?: tbTransferenciaAlocacaoOrderByWithRelationInput | tbTransferenciaAlocacaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tbTransferenciaAlocacaos.
+     */
+    cursor?: tbTransferenciaAlocacaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbTransferenciaAlocacaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbTransferenciaAlocacaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tbTransferenciaAlocacaos.
+     */
+    distinct?: TbTransferenciaAlocacaoScalarFieldEnum | TbTransferenciaAlocacaoScalarFieldEnum[]
+  }
+
+  /**
+   * tbTransferenciaAlocacao findFirstOrThrow
+   */
+  export type tbTransferenciaAlocacaoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaAlocacao
+     */
+    select?: tbTransferenciaAlocacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaAlocacao
+     */
+    omit?: tbTransferenciaAlocacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaAlocacaoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbTransferenciaAlocacao to fetch.
+     */
+    where?: tbTransferenciaAlocacaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbTransferenciaAlocacaos to fetch.
+     */
+    orderBy?: tbTransferenciaAlocacaoOrderByWithRelationInput | tbTransferenciaAlocacaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tbTransferenciaAlocacaos.
+     */
+    cursor?: tbTransferenciaAlocacaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbTransferenciaAlocacaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbTransferenciaAlocacaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tbTransferenciaAlocacaos.
+     */
+    distinct?: TbTransferenciaAlocacaoScalarFieldEnum | TbTransferenciaAlocacaoScalarFieldEnum[]
+  }
+
+  /**
+   * tbTransferenciaAlocacao findMany
+   */
+  export type tbTransferenciaAlocacaoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaAlocacao
+     */
+    select?: tbTransferenciaAlocacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaAlocacao
+     */
+    omit?: tbTransferenciaAlocacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaAlocacaoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbTransferenciaAlocacaos to fetch.
+     */
+    where?: tbTransferenciaAlocacaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbTransferenciaAlocacaos to fetch.
+     */
+    orderBy?: tbTransferenciaAlocacaoOrderByWithRelationInput | tbTransferenciaAlocacaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing tbTransferenciaAlocacaos.
+     */
+    cursor?: tbTransferenciaAlocacaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbTransferenciaAlocacaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbTransferenciaAlocacaos.
+     */
+    skip?: number
+    distinct?: TbTransferenciaAlocacaoScalarFieldEnum | TbTransferenciaAlocacaoScalarFieldEnum[]
+  }
+
+  /**
+   * tbTransferenciaAlocacao create
+   */
+  export type tbTransferenciaAlocacaoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaAlocacao
+     */
+    select?: tbTransferenciaAlocacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaAlocacao
+     */
+    omit?: tbTransferenciaAlocacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaAlocacaoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a tbTransferenciaAlocacao.
+     */
+    data: XOR<tbTransferenciaAlocacaoCreateInput, tbTransferenciaAlocacaoUncheckedCreateInput>
+  }
+
+  /**
+   * tbTransferenciaAlocacao createMany
+   */
+  export type tbTransferenciaAlocacaoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many tbTransferenciaAlocacaos.
+     */
+    data: tbTransferenciaAlocacaoCreateManyInput | tbTransferenciaAlocacaoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * tbTransferenciaAlocacao update
+   */
+  export type tbTransferenciaAlocacaoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaAlocacao
+     */
+    select?: tbTransferenciaAlocacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaAlocacao
+     */
+    omit?: tbTransferenciaAlocacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaAlocacaoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a tbTransferenciaAlocacao.
+     */
+    data: XOR<tbTransferenciaAlocacaoUpdateInput, tbTransferenciaAlocacaoUncheckedUpdateInput>
+    /**
+     * Choose, which tbTransferenciaAlocacao to update.
+     */
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+  }
+
+  /**
+   * tbTransferenciaAlocacao updateMany
+   */
+  export type tbTransferenciaAlocacaoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update tbTransferenciaAlocacaos.
+     */
+    data: XOR<tbTransferenciaAlocacaoUpdateManyMutationInput, tbTransferenciaAlocacaoUncheckedUpdateManyInput>
+    /**
+     * Filter which tbTransferenciaAlocacaos to update
+     */
+    where?: tbTransferenciaAlocacaoWhereInput
+    /**
+     * Limit how many tbTransferenciaAlocacaos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbTransferenciaAlocacao upsert
+   */
+  export type tbTransferenciaAlocacaoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaAlocacao
+     */
+    select?: tbTransferenciaAlocacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaAlocacao
+     */
+    omit?: tbTransferenciaAlocacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaAlocacaoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the tbTransferenciaAlocacao to update in case it exists.
+     */
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+    /**
+     * In case the tbTransferenciaAlocacao found by the `where` argument doesn't exist, create a new tbTransferenciaAlocacao with this data.
+     */
+    create: XOR<tbTransferenciaAlocacaoCreateInput, tbTransferenciaAlocacaoUncheckedCreateInput>
+    /**
+     * In case the tbTransferenciaAlocacao was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<tbTransferenciaAlocacaoUpdateInput, tbTransferenciaAlocacaoUncheckedUpdateInput>
+  }
+
+  /**
+   * tbTransferenciaAlocacao delete
+   */
+  export type tbTransferenciaAlocacaoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaAlocacao
+     */
+    select?: tbTransferenciaAlocacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaAlocacao
+     */
+    omit?: tbTransferenciaAlocacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaAlocacaoInclude<ExtArgs> | null
+    /**
+     * Filter which tbTransferenciaAlocacao to delete.
+     */
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+  }
+
+  /**
+   * tbTransferenciaAlocacao deleteMany
+   */
+  export type tbTransferenciaAlocacaoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbTransferenciaAlocacaos to delete
+     */
+    where?: tbTransferenciaAlocacaoWhereInput
+    /**
+     * Limit how many tbTransferenciaAlocacaos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbTransferenciaAlocacao.tbFuncionario
+   */
+  export type tbTransferenciaAlocacao$tbFuncionarioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbFuncionario
+     */
+    select?: tbFuncionarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbFuncionario
+     */
+    omit?: tbFuncionarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbFuncionarioInclude<ExtArgs> | null
+    where?: tbFuncionarioWhereInput
+  }
+
+  /**
+   * tbTransferenciaAlocacao.tbFuncionarioDestino
+   */
+  export type tbTransferenciaAlocacao$tbFuncionarioDestinoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbFuncionario
+     */
+    select?: tbFuncionarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbFuncionario
+     */
+    omit?: tbFuncionarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbFuncionarioInclude<ExtArgs> | null
+    where?: tbFuncionarioWhereInput
+  }
+
+  /**
+   * tbTransferenciaAlocacao.tbUser
+   */
+  export type tbTransferenciaAlocacao$tbUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbUser
+     */
+    select?: tbUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbUser
+     */
+    omit?: tbUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbUserInclude<ExtArgs> | null
+    where?: tbUserWhereInput
+  }
+
+  /**
+   * tbTransferenciaAlocacao without action
+   */
+  export type tbTransferenciaAlocacaoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTransferenciaAlocacao
+     */
+    select?: tbTransferenciaAlocacaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTransferenciaAlocacao
+     */
+    omit?: tbTransferenciaAlocacaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTransferenciaAlocacaoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model tbDevolucao
+   */
+
+  export type AggregateTbDevolucao = {
+    _count: TbDevolucaoCountAggregateOutputType | null
+    _min: TbDevolucaoMinAggregateOutputType | null
+    _max: TbDevolucaoMaxAggregateOutputType | null
+  }
+
+  export type TbDevolucaoMinAggregateOutputType = {
+    idDevolucao: string | null
+    idPatrimonio: string | null
+    idCadastro: string | null
+    dataInicioDevolucao: Date | null
+    dataFimDevolucao: Date | null
+    motivoDevolucao: string | null
+    notaFiscalDevolucao: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TbDevolucaoMaxAggregateOutputType = {
+    idDevolucao: string | null
+    idPatrimonio: string | null
+    idCadastro: string | null
+    dataInicioDevolucao: Date | null
+    dataFimDevolucao: Date | null
+    motivoDevolucao: string | null
+    notaFiscalDevolucao: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TbDevolucaoCountAggregateOutputType = {
+    idDevolucao: number
+    idPatrimonio: number
+    idCadastro: number
+    dataInicioDevolucao: number
+    dataFimDevolucao: number
+    motivoDevolucao: number
+    notaFiscalDevolucao: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TbDevolucaoMinAggregateInputType = {
+    idDevolucao?: true
+    idPatrimonio?: true
+    idCadastro?: true
+    dataInicioDevolucao?: true
+    dataFimDevolucao?: true
+    motivoDevolucao?: true
+    notaFiscalDevolucao?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TbDevolucaoMaxAggregateInputType = {
+    idDevolucao?: true
+    idPatrimonio?: true
+    idCadastro?: true
+    dataInicioDevolucao?: true
+    dataFimDevolucao?: true
+    motivoDevolucao?: true
+    notaFiscalDevolucao?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TbDevolucaoCountAggregateInputType = {
+    idDevolucao?: true
+    idPatrimonio?: true
+    idCadastro?: true
+    dataInicioDevolucao?: true
+    dataFimDevolucao?: true
+    motivoDevolucao?: true
+    notaFiscalDevolucao?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TbDevolucaoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbDevolucao to aggregate.
+     */
+    where?: tbDevolucaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbDevolucaos to fetch.
+     */
+    orderBy?: tbDevolucaoOrderByWithRelationInput | tbDevolucaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: tbDevolucaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbDevolucaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbDevolucaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned tbDevolucaos
+    **/
+    _count?: true | TbDevolucaoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TbDevolucaoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TbDevolucaoMaxAggregateInputType
+  }
+
+  export type GetTbDevolucaoAggregateType<T extends TbDevolucaoAggregateArgs> = {
+        [P in keyof T & keyof AggregateTbDevolucao]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTbDevolucao[P]>
+      : GetScalarType<T[P], AggregateTbDevolucao[P]>
+  }
+
+
+
+
+  export type tbDevolucaoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbDevolucaoWhereInput
+    orderBy?: tbDevolucaoOrderByWithAggregationInput | tbDevolucaoOrderByWithAggregationInput[]
+    by: TbDevolucaoScalarFieldEnum[] | TbDevolucaoScalarFieldEnum
+    having?: tbDevolucaoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TbDevolucaoCountAggregateInputType | true
+    _min?: TbDevolucaoMinAggregateInputType
+    _max?: TbDevolucaoMaxAggregateInputType
+  }
+
+  export type TbDevolucaoGroupByOutputType = {
+    idDevolucao: string
+    idPatrimonio: string
+    idCadastro: string | null
+    dataInicioDevolucao: Date
+    dataFimDevolucao: Date | null
+    motivoDevolucao: string | null
+    notaFiscalDevolucao: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: TbDevolucaoCountAggregateOutputType | null
+    _min: TbDevolucaoMinAggregateOutputType | null
+    _max: TbDevolucaoMaxAggregateOutputType | null
+  }
+
+  type GetTbDevolucaoGroupByPayload<T extends tbDevolucaoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TbDevolucaoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TbDevolucaoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TbDevolucaoGroupByOutputType[P]>
+            : GetScalarType<T[P], TbDevolucaoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type tbDevolucaoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    idDevolucao?: boolean
+    idPatrimonio?: boolean
+    idCadastro?: boolean
+    dataInicioDevolucao?: boolean
+    dataFimDevolucao?: boolean
+    motivoDevolucao?: boolean
+    notaFiscalDevolucao?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tbPatrimonio?: boolean | tbPatrimonioDefaultArgs<ExtArgs>
+    tbCadastro?: boolean | tbDevolucao$tbCadastroArgs<ExtArgs>
+  }, ExtArgs["result"]["tbDevolucao"]>
+
+
+
+  export type tbDevolucaoSelectScalar = {
+    idDevolucao?: boolean
+    idPatrimonio?: boolean
+    idCadastro?: boolean
+    dataInicioDevolucao?: boolean
+    dataFimDevolucao?: boolean
+    motivoDevolucao?: boolean
+    notaFiscalDevolucao?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type tbDevolucaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idDevolucao" | "idPatrimonio" | "idCadastro" | "dataInicioDevolucao" | "dataFimDevolucao" | "motivoDevolucao" | "notaFiscalDevolucao" | "createdAt" | "updatedAt", ExtArgs["result"]["tbDevolucao"]>
+  export type tbDevolucaoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tbPatrimonio?: boolean | tbPatrimonioDefaultArgs<ExtArgs>
+    tbCadastro?: boolean | tbDevolucao$tbCadastroArgs<ExtArgs>
+  }
+
+  export type $tbDevolucaoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "tbDevolucao"
+    objects: {
+      tbPatrimonio: Prisma.$tbPatrimonioPayload<ExtArgs>
+      tbCadastro: Prisma.$tbCadastroPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      idDevolucao: string
+      idPatrimonio: string
+      idCadastro: string | null
+      dataInicioDevolucao: Date
+      dataFimDevolucao: Date | null
+      motivoDevolucao: string | null
+      notaFiscalDevolucao: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["tbDevolucao"]>
+    composites: {}
+  }
+
+  type tbDevolucaoGetPayload<S extends boolean | null | undefined | tbDevolucaoDefaultArgs> = $Result.GetResult<Prisma.$tbDevolucaoPayload, S>
+
+  type tbDevolucaoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<tbDevolucaoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TbDevolucaoCountAggregateInputType | true
+    }
+
+  export interface tbDevolucaoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['tbDevolucao'], meta: { name: 'tbDevolucao' } }
+    /**
+     * Find zero or one TbDevolucao that matches the filter.
+     * @param {tbDevolucaoFindUniqueArgs} args - Arguments to find a TbDevolucao
+     * @example
+     * // Get one TbDevolucao
+     * const tbDevolucao = await prisma.tbDevolucao.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends tbDevolucaoFindUniqueArgs>(args: SelectSubset<T, tbDevolucaoFindUniqueArgs<ExtArgs>>): Prisma__tbDevolucaoClient<$Result.GetResult<Prisma.$tbDevolucaoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TbDevolucao that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {tbDevolucaoFindUniqueOrThrowArgs} args - Arguments to find a TbDevolucao
+     * @example
+     * // Get one TbDevolucao
+     * const tbDevolucao = await prisma.tbDevolucao.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends tbDevolucaoFindUniqueOrThrowArgs>(args: SelectSubset<T, tbDevolucaoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__tbDevolucaoClient<$Result.GetResult<Prisma.$tbDevolucaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TbDevolucao that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbDevolucaoFindFirstArgs} args - Arguments to find a TbDevolucao
+     * @example
+     * // Get one TbDevolucao
+     * const tbDevolucao = await prisma.tbDevolucao.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends tbDevolucaoFindFirstArgs>(args?: SelectSubset<T, tbDevolucaoFindFirstArgs<ExtArgs>>): Prisma__tbDevolucaoClient<$Result.GetResult<Prisma.$tbDevolucaoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TbDevolucao that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbDevolucaoFindFirstOrThrowArgs} args - Arguments to find a TbDevolucao
+     * @example
+     * // Get one TbDevolucao
+     * const tbDevolucao = await prisma.tbDevolucao.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends tbDevolucaoFindFirstOrThrowArgs>(args?: SelectSubset<T, tbDevolucaoFindFirstOrThrowArgs<ExtArgs>>): Prisma__tbDevolucaoClient<$Result.GetResult<Prisma.$tbDevolucaoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TbDevolucaos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbDevolucaoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TbDevolucaos
+     * const tbDevolucaos = await prisma.tbDevolucao.findMany()
+     * 
+     * // Get first 10 TbDevolucaos
+     * const tbDevolucaos = await prisma.tbDevolucao.findMany({ take: 10 })
+     * 
+     * // Only select the `idDevolucao`
+     * const tbDevolucaoWithIdDevolucaoOnly = await prisma.tbDevolucao.findMany({ select: { idDevolucao: true } })
+     * 
+     */
+    findMany<T extends tbDevolucaoFindManyArgs>(args?: SelectSubset<T, tbDevolucaoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbDevolucaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TbDevolucao.
+     * @param {tbDevolucaoCreateArgs} args - Arguments to create a TbDevolucao.
+     * @example
+     * // Create one TbDevolucao
+     * const TbDevolucao = await prisma.tbDevolucao.create({
+     *   data: {
+     *     // ... data to create a TbDevolucao
+     *   }
+     * })
+     * 
+     */
+    create<T extends tbDevolucaoCreateArgs>(args: SelectSubset<T, tbDevolucaoCreateArgs<ExtArgs>>): Prisma__tbDevolucaoClient<$Result.GetResult<Prisma.$tbDevolucaoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TbDevolucaos.
+     * @param {tbDevolucaoCreateManyArgs} args - Arguments to create many TbDevolucaos.
+     * @example
+     * // Create many TbDevolucaos
+     * const tbDevolucao = await prisma.tbDevolucao.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends tbDevolucaoCreateManyArgs>(args?: SelectSubset<T, tbDevolucaoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a TbDevolucao.
+     * @param {tbDevolucaoDeleteArgs} args - Arguments to delete one TbDevolucao.
+     * @example
+     * // Delete one TbDevolucao
+     * const TbDevolucao = await prisma.tbDevolucao.delete({
+     *   where: {
+     *     // ... filter to delete one TbDevolucao
+     *   }
+     * })
+     * 
+     */
+    delete<T extends tbDevolucaoDeleteArgs>(args: SelectSubset<T, tbDevolucaoDeleteArgs<ExtArgs>>): Prisma__tbDevolucaoClient<$Result.GetResult<Prisma.$tbDevolucaoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TbDevolucao.
+     * @param {tbDevolucaoUpdateArgs} args - Arguments to update one TbDevolucao.
+     * @example
+     * // Update one TbDevolucao
+     * const tbDevolucao = await prisma.tbDevolucao.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends tbDevolucaoUpdateArgs>(args: SelectSubset<T, tbDevolucaoUpdateArgs<ExtArgs>>): Prisma__tbDevolucaoClient<$Result.GetResult<Prisma.$tbDevolucaoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TbDevolucaos.
+     * @param {tbDevolucaoDeleteManyArgs} args - Arguments to filter TbDevolucaos to delete.
+     * @example
+     * // Delete a few TbDevolucaos
+     * const { count } = await prisma.tbDevolucao.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends tbDevolucaoDeleteManyArgs>(args?: SelectSubset<T, tbDevolucaoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TbDevolucaos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbDevolucaoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TbDevolucaos
+     * const tbDevolucao = await prisma.tbDevolucao.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends tbDevolucaoUpdateManyArgs>(args: SelectSubset<T, tbDevolucaoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one TbDevolucao.
+     * @param {tbDevolucaoUpsertArgs} args - Arguments to update or create a TbDevolucao.
+     * @example
+     * // Update or create a TbDevolucao
+     * const tbDevolucao = await prisma.tbDevolucao.upsert({
+     *   create: {
+     *     // ... data to create a TbDevolucao
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TbDevolucao we want to update
+     *   }
+     * })
+     */
+    upsert<T extends tbDevolucaoUpsertArgs>(args: SelectSubset<T, tbDevolucaoUpsertArgs<ExtArgs>>): Prisma__tbDevolucaoClient<$Result.GetResult<Prisma.$tbDevolucaoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TbDevolucaos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbDevolucaoCountArgs} args - Arguments to filter TbDevolucaos to count.
+     * @example
+     * // Count the number of TbDevolucaos
+     * const count = await prisma.tbDevolucao.count({
+     *   where: {
+     *     // ... the filter for the TbDevolucaos we want to count
+     *   }
+     * })
+    **/
+    count<T extends tbDevolucaoCountArgs>(
+      args?: Subset<T, tbDevolucaoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TbDevolucaoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TbDevolucao.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TbDevolucaoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TbDevolucaoAggregateArgs>(args: Subset<T, TbDevolucaoAggregateArgs>): Prisma.PrismaPromise<GetTbDevolucaoAggregateType<T>>
+
+    /**
+     * Group by TbDevolucao.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbDevolucaoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends tbDevolucaoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: tbDevolucaoGroupByArgs['orderBy'] }
+        : { orderBy?: tbDevolucaoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, tbDevolucaoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTbDevolucaoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the tbDevolucao model
+   */
+  readonly fields: tbDevolucaoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for tbDevolucao.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__tbDevolucaoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tbPatrimonio<T extends tbPatrimonioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonioDefaultArgs<ExtArgs>>): Prisma__tbPatrimonioClient<$Result.GetResult<Prisma.$tbPatrimonioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tbCadastro<T extends tbDevolucao$tbCadastroArgs<ExtArgs> = {}>(args?: Subset<T, tbDevolucao$tbCadastroArgs<ExtArgs>>): Prisma__tbCadastroClient<$Result.GetResult<Prisma.$tbCadastroPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the tbDevolucao model
+   */
+  interface tbDevolucaoFieldRefs {
+    readonly idDevolucao: FieldRef<"tbDevolucao", 'String'>
+    readonly idPatrimonio: FieldRef<"tbDevolucao", 'String'>
+    readonly idCadastro: FieldRef<"tbDevolucao", 'String'>
+    readonly dataInicioDevolucao: FieldRef<"tbDevolucao", 'DateTime'>
+    readonly dataFimDevolucao: FieldRef<"tbDevolucao", 'DateTime'>
+    readonly motivoDevolucao: FieldRef<"tbDevolucao", 'String'>
+    readonly notaFiscalDevolucao: FieldRef<"tbDevolucao", 'String'>
+    readonly createdAt: FieldRef<"tbDevolucao", 'DateTime'>
+    readonly updatedAt: FieldRef<"tbDevolucao", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * tbDevolucao findUnique
+   */
+  export type tbDevolucaoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbDevolucao
+     */
+    select?: tbDevolucaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbDevolucao
+     */
+    omit?: tbDevolucaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbDevolucaoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbDevolucao to fetch.
+     */
+    where: tbDevolucaoWhereUniqueInput
+  }
+
+  /**
+   * tbDevolucao findUniqueOrThrow
+   */
+  export type tbDevolucaoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbDevolucao
+     */
+    select?: tbDevolucaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbDevolucao
+     */
+    omit?: tbDevolucaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbDevolucaoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbDevolucao to fetch.
+     */
+    where: tbDevolucaoWhereUniqueInput
+  }
+
+  /**
+   * tbDevolucao findFirst
+   */
+  export type tbDevolucaoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbDevolucao
+     */
+    select?: tbDevolucaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbDevolucao
+     */
+    omit?: tbDevolucaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbDevolucaoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbDevolucao to fetch.
+     */
+    where?: tbDevolucaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbDevolucaos to fetch.
+     */
+    orderBy?: tbDevolucaoOrderByWithRelationInput | tbDevolucaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tbDevolucaos.
+     */
+    cursor?: tbDevolucaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbDevolucaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbDevolucaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tbDevolucaos.
+     */
+    distinct?: TbDevolucaoScalarFieldEnum | TbDevolucaoScalarFieldEnum[]
+  }
+
+  /**
+   * tbDevolucao findFirstOrThrow
+   */
+  export type tbDevolucaoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbDevolucao
+     */
+    select?: tbDevolucaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbDevolucao
+     */
+    omit?: tbDevolucaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbDevolucaoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbDevolucao to fetch.
+     */
+    where?: tbDevolucaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbDevolucaos to fetch.
+     */
+    orderBy?: tbDevolucaoOrderByWithRelationInput | tbDevolucaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tbDevolucaos.
+     */
+    cursor?: tbDevolucaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbDevolucaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbDevolucaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tbDevolucaos.
+     */
+    distinct?: TbDevolucaoScalarFieldEnum | TbDevolucaoScalarFieldEnum[]
+  }
+
+  /**
+   * tbDevolucao findMany
+   */
+  export type tbDevolucaoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbDevolucao
+     */
+    select?: tbDevolucaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbDevolucao
+     */
+    omit?: tbDevolucaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbDevolucaoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbDevolucaos to fetch.
+     */
+    where?: tbDevolucaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbDevolucaos to fetch.
+     */
+    orderBy?: tbDevolucaoOrderByWithRelationInput | tbDevolucaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing tbDevolucaos.
+     */
+    cursor?: tbDevolucaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbDevolucaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbDevolucaos.
+     */
+    skip?: number
+    distinct?: TbDevolucaoScalarFieldEnum | TbDevolucaoScalarFieldEnum[]
+  }
+
+  /**
+   * tbDevolucao create
+   */
+  export type tbDevolucaoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbDevolucao
+     */
+    select?: tbDevolucaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbDevolucao
+     */
+    omit?: tbDevolucaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbDevolucaoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a tbDevolucao.
+     */
+    data: XOR<tbDevolucaoCreateInput, tbDevolucaoUncheckedCreateInput>
+  }
+
+  /**
+   * tbDevolucao createMany
+   */
+  export type tbDevolucaoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many tbDevolucaos.
+     */
+    data: tbDevolucaoCreateManyInput | tbDevolucaoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * tbDevolucao update
+   */
+  export type tbDevolucaoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbDevolucao
+     */
+    select?: tbDevolucaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbDevolucao
+     */
+    omit?: tbDevolucaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbDevolucaoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a tbDevolucao.
+     */
+    data: XOR<tbDevolucaoUpdateInput, tbDevolucaoUncheckedUpdateInput>
+    /**
+     * Choose, which tbDevolucao to update.
+     */
+    where: tbDevolucaoWhereUniqueInput
+  }
+
+  /**
+   * tbDevolucao updateMany
+   */
+  export type tbDevolucaoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update tbDevolucaos.
+     */
+    data: XOR<tbDevolucaoUpdateManyMutationInput, tbDevolucaoUncheckedUpdateManyInput>
+    /**
+     * Filter which tbDevolucaos to update
+     */
+    where?: tbDevolucaoWhereInput
+    /**
+     * Limit how many tbDevolucaos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbDevolucao upsert
+   */
+  export type tbDevolucaoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbDevolucao
+     */
+    select?: tbDevolucaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbDevolucao
+     */
+    omit?: tbDevolucaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbDevolucaoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the tbDevolucao to update in case it exists.
+     */
+    where: tbDevolucaoWhereUniqueInput
+    /**
+     * In case the tbDevolucao found by the `where` argument doesn't exist, create a new tbDevolucao with this data.
+     */
+    create: XOR<tbDevolucaoCreateInput, tbDevolucaoUncheckedCreateInput>
+    /**
+     * In case the tbDevolucao was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<tbDevolucaoUpdateInput, tbDevolucaoUncheckedUpdateInput>
+  }
+
+  /**
+   * tbDevolucao delete
+   */
+  export type tbDevolucaoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbDevolucao
+     */
+    select?: tbDevolucaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbDevolucao
+     */
+    omit?: tbDevolucaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbDevolucaoInclude<ExtArgs> | null
+    /**
+     * Filter which tbDevolucao to delete.
+     */
+    where: tbDevolucaoWhereUniqueInput
+  }
+
+  /**
+   * tbDevolucao deleteMany
+   */
+  export type tbDevolucaoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbDevolucaos to delete
+     */
+    where?: tbDevolucaoWhereInput
+    /**
+     * Limit how many tbDevolucaos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbDevolucao.tbCadastro
+   */
+  export type tbDevolucao$tbCadastroArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbCadastro
+     */
+    select?: tbCadastroSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbCadastro
+     */
+    omit?: tbCadastroOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbCadastroInclude<ExtArgs> | null
+    where?: tbCadastroWhereInput
+  }
+
+  /**
+   * tbDevolucao without action
+   */
+  export type tbDevolucaoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbDevolucao
+     */
+    select?: tbDevolucaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbDevolucao
+     */
+    omit?: tbDevolucaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbDevolucaoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model tbPatrimonioHistorico
+   */
+
+  export type AggregateTbPatrimonioHistorico = {
+    _count: TbPatrimonioHistoricoCountAggregateOutputType | null
+    _avg: TbPatrimonioHistoricoAvgAggregateOutputType | null
+    _sum: TbPatrimonioHistoricoSumAggregateOutputType | null
+    _min: TbPatrimonioHistoricoMinAggregateOutputType | null
+    _max: TbPatrimonioHistoricoMaxAggregateOutputType | null
+  }
+
+  export type TbPatrimonioHistoricoAvgAggregateOutputType = {
+    valorPat: number | null
+  }
+
+  export type TbPatrimonioHistoricoSumAggregateOutputType = {
+    valorPat: number | null
+  }
+
+  export type TbPatrimonioHistoricoMinAggregateOutputType = {
+    idHistorico: string | null
+    idPatrimonioOriginal: string | null
+    idPat: string | null
+    descricaoPat: string | null
+    valorPat: number | null
+    dataEntPat: Date | null
+    dataSaiPat: Date | null
+    notaFiscalPat: string | null
+    idPat_TipoPat: string | null
+    idPat_StatusPat: string | null
+    idPat_CustoPat: string | null
+    dataDevolucao: Date | null
+    motivoDevolucao: string | null
+    notaFiscalDevolucao: string | null
+    createdAt: Date | null
+  }
+
+  export type TbPatrimonioHistoricoMaxAggregateOutputType = {
+    idHistorico: string | null
+    idPatrimonioOriginal: string | null
+    idPat: string | null
+    descricaoPat: string | null
+    valorPat: number | null
+    dataEntPat: Date | null
+    dataSaiPat: Date | null
+    notaFiscalPat: string | null
+    idPat_TipoPat: string | null
+    idPat_StatusPat: string | null
+    idPat_CustoPat: string | null
+    dataDevolucao: Date | null
+    motivoDevolucao: string | null
+    notaFiscalDevolucao: string | null
+    createdAt: Date | null
+  }
+
+  export type TbPatrimonioHistoricoCountAggregateOutputType = {
+    idHistorico: number
+    idPatrimonioOriginal: number
+    idPat: number
+    descricaoPat: number
+    valorPat: number
+    dataEntPat: number
+    dataSaiPat: number
+    notaFiscalPat: number
+    idPat_TipoPat: number
+    idPat_StatusPat: number
+    idPat_CustoPat: number
+    dataDevolucao: number
+    motivoDevolucao: number
+    notaFiscalDevolucao: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TbPatrimonioHistoricoAvgAggregateInputType = {
+    valorPat?: true
+  }
+
+  export type TbPatrimonioHistoricoSumAggregateInputType = {
+    valorPat?: true
+  }
+
+  export type TbPatrimonioHistoricoMinAggregateInputType = {
+    idHistorico?: true
+    idPatrimonioOriginal?: true
+    idPat?: true
+    descricaoPat?: true
+    valorPat?: true
+    dataEntPat?: true
+    dataSaiPat?: true
+    notaFiscalPat?: true
+    idPat_TipoPat?: true
+    idPat_StatusPat?: true
+    idPat_CustoPat?: true
+    dataDevolucao?: true
+    motivoDevolucao?: true
+    notaFiscalDevolucao?: true
+    createdAt?: true
+  }
+
+  export type TbPatrimonioHistoricoMaxAggregateInputType = {
+    idHistorico?: true
+    idPatrimonioOriginal?: true
+    idPat?: true
+    descricaoPat?: true
+    valorPat?: true
+    dataEntPat?: true
+    dataSaiPat?: true
+    notaFiscalPat?: true
+    idPat_TipoPat?: true
+    idPat_StatusPat?: true
+    idPat_CustoPat?: true
+    dataDevolucao?: true
+    motivoDevolucao?: true
+    notaFiscalDevolucao?: true
+    createdAt?: true
+  }
+
+  export type TbPatrimonioHistoricoCountAggregateInputType = {
+    idHistorico?: true
+    idPatrimonioOriginal?: true
+    idPat?: true
+    descricaoPat?: true
+    valorPat?: true
+    dataEntPat?: true
+    dataSaiPat?: true
+    notaFiscalPat?: true
+    idPat_TipoPat?: true
+    idPat_StatusPat?: true
+    idPat_CustoPat?: true
+    dataDevolucao?: true
+    motivoDevolucao?: true
+    notaFiscalDevolucao?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TbPatrimonioHistoricoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbPatrimonioHistorico to aggregate.
+     */
+    where?: tbPatrimonioHistoricoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbPatrimonioHistoricos to fetch.
+     */
+    orderBy?: tbPatrimonioHistoricoOrderByWithRelationInput | tbPatrimonioHistoricoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: tbPatrimonioHistoricoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbPatrimonioHistoricos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbPatrimonioHistoricos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned tbPatrimonioHistoricos
+    **/
+    _count?: true | TbPatrimonioHistoricoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TbPatrimonioHistoricoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TbPatrimonioHistoricoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TbPatrimonioHistoricoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TbPatrimonioHistoricoMaxAggregateInputType
+  }
+
+  export type GetTbPatrimonioHistoricoAggregateType<T extends TbPatrimonioHistoricoAggregateArgs> = {
+        [P in keyof T & keyof AggregateTbPatrimonioHistorico]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTbPatrimonioHistorico[P]>
+      : GetScalarType<T[P], AggregateTbPatrimonioHistorico[P]>
+  }
+
+
+
+
+  export type tbPatrimonioHistoricoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbPatrimonioHistoricoWhereInput
+    orderBy?: tbPatrimonioHistoricoOrderByWithAggregationInput | tbPatrimonioHistoricoOrderByWithAggregationInput[]
+    by: TbPatrimonioHistoricoScalarFieldEnum[] | TbPatrimonioHistoricoScalarFieldEnum
+    having?: tbPatrimonioHistoricoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TbPatrimonioHistoricoCountAggregateInputType | true
+    _avg?: TbPatrimonioHistoricoAvgAggregateInputType
+    _sum?: TbPatrimonioHistoricoSumAggregateInputType
+    _min?: TbPatrimonioHistoricoMinAggregateInputType
+    _max?: TbPatrimonioHistoricoMaxAggregateInputType
+  }
+
+  export type TbPatrimonioHistoricoGroupByOutputType = {
+    idHistorico: string
+    idPatrimonioOriginal: string
+    idPat: string
+    descricaoPat: string
+    valorPat: number
+    dataEntPat: Date
+    dataSaiPat: Date | null
+    notaFiscalPat: string | null
+    idPat_TipoPat: string | null
+    idPat_StatusPat: string | null
+    idPat_CustoPat: string | null
+    dataDevolucao: Date | null
+    motivoDevolucao: string | null
+    notaFiscalDevolucao: string | null
+    createdAt: Date
+    _count: TbPatrimonioHistoricoCountAggregateOutputType | null
+    _avg: TbPatrimonioHistoricoAvgAggregateOutputType | null
+    _sum: TbPatrimonioHistoricoSumAggregateOutputType | null
+    _min: TbPatrimonioHistoricoMinAggregateOutputType | null
+    _max: TbPatrimonioHistoricoMaxAggregateOutputType | null
+  }
+
+  type GetTbPatrimonioHistoricoGroupByPayload<T extends tbPatrimonioHistoricoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TbPatrimonioHistoricoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TbPatrimonioHistoricoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TbPatrimonioHistoricoGroupByOutputType[P]>
+            : GetScalarType<T[P], TbPatrimonioHistoricoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type tbPatrimonioHistoricoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    idHistorico?: boolean
+    idPatrimonioOriginal?: boolean
+    idPat?: boolean
+    descricaoPat?: boolean
+    valorPat?: boolean
+    dataEntPat?: boolean
+    dataSaiPat?: boolean
+    notaFiscalPat?: boolean
+    idPat_TipoPat?: boolean
+    idPat_StatusPat?: boolean
+    idPat_CustoPat?: boolean
+    dataDevolucao?: boolean
+    motivoDevolucao?: boolean
+    notaFiscalDevolucao?: boolean
+    createdAt?: boolean
+    tbPatrimonio?: boolean | tbPatrimonioDefaultArgs<ExtArgs>
+    tbTipoPat?: boolean | tbPatrimonioHistorico$tbTipoPatArgs<ExtArgs>
+    tbStatusPat?: boolean | tbPatrimonioHistorico$tbStatusPatArgs<ExtArgs>
+    tbCCusto?: boolean | tbPatrimonioHistorico$tbCCustoArgs<ExtArgs>
+  }, ExtArgs["result"]["tbPatrimonioHistorico"]>
+
+
+
+  export type tbPatrimonioHistoricoSelectScalar = {
+    idHistorico?: boolean
+    idPatrimonioOriginal?: boolean
+    idPat?: boolean
+    descricaoPat?: boolean
+    valorPat?: boolean
+    dataEntPat?: boolean
+    dataSaiPat?: boolean
+    notaFiscalPat?: boolean
+    idPat_TipoPat?: boolean
+    idPat_StatusPat?: boolean
+    idPat_CustoPat?: boolean
+    dataDevolucao?: boolean
+    motivoDevolucao?: boolean
+    notaFiscalDevolucao?: boolean
+    createdAt?: boolean
+  }
+
+  export type tbPatrimonioHistoricoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idHistorico" | "idPatrimonioOriginal" | "idPat" | "descricaoPat" | "valorPat" | "dataEntPat" | "dataSaiPat" | "notaFiscalPat" | "idPat_TipoPat" | "idPat_StatusPat" | "idPat_CustoPat" | "dataDevolucao" | "motivoDevolucao" | "notaFiscalDevolucao" | "createdAt", ExtArgs["result"]["tbPatrimonioHistorico"]>
+  export type tbPatrimonioHistoricoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tbPatrimonio?: boolean | tbPatrimonioDefaultArgs<ExtArgs>
+    tbTipoPat?: boolean | tbPatrimonioHistorico$tbTipoPatArgs<ExtArgs>
+    tbStatusPat?: boolean | tbPatrimonioHistorico$tbStatusPatArgs<ExtArgs>
+    tbCCusto?: boolean | tbPatrimonioHistorico$tbCCustoArgs<ExtArgs>
+  }
+
+  export type $tbPatrimonioHistoricoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "tbPatrimonioHistorico"
+    objects: {
+      tbPatrimonio: Prisma.$tbPatrimonioPayload<ExtArgs>
+      tbTipoPat: Prisma.$tbTipoPatPayload<ExtArgs> | null
+      tbStatusPat: Prisma.$tbStatusPatPayload<ExtArgs> | null
+      tbCCusto: Prisma.$tbCCustoPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      idHistorico: string
+      idPatrimonioOriginal: string
+      idPat: string
+      descricaoPat: string
+      valorPat: number
+      dataEntPat: Date
+      dataSaiPat: Date | null
+      notaFiscalPat: string | null
+      idPat_TipoPat: string | null
+      idPat_StatusPat: string | null
+      idPat_CustoPat: string | null
+      dataDevolucao: Date | null
+      motivoDevolucao: string | null
+      notaFiscalDevolucao: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["tbPatrimonioHistorico"]>
+    composites: {}
+  }
+
+  type tbPatrimonioHistoricoGetPayload<S extends boolean | null | undefined | tbPatrimonioHistoricoDefaultArgs> = $Result.GetResult<Prisma.$tbPatrimonioHistoricoPayload, S>
+
+  type tbPatrimonioHistoricoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<tbPatrimonioHistoricoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TbPatrimonioHistoricoCountAggregateInputType | true
+    }
+
+  export interface tbPatrimonioHistoricoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['tbPatrimonioHistorico'], meta: { name: 'tbPatrimonioHistorico' } }
+    /**
+     * Find zero or one TbPatrimonioHistorico that matches the filter.
+     * @param {tbPatrimonioHistoricoFindUniqueArgs} args - Arguments to find a TbPatrimonioHistorico
+     * @example
+     * // Get one TbPatrimonioHistorico
+     * const tbPatrimonioHistorico = await prisma.tbPatrimonioHistorico.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends tbPatrimonioHistoricoFindUniqueArgs>(args: SelectSubset<T, tbPatrimonioHistoricoFindUniqueArgs<ExtArgs>>): Prisma__tbPatrimonioHistoricoClient<$Result.GetResult<Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TbPatrimonioHistorico that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {tbPatrimonioHistoricoFindUniqueOrThrowArgs} args - Arguments to find a TbPatrimonioHistorico
+     * @example
+     * // Get one TbPatrimonioHistorico
+     * const tbPatrimonioHistorico = await prisma.tbPatrimonioHistorico.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends tbPatrimonioHistoricoFindUniqueOrThrowArgs>(args: SelectSubset<T, tbPatrimonioHistoricoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__tbPatrimonioHistoricoClient<$Result.GetResult<Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TbPatrimonioHistorico that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbPatrimonioHistoricoFindFirstArgs} args - Arguments to find a TbPatrimonioHistorico
+     * @example
+     * // Get one TbPatrimonioHistorico
+     * const tbPatrimonioHistorico = await prisma.tbPatrimonioHistorico.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends tbPatrimonioHistoricoFindFirstArgs>(args?: SelectSubset<T, tbPatrimonioHistoricoFindFirstArgs<ExtArgs>>): Prisma__tbPatrimonioHistoricoClient<$Result.GetResult<Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TbPatrimonioHistorico that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbPatrimonioHistoricoFindFirstOrThrowArgs} args - Arguments to find a TbPatrimonioHistorico
+     * @example
+     * // Get one TbPatrimonioHistorico
+     * const tbPatrimonioHistorico = await prisma.tbPatrimonioHistorico.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends tbPatrimonioHistoricoFindFirstOrThrowArgs>(args?: SelectSubset<T, tbPatrimonioHistoricoFindFirstOrThrowArgs<ExtArgs>>): Prisma__tbPatrimonioHistoricoClient<$Result.GetResult<Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TbPatrimonioHistoricos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbPatrimonioHistoricoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TbPatrimonioHistoricos
+     * const tbPatrimonioHistoricos = await prisma.tbPatrimonioHistorico.findMany()
+     * 
+     * // Get first 10 TbPatrimonioHistoricos
+     * const tbPatrimonioHistoricos = await prisma.tbPatrimonioHistorico.findMany({ take: 10 })
+     * 
+     * // Only select the `idHistorico`
+     * const tbPatrimonioHistoricoWithIdHistoricoOnly = await prisma.tbPatrimonioHistorico.findMany({ select: { idHistorico: true } })
+     * 
+     */
+    findMany<T extends tbPatrimonioHistoricoFindManyArgs>(args?: SelectSubset<T, tbPatrimonioHistoricoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TbPatrimonioHistorico.
+     * @param {tbPatrimonioHistoricoCreateArgs} args - Arguments to create a TbPatrimonioHistorico.
+     * @example
+     * // Create one TbPatrimonioHistorico
+     * const TbPatrimonioHistorico = await prisma.tbPatrimonioHistorico.create({
+     *   data: {
+     *     // ... data to create a TbPatrimonioHistorico
+     *   }
+     * })
+     * 
+     */
+    create<T extends tbPatrimonioHistoricoCreateArgs>(args: SelectSubset<T, tbPatrimonioHistoricoCreateArgs<ExtArgs>>): Prisma__tbPatrimonioHistoricoClient<$Result.GetResult<Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TbPatrimonioHistoricos.
+     * @param {tbPatrimonioHistoricoCreateManyArgs} args - Arguments to create many TbPatrimonioHistoricos.
+     * @example
+     * // Create many TbPatrimonioHistoricos
+     * const tbPatrimonioHistorico = await prisma.tbPatrimonioHistorico.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends tbPatrimonioHistoricoCreateManyArgs>(args?: SelectSubset<T, tbPatrimonioHistoricoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a TbPatrimonioHistorico.
+     * @param {tbPatrimonioHistoricoDeleteArgs} args - Arguments to delete one TbPatrimonioHistorico.
+     * @example
+     * // Delete one TbPatrimonioHistorico
+     * const TbPatrimonioHistorico = await prisma.tbPatrimonioHistorico.delete({
+     *   where: {
+     *     // ... filter to delete one TbPatrimonioHistorico
+     *   }
+     * })
+     * 
+     */
+    delete<T extends tbPatrimonioHistoricoDeleteArgs>(args: SelectSubset<T, tbPatrimonioHistoricoDeleteArgs<ExtArgs>>): Prisma__tbPatrimonioHistoricoClient<$Result.GetResult<Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TbPatrimonioHistorico.
+     * @param {tbPatrimonioHistoricoUpdateArgs} args - Arguments to update one TbPatrimonioHistorico.
+     * @example
+     * // Update one TbPatrimonioHistorico
+     * const tbPatrimonioHistorico = await prisma.tbPatrimonioHistorico.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends tbPatrimonioHistoricoUpdateArgs>(args: SelectSubset<T, tbPatrimonioHistoricoUpdateArgs<ExtArgs>>): Prisma__tbPatrimonioHistoricoClient<$Result.GetResult<Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TbPatrimonioHistoricos.
+     * @param {tbPatrimonioHistoricoDeleteManyArgs} args - Arguments to filter TbPatrimonioHistoricos to delete.
+     * @example
+     * // Delete a few TbPatrimonioHistoricos
+     * const { count } = await prisma.tbPatrimonioHistorico.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends tbPatrimonioHistoricoDeleteManyArgs>(args?: SelectSubset<T, tbPatrimonioHistoricoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TbPatrimonioHistoricos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbPatrimonioHistoricoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TbPatrimonioHistoricos
+     * const tbPatrimonioHistorico = await prisma.tbPatrimonioHistorico.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends tbPatrimonioHistoricoUpdateManyArgs>(args: SelectSubset<T, tbPatrimonioHistoricoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one TbPatrimonioHistorico.
+     * @param {tbPatrimonioHistoricoUpsertArgs} args - Arguments to update or create a TbPatrimonioHistorico.
+     * @example
+     * // Update or create a TbPatrimonioHistorico
+     * const tbPatrimonioHistorico = await prisma.tbPatrimonioHistorico.upsert({
+     *   create: {
+     *     // ... data to create a TbPatrimonioHistorico
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TbPatrimonioHistorico we want to update
+     *   }
+     * })
+     */
+    upsert<T extends tbPatrimonioHistoricoUpsertArgs>(args: SelectSubset<T, tbPatrimonioHistoricoUpsertArgs<ExtArgs>>): Prisma__tbPatrimonioHistoricoClient<$Result.GetResult<Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TbPatrimonioHistoricos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbPatrimonioHistoricoCountArgs} args - Arguments to filter TbPatrimonioHistoricos to count.
+     * @example
+     * // Count the number of TbPatrimonioHistoricos
+     * const count = await prisma.tbPatrimonioHistorico.count({
+     *   where: {
+     *     // ... the filter for the TbPatrimonioHistoricos we want to count
+     *   }
+     * })
+    **/
+    count<T extends tbPatrimonioHistoricoCountArgs>(
+      args?: Subset<T, tbPatrimonioHistoricoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TbPatrimonioHistoricoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TbPatrimonioHistorico.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TbPatrimonioHistoricoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TbPatrimonioHistoricoAggregateArgs>(args: Subset<T, TbPatrimonioHistoricoAggregateArgs>): Prisma.PrismaPromise<GetTbPatrimonioHistoricoAggregateType<T>>
+
+    /**
+     * Group by TbPatrimonioHistorico.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbPatrimonioHistoricoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends tbPatrimonioHistoricoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: tbPatrimonioHistoricoGroupByArgs['orderBy'] }
+        : { orderBy?: tbPatrimonioHistoricoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, tbPatrimonioHistoricoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTbPatrimonioHistoricoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the tbPatrimonioHistorico model
+   */
+  readonly fields: tbPatrimonioHistoricoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for tbPatrimonioHistorico.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__tbPatrimonioHistoricoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tbPatrimonio<T extends tbPatrimonioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonioDefaultArgs<ExtArgs>>): Prisma__tbPatrimonioClient<$Result.GetResult<Prisma.$tbPatrimonioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tbTipoPat<T extends tbPatrimonioHistorico$tbTipoPatArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonioHistorico$tbTipoPatArgs<ExtArgs>>): Prisma__tbTipoPatClient<$Result.GetResult<Prisma.$tbTipoPatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    tbStatusPat<T extends tbPatrimonioHistorico$tbStatusPatArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonioHistorico$tbStatusPatArgs<ExtArgs>>): Prisma__tbStatusPatClient<$Result.GetResult<Prisma.$tbStatusPatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    tbCCusto<T extends tbPatrimonioHistorico$tbCCustoArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonioHistorico$tbCCustoArgs<ExtArgs>>): Prisma__tbCCustoClient<$Result.GetResult<Prisma.$tbCCustoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the tbPatrimonioHistorico model
+   */
+  interface tbPatrimonioHistoricoFieldRefs {
+    readonly idHistorico: FieldRef<"tbPatrimonioHistorico", 'String'>
+    readonly idPatrimonioOriginal: FieldRef<"tbPatrimonioHistorico", 'String'>
+    readonly idPat: FieldRef<"tbPatrimonioHistorico", 'String'>
+    readonly descricaoPat: FieldRef<"tbPatrimonioHistorico", 'String'>
+    readonly valorPat: FieldRef<"tbPatrimonioHistorico", 'Float'>
+    readonly dataEntPat: FieldRef<"tbPatrimonioHistorico", 'DateTime'>
+    readonly dataSaiPat: FieldRef<"tbPatrimonioHistorico", 'DateTime'>
+    readonly notaFiscalPat: FieldRef<"tbPatrimonioHistorico", 'String'>
+    readonly idPat_TipoPat: FieldRef<"tbPatrimonioHistorico", 'String'>
+    readonly idPat_StatusPat: FieldRef<"tbPatrimonioHistorico", 'String'>
+    readonly idPat_CustoPat: FieldRef<"tbPatrimonioHistorico", 'String'>
+    readonly dataDevolucao: FieldRef<"tbPatrimonioHistorico", 'DateTime'>
+    readonly motivoDevolucao: FieldRef<"tbPatrimonioHistorico", 'String'>
+    readonly notaFiscalDevolucao: FieldRef<"tbPatrimonioHistorico", 'String'>
+    readonly createdAt: FieldRef<"tbPatrimonioHistorico", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * tbPatrimonioHistorico findUnique
+   */
+  export type tbPatrimonioHistoricoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbPatrimonioHistorico
+     */
+    select?: tbPatrimonioHistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbPatrimonioHistorico
+     */
+    omit?: tbPatrimonioHistoricoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbPatrimonioHistoricoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbPatrimonioHistorico to fetch.
+     */
+    where: tbPatrimonioHistoricoWhereUniqueInput
+  }
+
+  /**
+   * tbPatrimonioHistorico findUniqueOrThrow
+   */
+  export type tbPatrimonioHistoricoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbPatrimonioHistorico
+     */
+    select?: tbPatrimonioHistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbPatrimonioHistorico
+     */
+    omit?: tbPatrimonioHistoricoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbPatrimonioHistoricoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbPatrimonioHistorico to fetch.
+     */
+    where: tbPatrimonioHistoricoWhereUniqueInput
+  }
+
+  /**
+   * tbPatrimonioHistorico findFirst
+   */
+  export type tbPatrimonioHistoricoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbPatrimonioHistorico
+     */
+    select?: tbPatrimonioHistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbPatrimonioHistorico
+     */
+    omit?: tbPatrimonioHistoricoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbPatrimonioHistoricoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbPatrimonioHistorico to fetch.
+     */
+    where?: tbPatrimonioHistoricoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbPatrimonioHistoricos to fetch.
+     */
+    orderBy?: tbPatrimonioHistoricoOrderByWithRelationInput | tbPatrimonioHistoricoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tbPatrimonioHistoricos.
+     */
+    cursor?: tbPatrimonioHistoricoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbPatrimonioHistoricos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbPatrimonioHistoricos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tbPatrimonioHistoricos.
+     */
+    distinct?: TbPatrimonioHistoricoScalarFieldEnum | TbPatrimonioHistoricoScalarFieldEnum[]
+  }
+
+  /**
+   * tbPatrimonioHistorico findFirstOrThrow
+   */
+  export type tbPatrimonioHistoricoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbPatrimonioHistorico
+     */
+    select?: tbPatrimonioHistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbPatrimonioHistorico
+     */
+    omit?: tbPatrimonioHistoricoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbPatrimonioHistoricoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbPatrimonioHistorico to fetch.
+     */
+    where?: tbPatrimonioHistoricoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbPatrimonioHistoricos to fetch.
+     */
+    orderBy?: tbPatrimonioHistoricoOrderByWithRelationInput | tbPatrimonioHistoricoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tbPatrimonioHistoricos.
+     */
+    cursor?: tbPatrimonioHistoricoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbPatrimonioHistoricos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbPatrimonioHistoricos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tbPatrimonioHistoricos.
+     */
+    distinct?: TbPatrimonioHistoricoScalarFieldEnum | TbPatrimonioHistoricoScalarFieldEnum[]
+  }
+
+  /**
+   * tbPatrimonioHistorico findMany
+   */
+  export type tbPatrimonioHistoricoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbPatrimonioHistorico
+     */
+    select?: tbPatrimonioHistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbPatrimonioHistorico
+     */
+    omit?: tbPatrimonioHistoricoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbPatrimonioHistoricoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbPatrimonioHistoricos to fetch.
+     */
+    where?: tbPatrimonioHistoricoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbPatrimonioHistoricos to fetch.
+     */
+    orderBy?: tbPatrimonioHistoricoOrderByWithRelationInput | tbPatrimonioHistoricoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing tbPatrimonioHistoricos.
+     */
+    cursor?: tbPatrimonioHistoricoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbPatrimonioHistoricos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbPatrimonioHistoricos.
+     */
+    skip?: number
+    distinct?: TbPatrimonioHistoricoScalarFieldEnum | TbPatrimonioHistoricoScalarFieldEnum[]
+  }
+
+  /**
+   * tbPatrimonioHistorico create
+   */
+  export type tbPatrimonioHistoricoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbPatrimonioHistorico
+     */
+    select?: tbPatrimonioHistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbPatrimonioHistorico
+     */
+    omit?: tbPatrimonioHistoricoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbPatrimonioHistoricoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a tbPatrimonioHistorico.
+     */
+    data: XOR<tbPatrimonioHistoricoCreateInput, tbPatrimonioHistoricoUncheckedCreateInput>
+  }
+
+  /**
+   * tbPatrimonioHistorico createMany
+   */
+  export type tbPatrimonioHistoricoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many tbPatrimonioHistoricos.
+     */
+    data: tbPatrimonioHistoricoCreateManyInput | tbPatrimonioHistoricoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * tbPatrimonioHistorico update
+   */
+  export type tbPatrimonioHistoricoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbPatrimonioHistorico
+     */
+    select?: tbPatrimonioHistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbPatrimonioHistorico
+     */
+    omit?: tbPatrimonioHistoricoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbPatrimonioHistoricoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a tbPatrimonioHistorico.
+     */
+    data: XOR<tbPatrimonioHistoricoUpdateInput, tbPatrimonioHistoricoUncheckedUpdateInput>
+    /**
+     * Choose, which tbPatrimonioHistorico to update.
+     */
+    where: tbPatrimonioHistoricoWhereUniqueInput
+  }
+
+  /**
+   * tbPatrimonioHistorico updateMany
+   */
+  export type tbPatrimonioHistoricoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update tbPatrimonioHistoricos.
+     */
+    data: XOR<tbPatrimonioHistoricoUpdateManyMutationInput, tbPatrimonioHistoricoUncheckedUpdateManyInput>
+    /**
+     * Filter which tbPatrimonioHistoricos to update
+     */
+    where?: tbPatrimonioHistoricoWhereInput
+    /**
+     * Limit how many tbPatrimonioHistoricos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbPatrimonioHistorico upsert
+   */
+  export type tbPatrimonioHistoricoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbPatrimonioHistorico
+     */
+    select?: tbPatrimonioHistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbPatrimonioHistorico
+     */
+    omit?: tbPatrimonioHistoricoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbPatrimonioHistoricoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the tbPatrimonioHistorico to update in case it exists.
+     */
+    where: tbPatrimonioHistoricoWhereUniqueInput
+    /**
+     * In case the tbPatrimonioHistorico found by the `where` argument doesn't exist, create a new tbPatrimonioHistorico with this data.
+     */
+    create: XOR<tbPatrimonioHistoricoCreateInput, tbPatrimonioHistoricoUncheckedCreateInput>
+    /**
+     * In case the tbPatrimonioHistorico was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<tbPatrimonioHistoricoUpdateInput, tbPatrimonioHistoricoUncheckedUpdateInput>
+  }
+
+  /**
+   * tbPatrimonioHistorico delete
+   */
+  export type tbPatrimonioHistoricoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbPatrimonioHistorico
+     */
+    select?: tbPatrimonioHistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbPatrimonioHistorico
+     */
+    omit?: tbPatrimonioHistoricoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbPatrimonioHistoricoInclude<ExtArgs> | null
+    /**
+     * Filter which tbPatrimonioHistorico to delete.
+     */
+    where: tbPatrimonioHistoricoWhereUniqueInput
+  }
+
+  /**
+   * tbPatrimonioHistorico deleteMany
+   */
+  export type tbPatrimonioHistoricoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbPatrimonioHistoricos to delete
+     */
+    where?: tbPatrimonioHistoricoWhereInput
+    /**
+     * Limit how many tbPatrimonioHistoricos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbPatrimonioHistorico.tbTipoPat
+   */
+  export type tbPatrimonioHistorico$tbTipoPatArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbTipoPat
+     */
+    select?: tbTipoPatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbTipoPat
+     */
+    omit?: tbTipoPatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbTipoPatInclude<ExtArgs> | null
+    where?: tbTipoPatWhereInput
+  }
+
+  /**
+   * tbPatrimonioHistorico.tbStatusPat
+   */
+  export type tbPatrimonioHistorico$tbStatusPatArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbStatusPat
+     */
+    select?: tbStatusPatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbStatusPat
+     */
+    omit?: tbStatusPatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbStatusPatInclude<ExtArgs> | null
+    where?: tbStatusPatWhereInput
+  }
+
+  /**
+   * tbPatrimonioHistorico.tbCCusto
+   */
+  export type tbPatrimonioHistorico$tbCCustoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbCCusto
+     */
+    select?: tbCCustoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbCCusto
+     */
+    omit?: tbCCustoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbCCustoInclude<ExtArgs> | null
+    where?: tbCCustoWhereInput
+  }
+
+  /**
+   * tbPatrimonioHistorico without action
+   */
+  export type tbPatrimonioHistoricoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbPatrimonioHistorico
+     */
+    select?: tbPatrimonioHistoricoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbPatrimonioHistorico
+     */
+    omit?: tbPatrimonioHistoricoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbPatrimonioHistoricoInclude<ExtArgs> | null
   }
 
 
@@ -19374,6 +24548,21 @@ export namespace Prisma {
   export type TbCCustoScalarFieldEnum = (typeof TbCCustoScalarFieldEnum)[keyof typeof TbCCustoScalarFieldEnum]
 
 
+  export const TbTransferenciaCustoPatrimonioScalarFieldEnum: {
+    idTransferencia: 'idTransferencia',
+    idPatrimonio: 'idPatrimonio',
+    idCustoOrigem: 'idCustoOrigem',
+    idCustoDestino: 'idCustoDestino',
+    valorTransferido: 'valorTransferido',
+    observacao: 'observacao',
+    idUserTransferencia: 'idUserTransferencia',
+    dataTransferencia: 'dataTransferencia',
+    createdAt: 'createdAt'
+  };
+
+  export type TbTransferenciaCustoPatrimonioScalarFieldEnum = (typeof TbTransferenciaCustoPatrimonioScalarFieldEnum)[keyof typeof TbTransferenciaCustoPatrimonioScalarFieldEnum]
+
+
   export const TbCadastroScalarFieldEnum: {
     idCad: 'idCad',
     dataCadPat: 'dataCadPat',
@@ -19386,6 +24575,59 @@ export namespace Prisma {
   };
 
   export type TbCadastroScalarFieldEnum = (typeof TbCadastroScalarFieldEnum)[keyof typeof TbCadastroScalarFieldEnum]
+
+
+  export const TbTransferenciaAlocacaoScalarFieldEnum: {
+    idTransferenciaAlocacao: 'idTransferenciaAlocacao',
+    idCadastro: 'idCadastro',
+    idPatrimonio: 'idPatrimonio',
+    idMatriculaFuncionario: 'idMatriculaFuncionario',
+    idMatriculaFuncionarioDestino: 'idMatriculaFuncionarioDestino',
+    statusAnterior: 'statusAnterior',
+    statusNovo: 'statusNovo',
+    observacao: 'observacao',
+    idUserTransferencia: 'idUserTransferencia',
+    dataTransferencia: 'dataTransferencia',
+    createdAt: 'createdAt'
+  };
+
+  export type TbTransferenciaAlocacaoScalarFieldEnum = (typeof TbTransferenciaAlocacaoScalarFieldEnum)[keyof typeof TbTransferenciaAlocacaoScalarFieldEnum]
+
+
+  export const TbDevolucaoScalarFieldEnum: {
+    idDevolucao: 'idDevolucao',
+    idPatrimonio: 'idPatrimonio',
+    idCadastro: 'idCadastro',
+    dataInicioDevolucao: 'dataInicioDevolucao',
+    dataFimDevolucao: 'dataFimDevolucao',
+    motivoDevolucao: 'motivoDevolucao',
+    notaFiscalDevolucao: 'notaFiscalDevolucao',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TbDevolucaoScalarFieldEnum = (typeof TbDevolucaoScalarFieldEnum)[keyof typeof TbDevolucaoScalarFieldEnum]
+
+
+  export const TbPatrimonioHistoricoScalarFieldEnum: {
+    idHistorico: 'idHistorico',
+    idPatrimonioOriginal: 'idPatrimonioOriginal',
+    idPat: 'idPat',
+    descricaoPat: 'descricaoPat',
+    valorPat: 'valorPat',
+    dataEntPat: 'dataEntPat',
+    dataSaiPat: 'dataSaiPat',
+    notaFiscalPat: 'notaFiscalPat',
+    idPat_TipoPat: 'idPat_TipoPat',
+    idPat_StatusPat: 'idPat_StatusPat',
+    idPat_CustoPat: 'idPat_CustoPat',
+    dataDevolucao: 'dataDevolucao',
+    motivoDevolucao: 'motivoDevolucao',
+    notaFiscalDevolucao: 'notaFiscalDevolucao',
+    createdAt: 'createdAt'
+  };
+
+  export type TbPatrimonioHistoricoScalarFieldEnum = (typeof TbPatrimonioHistoricoScalarFieldEnum)[keyof typeof TbPatrimonioHistoricoScalarFieldEnum]
 
 
   export const AccountScalarFieldEnum: {
@@ -19606,6 +24848,18 @@ export namespace Prisma {
   export type tbCCustoOrderByRelevanceFieldEnum = (typeof tbCCustoOrderByRelevanceFieldEnum)[keyof typeof tbCCustoOrderByRelevanceFieldEnum]
 
 
+  export const tbTransferenciaCustoPatrimonioOrderByRelevanceFieldEnum: {
+    idTransferencia: 'idTransferencia',
+    idPatrimonio: 'idPatrimonio',
+    idCustoOrigem: 'idCustoOrigem',
+    idCustoDestino: 'idCustoDestino',
+    observacao: 'observacao',
+    idUserTransferencia: 'idUserTransferencia'
+  };
+
+  export type tbTransferenciaCustoPatrimonioOrderByRelevanceFieldEnum = (typeof tbTransferenciaCustoPatrimonioOrderByRelevanceFieldEnum)[keyof typeof tbTransferenciaCustoPatrimonioOrderByRelevanceFieldEnum]
+
+
   export const tbCadastroOrderByRelevanceFieldEnum: {
     idCad: 'idCad',
     idPatCad: 'idPatCad',
@@ -19614,6 +24868,48 @@ export namespace Prisma {
   };
 
   export type tbCadastroOrderByRelevanceFieldEnum = (typeof tbCadastroOrderByRelevanceFieldEnum)[keyof typeof tbCadastroOrderByRelevanceFieldEnum]
+
+
+  export const tbTransferenciaAlocacaoOrderByRelevanceFieldEnum: {
+    idTransferenciaAlocacao: 'idTransferenciaAlocacao',
+    idCadastro: 'idCadastro',
+    idPatrimonio: 'idPatrimonio',
+    idMatriculaFuncionario: 'idMatriculaFuncionario',
+    idMatriculaFuncionarioDestino: 'idMatriculaFuncionarioDestino',
+    statusAnterior: 'statusAnterior',
+    statusNovo: 'statusNovo',
+    observacao: 'observacao',
+    idUserTransferencia: 'idUserTransferencia'
+  };
+
+  export type tbTransferenciaAlocacaoOrderByRelevanceFieldEnum = (typeof tbTransferenciaAlocacaoOrderByRelevanceFieldEnum)[keyof typeof tbTransferenciaAlocacaoOrderByRelevanceFieldEnum]
+
+
+  export const tbDevolucaoOrderByRelevanceFieldEnum: {
+    idDevolucao: 'idDevolucao',
+    idPatrimonio: 'idPatrimonio',
+    idCadastro: 'idCadastro',
+    motivoDevolucao: 'motivoDevolucao',
+    notaFiscalDevolucao: 'notaFiscalDevolucao'
+  };
+
+  export type tbDevolucaoOrderByRelevanceFieldEnum = (typeof tbDevolucaoOrderByRelevanceFieldEnum)[keyof typeof tbDevolucaoOrderByRelevanceFieldEnum]
+
+
+  export const tbPatrimonioHistoricoOrderByRelevanceFieldEnum: {
+    idHistorico: 'idHistorico',
+    idPatrimonioOriginal: 'idPatrimonioOriginal',
+    idPat: 'idPat',
+    descricaoPat: 'descricaoPat',
+    notaFiscalPat: 'notaFiscalPat',
+    idPat_TipoPat: 'idPat_TipoPat',
+    idPat_StatusPat: 'idPat_StatusPat',
+    idPat_CustoPat: 'idPat_CustoPat',
+    motivoDevolucao: 'motivoDevolucao',
+    notaFiscalDevolucao: 'notaFiscalDevolucao'
+  };
+
+  export type tbPatrimonioHistoricoOrderByRelevanceFieldEnum = (typeof tbPatrimonioHistoricoOrderByRelevanceFieldEnum)[keyof typeof tbPatrimonioHistoricoOrderByRelevanceFieldEnum]
 
 
   export const AccountOrderByRelevanceFieldEnum: {
@@ -19747,6 +25043,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"tbUser"> | Date | string
     updatedAt?: DateTimeFilter<"tbUser"> | Date | string
     tbFuncioanrio?: TbFuncionarioListRelationFilter
+    transferenciasCustoPatrimonio?: TbTransferenciaCustoPatrimonioListRelationFilter
+    transferenciasAlocacao?: TbTransferenciaAlocacaoListRelationFilter
   }
 
   export type tbUserOrderByWithRelationInput = {
@@ -19764,6 +25062,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tbFuncioanrio?: tbFuncionarioOrderByRelationAggregateInput
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioOrderByRelationAggregateInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoOrderByRelationAggregateInput
     _relevance?: tbUserOrderByRelevanceInput
   }
 
@@ -19785,6 +25085,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"tbUser"> | Date | string
     updatedAt?: DateTimeFilter<"tbUser"> | Date | string
     tbFuncioanrio?: TbFuncionarioListRelationFilter
+    transferenciasCustoPatrimonio?: TbTransferenciaCustoPatrimonioListRelationFilter
+    transferenciasAlocacao?: TbTransferenciaAlocacaoListRelationFilter
   }, "id" | "idUser" | "emailUser">
 
   export type tbUserOrderByWithAggregationInput = {
@@ -19846,6 +25148,8 @@ export namespace Prisma {
     tbCCusto?: XOR<TbCCustoNullableScalarRelationFilter, tbCCustoWhereInput> | null
     tbCadastro?: TbCadastroListRelationFilter
     tbHasLicencaFuncionario?: TbHasLicencaFuncionarioListRelationFilter
+    tbTransferenciaAlocacaoOrigem?: TbTransferenciaAlocacaoListRelationFilter
+    tbTransferenciaAlocacaoDestino?: TbTransferenciaAlocacaoListRelationFilter
   }
 
   export type tbFuncionarioOrderByWithRelationInput = {
@@ -19866,6 +25170,8 @@ export namespace Prisma {
     tbCCusto?: tbCCustoOrderByWithRelationInput
     tbCadastro?: tbCadastroOrderByRelationAggregateInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioOrderByRelationAggregateInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoOrderByRelationAggregateInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoOrderByRelationAggregateInput
     _relevance?: tbFuncionarioOrderByRelevanceInput
   }
 
@@ -19890,6 +25196,8 @@ export namespace Prisma {
     tbCCusto?: XOR<TbCCustoNullableScalarRelationFilter, tbCCustoWhereInput> | null
     tbCadastro?: TbCadastroListRelationFilter
     tbHasLicencaFuncionario?: TbHasLicencaFuncionarioListRelationFilter
+    tbTransferenciaAlocacaoOrigem?: TbTransferenciaAlocacaoListRelationFilter
+    tbTransferenciaAlocacaoDestino?: TbTransferenciaAlocacaoListRelationFilter
   }, "idF" | "idMatFun">
 
   export type tbFuncionarioOrderByWithAggregationInput = {
@@ -20138,6 +25446,10 @@ export namespace Prisma {
     tbStatusPat?: XOR<TbStatusPatNullableScalarRelationFilter, tbStatusPatWhereInput> | null
     tbCCusto?: XOR<TbCCustoNullableScalarRelationFilter, tbCCustoWhereInput> | null
     tbCadastro?: TbCadastroListRelationFilter
+    tbDevolucao?: TbDevolucaoListRelationFilter
+    tbPatrimonioHistorico?: TbPatrimonioHistoricoListRelationFilter
+    tbTransferenciaCustoPatrimonio?: TbTransferenciaCustoPatrimonioListRelationFilter
+    tbTransferenciaAlocacao?: TbTransferenciaAlocacaoListRelationFilter
   }
 
   export type tbPatrimonioOrderByWithRelationInput = {
@@ -20159,6 +25471,10 @@ export namespace Prisma {
     tbStatusPat?: tbStatusPatOrderByWithRelationInput
     tbCCusto?: tbCCustoOrderByWithRelationInput
     tbCadastro?: tbCadastroOrderByRelationAggregateInput
+    tbDevolucao?: tbDevolucaoOrderByRelationAggregateInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoOrderByRelationAggregateInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioOrderByRelationAggregateInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoOrderByRelationAggregateInput
     _relevance?: tbPatrimonioOrderByRelevanceInput
   }
 
@@ -20184,6 +25500,10 @@ export namespace Prisma {
     tbStatusPat?: XOR<TbStatusPatNullableScalarRelationFilter, tbStatusPatWhereInput> | null
     tbCCusto?: XOR<TbCCustoNullableScalarRelationFilter, tbCCustoWhereInput> | null
     tbCadastro?: TbCadastroListRelationFilter
+    tbDevolucao?: TbDevolucaoListRelationFilter
+    tbPatrimonioHistorico?: TbPatrimonioHistoricoListRelationFilter
+    tbTransferenciaCustoPatrimonio?: TbTransferenciaCustoPatrimonioListRelationFilter
+    tbTransferenciaAlocacao?: TbTransferenciaAlocacaoListRelationFilter
   }, "idP" | "idPat">
 
   export type tbPatrimonioOrderByWithAggregationInput = {
@@ -20235,12 +25555,14 @@ export namespace Prisma {
     idTipPat?: StringFilter<"tbTipoPat"> | string
     descricaoTipPat?: StringNullableFilter<"tbTipoPat"> | string | null
     tbPatrimonio?: TbPatrimonioListRelationFilter
+    tbPatrimonioHistorico?: TbPatrimonioHistoricoListRelationFilter
   }
 
   export type tbTipoPatOrderByWithRelationInput = {
     idTipPat?: SortOrder
     descricaoTipPat?: SortOrderInput | SortOrder
     tbPatrimonio?: tbPatrimonioOrderByRelationAggregateInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoOrderByRelationAggregateInput
     _relevance?: tbTipoPatOrderByRelevanceInput
   }
 
@@ -20251,6 +25573,7 @@ export namespace Prisma {
     NOT?: tbTipoPatWhereInput | tbTipoPatWhereInput[]
     descricaoTipPat?: StringNullableFilter<"tbTipoPat"> | string | null
     tbPatrimonio?: TbPatrimonioListRelationFilter
+    tbPatrimonioHistorico?: TbPatrimonioHistoricoListRelationFilter
   }, "idTipPat">
 
   export type tbTipoPatOrderByWithAggregationInput = {
@@ -20277,6 +25600,7 @@ export namespace Prisma {
     descricaoStatPat?: StringFilter<"tbStatusPat"> | string
     tbPatrimonio?: TbPatrimonioListRelationFilter
     tbCadastro?: TbCadastroListRelationFilter
+    tbPatrimonioHistorico?: TbPatrimonioHistoricoListRelationFilter
   }
 
   export type tbStatusPatOrderByWithRelationInput = {
@@ -20284,6 +25608,7 @@ export namespace Prisma {
     descricaoStatPat?: SortOrder
     tbPatrimonio?: tbPatrimonioOrderByRelationAggregateInput
     tbCadastro?: tbCadastroOrderByRelationAggregateInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoOrderByRelationAggregateInput
     _relevance?: tbStatusPatOrderByRelevanceInput
   }
 
@@ -20295,6 +25620,7 @@ export namespace Prisma {
     descricaoStatPat?: StringFilter<"tbStatusPat"> | string
     tbPatrimonio?: TbPatrimonioListRelationFilter
     tbCadastro?: TbCadastroListRelationFilter
+    tbPatrimonioHistorico?: TbPatrimonioHistoricoListRelationFilter
   }, "idStatusPat">
 
   export type tbStatusPatOrderByWithAggregationInput = {
@@ -20380,6 +25706,9 @@ export namespace Prisma {
     tbEmpresa?: XOR<TbEmpresaNullableScalarRelationFilter, tbEmpresaWhereInput> | null
     tbPatrimonio?: TbPatrimonioListRelationFilter
     tbFuncionario?: TbFuncionarioListRelationFilter
+    tbPatrimonioHistorico?: TbPatrimonioHistoricoListRelationFilter
+    transferenciasOrigem?: TbTransferenciaCustoPatrimonioListRelationFilter
+    transferenciasDestino?: TbTransferenciaCustoPatrimonioListRelationFilter
   }
 
   export type tbCCustoOrderByWithRelationInput = {
@@ -20390,6 +25719,9 @@ export namespace Prisma {
     tbEmpresa?: tbEmpresaOrderByWithRelationInput
     tbPatrimonio?: tbPatrimonioOrderByRelationAggregateInput
     tbFuncionario?: tbFuncionarioOrderByRelationAggregateInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoOrderByRelationAggregateInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioOrderByRelationAggregateInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioOrderByRelationAggregateInput
     _relevance?: tbCCustoOrderByRelevanceInput
   }
 
@@ -20404,6 +25736,9 @@ export namespace Prisma {
     tbEmpresa?: XOR<TbEmpresaNullableScalarRelationFilter, tbEmpresaWhereInput> | null
     tbPatrimonio?: TbPatrimonioListRelationFilter
     tbFuncionario?: TbFuncionarioListRelationFilter
+    tbPatrimonioHistorico?: TbPatrimonioHistoricoListRelationFilter
+    transferenciasOrigem?: TbTransferenciaCustoPatrimonioListRelationFilter
+    transferenciasDestino?: TbTransferenciaCustoPatrimonioListRelationFilter
   }, "idCCusto">
 
   export type tbCCustoOrderByWithAggregationInput = {
@@ -20426,6 +25761,93 @@ export namespace Prisma {
     idEmp_Custo?: StringNullableWithAggregatesFilter<"tbCCusto"> | string | null
   }
 
+  export type tbTransferenciaCustoPatrimonioWhereInput = {
+    AND?: tbTransferenciaCustoPatrimonioWhereInput | tbTransferenciaCustoPatrimonioWhereInput[]
+    OR?: tbTransferenciaCustoPatrimonioWhereInput[]
+    NOT?: tbTransferenciaCustoPatrimonioWhereInput | tbTransferenciaCustoPatrimonioWhereInput[]
+    idTransferencia?: StringFilter<"tbTransferenciaCustoPatrimonio"> | string
+    idPatrimonio?: StringFilter<"tbTransferenciaCustoPatrimonio"> | string
+    idCustoOrigem?: StringNullableFilter<"tbTransferenciaCustoPatrimonio"> | string | null
+    idCustoDestino?: StringFilter<"tbTransferenciaCustoPatrimonio"> | string
+    valorTransferido?: FloatNullableFilter<"tbTransferenciaCustoPatrimonio"> | number | null
+    observacao?: StringNullableFilter<"tbTransferenciaCustoPatrimonio"> | string | null
+    idUserTransferencia?: StringNullableFilter<"tbTransferenciaCustoPatrimonio"> | string | null
+    dataTransferencia?: DateTimeFilter<"tbTransferenciaCustoPatrimonio"> | Date | string
+    createdAt?: DateTimeFilter<"tbTransferenciaCustoPatrimonio"> | Date | string
+    tbPatrimonio?: XOR<TbPatrimonioScalarRelationFilter, tbPatrimonioWhereInput>
+    custoOrigem?: XOR<TbCCustoNullableScalarRelationFilter, tbCCustoWhereInput> | null
+    custoDestino?: XOR<TbCCustoScalarRelationFilter, tbCCustoWhereInput>
+    tbUser?: XOR<TbUserNullableScalarRelationFilter, tbUserWhereInput> | null
+  }
+
+  export type tbTransferenciaCustoPatrimonioOrderByWithRelationInput = {
+    idTransferencia?: SortOrder
+    idPatrimonio?: SortOrder
+    idCustoOrigem?: SortOrderInput | SortOrder
+    idCustoDestino?: SortOrder
+    valorTransferido?: SortOrderInput | SortOrder
+    observacao?: SortOrderInput | SortOrder
+    idUserTransferencia?: SortOrderInput | SortOrder
+    dataTransferencia?: SortOrder
+    createdAt?: SortOrder
+    tbPatrimonio?: tbPatrimonioOrderByWithRelationInput
+    custoOrigem?: tbCCustoOrderByWithRelationInput
+    custoDestino?: tbCCustoOrderByWithRelationInput
+    tbUser?: tbUserOrderByWithRelationInput
+    _relevance?: tbTransferenciaCustoPatrimonioOrderByRelevanceInput
+  }
+
+  export type tbTransferenciaCustoPatrimonioWhereUniqueInput = Prisma.AtLeast<{
+    idTransferencia?: string
+    AND?: tbTransferenciaCustoPatrimonioWhereInput | tbTransferenciaCustoPatrimonioWhereInput[]
+    OR?: tbTransferenciaCustoPatrimonioWhereInput[]
+    NOT?: tbTransferenciaCustoPatrimonioWhereInput | tbTransferenciaCustoPatrimonioWhereInput[]
+    idPatrimonio?: StringFilter<"tbTransferenciaCustoPatrimonio"> | string
+    idCustoOrigem?: StringNullableFilter<"tbTransferenciaCustoPatrimonio"> | string | null
+    idCustoDestino?: StringFilter<"tbTransferenciaCustoPatrimonio"> | string
+    valorTransferido?: FloatNullableFilter<"tbTransferenciaCustoPatrimonio"> | number | null
+    observacao?: StringNullableFilter<"tbTransferenciaCustoPatrimonio"> | string | null
+    idUserTransferencia?: StringNullableFilter<"tbTransferenciaCustoPatrimonio"> | string | null
+    dataTransferencia?: DateTimeFilter<"tbTransferenciaCustoPatrimonio"> | Date | string
+    createdAt?: DateTimeFilter<"tbTransferenciaCustoPatrimonio"> | Date | string
+    tbPatrimonio?: XOR<TbPatrimonioScalarRelationFilter, tbPatrimonioWhereInput>
+    custoOrigem?: XOR<TbCCustoNullableScalarRelationFilter, tbCCustoWhereInput> | null
+    custoDestino?: XOR<TbCCustoScalarRelationFilter, tbCCustoWhereInput>
+    tbUser?: XOR<TbUserNullableScalarRelationFilter, tbUserWhereInput> | null
+  }, "idTransferencia">
+
+  export type tbTransferenciaCustoPatrimonioOrderByWithAggregationInput = {
+    idTransferencia?: SortOrder
+    idPatrimonio?: SortOrder
+    idCustoOrigem?: SortOrderInput | SortOrder
+    idCustoDestino?: SortOrder
+    valorTransferido?: SortOrderInput | SortOrder
+    observacao?: SortOrderInput | SortOrder
+    idUserTransferencia?: SortOrderInput | SortOrder
+    dataTransferencia?: SortOrder
+    createdAt?: SortOrder
+    _count?: tbTransferenciaCustoPatrimonioCountOrderByAggregateInput
+    _avg?: tbTransferenciaCustoPatrimonioAvgOrderByAggregateInput
+    _max?: tbTransferenciaCustoPatrimonioMaxOrderByAggregateInput
+    _min?: tbTransferenciaCustoPatrimonioMinOrderByAggregateInput
+    _sum?: tbTransferenciaCustoPatrimonioSumOrderByAggregateInput
+  }
+
+  export type tbTransferenciaCustoPatrimonioScalarWhereWithAggregatesInput = {
+    AND?: tbTransferenciaCustoPatrimonioScalarWhereWithAggregatesInput | tbTransferenciaCustoPatrimonioScalarWhereWithAggregatesInput[]
+    OR?: tbTransferenciaCustoPatrimonioScalarWhereWithAggregatesInput[]
+    NOT?: tbTransferenciaCustoPatrimonioScalarWhereWithAggregatesInput | tbTransferenciaCustoPatrimonioScalarWhereWithAggregatesInput[]
+    idTransferencia?: StringWithAggregatesFilter<"tbTransferenciaCustoPatrimonio"> | string
+    idPatrimonio?: StringWithAggregatesFilter<"tbTransferenciaCustoPatrimonio"> | string
+    idCustoOrigem?: StringNullableWithAggregatesFilter<"tbTransferenciaCustoPatrimonio"> | string | null
+    idCustoDestino?: StringWithAggregatesFilter<"tbTransferenciaCustoPatrimonio"> | string
+    valorTransferido?: FloatNullableWithAggregatesFilter<"tbTransferenciaCustoPatrimonio"> | number | null
+    observacao?: StringNullableWithAggregatesFilter<"tbTransferenciaCustoPatrimonio"> | string | null
+    idUserTransferencia?: StringNullableWithAggregatesFilter<"tbTransferenciaCustoPatrimonio"> | string | null
+    dataTransferencia?: DateTimeWithAggregatesFilter<"tbTransferenciaCustoPatrimonio"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"tbTransferenciaCustoPatrimonio"> | Date | string
+  }
+
   export type tbCadastroWhereInput = {
     AND?: tbCadastroWhereInput | tbCadastroWhereInput[]
     OR?: tbCadastroWhereInput[]
@@ -20441,6 +25863,8 @@ export namespace Prisma {
     tbPatrimonio?: XOR<TbPatrimonioNullableScalarRelationFilter, tbPatrimonioWhereInput> | null
     tbFuncionario?: XOR<TbFuncionarioNullableScalarRelationFilter, tbFuncionarioWhereInput> | null
     tbStatusPat?: XOR<TbStatusPatNullableScalarRelationFilter, tbStatusPatWhereInput> | null
+    tbDevolucao?: TbDevolucaoListRelationFilter
+    tbTransferenciaAlocacao?: TbTransferenciaAlocacaoListRelationFilter
   }
 
   export type tbCadastroOrderByWithRelationInput = {
@@ -20455,6 +25879,8 @@ export namespace Prisma {
     tbPatrimonio?: tbPatrimonioOrderByWithRelationInput
     tbFuncionario?: tbFuncionarioOrderByWithRelationInput
     tbStatusPat?: tbStatusPatOrderByWithRelationInput
+    tbDevolucao?: tbDevolucaoOrderByRelationAggregateInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoOrderByRelationAggregateInput
     _relevance?: tbCadastroOrderByRelevanceInput
   }
 
@@ -20473,6 +25899,8 @@ export namespace Prisma {
     tbPatrimonio?: XOR<TbPatrimonioNullableScalarRelationFilter, tbPatrimonioWhereInput> | null
     tbFuncionario?: XOR<TbFuncionarioNullableScalarRelationFilter, tbFuncionarioWhereInput> | null
     tbStatusPat?: XOR<TbStatusPatNullableScalarRelationFilter, tbStatusPatWhereInput> | null
+    tbDevolucao?: TbDevolucaoListRelationFilter
+    tbTransferenciaAlocacao?: TbTransferenciaAlocacaoListRelationFilter
   }, "idCad">
 
   export type tbCadastroOrderByWithAggregationInput = {
@@ -20501,6 +25929,300 @@ export namespace Prisma {
     idPatCad?: StringNullableWithAggregatesFilter<"tbCadastro"> | string | null
     idMatFunCad?: StringNullableWithAggregatesFilter<"tbCadastro"> | string | null
     idStatusPatCad?: StringWithAggregatesFilter<"tbCadastro"> | string
+  }
+
+  export type tbTransferenciaAlocacaoWhereInput = {
+    AND?: tbTransferenciaAlocacaoWhereInput | tbTransferenciaAlocacaoWhereInput[]
+    OR?: tbTransferenciaAlocacaoWhereInput[]
+    NOT?: tbTransferenciaAlocacaoWhereInput | tbTransferenciaAlocacaoWhereInput[]
+    idTransferenciaAlocacao?: StringFilter<"tbTransferenciaAlocacao"> | string
+    idCadastro?: StringFilter<"tbTransferenciaAlocacao"> | string
+    idPatrimonio?: StringFilter<"tbTransferenciaAlocacao"> | string
+    idMatriculaFuncionario?: StringNullableFilter<"tbTransferenciaAlocacao"> | string | null
+    idMatriculaFuncionarioDestino?: StringNullableFilter<"tbTransferenciaAlocacao"> | string | null
+    statusAnterior?: StringNullableFilter<"tbTransferenciaAlocacao"> | string | null
+    statusNovo?: StringFilter<"tbTransferenciaAlocacao"> | string
+    observacao?: StringNullableFilter<"tbTransferenciaAlocacao"> | string | null
+    idUserTransferencia?: StringNullableFilter<"tbTransferenciaAlocacao"> | string | null
+    dataTransferencia?: DateTimeFilter<"tbTransferenciaAlocacao"> | Date | string
+    createdAt?: DateTimeFilter<"tbTransferenciaAlocacao"> | Date | string
+    tbCadastro?: XOR<TbCadastroScalarRelationFilter, tbCadastroWhereInput>
+    tbPatrimonio?: XOR<TbPatrimonioScalarRelationFilter, tbPatrimonioWhereInput>
+    tbFuncionario?: XOR<TbFuncionarioNullableScalarRelationFilter, tbFuncionarioWhereInput> | null
+    tbFuncionarioDestino?: XOR<TbFuncionarioNullableScalarRelationFilter, tbFuncionarioWhereInput> | null
+    tbUser?: XOR<TbUserNullableScalarRelationFilter, tbUserWhereInput> | null
+  }
+
+  export type tbTransferenciaAlocacaoOrderByWithRelationInput = {
+    idTransferenciaAlocacao?: SortOrder
+    idCadastro?: SortOrder
+    idPatrimonio?: SortOrder
+    idMatriculaFuncionario?: SortOrderInput | SortOrder
+    idMatriculaFuncionarioDestino?: SortOrderInput | SortOrder
+    statusAnterior?: SortOrderInput | SortOrder
+    statusNovo?: SortOrder
+    observacao?: SortOrderInput | SortOrder
+    idUserTransferencia?: SortOrderInput | SortOrder
+    dataTransferencia?: SortOrder
+    createdAt?: SortOrder
+    tbCadastro?: tbCadastroOrderByWithRelationInput
+    tbPatrimonio?: tbPatrimonioOrderByWithRelationInput
+    tbFuncionario?: tbFuncionarioOrderByWithRelationInput
+    tbFuncionarioDestino?: tbFuncionarioOrderByWithRelationInput
+    tbUser?: tbUserOrderByWithRelationInput
+    _relevance?: tbTransferenciaAlocacaoOrderByRelevanceInput
+  }
+
+  export type tbTransferenciaAlocacaoWhereUniqueInput = Prisma.AtLeast<{
+    idTransferenciaAlocacao?: string
+    AND?: tbTransferenciaAlocacaoWhereInput | tbTransferenciaAlocacaoWhereInput[]
+    OR?: tbTransferenciaAlocacaoWhereInput[]
+    NOT?: tbTransferenciaAlocacaoWhereInput | tbTransferenciaAlocacaoWhereInput[]
+    idCadastro?: StringFilter<"tbTransferenciaAlocacao"> | string
+    idPatrimonio?: StringFilter<"tbTransferenciaAlocacao"> | string
+    idMatriculaFuncionario?: StringNullableFilter<"tbTransferenciaAlocacao"> | string | null
+    idMatriculaFuncionarioDestino?: StringNullableFilter<"tbTransferenciaAlocacao"> | string | null
+    statusAnterior?: StringNullableFilter<"tbTransferenciaAlocacao"> | string | null
+    statusNovo?: StringFilter<"tbTransferenciaAlocacao"> | string
+    observacao?: StringNullableFilter<"tbTransferenciaAlocacao"> | string | null
+    idUserTransferencia?: StringNullableFilter<"tbTransferenciaAlocacao"> | string | null
+    dataTransferencia?: DateTimeFilter<"tbTransferenciaAlocacao"> | Date | string
+    createdAt?: DateTimeFilter<"tbTransferenciaAlocacao"> | Date | string
+    tbCadastro?: XOR<TbCadastroScalarRelationFilter, tbCadastroWhereInput>
+    tbPatrimonio?: XOR<TbPatrimonioScalarRelationFilter, tbPatrimonioWhereInput>
+    tbFuncionario?: XOR<TbFuncionarioNullableScalarRelationFilter, tbFuncionarioWhereInput> | null
+    tbFuncionarioDestino?: XOR<TbFuncionarioNullableScalarRelationFilter, tbFuncionarioWhereInput> | null
+    tbUser?: XOR<TbUserNullableScalarRelationFilter, tbUserWhereInput> | null
+  }, "idTransferenciaAlocacao">
+
+  export type tbTransferenciaAlocacaoOrderByWithAggregationInput = {
+    idTransferenciaAlocacao?: SortOrder
+    idCadastro?: SortOrder
+    idPatrimonio?: SortOrder
+    idMatriculaFuncionario?: SortOrderInput | SortOrder
+    idMatriculaFuncionarioDestino?: SortOrderInput | SortOrder
+    statusAnterior?: SortOrderInput | SortOrder
+    statusNovo?: SortOrder
+    observacao?: SortOrderInput | SortOrder
+    idUserTransferencia?: SortOrderInput | SortOrder
+    dataTransferencia?: SortOrder
+    createdAt?: SortOrder
+    _count?: tbTransferenciaAlocacaoCountOrderByAggregateInput
+    _max?: tbTransferenciaAlocacaoMaxOrderByAggregateInput
+    _min?: tbTransferenciaAlocacaoMinOrderByAggregateInput
+  }
+
+  export type tbTransferenciaAlocacaoScalarWhereWithAggregatesInput = {
+    AND?: tbTransferenciaAlocacaoScalarWhereWithAggregatesInput | tbTransferenciaAlocacaoScalarWhereWithAggregatesInput[]
+    OR?: tbTransferenciaAlocacaoScalarWhereWithAggregatesInput[]
+    NOT?: tbTransferenciaAlocacaoScalarWhereWithAggregatesInput | tbTransferenciaAlocacaoScalarWhereWithAggregatesInput[]
+    idTransferenciaAlocacao?: StringWithAggregatesFilter<"tbTransferenciaAlocacao"> | string
+    idCadastro?: StringWithAggregatesFilter<"tbTransferenciaAlocacao"> | string
+    idPatrimonio?: StringWithAggregatesFilter<"tbTransferenciaAlocacao"> | string
+    idMatriculaFuncionario?: StringNullableWithAggregatesFilter<"tbTransferenciaAlocacao"> | string | null
+    idMatriculaFuncionarioDestino?: StringNullableWithAggregatesFilter<"tbTransferenciaAlocacao"> | string | null
+    statusAnterior?: StringNullableWithAggregatesFilter<"tbTransferenciaAlocacao"> | string | null
+    statusNovo?: StringWithAggregatesFilter<"tbTransferenciaAlocacao"> | string
+    observacao?: StringNullableWithAggregatesFilter<"tbTransferenciaAlocacao"> | string | null
+    idUserTransferencia?: StringNullableWithAggregatesFilter<"tbTransferenciaAlocacao"> | string | null
+    dataTransferencia?: DateTimeWithAggregatesFilter<"tbTransferenciaAlocacao"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"tbTransferenciaAlocacao"> | Date | string
+  }
+
+  export type tbDevolucaoWhereInput = {
+    AND?: tbDevolucaoWhereInput | tbDevolucaoWhereInput[]
+    OR?: tbDevolucaoWhereInput[]
+    NOT?: tbDevolucaoWhereInput | tbDevolucaoWhereInput[]
+    idDevolucao?: StringFilter<"tbDevolucao"> | string
+    idPatrimonio?: StringFilter<"tbDevolucao"> | string
+    idCadastro?: StringNullableFilter<"tbDevolucao"> | string | null
+    dataInicioDevolucao?: DateTimeFilter<"tbDevolucao"> | Date | string
+    dataFimDevolucao?: DateTimeNullableFilter<"tbDevolucao"> | Date | string | null
+    motivoDevolucao?: StringNullableFilter<"tbDevolucao"> | string | null
+    notaFiscalDevolucao?: StringNullableFilter<"tbDevolucao"> | string | null
+    createdAt?: DateTimeFilter<"tbDevolucao"> | Date | string
+    updatedAt?: DateTimeFilter<"tbDevolucao"> | Date | string
+    tbPatrimonio?: XOR<TbPatrimonioScalarRelationFilter, tbPatrimonioWhereInput>
+    tbCadastro?: XOR<TbCadastroNullableScalarRelationFilter, tbCadastroWhereInput> | null
+  }
+
+  export type tbDevolucaoOrderByWithRelationInput = {
+    idDevolucao?: SortOrder
+    idPatrimonio?: SortOrder
+    idCadastro?: SortOrderInput | SortOrder
+    dataInicioDevolucao?: SortOrder
+    dataFimDevolucao?: SortOrderInput | SortOrder
+    motivoDevolucao?: SortOrderInput | SortOrder
+    notaFiscalDevolucao?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tbPatrimonio?: tbPatrimonioOrderByWithRelationInput
+    tbCadastro?: tbCadastroOrderByWithRelationInput
+    _relevance?: tbDevolucaoOrderByRelevanceInput
+  }
+
+  export type tbDevolucaoWhereUniqueInput = Prisma.AtLeast<{
+    idDevolucao?: string
+    AND?: tbDevolucaoWhereInput | tbDevolucaoWhereInput[]
+    OR?: tbDevolucaoWhereInput[]
+    NOT?: tbDevolucaoWhereInput | tbDevolucaoWhereInput[]
+    idPatrimonio?: StringFilter<"tbDevolucao"> | string
+    idCadastro?: StringNullableFilter<"tbDevolucao"> | string | null
+    dataInicioDevolucao?: DateTimeFilter<"tbDevolucao"> | Date | string
+    dataFimDevolucao?: DateTimeNullableFilter<"tbDevolucao"> | Date | string | null
+    motivoDevolucao?: StringNullableFilter<"tbDevolucao"> | string | null
+    notaFiscalDevolucao?: StringNullableFilter<"tbDevolucao"> | string | null
+    createdAt?: DateTimeFilter<"tbDevolucao"> | Date | string
+    updatedAt?: DateTimeFilter<"tbDevolucao"> | Date | string
+    tbPatrimonio?: XOR<TbPatrimonioScalarRelationFilter, tbPatrimonioWhereInput>
+    tbCadastro?: XOR<TbCadastroNullableScalarRelationFilter, tbCadastroWhereInput> | null
+  }, "idDevolucao">
+
+  export type tbDevolucaoOrderByWithAggregationInput = {
+    idDevolucao?: SortOrder
+    idPatrimonio?: SortOrder
+    idCadastro?: SortOrderInput | SortOrder
+    dataInicioDevolucao?: SortOrder
+    dataFimDevolucao?: SortOrderInput | SortOrder
+    motivoDevolucao?: SortOrderInput | SortOrder
+    notaFiscalDevolucao?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: tbDevolucaoCountOrderByAggregateInput
+    _max?: tbDevolucaoMaxOrderByAggregateInput
+    _min?: tbDevolucaoMinOrderByAggregateInput
+  }
+
+  export type tbDevolucaoScalarWhereWithAggregatesInput = {
+    AND?: tbDevolucaoScalarWhereWithAggregatesInput | tbDevolucaoScalarWhereWithAggregatesInput[]
+    OR?: tbDevolucaoScalarWhereWithAggregatesInput[]
+    NOT?: tbDevolucaoScalarWhereWithAggregatesInput | tbDevolucaoScalarWhereWithAggregatesInput[]
+    idDevolucao?: StringWithAggregatesFilter<"tbDevolucao"> | string
+    idPatrimonio?: StringWithAggregatesFilter<"tbDevolucao"> | string
+    idCadastro?: StringNullableWithAggregatesFilter<"tbDevolucao"> | string | null
+    dataInicioDevolucao?: DateTimeWithAggregatesFilter<"tbDevolucao"> | Date | string
+    dataFimDevolucao?: DateTimeNullableWithAggregatesFilter<"tbDevolucao"> | Date | string | null
+    motivoDevolucao?: StringNullableWithAggregatesFilter<"tbDevolucao"> | string | null
+    notaFiscalDevolucao?: StringNullableWithAggregatesFilter<"tbDevolucao"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"tbDevolucao"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"tbDevolucao"> | Date | string
+  }
+
+  export type tbPatrimonioHistoricoWhereInput = {
+    AND?: tbPatrimonioHistoricoWhereInput | tbPatrimonioHistoricoWhereInput[]
+    OR?: tbPatrimonioHistoricoWhereInput[]
+    NOT?: tbPatrimonioHistoricoWhereInput | tbPatrimonioHistoricoWhereInput[]
+    idHistorico?: StringFilter<"tbPatrimonioHistorico"> | string
+    idPatrimonioOriginal?: StringFilter<"tbPatrimonioHistorico"> | string
+    idPat?: StringFilter<"tbPatrimonioHistorico"> | string
+    descricaoPat?: StringFilter<"tbPatrimonioHistorico"> | string
+    valorPat?: FloatFilter<"tbPatrimonioHistorico"> | number
+    dataEntPat?: DateTimeFilter<"tbPatrimonioHistorico"> | Date | string
+    dataSaiPat?: DateTimeNullableFilter<"tbPatrimonioHistorico"> | Date | string | null
+    notaFiscalPat?: StringNullableFilter<"tbPatrimonioHistorico"> | string | null
+    idPat_TipoPat?: StringNullableFilter<"tbPatrimonioHistorico"> | string | null
+    idPat_StatusPat?: StringNullableFilter<"tbPatrimonioHistorico"> | string | null
+    idPat_CustoPat?: StringNullableFilter<"tbPatrimonioHistorico"> | string | null
+    dataDevolucao?: DateTimeNullableFilter<"tbPatrimonioHistorico"> | Date | string | null
+    motivoDevolucao?: StringNullableFilter<"tbPatrimonioHistorico"> | string | null
+    notaFiscalDevolucao?: StringNullableFilter<"tbPatrimonioHistorico"> | string | null
+    createdAt?: DateTimeFilter<"tbPatrimonioHistorico"> | Date | string
+    tbPatrimonio?: XOR<TbPatrimonioScalarRelationFilter, tbPatrimonioWhereInput>
+    tbTipoPat?: XOR<TbTipoPatNullableScalarRelationFilter, tbTipoPatWhereInput> | null
+    tbStatusPat?: XOR<TbStatusPatNullableScalarRelationFilter, tbStatusPatWhereInput> | null
+    tbCCusto?: XOR<TbCCustoNullableScalarRelationFilter, tbCCustoWhereInput> | null
+  }
+
+  export type tbPatrimonioHistoricoOrderByWithRelationInput = {
+    idHistorico?: SortOrder
+    idPatrimonioOriginal?: SortOrder
+    idPat?: SortOrder
+    descricaoPat?: SortOrder
+    valorPat?: SortOrder
+    dataEntPat?: SortOrder
+    dataSaiPat?: SortOrderInput | SortOrder
+    notaFiscalPat?: SortOrderInput | SortOrder
+    idPat_TipoPat?: SortOrderInput | SortOrder
+    idPat_StatusPat?: SortOrderInput | SortOrder
+    idPat_CustoPat?: SortOrderInput | SortOrder
+    dataDevolucao?: SortOrderInput | SortOrder
+    motivoDevolucao?: SortOrderInput | SortOrder
+    notaFiscalDevolucao?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    tbPatrimonio?: tbPatrimonioOrderByWithRelationInput
+    tbTipoPat?: tbTipoPatOrderByWithRelationInput
+    tbStatusPat?: tbStatusPatOrderByWithRelationInput
+    tbCCusto?: tbCCustoOrderByWithRelationInput
+    _relevance?: tbPatrimonioHistoricoOrderByRelevanceInput
+  }
+
+  export type tbPatrimonioHistoricoWhereUniqueInput = Prisma.AtLeast<{
+    idHistorico?: string
+    AND?: tbPatrimonioHistoricoWhereInput | tbPatrimonioHistoricoWhereInput[]
+    OR?: tbPatrimonioHistoricoWhereInput[]
+    NOT?: tbPatrimonioHistoricoWhereInput | tbPatrimonioHistoricoWhereInput[]
+    idPatrimonioOriginal?: StringFilter<"tbPatrimonioHistorico"> | string
+    idPat?: StringFilter<"tbPatrimonioHistorico"> | string
+    descricaoPat?: StringFilter<"tbPatrimonioHistorico"> | string
+    valorPat?: FloatFilter<"tbPatrimonioHistorico"> | number
+    dataEntPat?: DateTimeFilter<"tbPatrimonioHistorico"> | Date | string
+    dataSaiPat?: DateTimeNullableFilter<"tbPatrimonioHistorico"> | Date | string | null
+    notaFiscalPat?: StringNullableFilter<"tbPatrimonioHistorico"> | string | null
+    idPat_TipoPat?: StringNullableFilter<"tbPatrimonioHistorico"> | string | null
+    idPat_StatusPat?: StringNullableFilter<"tbPatrimonioHistorico"> | string | null
+    idPat_CustoPat?: StringNullableFilter<"tbPatrimonioHistorico"> | string | null
+    dataDevolucao?: DateTimeNullableFilter<"tbPatrimonioHistorico"> | Date | string | null
+    motivoDevolucao?: StringNullableFilter<"tbPatrimonioHistorico"> | string | null
+    notaFiscalDevolucao?: StringNullableFilter<"tbPatrimonioHistorico"> | string | null
+    createdAt?: DateTimeFilter<"tbPatrimonioHistorico"> | Date | string
+    tbPatrimonio?: XOR<TbPatrimonioScalarRelationFilter, tbPatrimonioWhereInput>
+    tbTipoPat?: XOR<TbTipoPatNullableScalarRelationFilter, tbTipoPatWhereInput> | null
+    tbStatusPat?: XOR<TbStatusPatNullableScalarRelationFilter, tbStatusPatWhereInput> | null
+    tbCCusto?: XOR<TbCCustoNullableScalarRelationFilter, tbCCustoWhereInput> | null
+  }, "idHistorico">
+
+  export type tbPatrimonioHistoricoOrderByWithAggregationInput = {
+    idHistorico?: SortOrder
+    idPatrimonioOriginal?: SortOrder
+    idPat?: SortOrder
+    descricaoPat?: SortOrder
+    valorPat?: SortOrder
+    dataEntPat?: SortOrder
+    dataSaiPat?: SortOrderInput | SortOrder
+    notaFiscalPat?: SortOrderInput | SortOrder
+    idPat_TipoPat?: SortOrderInput | SortOrder
+    idPat_StatusPat?: SortOrderInput | SortOrder
+    idPat_CustoPat?: SortOrderInput | SortOrder
+    dataDevolucao?: SortOrderInput | SortOrder
+    motivoDevolucao?: SortOrderInput | SortOrder
+    notaFiscalDevolucao?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: tbPatrimonioHistoricoCountOrderByAggregateInput
+    _avg?: tbPatrimonioHistoricoAvgOrderByAggregateInput
+    _max?: tbPatrimonioHistoricoMaxOrderByAggregateInput
+    _min?: tbPatrimonioHistoricoMinOrderByAggregateInput
+    _sum?: tbPatrimonioHistoricoSumOrderByAggregateInput
+  }
+
+  export type tbPatrimonioHistoricoScalarWhereWithAggregatesInput = {
+    AND?: tbPatrimonioHistoricoScalarWhereWithAggregatesInput | tbPatrimonioHistoricoScalarWhereWithAggregatesInput[]
+    OR?: tbPatrimonioHistoricoScalarWhereWithAggregatesInput[]
+    NOT?: tbPatrimonioHistoricoScalarWhereWithAggregatesInput | tbPatrimonioHistoricoScalarWhereWithAggregatesInput[]
+    idHistorico?: StringWithAggregatesFilter<"tbPatrimonioHistorico"> | string
+    idPatrimonioOriginal?: StringWithAggregatesFilter<"tbPatrimonioHistorico"> | string
+    idPat?: StringWithAggregatesFilter<"tbPatrimonioHistorico"> | string
+    descricaoPat?: StringWithAggregatesFilter<"tbPatrimonioHistorico"> | string
+    valorPat?: FloatWithAggregatesFilter<"tbPatrimonioHistorico"> | number
+    dataEntPat?: DateTimeWithAggregatesFilter<"tbPatrimonioHistorico"> | Date | string
+    dataSaiPat?: DateTimeNullableWithAggregatesFilter<"tbPatrimonioHistorico"> | Date | string | null
+    notaFiscalPat?: StringNullableWithAggregatesFilter<"tbPatrimonioHistorico"> | string | null
+    idPat_TipoPat?: StringNullableWithAggregatesFilter<"tbPatrimonioHistorico"> | string | null
+    idPat_StatusPat?: StringNullableWithAggregatesFilter<"tbPatrimonioHistorico"> | string | null
+    idPat_CustoPat?: StringNullableWithAggregatesFilter<"tbPatrimonioHistorico"> | string | null
+    dataDevolucao?: DateTimeNullableWithAggregatesFilter<"tbPatrimonioHistorico"> | Date | string | null
+    motivoDevolucao?: StringNullableWithAggregatesFilter<"tbPatrimonioHistorico"> | string | null
+    notaFiscalDevolucao?: StringNullableWithAggregatesFilter<"tbPatrimonioHistorico"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"tbPatrimonioHistorico"> | Date | string
   }
 
   export type AccountWhereInput = {
@@ -20839,6 +26561,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tbFuncioanrio?: tbFuncionarioCreateNestedManyWithoutTbUserInput
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbUserInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserUncheckedCreateInput = {
@@ -20856,6 +26580,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tbFuncioanrio?: tbFuncionarioUncheckedCreateNestedManyWithoutTbUserInput
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserUpdateInput = {
@@ -20873,6 +26599,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tbFuncioanrio?: tbFuncionarioUpdateManyWithoutTbUserNestedInput
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbUserNestedInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbUserUncheckedUpdateInput = {
@@ -20890,6 +26618,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tbFuncioanrio?: tbFuncionarioUncheckedUpdateManyWithoutTbUserNestedInput
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbUserCreateManyInput = {
@@ -20954,6 +26684,8 @@ export namespace Prisma {
     tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbFuncionarioDestinoInput
   }
 
   export type tbFuncionarioUncheckedCreateInput = {
@@ -20970,6 +26702,8 @@ export namespace Prisma {
     idCustoFun?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbFuncionarioDestinoInput
   }
 
   export type tbFuncionarioUpdateInput = {
@@ -20986,6 +26720,8 @@ export namespace Prisma {
     tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUpdateManyWithoutTbFuncionarioDestinoNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateInput = {
@@ -21002,6 +26738,8 @@ export namespace Prisma {
     idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioDestinoNestedInput
   }
 
   export type tbFuncionarioCreateManyInput = {
@@ -21234,6 +26972,10 @@ export namespace Prisma {
     tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbPatrimonioInput
     tbCCusto?: tbCCustoCreateNestedOneWithoutTbPatrimonioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbPatrimonioInput
+    tbDevolucao?: tbDevolucaoCreateNestedManyWithoutTbPatrimonioInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUncheckedCreateInput = {
@@ -21252,6 +26994,10 @@ export namespace Prisma {
     idPat_StatusPat?: string | null
     idPat_CustoPat?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbDevolucao?: tbDevolucaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUpdateInput = {
@@ -21270,6 +27016,10 @@ export namespace Prisma {
     tbStatusPat?: tbStatusPatUpdateOneWithoutTbPatrimonioNestedInput
     tbCCusto?: tbCCustoUpdateOneWithoutTbPatrimonioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbPatrimonioNestedInput
+    tbDevolucao?: tbDevolucaoUpdateManyWithoutTbPatrimonioNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateInput = {
@@ -21288,6 +27038,10 @@ export namespace Prisma {
     idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
     idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbDevolucao?: tbDevolucaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioCreateManyInput = {
@@ -21342,24 +27096,28 @@ export namespace Prisma {
     idTipPat?: string
     descricaoTipPat?: string | null
     tbPatrimonio?: tbPatrimonioCreateNestedManyWithoutTbTipoPatInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbTipoPatInput
   }
 
   export type tbTipoPatUncheckedCreateInput = {
     idTipPat?: string
     descricaoTipPat?: string | null
     tbPatrimonio?: tbPatrimonioUncheckedCreateNestedManyWithoutTbTipoPatInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbTipoPatInput
   }
 
   export type tbTipoPatUpdateInput = {
     idTipPat?: StringFieldUpdateOperationsInput | string
     descricaoTipPat?: NullableStringFieldUpdateOperationsInput | string | null
     tbPatrimonio?: tbPatrimonioUpdateManyWithoutTbTipoPatNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbTipoPatNestedInput
   }
 
   export type tbTipoPatUncheckedUpdateInput = {
     idTipPat?: StringFieldUpdateOperationsInput | string
     descricaoTipPat?: NullableStringFieldUpdateOperationsInput | string | null
     tbPatrimonio?: tbPatrimonioUncheckedUpdateManyWithoutTbTipoPatNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbTipoPatNestedInput
   }
 
   export type tbTipoPatCreateManyInput = {
@@ -21382,6 +27140,7 @@ export namespace Prisma {
     descricaoStatPat: string
     tbPatrimonio?: tbPatrimonioCreateNestedManyWithoutTbStatusPatInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbStatusPatInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbStatusPatInput
   }
 
   export type tbStatusPatUncheckedCreateInput = {
@@ -21389,6 +27148,7 @@ export namespace Prisma {
     descricaoStatPat: string
     tbPatrimonio?: tbPatrimonioUncheckedCreateNestedManyWithoutTbStatusPatInput
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbStatusPatInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbStatusPatInput
   }
 
   export type tbStatusPatUpdateInput = {
@@ -21396,6 +27156,7 @@ export namespace Prisma {
     descricaoStatPat?: StringFieldUpdateOperationsInput | string
     tbPatrimonio?: tbPatrimonioUpdateManyWithoutTbStatusPatNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbStatusPatNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbStatusPatNestedInput
   }
 
   export type tbStatusPatUncheckedUpdateInput = {
@@ -21403,6 +27164,7 @@ export namespace Prisma {
     descricaoStatPat?: StringFieldUpdateOperationsInput | string
     tbPatrimonio?: tbPatrimonioUncheckedUpdateManyWithoutTbStatusPatNestedInput
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbStatusPatNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbStatusPatNestedInput
   }
 
   export type tbStatusPatCreateManyInput = {
@@ -21487,6 +27249,9 @@ export namespace Prisma {
     tbEmpresa?: tbEmpresaCreateNestedOneWithoutTbCCustoInput
     tbPatrimonio?: tbPatrimonioCreateNestedManyWithoutTbCCustoInput
     tbFuncionario?: tbFuncionarioCreateNestedManyWithoutTbCCustoInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbCCustoInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoOrigemInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoDestinoInput
   }
 
   export type tbCCustoUncheckedCreateInput = {
@@ -21496,6 +27261,9 @@ export namespace Prisma {
     idEmp_Custo?: string | null
     tbPatrimonio?: tbPatrimonioUncheckedCreateNestedManyWithoutTbCCustoInput
     tbFuncionario?: tbFuncionarioUncheckedCreateNestedManyWithoutTbCCustoInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbCCustoInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoOrigemInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoDestinoInput
   }
 
   export type tbCCustoUpdateInput = {
@@ -21505,6 +27273,9 @@ export namespace Prisma {
     tbEmpresa?: tbEmpresaUpdateOneWithoutTbCCustoNestedInput
     tbPatrimonio?: tbPatrimonioUpdateManyWithoutTbCCustoNestedInput
     tbFuncionario?: tbFuncionarioUpdateManyWithoutTbCCustoNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbCCustoNestedInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoOrigemNestedInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoDestinoNestedInput
   }
 
   export type tbCCustoUncheckedUpdateInput = {
@@ -21514,6 +27285,9 @@ export namespace Prisma {
     idEmp_Custo?: NullableStringFieldUpdateOperationsInput | string | null
     tbPatrimonio?: tbPatrimonioUncheckedUpdateManyWithoutTbCCustoNestedInput
     tbFuncionario?: tbFuncionarioUncheckedUpdateManyWithoutTbCCustoNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbCCustoNestedInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoOrigemNestedInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoDestinoNestedInput
   }
 
   export type tbCCustoCreateManyInput = {
@@ -21536,6 +27310,86 @@ export namespace Prisma {
     idEmp_Custo?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type tbTransferenciaCustoPatrimonioCreateInput = {
+    idTransferencia?: string
+    valorTransferido?: number | null
+    observacao?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+    tbPatrimonio: tbPatrimonioCreateNestedOneWithoutTbTransferenciaCustoPatrimonioInput
+    custoOrigem?: tbCCustoCreateNestedOneWithoutTransferenciasOrigemInput
+    custoDestino: tbCCustoCreateNestedOneWithoutTransferenciasDestinoInput
+    tbUser?: tbUserCreateNestedOneWithoutTransferenciasCustoPatrimonioInput
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedCreateInput = {
+    idTransferencia?: string
+    idPatrimonio: string
+    idCustoOrigem?: string | null
+    idCustoDestino: string
+    valorTransferido?: number | null
+    observacao?: string | null
+    idUserTransferencia?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpdateInput = {
+    idTransferencia?: StringFieldUpdateOperationsInput | string
+    valorTransferido?: NullableFloatFieldUpdateOperationsInput | number | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbPatrimonio?: tbPatrimonioUpdateOneRequiredWithoutTbTransferenciaCustoPatrimonioNestedInput
+    custoOrigem?: tbCCustoUpdateOneWithoutTransferenciasOrigemNestedInput
+    custoDestino?: tbCCustoUpdateOneRequiredWithoutTransferenciasDestinoNestedInput
+    tbUser?: tbUserUpdateOneWithoutTransferenciasCustoPatrimonioNestedInput
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedUpdateInput = {
+    idTransferencia?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idCustoOrigem?: NullableStringFieldUpdateOperationsInput | string | null
+    idCustoDestino?: StringFieldUpdateOperationsInput | string
+    valorTransferido?: NullableFloatFieldUpdateOperationsInput | number | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserTransferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateManyInput = {
+    idTransferencia?: string
+    idPatrimonio: string
+    idCustoOrigem?: string | null
+    idCustoDestino: string
+    valorTransferido?: number | null
+    observacao?: string | null
+    idUserTransferencia?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpdateManyMutationInput = {
+    idTransferencia?: StringFieldUpdateOperationsInput | string
+    valorTransferido?: NullableFloatFieldUpdateOperationsInput | number | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedUpdateManyInput = {
+    idTransferencia?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idCustoOrigem?: NullableStringFieldUpdateOperationsInput | string | null
+    idCustoDestino?: StringFieldUpdateOperationsInput | string
+    valorTransferido?: NullableFloatFieldUpdateOperationsInput | number | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserTransferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type tbCadastroCreateInput = {
     idCad?: string
     dataCadPat?: Date | string | null
@@ -21545,6 +27399,8 @@ export namespace Prisma {
     tbPatrimonio?: tbPatrimonioCreateNestedOneWithoutTbCadastroInput
     tbFuncionario?: tbFuncionarioCreateNestedOneWithoutTbCadastroInput
     tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbCadastroInput
+    tbDevolucao?: tbDevolucaoCreateNestedManyWithoutTbCadastroInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbCadastroInput
   }
 
   export type tbCadastroUncheckedCreateInput = {
@@ -21556,6 +27412,8 @@ export namespace Prisma {
     idPatCad?: string | null
     idMatFunCad?: string | null
     idStatusPatCad: string
+    tbDevolucao?: tbDevolucaoUncheckedCreateNestedManyWithoutTbCadastroInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbCadastroInput
   }
 
   export type tbCadastroUpdateInput = {
@@ -21567,6 +27425,8 @@ export namespace Prisma {
     tbPatrimonio?: tbPatrimonioUpdateOneWithoutTbCadastroNestedInput
     tbFuncionario?: tbFuncionarioUpdateOneWithoutTbCadastroNestedInput
     tbStatusPat?: tbStatusPatUpdateOneWithoutTbCadastroNestedInput
+    tbDevolucao?: tbDevolucaoUpdateManyWithoutTbCadastroNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbCadastroNestedInput
   }
 
   export type tbCadastroUncheckedUpdateInput = {
@@ -21578,6 +27438,8 @@ export namespace Prisma {
     idPatCad?: NullableStringFieldUpdateOperationsInput | string | null
     idMatFunCad?: NullableStringFieldUpdateOperationsInput | string | null
     idStatusPatCad?: StringFieldUpdateOperationsInput | string
+    tbDevolucao?: tbDevolucaoUncheckedUpdateManyWithoutTbCadastroNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbCadastroNestedInput
   }
 
   export type tbCadastroCreateManyInput = {
@@ -21608,6 +27470,303 @@ export namespace Prisma {
     idPatCad?: NullableStringFieldUpdateOperationsInput | string | null
     idMatFunCad?: NullableStringFieldUpdateOperationsInput | string | null
     idStatusPatCad?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type tbTransferenciaAlocacaoCreateInput = {
+    idTransferenciaAlocacao?: string
+    statusAnterior?: string | null
+    statusNovo: string
+    observacao?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+    tbCadastro: tbCadastroCreateNestedOneWithoutTbTransferenciaAlocacaoInput
+    tbPatrimonio: tbPatrimonioCreateNestedOneWithoutTbTransferenciaAlocacaoInput
+    tbFuncionario?: tbFuncionarioCreateNestedOneWithoutTbTransferenciaAlocacaoOrigemInput
+    tbFuncionarioDestino?: tbFuncionarioCreateNestedOneWithoutTbTransferenciaAlocacaoDestinoInput
+    tbUser?: tbUserCreateNestedOneWithoutTransferenciasAlocacaoInput
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedCreateInput = {
+    idTransferenciaAlocacao?: string
+    idCadastro: string
+    idPatrimonio: string
+    idMatriculaFuncionario?: string | null
+    idMatriculaFuncionarioDestino?: string | null
+    statusAnterior?: string | null
+    statusNovo: string
+    observacao?: string | null
+    idUserTransferencia?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaAlocacaoUpdateInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbCadastro?: tbCadastroUpdateOneRequiredWithoutTbTransferenciaAlocacaoNestedInput
+    tbPatrimonio?: tbPatrimonioUpdateOneRequiredWithoutTbTransferenciaAlocacaoNestedInput
+    tbFuncionario?: tbFuncionarioUpdateOneWithoutTbTransferenciaAlocacaoOrigemNestedInput
+    tbFuncionarioDestino?: tbFuncionarioUpdateOneWithoutTbTransferenciaAlocacaoDestinoNestedInput
+    tbUser?: tbUserUpdateOneWithoutTransferenciasAlocacaoNestedInput
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedUpdateInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    idCadastro?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idMatriculaFuncionario?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatriculaFuncionarioDestino?: NullableStringFieldUpdateOperationsInput | string | null
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserTransferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaAlocacaoCreateManyInput = {
+    idTransferenciaAlocacao?: string
+    idCadastro: string
+    idPatrimonio: string
+    idMatriculaFuncionario?: string | null
+    idMatriculaFuncionarioDestino?: string | null
+    statusAnterior?: string | null
+    statusNovo: string
+    observacao?: string | null
+    idUserTransferencia?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaAlocacaoUpdateManyMutationInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedUpdateManyInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    idCadastro?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idMatriculaFuncionario?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatriculaFuncionarioDestino?: NullableStringFieldUpdateOperationsInput | string | null
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserTransferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbDevolucaoCreateInput = {
+    idDevolucao?: string
+    dataInicioDevolucao: Date | string
+    dataFimDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tbPatrimonio: tbPatrimonioCreateNestedOneWithoutTbDevolucaoInput
+    tbCadastro?: tbCadastroCreateNestedOneWithoutTbDevolucaoInput
+  }
+
+  export type tbDevolucaoUncheckedCreateInput = {
+    idDevolucao?: string
+    idPatrimonio: string
+    idCadastro?: string | null
+    dataInicioDevolucao: Date | string
+    dataFimDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type tbDevolucaoUpdateInput = {
+    idDevolucao?: StringFieldUpdateOperationsInput | string
+    dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbPatrimonio?: tbPatrimonioUpdateOneRequiredWithoutTbDevolucaoNestedInput
+    tbCadastro?: tbCadastroUpdateOneWithoutTbDevolucaoNestedInput
+  }
+
+  export type tbDevolucaoUncheckedUpdateInput = {
+    idDevolucao?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idCadastro?: NullableStringFieldUpdateOperationsInput | string | null
+    dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbDevolucaoCreateManyInput = {
+    idDevolucao?: string
+    idPatrimonio: string
+    idCadastro?: string | null
+    dataInicioDevolucao: Date | string
+    dataFimDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type tbDevolucaoUpdateManyMutationInput = {
+    idDevolucao?: StringFieldUpdateOperationsInput | string
+    dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbDevolucaoUncheckedUpdateManyInput = {
+    idDevolucao?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idCadastro?: NullableStringFieldUpdateOperationsInput | string | null
+    dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbPatrimonioHistoricoCreateInput = {
+    idHistorico?: string
+    idPat: string
+    descricaoPat: string
+    valorPat: number
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    dataDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+    tbPatrimonio: tbPatrimonioCreateNestedOneWithoutTbPatrimonioHistoricoInput
+    tbTipoPat?: tbTipoPatCreateNestedOneWithoutTbPatrimonioHistoricoInput
+    tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbPatrimonioHistoricoInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbPatrimonioHistoricoInput
+  }
+
+  export type tbPatrimonioHistoricoUncheckedCreateInput = {
+    idHistorico?: string
+    idPatrimonioOriginal: string
+    idPat: string
+    descricaoPat: string
+    valorPat: number
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    idPat_TipoPat?: string | null
+    idPat_StatusPat?: string | null
+    idPat_CustoPat?: string | null
+    dataDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+  }
+
+  export type tbPatrimonioHistoricoUpdateInput = {
+    idHistorico?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbPatrimonio?: tbPatrimonioUpdateOneRequiredWithoutTbPatrimonioHistoricoNestedInput
+    tbTipoPat?: tbTipoPatUpdateOneWithoutTbPatrimonioHistoricoNestedInput
+    tbStatusPat?: tbStatusPatUpdateOneWithoutTbPatrimonioHistoricoNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbPatrimonioHistoricoNestedInput
+  }
+
+  export type tbPatrimonioHistoricoUncheckedUpdateInput = {
+    idHistorico?: StringFieldUpdateOperationsInput | string
+    idPatrimonioOriginal?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbPatrimonioHistoricoCreateManyInput = {
+    idHistorico?: string
+    idPatrimonioOriginal: string
+    idPat: string
+    descricaoPat: string
+    valorPat: number
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    idPat_TipoPat?: string | null
+    idPat_StatusPat?: string | null
+    idPat_CustoPat?: string | null
+    dataDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+  }
+
+  export type tbPatrimonioHistoricoUpdateManyMutationInput = {
+    idHistorico?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbPatrimonioHistoricoUncheckedUpdateManyInput = {
+    idHistorico?: StringFieldUpdateOperationsInput | string
+    idPatrimonioOriginal?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AccountCreateInput = {
@@ -22033,12 +28192,32 @@ export namespace Prisma {
     none?: tbFuncionarioWhereInput
   }
 
+  export type TbTransferenciaCustoPatrimonioListRelationFilter = {
+    every?: tbTransferenciaCustoPatrimonioWhereInput
+    some?: tbTransferenciaCustoPatrimonioWhereInput
+    none?: tbTransferenciaCustoPatrimonioWhereInput
+  }
+
+  export type TbTransferenciaAlocacaoListRelationFilter = {
+    every?: tbTransferenciaAlocacaoWhereInput
+    some?: tbTransferenciaAlocacaoWhereInput
+    none?: tbTransferenciaAlocacaoWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type tbFuncionarioOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type tbTransferenciaCustoPatrimonioOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type tbTransferenciaAlocacaoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -22437,6 +28616,26 @@ export namespace Prisma {
     isNot?: tbStatusPatWhereInput | null
   }
 
+  export type TbDevolucaoListRelationFilter = {
+    every?: tbDevolucaoWhereInput
+    some?: tbDevolucaoWhereInput
+    none?: tbDevolucaoWhereInput
+  }
+
+  export type TbPatrimonioHistoricoListRelationFilter = {
+    every?: tbPatrimonioHistoricoWhereInput
+    some?: tbPatrimonioHistoricoWhereInput
+    none?: tbPatrimonioHistoricoWhereInput
+  }
+
+  export type tbDevolucaoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type tbPatrimonioHistoricoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type tbPatrimonioOrderByRelevanceInput = {
     fields: tbPatrimonioOrderByRelevanceFieldEnum | tbPatrimonioOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -22642,6 +28841,93 @@ export namespace Prisma {
     idEmp_Custo?: SortOrder
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type TbPatrimonioScalarRelationFilter = {
+    is?: tbPatrimonioWhereInput
+    isNot?: tbPatrimonioWhereInput
+  }
+
+  export type TbCCustoScalarRelationFilter = {
+    is?: tbCCustoWhereInput
+    isNot?: tbCCustoWhereInput
+  }
+
+  export type tbTransferenciaCustoPatrimonioOrderByRelevanceInput = {
+    fields: tbTransferenciaCustoPatrimonioOrderByRelevanceFieldEnum | tbTransferenciaCustoPatrimonioOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type tbTransferenciaCustoPatrimonioCountOrderByAggregateInput = {
+    idTransferencia?: SortOrder
+    idPatrimonio?: SortOrder
+    idCustoOrigem?: SortOrder
+    idCustoDestino?: SortOrder
+    valorTransferido?: SortOrder
+    observacao?: SortOrder
+    idUserTransferencia?: SortOrder
+    dataTransferencia?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type tbTransferenciaCustoPatrimonioAvgOrderByAggregateInput = {
+    valorTransferido?: SortOrder
+  }
+
+  export type tbTransferenciaCustoPatrimonioMaxOrderByAggregateInput = {
+    idTransferencia?: SortOrder
+    idPatrimonio?: SortOrder
+    idCustoOrigem?: SortOrder
+    idCustoDestino?: SortOrder
+    valorTransferido?: SortOrder
+    observacao?: SortOrder
+    idUserTransferencia?: SortOrder
+    dataTransferencia?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type tbTransferenciaCustoPatrimonioMinOrderByAggregateInput = {
+    idTransferencia?: SortOrder
+    idPatrimonio?: SortOrder
+    idCustoOrigem?: SortOrder
+    idCustoDestino?: SortOrder
+    valorTransferido?: SortOrder
+    observacao?: SortOrder
+    idUserTransferencia?: SortOrder
+    dataTransferencia?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type tbTransferenciaCustoPatrimonioSumOrderByAggregateInput = {
+    valorTransferido?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
   export type TbPatrimonioNullableScalarRelationFilter = {
     is?: tbPatrimonioWhereInput | null
     isNot?: tbPatrimonioWhereInput | null
@@ -22689,6 +28975,174 @@ export namespace Prisma {
     idPatCad?: SortOrder
     idMatFunCad?: SortOrder
     idStatusPatCad?: SortOrder
+  }
+
+  export type TbCadastroScalarRelationFilter = {
+    is?: tbCadastroWhereInput
+    isNot?: tbCadastroWhereInput
+  }
+
+  export type tbTransferenciaAlocacaoOrderByRelevanceInput = {
+    fields: tbTransferenciaAlocacaoOrderByRelevanceFieldEnum | tbTransferenciaAlocacaoOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type tbTransferenciaAlocacaoCountOrderByAggregateInput = {
+    idTransferenciaAlocacao?: SortOrder
+    idCadastro?: SortOrder
+    idPatrimonio?: SortOrder
+    idMatriculaFuncionario?: SortOrder
+    idMatriculaFuncionarioDestino?: SortOrder
+    statusAnterior?: SortOrder
+    statusNovo?: SortOrder
+    observacao?: SortOrder
+    idUserTransferencia?: SortOrder
+    dataTransferencia?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type tbTransferenciaAlocacaoMaxOrderByAggregateInput = {
+    idTransferenciaAlocacao?: SortOrder
+    idCadastro?: SortOrder
+    idPatrimonio?: SortOrder
+    idMatriculaFuncionario?: SortOrder
+    idMatriculaFuncionarioDestino?: SortOrder
+    statusAnterior?: SortOrder
+    statusNovo?: SortOrder
+    observacao?: SortOrder
+    idUserTransferencia?: SortOrder
+    dataTransferencia?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type tbTransferenciaAlocacaoMinOrderByAggregateInput = {
+    idTransferenciaAlocacao?: SortOrder
+    idCadastro?: SortOrder
+    idPatrimonio?: SortOrder
+    idMatriculaFuncionario?: SortOrder
+    idMatriculaFuncionarioDestino?: SortOrder
+    statusAnterior?: SortOrder
+    statusNovo?: SortOrder
+    observacao?: SortOrder
+    idUserTransferencia?: SortOrder
+    dataTransferencia?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TbCadastroNullableScalarRelationFilter = {
+    is?: tbCadastroWhereInput | null
+    isNot?: tbCadastroWhereInput | null
+  }
+
+  export type tbDevolucaoOrderByRelevanceInput = {
+    fields: tbDevolucaoOrderByRelevanceFieldEnum | tbDevolucaoOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type tbDevolucaoCountOrderByAggregateInput = {
+    idDevolucao?: SortOrder
+    idPatrimonio?: SortOrder
+    idCadastro?: SortOrder
+    dataInicioDevolucao?: SortOrder
+    dataFimDevolucao?: SortOrder
+    motivoDevolucao?: SortOrder
+    notaFiscalDevolucao?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type tbDevolucaoMaxOrderByAggregateInput = {
+    idDevolucao?: SortOrder
+    idPatrimonio?: SortOrder
+    idCadastro?: SortOrder
+    dataInicioDevolucao?: SortOrder
+    dataFimDevolucao?: SortOrder
+    motivoDevolucao?: SortOrder
+    notaFiscalDevolucao?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type tbDevolucaoMinOrderByAggregateInput = {
+    idDevolucao?: SortOrder
+    idPatrimonio?: SortOrder
+    idCadastro?: SortOrder
+    dataInicioDevolucao?: SortOrder
+    dataFimDevolucao?: SortOrder
+    motivoDevolucao?: SortOrder
+    notaFiscalDevolucao?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type tbPatrimonioHistoricoOrderByRelevanceInput = {
+    fields: tbPatrimonioHistoricoOrderByRelevanceFieldEnum | tbPatrimonioHistoricoOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type tbPatrimonioHistoricoCountOrderByAggregateInput = {
+    idHistorico?: SortOrder
+    idPatrimonioOriginal?: SortOrder
+    idPat?: SortOrder
+    descricaoPat?: SortOrder
+    valorPat?: SortOrder
+    dataEntPat?: SortOrder
+    dataSaiPat?: SortOrder
+    notaFiscalPat?: SortOrder
+    idPat_TipoPat?: SortOrder
+    idPat_StatusPat?: SortOrder
+    idPat_CustoPat?: SortOrder
+    dataDevolucao?: SortOrder
+    motivoDevolucao?: SortOrder
+    notaFiscalDevolucao?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type tbPatrimonioHistoricoAvgOrderByAggregateInput = {
+    valorPat?: SortOrder
+  }
+
+  export type tbPatrimonioHistoricoMaxOrderByAggregateInput = {
+    idHistorico?: SortOrder
+    idPatrimonioOriginal?: SortOrder
+    idPat?: SortOrder
+    descricaoPat?: SortOrder
+    valorPat?: SortOrder
+    dataEntPat?: SortOrder
+    dataSaiPat?: SortOrder
+    notaFiscalPat?: SortOrder
+    idPat_TipoPat?: SortOrder
+    idPat_StatusPat?: SortOrder
+    idPat_CustoPat?: SortOrder
+    dataDevolucao?: SortOrder
+    motivoDevolucao?: SortOrder
+    notaFiscalDevolucao?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type tbPatrimonioHistoricoMinOrderByAggregateInput = {
+    idHistorico?: SortOrder
+    idPatrimonioOriginal?: SortOrder
+    idPat?: SortOrder
+    descricaoPat?: SortOrder
+    valorPat?: SortOrder
+    dataEntPat?: SortOrder
+    dataSaiPat?: SortOrder
+    notaFiscalPat?: SortOrder
+    idPat_TipoPat?: SortOrder
+    idPat_StatusPat?: SortOrder
+    idPat_CustoPat?: SortOrder
+    dataDevolucao?: SortOrder
+    motivoDevolucao?: SortOrder
+    notaFiscalDevolucao?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type tbPatrimonioHistoricoSumOrderByAggregateInput = {
+    valorPat?: SortOrder
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -22955,11 +29409,39 @@ export namespace Prisma {
     connect?: tbFuncionarioWhereUniqueInput | tbFuncionarioWhereUniqueInput[]
   }
 
+  export type tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbUserInput = {
+    create?: XOR<tbTransferenciaCustoPatrimonioCreateWithoutTbUserInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbUserInput> | tbTransferenciaCustoPatrimonioCreateWithoutTbUserInput[] | tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbUserInput[]
+    connectOrCreate?: tbTransferenciaCustoPatrimonioCreateOrConnectWithoutTbUserInput | tbTransferenciaCustoPatrimonioCreateOrConnectWithoutTbUserInput[]
+    createMany?: tbTransferenciaCustoPatrimonioCreateManyTbUserInputEnvelope
+    connect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+  }
+
+  export type tbTransferenciaAlocacaoCreateNestedManyWithoutTbUserInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbUserInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbUserInput> | tbTransferenciaAlocacaoCreateWithoutTbUserInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbUserInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbUserInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbUserInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbUserInputEnvelope
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+  }
+
   export type tbFuncionarioUncheckedCreateNestedManyWithoutTbUserInput = {
     create?: XOR<tbFuncionarioCreateWithoutTbUserInput, tbFuncionarioUncheckedCreateWithoutTbUserInput> | tbFuncionarioCreateWithoutTbUserInput[] | tbFuncionarioUncheckedCreateWithoutTbUserInput[]
     connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbUserInput | tbFuncionarioCreateOrConnectWithoutTbUserInput[]
     createMany?: tbFuncionarioCreateManyTbUserInputEnvelope
     connect?: tbFuncionarioWhereUniqueInput | tbFuncionarioWhereUniqueInput[]
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput = {
+    create?: XOR<tbTransferenciaCustoPatrimonioCreateWithoutTbUserInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbUserInput> | tbTransferenciaCustoPatrimonioCreateWithoutTbUserInput[] | tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbUserInput[]
+    connectOrCreate?: tbTransferenciaCustoPatrimonioCreateOrConnectWithoutTbUserInput | tbTransferenciaCustoPatrimonioCreateOrConnectWithoutTbUserInput[]
+    createMany?: tbTransferenciaCustoPatrimonioCreateManyTbUserInputEnvelope
+    connect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbUserInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbUserInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbUserInput> | tbTransferenciaAlocacaoCreateWithoutTbUserInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbUserInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbUserInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbUserInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbUserInputEnvelope
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -22992,6 +29474,34 @@ export namespace Prisma {
     deleteMany?: tbFuncionarioScalarWhereInput | tbFuncionarioScalarWhereInput[]
   }
 
+  export type tbTransferenciaCustoPatrimonioUpdateManyWithoutTbUserNestedInput = {
+    create?: XOR<tbTransferenciaCustoPatrimonioCreateWithoutTbUserInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbUserInput> | tbTransferenciaCustoPatrimonioCreateWithoutTbUserInput[] | tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbUserInput[]
+    connectOrCreate?: tbTransferenciaCustoPatrimonioCreateOrConnectWithoutTbUserInput | tbTransferenciaCustoPatrimonioCreateOrConnectWithoutTbUserInput[]
+    upsert?: tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutTbUserInput | tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutTbUserInput[]
+    createMany?: tbTransferenciaCustoPatrimonioCreateManyTbUserInputEnvelope
+    set?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    disconnect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    delete?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    connect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    update?: tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutTbUserInput | tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutTbUserInput[]
+    updateMany?: tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutTbUserInput | tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutTbUserInput[]
+    deleteMany?: tbTransferenciaCustoPatrimonioScalarWhereInput | tbTransferenciaCustoPatrimonioScalarWhereInput[]
+  }
+
+  export type tbTransferenciaAlocacaoUpdateManyWithoutTbUserNestedInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbUserInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbUserInput> | tbTransferenciaAlocacaoCreateWithoutTbUserInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbUserInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbUserInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbUserInput[]
+    upsert?: tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbUserInput | tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbUserInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbUserInputEnvelope
+    set?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    disconnect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    delete?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    update?: tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbUserInput | tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbUserInput[]
+    updateMany?: tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbUserInput | tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbUserInput[]
+    deleteMany?: tbTransferenciaAlocacaoScalarWhereInput | tbTransferenciaAlocacaoScalarWhereInput[]
+  }
+
   export type tbFuncionarioUncheckedUpdateManyWithoutTbUserNestedInput = {
     create?: XOR<tbFuncionarioCreateWithoutTbUserInput, tbFuncionarioUncheckedCreateWithoutTbUserInput> | tbFuncionarioCreateWithoutTbUserInput[] | tbFuncionarioUncheckedCreateWithoutTbUserInput[]
     connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbUserInput | tbFuncionarioCreateOrConnectWithoutTbUserInput[]
@@ -23004,6 +29514,34 @@ export namespace Prisma {
     update?: tbFuncionarioUpdateWithWhereUniqueWithoutTbUserInput | tbFuncionarioUpdateWithWhereUniqueWithoutTbUserInput[]
     updateMany?: tbFuncionarioUpdateManyWithWhereWithoutTbUserInput | tbFuncionarioUpdateManyWithWhereWithoutTbUserInput[]
     deleteMany?: tbFuncionarioScalarWhereInput | tbFuncionarioScalarWhereInput[]
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput = {
+    create?: XOR<tbTransferenciaCustoPatrimonioCreateWithoutTbUserInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbUserInput> | tbTransferenciaCustoPatrimonioCreateWithoutTbUserInput[] | tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbUserInput[]
+    connectOrCreate?: tbTransferenciaCustoPatrimonioCreateOrConnectWithoutTbUserInput | tbTransferenciaCustoPatrimonioCreateOrConnectWithoutTbUserInput[]
+    upsert?: tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutTbUserInput | tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutTbUserInput[]
+    createMany?: tbTransferenciaCustoPatrimonioCreateManyTbUserInputEnvelope
+    set?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    disconnect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    delete?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    connect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    update?: tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutTbUserInput | tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutTbUserInput[]
+    updateMany?: tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutTbUserInput | tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutTbUserInput[]
+    deleteMany?: tbTransferenciaCustoPatrimonioScalarWhereInput | tbTransferenciaCustoPatrimonioScalarWhereInput[]
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbUserNestedInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbUserInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbUserInput> | tbTransferenciaAlocacaoCreateWithoutTbUserInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbUserInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbUserInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbUserInput[]
+    upsert?: tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbUserInput | tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbUserInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbUserInputEnvelope
+    set?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    disconnect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    delete?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    update?: tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbUserInput | tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbUserInput[]
+    updateMany?: tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbUserInput | tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbUserInput[]
+    deleteMany?: tbTransferenciaAlocacaoScalarWhereInput | tbTransferenciaAlocacaoScalarWhereInput[]
   }
 
   export type tbStatusFunCreateNestedOneWithoutTbFuncionarioInput = {
@@ -23044,6 +29582,20 @@ export namespace Prisma {
     connect?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
   }
 
+  export type tbTransferenciaAlocacaoCreateNestedManyWithoutTbFuncionarioInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbFuncionarioInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioInput> | tbTransferenciaAlocacaoCreateWithoutTbFuncionarioInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbFuncionarioInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbFuncionarioInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbFuncionarioInputEnvelope
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+  }
+
+  export type tbTransferenciaAlocacaoCreateNestedManyWithoutTbFuncionarioDestinoInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbFuncionarioDestinoInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioDestinoInput> | tbTransferenciaAlocacaoCreateWithoutTbFuncionarioDestinoInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioDestinoInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbFuncionarioDestinoInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbFuncionarioDestinoInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbFuncionarioDestinoInputEnvelope
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+  }
+
   export type tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput = {
     create?: XOR<tbCadastroCreateWithoutTbFuncionarioInput, tbCadastroUncheckedCreateWithoutTbFuncionarioInput> | tbCadastroCreateWithoutTbFuncionarioInput[] | tbCadastroUncheckedCreateWithoutTbFuncionarioInput[]
     connectOrCreate?: tbCadastroCreateOrConnectWithoutTbFuncionarioInput | tbCadastroCreateOrConnectWithoutTbFuncionarioInput[]
@@ -23056,6 +29608,20 @@ export namespace Prisma {
     connectOrCreate?: tbHasLicencaFuncionarioCreateOrConnectWithoutTbFuncionarioInput | tbHasLicencaFuncionarioCreateOrConnectWithoutTbFuncionarioInput[]
     createMany?: tbHasLicencaFuncionarioCreateManyTbFuncionarioInputEnvelope
     connect?: tbHasLicencaFuncionarioWhereUniqueInput | tbHasLicencaFuncionarioWhereUniqueInput[]
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbFuncionarioInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbFuncionarioInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioInput> | tbTransferenciaAlocacaoCreateWithoutTbFuncionarioInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbFuncionarioInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbFuncionarioInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbFuncionarioInputEnvelope
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbFuncionarioDestinoInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbFuncionarioDestinoInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioDestinoInput> | tbTransferenciaAlocacaoCreateWithoutTbFuncionarioDestinoInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioDestinoInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbFuncionarioDestinoInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbFuncionarioDestinoInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbFuncionarioDestinoInputEnvelope
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
   }
 
   export type tbStatusFunUpdateOneWithoutTbFuncionarioNestedInput = {
@@ -23126,6 +29692,34 @@ export namespace Prisma {
     deleteMany?: tbHasLicencaFuncionarioScalarWhereInput | tbHasLicencaFuncionarioScalarWhereInput[]
   }
 
+  export type tbTransferenciaAlocacaoUpdateManyWithoutTbFuncionarioNestedInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbFuncionarioInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioInput> | tbTransferenciaAlocacaoCreateWithoutTbFuncionarioInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbFuncionarioInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbFuncionarioInput[]
+    upsert?: tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbFuncionarioInput | tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbFuncionarioInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbFuncionarioInputEnvelope
+    set?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    disconnect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    delete?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    update?: tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbFuncionarioInput | tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbFuncionarioInput[]
+    updateMany?: tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbFuncionarioInput | tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbFuncionarioInput[]
+    deleteMany?: tbTransferenciaAlocacaoScalarWhereInput | tbTransferenciaAlocacaoScalarWhereInput[]
+  }
+
+  export type tbTransferenciaAlocacaoUpdateManyWithoutTbFuncionarioDestinoNestedInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbFuncionarioDestinoInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioDestinoInput> | tbTransferenciaAlocacaoCreateWithoutTbFuncionarioDestinoInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioDestinoInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbFuncionarioDestinoInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbFuncionarioDestinoInput[]
+    upsert?: tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbFuncionarioDestinoInput | tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbFuncionarioDestinoInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbFuncionarioDestinoInputEnvelope
+    set?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    disconnect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    delete?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    update?: tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbFuncionarioDestinoInput | tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbFuncionarioDestinoInput[]
+    updateMany?: tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbFuncionarioDestinoInput | tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbFuncionarioDestinoInput[]
+    deleteMany?: tbTransferenciaAlocacaoScalarWhereInput | tbTransferenciaAlocacaoScalarWhereInput[]
+  }
+
   export type tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput = {
     create?: XOR<tbCadastroCreateWithoutTbFuncionarioInput, tbCadastroUncheckedCreateWithoutTbFuncionarioInput> | tbCadastroCreateWithoutTbFuncionarioInput[] | tbCadastroUncheckedCreateWithoutTbFuncionarioInput[]
     connectOrCreate?: tbCadastroCreateOrConnectWithoutTbFuncionarioInput | tbCadastroCreateOrConnectWithoutTbFuncionarioInput[]
@@ -23152,6 +29746,34 @@ export namespace Prisma {
     update?: tbHasLicencaFuncionarioUpdateWithWhereUniqueWithoutTbFuncionarioInput | tbHasLicencaFuncionarioUpdateWithWhereUniqueWithoutTbFuncionarioInput[]
     updateMany?: tbHasLicencaFuncionarioUpdateManyWithWhereWithoutTbFuncionarioInput | tbHasLicencaFuncionarioUpdateManyWithWhereWithoutTbFuncionarioInput[]
     deleteMany?: tbHasLicencaFuncionarioScalarWhereInput | tbHasLicencaFuncionarioScalarWhereInput[]
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioNestedInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbFuncionarioInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioInput> | tbTransferenciaAlocacaoCreateWithoutTbFuncionarioInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbFuncionarioInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbFuncionarioInput[]
+    upsert?: tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbFuncionarioInput | tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbFuncionarioInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbFuncionarioInputEnvelope
+    set?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    disconnect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    delete?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    update?: tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbFuncionarioInput | tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbFuncionarioInput[]
+    updateMany?: tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbFuncionarioInput | tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbFuncionarioInput[]
+    deleteMany?: tbTransferenciaAlocacaoScalarWhereInput | tbTransferenciaAlocacaoScalarWhereInput[]
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioDestinoNestedInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbFuncionarioDestinoInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioDestinoInput> | tbTransferenciaAlocacaoCreateWithoutTbFuncionarioDestinoInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioDestinoInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbFuncionarioDestinoInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbFuncionarioDestinoInput[]
+    upsert?: tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbFuncionarioDestinoInput | tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbFuncionarioDestinoInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbFuncionarioDestinoInputEnvelope
+    set?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    disconnect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    delete?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    update?: tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbFuncionarioDestinoInput | tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbFuncionarioDestinoInput[]
+    updateMany?: tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbFuncionarioDestinoInput | tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbFuncionarioDestinoInput[]
+    deleteMany?: tbTransferenciaAlocacaoScalarWhereInput | tbTransferenciaAlocacaoScalarWhereInput[]
   }
 
   export type tbHasLicencaFuncionarioCreateNestedManyWithoutTbLicencaInput = {
@@ -23341,11 +29963,67 @@ export namespace Prisma {
     connect?: tbCadastroWhereUniqueInput | tbCadastroWhereUniqueInput[]
   }
 
+  export type tbDevolucaoCreateNestedManyWithoutTbPatrimonioInput = {
+    create?: XOR<tbDevolucaoCreateWithoutTbPatrimonioInput, tbDevolucaoUncheckedCreateWithoutTbPatrimonioInput> | tbDevolucaoCreateWithoutTbPatrimonioInput[] | tbDevolucaoUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbDevolucaoCreateOrConnectWithoutTbPatrimonioInput | tbDevolucaoCreateOrConnectWithoutTbPatrimonioInput[]
+    createMany?: tbDevolucaoCreateManyTbPatrimonioInputEnvelope
+    connect?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+  }
+
+  export type tbPatrimonioHistoricoCreateNestedManyWithoutTbPatrimonioInput = {
+    create?: XOR<tbPatrimonioHistoricoCreateWithoutTbPatrimonioInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbPatrimonioInput> | tbPatrimonioHistoricoCreateWithoutTbPatrimonioInput[] | tbPatrimonioHistoricoUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbPatrimonioHistoricoCreateOrConnectWithoutTbPatrimonioInput | tbPatrimonioHistoricoCreateOrConnectWithoutTbPatrimonioInput[]
+    createMany?: tbPatrimonioHistoricoCreateManyTbPatrimonioInputEnvelope
+    connect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbPatrimonioInput = {
+    create?: XOR<tbTransferenciaCustoPatrimonioCreateWithoutTbPatrimonioInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbPatrimonioInput> | tbTransferenciaCustoPatrimonioCreateWithoutTbPatrimonioInput[] | tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbTransferenciaCustoPatrimonioCreateOrConnectWithoutTbPatrimonioInput | tbTransferenciaCustoPatrimonioCreateOrConnectWithoutTbPatrimonioInput[]
+    createMany?: tbTransferenciaCustoPatrimonioCreateManyTbPatrimonioInputEnvelope
+    connect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+  }
+
+  export type tbTransferenciaAlocacaoCreateNestedManyWithoutTbPatrimonioInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbPatrimonioInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbPatrimonioInput> | tbTransferenciaAlocacaoCreateWithoutTbPatrimonioInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbPatrimonioInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbPatrimonioInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbPatrimonioInputEnvelope
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+  }
+
   export type tbCadastroUncheckedCreateNestedManyWithoutTbPatrimonioInput = {
     create?: XOR<tbCadastroCreateWithoutTbPatrimonioInput, tbCadastroUncheckedCreateWithoutTbPatrimonioInput> | tbCadastroCreateWithoutTbPatrimonioInput[] | tbCadastroUncheckedCreateWithoutTbPatrimonioInput[]
     connectOrCreate?: tbCadastroCreateOrConnectWithoutTbPatrimonioInput | tbCadastroCreateOrConnectWithoutTbPatrimonioInput[]
     createMany?: tbCadastroCreateManyTbPatrimonioInputEnvelope
     connect?: tbCadastroWhereUniqueInput | tbCadastroWhereUniqueInput[]
+  }
+
+  export type tbDevolucaoUncheckedCreateNestedManyWithoutTbPatrimonioInput = {
+    create?: XOR<tbDevolucaoCreateWithoutTbPatrimonioInput, tbDevolucaoUncheckedCreateWithoutTbPatrimonioInput> | tbDevolucaoCreateWithoutTbPatrimonioInput[] | tbDevolucaoUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbDevolucaoCreateOrConnectWithoutTbPatrimonioInput | tbDevolucaoCreateOrConnectWithoutTbPatrimonioInput[]
+    createMany?: tbDevolucaoCreateManyTbPatrimonioInputEnvelope
+    connect?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+  }
+
+  export type tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbPatrimonioInput = {
+    create?: XOR<tbPatrimonioHistoricoCreateWithoutTbPatrimonioInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbPatrimonioInput> | tbPatrimonioHistoricoCreateWithoutTbPatrimonioInput[] | tbPatrimonioHistoricoUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbPatrimonioHistoricoCreateOrConnectWithoutTbPatrimonioInput | tbPatrimonioHistoricoCreateOrConnectWithoutTbPatrimonioInput[]
+    createMany?: tbPatrimonioHistoricoCreateManyTbPatrimonioInputEnvelope
+    connect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput = {
+    create?: XOR<tbTransferenciaCustoPatrimonioCreateWithoutTbPatrimonioInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbPatrimonioInput> | tbTransferenciaCustoPatrimonioCreateWithoutTbPatrimonioInput[] | tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbTransferenciaCustoPatrimonioCreateOrConnectWithoutTbPatrimonioInput | tbTransferenciaCustoPatrimonioCreateOrConnectWithoutTbPatrimonioInput[]
+    createMany?: tbTransferenciaCustoPatrimonioCreateManyTbPatrimonioInputEnvelope
+    connect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbPatrimonioInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbPatrimonioInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbPatrimonioInput> | tbTransferenciaAlocacaoCreateWithoutTbPatrimonioInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbPatrimonioInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbPatrimonioInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbPatrimonioInputEnvelope
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -23400,6 +30078,62 @@ export namespace Prisma {
     deleteMany?: tbCadastroScalarWhereInput | tbCadastroScalarWhereInput[]
   }
 
+  export type tbDevolucaoUpdateManyWithoutTbPatrimonioNestedInput = {
+    create?: XOR<tbDevolucaoCreateWithoutTbPatrimonioInput, tbDevolucaoUncheckedCreateWithoutTbPatrimonioInput> | tbDevolucaoCreateWithoutTbPatrimonioInput[] | tbDevolucaoUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbDevolucaoCreateOrConnectWithoutTbPatrimonioInput | tbDevolucaoCreateOrConnectWithoutTbPatrimonioInput[]
+    upsert?: tbDevolucaoUpsertWithWhereUniqueWithoutTbPatrimonioInput | tbDevolucaoUpsertWithWhereUniqueWithoutTbPatrimonioInput[]
+    createMany?: tbDevolucaoCreateManyTbPatrimonioInputEnvelope
+    set?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+    disconnect?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+    delete?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+    connect?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+    update?: tbDevolucaoUpdateWithWhereUniqueWithoutTbPatrimonioInput | tbDevolucaoUpdateWithWhereUniqueWithoutTbPatrimonioInput[]
+    updateMany?: tbDevolucaoUpdateManyWithWhereWithoutTbPatrimonioInput | tbDevolucaoUpdateManyWithWhereWithoutTbPatrimonioInput[]
+    deleteMany?: tbDevolucaoScalarWhereInput | tbDevolucaoScalarWhereInput[]
+  }
+
+  export type tbPatrimonioHistoricoUpdateManyWithoutTbPatrimonioNestedInput = {
+    create?: XOR<tbPatrimonioHistoricoCreateWithoutTbPatrimonioInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbPatrimonioInput> | tbPatrimonioHistoricoCreateWithoutTbPatrimonioInput[] | tbPatrimonioHistoricoUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbPatrimonioHistoricoCreateOrConnectWithoutTbPatrimonioInput | tbPatrimonioHistoricoCreateOrConnectWithoutTbPatrimonioInput[]
+    upsert?: tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbPatrimonioInput | tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbPatrimonioInput[]
+    createMany?: tbPatrimonioHistoricoCreateManyTbPatrimonioInputEnvelope
+    set?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    disconnect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    delete?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    connect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    update?: tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbPatrimonioInput | tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbPatrimonioInput[]
+    updateMany?: tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbPatrimonioInput | tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbPatrimonioInput[]
+    deleteMany?: tbPatrimonioHistoricoScalarWhereInput | tbPatrimonioHistoricoScalarWhereInput[]
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput = {
+    create?: XOR<tbTransferenciaCustoPatrimonioCreateWithoutTbPatrimonioInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbPatrimonioInput> | tbTransferenciaCustoPatrimonioCreateWithoutTbPatrimonioInput[] | tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbTransferenciaCustoPatrimonioCreateOrConnectWithoutTbPatrimonioInput | tbTransferenciaCustoPatrimonioCreateOrConnectWithoutTbPatrimonioInput[]
+    upsert?: tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutTbPatrimonioInput | tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutTbPatrimonioInput[]
+    createMany?: tbTransferenciaCustoPatrimonioCreateManyTbPatrimonioInputEnvelope
+    set?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    disconnect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    delete?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    connect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    update?: tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutTbPatrimonioInput | tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutTbPatrimonioInput[]
+    updateMany?: tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutTbPatrimonioInput | tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutTbPatrimonioInput[]
+    deleteMany?: tbTransferenciaCustoPatrimonioScalarWhereInput | tbTransferenciaCustoPatrimonioScalarWhereInput[]
+  }
+
+  export type tbTransferenciaAlocacaoUpdateManyWithoutTbPatrimonioNestedInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbPatrimonioInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbPatrimonioInput> | tbTransferenciaAlocacaoCreateWithoutTbPatrimonioInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbPatrimonioInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbPatrimonioInput[]
+    upsert?: tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbPatrimonioInput | tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbPatrimonioInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbPatrimonioInputEnvelope
+    set?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    disconnect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    delete?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    update?: tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbPatrimonioInput | tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbPatrimonioInput[]
+    updateMany?: tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbPatrimonioInput | tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbPatrimonioInput[]
+    deleteMany?: tbTransferenciaAlocacaoScalarWhereInput | tbTransferenciaAlocacaoScalarWhereInput[]
+  }
+
   export type tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput = {
     create?: XOR<tbCadastroCreateWithoutTbPatrimonioInput, tbCadastroUncheckedCreateWithoutTbPatrimonioInput> | tbCadastroCreateWithoutTbPatrimonioInput[] | tbCadastroUncheckedCreateWithoutTbPatrimonioInput[]
     connectOrCreate?: tbCadastroCreateOrConnectWithoutTbPatrimonioInput | tbCadastroCreateOrConnectWithoutTbPatrimonioInput[]
@@ -23414,6 +30148,62 @@ export namespace Prisma {
     deleteMany?: tbCadastroScalarWhereInput | tbCadastroScalarWhereInput[]
   }
 
+  export type tbDevolucaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput = {
+    create?: XOR<tbDevolucaoCreateWithoutTbPatrimonioInput, tbDevolucaoUncheckedCreateWithoutTbPatrimonioInput> | tbDevolucaoCreateWithoutTbPatrimonioInput[] | tbDevolucaoUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbDevolucaoCreateOrConnectWithoutTbPatrimonioInput | tbDevolucaoCreateOrConnectWithoutTbPatrimonioInput[]
+    upsert?: tbDevolucaoUpsertWithWhereUniqueWithoutTbPatrimonioInput | tbDevolucaoUpsertWithWhereUniqueWithoutTbPatrimonioInput[]
+    createMany?: tbDevolucaoCreateManyTbPatrimonioInputEnvelope
+    set?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+    disconnect?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+    delete?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+    connect?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+    update?: tbDevolucaoUpdateWithWhereUniqueWithoutTbPatrimonioInput | tbDevolucaoUpdateWithWhereUniqueWithoutTbPatrimonioInput[]
+    updateMany?: tbDevolucaoUpdateManyWithWhereWithoutTbPatrimonioInput | tbDevolucaoUpdateManyWithWhereWithoutTbPatrimonioInput[]
+    deleteMany?: tbDevolucaoScalarWhereInput | tbDevolucaoScalarWhereInput[]
+  }
+
+  export type tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioNestedInput = {
+    create?: XOR<tbPatrimonioHistoricoCreateWithoutTbPatrimonioInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbPatrimonioInput> | tbPatrimonioHistoricoCreateWithoutTbPatrimonioInput[] | tbPatrimonioHistoricoUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbPatrimonioHistoricoCreateOrConnectWithoutTbPatrimonioInput | tbPatrimonioHistoricoCreateOrConnectWithoutTbPatrimonioInput[]
+    upsert?: tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbPatrimonioInput | tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbPatrimonioInput[]
+    createMany?: tbPatrimonioHistoricoCreateManyTbPatrimonioInputEnvelope
+    set?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    disconnect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    delete?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    connect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    update?: tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbPatrimonioInput | tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbPatrimonioInput[]
+    updateMany?: tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbPatrimonioInput | tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbPatrimonioInput[]
+    deleteMany?: tbPatrimonioHistoricoScalarWhereInput | tbPatrimonioHistoricoScalarWhereInput[]
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput = {
+    create?: XOR<tbTransferenciaCustoPatrimonioCreateWithoutTbPatrimonioInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbPatrimonioInput> | tbTransferenciaCustoPatrimonioCreateWithoutTbPatrimonioInput[] | tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbTransferenciaCustoPatrimonioCreateOrConnectWithoutTbPatrimonioInput | tbTransferenciaCustoPatrimonioCreateOrConnectWithoutTbPatrimonioInput[]
+    upsert?: tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutTbPatrimonioInput | tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutTbPatrimonioInput[]
+    createMany?: tbTransferenciaCustoPatrimonioCreateManyTbPatrimonioInputEnvelope
+    set?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    disconnect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    delete?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    connect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    update?: tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutTbPatrimonioInput | tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutTbPatrimonioInput[]
+    updateMany?: tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutTbPatrimonioInput | tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutTbPatrimonioInput[]
+    deleteMany?: tbTransferenciaCustoPatrimonioScalarWhereInput | tbTransferenciaCustoPatrimonioScalarWhereInput[]
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbPatrimonioInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbPatrimonioInput> | tbTransferenciaAlocacaoCreateWithoutTbPatrimonioInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbPatrimonioInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbPatrimonioInput[]
+    upsert?: tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbPatrimonioInput | tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbPatrimonioInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbPatrimonioInputEnvelope
+    set?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    disconnect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    delete?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    update?: tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbPatrimonioInput | tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbPatrimonioInput[]
+    updateMany?: tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbPatrimonioInput | tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbPatrimonioInput[]
+    deleteMany?: tbTransferenciaAlocacaoScalarWhereInput | tbTransferenciaAlocacaoScalarWhereInput[]
+  }
+
   export type tbPatrimonioCreateNestedManyWithoutTbTipoPatInput = {
     create?: XOR<tbPatrimonioCreateWithoutTbTipoPatInput, tbPatrimonioUncheckedCreateWithoutTbTipoPatInput> | tbPatrimonioCreateWithoutTbTipoPatInput[] | tbPatrimonioUncheckedCreateWithoutTbTipoPatInput[]
     connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbTipoPatInput | tbPatrimonioCreateOrConnectWithoutTbTipoPatInput[]
@@ -23421,11 +30211,25 @@ export namespace Prisma {
     connect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
   }
 
+  export type tbPatrimonioHistoricoCreateNestedManyWithoutTbTipoPatInput = {
+    create?: XOR<tbPatrimonioHistoricoCreateWithoutTbTipoPatInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbTipoPatInput> | tbPatrimonioHistoricoCreateWithoutTbTipoPatInput[] | tbPatrimonioHistoricoUncheckedCreateWithoutTbTipoPatInput[]
+    connectOrCreate?: tbPatrimonioHistoricoCreateOrConnectWithoutTbTipoPatInput | tbPatrimonioHistoricoCreateOrConnectWithoutTbTipoPatInput[]
+    createMany?: tbPatrimonioHistoricoCreateManyTbTipoPatInputEnvelope
+    connect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+  }
+
   export type tbPatrimonioUncheckedCreateNestedManyWithoutTbTipoPatInput = {
     create?: XOR<tbPatrimonioCreateWithoutTbTipoPatInput, tbPatrimonioUncheckedCreateWithoutTbTipoPatInput> | tbPatrimonioCreateWithoutTbTipoPatInput[] | tbPatrimonioUncheckedCreateWithoutTbTipoPatInput[]
     connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbTipoPatInput | tbPatrimonioCreateOrConnectWithoutTbTipoPatInput[]
     createMany?: tbPatrimonioCreateManyTbTipoPatInputEnvelope
     connect?: tbPatrimonioWhereUniqueInput | tbPatrimonioWhereUniqueInput[]
+  }
+
+  export type tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbTipoPatInput = {
+    create?: XOR<tbPatrimonioHistoricoCreateWithoutTbTipoPatInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbTipoPatInput> | tbPatrimonioHistoricoCreateWithoutTbTipoPatInput[] | tbPatrimonioHistoricoUncheckedCreateWithoutTbTipoPatInput[]
+    connectOrCreate?: tbPatrimonioHistoricoCreateOrConnectWithoutTbTipoPatInput | tbPatrimonioHistoricoCreateOrConnectWithoutTbTipoPatInput[]
+    createMany?: tbPatrimonioHistoricoCreateManyTbTipoPatInputEnvelope
+    connect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
   }
 
   export type tbPatrimonioUpdateManyWithoutTbTipoPatNestedInput = {
@@ -23442,6 +30246,20 @@ export namespace Prisma {
     deleteMany?: tbPatrimonioScalarWhereInput | tbPatrimonioScalarWhereInput[]
   }
 
+  export type tbPatrimonioHistoricoUpdateManyWithoutTbTipoPatNestedInput = {
+    create?: XOR<tbPatrimonioHistoricoCreateWithoutTbTipoPatInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbTipoPatInput> | tbPatrimonioHistoricoCreateWithoutTbTipoPatInput[] | tbPatrimonioHistoricoUncheckedCreateWithoutTbTipoPatInput[]
+    connectOrCreate?: tbPatrimonioHistoricoCreateOrConnectWithoutTbTipoPatInput | tbPatrimonioHistoricoCreateOrConnectWithoutTbTipoPatInput[]
+    upsert?: tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbTipoPatInput | tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbTipoPatInput[]
+    createMany?: tbPatrimonioHistoricoCreateManyTbTipoPatInputEnvelope
+    set?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    disconnect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    delete?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    connect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    update?: tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbTipoPatInput | tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbTipoPatInput[]
+    updateMany?: tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbTipoPatInput | tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbTipoPatInput[]
+    deleteMany?: tbPatrimonioHistoricoScalarWhereInput | tbPatrimonioHistoricoScalarWhereInput[]
+  }
+
   export type tbPatrimonioUncheckedUpdateManyWithoutTbTipoPatNestedInput = {
     create?: XOR<tbPatrimonioCreateWithoutTbTipoPatInput, tbPatrimonioUncheckedCreateWithoutTbTipoPatInput> | tbPatrimonioCreateWithoutTbTipoPatInput[] | tbPatrimonioUncheckedCreateWithoutTbTipoPatInput[]
     connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbTipoPatInput | tbPatrimonioCreateOrConnectWithoutTbTipoPatInput[]
@@ -23454,6 +30272,20 @@ export namespace Prisma {
     update?: tbPatrimonioUpdateWithWhereUniqueWithoutTbTipoPatInput | tbPatrimonioUpdateWithWhereUniqueWithoutTbTipoPatInput[]
     updateMany?: tbPatrimonioUpdateManyWithWhereWithoutTbTipoPatInput | tbPatrimonioUpdateManyWithWhereWithoutTbTipoPatInput[]
     deleteMany?: tbPatrimonioScalarWhereInput | tbPatrimonioScalarWhereInput[]
+  }
+
+  export type tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbTipoPatNestedInput = {
+    create?: XOR<tbPatrimonioHistoricoCreateWithoutTbTipoPatInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbTipoPatInput> | tbPatrimonioHistoricoCreateWithoutTbTipoPatInput[] | tbPatrimonioHistoricoUncheckedCreateWithoutTbTipoPatInput[]
+    connectOrCreate?: tbPatrimonioHistoricoCreateOrConnectWithoutTbTipoPatInput | tbPatrimonioHistoricoCreateOrConnectWithoutTbTipoPatInput[]
+    upsert?: tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbTipoPatInput | tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbTipoPatInput[]
+    createMany?: tbPatrimonioHistoricoCreateManyTbTipoPatInputEnvelope
+    set?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    disconnect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    delete?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    connect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    update?: tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbTipoPatInput | tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbTipoPatInput[]
+    updateMany?: tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbTipoPatInput | tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbTipoPatInput[]
+    deleteMany?: tbPatrimonioHistoricoScalarWhereInput | tbPatrimonioHistoricoScalarWhereInput[]
   }
 
   export type tbPatrimonioCreateNestedManyWithoutTbStatusPatInput = {
@@ -23470,6 +30302,13 @@ export namespace Prisma {
     connect?: tbCadastroWhereUniqueInput | tbCadastroWhereUniqueInput[]
   }
 
+  export type tbPatrimonioHistoricoCreateNestedManyWithoutTbStatusPatInput = {
+    create?: XOR<tbPatrimonioHistoricoCreateWithoutTbStatusPatInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbStatusPatInput> | tbPatrimonioHistoricoCreateWithoutTbStatusPatInput[] | tbPatrimonioHistoricoUncheckedCreateWithoutTbStatusPatInput[]
+    connectOrCreate?: tbPatrimonioHistoricoCreateOrConnectWithoutTbStatusPatInput | tbPatrimonioHistoricoCreateOrConnectWithoutTbStatusPatInput[]
+    createMany?: tbPatrimonioHistoricoCreateManyTbStatusPatInputEnvelope
+    connect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+  }
+
   export type tbPatrimonioUncheckedCreateNestedManyWithoutTbStatusPatInput = {
     create?: XOR<tbPatrimonioCreateWithoutTbStatusPatInput, tbPatrimonioUncheckedCreateWithoutTbStatusPatInput> | tbPatrimonioCreateWithoutTbStatusPatInput[] | tbPatrimonioUncheckedCreateWithoutTbStatusPatInput[]
     connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbStatusPatInput | tbPatrimonioCreateOrConnectWithoutTbStatusPatInput[]
@@ -23482,6 +30321,13 @@ export namespace Prisma {
     connectOrCreate?: tbCadastroCreateOrConnectWithoutTbStatusPatInput | tbCadastroCreateOrConnectWithoutTbStatusPatInput[]
     createMany?: tbCadastroCreateManyTbStatusPatInputEnvelope
     connect?: tbCadastroWhereUniqueInput | tbCadastroWhereUniqueInput[]
+  }
+
+  export type tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbStatusPatInput = {
+    create?: XOR<tbPatrimonioHistoricoCreateWithoutTbStatusPatInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbStatusPatInput> | tbPatrimonioHistoricoCreateWithoutTbStatusPatInput[] | tbPatrimonioHistoricoUncheckedCreateWithoutTbStatusPatInput[]
+    connectOrCreate?: tbPatrimonioHistoricoCreateOrConnectWithoutTbStatusPatInput | tbPatrimonioHistoricoCreateOrConnectWithoutTbStatusPatInput[]
+    createMany?: tbPatrimonioHistoricoCreateManyTbStatusPatInputEnvelope
+    connect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
   }
 
   export type tbPatrimonioUpdateManyWithoutTbStatusPatNestedInput = {
@@ -23512,6 +30358,20 @@ export namespace Prisma {
     deleteMany?: tbCadastroScalarWhereInput | tbCadastroScalarWhereInput[]
   }
 
+  export type tbPatrimonioHistoricoUpdateManyWithoutTbStatusPatNestedInput = {
+    create?: XOR<tbPatrimonioHistoricoCreateWithoutTbStatusPatInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbStatusPatInput> | tbPatrimonioHistoricoCreateWithoutTbStatusPatInput[] | tbPatrimonioHistoricoUncheckedCreateWithoutTbStatusPatInput[]
+    connectOrCreate?: tbPatrimonioHistoricoCreateOrConnectWithoutTbStatusPatInput | tbPatrimonioHistoricoCreateOrConnectWithoutTbStatusPatInput[]
+    upsert?: tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbStatusPatInput | tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbStatusPatInput[]
+    createMany?: tbPatrimonioHistoricoCreateManyTbStatusPatInputEnvelope
+    set?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    disconnect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    delete?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    connect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    update?: tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbStatusPatInput | tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbStatusPatInput[]
+    updateMany?: tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbStatusPatInput | tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbStatusPatInput[]
+    deleteMany?: tbPatrimonioHistoricoScalarWhereInput | tbPatrimonioHistoricoScalarWhereInput[]
+  }
+
   export type tbPatrimonioUncheckedUpdateManyWithoutTbStatusPatNestedInput = {
     create?: XOR<tbPatrimonioCreateWithoutTbStatusPatInput, tbPatrimonioUncheckedCreateWithoutTbStatusPatInput> | tbPatrimonioCreateWithoutTbStatusPatInput[] | tbPatrimonioUncheckedCreateWithoutTbStatusPatInput[]
     connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbStatusPatInput | tbPatrimonioCreateOrConnectWithoutTbStatusPatInput[]
@@ -23538,6 +30398,20 @@ export namespace Prisma {
     update?: tbCadastroUpdateWithWhereUniqueWithoutTbStatusPatInput | tbCadastroUpdateWithWhereUniqueWithoutTbStatusPatInput[]
     updateMany?: tbCadastroUpdateManyWithWhereWithoutTbStatusPatInput | tbCadastroUpdateManyWithWhereWithoutTbStatusPatInput[]
     deleteMany?: tbCadastroScalarWhereInput | tbCadastroScalarWhereInput[]
+  }
+
+  export type tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbStatusPatNestedInput = {
+    create?: XOR<tbPatrimonioHistoricoCreateWithoutTbStatusPatInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbStatusPatInput> | tbPatrimonioHistoricoCreateWithoutTbStatusPatInput[] | tbPatrimonioHistoricoUncheckedCreateWithoutTbStatusPatInput[]
+    connectOrCreate?: tbPatrimonioHistoricoCreateOrConnectWithoutTbStatusPatInput | tbPatrimonioHistoricoCreateOrConnectWithoutTbStatusPatInput[]
+    upsert?: tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbStatusPatInput | tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbStatusPatInput[]
+    createMany?: tbPatrimonioHistoricoCreateManyTbStatusPatInputEnvelope
+    set?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    disconnect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    delete?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    connect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    update?: tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbStatusPatInput | tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbStatusPatInput[]
+    updateMany?: tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbStatusPatInput | tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbStatusPatInput[]
+    deleteMany?: tbPatrimonioHistoricoScalarWhereInput | tbPatrimonioHistoricoScalarWhereInput[]
   }
 
   export type tbCCustoCreateNestedManyWithoutTbEmpresaInput = {
@@ -23602,6 +30476,27 @@ export namespace Prisma {
     connect?: tbFuncionarioWhereUniqueInput | tbFuncionarioWhereUniqueInput[]
   }
 
+  export type tbPatrimonioHistoricoCreateNestedManyWithoutTbCCustoInput = {
+    create?: XOR<tbPatrimonioHistoricoCreateWithoutTbCCustoInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbCCustoInput> | tbPatrimonioHistoricoCreateWithoutTbCCustoInput[] | tbPatrimonioHistoricoUncheckedCreateWithoutTbCCustoInput[]
+    connectOrCreate?: tbPatrimonioHistoricoCreateOrConnectWithoutTbCCustoInput | tbPatrimonioHistoricoCreateOrConnectWithoutTbCCustoInput[]
+    createMany?: tbPatrimonioHistoricoCreateManyTbCCustoInputEnvelope
+    connect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoOrigemInput = {
+    create?: XOR<tbTransferenciaCustoPatrimonioCreateWithoutCustoOrigemInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoOrigemInput> | tbTransferenciaCustoPatrimonioCreateWithoutCustoOrigemInput[] | tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoOrigemInput[]
+    connectOrCreate?: tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoOrigemInput | tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoOrigemInput[]
+    createMany?: tbTransferenciaCustoPatrimonioCreateManyCustoOrigemInputEnvelope
+    connect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoDestinoInput = {
+    create?: XOR<tbTransferenciaCustoPatrimonioCreateWithoutCustoDestinoInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoDestinoInput> | tbTransferenciaCustoPatrimonioCreateWithoutCustoDestinoInput[] | tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoDestinoInput[]
+    connectOrCreate?: tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoDestinoInput | tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoDestinoInput[]
+    createMany?: tbTransferenciaCustoPatrimonioCreateManyCustoDestinoInputEnvelope
+    connect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+  }
+
   export type tbPatrimonioUncheckedCreateNestedManyWithoutTbCCustoInput = {
     create?: XOR<tbPatrimonioCreateWithoutTbCCustoInput, tbPatrimonioUncheckedCreateWithoutTbCCustoInput> | tbPatrimonioCreateWithoutTbCCustoInput[] | tbPatrimonioUncheckedCreateWithoutTbCCustoInput[]
     connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbCCustoInput | tbPatrimonioCreateOrConnectWithoutTbCCustoInput[]
@@ -23614,6 +30509,27 @@ export namespace Prisma {
     connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbCCustoInput | tbFuncionarioCreateOrConnectWithoutTbCCustoInput[]
     createMany?: tbFuncionarioCreateManyTbCCustoInputEnvelope
     connect?: tbFuncionarioWhereUniqueInput | tbFuncionarioWhereUniqueInput[]
+  }
+
+  export type tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbCCustoInput = {
+    create?: XOR<tbPatrimonioHistoricoCreateWithoutTbCCustoInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbCCustoInput> | tbPatrimonioHistoricoCreateWithoutTbCCustoInput[] | tbPatrimonioHistoricoUncheckedCreateWithoutTbCCustoInput[]
+    connectOrCreate?: tbPatrimonioHistoricoCreateOrConnectWithoutTbCCustoInput | tbPatrimonioHistoricoCreateOrConnectWithoutTbCCustoInput[]
+    createMany?: tbPatrimonioHistoricoCreateManyTbCCustoInputEnvelope
+    connect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoOrigemInput = {
+    create?: XOR<tbTransferenciaCustoPatrimonioCreateWithoutCustoOrigemInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoOrigemInput> | tbTransferenciaCustoPatrimonioCreateWithoutCustoOrigemInput[] | tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoOrigemInput[]
+    connectOrCreate?: tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoOrigemInput | tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoOrigemInput[]
+    createMany?: tbTransferenciaCustoPatrimonioCreateManyCustoOrigemInputEnvelope
+    connect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoDestinoInput = {
+    create?: XOR<tbTransferenciaCustoPatrimonioCreateWithoutCustoDestinoInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoDestinoInput> | tbTransferenciaCustoPatrimonioCreateWithoutCustoDestinoInput[] | tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoDestinoInput[]
+    connectOrCreate?: tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoDestinoInput | tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoDestinoInput[]
+    createMany?: tbTransferenciaCustoPatrimonioCreateManyCustoDestinoInputEnvelope
+    connect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
   }
 
   export type tbEmpresaUpdateOneWithoutTbCCustoNestedInput = {
@@ -23654,6 +30570,48 @@ export namespace Prisma {
     deleteMany?: tbFuncionarioScalarWhereInput | tbFuncionarioScalarWhereInput[]
   }
 
+  export type tbPatrimonioHistoricoUpdateManyWithoutTbCCustoNestedInput = {
+    create?: XOR<tbPatrimonioHistoricoCreateWithoutTbCCustoInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbCCustoInput> | tbPatrimonioHistoricoCreateWithoutTbCCustoInput[] | tbPatrimonioHistoricoUncheckedCreateWithoutTbCCustoInput[]
+    connectOrCreate?: tbPatrimonioHistoricoCreateOrConnectWithoutTbCCustoInput | tbPatrimonioHistoricoCreateOrConnectWithoutTbCCustoInput[]
+    upsert?: tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbCCustoInput | tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbCCustoInput[]
+    createMany?: tbPatrimonioHistoricoCreateManyTbCCustoInputEnvelope
+    set?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    disconnect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    delete?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    connect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    update?: tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbCCustoInput | tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbCCustoInput[]
+    updateMany?: tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbCCustoInput | tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbCCustoInput[]
+    deleteMany?: tbPatrimonioHistoricoScalarWhereInput | tbPatrimonioHistoricoScalarWhereInput[]
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoOrigemNestedInput = {
+    create?: XOR<tbTransferenciaCustoPatrimonioCreateWithoutCustoOrigemInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoOrigemInput> | tbTransferenciaCustoPatrimonioCreateWithoutCustoOrigemInput[] | tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoOrigemInput[]
+    connectOrCreate?: tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoOrigemInput | tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoOrigemInput[]
+    upsert?: tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutCustoOrigemInput | tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutCustoOrigemInput[]
+    createMany?: tbTransferenciaCustoPatrimonioCreateManyCustoOrigemInputEnvelope
+    set?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    disconnect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    delete?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    connect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    update?: tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutCustoOrigemInput | tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutCustoOrigemInput[]
+    updateMany?: tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutCustoOrigemInput | tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutCustoOrigemInput[]
+    deleteMany?: tbTransferenciaCustoPatrimonioScalarWhereInput | tbTransferenciaCustoPatrimonioScalarWhereInput[]
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoDestinoNestedInput = {
+    create?: XOR<tbTransferenciaCustoPatrimonioCreateWithoutCustoDestinoInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoDestinoInput> | tbTransferenciaCustoPatrimonioCreateWithoutCustoDestinoInput[] | tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoDestinoInput[]
+    connectOrCreate?: tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoDestinoInput | tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoDestinoInput[]
+    upsert?: tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutCustoDestinoInput | tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutCustoDestinoInput[]
+    createMany?: tbTransferenciaCustoPatrimonioCreateManyCustoDestinoInputEnvelope
+    set?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    disconnect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    delete?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    connect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    update?: tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutCustoDestinoInput | tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutCustoDestinoInput[]
+    updateMany?: tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutCustoDestinoInput | tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutCustoDestinoInput[]
+    deleteMany?: tbTransferenciaCustoPatrimonioScalarWhereInput | tbTransferenciaCustoPatrimonioScalarWhereInput[]
+  }
+
   export type tbPatrimonioUncheckedUpdateManyWithoutTbCCustoNestedInput = {
     create?: XOR<tbPatrimonioCreateWithoutTbCCustoInput, tbPatrimonioUncheckedCreateWithoutTbCCustoInput> | tbPatrimonioCreateWithoutTbCCustoInput[] | tbPatrimonioUncheckedCreateWithoutTbCCustoInput[]
     connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbCCustoInput | tbPatrimonioCreateOrConnectWithoutTbCCustoInput[]
@@ -23682,6 +30640,116 @@ export namespace Prisma {
     deleteMany?: tbFuncionarioScalarWhereInput | tbFuncionarioScalarWhereInput[]
   }
 
+  export type tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbCCustoNestedInput = {
+    create?: XOR<tbPatrimonioHistoricoCreateWithoutTbCCustoInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbCCustoInput> | tbPatrimonioHistoricoCreateWithoutTbCCustoInput[] | tbPatrimonioHistoricoUncheckedCreateWithoutTbCCustoInput[]
+    connectOrCreate?: tbPatrimonioHistoricoCreateOrConnectWithoutTbCCustoInput | tbPatrimonioHistoricoCreateOrConnectWithoutTbCCustoInput[]
+    upsert?: tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbCCustoInput | tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbCCustoInput[]
+    createMany?: tbPatrimonioHistoricoCreateManyTbCCustoInputEnvelope
+    set?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    disconnect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    delete?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    connect?: tbPatrimonioHistoricoWhereUniqueInput | tbPatrimonioHistoricoWhereUniqueInput[]
+    update?: tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbCCustoInput | tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbCCustoInput[]
+    updateMany?: tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbCCustoInput | tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbCCustoInput[]
+    deleteMany?: tbPatrimonioHistoricoScalarWhereInput | tbPatrimonioHistoricoScalarWhereInput[]
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoOrigemNestedInput = {
+    create?: XOR<tbTransferenciaCustoPatrimonioCreateWithoutCustoOrigemInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoOrigemInput> | tbTransferenciaCustoPatrimonioCreateWithoutCustoOrigemInput[] | tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoOrigemInput[]
+    connectOrCreate?: tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoOrigemInput | tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoOrigemInput[]
+    upsert?: tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutCustoOrigemInput | tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutCustoOrigemInput[]
+    createMany?: tbTransferenciaCustoPatrimonioCreateManyCustoOrigemInputEnvelope
+    set?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    disconnect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    delete?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    connect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    update?: tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutCustoOrigemInput | tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutCustoOrigemInput[]
+    updateMany?: tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutCustoOrigemInput | tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutCustoOrigemInput[]
+    deleteMany?: tbTransferenciaCustoPatrimonioScalarWhereInput | tbTransferenciaCustoPatrimonioScalarWhereInput[]
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoDestinoNestedInput = {
+    create?: XOR<tbTransferenciaCustoPatrimonioCreateWithoutCustoDestinoInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoDestinoInput> | tbTransferenciaCustoPatrimonioCreateWithoutCustoDestinoInput[] | tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoDestinoInput[]
+    connectOrCreate?: tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoDestinoInput | tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoDestinoInput[]
+    upsert?: tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutCustoDestinoInput | tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutCustoDestinoInput[]
+    createMany?: tbTransferenciaCustoPatrimonioCreateManyCustoDestinoInputEnvelope
+    set?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    disconnect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    delete?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    connect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+    update?: tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutCustoDestinoInput | tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutCustoDestinoInput[]
+    updateMany?: tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutCustoDestinoInput | tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutCustoDestinoInput[]
+    deleteMany?: tbTransferenciaCustoPatrimonioScalarWhereInput | tbTransferenciaCustoPatrimonioScalarWhereInput[]
+  }
+
+  export type tbPatrimonioCreateNestedOneWithoutTbTransferenciaCustoPatrimonioInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbTransferenciaCustoPatrimonioInput, tbPatrimonioUncheckedCreateWithoutTbTransferenciaCustoPatrimonioInput>
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbTransferenciaCustoPatrimonioInput
+    connect?: tbPatrimonioWhereUniqueInput
+  }
+
+  export type tbCCustoCreateNestedOneWithoutTransferenciasOrigemInput = {
+    create?: XOR<tbCCustoCreateWithoutTransferenciasOrigemInput, tbCCustoUncheckedCreateWithoutTransferenciasOrigemInput>
+    connectOrCreate?: tbCCustoCreateOrConnectWithoutTransferenciasOrigemInput
+    connect?: tbCCustoWhereUniqueInput
+  }
+
+  export type tbCCustoCreateNestedOneWithoutTransferenciasDestinoInput = {
+    create?: XOR<tbCCustoCreateWithoutTransferenciasDestinoInput, tbCCustoUncheckedCreateWithoutTransferenciasDestinoInput>
+    connectOrCreate?: tbCCustoCreateOrConnectWithoutTransferenciasDestinoInput
+    connect?: tbCCustoWhereUniqueInput
+  }
+
+  export type tbUserCreateNestedOneWithoutTransferenciasCustoPatrimonioInput = {
+    create?: XOR<tbUserCreateWithoutTransferenciasCustoPatrimonioInput, tbUserUncheckedCreateWithoutTransferenciasCustoPatrimonioInput>
+    connectOrCreate?: tbUserCreateOrConnectWithoutTransferenciasCustoPatrimonioInput
+    connect?: tbUserWhereUniqueInput
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type tbPatrimonioUpdateOneRequiredWithoutTbTransferenciaCustoPatrimonioNestedInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbTransferenciaCustoPatrimonioInput, tbPatrimonioUncheckedCreateWithoutTbTransferenciaCustoPatrimonioInput>
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbTransferenciaCustoPatrimonioInput
+    upsert?: tbPatrimonioUpsertWithoutTbTransferenciaCustoPatrimonioInput
+    connect?: tbPatrimonioWhereUniqueInput
+    update?: XOR<XOR<tbPatrimonioUpdateToOneWithWhereWithoutTbTransferenciaCustoPatrimonioInput, tbPatrimonioUpdateWithoutTbTransferenciaCustoPatrimonioInput>, tbPatrimonioUncheckedUpdateWithoutTbTransferenciaCustoPatrimonioInput>
+  }
+
+  export type tbCCustoUpdateOneWithoutTransferenciasOrigemNestedInput = {
+    create?: XOR<tbCCustoCreateWithoutTransferenciasOrigemInput, tbCCustoUncheckedCreateWithoutTransferenciasOrigemInput>
+    connectOrCreate?: tbCCustoCreateOrConnectWithoutTransferenciasOrigemInput
+    upsert?: tbCCustoUpsertWithoutTransferenciasOrigemInput
+    disconnect?: tbCCustoWhereInput | boolean
+    delete?: tbCCustoWhereInput | boolean
+    connect?: tbCCustoWhereUniqueInput
+    update?: XOR<XOR<tbCCustoUpdateToOneWithWhereWithoutTransferenciasOrigemInput, tbCCustoUpdateWithoutTransferenciasOrigemInput>, tbCCustoUncheckedUpdateWithoutTransferenciasOrigemInput>
+  }
+
+  export type tbCCustoUpdateOneRequiredWithoutTransferenciasDestinoNestedInput = {
+    create?: XOR<tbCCustoCreateWithoutTransferenciasDestinoInput, tbCCustoUncheckedCreateWithoutTransferenciasDestinoInput>
+    connectOrCreate?: tbCCustoCreateOrConnectWithoutTransferenciasDestinoInput
+    upsert?: tbCCustoUpsertWithoutTransferenciasDestinoInput
+    connect?: tbCCustoWhereUniqueInput
+    update?: XOR<XOR<tbCCustoUpdateToOneWithWhereWithoutTransferenciasDestinoInput, tbCCustoUpdateWithoutTransferenciasDestinoInput>, tbCCustoUncheckedUpdateWithoutTransferenciasDestinoInput>
+  }
+
+  export type tbUserUpdateOneWithoutTransferenciasCustoPatrimonioNestedInput = {
+    create?: XOR<tbUserCreateWithoutTransferenciasCustoPatrimonioInput, tbUserUncheckedCreateWithoutTransferenciasCustoPatrimonioInput>
+    connectOrCreate?: tbUserCreateOrConnectWithoutTransferenciasCustoPatrimonioInput
+    upsert?: tbUserUpsertWithoutTransferenciasCustoPatrimonioInput
+    disconnect?: tbUserWhereInput | boolean
+    delete?: tbUserWhereInput | boolean
+    connect?: tbUserWhereUniqueInput
+    update?: XOR<XOR<tbUserUpdateToOneWithWhereWithoutTransferenciasCustoPatrimonioInput, tbUserUpdateWithoutTransferenciasCustoPatrimonioInput>, tbUserUncheckedUpdateWithoutTransferenciasCustoPatrimonioInput>
+  }
+
   export type tbPatrimonioCreateNestedOneWithoutTbCadastroInput = {
     create?: XOR<tbPatrimonioCreateWithoutTbCadastroInput, tbPatrimonioUncheckedCreateWithoutTbCadastroInput>
     connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbCadastroInput
@@ -23698,6 +30766,34 @@ export namespace Prisma {
     create?: XOR<tbStatusPatCreateWithoutTbCadastroInput, tbStatusPatUncheckedCreateWithoutTbCadastroInput>
     connectOrCreate?: tbStatusPatCreateOrConnectWithoutTbCadastroInput
     connect?: tbStatusPatWhereUniqueInput
+  }
+
+  export type tbDevolucaoCreateNestedManyWithoutTbCadastroInput = {
+    create?: XOR<tbDevolucaoCreateWithoutTbCadastroInput, tbDevolucaoUncheckedCreateWithoutTbCadastroInput> | tbDevolucaoCreateWithoutTbCadastroInput[] | tbDevolucaoUncheckedCreateWithoutTbCadastroInput[]
+    connectOrCreate?: tbDevolucaoCreateOrConnectWithoutTbCadastroInput | tbDevolucaoCreateOrConnectWithoutTbCadastroInput[]
+    createMany?: tbDevolucaoCreateManyTbCadastroInputEnvelope
+    connect?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+  }
+
+  export type tbTransferenciaAlocacaoCreateNestedManyWithoutTbCadastroInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbCadastroInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbCadastroInput> | tbTransferenciaAlocacaoCreateWithoutTbCadastroInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbCadastroInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbCadastroInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbCadastroInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbCadastroInputEnvelope
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+  }
+
+  export type tbDevolucaoUncheckedCreateNestedManyWithoutTbCadastroInput = {
+    create?: XOR<tbDevolucaoCreateWithoutTbCadastroInput, tbDevolucaoUncheckedCreateWithoutTbCadastroInput> | tbDevolucaoCreateWithoutTbCadastroInput[] | tbDevolucaoUncheckedCreateWithoutTbCadastroInput[]
+    connectOrCreate?: tbDevolucaoCreateOrConnectWithoutTbCadastroInput | tbDevolucaoCreateOrConnectWithoutTbCadastroInput[]
+    createMany?: tbDevolucaoCreateManyTbCadastroInputEnvelope
+    connect?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbCadastroInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbCadastroInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbCadastroInput> | tbTransferenciaAlocacaoCreateWithoutTbCadastroInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbCadastroInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbCadastroInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbCadastroInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbCadastroInputEnvelope
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
   }
 
   export type tbPatrimonioUpdateOneWithoutTbCadastroNestedInput = {
@@ -23728,6 +30824,230 @@ export namespace Prisma {
     delete?: tbStatusPatWhereInput | boolean
     connect?: tbStatusPatWhereUniqueInput
     update?: XOR<XOR<tbStatusPatUpdateToOneWithWhereWithoutTbCadastroInput, tbStatusPatUpdateWithoutTbCadastroInput>, tbStatusPatUncheckedUpdateWithoutTbCadastroInput>
+  }
+
+  export type tbDevolucaoUpdateManyWithoutTbCadastroNestedInput = {
+    create?: XOR<tbDevolucaoCreateWithoutTbCadastroInput, tbDevolucaoUncheckedCreateWithoutTbCadastroInput> | tbDevolucaoCreateWithoutTbCadastroInput[] | tbDevolucaoUncheckedCreateWithoutTbCadastroInput[]
+    connectOrCreate?: tbDevolucaoCreateOrConnectWithoutTbCadastroInput | tbDevolucaoCreateOrConnectWithoutTbCadastroInput[]
+    upsert?: tbDevolucaoUpsertWithWhereUniqueWithoutTbCadastroInput | tbDevolucaoUpsertWithWhereUniqueWithoutTbCadastroInput[]
+    createMany?: tbDevolucaoCreateManyTbCadastroInputEnvelope
+    set?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+    disconnect?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+    delete?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+    connect?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+    update?: tbDevolucaoUpdateWithWhereUniqueWithoutTbCadastroInput | tbDevolucaoUpdateWithWhereUniqueWithoutTbCadastroInput[]
+    updateMany?: tbDevolucaoUpdateManyWithWhereWithoutTbCadastroInput | tbDevolucaoUpdateManyWithWhereWithoutTbCadastroInput[]
+    deleteMany?: tbDevolucaoScalarWhereInput | tbDevolucaoScalarWhereInput[]
+  }
+
+  export type tbTransferenciaAlocacaoUpdateManyWithoutTbCadastroNestedInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbCadastroInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbCadastroInput> | tbTransferenciaAlocacaoCreateWithoutTbCadastroInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbCadastroInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbCadastroInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbCadastroInput[]
+    upsert?: tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbCadastroInput | tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbCadastroInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbCadastroInputEnvelope
+    set?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    disconnect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    delete?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    update?: tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbCadastroInput | tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbCadastroInput[]
+    updateMany?: tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbCadastroInput | tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbCadastroInput[]
+    deleteMany?: tbTransferenciaAlocacaoScalarWhereInput | tbTransferenciaAlocacaoScalarWhereInput[]
+  }
+
+  export type tbDevolucaoUncheckedUpdateManyWithoutTbCadastroNestedInput = {
+    create?: XOR<tbDevolucaoCreateWithoutTbCadastroInput, tbDevolucaoUncheckedCreateWithoutTbCadastroInput> | tbDevolucaoCreateWithoutTbCadastroInput[] | tbDevolucaoUncheckedCreateWithoutTbCadastroInput[]
+    connectOrCreate?: tbDevolucaoCreateOrConnectWithoutTbCadastroInput | tbDevolucaoCreateOrConnectWithoutTbCadastroInput[]
+    upsert?: tbDevolucaoUpsertWithWhereUniqueWithoutTbCadastroInput | tbDevolucaoUpsertWithWhereUniqueWithoutTbCadastroInput[]
+    createMany?: tbDevolucaoCreateManyTbCadastroInputEnvelope
+    set?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+    disconnect?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+    delete?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+    connect?: tbDevolucaoWhereUniqueInput | tbDevolucaoWhereUniqueInput[]
+    update?: tbDevolucaoUpdateWithWhereUniqueWithoutTbCadastroInput | tbDevolucaoUpdateWithWhereUniqueWithoutTbCadastroInput[]
+    updateMany?: tbDevolucaoUpdateManyWithWhereWithoutTbCadastroInput | tbDevolucaoUpdateManyWithWhereWithoutTbCadastroInput[]
+    deleteMany?: tbDevolucaoScalarWhereInput | tbDevolucaoScalarWhereInput[]
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbCadastroNestedInput = {
+    create?: XOR<tbTransferenciaAlocacaoCreateWithoutTbCadastroInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbCadastroInput> | tbTransferenciaAlocacaoCreateWithoutTbCadastroInput[] | tbTransferenciaAlocacaoUncheckedCreateWithoutTbCadastroInput[]
+    connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbCadastroInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbCadastroInput[]
+    upsert?: tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbCadastroInput | tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbCadastroInput[]
+    createMany?: tbTransferenciaAlocacaoCreateManyTbCadastroInputEnvelope
+    set?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    disconnect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    delete?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+    update?: tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbCadastroInput | tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbCadastroInput[]
+    updateMany?: tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbCadastroInput | tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbCadastroInput[]
+    deleteMany?: tbTransferenciaAlocacaoScalarWhereInput | tbTransferenciaAlocacaoScalarWhereInput[]
+  }
+
+  export type tbCadastroCreateNestedOneWithoutTbTransferenciaAlocacaoInput = {
+    create?: XOR<tbCadastroCreateWithoutTbTransferenciaAlocacaoInput, tbCadastroUncheckedCreateWithoutTbTransferenciaAlocacaoInput>
+    connectOrCreate?: tbCadastroCreateOrConnectWithoutTbTransferenciaAlocacaoInput
+    connect?: tbCadastroWhereUniqueInput
+  }
+
+  export type tbPatrimonioCreateNestedOneWithoutTbTransferenciaAlocacaoInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbTransferenciaAlocacaoInput, tbPatrimonioUncheckedCreateWithoutTbTransferenciaAlocacaoInput>
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbTransferenciaAlocacaoInput
+    connect?: tbPatrimonioWhereUniqueInput
+  }
+
+  export type tbFuncionarioCreateNestedOneWithoutTbTransferenciaAlocacaoOrigemInput = {
+    create?: XOR<tbFuncionarioCreateWithoutTbTransferenciaAlocacaoOrigemInput, tbFuncionarioUncheckedCreateWithoutTbTransferenciaAlocacaoOrigemInput>
+    connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbTransferenciaAlocacaoOrigemInput
+    connect?: tbFuncionarioWhereUniqueInput
+  }
+
+  export type tbFuncionarioCreateNestedOneWithoutTbTransferenciaAlocacaoDestinoInput = {
+    create?: XOR<tbFuncionarioCreateWithoutTbTransferenciaAlocacaoDestinoInput, tbFuncionarioUncheckedCreateWithoutTbTransferenciaAlocacaoDestinoInput>
+    connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbTransferenciaAlocacaoDestinoInput
+    connect?: tbFuncionarioWhereUniqueInput
+  }
+
+  export type tbUserCreateNestedOneWithoutTransferenciasAlocacaoInput = {
+    create?: XOR<tbUserCreateWithoutTransferenciasAlocacaoInput, tbUserUncheckedCreateWithoutTransferenciasAlocacaoInput>
+    connectOrCreate?: tbUserCreateOrConnectWithoutTransferenciasAlocacaoInput
+    connect?: tbUserWhereUniqueInput
+  }
+
+  export type tbCadastroUpdateOneRequiredWithoutTbTransferenciaAlocacaoNestedInput = {
+    create?: XOR<tbCadastroCreateWithoutTbTransferenciaAlocacaoInput, tbCadastroUncheckedCreateWithoutTbTransferenciaAlocacaoInput>
+    connectOrCreate?: tbCadastroCreateOrConnectWithoutTbTransferenciaAlocacaoInput
+    upsert?: tbCadastroUpsertWithoutTbTransferenciaAlocacaoInput
+    connect?: tbCadastroWhereUniqueInput
+    update?: XOR<XOR<tbCadastroUpdateToOneWithWhereWithoutTbTransferenciaAlocacaoInput, tbCadastroUpdateWithoutTbTransferenciaAlocacaoInput>, tbCadastroUncheckedUpdateWithoutTbTransferenciaAlocacaoInput>
+  }
+
+  export type tbPatrimonioUpdateOneRequiredWithoutTbTransferenciaAlocacaoNestedInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbTransferenciaAlocacaoInput, tbPatrimonioUncheckedCreateWithoutTbTransferenciaAlocacaoInput>
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbTransferenciaAlocacaoInput
+    upsert?: tbPatrimonioUpsertWithoutTbTransferenciaAlocacaoInput
+    connect?: tbPatrimonioWhereUniqueInput
+    update?: XOR<XOR<tbPatrimonioUpdateToOneWithWhereWithoutTbTransferenciaAlocacaoInput, tbPatrimonioUpdateWithoutTbTransferenciaAlocacaoInput>, tbPatrimonioUncheckedUpdateWithoutTbTransferenciaAlocacaoInput>
+  }
+
+  export type tbFuncionarioUpdateOneWithoutTbTransferenciaAlocacaoOrigemNestedInput = {
+    create?: XOR<tbFuncionarioCreateWithoutTbTransferenciaAlocacaoOrigemInput, tbFuncionarioUncheckedCreateWithoutTbTransferenciaAlocacaoOrigemInput>
+    connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbTransferenciaAlocacaoOrigemInput
+    upsert?: tbFuncionarioUpsertWithoutTbTransferenciaAlocacaoOrigemInput
+    disconnect?: tbFuncionarioWhereInput | boolean
+    delete?: tbFuncionarioWhereInput | boolean
+    connect?: tbFuncionarioWhereUniqueInput
+    update?: XOR<XOR<tbFuncionarioUpdateToOneWithWhereWithoutTbTransferenciaAlocacaoOrigemInput, tbFuncionarioUpdateWithoutTbTransferenciaAlocacaoOrigemInput>, tbFuncionarioUncheckedUpdateWithoutTbTransferenciaAlocacaoOrigemInput>
+  }
+
+  export type tbFuncionarioUpdateOneWithoutTbTransferenciaAlocacaoDestinoNestedInput = {
+    create?: XOR<tbFuncionarioCreateWithoutTbTransferenciaAlocacaoDestinoInput, tbFuncionarioUncheckedCreateWithoutTbTransferenciaAlocacaoDestinoInput>
+    connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbTransferenciaAlocacaoDestinoInput
+    upsert?: tbFuncionarioUpsertWithoutTbTransferenciaAlocacaoDestinoInput
+    disconnect?: tbFuncionarioWhereInput | boolean
+    delete?: tbFuncionarioWhereInput | boolean
+    connect?: tbFuncionarioWhereUniqueInput
+    update?: XOR<XOR<tbFuncionarioUpdateToOneWithWhereWithoutTbTransferenciaAlocacaoDestinoInput, tbFuncionarioUpdateWithoutTbTransferenciaAlocacaoDestinoInput>, tbFuncionarioUncheckedUpdateWithoutTbTransferenciaAlocacaoDestinoInput>
+  }
+
+  export type tbUserUpdateOneWithoutTransferenciasAlocacaoNestedInput = {
+    create?: XOR<tbUserCreateWithoutTransferenciasAlocacaoInput, tbUserUncheckedCreateWithoutTransferenciasAlocacaoInput>
+    connectOrCreate?: tbUserCreateOrConnectWithoutTransferenciasAlocacaoInput
+    upsert?: tbUserUpsertWithoutTransferenciasAlocacaoInput
+    disconnect?: tbUserWhereInput | boolean
+    delete?: tbUserWhereInput | boolean
+    connect?: tbUserWhereUniqueInput
+    update?: XOR<XOR<tbUserUpdateToOneWithWhereWithoutTransferenciasAlocacaoInput, tbUserUpdateWithoutTransferenciasAlocacaoInput>, tbUserUncheckedUpdateWithoutTransferenciasAlocacaoInput>
+  }
+
+  export type tbPatrimonioCreateNestedOneWithoutTbDevolucaoInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbDevolucaoInput, tbPatrimonioUncheckedCreateWithoutTbDevolucaoInput>
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbDevolucaoInput
+    connect?: tbPatrimonioWhereUniqueInput
+  }
+
+  export type tbCadastroCreateNestedOneWithoutTbDevolucaoInput = {
+    create?: XOR<tbCadastroCreateWithoutTbDevolucaoInput, tbCadastroUncheckedCreateWithoutTbDevolucaoInput>
+    connectOrCreate?: tbCadastroCreateOrConnectWithoutTbDevolucaoInput
+    connect?: tbCadastroWhereUniqueInput
+  }
+
+  export type tbPatrimonioUpdateOneRequiredWithoutTbDevolucaoNestedInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbDevolucaoInput, tbPatrimonioUncheckedCreateWithoutTbDevolucaoInput>
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbDevolucaoInput
+    upsert?: tbPatrimonioUpsertWithoutTbDevolucaoInput
+    connect?: tbPatrimonioWhereUniqueInput
+    update?: XOR<XOR<tbPatrimonioUpdateToOneWithWhereWithoutTbDevolucaoInput, tbPatrimonioUpdateWithoutTbDevolucaoInput>, tbPatrimonioUncheckedUpdateWithoutTbDevolucaoInput>
+  }
+
+  export type tbCadastroUpdateOneWithoutTbDevolucaoNestedInput = {
+    create?: XOR<tbCadastroCreateWithoutTbDevolucaoInput, tbCadastroUncheckedCreateWithoutTbDevolucaoInput>
+    connectOrCreate?: tbCadastroCreateOrConnectWithoutTbDevolucaoInput
+    upsert?: tbCadastroUpsertWithoutTbDevolucaoInput
+    disconnect?: tbCadastroWhereInput | boolean
+    delete?: tbCadastroWhereInput | boolean
+    connect?: tbCadastroWhereUniqueInput
+    update?: XOR<XOR<tbCadastroUpdateToOneWithWhereWithoutTbDevolucaoInput, tbCadastroUpdateWithoutTbDevolucaoInput>, tbCadastroUncheckedUpdateWithoutTbDevolucaoInput>
+  }
+
+  export type tbPatrimonioCreateNestedOneWithoutTbPatrimonioHistoricoInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbPatrimonioHistoricoInput, tbPatrimonioUncheckedCreateWithoutTbPatrimonioHistoricoInput>
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbPatrimonioHistoricoInput
+    connect?: tbPatrimonioWhereUniqueInput
+  }
+
+  export type tbTipoPatCreateNestedOneWithoutTbPatrimonioHistoricoInput = {
+    create?: XOR<tbTipoPatCreateWithoutTbPatrimonioHistoricoInput, tbTipoPatUncheckedCreateWithoutTbPatrimonioHistoricoInput>
+    connectOrCreate?: tbTipoPatCreateOrConnectWithoutTbPatrimonioHistoricoInput
+    connect?: tbTipoPatWhereUniqueInput
+  }
+
+  export type tbStatusPatCreateNestedOneWithoutTbPatrimonioHistoricoInput = {
+    create?: XOR<tbStatusPatCreateWithoutTbPatrimonioHistoricoInput, tbStatusPatUncheckedCreateWithoutTbPatrimonioHistoricoInput>
+    connectOrCreate?: tbStatusPatCreateOrConnectWithoutTbPatrimonioHistoricoInput
+    connect?: tbStatusPatWhereUniqueInput
+  }
+
+  export type tbCCustoCreateNestedOneWithoutTbPatrimonioHistoricoInput = {
+    create?: XOR<tbCCustoCreateWithoutTbPatrimonioHistoricoInput, tbCCustoUncheckedCreateWithoutTbPatrimonioHistoricoInput>
+    connectOrCreate?: tbCCustoCreateOrConnectWithoutTbPatrimonioHistoricoInput
+    connect?: tbCCustoWhereUniqueInput
+  }
+
+  export type tbPatrimonioUpdateOneRequiredWithoutTbPatrimonioHistoricoNestedInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbPatrimonioHistoricoInput, tbPatrimonioUncheckedCreateWithoutTbPatrimonioHistoricoInput>
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbPatrimonioHistoricoInput
+    upsert?: tbPatrimonioUpsertWithoutTbPatrimonioHistoricoInput
+    connect?: tbPatrimonioWhereUniqueInput
+    update?: XOR<XOR<tbPatrimonioUpdateToOneWithWhereWithoutTbPatrimonioHistoricoInput, tbPatrimonioUpdateWithoutTbPatrimonioHistoricoInput>, tbPatrimonioUncheckedUpdateWithoutTbPatrimonioHistoricoInput>
+  }
+
+  export type tbTipoPatUpdateOneWithoutTbPatrimonioHistoricoNestedInput = {
+    create?: XOR<tbTipoPatCreateWithoutTbPatrimonioHistoricoInput, tbTipoPatUncheckedCreateWithoutTbPatrimonioHistoricoInput>
+    connectOrCreate?: tbTipoPatCreateOrConnectWithoutTbPatrimonioHistoricoInput
+    upsert?: tbTipoPatUpsertWithoutTbPatrimonioHistoricoInput
+    disconnect?: tbTipoPatWhereInput | boolean
+    delete?: tbTipoPatWhereInput | boolean
+    connect?: tbTipoPatWhereUniqueInput
+    update?: XOR<XOR<tbTipoPatUpdateToOneWithWhereWithoutTbPatrimonioHistoricoInput, tbTipoPatUpdateWithoutTbPatrimonioHistoricoInput>, tbTipoPatUncheckedUpdateWithoutTbPatrimonioHistoricoInput>
+  }
+
+  export type tbStatusPatUpdateOneWithoutTbPatrimonioHistoricoNestedInput = {
+    create?: XOR<tbStatusPatCreateWithoutTbPatrimonioHistoricoInput, tbStatusPatUncheckedCreateWithoutTbPatrimonioHistoricoInput>
+    connectOrCreate?: tbStatusPatCreateOrConnectWithoutTbPatrimonioHistoricoInput
+    upsert?: tbStatusPatUpsertWithoutTbPatrimonioHistoricoInput
+    disconnect?: tbStatusPatWhereInput | boolean
+    delete?: tbStatusPatWhereInput | boolean
+    connect?: tbStatusPatWhereUniqueInput
+    update?: XOR<XOR<tbStatusPatUpdateToOneWithWhereWithoutTbPatrimonioHistoricoInput, tbStatusPatUpdateWithoutTbPatrimonioHistoricoInput>, tbStatusPatUncheckedUpdateWithoutTbPatrimonioHistoricoInput>
+  }
+
+  export type tbCCustoUpdateOneWithoutTbPatrimonioHistoricoNestedInput = {
+    create?: XOR<tbCCustoCreateWithoutTbPatrimonioHistoricoInput, tbCCustoUncheckedCreateWithoutTbPatrimonioHistoricoInput>
+    connectOrCreate?: tbCCustoCreateOrConnectWithoutTbPatrimonioHistoricoInput
+    upsert?: tbCCustoUpsertWithoutTbPatrimonioHistoricoInput
+    disconnect?: tbCCustoWhereInput | boolean
+    delete?: tbCCustoWhereInput | boolean
+    connect?: tbCCustoWhereUniqueInput
+    update?: XOR<XOR<tbCCustoUpdateToOneWithWhereWithoutTbPatrimonioHistoricoInput, tbCCustoUpdateWithoutTbPatrimonioHistoricoInput>, tbCCustoUncheckedUpdateWithoutTbPatrimonioHistoricoInput>
   }
 
   export type UserCreateNestedOneWithoutAccountsInput = {
@@ -24058,6 +31378,33 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | null
@@ -24072,17 +31419,6 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -24111,6 +31447,8 @@ export namespace Prisma {
     tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbFuncionarioDestinoInput
   }
 
   export type tbFuncionarioUncheckedCreateWithoutTbUserInput = {
@@ -24126,6 +31464,8 @@ export namespace Prisma {
     idCustoFun?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbFuncionarioDestinoInput
   }
 
   export type tbFuncionarioCreateOrConnectWithoutTbUserInput = {
@@ -24135,6 +31475,74 @@ export namespace Prisma {
 
   export type tbFuncionarioCreateManyTbUserInputEnvelope = {
     data: tbFuncionarioCreateManyTbUserInput | tbFuncionarioCreateManyTbUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateWithoutTbUserInput = {
+    idTransferencia?: string
+    valorTransferido?: number | null
+    observacao?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+    tbPatrimonio: tbPatrimonioCreateNestedOneWithoutTbTransferenciaCustoPatrimonioInput
+    custoOrigem?: tbCCustoCreateNestedOneWithoutTransferenciasOrigemInput
+    custoDestino: tbCCustoCreateNestedOneWithoutTransferenciasDestinoInput
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbUserInput = {
+    idTransferencia?: string
+    idPatrimonio: string
+    idCustoOrigem?: string | null
+    idCustoDestino: string
+    valorTransferido?: number | null
+    observacao?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateOrConnectWithoutTbUserInput = {
+    where: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    create: XOR<tbTransferenciaCustoPatrimonioCreateWithoutTbUserInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbUserInput>
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateManyTbUserInputEnvelope = {
+    data: tbTransferenciaCustoPatrimonioCreateManyTbUserInput | tbTransferenciaCustoPatrimonioCreateManyTbUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type tbTransferenciaAlocacaoCreateWithoutTbUserInput = {
+    idTransferenciaAlocacao?: string
+    statusAnterior?: string | null
+    statusNovo: string
+    observacao?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+    tbCadastro: tbCadastroCreateNestedOneWithoutTbTransferenciaAlocacaoInput
+    tbPatrimonio: tbPatrimonioCreateNestedOneWithoutTbTransferenciaAlocacaoInput
+    tbFuncionario?: tbFuncionarioCreateNestedOneWithoutTbTransferenciaAlocacaoOrigemInput
+    tbFuncionarioDestino?: tbFuncionarioCreateNestedOneWithoutTbTransferenciaAlocacaoDestinoInput
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedCreateWithoutTbUserInput = {
+    idTransferenciaAlocacao?: string
+    idCadastro: string
+    idPatrimonio: string
+    idMatriculaFuncionario?: string | null
+    idMatriculaFuncionarioDestino?: string | null
+    statusAnterior?: string | null
+    statusNovo: string
+    observacao?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaAlocacaoCreateOrConnectWithoutTbUserInput = {
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+    create: XOR<tbTransferenciaAlocacaoCreateWithoutTbUserInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbUserInput>
+  }
+
+  export type tbTransferenciaAlocacaoCreateManyTbUserInputEnvelope = {
+    data: tbTransferenciaAlocacaoCreateManyTbUserInput | tbTransferenciaAlocacaoCreateManyTbUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -24171,6 +31579,70 @@ export namespace Prisma {
     idCustoFun?: StringNullableFilter<"tbFuncionario"> | string | null
   }
 
+  export type tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutTbUserInput = {
+    where: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    update: XOR<tbTransferenciaCustoPatrimonioUpdateWithoutTbUserInput, tbTransferenciaCustoPatrimonioUncheckedUpdateWithoutTbUserInput>
+    create: XOR<tbTransferenciaCustoPatrimonioCreateWithoutTbUserInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbUserInput>
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutTbUserInput = {
+    where: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    data: XOR<tbTransferenciaCustoPatrimonioUpdateWithoutTbUserInput, tbTransferenciaCustoPatrimonioUncheckedUpdateWithoutTbUserInput>
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutTbUserInput = {
+    where: tbTransferenciaCustoPatrimonioScalarWhereInput
+    data: XOR<tbTransferenciaCustoPatrimonioUpdateManyMutationInput, tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbUserInput>
+  }
+
+  export type tbTransferenciaCustoPatrimonioScalarWhereInput = {
+    AND?: tbTransferenciaCustoPatrimonioScalarWhereInput | tbTransferenciaCustoPatrimonioScalarWhereInput[]
+    OR?: tbTransferenciaCustoPatrimonioScalarWhereInput[]
+    NOT?: tbTransferenciaCustoPatrimonioScalarWhereInput | tbTransferenciaCustoPatrimonioScalarWhereInput[]
+    idTransferencia?: StringFilter<"tbTransferenciaCustoPatrimonio"> | string
+    idPatrimonio?: StringFilter<"tbTransferenciaCustoPatrimonio"> | string
+    idCustoOrigem?: StringNullableFilter<"tbTransferenciaCustoPatrimonio"> | string | null
+    idCustoDestino?: StringFilter<"tbTransferenciaCustoPatrimonio"> | string
+    valorTransferido?: FloatNullableFilter<"tbTransferenciaCustoPatrimonio"> | number | null
+    observacao?: StringNullableFilter<"tbTransferenciaCustoPatrimonio"> | string | null
+    idUserTransferencia?: StringNullableFilter<"tbTransferenciaCustoPatrimonio"> | string | null
+    dataTransferencia?: DateTimeFilter<"tbTransferenciaCustoPatrimonio"> | Date | string
+    createdAt?: DateTimeFilter<"tbTransferenciaCustoPatrimonio"> | Date | string
+  }
+
+  export type tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbUserInput = {
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+    update: XOR<tbTransferenciaAlocacaoUpdateWithoutTbUserInput, tbTransferenciaAlocacaoUncheckedUpdateWithoutTbUserInput>
+    create: XOR<tbTransferenciaAlocacaoCreateWithoutTbUserInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbUserInput>
+  }
+
+  export type tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbUserInput = {
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+    data: XOR<tbTransferenciaAlocacaoUpdateWithoutTbUserInput, tbTransferenciaAlocacaoUncheckedUpdateWithoutTbUserInput>
+  }
+
+  export type tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbUserInput = {
+    where: tbTransferenciaAlocacaoScalarWhereInput
+    data: XOR<tbTransferenciaAlocacaoUpdateManyMutationInput, tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbUserInput>
+  }
+
+  export type tbTransferenciaAlocacaoScalarWhereInput = {
+    AND?: tbTransferenciaAlocacaoScalarWhereInput | tbTransferenciaAlocacaoScalarWhereInput[]
+    OR?: tbTransferenciaAlocacaoScalarWhereInput[]
+    NOT?: tbTransferenciaAlocacaoScalarWhereInput | tbTransferenciaAlocacaoScalarWhereInput[]
+    idTransferenciaAlocacao?: StringFilter<"tbTransferenciaAlocacao"> | string
+    idCadastro?: StringFilter<"tbTransferenciaAlocacao"> | string
+    idPatrimonio?: StringFilter<"tbTransferenciaAlocacao"> | string
+    idMatriculaFuncionario?: StringNullableFilter<"tbTransferenciaAlocacao"> | string | null
+    idMatriculaFuncionarioDestino?: StringNullableFilter<"tbTransferenciaAlocacao"> | string | null
+    statusAnterior?: StringNullableFilter<"tbTransferenciaAlocacao"> | string | null
+    statusNovo?: StringFilter<"tbTransferenciaAlocacao"> | string
+    observacao?: StringNullableFilter<"tbTransferenciaAlocacao"> | string | null
+    idUserTransferencia?: StringNullableFilter<"tbTransferenciaAlocacao"> | string | null
+    dataTransferencia?: DateTimeFilter<"tbTransferenciaAlocacao"> | Date | string
+    createdAt?: DateTimeFilter<"tbTransferenciaAlocacao"> | Date | string
+  }
+
   export type tbStatusFunCreateWithoutTbFuncionarioInput = {
     idStatusFun?: string
     descricaoStatusFun: string
@@ -24200,6 +31672,8 @@ export namespace Prisma {
     statusUser?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbUserInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserUncheckedCreateWithoutTbFuncioanrioInput = {
@@ -24216,6 +31690,8 @@ export namespace Prisma {
     statusUser?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserCreateOrConnectWithoutTbFuncioanrioInput = {
@@ -24246,6 +31722,9 @@ export namespace Prisma {
     descricaoCCusto?: string | null
     tbEmpresa?: tbEmpresaCreateNestedOneWithoutTbCCustoInput
     tbPatrimonio?: tbPatrimonioCreateNestedManyWithoutTbCCustoInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbCCustoInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoOrigemInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoDestinoInput
   }
 
   export type tbCCustoUncheckedCreateWithoutTbFuncionarioInput = {
@@ -24254,6 +31733,9 @@ export namespace Prisma {
     descricaoCCusto?: string | null
     idEmp_Custo?: string | null
     tbPatrimonio?: tbPatrimonioUncheckedCreateNestedManyWithoutTbCCustoInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbCCustoInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoOrigemInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoDestinoInput
   }
 
   export type tbCCustoCreateOrConnectWithoutTbFuncionarioInput = {
@@ -24269,6 +31751,8 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     tbPatrimonio?: tbPatrimonioCreateNestedOneWithoutTbCadastroInput
     tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbCadastroInput
+    tbDevolucao?: tbDevolucaoCreateNestedManyWithoutTbCadastroInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbCadastroInput
   }
 
   export type tbCadastroUncheckedCreateWithoutTbFuncionarioInput = {
@@ -24279,6 +31763,8 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     idPatCad?: string | null
     idStatusPatCad: string
+    tbDevolucao?: tbDevolucaoUncheckedCreateNestedManyWithoutTbCadastroInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbCadastroInput
   }
 
   export type tbCadastroCreateOrConnectWithoutTbFuncionarioInput = {
@@ -24312,6 +31798,78 @@ export namespace Prisma {
 
   export type tbHasLicencaFuncionarioCreateManyTbFuncionarioInputEnvelope = {
     data: tbHasLicencaFuncionarioCreateManyTbFuncionarioInput | tbHasLicencaFuncionarioCreateManyTbFuncionarioInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type tbTransferenciaAlocacaoCreateWithoutTbFuncionarioInput = {
+    idTransferenciaAlocacao?: string
+    statusAnterior?: string | null
+    statusNovo: string
+    observacao?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+    tbCadastro: tbCadastroCreateNestedOneWithoutTbTransferenciaAlocacaoInput
+    tbPatrimonio: tbPatrimonioCreateNestedOneWithoutTbTransferenciaAlocacaoInput
+    tbFuncionarioDestino?: tbFuncionarioCreateNestedOneWithoutTbTransferenciaAlocacaoDestinoInput
+    tbUser?: tbUserCreateNestedOneWithoutTransferenciasAlocacaoInput
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioInput = {
+    idTransferenciaAlocacao?: string
+    idCadastro: string
+    idPatrimonio: string
+    idMatriculaFuncionarioDestino?: string | null
+    statusAnterior?: string | null
+    statusNovo: string
+    observacao?: string | null
+    idUserTransferencia?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaAlocacaoCreateOrConnectWithoutTbFuncionarioInput = {
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+    create: XOR<tbTransferenciaAlocacaoCreateWithoutTbFuncionarioInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioInput>
+  }
+
+  export type tbTransferenciaAlocacaoCreateManyTbFuncionarioInputEnvelope = {
+    data: tbTransferenciaAlocacaoCreateManyTbFuncionarioInput | tbTransferenciaAlocacaoCreateManyTbFuncionarioInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type tbTransferenciaAlocacaoCreateWithoutTbFuncionarioDestinoInput = {
+    idTransferenciaAlocacao?: string
+    statusAnterior?: string | null
+    statusNovo: string
+    observacao?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+    tbCadastro: tbCadastroCreateNestedOneWithoutTbTransferenciaAlocacaoInput
+    tbPatrimonio: tbPatrimonioCreateNestedOneWithoutTbTransferenciaAlocacaoInput
+    tbFuncionario?: tbFuncionarioCreateNestedOneWithoutTbTransferenciaAlocacaoOrigemInput
+    tbUser?: tbUserCreateNestedOneWithoutTransferenciasAlocacaoInput
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioDestinoInput = {
+    idTransferenciaAlocacao?: string
+    idCadastro: string
+    idPatrimonio: string
+    idMatriculaFuncionario?: string | null
+    statusAnterior?: string | null
+    statusNovo: string
+    observacao?: string | null
+    idUserTransferencia?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaAlocacaoCreateOrConnectWithoutTbFuncionarioDestinoInput = {
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+    create: XOR<tbTransferenciaAlocacaoCreateWithoutTbFuncionarioDestinoInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioDestinoInput>
+  }
+
+  export type tbTransferenciaAlocacaoCreateManyTbFuncionarioDestinoInputEnvelope = {
+    data: tbTransferenciaAlocacaoCreateManyTbFuncionarioDestinoInput | tbTransferenciaAlocacaoCreateManyTbFuncionarioDestinoInput[]
     skipDuplicates?: boolean
   }
 
@@ -24361,6 +31919,8 @@ export namespace Prisma {
     statusUser?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbUserNestedInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbUserUncheckedUpdateWithoutTbFuncioanrioInput = {
@@ -24377,6 +31937,8 @@ export namespace Prisma {
     statusUser?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbFuncaoUpsertWithoutTbFuncionarioInput = {
@@ -24418,6 +31980,9 @@ export namespace Prisma {
     descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
     tbEmpresa?: tbEmpresaUpdateOneWithoutTbCCustoNestedInput
     tbPatrimonio?: tbPatrimonioUpdateManyWithoutTbCCustoNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbCCustoNestedInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoOrigemNestedInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoDestinoNestedInput
   }
 
   export type tbCCustoUncheckedUpdateWithoutTbFuncionarioInput = {
@@ -24426,6 +31991,9 @@ export namespace Prisma {
     descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
     idEmp_Custo?: NullableStringFieldUpdateOperationsInput | string | null
     tbPatrimonio?: tbPatrimonioUncheckedUpdateManyWithoutTbCCustoNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbCCustoNestedInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoOrigemNestedInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoDestinoNestedInput
   }
 
   export type tbCadastroUpsertWithWhereUniqueWithoutTbFuncionarioInput = {
@@ -24485,6 +32053,38 @@ export namespace Prisma {
     dataVencimetno?: DateTimeFilter<"tbHasLicencaFuncionario"> | Date | string
   }
 
+  export type tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbFuncionarioInput = {
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+    update: XOR<tbTransferenciaAlocacaoUpdateWithoutTbFuncionarioInput, tbTransferenciaAlocacaoUncheckedUpdateWithoutTbFuncionarioInput>
+    create: XOR<tbTransferenciaAlocacaoCreateWithoutTbFuncionarioInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioInput>
+  }
+
+  export type tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbFuncionarioInput = {
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+    data: XOR<tbTransferenciaAlocacaoUpdateWithoutTbFuncionarioInput, tbTransferenciaAlocacaoUncheckedUpdateWithoutTbFuncionarioInput>
+  }
+
+  export type tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbFuncionarioInput = {
+    where: tbTransferenciaAlocacaoScalarWhereInput
+    data: XOR<tbTransferenciaAlocacaoUpdateManyMutationInput, tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioInput>
+  }
+
+  export type tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbFuncionarioDestinoInput = {
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+    update: XOR<tbTransferenciaAlocacaoUpdateWithoutTbFuncionarioDestinoInput, tbTransferenciaAlocacaoUncheckedUpdateWithoutTbFuncionarioDestinoInput>
+    create: XOR<tbTransferenciaAlocacaoCreateWithoutTbFuncionarioDestinoInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbFuncionarioDestinoInput>
+  }
+
+  export type tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbFuncionarioDestinoInput = {
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+    data: XOR<tbTransferenciaAlocacaoUpdateWithoutTbFuncionarioDestinoInput, tbTransferenciaAlocacaoUncheckedUpdateWithoutTbFuncionarioDestinoInput>
+  }
+
+  export type tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbFuncionarioDestinoInput = {
+    where: tbTransferenciaAlocacaoScalarWhereInput
+    data: XOR<tbTransferenciaAlocacaoUpdateManyMutationInput, tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioDestinoInput>
+  }
+
   export type tbHasLicencaFuncionarioCreateWithoutTbLicencaInput = {
     idHas?: string
     dataInicio: Date | string
@@ -24538,6 +32138,8 @@ export namespace Prisma {
     tbFuncao?: tbFuncaoCreateNestedOneWithoutTbFuncionarioInput
     tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbFuncionarioDestinoInput
   }
 
   export type tbFuncionarioUncheckedCreateWithoutTbHasLicencaFuncionarioInput = {
@@ -24553,6 +32155,8 @@ export namespace Prisma {
     idStatusFun?: string | null
     idCustoFun?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbFuncionarioDestinoInput
   }
 
   export type tbFuncionarioCreateOrConnectWithoutTbHasLicencaFuncionarioInput = {
@@ -24599,6 +32203,8 @@ export namespace Prisma {
     tbFuncao?: tbFuncaoUpdateOneWithoutTbFuncionarioNestedInput
     tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUpdateManyWithoutTbFuncionarioDestinoNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateWithoutTbHasLicencaFuncionarioInput = {
@@ -24614,6 +32220,8 @@ export namespace Prisma {
     idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
     idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioDestinoNestedInput
   }
 
   export type tbLicencaUpsertWithoutTbHasLicencaFuncionarioInput = {
@@ -24650,6 +32258,8 @@ export namespace Prisma {
     tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbFuncionarioDestinoInput
   }
 
   export type tbFuncionarioUncheckedCreateWithoutTbStatusFunInput = {
@@ -24665,6 +32275,8 @@ export namespace Prisma {
     idCustoFun?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbFuncionarioDestinoInput
   }
 
   export type tbFuncionarioCreateOrConnectWithoutTbStatusFunInput = {
@@ -24706,6 +32318,8 @@ export namespace Prisma {
     tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbFuncionarioDestinoInput
   }
 
   export type tbFuncionarioUncheckedCreateWithoutTbFuncaoInput = {
@@ -24721,6 +32335,8 @@ export namespace Prisma {
     idCustoFun?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbFuncionarioDestinoInput
   }
 
   export type tbFuncionarioCreateOrConnectWithoutTbFuncaoInput = {
@@ -24752,11 +32368,13 @@ export namespace Prisma {
   export type tbTipoPatCreateWithoutTbPatrimonioInput = {
     idTipPat?: string
     descricaoTipPat?: string | null
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbTipoPatInput
   }
 
   export type tbTipoPatUncheckedCreateWithoutTbPatrimonioInput = {
     idTipPat?: string
     descricaoTipPat?: string | null
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbTipoPatInput
   }
 
   export type tbTipoPatCreateOrConnectWithoutTbPatrimonioInput = {
@@ -24768,12 +32386,14 @@ export namespace Prisma {
     idStatusPat?: string
     descricaoStatPat: string
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbStatusPatInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbStatusPatInput
   }
 
   export type tbStatusPatUncheckedCreateWithoutTbPatrimonioInput = {
     idStatusPat?: string
     descricaoStatPat: string
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbStatusPatInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbStatusPatInput
   }
 
   export type tbStatusPatCreateOrConnectWithoutTbPatrimonioInput = {
@@ -24787,6 +32407,9 @@ export namespace Prisma {
     descricaoCCusto?: string | null
     tbEmpresa?: tbEmpresaCreateNestedOneWithoutTbCCustoInput
     tbFuncionario?: tbFuncionarioCreateNestedManyWithoutTbCCustoInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbCCustoInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoOrigemInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoDestinoInput
   }
 
   export type tbCCustoUncheckedCreateWithoutTbPatrimonioInput = {
@@ -24795,6 +32418,9 @@ export namespace Prisma {
     descricaoCCusto?: string | null
     idEmp_Custo?: string | null
     tbFuncionario?: tbFuncionarioUncheckedCreateNestedManyWithoutTbCCustoInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbCCustoInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoOrigemInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoDestinoInput
   }
 
   export type tbCCustoCreateOrConnectWithoutTbPatrimonioInput = {
@@ -24810,6 +32436,8 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     tbFuncionario?: tbFuncionarioCreateNestedOneWithoutTbCadastroInput
     tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbCadastroInput
+    tbDevolucao?: tbDevolucaoCreateNestedManyWithoutTbCadastroInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbCadastroInput
   }
 
   export type tbCadastroUncheckedCreateWithoutTbPatrimonioInput = {
@@ -24820,6 +32448,8 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     idMatFunCad?: string | null
     idStatusPatCad: string
+    tbDevolucao?: tbDevolucaoUncheckedCreateNestedManyWithoutTbCadastroInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbCadastroInput
   }
 
   export type tbCadastroCreateOrConnectWithoutTbPatrimonioInput = {
@@ -24829,6 +32459,150 @@ export namespace Prisma {
 
   export type tbCadastroCreateManyTbPatrimonioInputEnvelope = {
     data: tbCadastroCreateManyTbPatrimonioInput | tbCadastroCreateManyTbPatrimonioInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type tbDevolucaoCreateWithoutTbPatrimonioInput = {
+    idDevolucao?: string
+    dataInicioDevolucao: Date | string
+    dataFimDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tbCadastro?: tbCadastroCreateNestedOneWithoutTbDevolucaoInput
+  }
+
+  export type tbDevolucaoUncheckedCreateWithoutTbPatrimonioInput = {
+    idDevolucao?: string
+    idCadastro?: string | null
+    dataInicioDevolucao: Date | string
+    dataFimDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type tbDevolucaoCreateOrConnectWithoutTbPatrimonioInput = {
+    where: tbDevolucaoWhereUniqueInput
+    create: XOR<tbDevolucaoCreateWithoutTbPatrimonioInput, tbDevolucaoUncheckedCreateWithoutTbPatrimonioInput>
+  }
+
+  export type tbDevolucaoCreateManyTbPatrimonioInputEnvelope = {
+    data: tbDevolucaoCreateManyTbPatrimonioInput | tbDevolucaoCreateManyTbPatrimonioInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type tbPatrimonioHistoricoCreateWithoutTbPatrimonioInput = {
+    idHistorico?: string
+    idPat: string
+    descricaoPat: string
+    valorPat: number
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    dataDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+    tbTipoPat?: tbTipoPatCreateNestedOneWithoutTbPatrimonioHistoricoInput
+    tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbPatrimonioHistoricoInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbPatrimonioHistoricoInput
+  }
+
+  export type tbPatrimonioHistoricoUncheckedCreateWithoutTbPatrimonioInput = {
+    idHistorico?: string
+    idPat: string
+    descricaoPat: string
+    valorPat: number
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    idPat_TipoPat?: string | null
+    idPat_StatusPat?: string | null
+    idPat_CustoPat?: string | null
+    dataDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+  }
+
+  export type tbPatrimonioHistoricoCreateOrConnectWithoutTbPatrimonioInput = {
+    where: tbPatrimonioHistoricoWhereUniqueInput
+    create: XOR<tbPatrimonioHistoricoCreateWithoutTbPatrimonioInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbPatrimonioInput>
+  }
+
+  export type tbPatrimonioHistoricoCreateManyTbPatrimonioInputEnvelope = {
+    data: tbPatrimonioHistoricoCreateManyTbPatrimonioInput | tbPatrimonioHistoricoCreateManyTbPatrimonioInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateWithoutTbPatrimonioInput = {
+    idTransferencia?: string
+    valorTransferido?: number | null
+    observacao?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+    custoOrigem?: tbCCustoCreateNestedOneWithoutTransferenciasOrigemInput
+    custoDestino: tbCCustoCreateNestedOneWithoutTransferenciasDestinoInput
+    tbUser?: tbUserCreateNestedOneWithoutTransferenciasCustoPatrimonioInput
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbPatrimonioInput = {
+    idTransferencia?: string
+    idCustoOrigem?: string | null
+    idCustoDestino: string
+    valorTransferido?: number | null
+    observacao?: string | null
+    idUserTransferencia?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateOrConnectWithoutTbPatrimonioInput = {
+    where: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    create: XOR<tbTransferenciaCustoPatrimonioCreateWithoutTbPatrimonioInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbPatrimonioInput>
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateManyTbPatrimonioInputEnvelope = {
+    data: tbTransferenciaCustoPatrimonioCreateManyTbPatrimonioInput | tbTransferenciaCustoPatrimonioCreateManyTbPatrimonioInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type tbTransferenciaAlocacaoCreateWithoutTbPatrimonioInput = {
+    idTransferenciaAlocacao?: string
+    statusAnterior?: string | null
+    statusNovo: string
+    observacao?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+    tbCadastro: tbCadastroCreateNestedOneWithoutTbTransferenciaAlocacaoInput
+    tbFuncionario?: tbFuncionarioCreateNestedOneWithoutTbTransferenciaAlocacaoOrigemInput
+    tbFuncionarioDestino?: tbFuncionarioCreateNestedOneWithoutTbTransferenciaAlocacaoDestinoInput
+    tbUser?: tbUserCreateNestedOneWithoutTransferenciasAlocacaoInput
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedCreateWithoutTbPatrimonioInput = {
+    idTransferenciaAlocacao?: string
+    idCadastro: string
+    idMatriculaFuncionario?: string | null
+    idMatriculaFuncionarioDestino?: string | null
+    statusAnterior?: string | null
+    statusNovo: string
+    observacao?: string | null
+    idUserTransferencia?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaAlocacaoCreateOrConnectWithoutTbPatrimonioInput = {
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+    create: XOR<tbTransferenciaAlocacaoCreateWithoutTbPatrimonioInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbPatrimonioInput>
+  }
+
+  export type tbTransferenciaAlocacaoCreateManyTbPatrimonioInputEnvelope = {
+    data: tbTransferenciaAlocacaoCreateManyTbPatrimonioInput | tbTransferenciaAlocacaoCreateManyTbPatrimonioInput[]
     skipDuplicates?: boolean
   }
 
@@ -24846,11 +32620,13 @@ export namespace Prisma {
   export type tbTipoPatUpdateWithoutTbPatrimonioInput = {
     idTipPat?: StringFieldUpdateOperationsInput | string
     descricaoTipPat?: NullableStringFieldUpdateOperationsInput | string | null
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbTipoPatNestedInput
   }
 
   export type tbTipoPatUncheckedUpdateWithoutTbPatrimonioInput = {
     idTipPat?: StringFieldUpdateOperationsInput | string
     descricaoTipPat?: NullableStringFieldUpdateOperationsInput | string | null
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbTipoPatNestedInput
   }
 
   export type tbStatusPatUpsertWithoutTbPatrimonioInput = {
@@ -24868,12 +32644,14 @@ export namespace Prisma {
     idStatusPat?: StringFieldUpdateOperationsInput | string
     descricaoStatPat?: StringFieldUpdateOperationsInput | string
     tbCadastro?: tbCadastroUpdateManyWithoutTbStatusPatNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbStatusPatNestedInput
   }
 
   export type tbStatusPatUncheckedUpdateWithoutTbPatrimonioInput = {
     idStatusPat?: StringFieldUpdateOperationsInput | string
     descricaoStatPat?: StringFieldUpdateOperationsInput | string
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbStatusPatNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbStatusPatNestedInput
   }
 
   export type tbCCustoUpsertWithoutTbPatrimonioInput = {
@@ -24893,6 +32671,9 @@ export namespace Prisma {
     descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
     tbEmpresa?: tbEmpresaUpdateOneWithoutTbCCustoNestedInput
     tbFuncionario?: tbFuncionarioUpdateManyWithoutTbCCustoNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbCCustoNestedInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoOrigemNestedInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoDestinoNestedInput
   }
 
   export type tbCCustoUncheckedUpdateWithoutTbPatrimonioInput = {
@@ -24901,6 +32682,9 @@ export namespace Prisma {
     descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
     idEmp_Custo?: NullableStringFieldUpdateOperationsInput | string | null
     tbFuncionario?: tbFuncionarioUncheckedUpdateManyWithoutTbCCustoNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbCCustoNestedInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoOrigemNestedInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoDestinoNestedInput
   }
 
   export type tbCadastroUpsertWithWhereUniqueWithoutTbPatrimonioInput = {
@@ -24919,6 +32703,106 @@ export namespace Prisma {
     data: XOR<tbCadastroUpdateManyMutationInput, tbCadastroUncheckedUpdateManyWithoutTbPatrimonioInput>
   }
 
+  export type tbDevolucaoUpsertWithWhereUniqueWithoutTbPatrimonioInput = {
+    where: tbDevolucaoWhereUniqueInput
+    update: XOR<tbDevolucaoUpdateWithoutTbPatrimonioInput, tbDevolucaoUncheckedUpdateWithoutTbPatrimonioInput>
+    create: XOR<tbDevolucaoCreateWithoutTbPatrimonioInput, tbDevolucaoUncheckedCreateWithoutTbPatrimonioInput>
+  }
+
+  export type tbDevolucaoUpdateWithWhereUniqueWithoutTbPatrimonioInput = {
+    where: tbDevolucaoWhereUniqueInput
+    data: XOR<tbDevolucaoUpdateWithoutTbPatrimonioInput, tbDevolucaoUncheckedUpdateWithoutTbPatrimonioInput>
+  }
+
+  export type tbDevolucaoUpdateManyWithWhereWithoutTbPatrimonioInput = {
+    where: tbDevolucaoScalarWhereInput
+    data: XOR<tbDevolucaoUpdateManyMutationInput, tbDevolucaoUncheckedUpdateManyWithoutTbPatrimonioInput>
+  }
+
+  export type tbDevolucaoScalarWhereInput = {
+    AND?: tbDevolucaoScalarWhereInput | tbDevolucaoScalarWhereInput[]
+    OR?: tbDevolucaoScalarWhereInput[]
+    NOT?: tbDevolucaoScalarWhereInput | tbDevolucaoScalarWhereInput[]
+    idDevolucao?: StringFilter<"tbDevolucao"> | string
+    idPatrimonio?: StringFilter<"tbDevolucao"> | string
+    idCadastro?: StringNullableFilter<"tbDevolucao"> | string | null
+    dataInicioDevolucao?: DateTimeFilter<"tbDevolucao"> | Date | string
+    dataFimDevolucao?: DateTimeNullableFilter<"tbDevolucao"> | Date | string | null
+    motivoDevolucao?: StringNullableFilter<"tbDevolucao"> | string | null
+    notaFiscalDevolucao?: StringNullableFilter<"tbDevolucao"> | string | null
+    createdAt?: DateTimeFilter<"tbDevolucao"> | Date | string
+    updatedAt?: DateTimeFilter<"tbDevolucao"> | Date | string
+  }
+
+  export type tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbPatrimonioInput = {
+    where: tbPatrimonioHistoricoWhereUniqueInput
+    update: XOR<tbPatrimonioHistoricoUpdateWithoutTbPatrimonioInput, tbPatrimonioHistoricoUncheckedUpdateWithoutTbPatrimonioInput>
+    create: XOR<tbPatrimonioHistoricoCreateWithoutTbPatrimonioInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbPatrimonioInput>
+  }
+
+  export type tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbPatrimonioInput = {
+    where: tbPatrimonioHistoricoWhereUniqueInput
+    data: XOR<tbPatrimonioHistoricoUpdateWithoutTbPatrimonioInput, tbPatrimonioHistoricoUncheckedUpdateWithoutTbPatrimonioInput>
+  }
+
+  export type tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbPatrimonioInput = {
+    where: tbPatrimonioHistoricoScalarWhereInput
+    data: XOR<tbPatrimonioHistoricoUpdateManyMutationInput, tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioInput>
+  }
+
+  export type tbPatrimonioHistoricoScalarWhereInput = {
+    AND?: tbPatrimonioHistoricoScalarWhereInput | tbPatrimonioHistoricoScalarWhereInput[]
+    OR?: tbPatrimonioHistoricoScalarWhereInput[]
+    NOT?: tbPatrimonioHistoricoScalarWhereInput | tbPatrimonioHistoricoScalarWhereInput[]
+    idHistorico?: StringFilter<"tbPatrimonioHistorico"> | string
+    idPatrimonioOriginal?: StringFilter<"tbPatrimonioHistorico"> | string
+    idPat?: StringFilter<"tbPatrimonioHistorico"> | string
+    descricaoPat?: StringFilter<"tbPatrimonioHistorico"> | string
+    valorPat?: FloatFilter<"tbPatrimonioHistorico"> | number
+    dataEntPat?: DateTimeFilter<"tbPatrimonioHistorico"> | Date | string
+    dataSaiPat?: DateTimeNullableFilter<"tbPatrimonioHistorico"> | Date | string | null
+    notaFiscalPat?: StringNullableFilter<"tbPatrimonioHistorico"> | string | null
+    idPat_TipoPat?: StringNullableFilter<"tbPatrimonioHistorico"> | string | null
+    idPat_StatusPat?: StringNullableFilter<"tbPatrimonioHistorico"> | string | null
+    idPat_CustoPat?: StringNullableFilter<"tbPatrimonioHistorico"> | string | null
+    dataDevolucao?: DateTimeNullableFilter<"tbPatrimonioHistorico"> | Date | string | null
+    motivoDevolucao?: StringNullableFilter<"tbPatrimonioHistorico"> | string | null
+    notaFiscalDevolucao?: StringNullableFilter<"tbPatrimonioHistorico"> | string | null
+    createdAt?: DateTimeFilter<"tbPatrimonioHistorico"> | Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutTbPatrimonioInput = {
+    where: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    update: XOR<tbTransferenciaCustoPatrimonioUpdateWithoutTbPatrimonioInput, tbTransferenciaCustoPatrimonioUncheckedUpdateWithoutTbPatrimonioInput>
+    create: XOR<tbTransferenciaCustoPatrimonioCreateWithoutTbPatrimonioInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutTbPatrimonioInput>
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutTbPatrimonioInput = {
+    where: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    data: XOR<tbTransferenciaCustoPatrimonioUpdateWithoutTbPatrimonioInput, tbTransferenciaCustoPatrimonioUncheckedUpdateWithoutTbPatrimonioInput>
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutTbPatrimonioInput = {
+    where: tbTransferenciaCustoPatrimonioScalarWhereInput
+    data: XOR<tbTransferenciaCustoPatrimonioUpdateManyMutationInput, tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioInput>
+  }
+
+  export type tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbPatrimonioInput = {
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+    update: XOR<tbTransferenciaAlocacaoUpdateWithoutTbPatrimonioInput, tbTransferenciaAlocacaoUncheckedUpdateWithoutTbPatrimonioInput>
+    create: XOR<tbTransferenciaAlocacaoCreateWithoutTbPatrimonioInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbPatrimonioInput>
+  }
+
+  export type tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbPatrimonioInput = {
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+    data: XOR<tbTransferenciaAlocacaoUpdateWithoutTbPatrimonioInput, tbTransferenciaAlocacaoUncheckedUpdateWithoutTbPatrimonioInput>
+  }
+
+  export type tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbPatrimonioInput = {
+    where: tbTransferenciaAlocacaoScalarWhereInput
+    data: XOR<tbTransferenciaAlocacaoUpdateManyMutationInput, tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioInput>
+  }
+
   export type tbPatrimonioCreateWithoutTbTipoPatInput = {
     idP?: string
     idPat: string
@@ -24934,6 +32818,10 @@ export namespace Prisma {
     tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbPatrimonioInput
     tbCCusto?: tbCCustoCreateNestedOneWithoutTbPatrimonioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbPatrimonioInput
+    tbDevolucao?: tbDevolucaoCreateNestedManyWithoutTbPatrimonioInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUncheckedCreateWithoutTbTipoPatInput = {
@@ -24951,6 +32839,10 @@ export namespace Prisma {
     idPat_StatusPat?: string | null
     idPat_CustoPat?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbDevolucao?: tbDevolucaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioCreateOrConnectWithoutTbTipoPatInput = {
@@ -24960,6 +32852,50 @@ export namespace Prisma {
 
   export type tbPatrimonioCreateManyTbTipoPatInputEnvelope = {
     data: tbPatrimonioCreateManyTbTipoPatInput | tbPatrimonioCreateManyTbTipoPatInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type tbPatrimonioHistoricoCreateWithoutTbTipoPatInput = {
+    idHistorico?: string
+    idPat: string
+    descricaoPat: string
+    valorPat: number
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    dataDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+    tbPatrimonio: tbPatrimonioCreateNestedOneWithoutTbPatrimonioHistoricoInput
+    tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbPatrimonioHistoricoInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbPatrimonioHistoricoInput
+  }
+
+  export type tbPatrimonioHistoricoUncheckedCreateWithoutTbTipoPatInput = {
+    idHistorico?: string
+    idPatrimonioOriginal: string
+    idPat: string
+    descricaoPat: string
+    valorPat: number
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    idPat_StatusPat?: string | null
+    idPat_CustoPat?: string | null
+    dataDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+  }
+
+  export type tbPatrimonioHistoricoCreateOrConnectWithoutTbTipoPatInput = {
+    where: tbPatrimonioHistoricoWhereUniqueInput
+    create: XOR<tbPatrimonioHistoricoCreateWithoutTbTipoPatInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbTipoPatInput>
+  }
+
+  export type tbPatrimonioHistoricoCreateManyTbTipoPatInputEnvelope = {
+    data: tbPatrimonioHistoricoCreateManyTbTipoPatInput | tbPatrimonioHistoricoCreateManyTbTipoPatInput[]
     skipDuplicates?: boolean
   }
 
@@ -24999,6 +32935,22 @@ export namespace Prisma {
     idPat_CustoPat?: StringNullableFilter<"tbPatrimonio"> | string | null
   }
 
+  export type tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbTipoPatInput = {
+    where: tbPatrimonioHistoricoWhereUniqueInput
+    update: XOR<tbPatrimonioHistoricoUpdateWithoutTbTipoPatInput, tbPatrimonioHistoricoUncheckedUpdateWithoutTbTipoPatInput>
+    create: XOR<tbPatrimonioHistoricoCreateWithoutTbTipoPatInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbTipoPatInput>
+  }
+
+  export type tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbTipoPatInput = {
+    where: tbPatrimonioHistoricoWhereUniqueInput
+    data: XOR<tbPatrimonioHistoricoUpdateWithoutTbTipoPatInput, tbPatrimonioHistoricoUncheckedUpdateWithoutTbTipoPatInput>
+  }
+
+  export type tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbTipoPatInput = {
+    where: tbPatrimonioHistoricoScalarWhereInput
+    data: XOR<tbPatrimonioHistoricoUpdateManyMutationInput, tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbTipoPatInput>
+  }
+
   export type tbPatrimonioCreateWithoutTbStatusPatInput = {
     idP?: string
     idPat: string
@@ -25014,6 +32966,10 @@ export namespace Prisma {
     tbTipoPat?: tbTipoPatCreateNestedOneWithoutTbPatrimonioInput
     tbCCusto?: tbCCustoCreateNestedOneWithoutTbPatrimonioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbPatrimonioInput
+    tbDevolucao?: tbDevolucaoCreateNestedManyWithoutTbPatrimonioInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUncheckedCreateWithoutTbStatusPatInput = {
@@ -25031,6 +32987,10 @@ export namespace Prisma {
     idPat_TipoPat?: string | null
     idPat_CustoPat?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbDevolucao?: tbDevolucaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioCreateOrConnectWithoutTbStatusPatInput = {
@@ -25051,6 +33011,8 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     tbPatrimonio?: tbPatrimonioCreateNestedOneWithoutTbCadastroInput
     tbFuncionario?: tbFuncionarioCreateNestedOneWithoutTbCadastroInput
+    tbDevolucao?: tbDevolucaoCreateNestedManyWithoutTbCadastroInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbCadastroInput
   }
 
   export type tbCadastroUncheckedCreateWithoutTbStatusPatInput = {
@@ -25061,6 +33023,8 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     idPatCad?: string | null
     idMatFunCad?: string | null
+    tbDevolucao?: tbDevolucaoUncheckedCreateNestedManyWithoutTbCadastroInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbCadastroInput
   }
 
   export type tbCadastroCreateOrConnectWithoutTbStatusPatInput = {
@@ -25070,6 +33034,50 @@ export namespace Prisma {
 
   export type tbCadastroCreateManyTbStatusPatInputEnvelope = {
     data: tbCadastroCreateManyTbStatusPatInput | tbCadastroCreateManyTbStatusPatInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type tbPatrimonioHistoricoCreateWithoutTbStatusPatInput = {
+    idHistorico?: string
+    idPat: string
+    descricaoPat: string
+    valorPat: number
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    dataDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+    tbPatrimonio: tbPatrimonioCreateNestedOneWithoutTbPatrimonioHistoricoInput
+    tbTipoPat?: tbTipoPatCreateNestedOneWithoutTbPatrimonioHistoricoInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbPatrimonioHistoricoInput
+  }
+
+  export type tbPatrimonioHistoricoUncheckedCreateWithoutTbStatusPatInput = {
+    idHistorico?: string
+    idPatrimonioOriginal: string
+    idPat: string
+    descricaoPat: string
+    valorPat: number
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    idPat_TipoPat?: string | null
+    idPat_CustoPat?: string | null
+    dataDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+  }
+
+  export type tbPatrimonioHistoricoCreateOrConnectWithoutTbStatusPatInput = {
+    where: tbPatrimonioHistoricoWhereUniqueInput
+    create: XOR<tbPatrimonioHistoricoCreateWithoutTbStatusPatInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbStatusPatInput>
+  }
+
+  export type tbPatrimonioHistoricoCreateManyTbStatusPatInputEnvelope = {
+    data: tbPatrimonioHistoricoCreateManyTbStatusPatInput | tbPatrimonioHistoricoCreateManyTbStatusPatInput[]
     skipDuplicates?: boolean
   }
 
@@ -25105,12 +33113,31 @@ export namespace Prisma {
     data: XOR<tbCadastroUpdateManyMutationInput, tbCadastroUncheckedUpdateManyWithoutTbStatusPatInput>
   }
 
+  export type tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbStatusPatInput = {
+    where: tbPatrimonioHistoricoWhereUniqueInput
+    update: XOR<tbPatrimonioHistoricoUpdateWithoutTbStatusPatInput, tbPatrimonioHistoricoUncheckedUpdateWithoutTbStatusPatInput>
+    create: XOR<tbPatrimonioHistoricoCreateWithoutTbStatusPatInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbStatusPatInput>
+  }
+
+  export type tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbStatusPatInput = {
+    where: tbPatrimonioHistoricoWhereUniqueInput
+    data: XOR<tbPatrimonioHistoricoUpdateWithoutTbStatusPatInput, tbPatrimonioHistoricoUncheckedUpdateWithoutTbStatusPatInput>
+  }
+
+  export type tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbStatusPatInput = {
+    where: tbPatrimonioHistoricoScalarWhereInput
+    data: XOR<tbPatrimonioHistoricoUpdateManyMutationInput, tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbStatusPatInput>
+  }
+
   export type tbCCustoCreateWithoutTbEmpresaInput = {
     idCCusto?: string
     codigoCCusto?: string | null
     descricaoCCusto?: string | null
     tbPatrimonio?: tbPatrimonioCreateNestedManyWithoutTbCCustoInput
     tbFuncionario?: tbFuncionarioCreateNestedManyWithoutTbCCustoInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbCCustoInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoOrigemInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoDestinoInput
   }
 
   export type tbCCustoUncheckedCreateWithoutTbEmpresaInput = {
@@ -25119,6 +33146,9 @@ export namespace Prisma {
     descricaoCCusto?: string | null
     tbPatrimonio?: tbPatrimonioUncheckedCreateNestedManyWithoutTbCCustoInput
     tbFuncionario?: tbFuncionarioUncheckedCreateNestedManyWithoutTbCCustoInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbCCustoInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoOrigemInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoDestinoInput
   }
 
   export type tbCCustoCreateOrConnectWithoutTbEmpresaInput = {
@@ -25193,6 +33223,10 @@ export namespace Prisma {
     tbTipoPat?: tbTipoPatCreateNestedOneWithoutTbPatrimonioInput
     tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbPatrimonioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbPatrimonioInput
+    tbDevolucao?: tbDevolucaoCreateNestedManyWithoutTbPatrimonioInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUncheckedCreateWithoutTbCCustoInput = {
@@ -25210,6 +33244,10 @@ export namespace Prisma {
     idPat_TipoPat?: string | null
     idPat_StatusPat?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbDevolucao?: tbDevolucaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioCreateOrConnectWithoutTbCCustoInput = {
@@ -25235,6 +33273,8 @@ export namespace Prisma {
     tbFuncao?: tbFuncaoCreateNestedOneWithoutTbFuncionarioInput
     tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbFuncionarioDestinoInput
   }
 
   export type tbFuncionarioUncheckedCreateWithoutTbCCustoInput = {
@@ -25250,6 +33290,8 @@ export namespace Prisma {
     idStatusFun?: string | null
     tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbFuncionarioDestinoInput
   }
 
   export type tbFuncionarioCreateOrConnectWithoutTbCCustoInput = {
@@ -25259,6 +33301,114 @@ export namespace Prisma {
 
   export type tbFuncionarioCreateManyTbCCustoInputEnvelope = {
     data: tbFuncionarioCreateManyTbCCustoInput | tbFuncionarioCreateManyTbCCustoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type tbPatrimonioHistoricoCreateWithoutTbCCustoInput = {
+    idHistorico?: string
+    idPat: string
+    descricaoPat: string
+    valorPat: number
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    dataDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+    tbPatrimonio: tbPatrimonioCreateNestedOneWithoutTbPatrimonioHistoricoInput
+    tbTipoPat?: tbTipoPatCreateNestedOneWithoutTbPatrimonioHistoricoInput
+    tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbPatrimonioHistoricoInput
+  }
+
+  export type tbPatrimonioHistoricoUncheckedCreateWithoutTbCCustoInput = {
+    idHistorico?: string
+    idPatrimonioOriginal: string
+    idPat: string
+    descricaoPat: string
+    valorPat: number
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    idPat_TipoPat?: string | null
+    idPat_StatusPat?: string | null
+    dataDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+  }
+
+  export type tbPatrimonioHistoricoCreateOrConnectWithoutTbCCustoInput = {
+    where: tbPatrimonioHistoricoWhereUniqueInput
+    create: XOR<tbPatrimonioHistoricoCreateWithoutTbCCustoInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbCCustoInput>
+  }
+
+  export type tbPatrimonioHistoricoCreateManyTbCCustoInputEnvelope = {
+    data: tbPatrimonioHistoricoCreateManyTbCCustoInput | tbPatrimonioHistoricoCreateManyTbCCustoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateWithoutCustoOrigemInput = {
+    idTransferencia?: string
+    valorTransferido?: number | null
+    observacao?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+    tbPatrimonio: tbPatrimonioCreateNestedOneWithoutTbTransferenciaCustoPatrimonioInput
+    custoDestino: tbCCustoCreateNestedOneWithoutTransferenciasDestinoInput
+    tbUser?: tbUserCreateNestedOneWithoutTransferenciasCustoPatrimonioInput
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoOrigemInput = {
+    idTransferencia?: string
+    idPatrimonio: string
+    idCustoDestino: string
+    valorTransferido?: number | null
+    observacao?: string | null
+    idUserTransferencia?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoOrigemInput = {
+    where: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    create: XOR<tbTransferenciaCustoPatrimonioCreateWithoutCustoOrigemInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoOrigemInput>
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateManyCustoOrigemInputEnvelope = {
+    data: tbTransferenciaCustoPatrimonioCreateManyCustoOrigemInput | tbTransferenciaCustoPatrimonioCreateManyCustoOrigemInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateWithoutCustoDestinoInput = {
+    idTransferencia?: string
+    valorTransferido?: number | null
+    observacao?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+    tbPatrimonio: tbPatrimonioCreateNestedOneWithoutTbTransferenciaCustoPatrimonioInput
+    custoOrigem?: tbCCustoCreateNestedOneWithoutTransferenciasOrigemInput
+    tbUser?: tbUserCreateNestedOneWithoutTransferenciasCustoPatrimonioInput
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoDestinoInput = {
+    idTransferencia?: string
+    idPatrimonio: string
+    idCustoOrigem?: string | null
+    valorTransferido?: number | null
+    observacao?: string | null
+    idUserTransferencia?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoDestinoInput = {
+    where: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    create: XOR<tbTransferenciaCustoPatrimonioCreateWithoutCustoDestinoInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoDestinoInput>
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateManyCustoDestinoInputEnvelope = {
+    data: tbTransferenciaCustoPatrimonioCreateManyCustoDestinoInput | tbTransferenciaCustoPatrimonioCreateManyCustoDestinoInput[]
     skipDuplicates?: boolean
   }
 
@@ -25321,6 +33471,362 @@ export namespace Prisma {
     data: XOR<tbFuncionarioUpdateManyMutationInput, tbFuncionarioUncheckedUpdateManyWithoutTbCCustoInput>
   }
 
+  export type tbPatrimonioHistoricoUpsertWithWhereUniqueWithoutTbCCustoInput = {
+    where: tbPatrimonioHistoricoWhereUniqueInput
+    update: XOR<tbPatrimonioHistoricoUpdateWithoutTbCCustoInput, tbPatrimonioHistoricoUncheckedUpdateWithoutTbCCustoInput>
+    create: XOR<tbPatrimonioHistoricoCreateWithoutTbCCustoInput, tbPatrimonioHistoricoUncheckedCreateWithoutTbCCustoInput>
+  }
+
+  export type tbPatrimonioHistoricoUpdateWithWhereUniqueWithoutTbCCustoInput = {
+    where: tbPatrimonioHistoricoWhereUniqueInput
+    data: XOR<tbPatrimonioHistoricoUpdateWithoutTbCCustoInput, tbPatrimonioHistoricoUncheckedUpdateWithoutTbCCustoInput>
+  }
+
+  export type tbPatrimonioHistoricoUpdateManyWithWhereWithoutTbCCustoInput = {
+    where: tbPatrimonioHistoricoScalarWhereInput
+    data: XOR<tbPatrimonioHistoricoUpdateManyMutationInput, tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbCCustoInput>
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutCustoOrigemInput = {
+    where: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    update: XOR<tbTransferenciaCustoPatrimonioUpdateWithoutCustoOrigemInput, tbTransferenciaCustoPatrimonioUncheckedUpdateWithoutCustoOrigemInput>
+    create: XOR<tbTransferenciaCustoPatrimonioCreateWithoutCustoOrigemInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoOrigemInput>
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutCustoOrigemInput = {
+    where: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    data: XOR<tbTransferenciaCustoPatrimonioUpdateWithoutCustoOrigemInput, tbTransferenciaCustoPatrimonioUncheckedUpdateWithoutCustoOrigemInput>
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutCustoOrigemInput = {
+    where: tbTransferenciaCustoPatrimonioScalarWhereInput
+    data: XOR<tbTransferenciaCustoPatrimonioUpdateManyMutationInput, tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoOrigemInput>
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpsertWithWhereUniqueWithoutCustoDestinoInput = {
+    where: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    update: XOR<tbTransferenciaCustoPatrimonioUpdateWithoutCustoDestinoInput, tbTransferenciaCustoPatrimonioUncheckedUpdateWithoutCustoDestinoInput>
+    create: XOR<tbTransferenciaCustoPatrimonioCreateWithoutCustoDestinoInput, tbTransferenciaCustoPatrimonioUncheckedCreateWithoutCustoDestinoInput>
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutCustoDestinoInput = {
+    where: tbTransferenciaCustoPatrimonioWhereUniqueInput
+    data: XOR<tbTransferenciaCustoPatrimonioUpdateWithoutCustoDestinoInput, tbTransferenciaCustoPatrimonioUncheckedUpdateWithoutCustoDestinoInput>
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutCustoDestinoInput = {
+    where: tbTransferenciaCustoPatrimonioScalarWhereInput
+    data: XOR<tbTransferenciaCustoPatrimonioUpdateManyMutationInput, tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoDestinoInput>
+  }
+
+  export type tbPatrimonioCreateWithoutTbTransferenciaCustoPatrimonioInput = {
+    idP?: string
+    idPat: string
+    descricaoPat: string
+    descricaoDetalhadaPat?: string | null
+    licencaPat?: string | null
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    valorPat: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
+    tbTipoPat?: tbTipoPatCreateNestedOneWithoutTbPatrimonioInput
+    tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbPatrimonioInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbPatrimonioInput
+    tbCadastro?: tbCadastroCreateNestedManyWithoutTbPatrimonioInput
+    tbDevolucao?: tbDevolucaoCreateNestedManyWithoutTbPatrimonioInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbPatrimonioInput
+  }
+
+  export type tbPatrimonioUncheckedCreateWithoutTbTransferenciaCustoPatrimonioInput = {
+    idP?: string
+    idPat: string
+    descricaoPat: string
+    descricaoDetalhadaPat?: string | null
+    licencaPat?: string | null
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    valorPat: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
+    idPat_TipoPat?: string | null
+    idPat_StatusPat?: string | null
+    idPat_CustoPat?: string | null
+    tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbDevolucao?: tbDevolucaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+  }
+
+  export type tbPatrimonioCreateOrConnectWithoutTbTransferenciaCustoPatrimonioInput = {
+    where: tbPatrimonioWhereUniqueInput
+    create: XOR<tbPatrimonioCreateWithoutTbTransferenciaCustoPatrimonioInput, tbPatrimonioUncheckedCreateWithoutTbTransferenciaCustoPatrimonioInput>
+  }
+
+  export type tbCCustoCreateWithoutTransferenciasOrigemInput = {
+    idCCusto?: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    tbEmpresa?: tbEmpresaCreateNestedOneWithoutTbCCustoInput
+    tbPatrimonio?: tbPatrimonioCreateNestedManyWithoutTbCCustoInput
+    tbFuncionario?: tbFuncionarioCreateNestedManyWithoutTbCCustoInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbCCustoInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoDestinoInput
+  }
+
+  export type tbCCustoUncheckedCreateWithoutTransferenciasOrigemInput = {
+    idCCusto?: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    idEmp_Custo?: string | null
+    tbPatrimonio?: tbPatrimonioUncheckedCreateNestedManyWithoutTbCCustoInput
+    tbFuncionario?: tbFuncionarioUncheckedCreateNestedManyWithoutTbCCustoInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbCCustoInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoDestinoInput
+  }
+
+  export type tbCCustoCreateOrConnectWithoutTransferenciasOrigemInput = {
+    where: tbCCustoWhereUniqueInput
+    create: XOR<tbCCustoCreateWithoutTransferenciasOrigemInput, tbCCustoUncheckedCreateWithoutTransferenciasOrigemInput>
+  }
+
+  export type tbCCustoCreateWithoutTransferenciasDestinoInput = {
+    idCCusto?: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    tbEmpresa?: tbEmpresaCreateNestedOneWithoutTbCCustoInput
+    tbPatrimonio?: tbPatrimonioCreateNestedManyWithoutTbCCustoInput
+    tbFuncionario?: tbFuncionarioCreateNestedManyWithoutTbCCustoInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbCCustoInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoOrigemInput
+  }
+
+  export type tbCCustoUncheckedCreateWithoutTransferenciasDestinoInput = {
+    idCCusto?: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    idEmp_Custo?: string | null
+    tbPatrimonio?: tbPatrimonioUncheckedCreateNestedManyWithoutTbCCustoInput
+    tbFuncionario?: tbFuncionarioUncheckedCreateNestedManyWithoutTbCCustoInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbCCustoInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoOrigemInput
+  }
+
+  export type tbCCustoCreateOrConnectWithoutTransferenciasDestinoInput = {
+    where: tbCCustoWhereUniqueInput
+    create: XOR<tbCCustoCreateWithoutTransferenciasDestinoInput, tbCCustoUncheckedCreateWithoutTransferenciasDestinoInput>
+  }
+
+  export type tbUserCreateWithoutTransferenciasCustoPatrimonioInput = {
+    id?: string
+    idUser?: string | null
+    nomeUser?: string | null
+    emailUser?: string | null
+    emailVerified?: Date | string | null
+    senhaUser?: string | null
+    avatarUser?: string | null
+    authTypeUser?: string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tbFuncioanrio?: tbFuncionarioCreateNestedManyWithoutTbUserInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbUserInput
+  }
+
+  export type tbUserUncheckedCreateWithoutTransferenciasCustoPatrimonioInput = {
+    id?: string
+    idUser?: string | null
+    nomeUser?: string | null
+    emailUser?: string | null
+    emailVerified?: Date | string | null
+    senhaUser?: string | null
+    avatarUser?: string | null
+    authTypeUser?: string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tbFuncioanrio?: tbFuncionarioUncheckedCreateNestedManyWithoutTbUserInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbUserInput
+  }
+
+  export type tbUserCreateOrConnectWithoutTransferenciasCustoPatrimonioInput = {
+    where: tbUserWhereUniqueInput
+    create: XOR<tbUserCreateWithoutTransferenciasCustoPatrimonioInput, tbUserUncheckedCreateWithoutTransferenciasCustoPatrimonioInput>
+  }
+
+  export type tbPatrimonioUpsertWithoutTbTransferenciaCustoPatrimonioInput = {
+    update: XOR<tbPatrimonioUpdateWithoutTbTransferenciaCustoPatrimonioInput, tbPatrimonioUncheckedUpdateWithoutTbTransferenciaCustoPatrimonioInput>
+    create: XOR<tbPatrimonioCreateWithoutTbTransferenciaCustoPatrimonioInput, tbPatrimonioUncheckedCreateWithoutTbTransferenciaCustoPatrimonioInput>
+    where?: tbPatrimonioWhereInput
+  }
+
+  export type tbPatrimonioUpdateToOneWithWhereWithoutTbTransferenciaCustoPatrimonioInput = {
+    where?: tbPatrimonioWhereInput
+    data: XOR<tbPatrimonioUpdateWithoutTbTransferenciaCustoPatrimonioInput, tbPatrimonioUncheckedUpdateWithoutTbTransferenciaCustoPatrimonioInput>
+  }
+
+  export type tbPatrimonioUpdateWithoutTbTransferenciaCustoPatrimonioInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tbTipoPat?: tbTipoPatUpdateOneWithoutTbPatrimonioNestedInput
+    tbStatusPat?: tbStatusPatUpdateOneWithoutTbPatrimonioNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbPatrimonioNestedInput
+    tbCadastro?: tbCadastroUpdateManyWithoutTbPatrimonioNestedInput
+    tbDevolucao?: tbDevolucaoUpdateManyWithoutTbPatrimonioNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbPatrimonioNestedInput
+  }
+
+  export type tbPatrimonioUncheckedUpdateWithoutTbTransferenciaCustoPatrimonioInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbDevolucao?: tbDevolucaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+  }
+
+  export type tbCCustoUpsertWithoutTransferenciasOrigemInput = {
+    update: XOR<tbCCustoUpdateWithoutTransferenciasOrigemInput, tbCCustoUncheckedUpdateWithoutTransferenciasOrigemInput>
+    create: XOR<tbCCustoCreateWithoutTransferenciasOrigemInput, tbCCustoUncheckedCreateWithoutTransferenciasOrigemInput>
+    where?: tbCCustoWhereInput
+  }
+
+  export type tbCCustoUpdateToOneWithWhereWithoutTransferenciasOrigemInput = {
+    where?: tbCCustoWhereInput
+    data: XOR<tbCCustoUpdateWithoutTransferenciasOrigemInput, tbCCustoUncheckedUpdateWithoutTransferenciasOrigemInput>
+  }
+
+  export type tbCCustoUpdateWithoutTransferenciasOrigemInput = {
+    idCCusto?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    tbEmpresa?: tbEmpresaUpdateOneWithoutTbCCustoNestedInput
+    tbPatrimonio?: tbPatrimonioUpdateManyWithoutTbCCustoNestedInput
+    tbFuncionario?: tbFuncionarioUpdateManyWithoutTbCCustoNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbCCustoNestedInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoDestinoNestedInput
+  }
+
+  export type tbCCustoUncheckedUpdateWithoutTransferenciasOrigemInput = {
+    idCCusto?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    idEmp_Custo?: NullableStringFieldUpdateOperationsInput | string | null
+    tbPatrimonio?: tbPatrimonioUncheckedUpdateManyWithoutTbCCustoNestedInput
+    tbFuncionario?: tbFuncionarioUncheckedUpdateManyWithoutTbCCustoNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbCCustoNestedInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoDestinoNestedInput
+  }
+
+  export type tbCCustoUpsertWithoutTransferenciasDestinoInput = {
+    update: XOR<tbCCustoUpdateWithoutTransferenciasDestinoInput, tbCCustoUncheckedUpdateWithoutTransferenciasDestinoInput>
+    create: XOR<tbCCustoCreateWithoutTransferenciasDestinoInput, tbCCustoUncheckedCreateWithoutTransferenciasDestinoInput>
+    where?: tbCCustoWhereInput
+  }
+
+  export type tbCCustoUpdateToOneWithWhereWithoutTransferenciasDestinoInput = {
+    where?: tbCCustoWhereInput
+    data: XOR<tbCCustoUpdateWithoutTransferenciasDestinoInput, tbCCustoUncheckedUpdateWithoutTransferenciasDestinoInput>
+  }
+
+  export type tbCCustoUpdateWithoutTransferenciasDestinoInput = {
+    idCCusto?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    tbEmpresa?: tbEmpresaUpdateOneWithoutTbCCustoNestedInput
+    tbPatrimonio?: tbPatrimonioUpdateManyWithoutTbCCustoNestedInput
+    tbFuncionario?: tbFuncionarioUpdateManyWithoutTbCCustoNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbCCustoNestedInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoOrigemNestedInput
+  }
+
+  export type tbCCustoUncheckedUpdateWithoutTransferenciasDestinoInput = {
+    idCCusto?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    idEmp_Custo?: NullableStringFieldUpdateOperationsInput | string | null
+    tbPatrimonio?: tbPatrimonioUncheckedUpdateManyWithoutTbCCustoNestedInput
+    tbFuncionario?: tbFuncionarioUncheckedUpdateManyWithoutTbCCustoNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbCCustoNestedInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoOrigemNestedInput
+  }
+
+  export type tbUserUpsertWithoutTransferenciasCustoPatrimonioInput = {
+    update: XOR<tbUserUpdateWithoutTransferenciasCustoPatrimonioInput, tbUserUncheckedUpdateWithoutTransferenciasCustoPatrimonioInput>
+    create: XOR<tbUserCreateWithoutTransferenciasCustoPatrimonioInput, tbUserUncheckedCreateWithoutTransferenciasCustoPatrimonioInput>
+    where?: tbUserWhereInput
+  }
+
+  export type tbUserUpdateToOneWithWhereWithoutTransferenciasCustoPatrimonioInput = {
+    where?: tbUserWhereInput
+    data: XOR<tbUserUpdateWithoutTransferenciasCustoPatrimonioInput, tbUserUncheckedUpdateWithoutTransferenciasCustoPatrimonioInput>
+  }
+
+  export type tbUserUpdateWithoutTransferenciasCustoPatrimonioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    idUser?: NullableStringFieldUpdateOperationsInput | string | null
+    nomeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    emailUser?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    senhaUser?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUser?: NullableStringFieldUpdateOperationsInput | string | null
+    authTypeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbFuncioanrio?: tbFuncionarioUpdateManyWithoutTbUserNestedInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbUserNestedInput
+  }
+
+  export type tbUserUncheckedUpdateWithoutTransferenciasCustoPatrimonioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    idUser?: NullableStringFieldUpdateOperationsInput | string | null
+    nomeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    emailUser?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    senhaUser?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUser?: NullableStringFieldUpdateOperationsInput | string | null
+    authTypeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbFuncioanrio?: tbFuncionarioUncheckedUpdateManyWithoutTbUserNestedInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbUserNestedInput
+  }
+
   export type tbPatrimonioCreateWithoutTbCadastroInput = {
     idP?: string
     idPat: string
@@ -25336,6 +33842,10 @@ export namespace Prisma {
     tbTipoPat?: tbTipoPatCreateNestedOneWithoutTbPatrimonioInput
     tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbPatrimonioInput
     tbCCusto?: tbCCustoCreateNestedOneWithoutTbPatrimonioInput
+    tbDevolucao?: tbDevolucaoCreateNestedManyWithoutTbPatrimonioInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUncheckedCreateWithoutTbCadastroInput = {
@@ -25353,6 +33863,10 @@ export namespace Prisma {
     idPat_TipoPat?: string | null
     idPat_StatusPat?: string | null
     idPat_CustoPat?: string | null
+    tbDevolucao?: tbDevolucaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioCreateOrConnectWithoutTbCadastroInput = {
@@ -25373,6 +33887,8 @@ export namespace Prisma {
     tbFuncao?: tbFuncaoCreateNestedOneWithoutTbFuncionarioInput
     tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbFuncionarioDestinoInput
   }
 
   export type tbFuncionarioUncheckedCreateWithoutTbCadastroInput = {
@@ -25388,6 +33904,8 @@ export namespace Prisma {
     idStatusFun?: string | null
     idCustoFun?: string | null
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbFuncionarioDestinoInput
   }
 
   export type tbFuncionarioCreateOrConnectWithoutTbCadastroInput = {
@@ -25399,17 +33917,87 @@ export namespace Prisma {
     idStatusPat?: string
     descricaoStatPat: string
     tbPatrimonio?: tbPatrimonioCreateNestedManyWithoutTbStatusPatInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbStatusPatInput
   }
 
   export type tbStatusPatUncheckedCreateWithoutTbCadastroInput = {
     idStatusPat?: string
     descricaoStatPat: string
     tbPatrimonio?: tbPatrimonioUncheckedCreateNestedManyWithoutTbStatusPatInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbStatusPatInput
   }
 
   export type tbStatusPatCreateOrConnectWithoutTbCadastroInput = {
     where: tbStatusPatWhereUniqueInput
     create: XOR<tbStatusPatCreateWithoutTbCadastroInput, tbStatusPatUncheckedCreateWithoutTbCadastroInput>
+  }
+
+  export type tbDevolucaoCreateWithoutTbCadastroInput = {
+    idDevolucao?: string
+    dataInicioDevolucao: Date | string
+    dataFimDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tbPatrimonio: tbPatrimonioCreateNestedOneWithoutTbDevolucaoInput
+  }
+
+  export type tbDevolucaoUncheckedCreateWithoutTbCadastroInput = {
+    idDevolucao?: string
+    idPatrimonio: string
+    dataInicioDevolucao: Date | string
+    dataFimDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type tbDevolucaoCreateOrConnectWithoutTbCadastroInput = {
+    where: tbDevolucaoWhereUniqueInput
+    create: XOR<tbDevolucaoCreateWithoutTbCadastroInput, tbDevolucaoUncheckedCreateWithoutTbCadastroInput>
+  }
+
+  export type tbDevolucaoCreateManyTbCadastroInputEnvelope = {
+    data: tbDevolucaoCreateManyTbCadastroInput | tbDevolucaoCreateManyTbCadastroInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type tbTransferenciaAlocacaoCreateWithoutTbCadastroInput = {
+    idTransferenciaAlocacao?: string
+    statusAnterior?: string | null
+    statusNovo: string
+    observacao?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+    tbPatrimonio: tbPatrimonioCreateNestedOneWithoutTbTransferenciaAlocacaoInput
+    tbFuncionario?: tbFuncionarioCreateNestedOneWithoutTbTransferenciaAlocacaoOrigemInput
+    tbFuncionarioDestino?: tbFuncionarioCreateNestedOneWithoutTbTransferenciaAlocacaoDestinoInput
+    tbUser?: tbUserCreateNestedOneWithoutTransferenciasAlocacaoInput
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedCreateWithoutTbCadastroInput = {
+    idTransferenciaAlocacao?: string
+    idPatrimonio: string
+    idMatriculaFuncionario?: string | null
+    idMatriculaFuncionarioDestino?: string | null
+    statusAnterior?: string | null
+    statusNovo: string
+    observacao?: string | null
+    idUserTransferencia?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaAlocacaoCreateOrConnectWithoutTbCadastroInput = {
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+    create: XOR<tbTransferenciaAlocacaoCreateWithoutTbCadastroInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbCadastroInput>
+  }
+
+  export type tbTransferenciaAlocacaoCreateManyTbCadastroInputEnvelope = {
+    data: tbTransferenciaAlocacaoCreateManyTbCadastroInput | tbTransferenciaAlocacaoCreateManyTbCadastroInput[]
+    skipDuplicates?: boolean
   }
 
   export type tbPatrimonioUpsertWithoutTbCadastroInput = {
@@ -25438,6 +34026,10 @@ export namespace Prisma {
     tbTipoPat?: tbTipoPatUpdateOneWithoutTbPatrimonioNestedInput
     tbStatusPat?: tbStatusPatUpdateOneWithoutTbPatrimonioNestedInput
     tbCCusto?: tbCCustoUpdateOneWithoutTbPatrimonioNestedInput
+    tbDevolucao?: tbDevolucaoUpdateManyWithoutTbPatrimonioNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateWithoutTbCadastroInput = {
@@ -25455,6 +34047,10 @@ export namespace Prisma {
     idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
     idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
     idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    tbDevolucao?: tbDevolucaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbFuncionarioUpsertWithoutTbCadastroInput = {
@@ -25481,6 +34077,8 @@ export namespace Prisma {
     tbFuncao?: tbFuncaoUpdateOneWithoutTbFuncionarioNestedInput
     tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUpdateManyWithoutTbFuncionarioDestinoNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateWithoutTbCadastroInput = {
@@ -25496,6 +34094,8 @@ export namespace Prisma {
     idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
     idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioDestinoNestedInput
   }
 
   export type tbStatusPatUpsertWithoutTbCadastroInput = {
@@ -25513,12 +34113,874 @@ export namespace Prisma {
     idStatusPat?: StringFieldUpdateOperationsInput | string
     descricaoStatPat?: StringFieldUpdateOperationsInput | string
     tbPatrimonio?: tbPatrimonioUpdateManyWithoutTbStatusPatNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbStatusPatNestedInput
   }
 
   export type tbStatusPatUncheckedUpdateWithoutTbCadastroInput = {
     idStatusPat?: StringFieldUpdateOperationsInput | string
     descricaoStatPat?: StringFieldUpdateOperationsInput | string
     tbPatrimonio?: tbPatrimonioUncheckedUpdateManyWithoutTbStatusPatNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbStatusPatNestedInput
+  }
+
+  export type tbDevolucaoUpsertWithWhereUniqueWithoutTbCadastroInput = {
+    where: tbDevolucaoWhereUniqueInput
+    update: XOR<tbDevolucaoUpdateWithoutTbCadastroInput, tbDevolucaoUncheckedUpdateWithoutTbCadastroInput>
+    create: XOR<tbDevolucaoCreateWithoutTbCadastroInput, tbDevolucaoUncheckedCreateWithoutTbCadastroInput>
+  }
+
+  export type tbDevolucaoUpdateWithWhereUniqueWithoutTbCadastroInput = {
+    where: tbDevolucaoWhereUniqueInput
+    data: XOR<tbDevolucaoUpdateWithoutTbCadastroInput, tbDevolucaoUncheckedUpdateWithoutTbCadastroInput>
+  }
+
+  export type tbDevolucaoUpdateManyWithWhereWithoutTbCadastroInput = {
+    where: tbDevolucaoScalarWhereInput
+    data: XOR<tbDevolucaoUpdateManyMutationInput, tbDevolucaoUncheckedUpdateManyWithoutTbCadastroInput>
+  }
+
+  export type tbTransferenciaAlocacaoUpsertWithWhereUniqueWithoutTbCadastroInput = {
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+    update: XOR<tbTransferenciaAlocacaoUpdateWithoutTbCadastroInput, tbTransferenciaAlocacaoUncheckedUpdateWithoutTbCadastroInput>
+    create: XOR<tbTransferenciaAlocacaoCreateWithoutTbCadastroInput, tbTransferenciaAlocacaoUncheckedCreateWithoutTbCadastroInput>
+  }
+
+  export type tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbCadastroInput = {
+    where: tbTransferenciaAlocacaoWhereUniqueInput
+    data: XOR<tbTransferenciaAlocacaoUpdateWithoutTbCadastroInput, tbTransferenciaAlocacaoUncheckedUpdateWithoutTbCadastroInput>
+  }
+
+  export type tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbCadastroInput = {
+    where: tbTransferenciaAlocacaoScalarWhereInput
+    data: XOR<tbTransferenciaAlocacaoUpdateManyMutationInput, tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbCadastroInput>
+  }
+
+  export type tbCadastroCreateWithoutTbTransferenciaAlocacaoInput = {
+    idCad?: string
+    dataCadPat?: Date | string | null
+    dataDevPat?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
+    tbPatrimonio?: tbPatrimonioCreateNestedOneWithoutTbCadastroInput
+    tbFuncionario?: tbFuncionarioCreateNestedOneWithoutTbCadastroInput
+    tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbCadastroInput
+    tbDevolucao?: tbDevolucaoCreateNestedManyWithoutTbCadastroInput
+  }
+
+  export type tbCadastroUncheckedCreateWithoutTbTransferenciaAlocacaoInput = {
+    idCad?: string
+    dataCadPat?: Date | string | null
+    dataDevPat?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
+    idPatCad?: string | null
+    idMatFunCad?: string | null
+    idStatusPatCad: string
+    tbDevolucao?: tbDevolucaoUncheckedCreateNestedManyWithoutTbCadastroInput
+  }
+
+  export type tbCadastroCreateOrConnectWithoutTbTransferenciaAlocacaoInput = {
+    where: tbCadastroWhereUniqueInput
+    create: XOR<tbCadastroCreateWithoutTbTransferenciaAlocacaoInput, tbCadastroUncheckedCreateWithoutTbTransferenciaAlocacaoInput>
+  }
+
+  export type tbPatrimonioCreateWithoutTbTransferenciaAlocacaoInput = {
+    idP?: string
+    idPat: string
+    descricaoPat: string
+    descricaoDetalhadaPat?: string | null
+    licencaPat?: string | null
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    valorPat: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
+    tbTipoPat?: tbTipoPatCreateNestedOneWithoutTbPatrimonioInput
+    tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbPatrimonioInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbPatrimonioInput
+    tbCadastro?: tbCadastroCreateNestedManyWithoutTbPatrimonioInput
+    tbDevolucao?: tbDevolucaoCreateNestedManyWithoutTbPatrimonioInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
+  }
+
+  export type tbPatrimonioUncheckedCreateWithoutTbTransferenciaAlocacaoInput = {
+    idP?: string
+    idPat: string
+    descricaoPat: string
+    descricaoDetalhadaPat?: string | null
+    licencaPat?: string | null
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    valorPat: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
+    idPat_TipoPat?: string | null
+    idPat_StatusPat?: string | null
+    idPat_CustoPat?: string | null
+    tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbDevolucao?: tbDevolucaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
+  }
+
+  export type tbPatrimonioCreateOrConnectWithoutTbTransferenciaAlocacaoInput = {
+    where: tbPatrimonioWhereUniqueInput
+    create: XOR<tbPatrimonioCreateWithoutTbTransferenciaAlocacaoInput, tbPatrimonioUncheckedCreateWithoutTbTransferenciaAlocacaoInput>
+  }
+
+  export type tbFuncionarioCreateWithoutTbTransferenciaAlocacaoOrigemInput = {
+    idF?: string
+    idMatFun: string
+    nomeFun: string
+    cpfFun?: string | null
+    dataAdmFun?: Date | string | null
+    dataDesFun?: Date | string | null
+    avatarFun?: string | null
+    tbStatusFun?: tbStatusFunCreateNestedOneWithoutTbFuncionarioInput
+    tbUser?: tbUserCreateNestedOneWithoutTbFuncioanrioInput
+    tbFuncao?: tbFuncaoCreateNestedOneWithoutTbFuncionarioInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
+    tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbFuncionarioDestinoInput
+  }
+
+  export type tbFuncionarioUncheckedCreateWithoutTbTransferenciaAlocacaoOrigemInput = {
+    idF?: string
+    idMatFun: string
+    nomeFun: string
+    cpfFun?: string | null
+    dataAdmFun?: Date | string | null
+    dataDesFun?: Date | string | null
+    avatarFun?: string | null
+    idFuncaoFun?: string | null
+    idUserFun?: string | null
+    idStatusFun?: string | null
+    idCustoFun?: string | null
+    tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbFuncionarioDestinoInput
+  }
+
+  export type tbFuncionarioCreateOrConnectWithoutTbTransferenciaAlocacaoOrigemInput = {
+    where: tbFuncionarioWhereUniqueInput
+    create: XOR<tbFuncionarioCreateWithoutTbTransferenciaAlocacaoOrigemInput, tbFuncionarioUncheckedCreateWithoutTbTransferenciaAlocacaoOrigemInput>
+  }
+
+  export type tbFuncionarioCreateWithoutTbTransferenciaAlocacaoDestinoInput = {
+    idF?: string
+    idMatFun: string
+    nomeFun: string
+    cpfFun?: string | null
+    dataAdmFun?: Date | string | null
+    dataDesFun?: Date | string | null
+    avatarFun?: string | null
+    tbStatusFun?: tbStatusFunCreateNestedOneWithoutTbFuncionarioInput
+    tbUser?: tbUserCreateNestedOneWithoutTbFuncioanrioInput
+    tbFuncao?: tbFuncaoCreateNestedOneWithoutTbFuncionarioInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbFuncionarioInput
+    tbCadastro?: tbCadastroCreateNestedManyWithoutTbFuncionarioInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbFuncionarioInput
+  }
+
+  export type tbFuncionarioUncheckedCreateWithoutTbTransferenciaAlocacaoDestinoInput = {
+    idF?: string
+    idMatFun: string
+    nomeFun: string
+    cpfFun?: string | null
+    dataAdmFun?: Date | string | null
+    dataDesFun?: Date | string | null
+    avatarFun?: string | null
+    idFuncaoFun?: string | null
+    idUserFun?: string | null
+    idStatusFun?: string | null
+    idCustoFun?: string | null
+    tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedCreateNestedManyWithoutTbFuncionarioInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbFuncionarioInput
+  }
+
+  export type tbFuncionarioCreateOrConnectWithoutTbTransferenciaAlocacaoDestinoInput = {
+    where: tbFuncionarioWhereUniqueInput
+    create: XOR<tbFuncionarioCreateWithoutTbTransferenciaAlocacaoDestinoInput, tbFuncionarioUncheckedCreateWithoutTbTransferenciaAlocacaoDestinoInput>
+  }
+
+  export type tbUserCreateWithoutTransferenciasAlocacaoInput = {
+    id?: string
+    idUser?: string | null
+    nomeUser?: string | null
+    emailUser?: string | null
+    emailVerified?: Date | string | null
+    senhaUser?: string | null
+    avatarUser?: string | null
+    authTypeUser?: string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tbFuncioanrio?: tbFuncionarioCreateNestedManyWithoutTbUserInput
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbUserInput
+  }
+
+  export type tbUserUncheckedCreateWithoutTransferenciasAlocacaoInput = {
+    id?: string
+    idUser?: string | null
+    nomeUser?: string | null
+    emailUser?: string | null
+    emailVerified?: Date | string | null
+    senhaUser?: string | null
+    avatarUser?: string | null
+    authTypeUser?: string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tbFuncioanrio?: tbFuncionarioUncheckedCreateNestedManyWithoutTbUserInput
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput
+  }
+
+  export type tbUserCreateOrConnectWithoutTransferenciasAlocacaoInput = {
+    where: tbUserWhereUniqueInput
+    create: XOR<tbUserCreateWithoutTransferenciasAlocacaoInput, tbUserUncheckedCreateWithoutTransferenciasAlocacaoInput>
+  }
+
+  export type tbCadastroUpsertWithoutTbTransferenciaAlocacaoInput = {
+    update: XOR<tbCadastroUpdateWithoutTbTransferenciaAlocacaoInput, tbCadastroUncheckedUpdateWithoutTbTransferenciaAlocacaoInput>
+    create: XOR<tbCadastroCreateWithoutTbTransferenciaAlocacaoInput, tbCadastroUncheckedCreateWithoutTbTransferenciaAlocacaoInput>
+    where?: tbCadastroWhereInput
+  }
+
+  export type tbCadastroUpdateToOneWithWhereWithoutTbTransferenciaAlocacaoInput = {
+    where?: tbCadastroWhereInput
+    data: XOR<tbCadastroUpdateWithoutTbTransferenciaAlocacaoInput, tbCadastroUncheckedUpdateWithoutTbTransferenciaAlocacaoInput>
+  }
+
+  export type tbCadastroUpdateWithoutTbTransferenciaAlocacaoInput = {
+    idCad?: StringFieldUpdateOperationsInput | string
+    dataCadPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataDevPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tbPatrimonio?: tbPatrimonioUpdateOneWithoutTbCadastroNestedInput
+    tbFuncionario?: tbFuncionarioUpdateOneWithoutTbCadastroNestedInput
+    tbStatusPat?: tbStatusPatUpdateOneWithoutTbCadastroNestedInput
+    tbDevolucao?: tbDevolucaoUpdateManyWithoutTbCadastroNestedInput
+  }
+
+  export type tbCadastroUncheckedUpdateWithoutTbTransferenciaAlocacaoInput = {
+    idCad?: StringFieldUpdateOperationsInput | string
+    dataCadPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataDevPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    idPatCad?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatFunCad?: NullableStringFieldUpdateOperationsInput | string | null
+    idStatusPatCad?: StringFieldUpdateOperationsInput | string
+    tbDevolucao?: tbDevolucaoUncheckedUpdateManyWithoutTbCadastroNestedInput
+  }
+
+  export type tbPatrimonioUpsertWithoutTbTransferenciaAlocacaoInput = {
+    update: XOR<tbPatrimonioUpdateWithoutTbTransferenciaAlocacaoInput, tbPatrimonioUncheckedUpdateWithoutTbTransferenciaAlocacaoInput>
+    create: XOR<tbPatrimonioCreateWithoutTbTransferenciaAlocacaoInput, tbPatrimonioUncheckedCreateWithoutTbTransferenciaAlocacaoInput>
+    where?: tbPatrimonioWhereInput
+  }
+
+  export type tbPatrimonioUpdateToOneWithWhereWithoutTbTransferenciaAlocacaoInput = {
+    where?: tbPatrimonioWhereInput
+    data: XOR<tbPatrimonioUpdateWithoutTbTransferenciaAlocacaoInput, tbPatrimonioUncheckedUpdateWithoutTbTransferenciaAlocacaoInput>
+  }
+
+  export type tbPatrimonioUpdateWithoutTbTransferenciaAlocacaoInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tbTipoPat?: tbTipoPatUpdateOneWithoutTbPatrimonioNestedInput
+    tbStatusPat?: tbStatusPatUpdateOneWithoutTbPatrimonioNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbPatrimonioNestedInput
+    tbCadastro?: tbCadastroUpdateManyWithoutTbPatrimonioNestedInput
+    tbDevolucao?: tbDevolucaoUpdateManyWithoutTbPatrimonioNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
+  }
+
+  export type tbPatrimonioUncheckedUpdateWithoutTbTransferenciaAlocacaoInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbDevolucao?: tbDevolucaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+  }
+
+  export type tbFuncionarioUpsertWithoutTbTransferenciaAlocacaoOrigemInput = {
+    update: XOR<tbFuncionarioUpdateWithoutTbTransferenciaAlocacaoOrigemInput, tbFuncionarioUncheckedUpdateWithoutTbTransferenciaAlocacaoOrigemInput>
+    create: XOR<tbFuncionarioCreateWithoutTbTransferenciaAlocacaoOrigemInput, tbFuncionarioUncheckedCreateWithoutTbTransferenciaAlocacaoOrigemInput>
+    where?: tbFuncionarioWhereInput
+  }
+
+  export type tbFuncionarioUpdateToOneWithWhereWithoutTbTransferenciaAlocacaoOrigemInput = {
+    where?: tbFuncionarioWhereInput
+    data: XOR<tbFuncionarioUpdateWithoutTbTransferenciaAlocacaoOrigemInput, tbFuncionarioUncheckedUpdateWithoutTbTransferenciaAlocacaoOrigemInput>
+  }
+
+  export type tbFuncionarioUpdateWithoutTbTransferenciaAlocacaoOrigemInput = {
+    idF?: StringFieldUpdateOperationsInput | string
+    idMatFun?: StringFieldUpdateOperationsInput | string
+    nomeFun?: StringFieldUpdateOperationsInput | string
+    cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
+    dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataDesFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
+    tbStatusFun?: tbStatusFunUpdateOneWithoutTbFuncionarioNestedInput
+    tbUser?: tbUserUpdateOneWithoutTbFuncioanrioNestedInput
+    tbFuncao?: tbFuncaoUpdateOneWithoutTbFuncionarioNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
+    tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUpdateManyWithoutTbFuncionarioDestinoNestedInput
+  }
+
+  export type tbFuncionarioUncheckedUpdateWithoutTbTransferenciaAlocacaoOrigemInput = {
+    idF?: StringFieldUpdateOperationsInput | string
+    idMatFun?: StringFieldUpdateOperationsInput | string
+    nomeFun?: StringFieldUpdateOperationsInput | string
+    cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
+    dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataDesFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idFuncaoFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
+    tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioDestinoNestedInput
+  }
+
+  export type tbFuncionarioUpsertWithoutTbTransferenciaAlocacaoDestinoInput = {
+    update: XOR<tbFuncionarioUpdateWithoutTbTransferenciaAlocacaoDestinoInput, tbFuncionarioUncheckedUpdateWithoutTbTransferenciaAlocacaoDestinoInput>
+    create: XOR<tbFuncionarioCreateWithoutTbTransferenciaAlocacaoDestinoInput, tbFuncionarioUncheckedCreateWithoutTbTransferenciaAlocacaoDestinoInput>
+    where?: tbFuncionarioWhereInput
+  }
+
+  export type tbFuncionarioUpdateToOneWithWhereWithoutTbTransferenciaAlocacaoDestinoInput = {
+    where?: tbFuncionarioWhereInput
+    data: XOR<tbFuncionarioUpdateWithoutTbTransferenciaAlocacaoDestinoInput, tbFuncionarioUncheckedUpdateWithoutTbTransferenciaAlocacaoDestinoInput>
+  }
+
+  export type tbFuncionarioUpdateWithoutTbTransferenciaAlocacaoDestinoInput = {
+    idF?: StringFieldUpdateOperationsInput | string
+    idMatFun?: StringFieldUpdateOperationsInput | string
+    nomeFun?: StringFieldUpdateOperationsInput | string
+    cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
+    dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataDesFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
+    tbStatusFun?: tbStatusFunUpdateOneWithoutTbFuncionarioNestedInput
+    tbUser?: tbUserUpdateOneWithoutTbFuncioanrioNestedInput
+    tbFuncao?: tbFuncaoUpdateOneWithoutTbFuncionarioNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
+    tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUpdateManyWithoutTbFuncionarioNestedInput
+  }
+
+  export type tbFuncionarioUncheckedUpdateWithoutTbTransferenciaAlocacaoDestinoInput = {
+    idF?: StringFieldUpdateOperationsInput | string
+    idMatFun?: StringFieldUpdateOperationsInput | string
+    nomeFun?: StringFieldUpdateOperationsInput | string
+    cpfFun?: NullableStringFieldUpdateOperationsInput | string | null
+    dataAdmFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataDesFun?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    avatarFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idFuncaoFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
+    idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
+    tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+  }
+
+  export type tbUserUpsertWithoutTransferenciasAlocacaoInput = {
+    update: XOR<tbUserUpdateWithoutTransferenciasAlocacaoInput, tbUserUncheckedUpdateWithoutTransferenciasAlocacaoInput>
+    create: XOR<tbUserCreateWithoutTransferenciasAlocacaoInput, tbUserUncheckedCreateWithoutTransferenciasAlocacaoInput>
+    where?: tbUserWhereInput
+  }
+
+  export type tbUserUpdateToOneWithWhereWithoutTransferenciasAlocacaoInput = {
+    where?: tbUserWhereInput
+    data: XOR<tbUserUpdateWithoutTransferenciasAlocacaoInput, tbUserUncheckedUpdateWithoutTransferenciasAlocacaoInput>
+  }
+
+  export type tbUserUpdateWithoutTransferenciasAlocacaoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    idUser?: NullableStringFieldUpdateOperationsInput | string | null
+    nomeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    emailUser?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    senhaUser?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUser?: NullableStringFieldUpdateOperationsInput | string | null
+    authTypeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbFuncioanrio?: tbFuncionarioUpdateManyWithoutTbUserNestedInput
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbUserNestedInput
+  }
+
+  export type tbUserUncheckedUpdateWithoutTransferenciasAlocacaoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    idUser?: NullableStringFieldUpdateOperationsInput | string | null
+    nomeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    emailUser?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    senhaUser?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUser?: NullableStringFieldUpdateOperationsInput | string | null
+    authTypeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbFuncioanrio?: tbFuncionarioUncheckedUpdateManyWithoutTbUserNestedInput
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput
+  }
+
+  export type tbPatrimonioCreateWithoutTbDevolucaoInput = {
+    idP?: string
+    idPat: string
+    descricaoPat: string
+    descricaoDetalhadaPat?: string | null
+    licencaPat?: string | null
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    valorPat: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
+    tbTipoPat?: tbTipoPatCreateNestedOneWithoutTbPatrimonioInput
+    tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbPatrimonioInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbPatrimonioInput
+    tbCadastro?: tbCadastroCreateNestedManyWithoutTbPatrimonioInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbPatrimonioInput
+  }
+
+  export type tbPatrimonioUncheckedCreateWithoutTbDevolucaoInput = {
+    idP?: string
+    idPat: string
+    descricaoPat: string
+    descricaoDetalhadaPat?: string | null
+    licencaPat?: string | null
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    valorPat: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
+    idPat_TipoPat?: string | null
+    idPat_StatusPat?: string | null
+    idPat_CustoPat?: string | null
+    tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+  }
+
+  export type tbPatrimonioCreateOrConnectWithoutTbDevolucaoInput = {
+    where: tbPatrimonioWhereUniqueInput
+    create: XOR<tbPatrimonioCreateWithoutTbDevolucaoInput, tbPatrimonioUncheckedCreateWithoutTbDevolucaoInput>
+  }
+
+  export type tbCadastroCreateWithoutTbDevolucaoInput = {
+    idCad?: string
+    dataCadPat?: Date | string | null
+    dataDevPat?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
+    tbPatrimonio?: tbPatrimonioCreateNestedOneWithoutTbCadastroInput
+    tbFuncionario?: tbFuncionarioCreateNestedOneWithoutTbCadastroInput
+    tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbCadastroInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbCadastroInput
+  }
+
+  export type tbCadastroUncheckedCreateWithoutTbDevolucaoInput = {
+    idCad?: string
+    dataCadPat?: Date | string | null
+    dataDevPat?: Date | string | null
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
+    idPatCad?: string | null
+    idMatFunCad?: string | null
+    idStatusPatCad: string
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbCadastroInput
+  }
+
+  export type tbCadastroCreateOrConnectWithoutTbDevolucaoInput = {
+    where: tbCadastroWhereUniqueInput
+    create: XOR<tbCadastroCreateWithoutTbDevolucaoInput, tbCadastroUncheckedCreateWithoutTbDevolucaoInput>
+  }
+
+  export type tbPatrimonioUpsertWithoutTbDevolucaoInput = {
+    update: XOR<tbPatrimonioUpdateWithoutTbDevolucaoInput, tbPatrimonioUncheckedUpdateWithoutTbDevolucaoInput>
+    create: XOR<tbPatrimonioCreateWithoutTbDevolucaoInput, tbPatrimonioUncheckedCreateWithoutTbDevolucaoInput>
+    where?: tbPatrimonioWhereInput
+  }
+
+  export type tbPatrimonioUpdateToOneWithWhereWithoutTbDevolucaoInput = {
+    where?: tbPatrimonioWhereInput
+    data: XOR<tbPatrimonioUpdateWithoutTbDevolucaoInput, tbPatrimonioUncheckedUpdateWithoutTbDevolucaoInput>
+  }
+
+  export type tbPatrimonioUpdateWithoutTbDevolucaoInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tbTipoPat?: tbTipoPatUpdateOneWithoutTbPatrimonioNestedInput
+    tbStatusPat?: tbStatusPatUpdateOneWithoutTbPatrimonioNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbPatrimonioNestedInput
+    tbCadastro?: tbCadastroUpdateManyWithoutTbPatrimonioNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbPatrimonioNestedInput
+  }
+
+  export type tbPatrimonioUncheckedUpdateWithoutTbDevolucaoInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+  }
+
+  export type tbCadastroUpsertWithoutTbDevolucaoInput = {
+    update: XOR<tbCadastroUpdateWithoutTbDevolucaoInput, tbCadastroUncheckedUpdateWithoutTbDevolucaoInput>
+    create: XOR<tbCadastroCreateWithoutTbDevolucaoInput, tbCadastroUncheckedCreateWithoutTbDevolucaoInput>
+    where?: tbCadastroWhereInput
+  }
+
+  export type tbCadastroUpdateToOneWithWhereWithoutTbDevolucaoInput = {
+    where?: tbCadastroWhereInput
+    data: XOR<tbCadastroUpdateWithoutTbDevolucaoInput, tbCadastroUncheckedUpdateWithoutTbDevolucaoInput>
+  }
+
+  export type tbCadastroUpdateWithoutTbDevolucaoInput = {
+    idCad?: StringFieldUpdateOperationsInput | string
+    dataCadPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataDevPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tbPatrimonio?: tbPatrimonioUpdateOneWithoutTbCadastroNestedInput
+    tbFuncionario?: tbFuncionarioUpdateOneWithoutTbCadastroNestedInput
+    tbStatusPat?: tbStatusPatUpdateOneWithoutTbCadastroNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbCadastroNestedInput
+  }
+
+  export type tbCadastroUncheckedUpdateWithoutTbDevolucaoInput = {
+    idCad?: StringFieldUpdateOperationsInput | string
+    dataCadPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataDevPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    idPatCad?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatFunCad?: NullableStringFieldUpdateOperationsInput | string | null
+    idStatusPatCad?: StringFieldUpdateOperationsInput | string
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbCadastroNestedInput
+  }
+
+  export type tbPatrimonioCreateWithoutTbPatrimonioHistoricoInput = {
+    idP?: string
+    idPat: string
+    descricaoPat: string
+    descricaoDetalhadaPat?: string | null
+    licencaPat?: string | null
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    valorPat: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
+    tbTipoPat?: tbTipoPatCreateNestedOneWithoutTbPatrimonioInput
+    tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbPatrimonioInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbPatrimonioInput
+    tbCadastro?: tbCadastroCreateNestedManyWithoutTbPatrimonioInput
+    tbDevolucao?: tbDevolucaoCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbPatrimonioInput
+  }
+
+  export type tbPatrimonioUncheckedCreateWithoutTbPatrimonioHistoricoInput = {
+    idP?: string
+    idPat: string
+    descricaoPat: string
+    descricaoDetalhadaPat?: string | null
+    licencaPat?: string | null
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    valorPat: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
+    idPat_TipoPat?: string | null
+    idPat_StatusPat?: string | null
+    idPat_CustoPat?: string | null
+    tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbDevolucao?: tbDevolucaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+  }
+
+  export type tbPatrimonioCreateOrConnectWithoutTbPatrimonioHistoricoInput = {
+    where: tbPatrimonioWhereUniqueInput
+    create: XOR<tbPatrimonioCreateWithoutTbPatrimonioHistoricoInput, tbPatrimonioUncheckedCreateWithoutTbPatrimonioHistoricoInput>
+  }
+
+  export type tbTipoPatCreateWithoutTbPatrimonioHistoricoInput = {
+    idTipPat?: string
+    descricaoTipPat?: string | null
+    tbPatrimonio?: tbPatrimonioCreateNestedManyWithoutTbTipoPatInput
+  }
+
+  export type tbTipoPatUncheckedCreateWithoutTbPatrimonioHistoricoInput = {
+    idTipPat?: string
+    descricaoTipPat?: string | null
+    tbPatrimonio?: tbPatrimonioUncheckedCreateNestedManyWithoutTbTipoPatInput
+  }
+
+  export type tbTipoPatCreateOrConnectWithoutTbPatrimonioHistoricoInput = {
+    where: tbTipoPatWhereUniqueInput
+    create: XOR<tbTipoPatCreateWithoutTbPatrimonioHistoricoInput, tbTipoPatUncheckedCreateWithoutTbPatrimonioHistoricoInput>
+  }
+
+  export type tbStatusPatCreateWithoutTbPatrimonioHistoricoInput = {
+    idStatusPat?: string
+    descricaoStatPat: string
+    tbPatrimonio?: tbPatrimonioCreateNestedManyWithoutTbStatusPatInput
+    tbCadastro?: tbCadastroCreateNestedManyWithoutTbStatusPatInput
+  }
+
+  export type tbStatusPatUncheckedCreateWithoutTbPatrimonioHistoricoInput = {
+    idStatusPat?: string
+    descricaoStatPat: string
+    tbPatrimonio?: tbPatrimonioUncheckedCreateNestedManyWithoutTbStatusPatInput
+    tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbStatusPatInput
+  }
+
+  export type tbStatusPatCreateOrConnectWithoutTbPatrimonioHistoricoInput = {
+    where: tbStatusPatWhereUniqueInput
+    create: XOR<tbStatusPatCreateWithoutTbPatrimonioHistoricoInput, tbStatusPatUncheckedCreateWithoutTbPatrimonioHistoricoInput>
+  }
+
+  export type tbCCustoCreateWithoutTbPatrimonioHistoricoInput = {
+    idCCusto?: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    tbEmpresa?: tbEmpresaCreateNestedOneWithoutTbCCustoInput
+    tbPatrimonio?: tbPatrimonioCreateNestedManyWithoutTbCCustoInput
+    tbFuncionario?: tbFuncionarioCreateNestedManyWithoutTbCCustoInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoOrigemInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoDestinoInput
+  }
+
+  export type tbCCustoUncheckedCreateWithoutTbPatrimonioHistoricoInput = {
+    idCCusto?: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    idEmp_Custo?: string | null
+    tbPatrimonio?: tbPatrimonioUncheckedCreateNestedManyWithoutTbCCustoInput
+    tbFuncionario?: tbFuncionarioUncheckedCreateNestedManyWithoutTbCCustoInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoOrigemInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoDestinoInput
+  }
+
+  export type tbCCustoCreateOrConnectWithoutTbPatrimonioHistoricoInput = {
+    where: tbCCustoWhereUniqueInput
+    create: XOR<tbCCustoCreateWithoutTbPatrimonioHistoricoInput, tbCCustoUncheckedCreateWithoutTbPatrimonioHistoricoInput>
+  }
+
+  export type tbPatrimonioUpsertWithoutTbPatrimonioHistoricoInput = {
+    update: XOR<tbPatrimonioUpdateWithoutTbPatrimonioHistoricoInput, tbPatrimonioUncheckedUpdateWithoutTbPatrimonioHistoricoInput>
+    create: XOR<tbPatrimonioCreateWithoutTbPatrimonioHistoricoInput, tbPatrimonioUncheckedCreateWithoutTbPatrimonioHistoricoInput>
+    where?: tbPatrimonioWhereInput
+  }
+
+  export type tbPatrimonioUpdateToOneWithWhereWithoutTbPatrimonioHistoricoInput = {
+    where?: tbPatrimonioWhereInput
+    data: XOR<tbPatrimonioUpdateWithoutTbPatrimonioHistoricoInput, tbPatrimonioUncheckedUpdateWithoutTbPatrimonioHistoricoInput>
+  }
+
+  export type tbPatrimonioUpdateWithoutTbPatrimonioHistoricoInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tbTipoPat?: tbTipoPatUpdateOneWithoutTbPatrimonioNestedInput
+    tbStatusPat?: tbStatusPatUpdateOneWithoutTbPatrimonioNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbPatrimonioNestedInput
+    tbCadastro?: tbCadastroUpdateManyWithoutTbPatrimonioNestedInput
+    tbDevolucao?: tbDevolucaoUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbPatrimonioNestedInput
+  }
+
+  export type tbPatrimonioUncheckedUpdateWithoutTbPatrimonioHistoricoInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbDevolucao?: tbDevolucaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+  }
+
+  export type tbTipoPatUpsertWithoutTbPatrimonioHistoricoInput = {
+    update: XOR<tbTipoPatUpdateWithoutTbPatrimonioHistoricoInput, tbTipoPatUncheckedUpdateWithoutTbPatrimonioHistoricoInput>
+    create: XOR<tbTipoPatCreateWithoutTbPatrimonioHistoricoInput, tbTipoPatUncheckedCreateWithoutTbPatrimonioHistoricoInput>
+    where?: tbTipoPatWhereInput
+  }
+
+  export type tbTipoPatUpdateToOneWithWhereWithoutTbPatrimonioHistoricoInput = {
+    where?: tbTipoPatWhereInput
+    data: XOR<tbTipoPatUpdateWithoutTbPatrimonioHistoricoInput, tbTipoPatUncheckedUpdateWithoutTbPatrimonioHistoricoInput>
+  }
+
+  export type tbTipoPatUpdateWithoutTbPatrimonioHistoricoInput = {
+    idTipPat?: StringFieldUpdateOperationsInput | string
+    descricaoTipPat?: NullableStringFieldUpdateOperationsInput | string | null
+    tbPatrimonio?: tbPatrimonioUpdateManyWithoutTbTipoPatNestedInput
+  }
+
+  export type tbTipoPatUncheckedUpdateWithoutTbPatrimonioHistoricoInput = {
+    idTipPat?: StringFieldUpdateOperationsInput | string
+    descricaoTipPat?: NullableStringFieldUpdateOperationsInput | string | null
+    tbPatrimonio?: tbPatrimonioUncheckedUpdateManyWithoutTbTipoPatNestedInput
+  }
+
+  export type tbStatusPatUpsertWithoutTbPatrimonioHistoricoInput = {
+    update: XOR<tbStatusPatUpdateWithoutTbPatrimonioHistoricoInput, tbStatusPatUncheckedUpdateWithoutTbPatrimonioHistoricoInput>
+    create: XOR<tbStatusPatCreateWithoutTbPatrimonioHistoricoInput, tbStatusPatUncheckedCreateWithoutTbPatrimonioHistoricoInput>
+    where?: tbStatusPatWhereInput
+  }
+
+  export type tbStatusPatUpdateToOneWithWhereWithoutTbPatrimonioHistoricoInput = {
+    where?: tbStatusPatWhereInput
+    data: XOR<tbStatusPatUpdateWithoutTbPatrimonioHistoricoInput, tbStatusPatUncheckedUpdateWithoutTbPatrimonioHistoricoInput>
+  }
+
+  export type tbStatusPatUpdateWithoutTbPatrimonioHistoricoInput = {
+    idStatusPat?: StringFieldUpdateOperationsInput | string
+    descricaoStatPat?: StringFieldUpdateOperationsInput | string
+    tbPatrimonio?: tbPatrimonioUpdateManyWithoutTbStatusPatNestedInput
+    tbCadastro?: tbCadastroUpdateManyWithoutTbStatusPatNestedInput
+  }
+
+  export type tbStatusPatUncheckedUpdateWithoutTbPatrimonioHistoricoInput = {
+    idStatusPat?: StringFieldUpdateOperationsInput | string
+    descricaoStatPat?: StringFieldUpdateOperationsInput | string
+    tbPatrimonio?: tbPatrimonioUncheckedUpdateManyWithoutTbStatusPatNestedInput
+    tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbStatusPatNestedInput
+  }
+
+  export type tbCCustoUpsertWithoutTbPatrimonioHistoricoInput = {
+    update: XOR<tbCCustoUpdateWithoutTbPatrimonioHistoricoInput, tbCCustoUncheckedUpdateWithoutTbPatrimonioHistoricoInput>
+    create: XOR<tbCCustoCreateWithoutTbPatrimonioHistoricoInput, tbCCustoUncheckedCreateWithoutTbPatrimonioHistoricoInput>
+    where?: tbCCustoWhereInput
+  }
+
+  export type tbCCustoUpdateToOneWithWhereWithoutTbPatrimonioHistoricoInput = {
+    where?: tbCCustoWhereInput
+    data: XOR<tbCCustoUpdateWithoutTbPatrimonioHistoricoInput, tbCCustoUncheckedUpdateWithoutTbPatrimonioHistoricoInput>
+  }
+
+  export type tbCCustoUpdateWithoutTbPatrimonioHistoricoInput = {
+    idCCusto?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    tbEmpresa?: tbEmpresaUpdateOneWithoutTbCCustoNestedInput
+    tbPatrimonio?: tbPatrimonioUpdateManyWithoutTbCCustoNestedInput
+    tbFuncionario?: tbFuncionarioUpdateManyWithoutTbCCustoNestedInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoOrigemNestedInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoDestinoNestedInput
+  }
+
+  export type tbCCustoUncheckedUpdateWithoutTbPatrimonioHistoricoInput = {
+    idCCusto?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    idEmp_Custo?: NullableStringFieldUpdateOperationsInput | string | null
+    tbPatrimonio?: tbPatrimonioUncheckedUpdateManyWithoutTbCCustoNestedInput
+    tbFuncionario?: tbFuncionarioUncheckedUpdateManyWithoutTbCCustoNestedInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoOrigemNestedInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoDestinoNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -25758,6 +35220,30 @@ export namespace Prisma {
     idCustoFun?: string | null
   }
 
+  export type tbTransferenciaCustoPatrimonioCreateManyTbUserInput = {
+    idTransferencia?: string
+    idPatrimonio: string
+    idCustoOrigem?: string | null
+    idCustoDestino: string
+    valorTransferido?: number | null
+    observacao?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaAlocacaoCreateManyTbUserInput = {
+    idTransferenciaAlocacao?: string
+    idCadastro: string
+    idPatrimonio: string
+    idMatriculaFuncionario?: string | null
+    idMatriculaFuncionarioDestino?: string | null
+    statusAnterior?: string | null
+    statusNovo: string
+    observacao?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
   export type tbFuncionarioUpdateWithoutTbUserInput = {
     idF?: StringFieldUpdateOperationsInput | string
     idMatFun?: StringFieldUpdateOperationsInput | string
@@ -25771,6 +35257,8 @@ export namespace Prisma {
     tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUpdateManyWithoutTbFuncionarioDestinoNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateWithoutTbUserInput = {
@@ -25786,6 +35274,8 @@ export namespace Prisma {
     idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioDestinoNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateManyWithoutTbUserInput = {
@@ -25799,6 +35289,78 @@ export namespace Prisma {
     idFuncaoFun?: NullableStringFieldUpdateOperationsInput | string | null
     idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
     idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpdateWithoutTbUserInput = {
+    idTransferencia?: StringFieldUpdateOperationsInput | string
+    valorTransferido?: NullableFloatFieldUpdateOperationsInput | number | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbPatrimonio?: tbPatrimonioUpdateOneRequiredWithoutTbTransferenciaCustoPatrimonioNestedInput
+    custoOrigem?: tbCCustoUpdateOneWithoutTransferenciasOrigemNestedInput
+    custoDestino?: tbCCustoUpdateOneRequiredWithoutTransferenciasDestinoNestedInput
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedUpdateWithoutTbUserInput = {
+    idTransferencia?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idCustoOrigem?: NullableStringFieldUpdateOperationsInput | string | null
+    idCustoDestino?: StringFieldUpdateOperationsInput | string
+    valorTransferido?: NullableFloatFieldUpdateOperationsInput | number | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbUserInput = {
+    idTransferencia?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idCustoOrigem?: NullableStringFieldUpdateOperationsInput | string | null
+    idCustoDestino?: StringFieldUpdateOperationsInput | string
+    valorTransferido?: NullableFloatFieldUpdateOperationsInput | number | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaAlocacaoUpdateWithoutTbUserInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbCadastro?: tbCadastroUpdateOneRequiredWithoutTbTransferenciaAlocacaoNestedInput
+    tbPatrimonio?: tbPatrimonioUpdateOneRequiredWithoutTbTransferenciaAlocacaoNestedInput
+    tbFuncionario?: tbFuncionarioUpdateOneWithoutTbTransferenciaAlocacaoOrigemNestedInput
+    tbFuncionarioDestino?: tbFuncionarioUpdateOneWithoutTbTransferenciaAlocacaoDestinoNestedInput
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedUpdateWithoutTbUserInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    idCadastro?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idMatriculaFuncionario?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatriculaFuncionarioDestino?: NullableStringFieldUpdateOperationsInput | string | null
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbUserInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    idCadastro?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idMatriculaFuncionario?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatriculaFuncionarioDestino?: NullableStringFieldUpdateOperationsInput | string | null
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type tbCadastroCreateManyTbFuncionarioInput = {
@@ -25818,6 +35380,32 @@ export namespace Prisma {
     dataVencimetno: Date | string
   }
 
+  export type tbTransferenciaAlocacaoCreateManyTbFuncionarioInput = {
+    idTransferenciaAlocacao?: string
+    idCadastro: string
+    idPatrimonio: string
+    idMatriculaFuncionarioDestino?: string | null
+    statusAnterior?: string | null
+    statusNovo: string
+    observacao?: string | null
+    idUserTransferencia?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaAlocacaoCreateManyTbFuncionarioDestinoInput = {
+    idTransferenciaAlocacao?: string
+    idCadastro: string
+    idPatrimonio: string
+    idMatriculaFuncionario?: string | null
+    statusAnterior?: string | null
+    statusNovo: string
+    observacao?: string | null
+    idUserTransferencia?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
   export type tbCadastroUpdateWithoutTbFuncionarioInput = {
     idCad?: StringFieldUpdateOperationsInput | string
     dataCadPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25826,6 +35414,8 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tbPatrimonio?: tbPatrimonioUpdateOneWithoutTbCadastroNestedInput
     tbStatusPat?: tbStatusPatUpdateOneWithoutTbCadastroNestedInput
+    tbDevolucao?: tbDevolucaoUpdateManyWithoutTbCadastroNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbCadastroNestedInput
   }
 
   export type tbCadastroUncheckedUpdateWithoutTbFuncionarioInput = {
@@ -25836,6 +35426,8 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     idPatCad?: NullableStringFieldUpdateOperationsInput | string | null
     idStatusPatCad?: StringFieldUpdateOperationsInput | string
+    tbDevolucao?: tbDevolucaoUncheckedUpdateManyWithoutTbCadastroNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbCadastroNestedInput
   }
 
   export type tbCadastroUncheckedUpdateManyWithoutTbFuncionarioInput = {
@@ -25867,6 +35459,84 @@ export namespace Prisma {
     idLinc?: StringFieldUpdateOperationsInput | string
     dataInicio?: DateTimeFieldUpdateOperationsInput | Date | string
     dataVencimetno?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaAlocacaoUpdateWithoutTbFuncionarioInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbCadastro?: tbCadastroUpdateOneRequiredWithoutTbTransferenciaAlocacaoNestedInput
+    tbPatrimonio?: tbPatrimonioUpdateOneRequiredWithoutTbTransferenciaAlocacaoNestedInput
+    tbFuncionarioDestino?: tbFuncionarioUpdateOneWithoutTbTransferenciaAlocacaoDestinoNestedInput
+    tbUser?: tbUserUpdateOneWithoutTransferenciasAlocacaoNestedInput
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedUpdateWithoutTbFuncionarioInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    idCadastro?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idMatriculaFuncionarioDestino?: NullableStringFieldUpdateOperationsInput | string | null
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserTransferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    idCadastro?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idMatriculaFuncionarioDestino?: NullableStringFieldUpdateOperationsInput | string | null
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserTransferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaAlocacaoUpdateWithoutTbFuncionarioDestinoInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbCadastro?: tbCadastroUpdateOneRequiredWithoutTbTransferenciaAlocacaoNestedInput
+    tbPatrimonio?: tbPatrimonioUpdateOneRequiredWithoutTbTransferenciaAlocacaoNestedInput
+    tbFuncionario?: tbFuncionarioUpdateOneWithoutTbTransferenciaAlocacaoOrigemNestedInput
+    tbUser?: tbUserUpdateOneWithoutTransferenciasAlocacaoNestedInput
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedUpdateWithoutTbFuncionarioDestinoInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    idCadastro?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idMatriculaFuncionario?: NullableStringFieldUpdateOperationsInput | string | null
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserTransferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioDestinoInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    idCadastro?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idMatriculaFuncionario?: NullableStringFieldUpdateOperationsInput | string | null
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserTransferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type tbHasLicencaFuncionarioCreateManyTbLicencaInput = {
@@ -25923,6 +35593,8 @@ export namespace Prisma {
     tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUpdateManyWithoutTbFuncionarioDestinoNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateWithoutTbStatusFunInput = {
@@ -25938,6 +35610,8 @@ export namespace Prisma {
     idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioDestinoNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateManyWithoutTbStatusFunInput = {
@@ -25979,6 +35653,8 @@ export namespace Prisma {
     tbCCusto?: tbCCustoUpdateOneWithoutTbFuncionarioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUpdateManyWithoutTbFuncionarioDestinoNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateWithoutTbFuncaoInput = {
@@ -25994,6 +35670,8 @@ export namespace Prisma {
     idCustoFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioDestinoNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateManyWithoutTbFuncaoInput = {
@@ -26019,6 +35697,58 @@ export namespace Prisma {
     idStatusPatCad: string
   }
 
+  export type tbDevolucaoCreateManyTbPatrimonioInput = {
+    idDevolucao?: string
+    idCadastro?: string | null
+    dataInicioDevolucao: Date | string
+    dataFimDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type tbPatrimonioHistoricoCreateManyTbPatrimonioInput = {
+    idHistorico?: string
+    idPat: string
+    descricaoPat: string
+    valorPat: number
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    idPat_TipoPat?: string | null
+    idPat_StatusPat?: string | null
+    idPat_CustoPat?: string | null
+    dataDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateManyTbPatrimonioInput = {
+    idTransferencia?: string
+    idCustoOrigem?: string | null
+    idCustoDestino: string
+    valorTransferido?: number | null
+    observacao?: string | null
+    idUserTransferencia?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaAlocacaoCreateManyTbPatrimonioInput = {
+    idTransferenciaAlocacao?: string
+    idCadastro: string
+    idMatriculaFuncionario?: string | null
+    idMatriculaFuncionarioDestino?: string | null
+    statusAnterior?: string | null
+    statusNovo: string
+    observacao?: string | null
+    idUserTransferencia?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
   export type tbCadastroUpdateWithoutTbPatrimonioInput = {
     idCad?: StringFieldUpdateOperationsInput | string
     dataCadPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26027,6 +35757,8 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tbFuncionario?: tbFuncionarioUpdateOneWithoutTbCadastroNestedInput
     tbStatusPat?: tbStatusPatUpdateOneWithoutTbCadastroNestedInput
+    tbDevolucao?: tbDevolucaoUpdateManyWithoutTbCadastroNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbCadastroNestedInput
   }
 
   export type tbCadastroUncheckedUpdateWithoutTbPatrimonioInput = {
@@ -26037,6 +35769,8 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     idMatFunCad?: NullableStringFieldUpdateOperationsInput | string | null
     idStatusPatCad?: StringFieldUpdateOperationsInput | string
+    tbDevolucao?: tbDevolucaoUncheckedUpdateManyWithoutTbCadastroNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbCadastroNestedInput
   }
 
   export type tbCadastroUncheckedUpdateManyWithoutTbPatrimonioInput = {
@@ -26047,6 +35781,162 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     idMatFunCad?: NullableStringFieldUpdateOperationsInput | string | null
     idStatusPatCad?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type tbDevolucaoUpdateWithoutTbPatrimonioInput = {
+    idDevolucao?: StringFieldUpdateOperationsInput | string
+    dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbCadastro?: tbCadastroUpdateOneWithoutTbDevolucaoNestedInput
+  }
+
+  export type tbDevolucaoUncheckedUpdateWithoutTbPatrimonioInput = {
+    idDevolucao?: StringFieldUpdateOperationsInput | string
+    idCadastro?: NullableStringFieldUpdateOperationsInput | string | null
+    dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbDevolucaoUncheckedUpdateManyWithoutTbPatrimonioInput = {
+    idDevolucao?: StringFieldUpdateOperationsInput | string
+    idCadastro?: NullableStringFieldUpdateOperationsInput | string | null
+    dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbPatrimonioHistoricoUpdateWithoutTbPatrimonioInput = {
+    idHistorico?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbTipoPat?: tbTipoPatUpdateOneWithoutTbPatrimonioHistoricoNestedInput
+    tbStatusPat?: tbStatusPatUpdateOneWithoutTbPatrimonioHistoricoNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbPatrimonioHistoricoNestedInput
+  }
+
+  export type tbPatrimonioHistoricoUncheckedUpdateWithoutTbPatrimonioInput = {
+    idHistorico?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioInput = {
+    idHistorico?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpdateWithoutTbPatrimonioInput = {
+    idTransferencia?: StringFieldUpdateOperationsInput | string
+    valorTransferido?: NullableFloatFieldUpdateOperationsInput | number | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    custoOrigem?: tbCCustoUpdateOneWithoutTransferenciasOrigemNestedInput
+    custoDestino?: tbCCustoUpdateOneRequiredWithoutTransferenciasDestinoNestedInput
+    tbUser?: tbUserUpdateOneWithoutTransferenciasCustoPatrimonioNestedInput
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedUpdateWithoutTbPatrimonioInput = {
+    idTransferencia?: StringFieldUpdateOperationsInput | string
+    idCustoOrigem?: NullableStringFieldUpdateOperationsInput | string | null
+    idCustoDestino?: StringFieldUpdateOperationsInput | string
+    valorTransferido?: NullableFloatFieldUpdateOperationsInput | number | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserTransferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioInput = {
+    idTransferencia?: StringFieldUpdateOperationsInput | string
+    idCustoOrigem?: NullableStringFieldUpdateOperationsInput | string | null
+    idCustoDestino?: StringFieldUpdateOperationsInput | string
+    valorTransferido?: NullableFloatFieldUpdateOperationsInput | number | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserTransferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaAlocacaoUpdateWithoutTbPatrimonioInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbCadastro?: tbCadastroUpdateOneRequiredWithoutTbTransferenciaAlocacaoNestedInput
+    tbFuncionario?: tbFuncionarioUpdateOneWithoutTbTransferenciaAlocacaoOrigemNestedInput
+    tbFuncionarioDestino?: tbFuncionarioUpdateOneWithoutTbTransferenciaAlocacaoDestinoNestedInput
+    tbUser?: tbUserUpdateOneWithoutTransferenciasAlocacaoNestedInput
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedUpdateWithoutTbPatrimonioInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    idCadastro?: StringFieldUpdateOperationsInput | string
+    idMatriculaFuncionario?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatriculaFuncionarioDestino?: NullableStringFieldUpdateOperationsInput | string | null
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserTransferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    idCadastro?: StringFieldUpdateOperationsInput | string
+    idMatriculaFuncionario?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatriculaFuncionarioDestino?: NullableStringFieldUpdateOperationsInput | string | null
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserTransferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type tbPatrimonioCreateManyTbTipoPatInput = {
@@ -26065,6 +35955,23 @@ export namespace Prisma {
     idPat_CustoPat?: string | null
   }
 
+  export type tbPatrimonioHistoricoCreateManyTbTipoPatInput = {
+    idHistorico?: string
+    idPatrimonioOriginal: string
+    idPat: string
+    descricaoPat: string
+    valorPat: number
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    idPat_StatusPat?: string | null
+    idPat_CustoPat?: string | null
+    dataDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+  }
+
   export type tbPatrimonioUpdateWithoutTbTipoPatInput = {
     idP?: StringFieldUpdateOperationsInput | string
     idPat?: StringFieldUpdateOperationsInput | string
@@ -26080,6 +35987,10 @@ export namespace Prisma {
     tbStatusPat?: tbStatusPatUpdateOneWithoutTbPatrimonioNestedInput
     tbCCusto?: tbCCustoUpdateOneWithoutTbPatrimonioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbPatrimonioNestedInput
+    tbDevolucao?: tbDevolucaoUpdateManyWithoutTbPatrimonioNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateWithoutTbTipoPatInput = {
@@ -26097,6 +36008,10 @@ export namespace Prisma {
     idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
     idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbDevolucao?: tbDevolucaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateManyWithoutTbTipoPatInput = {
@@ -26113,6 +36028,57 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
     idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type tbPatrimonioHistoricoUpdateWithoutTbTipoPatInput = {
+    idHistorico?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbPatrimonio?: tbPatrimonioUpdateOneRequiredWithoutTbPatrimonioHistoricoNestedInput
+    tbStatusPat?: tbStatusPatUpdateOneWithoutTbPatrimonioHistoricoNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbPatrimonioHistoricoNestedInput
+  }
+
+  export type tbPatrimonioHistoricoUncheckedUpdateWithoutTbTipoPatInput = {
+    idHistorico?: StringFieldUpdateOperationsInput | string
+    idPatrimonioOriginal?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbTipoPatInput = {
+    idHistorico?: StringFieldUpdateOperationsInput | string
+    idPatrimonioOriginal?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type tbPatrimonioCreateManyTbStatusPatInput = {
@@ -26141,6 +36107,23 @@ export namespace Prisma {
     idMatFunCad?: string | null
   }
 
+  export type tbPatrimonioHistoricoCreateManyTbStatusPatInput = {
+    idHistorico?: string
+    idPatrimonioOriginal: string
+    idPat: string
+    descricaoPat: string
+    valorPat: number
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    idPat_TipoPat?: string | null
+    idPat_CustoPat?: string | null
+    dataDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+  }
+
   export type tbPatrimonioUpdateWithoutTbStatusPatInput = {
     idP?: StringFieldUpdateOperationsInput | string
     idPat?: StringFieldUpdateOperationsInput | string
@@ -26156,6 +36139,10 @@ export namespace Prisma {
     tbTipoPat?: tbTipoPatUpdateOneWithoutTbPatrimonioNestedInput
     tbCCusto?: tbCCustoUpdateOneWithoutTbPatrimonioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbPatrimonioNestedInput
+    tbDevolucao?: tbDevolucaoUpdateManyWithoutTbPatrimonioNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateWithoutTbStatusPatInput = {
@@ -26173,6 +36160,10 @@ export namespace Prisma {
     idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
     idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbDevolucao?: tbDevolucaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateManyWithoutTbStatusPatInput = {
@@ -26199,6 +36190,8 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tbPatrimonio?: tbPatrimonioUpdateOneWithoutTbCadastroNestedInput
     tbFuncionario?: tbFuncionarioUpdateOneWithoutTbCadastroNestedInput
+    tbDevolucao?: tbDevolucaoUpdateManyWithoutTbCadastroNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbCadastroNestedInput
   }
 
   export type tbCadastroUncheckedUpdateWithoutTbStatusPatInput = {
@@ -26209,6 +36202,8 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     idPatCad?: NullableStringFieldUpdateOperationsInput | string | null
     idMatFunCad?: NullableStringFieldUpdateOperationsInput | string | null
+    tbDevolucao?: tbDevolucaoUncheckedUpdateManyWithoutTbCadastroNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbCadastroNestedInput
   }
 
   export type tbCadastroUncheckedUpdateManyWithoutTbStatusPatInput = {
@@ -26219,6 +36214,57 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     idPatCad?: NullableStringFieldUpdateOperationsInput | string | null
     idMatFunCad?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type tbPatrimonioHistoricoUpdateWithoutTbStatusPatInput = {
+    idHistorico?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbPatrimonio?: tbPatrimonioUpdateOneRequiredWithoutTbPatrimonioHistoricoNestedInput
+    tbTipoPat?: tbTipoPatUpdateOneWithoutTbPatrimonioHistoricoNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbPatrimonioHistoricoNestedInput
+  }
+
+  export type tbPatrimonioHistoricoUncheckedUpdateWithoutTbStatusPatInput = {
+    idHistorico?: StringFieldUpdateOperationsInput | string
+    idPatrimonioOriginal?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbStatusPatInput = {
+    idHistorico?: StringFieldUpdateOperationsInput | string
+    idPatrimonioOriginal?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type tbCCustoCreateManyTbEmpresaInput = {
@@ -26233,6 +36279,9 @@ export namespace Prisma {
     descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
     tbPatrimonio?: tbPatrimonioUpdateManyWithoutTbCCustoNestedInput
     tbFuncionario?: tbFuncionarioUpdateManyWithoutTbCCustoNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbCCustoNestedInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoOrigemNestedInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoDestinoNestedInput
   }
 
   export type tbCCustoUncheckedUpdateWithoutTbEmpresaInput = {
@@ -26241,6 +36290,9 @@ export namespace Prisma {
     descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
     tbPatrimonio?: tbPatrimonioUncheckedUpdateManyWithoutTbCCustoNestedInput
     tbFuncionario?: tbFuncionarioUncheckedUpdateManyWithoutTbCCustoNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbCCustoNestedInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoOrigemNestedInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoDestinoNestedInput
   }
 
   export type tbCCustoUncheckedUpdateManyWithoutTbEmpresaInput = {
@@ -26278,6 +36330,45 @@ export namespace Prisma {
     idStatusFun?: string | null
   }
 
+  export type tbPatrimonioHistoricoCreateManyTbCCustoInput = {
+    idHistorico?: string
+    idPatrimonioOriginal: string
+    idPat: string
+    descricaoPat: string
+    valorPat: number
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    idPat_TipoPat?: string | null
+    idPat_StatusPat?: string | null
+    dataDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateManyCustoOrigemInput = {
+    idTransferencia?: string
+    idPatrimonio: string
+    idCustoDestino: string
+    valorTransferido?: number | null
+    observacao?: string | null
+    idUserTransferencia?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioCreateManyCustoDestinoInput = {
+    idTransferencia?: string
+    idPatrimonio: string
+    idCustoOrigem?: string | null
+    valorTransferido?: number | null
+    observacao?: string | null
+    idUserTransferencia?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
   export type tbPatrimonioUpdateWithoutTbCCustoInput = {
     idP?: StringFieldUpdateOperationsInput | string
     idPat?: StringFieldUpdateOperationsInput | string
@@ -26293,6 +36384,10 @@ export namespace Prisma {
     tbTipoPat?: tbTipoPatUpdateOneWithoutTbPatrimonioNestedInput
     tbStatusPat?: tbStatusPatUpdateOneWithoutTbPatrimonioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbPatrimonioNestedInput
+    tbDevolucao?: tbDevolucaoUpdateManyWithoutTbPatrimonioNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateWithoutTbCCustoInput = {
@@ -26310,6 +36405,10 @@ export namespace Prisma {
     idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
     idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbDevolucao?: tbDevolucaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateManyWithoutTbCCustoInput = {
@@ -26341,6 +36440,8 @@ export namespace Prisma {
     tbFuncao?: tbFuncaoUpdateOneWithoutTbFuncionarioNestedInput
     tbCadastro?: tbCadastroUpdateManyWithoutTbFuncionarioNestedInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUpdateManyWithoutTbFuncionarioDestinoNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateWithoutTbCCustoInput = {
@@ -26356,6 +36457,8 @@ export namespace Prisma {
     idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
     tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbFuncionarioNestedInput
     tbHasLicencaFuncionario?: tbHasLicencaFuncionarioUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoOrigem?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioNestedInput
+    tbTransferenciaAlocacaoDestino?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbFuncionarioDestinoNestedInput
   }
 
   export type tbFuncionarioUncheckedUpdateManyWithoutTbCCustoInput = {
@@ -26369,6 +36472,219 @@ export namespace Prisma {
     idFuncaoFun?: NullableStringFieldUpdateOperationsInput | string | null
     idUserFun?: NullableStringFieldUpdateOperationsInput | string | null
     idStatusFun?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type tbPatrimonioHistoricoUpdateWithoutTbCCustoInput = {
+    idHistorico?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbPatrimonio?: tbPatrimonioUpdateOneRequiredWithoutTbPatrimonioHistoricoNestedInput
+    tbTipoPat?: tbTipoPatUpdateOneWithoutTbPatrimonioHistoricoNestedInput
+    tbStatusPat?: tbStatusPatUpdateOneWithoutTbPatrimonioHistoricoNestedInput
+  }
+
+  export type tbPatrimonioHistoricoUncheckedUpdateWithoutTbCCustoInput = {
+    idHistorico?: StringFieldUpdateOperationsInput | string
+    idPatrimonioOriginal?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbCCustoInput = {
+    idHistorico?: StringFieldUpdateOperationsInput | string
+    idPatrimonioOriginal?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpdateWithoutCustoOrigemInput = {
+    idTransferencia?: StringFieldUpdateOperationsInput | string
+    valorTransferido?: NullableFloatFieldUpdateOperationsInput | number | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbPatrimonio?: tbPatrimonioUpdateOneRequiredWithoutTbTransferenciaCustoPatrimonioNestedInput
+    custoDestino?: tbCCustoUpdateOneRequiredWithoutTransferenciasDestinoNestedInput
+    tbUser?: tbUserUpdateOneWithoutTransferenciasCustoPatrimonioNestedInput
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedUpdateWithoutCustoOrigemInput = {
+    idTransferencia?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idCustoDestino?: StringFieldUpdateOperationsInput | string
+    valorTransferido?: NullableFloatFieldUpdateOperationsInput | number | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserTransferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoOrigemInput = {
+    idTransferencia?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idCustoDestino?: StringFieldUpdateOperationsInput | string
+    valorTransferido?: NullableFloatFieldUpdateOperationsInput | number | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserTransferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioUpdateWithoutCustoDestinoInput = {
+    idTransferencia?: StringFieldUpdateOperationsInput | string
+    valorTransferido?: NullableFloatFieldUpdateOperationsInput | number | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbPatrimonio?: tbPatrimonioUpdateOneRequiredWithoutTbTransferenciaCustoPatrimonioNestedInput
+    custoOrigem?: tbCCustoUpdateOneWithoutTransferenciasOrigemNestedInput
+    tbUser?: tbUserUpdateOneWithoutTransferenciasCustoPatrimonioNestedInput
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedUpdateWithoutCustoDestinoInput = {
+    idTransferencia?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idCustoOrigem?: NullableStringFieldUpdateOperationsInput | string | null
+    valorTransferido?: NullableFloatFieldUpdateOperationsInput | number | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserTransferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoDestinoInput = {
+    idTransferencia?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idCustoOrigem?: NullableStringFieldUpdateOperationsInput | string | null
+    valorTransferido?: NullableFloatFieldUpdateOperationsInput | number | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserTransferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbDevolucaoCreateManyTbCadastroInput = {
+    idDevolucao?: string
+    idPatrimonio: string
+    dataInicioDevolucao: Date | string
+    dataFimDevolucao?: Date | string | null
+    motivoDevolucao?: string | null
+    notaFiscalDevolucao?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type tbTransferenciaAlocacaoCreateManyTbCadastroInput = {
+    idTransferenciaAlocacao?: string
+    idPatrimonio: string
+    idMatriculaFuncionario?: string | null
+    idMatriculaFuncionarioDestino?: string | null
+    statusAnterior?: string | null
+    statusNovo: string
+    observacao?: string | null
+    idUserTransferencia?: string | null
+    dataTransferencia?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type tbDevolucaoUpdateWithoutTbCadastroInput = {
+    idDevolucao?: StringFieldUpdateOperationsInput | string
+    dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbPatrimonio?: tbPatrimonioUpdateOneRequiredWithoutTbDevolucaoNestedInput
+  }
+
+  export type tbDevolucaoUncheckedUpdateWithoutTbCadastroInput = {
+    idDevolucao?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbDevolucaoUncheckedUpdateManyWithoutTbCadastroInput = {
+    idDevolucao?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaAlocacaoUpdateWithoutTbCadastroInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbPatrimonio?: tbPatrimonioUpdateOneRequiredWithoutTbTransferenciaAlocacaoNestedInput
+    tbFuncionario?: tbFuncionarioUpdateOneWithoutTbTransferenciaAlocacaoOrigemNestedInput
+    tbFuncionarioDestino?: tbFuncionarioUpdateOneWithoutTbTransferenciaAlocacaoDestinoNestedInput
+    tbUser?: tbUserUpdateOneWithoutTransferenciasAlocacaoNestedInput
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedUpdateWithoutTbCadastroInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idMatriculaFuncionario?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatriculaFuncionarioDestino?: NullableStringFieldUpdateOperationsInput | string | null
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserTransferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbCadastroInput = {
+    idTransferenciaAlocacao?: StringFieldUpdateOperationsInput | string
+    idPatrimonio?: StringFieldUpdateOperationsInput | string
+    idMatriculaFuncionario?: NullableStringFieldUpdateOperationsInput | string | null
+    idMatriculaFuncionarioDestino?: NullableStringFieldUpdateOperationsInput | string | null
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: StringFieldUpdateOperationsInput | string
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    idUserTransferencia?: NullableStringFieldUpdateOperationsInput | string | null
+    dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AccountCreateManyUserInput = {

@@ -65,6 +65,8 @@ export function buildHtml(dados: DadosTermoResponsabilidade): string {
                     : 'Condicao da alocacao: o usuario declara ciencia do status atual do patrimonio e de suas responsabilidades conforme as normas internas.';
     const condicaoPorStatus = escapeHtml(condicaoPorStatusRaw);
 
+
+
     let textoProgramas =
         'E proibida a instalacao de softwares sem a autorizacao da coordenacao da TI. Este equipamento esta licenciado com o sistema operacional Windows e o pacote Office (Word - Excel - Outlook - Power Point)';
     if (dados.outrosProgramas && dados.outrosProgramas.length > 0) {
@@ -172,7 +174,7 @@ export function buildHtml(dados: DadosTermoResponsabilidade): string {
   </div>
 
   <div class="body">
-    <p>&emsp;&emsp;Por este instrumento a PAREX entrega a guarda ao Sr., ${nomeMatricula}, neste ato denominado USUARIO, inscrito no CPF no. ${cpfFormatado}, um computador Notebook marca ${marca}, modelo ${modelo}, contendo: 01 carregador de bateria, patrimoniado sob o Numero PAT ${patrimonio}, ficando o mesmo responsavel por qualquer dano, perda ou furto, e da mesma forma, pelo zelo e manutencao deste equipamento, sob pena de ressarcimento a PAREX se algum destes fatos ocorrer e for constatada negligencia por parte do USUARIO. O usuario permanece responsavel tambem pelo equipamento quando da transferencia do mesmo a outros funcionarios / terceiros sem a previa autorizacao da Coordenacao de TI Corporativa.</p>
+    <p>&emsp;&emsp;Por este instrumento a PAREX entrega a guarda ao Sr., ${nomeMatricula}, neste ato denominado USUARIO, inscrito no CPF no. ${cpfFormatado}, um computador ${tipoPatrimonio} marca ${marca}, modelo ${modelo}, contendo: 01 carregador de bateria, patrimoniado sob o Numero PAT ${patrimonio}, ficando o mesmo responsavel por qualquer dano, perda ou furto, e da mesma forma, pelo zelo e manutencao deste equipamento, sob pena de ressarcimento a PAREX se algum destes fatos ocorrer e for constatada negligencia por parte do USUARIO. O usuario permanece responsavel tambem pelo equipamento quando da transferencia do mesmo a outros funcionarios / terceiros sem a previa autorizacao da Coordenacao de TI Corporativa.</p>
 
     <p>&emsp;&emsp;O USUARIO reconhece que a utilizacao do equipamento se dara somente no horario comercial de trabalho, ou seja, de 07h30min (Sete horas e trinta minutos) as 17h30min (dezessete horas e trinta minutos), com intervalo de 01h00min (Uma hora), de 2a a 5a feiras e das 07h30min (Sete horas e trinta minutos) as 16h30min (dezesseis horas e trinta minutos), com intervalo de 01h00min (Uma hora) as 6a feiras e que o equipamento e para uso exclusivo no trabalho da empresa.</p>
 

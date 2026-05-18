@@ -216,6 +216,18 @@ exports.Prisma.TbCCustoScalarFieldEnum = {
   idEmp_Custo: 'idEmp_Custo'
 };
 
+exports.Prisma.TbTransferenciaCustoPatrimonioScalarFieldEnum = {
+  idTransferencia: 'idTransferencia',
+  idPatrimonio: 'idPatrimonio',
+  idCustoOrigem: 'idCustoOrigem',
+  idCustoDestino: 'idCustoDestino',
+  valorTransferido: 'valorTransferido',
+  observacao: 'observacao',
+  idUserTransferencia: 'idUserTransferencia',
+  dataTransferencia: 'dataTransferencia',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.TbCadastroScalarFieldEnum = {
   idCad: 'idCad',
   dataCadPat: 'dataCadPat',
@@ -225,6 +237,50 @@ exports.Prisma.TbCadastroScalarFieldEnum = {
   idPatCad: 'idPatCad',
   idMatFunCad: 'idMatFunCad',
   idStatusPatCad: 'idStatusPatCad'
+};
+
+exports.Prisma.TbTransferenciaAlocacaoScalarFieldEnum = {
+  idTransferenciaAlocacao: 'idTransferenciaAlocacao',
+  idCadastro: 'idCadastro',
+  idPatrimonio: 'idPatrimonio',
+  idMatriculaFuncionario: 'idMatriculaFuncionario',
+  idMatriculaFuncionarioDestino: 'idMatriculaFuncionarioDestino',
+  statusAnterior: 'statusAnterior',
+  statusNovo: 'statusNovo',
+  observacao: 'observacao',
+  idUserTransferencia: 'idUserTransferencia',
+  dataTransferencia: 'dataTransferencia',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TbDevolucaoScalarFieldEnum = {
+  idDevolucao: 'idDevolucao',
+  idPatrimonio: 'idPatrimonio',
+  idCadastro: 'idCadastro',
+  dataInicioDevolucao: 'dataInicioDevolucao',
+  dataFimDevolucao: 'dataFimDevolucao',
+  motivoDevolucao: 'motivoDevolucao',
+  notaFiscalDevolucao: 'notaFiscalDevolucao',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TbPatrimonioHistoricoScalarFieldEnum = {
+  idHistorico: 'idHistorico',
+  idPatrimonioOriginal: 'idPatrimonioOriginal',
+  idPat: 'idPat',
+  descricaoPat: 'descricaoPat',
+  valorPat: 'valorPat',
+  dataEntPat: 'dataEntPat',
+  dataSaiPat: 'dataSaiPat',
+  notaFiscalPat: 'notaFiscalPat',
+  idPat_TipoPat: 'idPat_TipoPat',
+  idPat_StatusPat: 'idPat_StatusPat',
+  idPat_CustoPat: 'idPat_CustoPat',
+  dataDevolucao: 'dataDevolucao',
+  motivoDevolucao: 'motivoDevolucao',
+  notaFiscalDevolucao: 'notaFiscalDevolucao',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {
@@ -382,11 +438,53 @@ exports.Prisma.tbCCustoOrderByRelevanceFieldEnum = {
   idEmp_Custo: 'idEmp_Custo'
 };
 
+exports.Prisma.tbTransferenciaCustoPatrimonioOrderByRelevanceFieldEnum = {
+  idTransferencia: 'idTransferencia',
+  idPatrimonio: 'idPatrimonio',
+  idCustoOrigem: 'idCustoOrigem',
+  idCustoDestino: 'idCustoDestino',
+  observacao: 'observacao',
+  idUserTransferencia: 'idUserTransferencia'
+};
+
 exports.Prisma.tbCadastroOrderByRelevanceFieldEnum = {
   idCad: 'idCad',
   idPatCad: 'idPatCad',
   idMatFunCad: 'idMatFunCad',
   idStatusPatCad: 'idStatusPatCad'
+};
+
+exports.Prisma.tbTransferenciaAlocacaoOrderByRelevanceFieldEnum = {
+  idTransferenciaAlocacao: 'idTransferenciaAlocacao',
+  idCadastro: 'idCadastro',
+  idPatrimonio: 'idPatrimonio',
+  idMatriculaFuncionario: 'idMatriculaFuncionario',
+  idMatriculaFuncionarioDestino: 'idMatriculaFuncionarioDestino',
+  statusAnterior: 'statusAnterior',
+  statusNovo: 'statusNovo',
+  observacao: 'observacao',
+  idUserTransferencia: 'idUserTransferencia'
+};
+
+exports.Prisma.tbDevolucaoOrderByRelevanceFieldEnum = {
+  idDevolucao: 'idDevolucao',
+  idPatrimonio: 'idPatrimonio',
+  idCadastro: 'idCadastro',
+  motivoDevolucao: 'motivoDevolucao',
+  notaFiscalDevolucao: 'notaFiscalDevolucao'
+};
+
+exports.Prisma.tbPatrimonioHistoricoOrderByRelevanceFieldEnum = {
+  idHistorico: 'idHistorico',
+  idPatrimonioOriginal: 'idPatrimonioOriginal',
+  idPat: 'idPat',
+  descricaoPat: 'descricaoPat',
+  notaFiscalPat: 'notaFiscalPat',
+  idPat_TipoPat: 'idPat_TipoPat',
+  idPat_StatusPat: 'idPat_StatusPat',
+  idPat_CustoPat: 'idPat_CustoPat',
+  motivoDevolucao: 'motivoDevolucao',
+  notaFiscalDevolucao: 'notaFiscalDevolucao'
 };
 
 exports.Prisma.AccountOrderByRelevanceFieldEnum = {
@@ -443,7 +541,11 @@ exports.Prisma.ModelName = {
   tbStatusPat: 'tbStatusPat',
   tbEmpresa: 'tbEmpresa',
   tbCCusto: 'tbCCusto',
+  tbTransferenciaCustoPatrimonio: 'tbTransferenciaCustoPatrimonio',
   tbCadastro: 'tbCadastro',
+  tbTransferenciaAlocacao: 'tbTransferenciaAlocacao',
+  tbDevolucao: 'tbDevolucao',
+  tbPatrimonioHistorico: 'tbPatrimonioHistorico',
   Account: 'Account',
   Session: 'Session',
   User: 'User',

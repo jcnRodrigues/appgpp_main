@@ -97,7 +97,8 @@ export async function POST(request: NextRequest) {
             idMatFunCad: dados.idMatFunCad,
             dataCadPat: parseOptionalDateInput(dados.dataCadPat),
             dataDevPat: parseOptionalDateInput(dados.dataDevPat),
-            idStatusPatCad: dados.idStatusPatCad || undefined
+            idStatusPatCad: dados.idStatusPatCad || undefined,
+            motivoDevolucao: typeof dados.motivoDevolucao === 'string' ? dados.motivoDevolucao : null
         });
 
         return NextResponse.json(alocacao, { status: 201 });

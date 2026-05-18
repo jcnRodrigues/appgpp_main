@@ -250,8 +250,7 @@ export async function resumoCentrosCusto(centros?: string[]) {
             descricaoCCusto: true,
             _count: {
                 select: {
-                    tbFuncionario: true,
-                    tbPatrimonio: true
+                    tbFuncionario: true
                 }
             }
         },
@@ -260,13 +259,95 @@ export async function resumoCentrosCusto(centros?: string[]) {
         }
     });
 
+    const centroIds = new Set(centrosDb.map((centro) => centro.idCCusto));
+    const cads = await prisma.tbCadastro.findMany({
+        select: {
+            idPatCad: true,
+            dataDevPat: true,
+            tbStatusPat: {
+                select: {
+                    descricaoStatPat: true
+                }
+            },
+            tbFuncionario: {
+                select: {
+                    idCustoFun: true
+                }
+            },
+            tbPatrimonio: {
+                select: {
+                    idPat_CustoPat: true
+                }
+            }
+        }
+    });
+
+    const ativosPorCentro = new Map<string, Set<string>>();
+    const devolvidosPorCentro = new Map<string, number>();
+    const transferidosPorCentro = new Map<string, number>();
+
+    for (const cad of cads) {
+        const centroId = cad.tbFuncionario?.idCustoFun || cad.tbPatrimonio?.idPat_CustoPat || null;
+        if (!centroId || !centroIds.has(centroId)) continue;
+
+        const status = (cad.tbStatusPat?.descricaoStatPat || "").toLowerCase();
+        const isTransferido = status.includes("transfer");
+        const isAtivo = !cad.dataDevPat && !isTransferido;
+
+        if (isAtivo && cad.idPatCad) {
+            if (!ativosPorCentro.has(centroId)) ativosPorCentro.set(centroId, new Set<string>());
+            ativosPorCentro.get(centroId)!.add(cad.idPatCad);
+        }
+        if (isTransferido) {
+            transferidosPorCentro.set(centroId, (transferidosPorCentro.get(centroId) || 0) + 1);
+        }
+    }
+
+    const devolucoes = await prisma.tbDevolucao.findMany({
+        select: {
+            idDevolucao: true,
+            tbCadastro: {
+                select: {
+                    tbFuncionario: {
+                        select: {
+                            idCustoFun: true
+                        }
+                    },
+                    tbPatrimonio: {
+                        select: {
+                            idPat_CustoPat: true
+                        }
+                    }
+                }
+            },
+            tbPatrimonio: {
+                select: {
+                    idPat_CustoPat: true
+                }
+            }
+        }
+    });
+
+    for (const dev of devolucoes) {
+        const centroId =
+            dev.tbCadastro?.tbFuncionario?.idCustoFun ||
+            dev.tbCadastro?.tbPatrimonio?.idPat_CustoPat ||
+            dev.tbPatrimonio?.idPat_CustoPat ||
+            null;
+        if (!centroId || !centroIds.has(centroId)) continue;
+        devolvidosPorCentro.set(centroId, (devolvidosPorCentro.get(centroId) || 0) + 1);
+    }
+
     return centrosDb.map((centro) => ({
         id: centro.idCCusto,
         codigo: centro.codigoCCusto || '',
         nome: centro.descricaoCCusto || centro.codigoCCusto || centro.idCCusto,
         funcionarios: centro._count.tbFuncionario,
-        patrimonios: centro._count.tbPatrimonio,
+        patrimonios: ativosPorCentro.get(centro.idCCusto)?.size || 0,
+        ativos: ativosPorCentro.get(centro.idCCusto)?.size || 0,
+        devolvidos: devolvidosPorCentro.get(centro.idCCusto) || 0,
+        transferidos: transferidosPorCentro.get(centro.idCCusto) || 0,
         // Sem tabela historica de medicao por centro: usa previsao baseada no total de patrimonios.
-        previsaoMedicao: centro._count.tbPatrimonio
+        previsaoMedicao: ativosPorCentro.get(centro.idCCusto)?.size || 0
     }));
 }

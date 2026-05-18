@@ -27,7 +27,7 @@ interface Patrimonio {
     descricaoPat: string;
     descricaoDetalhadaPat?: string;
     tbStatusPat?: {
-        descricaoStatusPat: string;
+        descricaoStatPat: string;
     };
     tbCCusto?: {
         descricaoCCusto?: string;
@@ -65,7 +65,8 @@ export default function CadastroForm({
         idPatCad: patrimonioId || '',
         dataCadPat: new Date().toISOString().split('T')[0],
         dataDevPat: '',
-        idStatusPatCad: ''
+        idStatusPatCad: '',
+        motivoDevolucao: ''
     }), [funcionarioId, patrimonioId]);
     const {
         state: cadastro,
@@ -195,7 +196,8 @@ export default function CadastroForm({
                 idPatCad: cadastro.idPatCad,
                 dataCadPat: cadastro.dataCadPat,
                 dataDevPat: cadastro.dataDevPat || null,
-                idStatusPatCad: cadastro.idStatusPatCad || undefined
+                idStatusPatCad: cadastro.idStatusPatCad || undefined,
+                motivoDevolucao: cadastro.motivoDevolucao || null
             };
 
             const res = await fetch('/api/cadastro', {
@@ -359,6 +361,18 @@ export default function CadastroForm({
                         />
                     </div>
 
+                    <div>
+                        <label className="block text-sm font-medium mb-2">Motivo da Devolução</label>
+                        <input
+                            type="text"
+                            name="motivoDevolucao"
+                            value={cadastro.motivoDevolucao}
+                            onChange={handleChange}
+                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                            placeholder="Ex: equipamento com defeito"
+                        />
+                    </div>
+
                     <div className="flex justify-end gap-4 pt-4">
                         <Link href="/alocacoes">
                             <Button variant="outline">Cancelar</Button>
@@ -491,15 +505,15 @@ export default function CadastroForm({
                                                 <td className="px-4 py-3 text-sm font-medium">{pat.idPat}</td>
                                                 <td className="px-4 py-3 text-sm max-w-xs truncate">{pat.descricaoPat}</td>
                                                 <td className="px-4 py-3 text-sm">
-                                                    <span className={`px-2 py-1 rounded-full text-xs ${pat.tbStatusPat?.descricaoStatusPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
-                                                            pat.tbStatusPat?.descricaoStatusPat === 'INATIVO' ? 'bg-blue-100 text-gray-800' :
-                                                                pat.tbStatusPat?.descricaoStatusPat === 'DEVOLUÇÃO' ? 'bg-yellow-100 text-red-800' :
-                                                                    pat.tbStatusPat?.descricaoStatusPat === 'TRANSFERIDO' ? 'bg-green-100 text-blue-800' :
-                                                                        pat.tbStatusPat?.descricaoStatusPat === 'PENDENTE' ? 'bg-blue-100 text-yellow-800' :
-                                                                            pat.tbStatusPat?.descricaoStatusPat === 'MANUTENÇÃO' ? 'bg-yellow-100 text-purple-800' :
+                                                    <span className={`px-2 py-1 rounded-full text-xs ${pat.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
+                                                            pat.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-blue-100 text-gray-800' :
+                                                                pat.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-yellow-100 text-red-800' :
+                                                                    pat.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-green-100 text-blue-800' :
+                                                                        pat.tbStatusPat?.descricaoStatPat === 'PENDENTE' ? 'bg-blue-100 text-yellow-800' :
+                                                                            pat.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-yellow-100 text-purple-800' :
                                                                                 'bg-gray-100 text-gray-800'
                                                         }`}>
-                                                        {pat.tbStatusPat?.descricaoStatusPat || '-'}
+                                                        {pat.tbStatusPat?.descricaoStatPat || '-'}
                                                     </span>
                                                 </td>
                                                 <td className="px-4 py-3 text-sm">{pat.tbCCusto?.descricaoCCusto || '-'}</td>

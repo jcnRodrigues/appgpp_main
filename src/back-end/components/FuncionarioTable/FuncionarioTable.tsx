@@ -250,9 +250,9 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                         <thead>
                             <tr>
                                 <th className="w-[6%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Matrícula</th>
-                                <th className="w-[33%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Nome</th>
-                                <th className="w-[10%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">CPF</th>
-                                <th className="w-[21%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Função</th>
+                                <th className="w-[25%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Nome</th>
+                                <th className="w-[8%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">CPF</th>
+                                <th className="w-[15%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Função</th>
                                 <th className="w-[10%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Data Admissão</th>
                                 <th className="w-[6%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Status</th>
                                 <th className="w-[6%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-nowrap">Ações</th>
@@ -295,12 +295,9 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                             {funcionario.dataAdmFun ? new Date(funcionario.dataAdmFun).toLocaleDateString('pt-BR') : '-'}
                                         </td>
                                         <td className="px-3 py-4 text-xs md:text-sm">
-                                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusBadgeClass(funcionario.tbStatusFun?.descricaoStatusFun)}`}>
+                                            <span className={`px-3 py-1 rounded-full text-xs text-[9px] font-semibold ${getStatusBadgeClass(funcionario.tbStatusFun?.descricaoStatusFun)}`}>
                                                 {funcionario.tbStatusFun?.descricaoStatusFun || '-'}
                                             </span>
-                                        </td>
-                                        <td className="px-3 py-4 text-xs md:text-sm text-gray-700 whitespace-normal break-words">
-
                                         </td>
                                         <td className="px-3 py-4 text-xs md:text-sm whitespace-nowrap">
                                             <div className="flex items-center gap-1 md:gap-2">
