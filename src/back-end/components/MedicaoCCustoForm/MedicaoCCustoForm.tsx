@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
 import { Eye, EyeOff } from 'lucide-react';
 import ConferirPatrimoniosButton from '@/back-end/components/MedicaoCCustoForm/ConferirPatrimoniosButton';
@@ -20,6 +20,8 @@ type LinhaResultado = {
     matriculaAlocada: string | null;
     nomeFuncionarioAlocado: string | null;
     statusPatrimonio: string | null;
+    badgeAlocacao?: string | null;
+    dataTransferenciaConsiderada?: string | null;
     valorInformado: number | null;
     valorSistema: number | null;
     detalheRateio: string | null;
@@ -47,7 +49,39 @@ type RespostaMedicao = {
     }>;
 };
 
-export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOption[] }) {
+type BmMedicao = {
+    idBm: string;
+    codigoBm: string;
+    idCCusto: string;
+    codigoCCusto?: string | null;
+    descricaoCCusto?: string | null;
+    statusBm: 'ABERTO' | 'FECHADO';
+    mesBm: number;
+    anoBm: number;
+    dataInicioMedicao: string;
+    dataFimMedicao: string;
+    gerouRelatorioExcel: boolean;
+    gerouRelatorioPdf: boolean;
+    updatedAt?: string;
+    resumo: RespostaMedicao['resumo'] | null;
+    resultados: LinhaResultado[] | null;
+    naoInformados: RespostaMedicao['naoInformados'] | null;
+};
+
+type BmSelecionadoInfo = {
+    idBm: string;
+    codigoBm: string;
+    dataInicioMedicao: string;
+    dataFimMedicao: string;
+} | null;
+
+export default function MedicaoCCustoForm({
+    centros,
+    bmIdInicial
+}: {
+    centros: CentroCustoOption[];
+    bmIdInicial?: string | null;
+}) {
     const handleEnterToNext = useEnterToNext();
     const [centroSelecionado, setCentroSelecionado] = useState('');
     const [arquivo, setArquivo] = useState<File | null>(null);
@@ -61,6 +95,8 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
     const dataAtual = new Date();
     const [mesBm, setMesBm] = useState(String(dataAtual.getMonth() + 1).padStart(2, '0'));
     const [anoBm, setAnoBm] = useState(String(dataAtual.getFullYear()));
+    const [bmAtualId, setBmAtualId] = useState<string | null>(null);
+    const [bmSelecionadoInfo, setBmSelecionadoInfo] = useState<BmSelecionadoInfo>(null);
 
     const compararIdPatrimonio = (a: string, b: string) =>
         a.localeCompare(b, 'pt-BR', { numeric: true, sensitivity: 'base' });
@@ -69,6 +105,44 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
         new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
     const formatarMoedaOuTraco = (valor: number | null) =>
         valor === null ? '-' : formatarMoeda(valor);
+    const formatarDataPtBr = (value?: string | Date | null) => {
+        if (!value) return '-';
+        const data = value instanceof Date ? value : new Date(value);
+        if (Number.isNaN(data.getTime())) return '-';
+        return new Intl.DateTimeFormat('pt-BR', {
+            timeZone: 'America/Sao_Paulo',
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        }).format(data);
+    };
+    const formatarDataInput = (value?: string | Date | null) => {
+        if (!value) return '';
+        const data = value instanceof Date ? value : new Date(value);
+        if (Number.isNaN(data.getTime())) return '';
+        // Evita deslocamento de dia ao carregar datas salvas em UTC.
+        return new Intl.DateTimeFormat('en-CA', {
+            timeZone: 'America/Sao_Paulo',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        }).format(data);
+    };
+    const formatarDataHoraPtBr = (value?: string | Date | null) => {
+        if (!value) return '-';
+        const data = value instanceof Date ? value : new Date(value);
+        if (Number.isNaN(data.getTime())) return '-';
+        return new Intl.DateTimeFormat('pt-BR', {
+            timeZone: 'America/Sao_Paulo',
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        }).format(data);
+    };
     const centroSelecionadoObj = centros.find((c) => c.idCCusto === centroSelecionado);
     const codigoCentroSelecionado =
         centroSelecionadoObj?.codigoCCusto || null;
@@ -117,6 +191,119 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
     const naoInformadosOrdenados = resultado
         ? [...resultado.naoInformados].sort((a, b) => compararIdPatrimonio(a.idPat || '', b.idPat || ''))
         : [];
+
+
+    useEffect(() => {
+        if (bmIdInicial) {
+            void carregarBm(bmIdInicial);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [bmIdInicial]);
+
+    const registrarBm = async (formato: 'excel' | 'pdf') => {
+        if (!resultado || !centroSelecionado || !centroSelecionadoObj) return null;
+
+        const res = await fetch('/api/ccusto/medicao/bm', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                idBm: bmAtualId,
+                idCCusto: centroSelecionado,
+                codigoCCusto: codigoCentroSelecionado,
+                descricaoCCusto: centroSelecionadoObj.descricaoCCusto || null,
+                mesBm,
+                anoBm,
+                dataInicioMedicao: `${dataInicioMedicao}T00:00:00`,
+                dataFimMedicao: `${dataFimMedicao}T23:59:59.999`,
+                resumo: resultado.resumo,
+                resultados: resultado.resultados,
+                naoInformados: resultado.naoInformados,
+                formatoRelatorio: formato
+            })
+        });
+
+        if (!res.ok) {
+            const data = await res.json().catch(() => ({}));
+            setErro(data.message || 'Falha ao registrar BM.');
+            return null;
+        }
+
+        const data = await res.json();
+        const bm = data.data as BmMedicao;
+        setBmAtualId(bm.idBm);
+        setBmSelecionadoInfo({
+            idBm: bm.idBm,
+            codigoBm: bm.codigoBm,
+            dataInicioMedicao: bm.dataInicioMedicao,
+            dataFimMedicao: bm.dataFimMedicao
+        });
+        const ext = formato === 'excel' ? 'csv' : 'pdf';
+        return `${bm.codigoBm}.${ext}`;
+    };
+
+    const carregarBm = async (idBm: string) => {
+        const res = await fetch(`/api/ccusto/medicao/bm?idBm=${encodeURIComponent(idBm)}`);
+        const data = await res.json();
+        if (!res.ok) {
+            setErro(data.message || 'Falha ao carregar BM.');
+            return;
+        }
+        const bm = data.data as BmMedicao;
+        setBmAtualId(bm.idBm);
+        setBmSelecionadoInfo({
+            idBm: bm.idBm,
+            codigoBm: bm.codigoBm,
+            dataInicioMedicao: bm.dataInicioMedicao,
+            dataFimMedicao: bm.dataFimMedicao
+        });
+        setCentroSelecionado(bm.idCCusto);
+        setDataInicioMedicao(formatarDataInput(bm.dataInicioMedicao));
+        setDataFimMedicao(formatarDataInput(bm.dataFimMedicao));
+        setMesBm(String(bm.mesBm).padStart(2, '0'));
+        setAnoBm(String(bm.anoBm));
+        if (bm.resumo && bm.resultados && bm.naoInformados) {
+            setResultado({
+                resumo: bm.resumo,
+                resultados: bm.resultados,
+                naoInformados: bm.naoInformados
+            });
+        }
+    };
+
+    const atualizarBmSelecionado = async () => {
+        if (!bmAtualId || !resultado) {
+            setErro('Selecione um BM e carregue a medição para atualizar.');
+            return;
+        }
+
+        const res = await fetch('/api/ccusto/medicao/bm', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                idBm: bmAtualId,
+                dataInicioMedicao: `${dataInicioMedicao}T00:00:00`,
+                dataFimMedicao: `${dataFimMedicao}T23:59:59.999`,
+                resumo: resultado.resumo,
+                resultados: resultado.resultados,
+                naoInformados: resultado.naoInformados
+            })
+        });
+
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+            setErro(data.message || 'Falha ao atualizar o BM selecionado.');
+            return;
+        }
+
+        const bm = data.data as BmMedicao;
+        setBmSelecionadoInfo({
+            idBm: bm.idBm,
+            codigoBm: bm.codigoBm,
+            dataInicioMedicao: bm.dataInicioMedicao,
+            dataFimMedicao: bm.dataFimMedicao
+        });
+    };
+
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -185,14 +372,27 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
     return (
         <div className="space-y-6">
             <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-md p-6 space-y-4">
+                {bmSelecionadoInfo && (
+                    <div className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 flex items-center justify-between gap-3">
+                        <p className="text-sm text-blue-900">
+                            BM selecionado: <strong>{bmSelecionadoInfo.codigoBm}</strong> | {formatarDataPtBr(bmSelecionadoInfo.dataInicioMedicao)} até {formatarDataPtBr(bmSelecionadoInfo.dataFimMedicao)}
+                        </p>
+                        <button
+                            type="button"
+                            className="text-xs px-2 py-1 rounded border bg-white"
+                            onClick={atualizarBmSelecionado}
+                            disabled={loading || !resultado}
+                        >
+                            Atualizar BM Selecionado
+                        </button>
+                    </div>
+                )}
                 <div className="flex flex-wrap items-center justify-end gap-2">
                     <ConferirPatrimoniosButton loading={loading} />
                     <GerarRelatorioMedicaoButton
                         resultado={resultado}
                         disabled={loading}
-                        codigoCentroCusto={codigoCentroSelecionado}
-                        mesBm={mesBm}
-                        anoBm={anoBm}
+                        onRegistrarBm={registrarBm}
                     />
                     <GerarRelatorioMedicaoPdfButton
                         resultado={resultado}
@@ -201,10 +401,10 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                         centroCustoLabel={centroSelecionadoLabel}
                         periodoInicioMedicao={dataInicioMedicao}
                         periodoFimMedicao={dataFimMedicao}
-                        mesBm={mesBm}
-                        anoBm={anoBm}
+                        onRegistrarBm={registrarBm}
                     />
                 </div>
+
 
                 <div>
                     <label className="block text-sm font-medium mb-2">Centro de Custo</label>
@@ -293,6 +493,9 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                         : 'bg-green-50 border-green-200'
                         }`}>
                         <h3 className="font-semibold text-sm">Resumo de inconsistências da importação</h3>
+                        <p className="text-xs mt-1 text-gray-600">
+                            Rateio calculado com base no período informado (inclusive início e fim da medição).
+                        </p>
                         <p className="text-sm mt-1 text-gray-700">
                             {(resumoInconsistencias?.total || 0) > 0
                                 ? `Foram encontradas ${resumoInconsistencias?.total} inconsistências no total.`
@@ -360,6 +563,13 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                                         <div className="text-xs text-gray-500">Linha: {linha.linha}</div>
                                         <div className="text-xs text-gray-500">Matrícula: {linha.matriculaAlocada || '-'}</div>
                                         <div className="text-xs text-gray-500">Funcionário: {linha.nomeFuncionarioAlocado || '-'}</div>
+                                        {linha.badgeAlocacao && (
+                                            <div className="mt-1">
+                                                <span className="inline-block rounded-full bg-blue-100 text-blue-800 px-2 py-0.5 text-[10px] font-semibold">
+                                                    {linha.badgeAlocacao}
+                                                </span>
+                                            </div>
+                                        )}
                                         <div className="text-xs text-gray-500">Status Patrimônio: {linha.statusPatrimonio || '-'}</div>
                                     </div>
                                     <span
@@ -416,13 +626,28 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                                                 {linha.linha - 1}
                                             </td>
                                             <td className="px-4 py-3 text-sm text-[12px]">
-                                                <div>{linha.idPat || '-'}</div>
-                                                <div className="text-[10px] text-gray-500 mt-0.5">{linha.descricaoPat || 'Sem descrição'}</div>
-                                                
+                                                <div>
+                                                    {linha.idPat || '-'}
+                                                </div>
+                                                <div className="text-[10px] text-gray-500 mt-0.5">
+                                                    {linha.descricaoPat || 'Sem descrição'}
+                                                </div>
+
                                             </td>
                                             <td className="px-4 py-3 text-sm text-[12px]">
-                                                <div>{linha.matriculaAlocada || '-'}</div>
-                                                <div className="text-[10px] text-gray-500 mt-0.5">{linha.nomeFuncionarioAlocado || '-'}</div>
+                                                <div>
+                                                    {linha.matriculaAlocada || '-'}
+                                                </div>
+                                                <div className="text-[10px] text-gray-500 mt-0.5">
+                                                    {linha.nomeFuncionarioAlocado || '-'}
+                                                </div>
+                                                {linha.badgeAlocacao && (
+                                                    <div className="mt-1">
+                                                        <span className="inline-block rounded-full bg-blue-100 text-blue-800 px-2 py-0.5 text-[9px] font-semibold">
+                                                            {linha.badgeAlocacao}
+                                                        </span>
+                                                    </div>
+                                                )}
                                             </td>
                                             <td className="px-4 py-3 text-sm text-[12px]">
                                                 {linha.statusPatrimonio ? (
@@ -513,13 +738,13 @@ export default function MedicaoCCustoForm({ centros }: { centros: CentroCustoOpt
                                                 <tr key={item.idPat} className="border-b align-top">
                                                     <td className="px-3 py-2 text-[12px]">
                                                         {item.idPat}
-                                                        </td>
+                                                    </td>
                                                     <td className="px-3 py-2 text-[12px]">
                                                         {item.descricaoPat || 'Sem descrição'}
-                                                        </td>
+                                                    </td>
                                                     <td className="px-3 py-2 text-[12px]">
                                                         {formatarMoeda(item.valorSistema ?? 0)}
-                                                        </td>
+                                                    </td>
                                                     <td className="px-3 py-2">
                                                         {item.statusPatrimonio ? (
                                                             <span

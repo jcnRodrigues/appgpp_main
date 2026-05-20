@@ -216,6 +216,29 @@ exports.Prisma.TbCCustoScalarFieldEnum = {
   idEmp_Custo: 'idEmp_Custo'
 };
 
+exports.Prisma.TbBmMedicaoScalarFieldEnum = {
+  idBm: 'idBm',
+  codigoBm: 'codigoBm',
+  idCCusto: 'idCCusto',
+  codigoCCusto: 'codigoCCusto',
+  descricaoCCusto: 'descricaoCCusto',
+  mesBm: 'mesBm',
+  anoBm: 'anoBm',
+  contadorBm: 'contadorBm',
+  statusBm: 'statusBm',
+  dataInicioMedicao: 'dataInicioMedicao',
+  dataFimMedicao: 'dataFimMedicao',
+  resumoJson: 'resumoJson',
+  resultadosJson: 'resultadosJson',
+  naoInformadosJson: 'naoInformadosJson',
+  gerouRelatorioExcel: 'gerouRelatorioExcel',
+  gerouRelatorioPdf: 'gerouRelatorioPdf',
+  idUserGeracao: 'idUserGeracao',
+  fechadoAt: 'fechadoAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.TbTransferenciaCustoPatrimonioScalarFieldEnum = {
   idTransferencia: 'idTransferencia',
   idPatrimonio: 'idPatrimonio',
@@ -259,6 +282,8 @@ exports.Prisma.TbDevolucaoScalarFieldEnum = {
   idCadastro: 'idCadastro',
   dataInicioDevolucao: 'dataInicioDevolucao',
   dataFimDevolucao: 'dataFimDevolucao',
+  dataSaidaFornecedor: 'dataSaidaFornecedor',
+  dataChegadaFornecedor: 'dataChegadaFornecedor',
   motivoDevolucao: 'motivoDevolucao',
   notaFiscalDevolucao: 'notaFiscalDevolucao',
   createdAt: 'createdAt',
@@ -438,6 +463,16 @@ exports.Prisma.tbCCustoOrderByRelevanceFieldEnum = {
   idEmp_Custo: 'idEmp_Custo'
 };
 
+exports.Prisma.tbBmMedicaoOrderByRelevanceFieldEnum = {
+  idBm: 'idBm',
+  codigoBm: 'codigoBm',
+  idCCusto: 'idCCusto',
+  codigoCCusto: 'codigoCCusto',
+  descricaoCCusto: 'descricaoCCusto',
+  statusBm: 'statusBm',
+  idUserGeracao: 'idUserGeracao'
+};
+
 exports.Prisma.tbTransferenciaCustoPatrimonioOrderByRelevanceFieldEnum = {
   idTransferencia: 'idTransferencia',
   idPatrimonio: 'idPatrimonio',
@@ -541,6 +576,7 @@ exports.Prisma.ModelName = {
   tbStatusPat: 'tbStatusPat',
   tbEmpresa: 'tbEmpresa',
   tbCCusto: 'tbCCusto',
+  tbBmMedicao: 'tbBmMedicao',
   tbTransferenciaCustoPatrimonio: 'tbTransferenciaCustoPatrimonio',
   tbCadastro: 'tbCadastro',
   tbTransferenciaAlocacao: 'tbTransferenciaAlocacao',

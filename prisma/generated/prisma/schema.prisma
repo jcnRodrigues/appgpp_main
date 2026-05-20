@@ -28,6 +28,7 @@ model tbUser {
   tbFuncioanrio                 tbFuncionario[]
   transferenciasCustoPatrimonio tbTransferenciaCustoPatrimonio[]
   transferenciasAlocacao        tbTransferenciaAlocacao[]
+  tbBmMedicao                   tbBmMedicao[]
 }
 
 model tbFuncionario {
@@ -146,6 +147,37 @@ model tbCCusto {
   tbPatrimonioHistorico tbPatrimonioHistorico[]
   transferenciasOrigem  tbTransferenciaCustoPatrimonio[] @relation("TransferenciaOrigem")
   transferenciasDestino tbTransferenciaCustoPatrimonio[] @relation("TransferenciaDestino")
+  tbBmMedicao           tbBmMedicao[]
+}
+
+model tbBmMedicao {
+  idBm                String    @id @default(uuid())
+  codigoBm            String    @unique
+  idCCusto            String
+  codigoCCusto        String?
+  descricaoCCusto     String?
+  mesBm               Int
+  anoBm               Int
+  contadorBm          Int
+  statusBm            String    @default("ABERTO")
+  dataInicioMedicao   DateTime
+  dataFimMedicao      DateTime
+  resumoJson          Json?
+  resultadosJson      Json?
+  naoInformadosJson   Json?
+  gerouRelatorioExcel Boolean   @default(false)
+  gerouRelatorioPdf   Boolean   @default(false)
+  idUserGeracao       String?
+  fechadoAt           DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  tbCCusto tbCCusto @relation(fields: [idCCusto], references: [idCCusto], onDelete: Cascade)
+  tbUser   tbUser?  @relation(fields: [idUserGeracao], references: [id], onDelete: SetNull)
+
+  @@index([idCCusto, statusBm], map: "idx_bm_ccusto_status")
+  @@index([idCCusto, anoBm, mesBm, contadorBm], map: "idx_bm_ccusto_comp")
+  @@index([createdAt], map: "idx_bm_created_at")
 }
 
 model tbTransferenciaCustoPatrimonio {
@@ -213,15 +245,17 @@ model tbTransferenciaAlocacao {
 }
 
 model tbDevolucao {
-  idDevolucao         String    @id @default(uuid())
-  idPatrimonio        String
-  idCadastro          String?
-  dataInicioDevolucao DateTime
-  dataFimDevolucao    DateTime?
-  motivoDevolucao     String?
-  notaFiscalDevolucao String?
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
+  idDevolucao           String    @id @default(uuid())
+  idPatrimonio          String
+  idCadastro            String?
+  dataInicioDevolucao   DateTime
+  dataFimDevolucao      DateTime?
+  dataSaidaFornecedor   DateTime?
+  dataChegadaFornecedor DateTime?
+  motivoDevolucao       String?
+  notaFiscalDevolucao   String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
 
   tbPatrimonio tbPatrimonio @relation(fields: [idPatrimonio], references: [idPat], onDelete: Cascade)
   tbCadastro   tbCadastro?  @relation(fields: [idCadastro], references: [idCad], onDelete: SetNull)

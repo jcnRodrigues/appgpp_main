@@ -63,6 +63,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
         dataDevPat: '',
         motivoDevolucao: '',
         notaFiscalDevolucao: '',
+        dataSaidaFornecedor: '',
         dataChegadaFornecedor: ''
     }), []);
     const {
@@ -117,7 +118,16 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                             dataDevPat: data.tbDevolucao?.[0]?.dataInicioDevolucao ? new Date(data.tbDevolucao[0].dataInicioDevolucao).toISOString().split('T')[0] : '',
                             motivoDevolucao: data.tbDevolucao?.[0]?.motivoDevolucao || '',
                             notaFiscalDevolucao: data.tbDevolucao?.[0]?.notaFiscalDevolucao || '',
-                            dataChegadaFornecedor: data.tbDevolucao?.[0]?.dataFimDevolucao ? new Date(data.tbDevolucao[0].dataFimDevolucao).toISOString().split('T')[0] : ''
+                            dataSaidaFornecedor:
+                                data.tbDevolucao?.[0]?.dataSaidaFornecedor
+                                    ? new Date(data.tbDevolucao[0].dataSaidaFornecedor).toISOString().split('T')[0]
+                                    : '',
+                            dataChegadaFornecedor:
+                                data.tbDevolucao?.[0]?.dataChegadaFornecedor
+                                    ? new Date(data.tbDevolucao[0].dataChegadaFornecedor).toISOString().split('T')[0]
+                                    : (data.tbDevolucao?.[0]?.dataFimDevolucao
+                                        ? new Date(data.tbDevolucao[0].dataFimDevolucao).toISOString().split('T')[0]
+                                        : '')
                         });
                         await carregarHistoricoTransferencias(patrimonioId);
                     }
@@ -223,6 +233,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                 dataEntPat: patrimonio.dataEntPat,
                 dataSaiPat: patrimonio.dataSaiPat || null,
                 dataDevPat: patrimonio.dataDevPat || null,
+                dataSaidaFornecedor: patrimonio.dataSaidaFornecedor || null,
                 dataChegadaFornecedor: patrimonio.dataChegadaFornecedor || null
             };
 
@@ -303,30 +314,32 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                             <label className="block text-sm font-medium mb-2">Descrição Detalhada</label>
                             <textarea name="descricaoDetalhadaPat" value={patrimonio.descricaoDetalhadaPat} onChange={handleChange} placeholder="Detalhe as características do patrimônio" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary h-24 resize-none" />
                         </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Licença/Série</label>
+                                <input type="text" name="licencaPat" value={patrimonio.licencaPat} onChange={handleChange} placeholder="Ex: ABC123XYZ" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+                            </div>
+                        </div>
 
                     </div>
 
                     <div className="border-b pb-6">
-                        <h2 className="text-h4 font-bold mb-4">Datas e Documentação</h2>
+                        <h2 className="text-h4 font-bold mb-4">Datas de Documentação e Movimentação</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                             <div>
-                                <label className="block text-sm font-medium mb-2">Data de Entrada *</label>
+                                <label className="block text-sm font-medium mb-2">Data de Entrada - NF *</label>
                                 <input type="date" name="dataEntPat" value={patrimonio.dataEntPat} onChange={handleChange} className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required />
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium mb-2">Data de Saída</label>
-                                <input type="date" name="dataSaiPat" value={patrimonio.dataSaiPat} onChange={handleChange} className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
-                            </div>
+
                             <div>
                                 <label className="block text-sm font-medium mb-2">Nota Fiscal</label>
                                 <input type="text" name="notaFiscalPat" value={patrimonio.notaFiscalPat} onChange={handleChange} placeholder="Ex: NF 123456" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
                             </div>
                         </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                             <div>
-                                <label className="block text-sm font-medium mb-2">Licença/Série</label>
-                                <input type="text" name="licencaPat" value={patrimonio.licencaPat} onChange={handleChange} placeholder="Ex: ABC123XYZ" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+                                <label className="block text-sm font-medium mb-2">Data de Entrega - Almoxarifado</label>
+                                <input type="date" name="dataSaiPat" value={patrimonio.dataSaiPat} onChange={handleChange} className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
                             </div>
                         </div>
 
@@ -335,7 +348,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                                 <h2 className="text-sm font-semibold text-amber-800">Dados da devolução</h2>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">Data da devolução *</label>
+                                        <label className="block text-sm font-medium mb-2">Data da Emissão - Nota Fiscal *</label>
                                         <input type="date" name="dataDevPat" value={patrimonio.dataDevPat} onChange={handleChange} className="w-full px-4 py-2 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300" required />
                                     </div>
                                     <div>
@@ -345,7 +358,11 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">Data chegada no fornecedor</label>
+                                        <label className="block text-sm font-medium mb-2">Data Saida - fornecedor</label>
+                                        <input type="date" name="dataSaidaFornecedor" value={patrimonio.dataSaidaFornecedor} onChange={handleChange} className="w-full px-4 py-2 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">Data Chegada - fornecedor</label>
                                         <input type="date" name="dataChegadaFornecedor" value={patrimonio.dataChegadaFornecedor} onChange={handleChange} className="w-full px-4 py-2 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300" />
                                     </div>
                                 </div>

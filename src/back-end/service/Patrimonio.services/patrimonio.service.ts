@@ -272,10 +272,11 @@ export async function criarPatrimonio(dados: {
 
 export async function listarPatrimoniosPorCentroCusto(
     idCCusto: string,
-    options?: { dataInicioMedicao?: Date | null; dataFimMedicao?: Date | null }
+    options?: { dataInicioMedicao?: Date | null; dataFimMedicao?: Date | null; dataTransferenciaRef?: Date | null }
 ) {
     const dataInicioMedicao = options?.dataInicioMedicao || null;
     const dataFimMedicao = options?.dataFimMedicao || null;
+    const dataTransferenciaRef = options?.dataTransferenciaRef || null;
 
     const patrimonios = await prisma.tbPatrimonio.findMany({
         where: dataFimMedicao
@@ -323,10 +324,48 @@ export async function listarPatrimoniosPorCentroCusto(
                 select: {
                     idCustoOrigem: true,
                     idCustoDestino: true,
-                    dataTransferencia: true
+                    dataTransferencia: true,
+                    custoOrigem: {
+                        select: {
+                            codigoCCusto: true,
+                            descricaoCCusto: true
+                        }
+                    },
+                    custoDestino: {
+                        select: {
+                            codigoCCusto: true,
+                            descricaoCCusto: true
+                        }
+                    }
                 },
                 orderBy: {
                     dataTransferencia: 'asc'
+                }
+            },
+            tbTransferenciaAlocacao: {
+                where: dataTransferenciaRef
+                    ? {
+                        dataTransferencia: { lte: dataTransferenciaRef }
+                    }
+                    : undefined,
+                select: {
+                    idMatriculaFuncionario: true,
+                    idMatriculaFuncionarioDestino: true,
+                    dataTransferencia: true
+                    ,
+                    tbFuncionario: {
+                        select: {
+                            nomeFun: true
+                        }
+                    },
+                    tbFuncionarioDestino: {
+                        select: {
+                            nomeFun: true
+                        }
+                    }
+                },
+                orderBy: {
+                    dataTransferencia: 'desc'
                 }
             },
             tbDevolucao: {
@@ -375,7 +414,8 @@ export async function listarPatrimoniosPorCentroCusto(
 
     const inicio = dataInicioMedicao.getTime();
     const fim = dataFimMedicao.getTime();
-    const totalPeriodoMs = Math.max(1, fim - inicio + 1000);
+    const fimExclusivo = fim + 1;
+    const totalPeriodoMs = Math.max(1, fimExclusivo - inicio);
 
     const calcularMsNoCentro = (pat: (typeof patrimonios)[number]) => {
         const transferencias = [...pat.tbTransferenciaCustoPatrimonio].sort(
@@ -404,7 +444,7 @@ export async function listarPatrimoniosPorCentroCusto(
         const somarSobreposicao = (segInicio: number, segFim: number) => {
             if (segFim <= segInicio) return;
             const inicioOverlap = Math.max(segInicio, inicio);
-            const fimOverlap = Math.min(segFim, fim);
+            const fimOverlap = Math.min(segFim, fimExclusivo);
             if (fimOverlap > inicioOverlap && centroAtual === idCCusto) {
                 msNoCentro += fimOverlap - inicioOverlap;
             }

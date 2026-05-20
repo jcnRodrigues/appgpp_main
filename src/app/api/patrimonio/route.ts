@@ -141,9 +141,9 @@ export async function GET(request: NextRequest) {
             total
         });
     } catch (error) {
-        console.error('Erro ao listar patrimÃ´nios:', error);
+        console.error('Erro ao listar patrimônios:', error);
         return NextResponse.json(
-            { message: 'Erro ao listar patrimÃ´nios' },
+            { message: 'Erro ao listar patrimônios' },
             { status: 500 }
         );
     }
@@ -153,10 +153,10 @@ export async function POST(request: NextRequest) {
     try {
         const dados = await request.json();
 
-        // ValidaÃ§Ã£o bÃ¡sica
+        // Validação básica
         if (!dados.idPat || !dados.descricaoPat || !dados.valorPat || !dados.dataEntPat) {
             return NextResponse.json(
-                { message: 'Campos obrigatÃ³rios faltando' },
+                { message: 'Campos obrigatórios faltando' },
                 { status: 400 }
             );
         }
@@ -189,8 +189,10 @@ export async function POST(request: NextRequest) {
                         dataInicioDevolucao: dataDevolucao,
                         motivoDevolucao: typeof dados.motivoDevolucao === 'string' ? dados.motivoDevolucao.trim() || null : null,
                         notaFiscalDevolucao: typeof dados.notaFiscalDevolucao === 'string' ? dados.notaFiscalDevolucao.trim() || null : null,
-                        dataFimDevolucao: parseOptionalDateInput(dados.dataChegadaFornecedor)
-                    }
+                        dataSaidaFornecedor: parseOptionalDateInput(dados.dataSaidaFornecedor),
+                        dataChegadaFornecedor: parseOptionalDateInput(dados.dataChegadaFornecedor),
+                        dataFimDevolucao: null
+                    } as any
                 });
             } else {
                 await prisma.tbDevolucao.updateMany({
@@ -207,8 +209,8 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json(patrimonio, { status: 201 });
     } catch (error: unknown) {
-        console.error('Erro ao criar patrimÃ´nio:', error);
-        const errorMessage = error instanceof Error ? error.message : 'Erro ao criar patrimÃ´nio';
+        console.error('Erro ao criar patrimônio:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Erro ao criar patrimônio';
         return NextResponse.json(
             { message: errorMessage },
             { status: 500 }

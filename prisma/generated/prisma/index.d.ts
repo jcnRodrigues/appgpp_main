@@ -69,6 +69,11 @@ export type tbEmpresa = $Result.DefaultSelection<Prisma.$tbEmpresaPayload>
  */
 export type tbCCusto = $Result.DefaultSelection<Prisma.$tbCCustoPayload>
 /**
+ * Model tbBmMedicao
+ * 
+ */
+export type tbBmMedicao = $Result.DefaultSelection<Prisma.$tbBmMedicaoPayload>
+/**
  * Model tbTransferenciaCustoPatrimonio
  * 
  */
@@ -353,6 +358,16 @@ export class PrismaClient<
     * ```
     */
   get tbCCusto(): Prisma.tbCCustoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tbBmMedicao`: Exposes CRUD operations for the **tbBmMedicao** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TbBmMedicaos
+    * const tbBmMedicaos = await prisma.tbBmMedicao.findMany()
+    * ```
+    */
+  get tbBmMedicao(): Prisma.tbBmMedicaoDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.tbTransferenciaCustoPatrimonio`: Exposes CRUD operations for the **tbTransferenciaCustoPatrimonio** model.
@@ -904,6 +919,7 @@ export namespace Prisma {
     tbStatusPat: 'tbStatusPat',
     tbEmpresa: 'tbEmpresa',
     tbCCusto: 'tbCCusto',
+    tbBmMedicao: 'tbBmMedicao',
     tbTransferenciaCustoPatrimonio: 'tbTransferenciaCustoPatrimonio',
     tbCadastro: 'tbCadastro',
     tbTransferenciaAlocacao: 'tbTransferenciaAlocacao',
@@ -932,7 +948,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tbUser" | "tbFuncionario" | "tbLicenca" | "tbHasLicencaFuncionario" | "tbStatusFun" | "tbFuncao" | "tbPatrimonio" | "tbTipoPat" | "tbStatusPat" | "tbEmpresa" | "tbCCusto" | "tbTransferenciaCustoPatrimonio" | "tbCadastro" | "tbTransferenciaAlocacao" | "tbDevolucao" | "tbPatrimonioHistorico" | "account" | "session" | "user" | "verificationToken" | "tbUnifiConfig"
+      modelProps: "tbUser" | "tbFuncionario" | "tbLicenca" | "tbHasLicencaFuncionario" | "tbStatusFun" | "tbFuncao" | "tbPatrimonio" | "tbTipoPat" | "tbStatusPat" | "tbEmpresa" | "tbCCusto" | "tbBmMedicao" | "tbTransferenciaCustoPatrimonio" | "tbCadastro" | "tbTransferenciaAlocacao" | "tbDevolucao" | "tbPatrimonioHistorico" | "account" | "session" | "user" | "verificationToken" | "tbUnifiConfig"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1659,6 +1675,72 @@ export namespace Prisma {
           count: {
             args: Prisma.tbCCustoCountArgs<ExtArgs>
             result: $Utils.Optional<TbCCustoCountAggregateOutputType> | number
+          }
+        }
+      }
+      tbBmMedicao: {
+        payload: Prisma.$tbBmMedicaoPayload<ExtArgs>
+        fields: Prisma.tbBmMedicaoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.tbBmMedicaoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbBmMedicaoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.tbBmMedicaoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbBmMedicaoPayload>
+          }
+          findFirst: {
+            args: Prisma.tbBmMedicaoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbBmMedicaoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.tbBmMedicaoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbBmMedicaoPayload>
+          }
+          findMany: {
+            args: Prisma.tbBmMedicaoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbBmMedicaoPayload>[]
+          }
+          create: {
+            args: Prisma.tbBmMedicaoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbBmMedicaoPayload>
+          }
+          createMany: {
+            args: Prisma.tbBmMedicaoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.tbBmMedicaoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbBmMedicaoPayload>
+          }
+          update: {
+            args: Prisma.tbBmMedicaoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbBmMedicaoPayload>
+          }
+          deleteMany: {
+            args: Prisma.tbBmMedicaoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.tbBmMedicaoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.tbBmMedicaoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbBmMedicaoPayload>
+          }
+          aggregate: {
+            args: Prisma.TbBmMedicaoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTbBmMedicao>
+          }
+          groupBy: {
+            args: Prisma.tbBmMedicaoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TbBmMedicaoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.tbBmMedicaoCountArgs<ExtArgs>
+            result: $Utils.Optional<TbBmMedicaoCountAggregateOutputType> | number
           }
         }
       }
@@ -2425,6 +2507,7 @@ export namespace Prisma {
     tbStatusPat?: tbStatusPatOmit
     tbEmpresa?: tbEmpresaOmit
     tbCCusto?: tbCCustoOmit
+    tbBmMedicao?: tbBmMedicaoOmit
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioOmit
     tbCadastro?: tbCadastroOmit
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoOmit
@@ -2537,12 +2620,14 @@ export namespace Prisma {
     tbFuncioanrio: number
     transferenciasCustoPatrimonio: number
     transferenciasAlocacao: number
+    tbBmMedicao: number
   }
 
   export type TbUserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbFuncioanrio?: boolean | TbUserCountOutputTypeCountTbFuncioanrioArgs
     transferenciasCustoPatrimonio?: boolean | TbUserCountOutputTypeCountTransferenciasCustoPatrimonioArgs
     transferenciasAlocacao?: boolean | TbUserCountOutputTypeCountTransferenciasAlocacaoArgs
+    tbBmMedicao?: boolean | TbUserCountOutputTypeCountTbBmMedicaoArgs
   }
 
   // Custom InputTypes
@@ -2575,6 +2660,13 @@ export namespace Prisma {
    */
   export type TbUserCountOutputTypeCountTransferenciasAlocacaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: tbTransferenciaAlocacaoWhereInput
+  }
+
+  /**
+   * TbUserCountOutputType without action
+   */
+  export type TbUserCountOutputTypeCountTbBmMedicaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbBmMedicaoWhereInput
   }
 
 
@@ -2926,6 +3018,7 @@ export namespace Prisma {
     tbPatrimonioHistorico: number
     transferenciasOrigem: number
     transferenciasDestino: number
+    tbBmMedicao: number
   }
 
   export type TbCCustoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2934,6 +3027,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: boolean | TbCCustoCountOutputTypeCountTbPatrimonioHistoricoArgs
     transferenciasOrigem?: boolean | TbCCustoCountOutputTypeCountTransferenciasOrigemArgs
     transferenciasDestino?: boolean | TbCCustoCountOutputTypeCountTransferenciasDestinoArgs
+    tbBmMedicao?: boolean | TbCCustoCountOutputTypeCountTbBmMedicaoArgs
   }
 
   // Custom InputTypes
@@ -2980,6 +3074,13 @@ export namespace Prisma {
    */
   export type TbCCustoCountOutputTypeCountTransferenciasDestinoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: tbTransferenciaCustoPatrimonioWhereInput
+  }
+
+  /**
+   * TbCCustoCountOutputType without action
+   */
+  export type TbCCustoCountOutputTypeCountTbBmMedicaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbBmMedicaoWhereInput
   }
 
 
@@ -3290,6 +3391,7 @@ export namespace Prisma {
     tbFuncioanrio?: boolean | tbUser$tbFuncioanrioArgs<ExtArgs>
     transferenciasCustoPatrimonio?: boolean | tbUser$transferenciasCustoPatrimonioArgs<ExtArgs>
     transferenciasAlocacao?: boolean | tbUser$transferenciasAlocacaoArgs<ExtArgs>
+    tbBmMedicao?: boolean | tbUser$tbBmMedicaoArgs<ExtArgs>
     _count?: boolean | TbUserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tbUser"]>
 
@@ -3316,6 +3418,7 @@ export namespace Prisma {
     tbFuncioanrio?: boolean | tbUser$tbFuncioanrioArgs<ExtArgs>
     transferenciasCustoPatrimonio?: boolean | tbUser$transferenciasCustoPatrimonioArgs<ExtArgs>
     transferenciasAlocacao?: boolean | tbUser$transferenciasAlocacaoArgs<ExtArgs>
+    tbBmMedicao?: boolean | tbUser$tbBmMedicaoArgs<ExtArgs>
     _count?: boolean | TbUserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3325,6 +3428,7 @@ export namespace Prisma {
       tbFuncioanrio: Prisma.$tbFuncionarioPayload<ExtArgs>[]
       transferenciasCustoPatrimonio: Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>[]
       transferenciasAlocacao: Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>[]
+      tbBmMedicao: Prisma.$tbBmMedicaoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3683,6 +3787,7 @@ export namespace Prisma {
     tbFuncioanrio<T extends tbUser$tbFuncioanrioArgs<ExtArgs> = {}>(args?: Subset<T, tbUser$tbFuncioanrioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbFuncionarioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transferenciasCustoPatrimonio<T extends tbUser$transferenciasCustoPatrimonioArgs<ExtArgs> = {}>(args?: Subset<T, tbUser$transferenciasCustoPatrimonioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transferenciasAlocacao<T extends tbUser$transferenciasAlocacaoArgs<ExtArgs> = {}>(args?: Subset<T, tbUser$transferenciasAlocacaoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tbBmMedicao<T extends tbUser$tbBmMedicaoArgs<ExtArgs> = {}>(args?: Subset<T, tbUser$tbBmMedicaoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbBmMedicaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4137,6 +4242,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TbTransferenciaAlocacaoScalarFieldEnum | TbTransferenciaAlocacaoScalarFieldEnum[]
+  }
+
+  /**
+   * tbUser.tbBmMedicao
+   */
+  export type tbUser$tbBmMedicaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbBmMedicao
+     */
+    select?: tbBmMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbBmMedicao
+     */
+    omit?: tbBmMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbBmMedicaoInclude<ExtArgs> | null
+    where?: tbBmMedicaoWhereInput
+    orderBy?: tbBmMedicaoOrderByWithRelationInput | tbBmMedicaoOrderByWithRelationInput[]
+    cursor?: tbBmMedicaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbBmMedicaoScalarFieldEnum | TbBmMedicaoScalarFieldEnum[]
   }
 
   /**
@@ -13413,6 +13542,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: boolean | tbCCusto$tbPatrimonioHistoricoArgs<ExtArgs>
     transferenciasOrigem?: boolean | tbCCusto$transferenciasOrigemArgs<ExtArgs>
     transferenciasDestino?: boolean | tbCCusto$transferenciasDestinoArgs<ExtArgs>
+    tbBmMedicao?: boolean | tbCCusto$tbBmMedicaoArgs<ExtArgs>
     _count?: boolean | TbCCustoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tbCCusto"]>
 
@@ -13433,6 +13563,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: boolean | tbCCusto$tbPatrimonioHistoricoArgs<ExtArgs>
     transferenciasOrigem?: boolean | tbCCusto$transferenciasOrigemArgs<ExtArgs>
     transferenciasDestino?: boolean | tbCCusto$transferenciasDestinoArgs<ExtArgs>
+    tbBmMedicao?: boolean | tbCCusto$tbBmMedicaoArgs<ExtArgs>
     _count?: boolean | TbCCustoCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -13445,6 +13576,7 @@ export namespace Prisma {
       tbPatrimonioHistorico: Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>[]
       transferenciasOrigem: Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>[]
       transferenciasDestino: Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>[]
+      tbBmMedicao: Prisma.$tbBmMedicaoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       idCCusto: string
@@ -13797,6 +13929,7 @@ export namespace Prisma {
     tbPatrimonioHistorico<T extends tbCCusto$tbPatrimonioHistoricoArgs<ExtArgs> = {}>(args?: Subset<T, tbCCusto$tbPatrimonioHistoricoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transferenciasOrigem<T extends tbCCusto$transferenciasOrigemArgs<ExtArgs> = {}>(args?: Subset<T, tbCCusto$transferenciasOrigemArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transferenciasDestino<T extends tbCCusto$transferenciasDestinoArgs<ExtArgs> = {}>(args?: Subset<T, tbCCusto$transferenciasDestinoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tbBmMedicao<T extends tbCCusto$tbBmMedicaoArgs<ExtArgs> = {}>(args?: Subset<T, tbCCusto$tbBmMedicaoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbBmMedicaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14312,6 +14445,30 @@ export namespace Prisma {
   }
 
   /**
+   * tbCCusto.tbBmMedicao
+   */
+  export type tbCCusto$tbBmMedicaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbBmMedicao
+     */
+    select?: tbBmMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbBmMedicao
+     */
+    omit?: tbBmMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbBmMedicaoInclude<ExtArgs> | null
+    where?: tbBmMedicaoWhereInput
+    orderBy?: tbBmMedicaoOrderByWithRelationInput | tbBmMedicaoOrderByWithRelationInput[]
+    cursor?: tbBmMedicaoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbBmMedicaoScalarFieldEnum | TbBmMedicaoScalarFieldEnum[]
+  }
+
+  /**
    * tbCCusto without action
    */
   export type tbCCustoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14327,6 +14484,1153 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: tbCCustoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model tbBmMedicao
+   */
+
+  export type AggregateTbBmMedicao = {
+    _count: TbBmMedicaoCountAggregateOutputType | null
+    _avg: TbBmMedicaoAvgAggregateOutputType | null
+    _sum: TbBmMedicaoSumAggregateOutputType | null
+    _min: TbBmMedicaoMinAggregateOutputType | null
+    _max: TbBmMedicaoMaxAggregateOutputType | null
+  }
+
+  export type TbBmMedicaoAvgAggregateOutputType = {
+    mesBm: number | null
+    anoBm: number | null
+    contadorBm: number | null
+  }
+
+  export type TbBmMedicaoSumAggregateOutputType = {
+    mesBm: number | null
+    anoBm: number | null
+    contadorBm: number | null
+  }
+
+  export type TbBmMedicaoMinAggregateOutputType = {
+    idBm: string | null
+    codigoBm: string | null
+    idCCusto: string | null
+    codigoCCusto: string | null
+    descricaoCCusto: string | null
+    mesBm: number | null
+    anoBm: number | null
+    contadorBm: number | null
+    statusBm: string | null
+    dataInicioMedicao: Date | null
+    dataFimMedicao: Date | null
+    gerouRelatorioExcel: boolean | null
+    gerouRelatorioPdf: boolean | null
+    idUserGeracao: string | null
+    fechadoAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TbBmMedicaoMaxAggregateOutputType = {
+    idBm: string | null
+    codigoBm: string | null
+    idCCusto: string | null
+    codigoCCusto: string | null
+    descricaoCCusto: string | null
+    mesBm: number | null
+    anoBm: number | null
+    contadorBm: number | null
+    statusBm: string | null
+    dataInicioMedicao: Date | null
+    dataFimMedicao: Date | null
+    gerouRelatorioExcel: boolean | null
+    gerouRelatorioPdf: boolean | null
+    idUserGeracao: string | null
+    fechadoAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TbBmMedicaoCountAggregateOutputType = {
+    idBm: number
+    codigoBm: number
+    idCCusto: number
+    codigoCCusto: number
+    descricaoCCusto: number
+    mesBm: number
+    anoBm: number
+    contadorBm: number
+    statusBm: number
+    dataInicioMedicao: number
+    dataFimMedicao: number
+    resumoJson: number
+    resultadosJson: number
+    naoInformadosJson: number
+    gerouRelatorioExcel: number
+    gerouRelatorioPdf: number
+    idUserGeracao: number
+    fechadoAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TbBmMedicaoAvgAggregateInputType = {
+    mesBm?: true
+    anoBm?: true
+    contadorBm?: true
+  }
+
+  export type TbBmMedicaoSumAggregateInputType = {
+    mesBm?: true
+    anoBm?: true
+    contadorBm?: true
+  }
+
+  export type TbBmMedicaoMinAggregateInputType = {
+    idBm?: true
+    codigoBm?: true
+    idCCusto?: true
+    codigoCCusto?: true
+    descricaoCCusto?: true
+    mesBm?: true
+    anoBm?: true
+    contadorBm?: true
+    statusBm?: true
+    dataInicioMedicao?: true
+    dataFimMedicao?: true
+    gerouRelatorioExcel?: true
+    gerouRelatorioPdf?: true
+    idUserGeracao?: true
+    fechadoAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TbBmMedicaoMaxAggregateInputType = {
+    idBm?: true
+    codigoBm?: true
+    idCCusto?: true
+    codigoCCusto?: true
+    descricaoCCusto?: true
+    mesBm?: true
+    anoBm?: true
+    contadorBm?: true
+    statusBm?: true
+    dataInicioMedicao?: true
+    dataFimMedicao?: true
+    gerouRelatorioExcel?: true
+    gerouRelatorioPdf?: true
+    idUserGeracao?: true
+    fechadoAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TbBmMedicaoCountAggregateInputType = {
+    idBm?: true
+    codigoBm?: true
+    idCCusto?: true
+    codigoCCusto?: true
+    descricaoCCusto?: true
+    mesBm?: true
+    anoBm?: true
+    contadorBm?: true
+    statusBm?: true
+    dataInicioMedicao?: true
+    dataFimMedicao?: true
+    resumoJson?: true
+    resultadosJson?: true
+    naoInformadosJson?: true
+    gerouRelatorioExcel?: true
+    gerouRelatorioPdf?: true
+    idUserGeracao?: true
+    fechadoAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TbBmMedicaoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbBmMedicao to aggregate.
+     */
+    where?: tbBmMedicaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbBmMedicaos to fetch.
+     */
+    orderBy?: tbBmMedicaoOrderByWithRelationInput | tbBmMedicaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: tbBmMedicaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbBmMedicaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbBmMedicaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned tbBmMedicaos
+    **/
+    _count?: true | TbBmMedicaoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TbBmMedicaoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TbBmMedicaoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TbBmMedicaoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TbBmMedicaoMaxAggregateInputType
+  }
+
+  export type GetTbBmMedicaoAggregateType<T extends TbBmMedicaoAggregateArgs> = {
+        [P in keyof T & keyof AggregateTbBmMedicao]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTbBmMedicao[P]>
+      : GetScalarType<T[P], AggregateTbBmMedicao[P]>
+  }
+
+
+
+
+  export type tbBmMedicaoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbBmMedicaoWhereInput
+    orderBy?: tbBmMedicaoOrderByWithAggregationInput | tbBmMedicaoOrderByWithAggregationInput[]
+    by: TbBmMedicaoScalarFieldEnum[] | TbBmMedicaoScalarFieldEnum
+    having?: tbBmMedicaoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TbBmMedicaoCountAggregateInputType | true
+    _avg?: TbBmMedicaoAvgAggregateInputType
+    _sum?: TbBmMedicaoSumAggregateInputType
+    _min?: TbBmMedicaoMinAggregateInputType
+    _max?: TbBmMedicaoMaxAggregateInputType
+  }
+
+  export type TbBmMedicaoGroupByOutputType = {
+    idBm: string
+    codigoBm: string
+    idCCusto: string
+    codigoCCusto: string | null
+    descricaoCCusto: string | null
+    mesBm: number
+    anoBm: number
+    contadorBm: number
+    statusBm: string
+    dataInicioMedicao: Date
+    dataFimMedicao: Date
+    resumoJson: JsonValue | null
+    resultadosJson: JsonValue | null
+    naoInformadosJson: JsonValue | null
+    gerouRelatorioExcel: boolean
+    gerouRelatorioPdf: boolean
+    idUserGeracao: string | null
+    fechadoAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: TbBmMedicaoCountAggregateOutputType | null
+    _avg: TbBmMedicaoAvgAggregateOutputType | null
+    _sum: TbBmMedicaoSumAggregateOutputType | null
+    _min: TbBmMedicaoMinAggregateOutputType | null
+    _max: TbBmMedicaoMaxAggregateOutputType | null
+  }
+
+  type GetTbBmMedicaoGroupByPayload<T extends tbBmMedicaoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TbBmMedicaoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TbBmMedicaoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TbBmMedicaoGroupByOutputType[P]>
+            : GetScalarType<T[P], TbBmMedicaoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type tbBmMedicaoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    idBm?: boolean
+    codigoBm?: boolean
+    idCCusto?: boolean
+    codigoCCusto?: boolean
+    descricaoCCusto?: boolean
+    mesBm?: boolean
+    anoBm?: boolean
+    contadorBm?: boolean
+    statusBm?: boolean
+    dataInicioMedicao?: boolean
+    dataFimMedicao?: boolean
+    resumoJson?: boolean
+    resultadosJson?: boolean
+    naoInformadosJson?: boolean
+    gerouRelatorioExcel?: boolean
+    gerouRelatorioPdf?: boolean
+    idUserGeracao?: boolean
+    fechadoAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    tbCCusto?: boolean | tbCCustoDefaultArgs<ExtArgs>
+    tbUser?: boolean | tbBmMedicao$tbUserArgs<ExtArgs>
+  }, ExtArgs["result"]["tbBmMedicao"]>
+
+
+
+  export type tbBmMedicaoSelectScalar = {
+    idBm?: boolean
+    codigoBm?: boolean
+    idCCusto?: boolean
+    codigoCCusto?: boolean
+    descricaoCCusto?: boolean
+    mesBm?: boolean
+    anoBm?: boolean
+    contadorBm?: boolean
+    statusBm?: boolean
+    dataInicioMedicao?: boolean
+    dataFimMedicao?: boolean
+    resumoJson?: boolean
+    resultadosJson?: boolean
+    naoInformadosJson?: boolean
+    gerouRelatorioExcel?: boolean
+    gerouRelatorioPdf?: boolean
+    idUserGeracao?: boolean
+    fechadoAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type tbBmMedicaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idBm" | "codigoBm" | "idCCusto" | "codigoCCusto" | "descricaoCCusto" | "mesBm" | "anoBm" | "contadorBm" | "statusBm" | "dataInicioMedicao" | "dataFimMedicao" | "resumoJson" | "resultadosJson" | "naoInformadosJson" | "gerouRelatorioExcel" | "gerouRelatorioPdf" | "idUserGeracao" | "fechadoAt" | "createdAt" | "updatedAt", ExtArgs["result"]["tbBmMedicao"]>
+  export type tbBmMedicaoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tbCCusto?: boolean | tbCCustoDefaultArgs<ExtArgs>
+    tbUser?: boolean | tbBmMedicao$tbUserArgs<ExtArgs>
+  }
+
+  export type $tbBmMedicaoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "tbBmMedicao"
+    objects: {
+      tbCCusto: Prisma.$tbCCustoPayload<ExtArgs>
+      tbUser: Prisma.$tbUserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      idBm: string
+      codigoBm: string
+      idCCusto: string
+      codigoCCusto: string | null
+      descricaoCCusto: string | null
+      mesBm: number
+      anoBm: number
+      contadorBm: number
+      statusBm: string
+      dataInicioMedicao: Date
+      dataFimMedicao: Date
+      resumoJson: Prisma.JsonValue | null
+      resultadosJson: Prisma.JsonValue | null
+      naoInformadosJson: Prisma.JsonValue | null
+      gerouRelatorioExcel: boolean
+      gerouRelatorioPdf: boolean
+      idUserGeracao: string | null
+      fechadoAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["tbBmMedicao"]>
+    composites: {}
+  }
+
+  type tbBmMedicaoGetPayload<S extends boolean | null | undefined | tbBmMedicaoDefaultArgs> = $Result.GetResult<Prisma.$tbBmMedicaoPayload, S>
+
+  type tbBmMedicaoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<tbBmMedicaoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TbBmMedicaoCountAggregateInputType | true
+    }
+
+  export interface tbBmMedicaoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['tbBmMedicao'], meta: { name: 'tbBmMedicao' } }
+    /**
+     * Find zero or one TbBmMedicao that matches the filter.
+     * @param {tbBmMedicaoFindUniqueArgs} args - Arguments to find a TbBmMedicao
+     * @example
+     * // Get one TbBmMedicao
+     * const tbBmMedicao = await prisma.tbBmMedicao.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends tbBmMedicaoFindUniqueArgs>(args: SelectSubset<T, tbBmMedicaoFindUniqueArgs<ExtArgs>>): Prisma__tbBmMedicaoClient<$Result.GetResult<Prisma.$tbBmMedicaoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TbBmMedicao that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {tbBmMedicaoFindUniqueOrThrowArgs} args - Arguments to find a TbBmMedicao
+     * @example
+     * // Get one TbBmMedicao
+     * const tbBmMedicao = await prisma.tbBmMedicao.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends tbBmMedicaoFindUniqueOrThrowArgs>(args: SelectSubset<T, tbBmMedicaoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__tbBmMedicaoClient<$Result.GetResult<Prisma.$tbBmMedicaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TbBmMedicao that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbBmMedicaoFindFirstArgs} args - Arguments to find a TbBmMedicao
+     * @example
+     * // Get one TbBmMedicao
+     * const tbBmMedicao = await prisma.tbBmMedicao.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends tbBmMedicaoFindFirstArgs>(args?: SelectSubset<T, tbBmMedicaoFindFirstArgs<ExtArgs>>): Prisma__tbBmMedicaoClient<$Result.GetResult<Prisma.$tbBmMedicaoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TbBmMedicao that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbBmMedicaoFindFirstOrThrowArgs} args - Arguments to find a TbBmMedicao
+     * @example
+     * // Get one TbBmMedicao
+     * const tbBmMedicao = await prisma.tbBmMedicao.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends tbBmMedicaoFindFirstOrThrowArgs>(args?: SelectSubset<T, tbBmMedicaoFindFirstOrThrowArgs<ExtArgs>>): Prisma__tbBmMedicaoClient<$Result.GetResult<Prisma.$tbBmMedicaoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TbBmMedicaos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbBmMedicaoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TbBmMedicaos
+     * const tbBmMedicaos = await prisma.tbBmMedicao.findMany()
+     * 
+     * // Get first 10 TbBmMedicaos
+     * const tbBmMedicaos = await prisma.tbBmMedicao.findMany({ take: 10 })
+     * 
+     * // Only select the `idBm`
+     * const tbBmMedicaoWithIdBmOnly = await prisma.tbBmMedicao.findMany({ select: { idBm: true } })
+     * 
+     */
+    findMany<T extends tbBmMedicaoFindManyArgs>(args?: SelectSubset<T, tbBmMedicaoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbBmMedicaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TbBmMedicao.
+     * @param {tbBmMedicaoCreateArgs} args - Arguments to create a TbBmMedicao.
+     * @example
+     * // Create one TbBmMedicao
+     * const TbBmMedicao = await prisma.tbBmMedicao.create({
+     *   data: {
+     *     // ... data to create a TbBmMedicao
+     *   }
+     * })
+     * 
+     */
+    create<T extends tbBmMedicaoCreateArgs>(args: SelectSubset<T, tbBmMedicaoCreateArgs<ExtArgs>>): Prisma__tbBmMedicaoClient<$Result.GetResult<Prisma.$tbBmMedicaoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TbBmMedicaos.
+     * @param {tbBmMedicaoCreateManyArgs} args - Arguments to create many TbBmMedicaos.
+     * @example
+     * // Create many TbBmMedicaos
+     * const tbBmMedicao = await prisma.tbBmMedicao.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends tbBmMedicaoCreateManyArgs>(args?: SelectSubset<T, tbBmMedicaoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a TbBmMedicao.
+     * @param {tbBmMedicaoDeleteArgs} args - Arguments to delete one TbBmMedicao.
+     * @example
+     * // Delete one TbBmMedicao
+     * const TbBmMedicao = await prisma.tbBmMedicao.delete({
+     *   where: {
+     *     // ... filter to delete one TbBmMedicao
+     *   }
+     * })
+     * 
+     */
+    delete<T extends tbBmMedicaoDeleteArgs>(args: SelectSubset<T, tbBmMedicaoDeleteArgs<ExtArgs>>): Prisma__tbBmMedicaoClient<$Result.GetResult<Prisma.$tbBmMedicaoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TbBmMedicao.
+     * @param {tbBmMedicaoUpdateArgs} args - Arguments to update one TbBmMedicao.
+     * @example
+     * // Update one TbBmMedicao
+     * const tbBmMedicao = await prisma.tbBmMedicao.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends tbBmMedicaoUpdateArgs>(args: SelectSubset<T, tbBmMedicaoUpdateArgs<ExtArgs>>): Prisma__tbBmMedicaoClient<$Result.GetResult<Prisma.$tbBmMedicaoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TbBmMedicaos.
+     * @param {tbBmMedicaoDeleteManyArgs} args - Arguments to filter TbBmMedicaos to delete.
+     * @example
+     * // Delete a few TbBmMedicaos
+     * const { count } = await prisma.tbBmMedicao.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends tbBmMedicaoDeleteManyArgs>(args?: SelectSubset<T, tbBmMedicaoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TbBmMedicaos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbBmMedicaoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TbBmMedicaos
+     * const tbBmMedicao = await prisma.tbBmMedicao.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends tbBmMedicaoUpdateManyArgs>(args: SelectSubset<T, tbBmMedicaoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one TbBmMedicao.
+     * @param {tbBmMedicaoUpsertArgs} args - Arguments to update or create a TbBmMedicao.
+     * @example
+     * // Update or create a TbBmMedicao
+     * const tbBmMedicao = await prisma.tbBmMedicao.upsert({
+     *   create: {
+     *     // ... data to create a TbBmMedicao
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TbBmMedicao we want to update
+     *   }
+     * })
+     */
+    upsert<T extends tbBmMedicaoUpsertArgs>(args: SelectSubset<T, tbBmMedicaoUpsertArgs<ExtArgs>>): Prisma__tbBmMedicaoClient<$Result.GetResult<Prisma.$tbBmMedicaoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TbBmMedicaos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbBmMedicaoCountArgs} args - Arguments to filter TbBmMedicaos to count.
+     * @example
+     * // Count the number of TbBmMedicaos
+     * const count = await prisma.tbBmMedicao.count({
+     *   where: {
+     *     // ... the filter for the TbBmMedicaos we want to count
+     *   }
+     * })
+    **/
+    count<T extends tbBmMedicaoCountArgs>(
+      args?: Subset<T, tbBmMedicaoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TbBmMedicaoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TbBmMedicao.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TbBmMedicaoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TbBmMedicaoAggregateArgs>(args: Subset<T, TbBmMedicaoAggregateArgs>): Prisma.PrismaPromise<GetTbBmMedicaoAggregateType<T>>
+
+    /**
+     * Group by TbBmMedicao.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbBmMedicaoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends tbBmMedicaoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: tbBmMedicaoGroupByArgs['orderBy'] }
+        : { orderBy?: tbBmMedicaoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, tbBmMedicaoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTbBmMedicaoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the tbBmMedicao model
+   */
+  readonly fields: tbBmMedicaoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for tbBmMedicao.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__tbBmMedicaoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tbCCusto<T extends tbCCustoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, tbCCustoDefaultArgs<ExtArgs>>): Prisma__tbCCustoClient<$Result.GetResult<Prisma.$tbCCustoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tbUser<T extends tbBmMedicao$tbUserArgs<ExtArgs> = {}>(args?: Subset<T, tbBmMedicao$tbUserArgs<ExtArgs>>): Prisma__tbUserClient<$Result.GetResult<Prisma.$tbUserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the tbBmMedicao model
+   */
+  interface tbBmMedicaoFieldRefs {
+    readonly idBm: FieldRef<"tbBmMedicao", 'String'>
+    readonly codigoBm: FieldRef<"tbBmMedicao", 'String'>
+    readonly idCCusto: FieldRef<"tbBmMedicao", 'String'>
+    readonly codigoCCusto: FieldRef<"tbBmMedicao", 'String'>
+    readonly descricaoCCusto: FieldRef<"tbBmMedicao", 'String'>
+    readonly mesBm: FieldRef<"tbBmMedicao", 'Int'>
+    readonly anoBm: FieldRef<"tbBmMedicao", 'Int'>
+    readonly contadorBm: FieldRef<"tbBmMedicao", 'Int'>
+    readonly statusBm: FieldRef<"tbBmMedicao", 'String'>
+    readonly dataInicioMedicao: FieldRef<"tbBmMedicao", 'DateTime'>
+    readonly dataFimMedicao: FieldRef<"tbBmMedicao", 'DateTime'>
+    readonly resumoJson: FieldRef<"tbBmMedicao", 'Json'>
+    readonly resultadosJson: FieldRef<"tbBmMedicao", 'Json'>
+    readonly naoInformadosJson: FieldRef<"tbBmMedicao", 'Json'>
+    readonly gerouRelatorioExcel: FieldRef<"tbBmMedicao", 'Boolean'>
+    readonly gerouRelatorioPdf: FieldRef<"tbBmMedicao", 'Boolean'>
+    readonly idUserGeracao: FieldRef<"tbBmMedicao", 'String'>
+    readonly fechadoAt: FieldRef<"tbBmMedicao", 'DateTime'>
+    readonly createdAt: FieldRef<"tbBmMedicao", 'DateTime'>
+    readonly updatedAt: FieldRef<"tbBmMedicao", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * tbBmMedicao findUnique
+   */
+  export type tbBmMedicaoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbBmMedicao
+     */
+    select?: tbBmMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbBmMedicao
+     */
+    omit?: tbBmMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbBmMedicaoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbBmMedicao to fetch.
+     */
+    where: tbBmMedicaoWhereUniqueInput
+  }
+
+  /**
+   * tbBmMedicao findUniqueOrThrow
+   */
+  export type tbBmMedicaoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbBmMedicao
+     */
+    select?: tbBmMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbBmMedicao
+     */
+    omit?: tbBmMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbBmMedicaoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbBmMedicao to fetch.
+     */
+    where: tbBmMedicaoWhereUniqueInput
+  }
+
+  /**
+   * tbBmMedicao findFirst
+   */
+  export type tbBmMedicaoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbBmMedicao
+     */
+    select?: tbBmMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbBmMedicao
+     */
+    omit?: tbBmMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbBmMedicaoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbBmMedicao to fetch.
+     */
+    where?: tbBmMedicaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbBmMedicaos to fetch.
+     */
+    orderBy?: tbBmMedicaoOrderByWithRelationInput | tbBmMedicaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tbBmMedicaos.
+     */
+    cursor?: tbBmMedicaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbBmMedicaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbBmMedicaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tbBmMedicaos.
+     */
+    distinct?: TbBmMedicaoScalarFieldEnum | TbBmMedicaoScalarFieldEnum[]
+  }
+
+  /**
+   * tbBmMedicao findFirstOrThrow
+   */
+  export type tbBmMedicaoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbBmMedicao
+     */
+    select?: tbBmMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbBmMedicao
+     */
+    omit?: tbBmMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbBmMedicaoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbBmMedicao to fetch.
+     */
+    where?: tbBmMedicaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbBmMedicaos to fetch.
+     */
+    orderBy?: tbBmMedicaoOrderByWithRelationInput | tbBmMedicaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tbBmMedicaos.
+     */
+    cursor?: tbBmMedicaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbBmMedicaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbBmMedicaos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tbBmMedicaos.
+     */
+    distinct?: TbBmMedicaoScalarFieldEnum | TbBmMedicaoScalarFieldEnum[]
+  }
+
+  /**
+   * tbBmMedicao findMany
+   */
+  export type tbBmMedicaoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbBmMedicao
+     */
+    select?: tbBmMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbBmMedicao
+     */
+    omit?: tbBmMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbBmMedicaoInclude<ExtArgs> | null
+    /**
+     * Filter, which tbBmMedicaos to fetch.
+     */
+    where?: tbBmMedicaoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbBmMedicaos to fetch.
+     */
+    orderBy?: tbBmMedicaoOrderByWithRelationInput | tbBmMedicaoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing tbBmMedicaos.
+     */
+    cursor?: tbBmMedicaoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbBmMedicaos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbBmMedicaos.
+     */
+    skip?: number
+    distinct?: TbBmMedicaoScalarFieldEnum | TbBmMedicaoScalarFieldEnum[]
+  }
+
+  /**
+   * tbBmMedicao create
+   */
+  export type tbBmMedicaoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbBmMedicao
+     */
+    select?: tbBmMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbBmMedicao
+     */
+    omit?: tbBmMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbBmMedicaoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a tbBmMedicao.
+     */
+    data: XOR<tbBmMedicaoCreateInput, tbBmMedicaoUncheckedCreateInput>
+  }
+
+  /**
+   * tbBmMedicao createMany
+   */
+  export type tbBmMedicaoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many tbBmMedicaos.
+     */
+    data: tbBmMedicaoCreateManyInput | tbBmMedicaoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * tbBmMedicao update
+   */
+  export type tbBmMedicaoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbBmMedicao
+     */
+    select?: tbBmMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbBmMedicao
+     */
+    omit?: tbBmMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbBmMedicaoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a tbBmMedicao.
+     */
+    data: XOR<tbBmMedicaoUpdateInput, tbBmMedicaoUncheckedUpdateInput>
+    /**
+     * Choose, which tbBmMedicao to update.
+     */
+    where: tbBmMedicaoWhereUniqueInput
+  }
+
+  /**
+   * tbBmMedicao updateMany
+   */
+  export type tbBmMedicaoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update tbBmMedicaos.
+     */
+    data: XOR<tbBmMedicaoUpdateManyMutationInput, tbBmMedicaoUncheckedUpdateManyInput>
+    /**
+     * Filter which tbBmMedicaos to update
+     */
+    where?: tbBmMedicaoWhereInput
+    /**
+     * Limit how many tbBmMedicaos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbBmMedicao upsert
+   */
+  export type tbBmMedicaoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbBmMedicao
+     */
+    select?: tbBmMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbBmMedicao
+     */
+    omit?: tbBmMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbBmMedicaoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the tbBmMedicao to update in case it exists.
+     */
+    where: tbBmMedicaoWhereUniqueInput
+    /**
+     * In case the tbBmMedicao found by the `where` argument doesn't exist, create a new tbBmMedicao with this data.
+     */
+    create: XOR<tbBmMedicaoCreateInput, tbBmMedicaoUncheckedCreateInput>
+    /**
+     * In case the tbBmMedicao was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<tbBmMedicaoUpdateInput, tbBmMedicaoUncheckedUpdateInput>
+  }
+
+  /**
+   * tbBmMedicao delete
+   */
+  export type tbBmMedicaoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbBmMedicao
+     */
+    select?: tbBmMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbBmMedicao
+     */
+    omit?: tbBmMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbBmMedicaoInclude<ExtArgs> | null
+    /**
+     * Filter which tbBmMedicao to delete.
+     */
+    where: tbBmMedicaoWhereUniqueInput
+  }
+
+  /**
+   * tbBmMedicao deleteMany
+   */
+  export type tbBmMedicaoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbBmMedicaos to delete
+     */
+    where?: tbBmMedicaoWhereInput
+    /**
+     * Limit how many tbBmMedicaos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbBmMedicao.tbUser
+   */
+  export type tbBmMedicao$tbUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbUser
+     */
+    select?: tbUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbUser
+     */
+    omit?: tbUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbUserInclude<ExtArgs> | null
+    where?: tbUserWhereInput
+  }
+
+  /**
+   * tbBmMedicao without action
+   */
+  export type tbBmMedicaoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbBmMedicao
+     */
+    select?: tbBmMedicaoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbBmMedicao
+     */
+    omit?: tbBmMedicaoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbBmMedicaoInclude<ExtArgs> | null
   }
 
 
@@ -17556,6 +18860,8 @@ export namespace Prisma {
     idCadastro: string | null
     dataInicioDevolucao: Date | null
     dataFimDevolucao: Date | null
+    dataSaidaFornecedor: Date | null
+    dataChegadaFornecedor: Date | null
     motivoDevolucao: string | null
     notaFiscalDevolucao: string | null
     createdAt: Date | null
@@ -17568,6 +18874,8 @@ export namespace Prisma {
     idCadastro: string | null
     dataInicioDevolucao: Date | null
     dataFimDevolucao: Date | null
+    dataSaidaFornecedor: Date | null
+    dataChegadaFornecedor: Date | null
     motivoDevolucao: string | null
     notaFiscalDevolucao: string | null
     createdAt: Date | null
@@ -17580,6 +18888,8 @@ export namespace Prisma {
     idCadastro: number
     dataInicioDevolucao: number
     dataFimDevolucao: number
+    dataSaidaFornecedor: number
+    dataChegadaFornecedor: number
     motivoDevolucao: number
     notaFiscalDevolucao: number
     createdAt: number
@@ -17594,6 +18904,8 @@ export namespace Prisma {
     idCadastro?: true
     dataInicioDevolucao?: true
     dataFimDevolucao?: true
+    dataSaidaFornecedor?: true
+    dataChegadaFornecedor?: true
     motivoDevolucao?: true
     notaFiscalDevolucao?: true
     createdAt?: true
@@ -17606,6 +18918,8 @@ export namespace Prisma {
     idCadastro?: true
     dataInicioDevolucao?: true
     dataFimDevolucao?: true
+    dataSaidaFornecedor?: true
+    dataChegadaFornecedor?: true
     motivoDevolucao?: true
     notaFiscalDevolucao?: true
     createdAt?: true
@@ -17618,6 +18932,8 @@ export namespace Prisma {
     idCadastro?: true
     dataInicioDevolucao?: true
     dataFimDevolucao?: true
+    dataSaidaFornecedor?: true
+    dataChegadaFornecedor?: true
     motivoDevolucao?: true
     notaFiscalDevolucao?: true
     createdAt?: true
@@ -17703,6 +19019,8 @@ export namespace Prisma {
     idCadastro: string | null
     dataInicioDevolucao: Date
     dataFimDevolucao: Date | null
+    dataSaidaFornecedor: Date | null
+    dataChegadaFornecedor: Date | null
     motivoDevolucao: string | null
     notaFiscalDevolucao: string | null
     createdAt: Date
@@ -17732,6 +19050,8 @@ export namespace Prisma {
     idCadastro?: boolean
     dataInicioDevolucao?: boolean
     dataFimDevolucao?: boolean
+    dataSaidaFornecedor?: boolean
+    dataChegadaFornecedor?: boolean
     motivoDevolucao?: boolean
     notaFiscalDevolucao?: boolean
     createdAt?: boolean
@@ -17748,13 +19068,15 @@ export namespace Prisma {
     idCadastro?: boolean
     dataInicioDevolucao?: boolean
     dataFimDevolucao?: boolean
+    dataSaidaFornecedor?: boolean
+    dataChegadaFornecedor?: boolean
     motivoDevolucao?: boolean
     notaFiscalDevolucao?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type tbDevolucaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idDevolucao" | "idPatrimonio" | "idCadastro" | "dataInicioDevolucao" | "dataFimDevolucao" | "motivoDevolucao" | "notaFiscalDevolucao" | "createdAt" | "updatedAt", ExtArgs["result"]["tbDevolucao"]>
+  export type tbDevolucaoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idDevolucao" | "idPatrimonio" | "idCadastro" | "dataInicioDevolucao" | "dataFimDevolucao" | "dataSaidaFornecedor" | "dataChegadaFornecedor" | "motivoDevolucao" | "notaFiscalDevolucao" | "createdAt" | "updatedAt", ExtArgs["result"]["tbDevolucao"]>
   export type tbDevolucaoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tbPatrimonio?: boolean | tbPatrimonioDefaultArgs<ExtArgs>
     tbCadastro?: boolean | tbDevolucao$tbCadastroArgs<ExtArgs>
@@ -17772,6 +19094,8 @@ export namespace Prisma {
       idCadastro: string | null
       dataInicioDevolucao: Date
       dataFimDevolucao: Date | null
+      dataSaidaFornecedor: Date | null
+      dataChegadaFornecedor: Date | null
       motivoDevolucao: string | null
       notaFiscalDevolucao: string | null
       createdAt: Date
@@ -18152,6 +19476,8 @@ export namespace Prisma {
     readonly idCadastro: FieldRef<"tbDevolucao", 'String'>
     readonly dataInicioDevolucao: FieldRef<"tbDevolucao", 'DateTime'>
     readonly dataFimDevolucao: FieldRef<"tbDevolucao", 'DateTime'>
+    readonly dataSaidaFornecedor: FieldRef<"tbDevolucao", 'DateTime'>
+    readonly dataChegadaFornecedor: FieldRef<"tbDevolucao", 'DateTime'>
     readonly motivoDevolucao: FieldRef<"tbDevolucao", 'String'>
     readonly notaFiscalDevolucao: FieldRef<"tbDevolucao", 'String'>
     readonly createdAt: FieldRef<"tbDevolucao", 'DateTime'>
@@ -24548,6 +25874,32 @@ export namespace Prisma {
   export type TbCCustoScalarFieldEnum = (typeof TbCCustoScalarFieldEnum)[keyof typeof TbCCustoScalarFieldEnum]
 
 
+  export const TbBmMedicaoScalarFieldEnum: {
+    idBm: 'idBm',
+    codigoBm: 'codigoBm',
+    idCCusto: 'idCCusto',
+    codigoCCusto: 'codigoCCusto',
+    descricaoCCusto: 'descricaoCCusto',
+    mesBm: 'mesBm',
+    anoBm: 'anoBm',
+    contadorBm: 'contadorBm',
+    statusBm: 'statusBm',
+    dataInicioMedicao: 'dataInicioMedicao',
+    dataFimMedicao: 'dataFimMedicao',
+    resumoJson: 'resumoJson',
+    resultadosJson: 'resultadosJson',
+    naoInformadosJson: 'naoInformadosJson',
+    gerouRelatorioExcel: 'gerouRelatorioExcel',
+    gerouRelatorioPdf: 'gerouRelatorioPdf',
+    idUserGeracao: 'idUserGeracao',
+    fechadoAt: 'fechadoAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TbBmMedicaoScalarFieldEnum = (typeof TbBmMedicaoScalarFieldEnum)[keyof typeof TbBmMedicaoScalarFieldEnum]
+
+
   export const TbTransferenciaCustoPatrimonioScalarFieldEnum: {
     idTransferencia: 'idTransferencia',
     idPatrimonio: 'idPatrimonio',
@@ -24600,6 +25952,8 @@ export namespace Prisma {
     idCadastro: 'idCadastro',
     dataInicioDevolucao: 'dataInicioDevolucao',
     dataFimDevolucao: 'dataFimDevolucao',
+    dataSaidaFornecedor: 'dataSaidaFornecedor',
+    dataChegadaFornecedor: 'dataChegadaFornecedor',
     motivoDevolucao: 'motivoDevolucao',
     notaFiscalDevolucao: 'notaFiscalDevolucao',
     createdAt: 'createdAt',
@@ -24848,6 +26202,19 @@ export namespace Prisma {
   export type tbCCustoOrderByRelevanceFieldEnum = (typeof tbCCustoOrderByRelevanceFieldEnum)[keyof typeof tbCCustoOrderByRelevanceFieldEnum]
 
 
+  export const tbBmMedicaoOrderByRelevanceFieldEnum: {
+    idBm: 'idBm',
+    codigoBm: 'codigoBm',
+    idCCusto: 'idCCusto',
+    codigoCCusto: 'codigoCCusto',
+    descricaoCCusto: 'descricaoCCusto',
+    statusBm: 'statusBm',
+    idUserGeracao: 'idUserGeracao'
+  };
+
+  export type tbBmMedicaoOrderByRelevanceFieldEnum = (typeof tbBmMedicaoOrderByRelevanceFieldEnum)[keyof typeof tbBmMedicaoOrderByRelevanceFieldEnum]
+
+
   export const tbTransferenciaCustoPatrimonioOrderByRelevanceFieldEnum: {
     idTransferencia: 'idTransferencia',
     idPatrimonio: 'idPatrimonio',
@@ -25045,6 +26412,7 @@ export namespace Prisma {
     tbFuncioanrio?: TbFuncionarioListRelationFilter
     transferenciasCustoPatrimonio?: TbTransferenciaCustoPatrimonioListRelationFilter
     transferenciasAlocacao?: TbTransferenciaAlocacaoListRelationFilter
+    tbBmMedicao?: TbBmMedicaoListRelationFilter
   }
 
   export type tbUserOrderByWithRelationInput = {
@@ -25064,6 +26432,7 @@ export namespace Prisma {
     tbFuncioanrio?: tbFuncionarioOrderByRelationAggregateInput
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioOrderByRelationAggregateInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoOrderByRelationAggregateInput
+    tbBmMedicao?: tbBmMedicaoOrderByRelationAggregateInput
     _relevance?: tbUserOrderByRelevanceInput
   }
 
@@ -25087,6 +26456,7 @@ export namespace Prisma {
     tbFuncioanrio?: TbFuncionarioListRelationFilter
     transferenciasCustoPatrimonio?: TbTransferenciaCustoPatrimonioListRelationFilter
     transferenciasAlocacao?: TbTransferenciaAlocacaoListRelationFilter
+    tbBmMedicao?: TbBmMedicaoListRelationFilter
   }, "id" | "idUser" | "emailUser">
 
   export type tbUserOrderByWithAggregationInput = {
@@ -25709,6 +27079,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: TbPatrimonioHistoricoListRelationFilter
     transferenciasOrigem?: TbTransferenciaCustoPatrimonioListRelationFilter
     transferenciasDestino?: TbTransferenciaCustoPatrimonioListRelationFilter
+    tbBmMedicao?: TbBmMedicaoListRelationFilter
   }
 
   export type tbCCustoOrderByWithRelationInput = {
@@ -25722,6 +27093,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoOrderByRelationAggregateInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioOrderByRelationAggregateInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioOrderByRelationAggregateInput
+    tbBmMedicao?: tbBmMedicaoOrderByRelationAggregateInput
     _relevance?: tbCCustoOrderByRelevanceInput
   }
 
@@ -25739,6 +27111,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: TbPatrimonioHistoricoListRelationFilter
     transferenciasOrigem?: TbTransferenciaCustoPatrimonioListRelationFilter
     transferenciasDestino?: TbTransferenciaCustoPatrimonioListRelationFilter
+    tbBmMedicao?: TbBmMedicaoListRelationFilter
   }, "idCCusto">
 
   export type tbCCustoOrderByWithAggregationInput = {
@@ -25759,6 +27132,142 @@ export namespace Prisma {
     codigoCCusto?: StringNullableWithAggregatesFilter<"tbCCusto"> | string | null
     descricaoCCusto?: StringNullableWithAggregatesFilter<"tbCCusto"> | string | null
     idEmp_Custo?: StringNullableWithAggregatesFilter<"tbCCusto"> | string | null
+  }
+
+  export type tbBmMedicaoWhereInput = {
+    AND?: tbBmMedicaoWhereInput | tbBmMedicaoWhereInput[]
+    OR?: tbBmMedicaoWhereInput[]
+    NOT?: tbBmMedicaoWhereInput | tbBmMedicaoWhereInput[]
+    idBm?: StringFilter<"tbBmMedicao"> | string
+    codigoBm?: StringFilter<"tbBmMedicao"> | string
+    idCCusto?: StringFilter<"tbBmMedicao"> | string
+    codigoCCusto?: StringNullableFilter<"tbBmMedicao"> | string | null
+    descricaoCCusto?: StringNullableFilter<"tbBmMedicao"> | string | null
+    mesBm?: IntFilter<"tbBmMedicao"> | number
+    anoBm?: IntFilter<"tbBmMedicao"> | number
+    contadorBm?: IntFilter<"tbBmMedicao"> | number
+    statusBm?: StringFilter<"tbBmMedicao"> | string
+    dataInicioMedicao?: DateTimeFilter<"tbBmMedicao"> | Date | string
+    dataFimMedicao?: DateTimeFilter<"tbBmMedicao"> | Date | string
+    resumoJson?: JsonNullableFilter<"tbBmMedicao">
+    resultadosJson?: JsonNullableFilter<"tbBmMedicao">
+    naoInformadosJson?: JsonNullableFilter<"tbBmMedicao">
+    gerouRelatorioExcel?: BoolFilter<"tbBmMedicao"> | boolean
+    gerouRelatorioPdf?: BoolFilter<"tbBmMedicao"> | boolean
+    idUserGeracao?: StringNullableFilter<"tbBmMedicao"> | string | null
+    fechadoAt?: DateTimeNullableFilter<"tbBmMedicao"> | Date | string | null
+    createdAt?: DateTimeFilter<"tbBmMedicao"> | Date | string
+    updatedAt?: DateTimeFilter<"tbBmMedicao"> | Date | string
+    tbCCusto?: XOR<TbCCustoScalarRelationFilter, tbCCustoWhereInput>
+    tbUser?: XOR<TbUserNullableScalarRelationFilter, tbUserWhereInput> | null
+  }
+
+  export type tbBmMedicaoOrderByWithRelationInput = {
+    idBm?: SortOrder
+    codigoBm?: SortOrder
+    idCCusto?: SortOrder
+    codigoCCusto?: SortOrderInput | SortOrder
+    descricaoCCusto?: SortOrderInput | SortOrder
+    mesBm?: SortOrder
+    anoBm?: SortOrder
+    contadorBm?: SortOrder
+    statusBm?: SortOrder
+    dataInicioMedicao?: SortOrder
+    dataFimMedicao?: SortOrder
+    resumoJson?: SortOrderInput | SortOrder
+    resultadosJson?: SortOrderInput | SortOrder
+    naoInformadosJson?: SortOrderInput | SortOrder
+    gerouRelatorioExcel?: SortOrder
+    gerouRelatorioPdf?: SortOrder
+    idUserGeracao?: SortOrderInput | SortOrder
+    fechadoAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    tbCCusto?: tbCCustoOrderByWithRelationInput
+    tbUser?: tbUserOrderByWithRelationInput
+    _relevance?: tbBmMedicaoOrderByRelevanceInput
+  }
+
+  export type tbBmMedicaoWhereUniqueInput = Prisma.AtLeast<{
+    idBm?: string
+    codigoBm?: string
+    AND?: tbBmMedicaoWhereInput | tbBmMedicaoWhereInput[]
+    OR?: tbBmMedicaoWhereInput[]
+    NOT?: tbBmMedicaoWhereInput | tbBmMedicaoWhereInput[]
+    idCCusto?: StringFilter<"tbBmMedicao"> | string
+    codigoCCusto?: StringNullableFilter<"tbBmMedicao"> | string | null
+    descricaoCCusto?: StringNullableFilter<"tbBmMedicao"> | string | null
+    mesBm?: IntFilter<"tbBmMedicao"> | number
+    anoBm?: IntFilter<"tbBmMedicao"> | number
+    contadorBm?: IntFilter<"tbBmMedicao"> | number
+    statusBm?: StringFilter<"tbBmMedicao"> | string
+    dataInicioMedicao?: DateTimeFilter<"tbBmMedicao"> | Date | string
+    dataFimMedicao?: DateTimeFilter<"tbBmMedicao"> | Date | string
+    resumoJson?: JsonNullableFilter<"tbBmMedicao">
+    resultadosJson?: JsonNullableFilter<"tbBmMedicao">
+    naoInformadosJson?: JsonNullableFilter<"tbBmMedicao">
+    gerouRelatorioExcel?: BoolFilter<"tbBmMedicao"> | boolean
+    gerouRelatorioPdf?: BoolFilter<"tbBmMedicao"> | boolean
+    idUserGeracao?: StringNullableFilter<"tbBmMedicao"> | string | null
+    fechadoAt?: DateTimeNullableFilter<"tbBmMedicao"> | Date | string | null
+    createdAt?: DateTimeFilter<"tbBmMedicao"> | Date | string
+    updatedAt?: DateTimeFilter<"tbBmMedicao"> | Date | string
+    tbCCusto?: XOR<TbCCustoScalarRelationFilter, tbCCustoWhereInput>
+    tbUser?: XOR<TbUserNullableScalarRelationFilter, tbUserWhereInput> | null
+  }, "idBm" | "codigoBm">
+
+  export type tbBmMedicaoOrderByWithAggregationInput = {
+    idBm?: SortOrder
+    codigoBm?: SortOrder
+    idCCusto?: SortOrder
+    codigoCCusto?: SortOrderInput | SortOrder
+    descricaoCCusto?: SortOrderInput | SortOrder
+    mesBm?: SortOrder
+    anoBm?: SortOrder
+    contadorBm?: SortOrder
+    statusBm?: SortOrder
+    dataInicioMedicao?: SortOrder
+    dataFimMedicao?: SortOrder
+    resumoJson?: SortOrderInput | SortOrder
+    resultadosJson?: SortOrderInput | SortOrder
+    naoInformadosJson?: SortOrderInput | SortOrder
+    gerouRelatorioExcel?: SortOrder
+    gerouRelatorioPdf?: SortOrder
+    idUserGeracao?: SortOrderInput | SortOrder
+    fechadoAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: tbBmMedicaoCountOrderByAggregateInput
+    _avg?: tbBmMedicaoAvgOrderByAggregateInput
+    _max?: tbBmMedicaoMaxOrderByAggregateInput
+    _min?: tbBmMedicaoMinOrderByAggregateInput
+    _sum?: tbBmMedicaoSumOrderByAggregateInput
+  }
+
+  export type tbBmMedicaoScalarWhereWithAggregatesInput = {
+    AND?: tbBmMedicaoScalarWhereWithAggregatesInput | tbBmMedicaoScalarWhereWithAggregatesInput[]
+    OR?: tbBmMedicaoScalarWhereWithAggregatesInput[]
+    NOT?: tbBmMedicaoScalarWhereWithAggregatesInput | tbBmMedicaoScalarWhereWithAggregatesInput[]
+    idBm?: StringWithAggregatesFilter<"tbBmMedicao"> | string
+    codigoBm?: StringWithAggregatesFilter<"tbBmMedicao"> | string
+    idCCusto?: StringWithAggregatesFilter<"tbBmMedicao"> | string
+    codigoCCusto?: StringNullableWithAggregatesFilter<"tbBmMedicao"> | string | null
+    descricaoCCusto?: StringNullableWithAggregatesFilter<"tbBmMedicao"> | string | null
+    mesBm?: IntWithAggregatesFilter<"tbBmMedicao"> | number
+    anoBm?: IntWithAggregatesFilter<"tbBmMedicao"> | number
+    contadorBm?: IntWithAggregatesFilter<"tbBmMedicao"> | number
+    statusBm?: StringWithAggregatesFilter<"tbBmMedicao"> | string
+    dataInicioMedicao?: DateTimeWithAggregatesFilter<"tbBmMedicao"> | Date | string
+    dataFimMedicao?: DateTimeWithAggregatesFilter<"tbBmMedicao"> | Date | string
+    resumoJson?: JsonNullableWithAggregatesFilter<"tbBmMedicao">
+    resultadosJson?: JsonNullableWithAggregatesFilter<"tbBmMedicao">
+    naoInformadosJson?: JsonNullableWithAggregatesFilter<"tbBmMedicao">
+    gerouRelatorioExcel?: BoolWithAggregatesFilter<"tbBmMedicao"> | boolean
+    gerouRelatorioPdf?: BoolWithAggregatesFilter<"tbBmMedicao"> | boolean
+    idUserGeracao?: StringNullableWithAggregatesFilter<"tbBmMedicao"> | string | null
+    fechadoAt?: DateTimeNullableWithAggregatesFilter<"tbBmMedicao"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"tbBmMedicao"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"tbBmMedicao"> | Date | string
   }
 
   export type tbTransferenciaCustoPatrimonioWhereInput = {
@@ -26038,6 +27547,8 @@ export namespace Prisma {
     idCadastro?: StringNullableFilter<"tbDevolucao"> | string | null
     dataInicioDevolucao?: DateTimeFilter<"tbDevolucao"> | Date | string
     dataFimDevolucao?: DateTimeNullableFilter<"tbDevolucao"> | Date | string | null
+    dataSaidaFornecedor?: DateTimeNullableFilter<"tbDevolucao"> | Date | string | null
+    dataChegadaFornecedor?: DateTimeNullableFilter<"tbDevolucao"> | Date | string | null
     motivoDevolucao?: StringNullableFilter<"tbDevolucao"> | string | null
     notaFiscalDevolucao?: StringNullableFilter<"tbDevolucao"> | string | null
     createdAt?: DateTimeFilter<"tbDevolucao"> | Date | string
@@ -26052,6 +27563,8 @@ export namespace Prisma {
     idCadastro?: SortOrderInput | SortOrder
     dataInicioDevolucao?: SortOrder
     dataFimDevolucao?: SortOrderInput | SortOrder
+    dataSaidaFornecedor?: SortOrderInput | SortOrder
+    dataChegadaFornecedor?: SortOrderInput | SortOrder
     motivoDevolucao?: SortOrderInput | SortOrder
     notaFiscalDevolucao?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -26070,6 +27583,8 @@ export namespace Prisma {
     idCadastro?: StringNullableFilter<"tbDevolucao"> | string | null
     dataInicioDevolucao?: DateTimeFilter<"tbDevolucao"> | Date | string
     dataFimDevolucao?: DateTimeNullableFilter<"tbDevolucao"> | Date | string | null
+    dataSaidaFornecedor?: DateTimeNullableFilter<"tbDevolucao"> | Date | string | null
+    dataChegadaFornecedor?: DateTimeNullableFilter<"tbDevolucao"> | Date | string | null
     motivoDevolucao?: StringNullableFilter<"tbDevolucao"> | string | null
     notaFiscalDevolucao?: StringNullableFilter<"tbDevolucao"> | string | null
     createdAt?: DateTimeFilter<"tbDevolucao"> | Date | string
@@ -26084,6 +27599,8 @@ export namespace Prisma {
     idCadastro?: SortOrderInput | SortOrder
     dataInicioDevolucao?: SortOrder
     dataFimDevolucao?: SortOrderInput | SortOrder
+    dataSaidaFornecedor?: SortOrderInput | SortOrder
+    dataChegadaFornecedor?: SortOrderInput | SortOrder
     motivoDevolucao?: SortOrderInput | SortOrder
     notaFiscalDevolucao?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -26102,6 +27619,8 @@ export namespace Prisma {
     idCadastro?: StringNullableWithAggregatesFilter<"tbDevolucao"> | string | null
     dataInicioDevolucao?: DateTimeWithAggregatesFilter<"tbDevolucao"> | Date | string
     dataFimDevolucao?: DateTimeNullableWithAggregatesFilter<"tbDevolucao"> | Date | string | null
+    dataSaidaFornecedor?: DateTimeNullableWithAggregatesFilter<"tbDevolucao"> | Date | string | null
+    dataChegadaFornecedor?: DateTimeNullableWithAggregatesFilter<"tbDevolucao"> | Date | string | null
     motivoDevolucao?: StringNullableWithAggregatesFilter<"tbDevolucao"> | string | null
     notaFiscalDevolucao?: StringNullableWithAggregatesFilter<"tbDevolucao"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"tbDevolucao"> | Date | string
@@ -26563,6 +28082,7 @@ export namespace Prisma {
     tbFuncioanrio?: tbFuncionarioCreateNestedManyWithoutTbUserInput
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbUserInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbUserInput
+    tbBmMedicao?: tbBmMedicaoCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserUncheckedCreateInput = {
@@ -26582,6 +28102,7 @@ export namespace Prisma {
     tbFuncioanrio?: tbFuncionarioUncheckedCreateNestedManyWithoutTbUserInput
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbUserInput
+    tbBmMedicao?: tbBmMedicaoUncheckedCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserUpdateInput = {
@@ -26601,6 +28122,7 @@ export namespace Prisma {
     tbFuncioanrio?: tbFuncionarioUpdateManyWithoutTbUserNestedInput
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbUserNestedInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbUserNestedInput
+    tbBmMedicao?: tbBmMedicaoUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbUserUncheckedUpdateInput = {
@@ -26620,6 +28142,7 @@ export namespace Prisma {
     tbFuncioanrio?: tbFuncionarioUncheckedUpdateManyWithoutTbUserNestedInput
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbUserNestedInput
+    tbBmMedicao?: tbBmMedicaoUncheckedUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbUserCreateManyInput = {
@@ -27252,6 +28775,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbCCustoInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoOrigemInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoDestinoInput
+    tbBmMedicao?: tbBmMedicaoCreateNestedManyWithoutTbCCustoInput
   }
 
   export type tbCCustoUncheckedCreateInput = {
@@ -27264,6 +28788,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbCCustoInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoOrigemInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoDestinoInput
+    tbBmMedicao?: tbBmMedicaoUncheckedCreateNestedManyWithoutTbCCustoInput
   }
 
   export type tbCCustoUpdateInput = {
@@ -27276,6 +28801,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbCCustoNestedInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoOrigemNestedInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoDestinoNestedInput
+    tbBmMedicao?: tbBmMedicaoUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type tbCCustoUncheckedUpdateInput = {
@@ -27288,6 +28814,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbCCustoNestedInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoOrigemNestedInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoDestinoNestedInput
+    tbBmMedicao?: tbBmMedicaoUncheckedUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type tbCCustoCreateManyInput = {
@@ -27308,6 +28835,165 @@ export namespace Prisma {
     codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
     descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
     idEmp_Custo?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type tbBmMedicaoCreateInput = {
+    idBm?: string
+    codigoBm: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    mesBm: number
+    anoBm: number
+    contadorBm: number
+    statusBm?: string
+    dataInicioMedicao: Date | string
+    dataFimMedicao: Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: boolean
+    gerouRelatorioPdf?: boolean
+    fechadoAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tbCCusto: tbCCustoCreateNestedOneWithoutTbBmMedicaoInput
+    tbUser?: tbUserCreateNestedOneWithoutTbBmMedicaoInput
+  }
+
+  export type tbBmMedicaoUncheckedCreateInput = {
+    idBm?: string
+    codigoBm: string
+    idCCusto: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    mesBm: number
+    anoBm: number
+    contadorBm: number
+    statusBm?: string
+    dataInicioMedicao: Date | string
+    dataFimMedicao: Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: boolean
+    gerouRelatorioPdf?: boolean
+    idUserGeracao?: string | null
+    fechadoAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type tbBmMedicaoUpdateInput = {
+    idBm?: StringFieldUpdateOperationsInput | string
+    codigoBm?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    mesBm?: IntFieldUpdateOperationsInput | number
+    anoBm?: IntFieldUpdateOperationsInput | number
+    contadorBm?: IntFieldUpdateOperationsInput | number
+    statusBm?: StringFieldUpdateOperationsInput | string
+    dataInicioMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: BoolFieldUpdateOperationsInput | boolean
+    gerouRelatorioPdf?: BoolFieldUpdateOperationsInput | boolean
+    fechadoAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbCCusto?: tbCCustoUpdateOneRequiredWithoutTbBmMedicaoNestedInput
+    tbUser?: tbUserUpdateOneWithoutTbBmMedicaoNestedInput
+  }
+
+  export type tbBmMedicaoUncheckedUpdateInput = {
+    idBm?: StringFieldUpdateOperationsInput | string
+    codigoBm?: StringFieldUpdateOperationsInput | string
+    idCCusto?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    mesBm?: IntFieldUpdateOperationsInput | number
+    anoBm?: IntFieldUpdateOperationsInput | number
+    contadorBm?: IntFieldUpdateOperationsInput | number
+    statusBm?: StringFieldUpdateOperationsInput | string
+    dataInicioMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: BoolFieldUpdateOperationsInput | boolean
+    gerouRelatorioPdf?: BoolFieldUpdateOperationsInput | boolean
+    idUserGeracao?: NullableStringFieldUpdateOperationsInput | string | null
+    fechadoAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbBmMedicaoCreateManyInput = {
+    idBm?: string
+    codigoBm: string
+    idCCusto: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    mesBm: number
+    anoBm: number
+    contadorBm: number
+    statusBm?: string
+    dataInicioMedicao: Date | string
+    dataFimMedicao: Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: boolean
+    gerouRelatorioPdf?: boolean
+    idUserGeracao?: string | null
+    fechadoAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type tbBmMedicaoUpdateManyMutationInput = {
+    idBm?: StringFieldUpdateOperationsInput | string
+    codigoBm?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    mesBm?: IntFieldUpdateOperationsInput | number
+    anoBm?: IntFieldUpdateOperationsInput | number
+    contadorBm?: IntFieldUpdateOperationsInput | number
+    statusBm?: StringFieldUpdateOperationsInput | string
+    dataInicioMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: BoolFieldUpdateOperationsInput | boolean
+    gerouRelatorioPdf?: BoolFieldUpdateOperationsInput | boolean
+    fechadoAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbBmMedicaoUncheckedUpdateManyInput = {
+    idBm?: StringFieldUpdateOperationsInput | string
+    codigoBm?: StringFieldUpdateOperationsInput | string
+    idCCusto?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    mesBm?: IntFieldUpdateOperationsInput | number
+    anoBm?: IntFieldUpdateOperationsInput | number
+    contadorBm?: IntFieldUpdateOperationsInput | number
+    statusBm?: StringFieldUpdateOperationsInput | string
+    dataInicioMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: BoolFieldUpdateOperationsInput | boolean
+    gerouRelatorioPdf?: BoolFieldUpdateOperationsInput | boolean
+    idUserGeracao?: NullableStringFieldUpdateOperationsInput | string | null
+    fechadoAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type tbTransferenciaCustoPatrimonioCreateInput = {
@@ -27569,6 +29255,8 @@ export namespace Prisma {
     idDevolucao?: string
     dataInicioDevolucao: Date | string
     dataFimDevolucao?: Date | string | null
+    dataSaidaFornecedor?: Date | string | null
+    dataChegadaFornecedor?: Date | string | null
     motivoDevolucao?: string | null
     notaFiscalDevolucao?: string | null
     createdAt?: Date | string
@@ -27583,6 +29271,8 @@ export namespace Prisma {
     idCadastro?: string | null
     dataInicioDevolucao: Date | string
     dataFimDevolucao?: Date | string | null
+    dataSaidaFornecedor?: Date | string | null
+    dataChegadaFornecedor?: Date | string | null
     motivoDevolucao?: string | null
     notaFiscalDevolucao?: string | null
     createdAt?: Date | string
@@ -27593,6 +29283,8 @@ export namespace Prisma {
     idDevolucao?: StringFieldUpdateOperationsInput | string
     dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
     dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataSaidaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataChegadaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27607,6 +29299,8 @@ export namespace Prisma {
     idCadastro?: NullableStringFieldUpdateOperationsInput | string | null
     dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
     dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataSaidaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataChegadaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27619,6 +29313,8 @@ export namespace Prisma {
     idCadastro?: string | null
     dataInicioDevolucao: Date | string
     dataFimDevolucao?: Date | string | null
+    dataSaidaFornecedor?: Date | string | null
+    dataChegadaFornecedor?: Date | string | null
     motivoDevolucao?: string | null
     notaFiscalDevolucao?: string | null
     createdAt?: Date | string
@@ -27629,6 +29325,8 @@ export namespace Prisma {
     idDevolucao?: StringFieldUpdateOperationsInput | string
     dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
     dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataSaidaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataChegadaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27641,6 +29339,8 @@ export namespace Prisma {
     idCadastro?: NullableStringFieldUpdateOperationsInput | string | null
     dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
     dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataSaidaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataChegadaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28204,6 +29904,12 @@ export namespace Prisma {
     none?: tbTransferenciaAlocacaoWhereInput
   }
 
+  export type TbBmMedicaoListRelationFilter = {
+    every?: tbBmMedicaoWhereInput
+    some?: tbBmMedicaoWhereInput
+    none?: tbBmMedicaoWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -28218,6 +29924,10 @@ export namespace Prisma {
   }
 
   export type tbTransferenciaAlocacaoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type tbBmMedicaoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -28841,6 +30551,105 @@ export namespace Prisma {
     idEmp_Custo?: SortOrder
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type TbCCustoScalarRelationFilter = {
+    is?: tbCCustoWhereInput
+    isNot?: tbCCustoWhereInput
+  }
+
+  export type tbBmMedicaoOrderByRelevanceInput = {
+    fields: tbBmMedicaoOrderByRelevanceFieldEnum | tbBmMedicaoOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type tbBmMedicaoCountOrderByAggregateInput = {
+    idBm?: SortOrder
+    codigoBm?: SortOrder
+    idCCusto?: SortOrder
+    codigoCCusto?: SortOrder
+    descricaoCCusto?: SortOrder
+    mesBm?: SortOrder
+    anoBm?: SortOrder
+    contadorBm?: SortOrder
+    statusBm?: SortOrder
+    dataInicioMedicao?: SortOrder
+    dataFimMedicao?: SortOrder
+    resumoJson?: SortOrder
+    resultadosJson?: SortOrder
+    naoInformadosJson?: SortOrder
+    gerouRelatorioExcel?: SortOrder
+    gerouRelatorioPdf?: SortOrder
+    idUserGeracao?: SortOrder
+    fechadoAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type tbBmMedicaoAvgOrderByAggregateInput = {
+    mesBm?: SortOrder
+    anoBm?: SortOrder
+    contadorBm?: SortOrder
+  }
+
+  export type tbBmMedicaoMaxOrderByAggregateInput = {
+    idBm?: SortOrder
+    codigoBm?: SortOrder
+    idCCusto?: SortOrder
+    codigoCCusto?: SortOrder
+    descricaoCCusto?: SortOrder
+    mesBm?: SortOrder
+    anoBm?: SortOrder
+    contadorBm?: SortOrder
+    statusBm?: SortOrder
+    dataInicioMedicao?: SortOrder
+    dataFimMedicao?: SortOrder
+    gerouRelatorioExcel?: SortOrder
+    gerouRelatorioPdf?: SortOrder
+    idUserGeracao?: SortOrder
+    fechadoAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type tbBmMedicaoMinOrderByAggregateInput = {
+    idBm?: SortOrder
+    codigoBm?: SortOrder
+    idCCusto?: SortOrder
+    codigoCCusto?: SortOrder
+    descricaoCCusto?: SortOrder
+    mesBm?: SortOrder
+    anoBm?: SortOrder
+    contadorBm?: SortOrder
+    statusBm?: SortOrder
+    dataInicioMedicao?: SortOrder
+    dataFimMedicao?: SortOrder
+    gerouRelatorioExcel?: SortOrder
+    gerouRelatorioPdf?: SortOrder
+    idUserGeracao?: SortOrder
+    fechadoAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type tbBmMedicaoSumOrderByAggregateInput = {
+    mesBm?: SortOrder
+    anoBm?: SortOrder
+    contadorBm?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type FloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | null
@@ -28855,11 +30664,6 @@ export namespace Prisma {
   export type TbPatrimonioScalarRelationFilter = {
     is?: tbPatrimonioWhereInput
     isNot?: tbPatrimonioWhereInput
-  }
-
-  export type TbCCustoScalarRelationFilter = {
-    is?: tbCCustoWhereInput
-    isNot?: tbCCustoWhereInput
   }
 
   export type tbTransferenciaCustoPatrimonioOrderByRelevanceInput = {
@@ -29047,6 +30851,8 @@ export namespace Prisma {
     idCadastro?: SortOrder
     dataInicioDevolucao?: SortOrder
     dataFimDevolucao?: SortOrder
+    dataSaidaFornecedor?: SortOrder
+    dataChegadaFornecedor?: SortOrder
     motivoDevolucao?: SortOrder
     notaFiscalDevolucao?: SortOrder
     createdAt?: SortOrder
@@ -29059,6 +30865,8 @@ export namespace Prisma {
     idCadastro?: SortOrder
     dataInicioDevolucao?: SortOrder
     dataFimDevolucao?: SortOrder
+    dataSaidaFornecedor?: SortOrder
+    dataChegadaFornecedor?: SortOrder
     motivoDevolucao?: SortOrder
     notaFiscalDevolucao?: SortOrder
     createdAt?: SortOrder
@@ -29071,6 +30879,8 @@ export namespace Prisma {
     idCadastro?: SortOrder
     dataInicioDevolucao?: SortOrder
     dataFimDevolucao?: SortOrder
+    dataSaidaFornecedor?: SortOrder
+    dataChegadaFornecedor?: SortOrder
     motivoDevolucao?: SortOrder
     notaFiscalDevolucao?: SortOrder
     createdAt?: SortOrder
@@ -29347,11 +31157,6 @@ export namespace Prisma {
     expires?: SortOrder
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type tbUnifiConfigOrderByRelevanceInput = {
     fields: tbUnifiConfigOrderByRelevanceFieldEnum | tbUnifiConfigOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -29394,14 +31199,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type tbFuncionarioCreateNestedManyWithoutTbUserInput = {
     create?: XOR<tbFuncionarioCreateWithoutTbUserInput, tbFuncionarioUncheckedCreateWithoutTbUserInput> | tbFuncionarioCreateWithoutTbUserInput[] | tbFuncionarioUncheckedCreateWithoutTbUserInput[]
     connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbUserInput | tbFuncionarioCreateOrConnectWithoutTbUserInput[]
@@ -29423,6 +31220,13 @@ export namespace Prisma {
     connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
   }
 
+  export type tbBmMedicaoCreateNestedManyWithoutTbUserInput = {
+    create?: XOR<tbBmMedicaoCreateWithoutTbUserInput, tbBmMedicaoUncheckedCreateWithoutTbUserInput> | tbBmMedicaoCreateWithoutTbUserInput[] | tbBmMedicaoUncheckedCreateWithoutTbUserInput[]
+    connectOrCreate?: tbBmMedicaoCreateOrConnectWithoutTbUserInput | tbBmMedicaoCreateOrConnectWithoutTbUserInput[]
+    createMany?: tbBmMedicaoCreateManyTbUserInputEnvelope
+    connect?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+  }
+
   export type tbFuncionarioUncheckedCreateNestedManyWithoutTbUserInput = {
     create?: XOR<tbFuncionarioCreateWithoutTbUserInput, tbFuncionarioUncheckedCreateWithoutTbUserInput> | tbFuncionarioCreateWithoutTbUserInput[] | tbFuncionarioUncheckedCreateWithoutTbUserInput[]
     connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbUserInput | tbFuncionarioCreateOrConnectWithoutTbUserInput[]
@@ -29442,6 +31246,13 @@ export namespace Prisma {
     connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbUserInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbUserInput[]
     createMany?: tbTransferenciaAlocacaoCreateManyTbUserInputEnvelope
     connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+  }
+
+  export type tbBmMedicaoUncheckedCreateNestedManyWithoutTbUserInput = {
+    create?: XOR<tbBmMedicaoCreateWithoutTbUserInput, tbBmMedicaoUncheckedCreateWithoutTbUserInput> | tbBmMedicaoCreateWithoutTbUserInput[] | tbBmMedicaoUncheckedCreateWithoutTbUserInput[]
+    connectOrCreate?: tbBmMedicaoCreateOrConnectWithoutTbUserInput | tbBmMedicaoCreateOrConnectWithoutTbUserInput[]
+    createMany?: tbBmMedicaoCreateManyTbUserInputEnvelope
+    connect?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -29502,6 +31313,20 @@ export namespace Prisma {
     deleteMany?: tbTransferenciaAlocacaoScalarWhereInput | tbTransferenciaAlocacaoScalarWhereInput[]
   }
 
+  export type tbBmMedicaoUpdateManyWithoutTbUserNestedInput = {
+    create?: XOR<tbBmMedicaoCreateWithoutTbUserInput, tbBmMedicaoUncheckedCreateWithoutTbUserInput> | tbBmMedicaoCreateWithoutTbUserInput[] | tbBmMedicaoUncheckedCreateWithoutTbUserInput[]
+    connectOrCreate?: tbBmMedicaoCreateOrConnectWithoutTbUserInput | tbBmMedicaoCreateOrConnectWithoutTbUserInput[]
+    upsert?: tbBmMedicaoUpsertWithWhereUniqueWithoutTbUserInput | tbBmMedicaoUpsertWithWhereUniqueWithoutTbUserInput[]
+    createMany?: tbBmMedicaoCreateManyTbUserInputEnvelope
+    set?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+    disconnect?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+    delete?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+    connect?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+    update?: tbBmMedicaoUpdateWithWhereUniqueWithoutTbUserInput | tbBmMedicaoUpdateWithWhereUniqueWithoutTbUserInput[]
+    updateMany?: tbBmMedicaoUpdateManyWithWhereWithoutTbUserInput | tbBmMedicaoUpdateManyWithWhereWithoutTbUserInput[]
+    deleteMany?: tbBmMedicaoScalarWhereInput | tbBmMedicaoScalarWhereInput[]
+  }
+
   export type tbFuncionarioUncheckedUpdateManyWithoutTbUserNestedInput = {
     create?: XOR<tbFuncionarioCreateWithoutTbUserInput, tbFuncionarioUncheckedCreateWithoutTbUserInput> | tbFuncionarioCreateWithoutTbUserInput[] | tbFuncionarioUncheckedCreateWithoutTbUserInput[]
     connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbUserInput | tbFuncionarioCreateOrConnectWithoutTbUserInput[]
@@ -29542,6 +31367,20 @@ export namespace Prisma {
     update?: tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbUserInput | tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbUserInput[]
     updateMany?: tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbUserInput | tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbUserInput[]
     deleteMany?: tbTransferenciaAlocacaoScalarWhereInput | tbTransferenciaAlocacaoScalarWhereInput[]
+  }
+
+  export type tbBmMedicaoUncheckedUpdateManyWithoutTbUserNestedInput = {
+    create?: XOR<tbBmMedicaoCreateWithoutTbUserInput, tbBmMedicaoUncheckedCreateWithoutTbUserInput> | tbBmMedicaoCreateWithoutTbUserInput[] | tbBmMedicaoUncheckedCreateWithoutTbUserInput[]
+    connectOrCreate?: tbBmMedicaoCreateOrConnectWithoutTbUserInput | tbBmMedicaoCreateOrConnectWithoutTbUserInput[]
+    upsert?: tbBmMedicaoUpsertWithWhereUniqueWithoutTbUserInput | tbBmMedicaoUpsertWithWhereUniqueWithoutTbUserInput[]
+    createMany?: tbBmMedicaoCreateManyTbUserInputEnvelope
+    set?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+    disconnect?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+    delete?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+    connect?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+    update?: tbBmMedicaoUpdateWithWhereUniqueWithoutTbUserInput | tbBmMedicaoUpdateWithWhereUniqueWithoutTbUserInput[]
+    updateMany?: tbBmMedicaoUpdateManyWithWhereWithoutTbUserInput | tbBmMedicaoUpdateManyWithWhereWithoutTbUserInput[]
+    deleteMany?: tbBmMedicaoScalarWhereInput | tbBmMedicaoScalarWhereInput[]
   }
 
   export type tbStatusFunCreateNestedOneWithoutTbFuncionarioInput = {
@@ -30497,6 +32336,13 @@ export namespace Prisma {
     connect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
   }
 
+  export type tbBmMedicaoCreateNestedManyWithoutTbCCustoInput = {
+    create?: XOR<tbBmMedicaoCreateWithoutTbCCustoInput, tbBmMedicaoUncheckedCreateWithoutTbCCustoInput> | tbBmMedicaoCreateWithoutTbCCustoInput[] | tbBmMedicaoUncheckedCreateWithoutTbCCustoInput[]
+    connectOrCreate?: tbBmMedicaoCreateOrConnectWithoutTbCCustoInput | tbBmMedicaoCreateOrConnectWithoutTbCCustoInput[]
+    createMany?: tbBmMedicaoCreateManyTbCCustoInputEnvelope
+    connect?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+  }
+
   export type tbPatrimonioUncheckedCreateNestedManyWithoutTbCCustoInput = {
     create?: XOR<tbPatrimonioCreateWithoutTbCCustoInput, tbPatrimonioUncheckedCreateWithoutTbCCustoInput> | tbPatrimonioCreateWithoutTbCCustoInput[] | tbPatrimonioUncheckedCreateWithoutTbCCustoInput[]
     connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbCCustoInput | tbPatrimonioCreateOrConnectWithoutTbCCustoInput[]
@@ -30530,6 +32376,13 @@ export namespace Prisma {
     connectOrCreate?: tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoDestinoInput | tbTransferenciaCustoPatrimonioCreateOrConnectWithoutCustoDestinoInput[]
     createMany?: tbTransferenciaCustoPatrimonioCreateManyCustoDestinoInputEnvelope
     connect?: tbTransferenciaCustoPatrimonioWhereUniqueInput | tbTransferenciaCustoPatrimonioWhereUniqueInput[]
+  }
+
+  export type tbBmMedicaoUncheckedCreateNestedManyWithoutTbCCustoInput = {
+    create?: XOR<tbBmMedicaoCreateWithoutTbCCustoInput, tbBmMedicaoUncheckedCreateWithoutTbCCustoInput> | tbBmMedicaoCreateWithoutTbCCustoInput[] | tbBmMedicaoUncheckedCreateWithoutTbCCustoInput[]
+    connectOrCreate?: tbBmMedicaoCreateOrConnectWithoutTbCCustoInput | tbBmMedicaoCreateOrConnectWithoutTbCCustoInput[]
+    createMany?: tbBmMedicaoCreateManyTbCCustoInputEnvelope
+    connect?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
   }
 
   export type tbEmpresaUpdateOneWithoutTbCCustoNestedInput = {
@@ -30612,6 +32465,20 @@ export namespace Prisma {
     deleteMany?: tbTransferenciaCustoPatrimonioScalarWhereInput | tbTransferenciaCustoPatrimonioScalarWhereInput[]
   }
 
+  export type tbBmMedicaoUpdateManyWithoutTbCCustoNestedInput = {
+    create?: XOR<tbBmMedicaoCreateWithoutTbCCustoInput, tbBmMedicaoUncheckedCreateWithoutTbCCustoInput> | tbBmMedicaoCreateWithoutTbCCustoInput[] | tbBmMedicaoUncheckedCreateWithoutTbCCustoInput[]
+    connectOrCreate?: tbBmMedicaoCreateOrConnectWithoutTbCCustoInput | tbBmMedicaoCreateOrConnectWithoutTbCCustoInput[]
+    upsert?: tbBmMedicaoUpsertWithWhereUniqueWithoutTbCCustoInput | tbBmMedicaoUpsertWithWhereUniqueWithoutTbCCustoInput[]
+    createMany?: tbBmMedicaoCreateManyTbCCustoInputEnvelope
+    set?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+    disconnect?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+    delete?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+    connect?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+    update?: tbBmMedicaoUpdateWithWhereUniqueWithoutTbCCustoInput | tbBmMedicaoUpdateWithWhereUniqueWithoutTbCCustoInput[]
+    updateMany?: tbBmMedicaoUpdateManyWithWhereWithoutTbCCustoInput | tbBmMedicaoUpdateManyWithWhereWithoutTbCCustoInput[]
+    deleteMany?: tbBmMedicaoScalarWhereInput | tbBmMedicaoScalarWhereInput[]
+  }
+
   export type tbPatrimonioUncheckedUpdateManyWithoutTbCCustoNestedInput = {
     create?: XOR<tbPatrimonioCreateWithoutTbCCustoInput, tbPatrimonioUncheckedCreateWithoutTbCCustoInput> | tbPatrimonioCreateWithoutTbCCustoInput[] | tbPatrimonioUncheckedCreateWithoutTbCCustoInput[]
     connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbCCustoInput | tbPatrimonioCreateOrConnectWithoutTbCCustoInput[]
@@ -30680,6 +32547,54 @@ export namespace Prisma {
     update?: tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutCustoDestinoInput | tbTransferenciaCustoPatrimonioUpdateWithWhereUniqueWithoutCustoDestinoInput[]
     updateMany?: tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutCustoDestinoInput | tbTransferenciaCustoPatrimonioUpdateManyWithWhereWithoutCustoDestinoInput[]
     deleteMany?: tbTransferenciaCustoPatrimonioScalarWhereInput | tbTransferenciaCustoPatrimonioScalarWhereInput[]
+  }
+
+  export type tbBmMedicaoUncheckedUpdateManyWithoutTbCCustoNestedInput = {
+    create?: XOR<tbBmMedicaoCreateWithoutTbCCustoInput, tbBmMedicaoUncheckedCreateWithoutTbCCustoInput> | tbBmMedicaoCreateWithoutTbCCustoInput[] | tbBmMedicaoUncheckedCreateWithoutTbCCustoInput[]
+    connectOrCreate?: tbBmMedicaoCreateOrConnectWithoutTbCCustoInput | tbBmMedicaoCreateOrConnectWithoutTbCCustoInput[]
+    upsert?: tbBmMedicaoUpsertWithWhereUniqueWithoutTbCCustoInput | tbBmMedicaoUpsertWithWhereUniqueWithoutTbCCustoInput[]
+    createMany?: tbBmMedicaoCreateManyTbCCustoInputEnvelope
+    set?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+    disconnect?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+    delete?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+    connect?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+    update?: tbBmMedicaoUpdateWithWhereUniqueWithoutTbCCustoInput | tbBmMedicaoUpdateWithWhereUniqueWithoutTbCCustoInput[]
+    updateMany?: tbBmMedicaoUpdateManyWithWhereWithoutTbCCustoInput | tbBmMedicaoUpdateManyWithWhereWithoutTbCCustoInput[]
+    deleteMany?: tbBmMedicaoScalarWhereInput | tbBmMedicaoScalarWhereInput[]
+  }
+
+  export type tbCCustoCreateNestedOneWithoutTbBmMedicaoInput = {
+    create?: XOR<tbCCustoCreateWithoutTbBmMedicaoInput, tbCCustoUncheckedCreateWithoutTbBmMedicaoInput>
+    connectOrCreate?: tbCCustoCreateOrConnectWithoutTbBmMedicaoInput
+    connect?: tbCCustoWhereUniqueInput
+  }
+
+  export type tbUserCreateNestedOneWithoutTbBmMedicaoInput = {
+    create?: XOR<tbUserCreateWithoutTbBmMedicaoInput, tbUserUncheckedCreateWithoutTbBmMedicaoInput>
+    connectOrCreate?: tbUserCreateOrConnectWithoutTbBmMedicaoInput
+    connect?: tbUserWhereUniqueInput
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type tbCCustoUpdateOneRequiredWithoutTbBmMedicaoNestedInput = {
+    create?: XOR<tbCCustoCreateWithoutTbBmMedicaoInput, tbCCustoUncheckedCreateWithoutTbBmMedicaoInput>
+    connectOrCreate?: tbCCustoCreateOrConnectWithoutTbBmMedicaoInput
+    upsert?: tbCCustoUpsertWithoutTbBmMedicaoInput
+    connect?: tbCCustoWhereUniqueInput
+    update?: XOR<XOR<tbCCustoUpdateToOneWithWhereWithoutTbBmMedicaoInput, tbCCustoUpdateWithoutTbBmMedicaoInput>, tbCCustoUncheckedUpdateWithoutTbBmMedicaoInput>
+  }
+
+  export type tbUserUpdateOneWithoutTbBmMedicaoNestedInput = {
+    create?: XOR<tbUserCreateWithoutTbBmMedicaoInput, tbUserUncheckedCreateWithoutTbBmMedicaoInput>
+    connectOrCreate?: tbUserCreateOrConnectWithoutTbBmMedicaoInput
+    upsert?: tbUserUpsertWithoutTbBmMedicaoInput
+    disconnect?: tbUserWhereInput | boolean
+    delete?: tbUserWhereInput | boolean
+    connect?: tbUserWhereUniqueInput
+    update?: XOR<XOR<tbUserUpdateToOneWithWhereWithoutTbBmMedicaoInput, tbUserUpdateWithoutTbBmMedicaoInput>, tbUserUncheckedUpdateWithoutTbBmMedicaoInput>
   }
 
   export type tbPatrimonioCreateNestedOneWithoutTbTransferenciaCustoPatrimonioInput = {
@@ -31170,10 +33085,6 @@ export namespace Prisma {
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -31378,6 +33289,19 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedFloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | null
@@ -31419,19 +33343,6 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type tbFuncionarioCreateWithoutTbUserInput = {
@@ -31546,6 +33457,60 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type tbBmMedicaoCreateWithoutTbUserInput = {
+    idBm?: string
+    codigoBm: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    mesBm: number
+    anoBm: number
+    contadorBm: number
+    statusBm?: string
+    dataInicioMedicao: Date | string
+    dataFimMedicao: Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: boolean
+    gerouRelatorioPdf?: boolean
+    fechadoAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tbCCusto: tbCCustoCreateNestedOneWithoutTbBmMedicaoInput
+  }
+
+  export type tbBmMedicaoUncheckedCreateWithoutTbUserInput = {
+    idBm?: string
+    codigoBm: string
+    idCCusto: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    mesBm: number
+    anoBm: number
+    contadorBm: number
+    statusBm?: string
+    dataInicioMedicao: Date | string
+    dataFimMedicao: Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: boolean
+    gerouRelatorioPdf?: boolean
+    fechadoAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type tbBmMedicaoCreateOrConnectWithoutTbUserInput = {
+    where: tbBmMedicaoWhereUniqueInput
+    create: XOR<tbBmMedicaoCreateWithoutTbUserInput, tbBmMedicaoUncheckedCreateWithoutTbUserInput>
+  }
+
+  export type tbBmMedicaoCreateManyTbUserInputEnvelope = {
+    data: tbBmMedicaoCreateManyTbUserInput | tbBmMedicaoCreateManyTbUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type tbFuncionarioUpsertWithWhereUniqueWithoutTbUserInput = {
     where: tbFuncionarioWhereUniqueInput
     update: XOR<tbFuncionarioUpdateWithoutTbUserInput, tbFuncionarioUncheckedUpdateWithoutTbUserInput>
@@ -31643,6 +33608,48 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"tbTransferenciaAlocacao"> | Date | string
   }
 
+  export type tbBmMedicaoUpsertWithWhereUniqueWithoutTbUserInput = {
+    where: tbBmMedicaoWhereUniqueInput
+    update: XOR<tbBmMedicaoUpdateWithoutTbUserInput, tbBmMedicaoUncheckedUpdateWithoutTbUserInput>
+    create: XOR<tbBmMedicaoCreateWithoutTbUserInput, tbBmMedicaoUncheckedCreateWithoutTbUserInput>
+  }
+
+  export type tbBmMedicaoUpdateWithWhereUniqueWithoutTbUserInput = {
+    where: tbBmMedicaoWhereUniqueInput
+    data: XOR<tbBmMedicaoUpdateWithoutTbUserInput, tbBmMedicaoUncheckedUpdateWithoutTbUserInput>
+  }
+
+  export type tbBmMedicaoUpdateManyWithWhereWithoutTbUserInput = {
+    where: tbBmMedicaoScalarWhereInput
+    data: XOR<tbBmMedicaoUpdateManyMutationInput, tbBmMedicaoUncheckedUpdateManyWithoutTbUserInput>
+  }
+
+  export type tbBmMedicaoScalarWhereInput = {
+    AND?: tbBmMedicaoScalarWhereInput | tbBmMedicaoScalarWhereInput[]
+    OR?: tbBmMedicaoScalarWhereInput[]
+    NOT?: tbBmMedicaoScalarWhereInput | tbBmMedicaoScalarWhereInput[]
+    idBm?: StringFilter<"tbBmMedicao"> | string
+    codigoBm?: StringFilter<"tbBmMedicao"> | string
+    idCCusto?: StringFilter<"tbBmMedicao"> | string
+    codigoCCusto?: StringNullableFilter<"tbBmMedicao"> | string | null
+    descricaoCCusto?: StringNullableFilter<"tbBmMedicao"> | string | null
+    mesBm?: IntFilter<"tbBmMedicao"> | number
+    anoBm?: IntFilter<"tbBmMedicao"> | number
+    contadorBm?: IntFilter<"tbBmMedicao"> | number
+    statusBm?: StringFilter<"tbBmMedicao"> | string
+    dataInicioMedicao?: DateTimeFilter<"tbBmMedicao"> | Date | string
+    dataFimMedicao?: DateTimeFilter<"tbBmMedicao"> | Date | string
+    resumoJson?: JsonNullableFilter<"tbBmMedicao">
+    resultadosJson?: JsonNullableFilter<"tbBmMedicao">
+    naoInformadosJson?: JsonNullableFilter<"tbBmMedicao">
+    gerouRelatorioExcel?: BoolFilter<"tbBmMedicao"> | boolean
+    gerouRelatorioPdf?: BoolFilter<"tbBmMedicao"> | boolean
+    idUserGeracao?: StringNullableFilter<"tbBmMedicao"> | string | null
+    fechadoAt?: DateTimeNullableFilter<"tbBmMedicao"> | Date | string | null
+    createdAt?: DateTimeFilter<"tbBmMedicao"> | Date | string
+    updatedAt?: DateTimeFilter<"tbBmMedicao"> | Date | string
+  }
+
   export type tbStatusFunCreateWithoutTbFuncionarioInput = {
     idStatusFun?: string
     descricaoStatusFun: string
@@ -31674,6 +33681,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbUserInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbUserInput
+    tbBmMedicao?: tbBmMedicaoCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserUncheckedCreateWithoutTbFuncioanrioInput = {
@@ -31692,6 +33700,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbUserInput
+    tbBmMedicao?: tbBmMedicaoUncheckedCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserCreateOrConnectWithoutTbFuncioanrioInput = {
@@ -31725,6 +33734,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbCCustoInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoOrigemInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoDestinoInput
+    tbBmMedicao?: tbBmMedicaoCreateNestedManyWithoutTbCCustoInput
   }
 
   export type tbCCustoUncheckedCreateWithoutTbFuncionarioInput = {
@@ -31736,6 +33746,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbCCustoInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoOrigemInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoDestinoInput
+    tbBmMedicao?: tbBmMedicaoUncheckedCreateNestedManyWithoutTbCCustoInput
   }
 
   export type tbCCustoCreateOrConnectWithoutTbFuncionarioInput = {
@@ -31921,6 +33932,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbUserNestedInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbUserNestedInput
+    tbBmMedicao?: tbBmMedicaoUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbUserUncheckedUpdateWithoutTbFuncioanrioInput = {
@@ -31939,6 +33951,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbUserNestedInput
+    tbBmMedicao?: tbBmMedicaoUncheckedUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbFuncaoUpsertWithoutTbFuncionarioInput = {
@@ -31983,6 +33996,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbCCustoNestedInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoOrigemNestedInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoDestinoNestedInput
+    tbBmMedicao?: tbBmMedicaoUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type tbCCustoUncheckedUpdateWithoutTbFuncionarioInput = {
@@ -31994,6 +34008,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbCCustoNestedInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoOrigemNestedInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoDestinoNestedInput
+    tbBmMedicao?: tbBmMedicaoUncheckedUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type tbCadastroUpsertWithWhereUniqueWithoutTbFuncionarioInput = {
@@ -32410,6 +34425,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbCCustoInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoOrigemInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoDestinoInput
+    tbBmMedicao?: tbBmMedicaoCreateNestedManyWithoutTbCCustoInput
   }
 
   export type tbCCustoUncheckedCreateWithoutTbPatrimonioInput = {
@@ -32421,6 +34437,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbCCustoInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoOrigemInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoDestinoInput
+    tbBmMedicao?: tbBmMedicaoUncheckedCreateNestedManyWithoutTbCCustoInput
   }
 
   export type tbCCustoCreateOrConnectWithoutTbPatrimonioInput = {
@@ -32466,6 +34483,8 @@ export namespace Prisma {
     idDevolucao?: string
     dataInicioDevolucao: Date | string
     dataFimDevolucao?: Date | string | null
+    dataSaidaFornecedor?: Date | string | null
+    dataChegadaFornecedor?: Date | string | null
     motivoDevolucao?: string | null
     notaFiscalDevolucao?: string | null
     createdAt?: Date | string
@@ -32478,6 +34497,8 @@ export namespace Prisma {
     idCadastro?: string | null
     dataInicioDevolucao: Date | string
     dataFimDevolucao?: Date | string | null
+    dataSaidaFornecedor?: Date | string | null
+    dataChegadaFornecedor?: Date | string | null
     motivoDevolucao?: string | null
     notaFiscalDevolucao?: string | null
     createdAt?: Date | string
@@ -32674,6 +34695,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbCCustoNestedInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoOrigemNestedInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoDestinoNestedInput
+    tbBmMedicao?: tbBmMedicaoUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type tbCCustoUncheckedUpdateWithoutTbPatrimonioInput = {
@@ -32685,6 +34707,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbCCustoNestedInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoOrigemNestedInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoDestinoNestedInput
+    tbBmMedicao?: tbBmMedicaoUncheckedUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type tbCadastroUpsertWithWhereUniqueWithoutTbPatrimonioInput = {
@@ -32728,6 +34751,8 @@ export namespace Prisma {
     idCadastro?: StringNullableFilter<"tbDevolucao"> | string | null
     dataInicioDevolucao?: DateTimeFilter<"tbDevolucao"> | Date | string
     dataFimDevolucao?: DateTimeNullableFilter<"tbDevolucao"> | Date | string | null
+    dataSaidaFornecedor?: DateTimeNullableFilter<"tbDevolucao"> | Date | string | null
+    dataChegadaFornecedor?: DateTimeNullableFilter<"tbDevolucao"> | Date | string | null
     motivoDevolucao?: StringNullableFilter<"tbDevolucao"> | string | null
     notaFiscalDevolucao?: StringNullableFilter<"tbDevolucao"> | string | null
     createdAt?: DateTimeFilter<"tbDevolucao"> | Date | string
@@ -33138,6 +35163,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbCCustoInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoOrigemInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoDestinoInput
+    tbBmMedicao?: tbBmMedicaoCreateNestedManyWithoutTbCCustoInput
   }
 
   export type tbCCustoUncheckedCreateWithoutTbEmpresaInput = {
@@ -33149,6 +35175,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbCCustoInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoOrigemInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoDestinoInput
+    tbBmMedicao?: tbBmMedicaoUncheckedCreateNestedManyWithoutTbCCustoInput
   }
 
   export type tbCCustoCreateOrConnectWithoutTbEmpresaInput = {
@@ -33412,6 +35439,60 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type tbBmMedicaoCreateWithoutTbCCustoInput = {
+    idBm?: string
+    codigoBm: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    mesBm: number
+    anoBm: number
+    contadorBm: number
+    statusBm?: string
+    dataInicioMedicao: Date | string
+    dataFimMedicao: Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: boolean
+    gerouRelatorioPdf?: boolean
+    fechadoAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tbUser?: tbUserCreateNestedOneWithoutTbBmMedicaoInput
+  }
+
+  export type tbBmMedicaoUncheckedCreateWithoutTbCCustoInput = {
+    idBm?: string
+    codigoBm: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    mesBm: number
+    anoBm: number
+    contadorBm: number
+    statusBm?: string
+    dataInicioMedicao: Date | string
+    dataFimMedicao: Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: boolean
+    gerouRelatorioPdf?: boolean
+    idUserGeracao?: string | null
+    fechadoAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type tbBmMedicaoCreateOrConnectWithoutTbCCustoInput = {
+    where: tbBmMedicaoWhereUniqueInput
+    create: XOR<tbBmMedicaoCreateWithoutTbCCustoInput, tbBmMedicaoUncheckedCreateWithoutTbCCustoInput>
+  }
+
+  export type tbBmMedicaoCreateManyTbCCustoInputEnvelope = {
+    data: tbBmMedicaoCreateManyTbCCustoInput | tbBmMedicaoCreateManyTbCCustoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type tbEmpresaUpsertWithoutTbCCustoInput = {
     update: XOR<tbEmpresaUpdateWithoutTbCCustoInput, tbEmpresaUncheckedUpdateWithoutTbCCustoInput>
     create: XOR<tbEmpresaCreateWithoutTbCCustoInput, tbEmpresaUncheckedCreateWithoutTbCCustoInput>
@@ -33519,6 +35600,178 @@ export namespace Prisma {
     data: XOR<tbTransferenciaCustoPatrimonioUpdateManyMutationInput, tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoDestinoInput>
   }
 
+  export type tbBmMedicaoUpsertWithWhereUniqueWithoutTbCCustoInput = {
+    where: tbBmMedicaoWhereUniqueInput
+    update: XOR<tbBmMedicaoUpdateWithoutTbCCustoInput, tbBmMedicaoUncheckedUpdateWithoutTbCCustoInput>
+    create: XOR<tbBmMedicaoCreateWithoutTbCCustoInput, tbBmMedicaoUncheckedCreateWithoutTbCCustoInput>
+  }
+
+  export type tbBmMedicaoUpdateWithWhereUniqueWithoutTbCCustoInput = {
+    where: tbBmMedicaoWhereUniqueInput
+    data: XOR<tbBmMedicaoUpdateWithoutTbCCustoInput, tbBmMedicaoUncheckedUpdateWithoutTbCCustoInput>
+  }
+
+  export type tbBmMedicaoUpdateManyWithWhereWithoutTbCCustoInput = {
+    where: tbBmMedicaoScalarWhereInput
+    data: XOR<tbBmMedicaoUpdateManyMutationInput, tbBmMedicaoUncheckedUpdateManyWithoutTbCCustoInput>
+  }
+
+  export type tbCCustoCreateWithoutTbBmMedicaoInput = {
+    idCCusto?: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    tbEmpresa?: tbEmpresaCreateNestedOneWithoutTbCCustoInput
+    tbPatrimonio?: tbPatrimonioCreateNestedManyWithoutTbCCustoInput
+    tbFuncionario?: tbFuncionarioCreateNestedManyWithoutTbCCustoInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbCCustoInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoOrigemInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoDestinoInput
+  }
+
+  export type tbCCustoUncheckedCreateWithoutTbBmMedicaoInput = {
+    idCCusto?: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    idEmp_Custo?: string | null
+    tbPatrimonio?: tbPatrimonioUncheckedCreateNestedManyWithoutTbCCustoInput
+    tbFuncionario?: tbFuncionarioUncheckedCreateNestedManyWithoutTbCCustoInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbCCustoInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoOrigemInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoDestinoInput
+  }
+
+  export type tbCCustoCreateOrConnectWithoutTbBmMedicaoInput = {
+    where: tbCCustoWhereUniqueInput
+    create: XOR<tbCCustoCreateWithoutTbBmMedicaoInput, tbCCustoUncheckedCreateWithoutTbBmMedicaoInput>
+  }
+
+  export type tbUserCreateWithoutTbBmMedicaoInput = {
+    id?: string
+    idUser?: string | null
+    nomeUser?: string | null
+    emailUser?: string | null
+    emailVerified?: Date | string | null
+    senhaUser?: string | null
+    avatarUser?: string | null
+    authTypeUser?: string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tbFuncioanrio?: tbFuncionarioCreateNestedManyWithoutTbUserInput
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbUserInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbUserInput
+  }
+
+  export type tbUserUncheckedCreateWithoutTbBmMedicaoInput = {
+    id?: string
+    idUser?: string | null
+    nomeUser?: string | null
+    emailUser?: string | null
+    emailVerified?: Date | string | null
+    senhaUser?: string | null
+    avatarUser?: string | null
+    authTypeUser?: string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tbFuncioanrio?: tbFuncionarioUncheckedCreateNestedManyWithoutTbUserInput
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbUserInput
+  }
+
+  export type tbUserCreateOrConnectWithoutTbBmMedicaoInput = {
+    where: tbUserWhereUniqueInput
+    create: XOR<tbUserCreateWithoutTbBmMedicaoInput, tbUserUncheckedCreateWithoutTbBmMedicaoInput>
+  }
+
+  export type tbCCustoUpsertWithoutTbBmMedicaoInput = {
+    update: XOR<tbCCustoUpdateWithoutTbBmMedicaoInput, tbCCustoUncheckedUpdateWithoutTbBmMedicaoInput>
+    create: XOR<tbCCustoCreateWithoutTbBmMedicaoInput, tbCCustoUncheckedCreateWithoutTbBmMedicaoInput>
+    where?: tbCCustoWhereInput
+  }
+
+  export type tbCCustoUpdateToOneWithWhereWithoutTbBmMedicaoInput = {
+    where?: tbCCustoWhereInput
+    data: XOR<tbCCustoUpdateWithoutTbBmMedicaoInput, tbCCustoUncheckedUpdateWithoutTbBmMedicaoInput>
+  }
+
+  export type tbCCustoUpdateWithoutTbBmMedicaoInput = {
+    idCCusto?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    tbEmpresa?: tbEmpresaUpdateOneWithoutTbCCustoNestedInput
+    tbPatrimonio?: tbPatrimonioUpdateManyWithoutTbCCustoNestedInput
+    tbFuncionario?: tbFuncionarioUpdateManyWithoutTbCCustoNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbCCustoNestedInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoOrigemNestedInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoDestinoNestedInput
+  }
+
+  export type tbCCustoUncheckedUpdateWithoutTbBmMedicaoInput = {
+    idCCusto?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    idEmp_Custo?: NullableStringFieldUpdateOperationsInput | string | null
+    tbPatrimonio?: tbPatrimonioUncheckedUpdateManyWithoutTbCCustoNestedInput
+    tbFuncionario?: tbFuncionarioUncheckedUpdateManyWithoutTbCCustoNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbCCustoNestedInput
+    transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoOrigemNestedInput
+    transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoDestinoNestedInput
+  }
+
+  export type tbUserUpsertWithoutTbBmMedicaoInput = {
+    update: XOR<tbUserUpdateWithoutTbBmMedicaoInput, tbUserUncheckedUpdateWithoutTbBmMedicaoInput>
+    create: XOR<tbUserCreateWithoutTbBmMedicaoInput, tbUserUncheckedCreateWithoutTbBmMedicaoInput>
+    where?: tbUserWhereInput
+  }
+
+  export type tbUserUpdateToOneWithWhereWithoutTbBmMedicaoInput = {
+    where?: tbUserWhereInput
+    data: XOR<tbUserUpdateWithoutTbBmMedicaoInput, tbUserUncheckedUpdateWithoutTbBmMedicaoInput>
+  }
+
+  export type tbUserUpdateWithoutTbBmMedicaoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    idUser?: NullableStringFieldUpdateOperationsInput | string | null
+    nomeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    emailUser?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    senhaUser?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUser?: NullableStringFieldUpdateOperationsInput | string | null
+    authTypeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbFuncioanrio?: tbFuncionarioUpdateManyWithoutTbUserNestedInput
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbUserNestedInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbUserNestedInput
+  }
+
+  export type tbUserUncheckedUpdateWithoutTbBmMedicaoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    idUser?: NullableStringFieldUpdateOperationsInput | string | null
+    nomeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    emailUser?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    senhaUser?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUser?: NullableStringFieldUpdateOperationsInput | string | null
+    authTypeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbFuncioanrio?: tbFuncionarioUncheckedUpdateManyWithoutTbUserNestedInput
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbUserNestedInput
+  }
+
   export type tbPatrimonioCreateWithoutTbTransferenciaCustoPatrimonioInput = {
     idP?: string
     idPat: string
@@ -33575,6 +35828,7 @@ export namespace Prisma {
     tbFuncionario?: tbFuncionarioCreateNestedManyWithoutTbCCustoInput
     tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbCCustoInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoDestinoInput
+    tbBmMedicao?: tbBmMedicaoCreateNestedManyWithoutTbCCustoInput
   }
 
   export type tbCCustoUncheckedCreateWithoutTransferenciasOrigemInput = {
@@ -33586,6 +35840,7 @@ export namespace Prisma {
     tbFuncionario?: tbFuncionarioUncheckedCreateNestedManyWithoutTbCCustoInput
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbCCustoInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoDestinoInput
+    tbBmMedicao?: tbBmMedicaoUncheckedCreateNestedManyWithoutTbCCustoInput
   }
 
   export type tbCCustoCreateOrConnectWithoutTransferenciasOrigemInput = {
@@ -33602,6 +35857,7 @@ export namespace Prisma {
     tbFuncionario?: tbFuncionarioCreateNestedManyWithoutTbCCustoInput
     tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbCCustoInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoOrigemInput
+    tbBmMedicao?: tbBmMedicaoCreateNestedManyWithoutTbCCustoInput
   }
 
   export type tbCCustoUncheckedCreateWithoutTransferenciasDestinoInput = {
@@ -33613,6 +35869,7 @@ export namespace Prisma {
     tbFuncionario?: tbFuncionarioUncheckedCreateNestedManyWithoutTbCCustoInput
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbCCustoInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoOrigemInput
+    tbBmMedicao?: tbBmMedicaoUncheckedCreateNestedManyWithoutTbCCustoInput
   }
 
   export type tbCCustoCreateOrConnectWithoutTransferenciasDestinoInput = {
@@ -33636,6 +35893,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tbFuncioanrio?: tbFuncionarioCreateNestedManyWithoutTbUserInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbUserInput
+    tbBmMedicao?: tbBmMedicaoCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserUncheckedCreateWithoutTransferenciasCustoPatrimonioInput = {
@@ -33654,6 +35912,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tbFuncioanrio?: tbFuncionarioUncheckedCreateNestedManyWithoutTbUserInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbUserInput
+    tbBmMedicao?: tbBmMedicaoUncheckedCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserCreateOrConnectWithoutTransferenciasCustoPatrimonioInput = {
@@ -33734,6 +35993,7 @@ export namespace Prisma {
     tbFuncionario?: tbFuncionarioUpdateManyWithoutTbCCustoNestedInput
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbCCustoNestedInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoDestinoNestedInput
+    tbBmMedicao?: tbBmMedicaoUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type tbCCustoUncheckedUpdateWithoutTransferenciasOrigemInput = {
@@ -33745,6 +36005,7 @@ export namespace Prisma {
     tbFuncionario?: tbFuncionarioUncheckedUpdateManyWithoutTbCCustoNestedInput
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbCCustoNestedInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoDestinoNestedInput
+    tbBmMedicao?: tbBmMedicaoUncheckedUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type tbCCustoUpsertWithoutTransferenciasDestinoInput = {
@@ -33767,6 +36028,7 @@ export namespace Prisma {
     tbFuncionario?: tbFuncionarioUpdateManyWithoutTbCCustoNestedInput
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbCCustoNestedInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoOrigemNestedInput
+    tbBmMedicao?: tbBmMedicaoUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type tbCCustoUncheckedUpdateWithoutTransferenciasDestinoInput = {
@@ -33778,6 +36040,7 @@ export namespace Prisma {
     tbFuncionario?: tbFuncionarioUncheckedUpdateManyWithoutTbCCustoNestedInput
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbCCustoNestedInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoOrigemNestedInput
+    tbBmMedicao?: tbBmMedicaoUncheckedUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type tbUserUpsertWithoutTransferenciasCustoPatrimonioInput = {
@@ -33807,6 +36070,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tbFuncioanrio?: tbFuncionarioUpdateManyWithoutTbUserNestedInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbUserNestedInput
+    tbBmMedicao?: tbBmMedicaoUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbUserUncheckedUpdateWithoutTransferenciasCustoPatrimonioInput = {
@@ -33825,6 +36089,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tbFuncioanrio?: tbFuncionarioUncheckedUpdateManyWithoutTbUserNestedInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbUserNestedInput
+    tbBmMedicao?: tbBmMedicaoUncheckedUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbPatrimonioCreateWithoutTbCadastroInput = {
@@ -33936,6 +36201,8 @@ export namespace Prisma {
     idDevolucao?: string
     dataInicioDevolucao: Date | string
     dataFimDevolucao?: Date | string | null
+    dataSaidaFornecedor?: Date | string | null
+    dataChegadaFornecedor?: Date | string | null
     motivoDevolucao?: string | null
     notaFiscalDevolucao?: string | null
     createdAt?: Date | string
@@ -33948,6 +36215,8 @@ export namespace Prisma {
     idPatrimonio: string
     dataInicioDevolucao: Date | string
     dataFimDevolucao?: Date | string | null
+    dataSaidaFornecedor?: Date | string | null
+    dataChegadaFornecedor?: Date | string | null
     motivoDevolucao?: string | null
     notaFiscalDevolucao?: string | null
     createdAt?: Date | string
@@ -34325,6 +36594,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tbFuncioanrio?: tbFuncionarioCreateNestedManyWithoutTbUserInput
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbUserInput
+    tbBmMedicao?: tbBmMedicaoCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserUncheckedCreateWithoutTransferenciasAlocacaoInput = {
@@ -34343,6 +36613,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tbFuncioanrio?: tbFuncionarioUncheckedCreateNestedManyWithoutTbUserInput
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput
+    tbBmMedicao?: tbBmMedicaoUncheckedCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserCreateOrConnectWithoutTransferenciasAlocacaoInput = {
@@ -34555,6 +36826,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tbFuncioanrio?: tbFuncionarioUpdateManyWithoutTbUserNestedInput
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbUserNestedInput
+    tbBmMedicao?: tbBmMedicaoUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbUserUncheckedUpdateWithoutTransferenciasAlocacaoInput = {
@@ -34573,6 +36845,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tbFuncioanrio?: tbFuncionarioUncheckedUpdateManyWithoutTbUserNestedInput
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput
+    tbBmMedicao?: tbBmMedicaoUncheckedUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbPatrimonioCreateWithoutTbDevolucaoInput = {
@@ -34831,6 +37104,7 @@ export namespace Prisma {
     tbFuncionario?: tbFuncionarioCreateNestedManyWithoutTbCCustoInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoOrigemInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutCustoDestinoInput
+    tbBmMedicao?: tbBmMedicaoCreateNestedManyWithoutTbCCustoInput
   }
 
   export type tbCCustoUncheckedCreateWithoutTbPatrimonioHistoricoInput = {
@@ -34842,6 +37116,7 @@ export namespace Prisma {
     tbFuncionario?: tbFuncionarioUncheckedCreateNestedManyWithoutTbCCustoInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoOrigemInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutCustoDestinoInput
+    tbBmMedicao?: tbBmMedicaoUncheckedCreateNestedManyWithoutTbCCustoInput
   }
 
   export type tbCCustoCreateOrConnectWithoutTbPatrimonioHistoricoInput = {
@@ -34970,6 +37245,7 @@ export namespace Prisma {
     tbFuncionario?: tbFuncionarioUpdateManyWithoutTbCCustoNestedInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoOrigemNestedInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoDestinoNestedInput
+    tbBmMedicao?: tbBmMedicaoUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type tbCCustoUncheckedUpdateWithoutTbPatrimonioHistoricoInput = {
@@ -34981,6 +37257,7 @@ export namespace Prisma {
     tbFuncionario?: tbFuncionarioUncheckedUpdateManyWithoutTbCCustoNestedInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoOrigemNestedInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoDestinoNestedInput
+    tbBmMedicao?: tbBmMedicaoUncheckedUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -35244,6 +37521,28 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type tbBmMedicaoCreateManyTbUserInput = {
+    idBm?: string
+    codigoBm: string
+    idCCusto: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    mesBm: number
+    anoBm: number
+    contadorBm: number
+    statusBm?: string
+    dataInicioMedicao: Date | string
+    dataFimMedicao: Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: boolean
+    gerouRelatorioPdf?: boolean
+    fechadoAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type tbFuncionarioUpdateWithoutTbUserInput = {
     idF?: StringFieldUpdateOperationsInput | string
     idMatFun?: StringFieldUpdateOperationsInput | string
@@ -35361,6 +37660,72 @@ export namespace Prisma {
     observacao?: NullableStringFieldUpdateOperationsInput | string | null
     dataTransferencia?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbBmMedicaoUpdateWithoutTbUserInput = {
+    idBm?: StringFieldUpdateOperationsInput | string
+    codigoBm?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    mesBm?: IntFieldUpdateOperationsInput | number
+    anoBm?: IntFieldUpdateOperationsInput | number
+    contadorBm?: IntFieldUpdateOperationsInput | number
+    statusBm?: StringFieldUpdateOperationsInput | string
+    dataInicioMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: BoolFieldUpdateOperationsInput | boolean
+    gerouRelatorioPdf?: BoolFieldUpdateOperationsInput | boolean
+    fechadoAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbCCusto?: tbCCustoUpdateOneRequiredWithoutTbBmMedicaoNestedInput
+  }
+
+  export type tbBmMedicaoUncheckedUpdateWithoutTbUserInput = {
+    idBm?: StringFieldUpdateOperationsInput | string
+    codigoBm?: StringFieldUpdateOperationsInput | string
+    idCCusto?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    mesBm?: IntFieldUpdateOperationsInput | number
+    anoBm?: IntFieldUpdateOperationsInput | number
+    contadorBm?: IntFieldUpdateOperationsInput | number
+    statusBm?: StringFieldUpdateOperationsInput | string
+    dataInicioMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: BoolFieldUpdateOperationsInput | boolean
+    gerouRelatorioPdf?: BoolFieldUpdateOperationsInput | boolean
+    fechadoAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbBmMedicaoUncheckedUpdateManyWithoutTbUserInput = {
+    idBm?: StringFieldUpdateOperationsInput | string
+    codigoBm?: StringFieldUpdateOperationsInput | string
+    idCCusto?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    mesBm?: IntFieldUpdateOperationsInput | number
+    anoBm?: IntFieldUpdateOperationsInput | number
+    contadorBm?: IntFieldUpdateOperationsInput | number
+    statusBm?: StringFieldUpdateOperationsInput | string
+    dataInicioMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: BoolFieldUpdateOperationsInput | boolean
+    gerouRelatorioPdf?: BoolFieldUpdateOperationsInput | boolean
+    fechadoAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type tbCadastroCreateManyTbFuncionarioInput = {
@@ -35702,6 +38067,8 @@ export namespace Prisma {
     idCadastro?: string | null
     dataInicioDevolucao: Date | string
     dataFimDevolucao?: Date | string | null
+    dataSaidaFornecedor?: Date | string | null
+    dataChegadaFornecedor?: Date | string | null
     motivoDevolucao?: string | null
     notaFiscalDevolucao?: string | null
     createdAt?: Date | string
@@ -35787,6 +38154,8 @@ export namespace Prisma {
     idDevolucao?: StringFieldUpdateOperationsInput | string
     dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
     dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataSaidaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataChegadaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35799,6 +38168,8 @@ export namespace Prisma {
     idCadastro?: NullableStringFieldUpdateOperationsInput | string | null
     dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
     dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataSaidaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataChegadaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35810,6 +38181,8 @@ export namespace Prisma {
     idCadastro?: NullableStringFieldUpdateOperationsInput | string | null
     dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
     dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataSaidaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataChegadaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36282,6 +38655,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbCCustoNestedInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoOrigemNestedInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioUpdateManyWithoutCustoDestinoNestedInput
+    tbBmMedicao?: tbBmMedicaoUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type tbCCustoUncheckedUpdateWithoutTbEmpresaInput = {
@@ -36293,6 +38667,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbCCustoNestedInput
     transferenciasOrigem?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoOrigemNestedInput
     transferenciasDestino?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutCustoDestinoNestedInput
+    tbBmMedicao?: tbBmMedicaoUncheckedUpdateManyWithoutTbCCustoNestedInput
   }
 
   export type tbCCustoUncheckedUpdateManyWithoutTbEmpresaInput = {
@@ -36367,6 +38742,28 @@ export namespace Prisma {
     idUserTransferencia?: string | null
     dataTransferencia?: Date | string
     createdAt?: Date | string
+  }
+
+  export type tbBmMedicaoCreateManyTbCCustoInput = {
+    idBm?: string
+    codigoBm: string
+    codigoCCusto?: string | null
+    descricaoCCusto?: string | null
+    mesBm: number
+    anoBm: number
+    contadorBm: number
+    statusBm?: string
+    dataInicioMedicao: Date | string
+    dataFimMedicao: Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: boolean
+    gerouRelatorioPdf?: boolean
+    idUserGeracao?: string | null
+    fechadoAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type tbPatrimonioUpdateWithoutTbCCustoInput = {
@@ -36591,11 +38988,79 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type tbBmMedicaoUpdateWithoutTbCCustoInput = {
+    idBm?: StringFieldUpdateOperationsInput | string
+    codigoBm?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    mesBm?: IntFieldUpdateOperationsInput | number
+    anoBm?: IntFieldUpdateOperationsInput | number
+    contadorBm?: IntFieldUpdateOperationsInput | number
+    statusBm?: StringFieldUpdateOperationsInput | string
+    dataInicioMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: BoolFieldUpdateOperationsInput | boolean
+    gerouRelatorioPdf?: BoolFieldUpdateOperationsInput | boolean
+    fechadoAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbUser?: tbUserUpdateOneWithoutTbBmMedicaoNestedInput
+  }
+
+  export type tbBmMedicaoUncheckedUpdateWithoutTbCCustoInput = {
+    idBm?: StringFieldUpdateOperationsInput | string
+    codigoBm?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    mesBm?: IntFieldUpdateOperationsInput | number
+    anoBm?: IntFieldUpdateOperationsInput | number
+    contadorBm?: IntFieldUpdateOperationsInput | number
+    statusBm?: StringFieldUpdateOperationsInput | string
+    dataInicioMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: BoolFieldUpdateOperationsInput | boolean
+    gerouRelatorioPdf?: BoolFieldUpdateOperationsInput | boolean
+    idUserGeracao?: NullableStringFieldUpdateOperationsInput | string | null
+    fechadoAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbBmMedicaoUncheckedUpdateManyWithoutTbCCustoInput = {
+    idBm?: StringFieldUpdateOperationsInput | string
+    codigoBm?: StringFieldUpdateOperationsInput | string
+    codigoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    descricaoCCusto?: NullableStringFieldUpdateOperationsInput | string | null
+    mesBm?: IntFieldUpdateOperationsInput | number
+    anoBm?: IntFieldUpdateOperationsInput | number
+    contadorBm?: IntFieldUpdateOperationsInput | number
+    statusBm?: StringFieldUpdateOperationsInput | string
+    dataInicioMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataFimMedicao?: DateTimeFieldUpdateOperationsInput | Date | string
+    resumoJson?: NullableJsonNullValueInput | InputJsonValue
+    resultadosJson?: NullableJsonNullValueInput | InputJsonValue
+    naoInformadosJson?: NullableJsonNullValueInput | InputJsonValue
+    gerouRelatorioExcel?: BoolFieldUpdateOperationsInput | boolean
+    gerouRelatorioPdf?: BoolFieldUpdateOperationsInput | boolean
+    idUserGeracao?: NullableStringFieldUpdateOperationsInput | string | null
+    fechadoAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type tbDevolucaoCreateManyTbCadastroInput = {
     idDevolucao?: string
     idPatrimonio: string
     dataInicioDevolucao: Date | string
     dataFimDevolucao?: Date | string | null
+    dataSaidaFornecedor?: Date | string | null
+    dataChegadaFornecedor?: Date | string | null
     motivoDevolucao?: string | null
     notaFiscalDevolucao?: string | null
     createdAt?: Date | string
@@ -36619,6 +39084,8 @@ export namespace Prisma {
     idDevolucao?: StringFieldUpdateOperationsInput | string
     dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
     dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataSaidaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataChegadaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36631,6 +39098,8 @@ export namespace Prisma {
     idPatrimonio?: StringFieldUpdateOperationsInput | string
     dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
     dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataSaidaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataChegadaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36642,6 +39111,8 @@ export namespace Prisma {
     idPatrimonio?: StringFieldUpdateOperationsInput | string
     dataInicioDevolucao?: DateTimeFieldUpdateOperationsInput | Date | string
     dataFimDevolucao?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataSaidaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dataChegadaFornecedor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     motivoDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     notaFiscalDevolucao?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

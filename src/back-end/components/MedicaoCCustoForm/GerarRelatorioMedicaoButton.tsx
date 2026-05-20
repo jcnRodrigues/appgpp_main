@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/back-end/components/ui/button';
-import { gerarNomeArquivoBM } from '@/back-end/components/MedicaoCCustoForm/relatorioNomeBM';
 
 type LinhaResultado = {
     linha: number;
@@ -10,6 +9,7 @@ type LinhaResultado = {
     matriculaAlocada: string | null;
     nomeFuncionarioAlocado: string | null;
     statusPatrimonio: string | null;
+    dataTransferenciaConsiderada?: string | null;
     valorInformado: number | null;
     valorSistema: number | null;
     movimentosPatrimonio: string | null;
@@ -50,17 +50,13 @@ function escaparCsv(valor: string | number) {
 export default function GerarRelatorioMedicaoButton({
     resultado,
     disabled,
-    codigoCentroCusto,
-    mesBm,
-    anoBm
+    onRegistrarBm
 }: {
     resultado: RespostaMedicao | null;
     disabled?: boolean;
-    codigoCentroCusto?: string | null;
-    mesBm?: string | number | null;
-    anoBm?: string | number | null;
+    onRegistrarBm?: (formato: 'excel') => Promise<string | null>;
 }) {
-    const handleGerarRelatorio = () => {
+    const handleGerarRelatorio = async () => {
         if (!resultado) return;
 
         const valorDivergentes = resultado.resultados
@@ -94,7 +90,7 @@ export default function GerarRelatorioMedicaoButton({
         linhas.push(`Total de linhas;${resultado.resumo.totalLinhas};${formatarMoeda(valorTotalLinhas)}`);
         linhas.push('');
         linhas.push('DETALHE DA CONFERENCIA');
-        linhas.push('Linha;ID Patrimonio;Matricula Alocada;Status Patrimonio;Valor Informado;Valor Sistema;Movimentos do Patrimonio;Status;Mensagem');
+        linhas.push('Linha;ID Patrimonio;Matricula Alocada;Status Patrimonio;Data Transferencia Considerada;Valor Informado;Valor Sistema;Movimentos do Patrimonio;Status;Mensagem');
 
         for (const item of resultado.resultados) {
             linhas.push([
@@ -102,6 +98,7 @@ export default function GerarRelatorioMedicaoButton({
                 escaparCsv(`${item.idPat || '-'}\n${item.descricaoPat || 'Sem descricao'}`),
                 escaparCsv(`${item.matriculaAlocada || '-'}\n${item.nomeFuncionarioAlocado || '-'}`),
                 escaparCsv(item.statusPatrimonio || 'SEM STATUS'),
+                escaparCsv(item.dataTransferenciaConsiderada || '-'),
                 escaparCsv(formatarMoedaOuTraco(item.valorInformado)),
                 escaparCsv(formatarMoedaOuTraco(item.valorSistema)),
                 escaparCsv(item.movimentosPatrimonio || '-'),
@@ -129,7 +126,8 @@ export default function GerarRelatorioMedicaoButton({
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = gerarNomeArquivoBM(codigoCentroCusto, 'csv', mesBm, anoBm);
+        const nomeArquivo = (await onRegistrarBm?.('excel')) || 'relatorio-medicao.csv';
+        link.download = nomeArquivo.endsWith('.csv') ? nomeArquivo : `${nomeArquivo}.csv`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

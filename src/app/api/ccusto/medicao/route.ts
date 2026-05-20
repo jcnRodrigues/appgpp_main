@@ -12,6 +12,8 @@ type LinhaMedicao = {
     matriculaAlocada: string | null;
     nomeFuncionarioAlocado: string | null;
     statusPatrimonio: string | null;
+    badgeAlocacao?: string | null;
+    dataTransferenciaConsiderada?: string | null;
     valorInformado: number | null;
     valorSistema: number | null;
     detalheRateio: string | null;
@@ -230,7 +232,7 @@ export async function POST(request: NextRequest) {
                 : null;
         const dataFimMedicao =
             typeof dataFimMedicaoRaw === 'string' && dataFimMedicaoRaw
-                ? new Date(`${dataFimMedicaoRaw}T23:59:59`)
+                ? new Date(`${dataFimMedicaoRaw}T23:59:59.999`)
                 : null;
 
         if (!dataInicioMedicao || Number.isNaN(dataInicioMedicao.getTime())) {
@@ -275,7 +277,8 @@ export async function POST(request: NextRequest) {
 
         const patrimoniosCentro = await listarPatrimoniosPorCentroCusto(idCCusto, {
             dataInicioMedicao,
-            dataFimMedicao
+            dataFimMedicao,
+            dataTransferenciaRef: dataFimMedicao
         });
         const mapaPatrimonios = new Map(
             patrimoniosCentro.map((p) => [String(p.idPat).toUpperCase(), p])
@@ -336,8 +339,9 @@ export async function POST(request: NextRequest) {
             const rateioInfo = (patrimonio as {
                 rateioInfo?: { msNoCentro: number; totalPeriodoMs: number; fator: number }
             }).rateioInfo;
-            const diasNoCentro = rateioInfo ? Math.max(0, Math.round(rateioInfo.msNoCentro / (1000 * 60 * 60 * 24))) : null;
-            const diasPeriodo = rateioInfo ? Math.max(1, Math.round(rateioInfo.totalPeriodoMs / (1000 * 60 * 60 * 24))) : null;
+            const msDia = 1000 * 60 * 60 * 24;
+            const diasNoCentro = rateioInfo ? Math.max(0, Math.round(rateioInfo.msNoCentro / msDia)) : null;
+            const diasPeriodo = rateioInfo ? Math.max(1, Math.round(rateioInfo.totalPeriodoMs / msDia)) : null;
             const detalheRateio =
                 rateioInfo && valorBase !== null && valorSistema !== null
                     ? `${formatarMoeda(valorBase)} x ${formatarPercentual(rateioInfo.fator)} (${diasNoCentro}/${diasPeriodo} dias) = ${formatarMoeda(valorSistema)}`
@@ -363,8 +367,70 @@ export async function POST(request: NextRequest) {
                 linha: i + 1,
                 idPat,
                 descricaoPat: patrimonio.descricaoPat ?? null,
-                matriculaAlocada: patrimonio.tbCadastro?.[0]?.idMatFunCad ?? null,
-                nomeFuncionarioAlocado: patrimonio.tbCadastro?.[0]?.tbFuncionario?.nomeFun ?? null,
+                matriculaAlocada: (() => {
+                    const transfAloc = (patrimonio as {
+                        tbTransferenciaAlocacao?: Array<{
+                            idMatriculaFuncionario: string | null;
+                            idMatriculaFuncionarioDestino: string | null;
+                            tbFuncionario?: { nomeFun?: string | null } | null;
+                            tbFuncionarioDestino?: { nomeFun?: string | null } | null;
+                            dataTransferencia: Date;
+                        }>;
+                    }).tbTransferenciaAlocacao?.[0];
+                    const transfCusto = (patrimonio as {
+                        tbTransferenciaCustoPatrimonio?: Array<{
+                            dataTransferencia: Date;
+                            custoDestino?: { codigoCCusto?: string | null; descricaoCCusto?: string | null } | null;
+                        }>;
+                    }).tbTransferenciaCustoPatrimonio
+                        ?.filter((t) => t.dataTransferencia.getTime() <= dataFimMedicao.getTime())
+                        ?.sort((a, b) => b.dataTransferencia.getTime() - a.dataTransferencia.getTime())[0];
+                    const matriculaTransferencia = transfAloc?.idMatriculaFuncionarioDestino || transfAloc?.idMatriculaFuncionario || null;
+                    if (!matriculaTransferencia) return patrimonio.tbCadastro?.[0]?.idMatFunCad ?? null;
+                    const custoLabel = transfCusto?.custoDestino
+                        ? `${transfCusto.custoDestino.codigoCCusto ? `${transfCusto.custoDestino.codigoCCusto} - ` : ''}${transfCusto.custoDestino.descricaoCCusto || ''}`.trim()
+                        : '';
+                    return custoLabel ? `${matriculaTransferencia} | ${custoLabel}` : matriculaTransferencia;
+                })(),
+                nomeFuncionarioAlocado: (() => {
+                    const transfAloc = (patrimonio as {
+                        tbTransferenciaAlocacao?: Array<{
+                            idMatriculaFuncionario: string | null;
+                            idMatriculaFuncionarioDestino: string | null;
+                            tbFuncionario?: { nomeFun?: string | null } | null;
+                            tbFuncionarioDestino?: { nomeFun?: string | null } | null;
+                            dataTransferencia: Date;
+                        }>;
+                    }).tbTransferenciaAlocacao?.[0];
+                    if (transfAloc?.idMatriculaFuncionarioDestino) return transfAloc?.tbFuncionarioDestino?.nomeFun ?? patrimonio.tbCadastro?.[0]?.tbFuncionario?.nomeFun ?? null;
+                    if (transfAloc?.idMatriculaFuncionario) return transfAloc?.tbFuncionario?.nomeFun ?? patrimonio.tbCadastro?.[0]?.tbFuncionario?.nomeFun ?? null;
+                    return patrimonio.tbCadastro?.[0]?.tbFuncionario?.nomeFun ?? null;
+                })(),
+                badgeAlocacao: (() => {
+                    const transfAloc = (patrimonio as { tbTransferenciaAlocacao?: Array<unknown> }).tbTransferenciaAlocacao?.[0];
+                    const transfCusto = (patrimonio as {
+                        tbTransferenciaCustoPatrimonio?: Array<{ dataTransferencia: Date }>;
+                    }).tbTransferenciaCustoPatrimonio
+                        ?.filter((t) => t.dataTransferencia.getTime() <= dataFimMedicao.getTime())
+                        ?.sort((a, b) => b.dataTransferencia.getTime() - a.dataTransferencia.getTime())[0];
+                    if (transfAloc) return 'Alocação por transferência';
+                    if (transfCusto) return 'Transferência entre centros de custo';
+                    return null;
+                })(),
+                dataTransferenciaConsiderada: (() => {
+                    const transfAloc = (patrimonio as {
+                        tbTransferenciaAlocacao?: Array<{ dataTransferencia: Date }>;
+                    }).tbTransferenciaAlocacao?.[0]?.dataTransferencia || null;
+                    const transfCusto = (patrimonio as {
+                        tbTransferenciaCustoPatrimonio?: Array<{ dataTransferencia: Date }>;
+                    }).tbTransferenciaCustoPatrimonio
+                        ?.filter((t) => t.dataTransferencia.getTime() <= dataFimMedicao.getTime())
+                        ?.sort((a, b) => b.dataTransferencia.getTime() - a.dataTransferencia.getTime())[0]?.dataTransferencia || null;
+                    const ultima = [transfAloc, transfCusto]
+                        .filter((d): d is Date => !!d)
+                        .sort((a, b) => b.getTime() - a.getTime())[0] || null;
+                    return ultima ? formatarDataPtBr(ultima) : null;
+                })(),
                 statusPatrimonio: patrimonio.tbStatusPat?.descricaoStatPat ?? null,
                 valorInformado,
                 valorSistema,

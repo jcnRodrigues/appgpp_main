@@ -2,7 +2,6 @@
 
 import jsPDF from 'jspdf';
 import { Button } from '@/back-end/components/ui/button';
-import { gerarNomeArquivoBM } from '@/back-end/components/MedicaoCCustoForm/relatorioNomeBM';
 
 type LinhaResultado = {
     linha: number;
@@ -11,6 +10,7 @@ type LinhaResultado = {
     matriculaAlocada: string | null;
     nomeFuncionarioAlocado: string | null;
     statusPatrimonio: string | null;
+    dataTransferenciaConsiderada?: string | null;
     valorInformado: number | null;
     valorSistema: number | null;
     movimentosPatrimonio: string | null;
@@ -78,8 +78,7 @@ export default function GerarRelatorioMedicaoPdfButton({
     centroCustoLabel,
     periodoInicioMedicao,
     periodoFimMedicao,
-    mesBm,
-    anoBm
+    onRegistrarBm
 }: {
     resultado: RespostaMedicao | null;
     disabled?: boolean;
@@ -87,12 +86,11 @@ export default function GerarRelatorioMedicaoPdfButton({
     centroCustoLabel?: string | null;
     periodoInicioMedicao?: string | null;
     periodoFimMedicao?: string | null;
-    mesBm?: string | number | null;
-    anoBm?: string | number | null;
+    onRegistrarBm?: (formato: 'pdf') => Promise<string | null>;
 }) {
-    const handleGerarPdf = () => {
+    const handleGerarPdf = async () => {
         if (!resultado) return;
-        const nomeArquivoPdf = gerarNomeArquivoBM(codigoCentroCusto, 'pdf', mesBm, anoBm);
+        const nomeArquivoPdf = (await onRegistrarBm?.('pdf')) || `BM${String(codigoCentroCusto || '').replace(/\D/g, '').padStart(4, '0').slice(-4)}.pdf`;
         const nomenclaturaBm = nomeArquivoPdf.replace(/\.pdf$/i, '');
 
         const valorDivergentes = resultado.resultados
@@ -321,13 +319,14 @@ export default function GerarRelatorioMedicaoPdfButton({
         pdf.text(pdfSafeText('Detalhe da conferência'), margin, y);
         y += 3.5;
 
-        const cols = [12, 40, 50, 22, 18, 18, 28, contentWidth - (12 + 40 + 50 + 22 + 18 + 18 + 28)];
+        const cols = [10, 34, 44, 18, 24, 16, 16, 24, contentWidth - (10 + 34 + 44 + 18 + 24 + 16 + 16 + 24)];
         addTableHeader(
             [
                 'Linha',
                 ['ID', 'Patrimônio'],
                 ['Matrícula', 'Funcionário'],
                 ['Status', 'Patrimônio'],
+                ['Data', 'Transferência'],
                 ['Valor', 'Informado'],
                 ['Valor', 'Sistema'],
                 ['Movimentos', 'Patrimônio'],
@@ -346,6 +345,7 @@ export default function GerarRelatorioMedicaoPdfButton({
                     `${r.idPat || '-'}\n${r.descricaoPat || 'Sem descrição'}`,
                     `${r.matriculaAlocada || '-'}\n${r.nomeFuncionarioAlocado || '-'}`,
                     r.statusPatrimonio || 'SEM STATUS',
+                    r.dataTransferenciaConsiderada || '-',
                     formatarMoedaOuTraco(r.valorInformado),
                     formatarMoedaOuTraco(r.valorSistema),
                     r.movimentosPatrimonio || '-',
