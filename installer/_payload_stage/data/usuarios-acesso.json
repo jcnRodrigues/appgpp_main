@@ -1,0 +1,19 @@
+[
+  {
+    "id": "939fdda4-6325-4a3d-9357-f67782ede07a",
+    "nome": "JOAO CLAUDIO NASCIMENTO RODRIGUES",
+    "email": "claudio.analista.de.sistemas@gmail.com",
+    "authType": "GOOGLE",
+    "senhaHash": null,
+    "centros": [
+      "ed87cf3e-7165-42dd-a4d6-0df0c560ccaa",
+      "c145b528-e17c-433c-813b-4f934c4a729a",
+      "19b6fe26-c7d4-4e42-acac-188f2069b140",
+      "544e1bfb-d07e-4c9e-b208-47c4f4ef7ddf"
+    ],
+    "formularios": [],
+    "status": "ATIVO",
+    "createdAt": "2026-03-19T13:58:09.607Z",
+    "updatedAt": "2026-03-19T13:58:09.607Z"
+  }
+]

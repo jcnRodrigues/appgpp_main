@@ -1,0 +1,53 @@
+import Header from '@/back-end/components/Header/Header';
+import Link from 'next/link';
+import { ChevronLeft } from 'lucide-react';
+import { getServerSession } from 'next-auth';
+import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
+import { Button } from '@/back-end/components/ui/button';
+import MedicoesEmProcessoTable from '@/back-end/components/MedicaoCCustoForm/MedicoesEmProcessoTable';
+import { hasModuleAccess } from '@/lib/permissions';
+import { redirect } from 'next/navigation';
+
+export default async function MedicaoProcessoPage() {
+  const session = await getServerSession(AuthOptions);
+
+  if (!session?.user) {
+    return (
+      <div className="bg-background min-h-screen py-6">
+        <Header />
+        <div className="max-w-4xl mx-auto px-4 py-12 text-center">
+          <h1 className="text-2xl font-bold mb-4">Medições em Processo</h1>
+          <div className="bg-white p-8 rounded-lg shadow-sm">
+            <p className="text-lg mb-6">Faça login para acessar as medições em processo</p>
+            <Button asChild>
+              <Link href="/">Ir para Login</Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  const formularios = ((session.user as any)?.formularios || []) as string[];
+  if (!hasModuleAccess(formularios, 'MEDICAO_CCUSTO')) {
+    redirect('/acesso-negado');
+  }
+
+  return (
+    <div className="bg-background min-h-screen py-6">
+      <Header />
+      <div className="max-w-[86.4rem] mx-auto px-4">
+        <div className="form-title-sticky flex items-center gap-4 mb-8 mt-4">
+          <Link href="/ccusto/medicao">
+            <ChevronLeft className="h-6 w-6 text-primary hover:text-primary/80 transition" />
+          </Link>
+          <div>
+            <h1 className="text-h2 font-bold">Medições em Processo</h1>
+            <p className="text-gray-600 text-sm mt-1">Consulta e gestão de BMs em aberto</p>
+          </div>
+        </div>
+
+        <MedicoesEmProcessoTable />
+      </div>
+    </div>
+  );
+}
