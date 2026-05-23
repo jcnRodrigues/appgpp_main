@@ -1,0 +1,215 @@
+{
+  "node": {
+    "001e910e501bae17dc3aa3f071814c89f8a2eae62e": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": "[project]/.next-internal/server/app/funcionariosadd/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Funcionario.service/funcionario.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getLicencasDisponiveisParaFuncionario",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "exportedName": "getLicencasDisponiveisParaFuncionario",
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+    },
+    "00745ac58abcdb7ce08b568706cb3215e7a914f6c3": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": "[project]/.next-internal/server/app/funcionariosadd/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Funcionario.service/funcionario.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getFuncionariosCard",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "exportedName": "getFuncionariosCard",
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+    },
+    "00c204a1f053c3c5610db76c684256705cc3847798": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": "[project]/.next-internal/server/app/funcionariosadd/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Funcionario.service/funcionario.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getCentrosCustoFun",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "exportedName": "getCentrosCustoFun",
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+    },
+    "00cc2b7cae65dd94e314d981cf52db51d5b6d65468": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": "[project]/.next-internal/server/app/funcionariosadd/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Funcionario.service/funcionario.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getStatusFuncionario",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "exportedName": "getStatusFuncionario",
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+    },
+    "00d1ee440e90c6d380b08f17d9463545c04ac48eb2": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": "[project]/.next-internal/server/app/funcionariosadd/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Funcionario.service/funcionario.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getFuncoes",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "exportedName": "getFuncoes",
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+    },
+    "4011aa5df50abf60dedff33224de210957b4bfdea8": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": "[project]/.next-internal/server/app/funcionariosadd/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Funcionario.service/funcionario.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getFuncionarioFuncaoById",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "exportedName": "getFuncionarioFuncaoById",
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+    },
+    "407df78d5ac2ae88b03865af01f5c5895271b28780": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": "[project]/.next-internal/server/app/funcionariosadd/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Funcionario.service/funcionario.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getFuncionarioByIdInterno",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "exportedName": "getFuncionarioByIdInterno",
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+    },
+    "408685cac2a29d20c0ada623f0c114e67e4365a6de": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": "[project]/.next-internal/server/app/funcionariosadd/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Funcionario.service/funcionario.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "listarFuncionarios",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "exportedName": "listarFuncionarios",
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+    },
+    "409b819f131e7d945c03b9197f1d81d755ff8fb820": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": "[project]/.next-internal/server/app/funcionariosadd/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Funcionario.service/funcionario.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getFuncionarioById",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "exportedName": "getFuncionarioById",
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+    },
+    "40b09de8535bc3dfd2cce0ed9b819a1a1f36c0087a": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": "[project]/.next-internal/server/app/funcionariosadd/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Funcionario.service/funcionario.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "contarFuncionarios",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "exportedName": "contarFuncionarios",
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+    },
+    "40d4a67f00d5703790a59a954c61d93bb7496d1ff4": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": "[project]/.next-internal/server/app/funcionariosadd/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Funcionario.service/funcionario.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getFuncionariosAppointmentByUserID",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "exportedName": "getFuncionariosAppointmentByUserID",
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+    },
+    "40ddcb3786cf422e6e8312c76377454a65dce84cf6": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": "[project]/.next-internal/server/app/funcionariosadd/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Funcionario.service/funcionario.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "criarFuncionario",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "exportedName": "criarFuncionario",
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+    },
+    "60a9718d00e1c85df930d18c866beccaf0613ea93b": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": "[project]/.next-internal/server/app/funcionariosadd/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Funcionario.service/funcionario.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "atualizarFuncionario",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "exportedName": "atualizarFuncionario",
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+    },
+    "60c5f18d1def66826a78294eddd7343e03cc97785f": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": "[project]/.next-internal/server/app/funcionariosadd/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Funcionario.service/funcionario.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getFuncionarioStatusById",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "exportedName": "getFuncionarioStatusById",
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+    }
+  },
+  "edge": {}
+}

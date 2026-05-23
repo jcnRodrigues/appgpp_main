@@ -1,0 +1,3 @@
+{
+  "/api/patrimonio/[id]/transferencias/route": "app/api/patrimonio/[id]/transferencias/route.js"
+}

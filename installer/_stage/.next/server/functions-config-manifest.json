@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "functions": {
+    "/api/cadastro/termo-pdf": {
+      "maxDuration": 60
+    },
+    "/api/ccusto/medicao": {},
+    "/api/ccusto/medicao/bm": {},
+    "/api/usuarios-acesso": {}
+  }
+}

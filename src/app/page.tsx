@@ -3,6 +3,8 @@ import Header from "@/back-end/components/Header/Header";
 import SectionHeader from "@/back-end/components/SectionHeader/SectionHeader";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "./api/auth/[...nextauth]/route";
+import { hasModuleAccess } from "@/lib/permissions";
+import { redirect } from "next/navigation";
 
 
 export default async function Home() {
@@ -20,6 +22,11 @@ export default async function Home() {
                 </div>
             </div>
         )
+    }
+
+    const formularios = ((session.user as any)?.formularios || []) as string[];
+    if (!hasModuleAccess(formularios, "DASHBOARD")) {
+        redirect('/acesso-negado');
     }
 
 

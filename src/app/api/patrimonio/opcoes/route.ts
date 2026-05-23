@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getTiposPatrimonio, getStatusPatrimonio, getCentrosCusto } from '@/back-end/service/Patrimonio.services/patrimonio.service';
-import { getCentrosFiltro } from '@/lib/access';
+import { getCentrosFiltro, hasModuleAccessForRequest } from '@/lib/access';
 
 function sortCentros<T extends { descricaoCCusto?: string | null; codigoCCusto?: string | null }>(centros: T[]) {
     return [...centros].sort((a, b) => {
@@ -17,6 +17,10 @@ function sortCentros<T extends { descricaoCCusto?: string | null; codigoCCusto?:
 
 export async function GET(request: NextRequest) {
     try {
+        const canAccess = await hasModuleAccessForRequest(request, 'PATRIMONIO');
+        if (!canAccess) {
+            return NextResponse.json({ message: 'Acesso negado' }, { status: 403 });
+        }
         const { centros, allowAll, authenticated } = await getCentrosFiltro(request);
         const allowAllEfetivo = allowAll || (authenticated && centros.length === 0);
         const [tipos, status, centrosDb] = await Promise.all([

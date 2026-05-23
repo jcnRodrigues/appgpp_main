@@ -1,4 +1,4 @@
-import { listarPatrimonios } from '@/back-end/service/Patrimonio.services/patrimonio.service';
+﻿import { listarPatrimonios } from '@/back-end/service/Patrimonio.services/patrimonio.service';
 import Header from '@/back-end/components/Header/Header';
 import PatrimonioTable from '@/back-end/components/PatrimonioTable/PatrimonioTable';
 import { ChevronLeft, Plus, FileText } from 'lucide-react';
@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { Button } from '@/back-end/components/ui/button';
 import { getServerSession } from 'next-auth';
 import { AuthOptions } from '../api/auth/[...nextauth]/route';
+import { hasActionPermission, hasModuleAccess } from '@/lib/permissions';
+import { redirect } from 'next/navigation';
 
 export default async function PatrimonioList() {
   const session = await getServerSession(AuthOptions);
@@ -15,9 +17,9 @@ export default async function PatrimonioList() {
       <div className="bg-background min-h-screen py-6">
         <Header />
         <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-          <h1 className="text-2xl font-bold mb-4">Patrimônios</h1>
+          <h1 className="text-2xl font-bold mb-4">Patrimonios</h1>
           <div className="bg-white p-8 rounded-lg shadow-sm">
-            <p className="text-lg mb-6">Faça login para visualizar os patrimônios</p>
+            <p className="text-lg mb-6">Faca login para visualizar os patrimonios</p>
             <Button asChild>
               <Link href="/">Ir para Login</Link>
             </Button>
@@ -26,6 +28,11 @@ export default async function PatrimonioList() {
       </div>
     );
   }
+
+  const formularios = ((session.user as any)?.formularios || []) as string[];
+  if (!hasModuleAccess(formularios, 'PATRIMONIO')) redirect('/acesso-negado');
+  const canCreate = hasActionPermission(formularios, 'CREATE');
+  const canPrint = hasActionPermission(formularios, 'PRINT');
 
   const patrimonios = await listarPatrimonios({ take: 10, skip: 0 });
 
@@ -47,23 +54,27 @@ export default async function PatrimonioList() {
               <ChevronLeft className="h-6 w-6 text-primary hover:text-primary/80 transition" />
             </Link>
             <div>
-              <h1 className="text-h2 font-bold">Patrimônios</h1>
-              <p className="text-gray-600 text-sm mt-1">Gerenciar patrimônios da empresa</p>
+              <h1 className="text-h2 font-bold">Patrimonios</h1>
+              <p className="text-gray-600 text-sm mt-1">Gerenciar patrimonios da empresa</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Link href="/patrimoniolist/lista-pdf">
-              <Button variant="outline" className="flex gap-2">
-                <FileText className="h-5 w-5" />
-                Lista PDF
-              </Button>
-            </Link>
-            <Link href="/patrimonio/cadastro">
-              <Button className="flex gap-2 bg-primary hover:bg-primary/90">
-                <Plus className="h-5 w-5" />
-                Novo Patrimônio
-              </Button>
-            </Link>
+            {canPrint && (
+              <Link href="/patrimoniolist/lista-pdf">
+                <Button variant="outline" className="flex gap-2">
+                  <FileText className="h-5 w-5" />
+                  Lista PDF
+                </Button>
+              </Link>
+            )}
+            {canCreate && (
+              <Link href="/patrimonio/cadastro">
+                <Button className="flex gap-2 bg-primary hover:bg-primary/90">
+                  <Plus className="h-5 w-5" />
+                  Novo Patrimonio
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
 

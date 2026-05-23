@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import { Edit, Trash2, Filter } from 'lucide-react';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import { Button } from '@/back-end/components/ui/button';
 import DeleteGuardButton from '@/back-end/components/DeleteGuardButton/DeleteGuardButton';
+import { hasActionPermission } from '@/lib/permissions';
 
 interface Funcionario {
     idF: string;
@@ -30,6 +32,16 @@ interface FuncionarioTableProps {
 }
 
 export default function FuncionarioTable({ funcionarios: initialFuncionarios }: FuncionarioTableProps) {
+    const { data: session } = useSession();
+    const formularios = ((session?.user as any)?.formularios || []) as string[];
+    const canUpdate = hasActionPermission(formularios, 'UPDATE');
+    const showNoPermissionAlert = (acao: string) => window.systemAlert?.('aviso', `Você não tem permissão para ${acao}.`);
+    const handleEditClick = (e: React.MouseEvent) => {
+        if (canUpdate) return;
+        e.preventDefault();
+        showNoPermissionAlert('alterar registros');
+    };
+
     const [funcionarios, setFuncionarios] = useState<Funcionario[]>(initialFuncionarios || []);
     const [filtro, setFiltro] = useState('');
     const [statusFiltro, setStatusFiltro] = useState('');
@@ -224,7 +236,7 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                     size="icon"
                                     className="text-blue-600 hover:bg-blue-100 rounded-lg transition"
                                 >
-                                    <Link href={`/funcionario/${funcionario.idF}`} title="Editar">
+                                    <Link href={`/funcionario/${funcionario.idF}`} title="Editar" onClick={handleEditClick}>
                                         <Edit className="h-4 w-4" />
                                     </Link>
                                 </Button>
@@ -234,6 +246,7 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                     onAuthorizedDelete={() => handleDelete(funcionario.idF)}
                                     className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
                                     title="Excluir"
+                                    unauthorizedBehavior="alert"
                                 >
                                     <Trash2 className="h-4 w-4" /> 
                                 </DeleteGuardButton>
@@ -307,7 +320,7 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                                     size="icon"
                                                     className="text-blue-600 hover:bg-blue-100 rounded-lg transition"
                                                 >
-                                                    <Link href={`/funcionario/${funcionario.idF}`} title="Editar">
+                                                    <Link href={`/funcionario/${funcionario.idF}`} title="Editar" onClick={handleEditClick}>
                                                         <Edit className="h-4 w-4" />
                                                     </Link>
                                                 </Button>
@@ -317,6 +330,7 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                                     onAuthorizedDelete={() => handleDelete(funcionario.idF)}
                                                     className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
                                                     title="Excluir"
+                                                    unauthorizedBehavior="alert"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
                                                 </DeleteGuardButton>

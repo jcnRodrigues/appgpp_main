@@ -1,11 +1,14 @@
-import Header from '@/back-end/components/Header/Header';
+﻿import Header from '@/back-end/components/Header/Header';
 import CCustoTable from '@/back-end/components/CCustoTable/CCustoTable';
 import { listarCentrosCusto } from '@/back-end/service/CentroCusto.service/centrocusto.service';
 import Link from 'next/link';
 import { Button } from '@/back-end/components/ui/button';
+import PermissionActionLink from '@/back-end/components/PermissionActionLink/PermissionActionLink';
 import { Plus, ChevronLeft } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import { AuthOptions } from '../api/auth/[...nextauth]/route';
+import { hasModuleAccess } from '@/lib/permissions';
+import { redirect } from 'next/navigation';
 
 export default async function CCustosPage() {
     const session = await getServerSession(AuthOptions);
@@ -17,7 +20,7 @@ export default async function CCustosPage() {
                 <div className="max-w-4xl mx-auto px-4 py-12 text-center">
                     <h1 className="text-2xl font-bold mb-4">Centros de Custo</h1>
                     <div className="bg-white p-8 rounded-lg shadow-sm">
-                        <p className="text-lg mb-6">Faça login para visualizar os centros de custo</p>
+                        <p className="text-lg mb-6">Faca login para visualizar os centros de custo</p>
                         <Button asChild>
                             <Link href="/">Ir para Login</Link>
                         </Button>
@@ -27,6 +30,8 @@ export default async function CCustosPage() {
         );
     }
 
+    const formularios = ((session.user as any)?.formularios || []) as string[];
+    if (!hasModuleAccess(formularios, 'CENTRO_CUSTO')) redirect('/acesso-negado');
     const centrosPerfil = Array.isArray((session.user as any).centros) ? ((session.user as any).centros as string[]) : [];
     const allowAll = centrosPerfil.includes('*');
     const idsFiltro = allowAll ? undefined : centrosPerfil;
@@ -51,14 +56,18 @@ export default async function CCustosPage() {
                     </div>
                     <div className="flex items-center gap-2">
                         <Link href="/ccusto/medicao">
-                            <Button variant="outline">Medição</Button>
+                            <Button variant="outline">Medicao</Button>
                         </Link>
-                        <Link href="/ccusto/cadastro">
+                        <PermissionActionLink
+                            href="/ccusto/cadastro"
+                            action="CREATE"
+                            deniedMessage="Você não tem permissão para adicionar registros."
+                        >
                             <Button className="flex gap-2 bg-primary hover:bg-primary/90">
                                 <Plus className="h-5 w-5" />
                                 Novo Centro
                             </Button>
-                        </Link>
+                        </PermissionActionLink>
                     </div>
                 </div>
 

@@ -1,7 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { contarLicencas, criarLicenca, listarLicencas } from '@/back-end/service/Licenca.service/licenca.service';
+import { hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 
 export async function GET(request: NextRequest) {
+    const canAccess = await hasModuleAccessForRequest(request, 'LICENCAS_SOFTWARE');
+    if (!canAccess) return NextResponse.json({ message: 'Sem permissao para acessar licencas' }, { status: 403 });
     try {
         const { searchParams } = new URL(request.url);
         const skip = parseInt(searchParams.get('skip') || '0');
@@ -29,6 +32,9 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+    const canAccess = await hasModuleAccessForRequest(request, 'LICENCAS_SOFTWARE');
+    const canCreate = await hasActionPermissionForRequest(request, 'CREATE');
+    if (!canAccess || !canCreate) return NextResponse.json({ message: 'Sem permissao para criar licenca' }, { status: 403 });
     try {
         const dados = await request.json();
 
@@ -52,3 +58,4 @@ export async function POST(request: NextRequest) {
         );
     }
 }
+

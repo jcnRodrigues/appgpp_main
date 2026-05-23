@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { alocacoesPorCentroCustoETipo } from '@/back-end/service/Dashboard.service/dashboard.service';
-import { getCentrosFiltro } from '@/lib/access';
+import { getCentrosFiltro, hasModuleAccessForRequest } from '@/lib/access';
 
 export async function GET(request: NextRequest) {
     try {
+        const canAccess = await hasModuleAccessForRequest(request, 'DASHBOARD');
+        if (!canAccess) {
+            return NextResponse.json({ message: 'Acesso negado' }, { status: 403 });
+        }
         const { centros, allowAll } = await getCentrosFiltro(request);
         const filtroCentros = allowAll ? undefined : centros;
         const resultado = await alocacoesPorCentroCustoETipo(filtroCentros);

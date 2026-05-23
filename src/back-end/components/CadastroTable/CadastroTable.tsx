@@ -3,8 +3,10 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { Edit, Trash2, FileDown, Filter } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import { Button } from '@/back-end/components/ui/button';
 import DeleteGuardButton from '@/back-end/components/DeleteGuardButton/DeleteGuardButton';
+import { hasActionPermission } from '@/lib/permissions';
 
 interface Alocacao {
     idCad: string;
@@ -63,6 +65,17 @@ interface StatusOption {
 }
 
 export default function CadastroTable() {
+    const { data: session } = useSession();
+    const formularios = ((session?.user as any)?.formularios || []) as string[];
+    const canUpdate = hasActionPermission(formularios, 'UPDATE');
+    const canPrint = hasActionPermission(formularios, 'PRINT');
+    const showNoPermissionAlert = (acao: string) => window.systemAlert?.('aviso', `Você não tem permissão para ${acao}.`);
+    const handleEditClick = (e: React.MouseEvent) => {
+        if (canUpdate) return;
+        e.preventDefault();
+        showNoPermissionAlert('alterar registros');
+    };
+
     const [alocacoes, setAlocacoes] = useState<Alocacao[]>([]);
     const [loading, setLoading] = useState(true);
     const [filtroFuncionario, setFiltroFuncionario] = useState('');
@@ -230,6 +243,10 @@ export default function CadastroTable() {
     };
 
     const handleGerarTermoPdf = async (alocacao: Alocacao) => {
+        if (!canPrint) {
+            showNoPermissionAlert('imprimir/gerar relatórios');
+            return;
+        }
         const func = alocacao.tbFuncionario;
         const pat = alocacao.tbPatrimonio;
         if (!func || !pat) {
@@ -367,8 +384,8 @@ export default function CadastroTable() {
                             <button type="button" onClick={() => handleGerarTermoPdf(alocacao)} disabled={pdfLoading === alocacao.idCad} className="p-2 text-green-700 hover:bg-green-50 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none" title={pdfLoading === alocacao.idCad ? 'Gerando PDF...' : 'Gerar Termo de Responsabilidade (PDF)'}>
                                 <FileDown className="h-4 w-4" />
                             </button>
-                            <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-50 rounded-lg transition"><Link href={`/alocacoes/${alocacao.idCad}/editar`} title="Editar"><Edit className="h-4 w-4" /></Link></Button>
-                            <DeleteGuardButton resource="cadastro" recordId={alocacao.idCad} onAuthorizedDelete={() => handleDelete(alocacao.idCad)} className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Excluir"><Trash2 className="h-4 w-4" /></DeleteGuardButton>
+                            <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-50 rounded-lg transition"><Link href={`/alocacoes/${alocacao.idCad}/editar`} title="Editar" onClick={handleEditClick}><Edit className="h-4 w-4" /></Link></Button>
+                            <DeleteGuardButton resource="cadastro" recordId={alocacao.idCad} onAuthorizedDelete={() => handleDelete(alocacao.idCad)} className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Excluir" unauthorizedBehavior="alert"><Trash2 className="h-4 w-4" /></DeleteGuardButton>
                         </div>
                     </div>
                 ))}
@@ -447,11 +464,12 @@ export default function CadastroTable() {
                                             type="button"
                                             onClick={() => handleGerarTermoPdf(alocacao)}
                                             disabled={pdfLoading === alocacao.idCad}
-                                            className="p-2 text-green-700 hover:bg-green-50 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none" title={pdfLoading === alocacao.idCad ? 'Gerando PDF...' : 'Gerar Termo de Responsabilidade (PDF)'}>
+                                            className="p-2 text-green-700 hover:bg-green-50 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none" 
+                                            title={pdfLoading === alocacao.idCad ? 'Gerando PDF...' : 'Gerar Termo de Responsabilidade (PDF)'}>
                                             <FileDown className="h-4 w-4" />
                                         </button>
                                         <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-50 rounded-lg transition">
-                                            <Link href={`/alocacoes/${alocacao.idCad}/editar`} title="Editar">
+                                            <Link href={`/alocacoes/${alocacao.idCad}/editar`} title="Editar" onClick={handleEditClick}>
                                                 <Edit className="h-4 w-4" />
                                             </Link>
                                         </Button>
@@ -459,7 +477,7 @@ export default function CadastroTable() {
                                             resource="cadastro"
                                             recordId={alocacao.idCad}
                                             onAuthorizedDelete={() => handleDelete(alocacao.idCad)}
-                                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Excluir">
+                                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Excluir" unauthorizedBehavior="alert">
                                             <Trash2 className="h-4 w-4" />
                                         </DeleteGuardButton>
                                     </div>

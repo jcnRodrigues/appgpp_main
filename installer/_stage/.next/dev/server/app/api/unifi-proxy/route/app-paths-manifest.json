@@ -1,0 +1,3 @@
+{
+  "/api/unifi-proxy/route": "app/api/unifi-proxy/route.js"
+}

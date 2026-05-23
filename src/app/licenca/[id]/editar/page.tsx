@@ -3,12 +3,17 @@ import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
 import Header from '@/back-end/components/Header/Header';
 import LicencaForm from '@/back-end/components/LicencaForm/LicencaForm';
+import { hasActionPermission, hasModuleAccess } from '@/lib/permissions';
 
 export default async function EditarLicencaPage({ params }: { params: Promise<{ id: string }> }) {
     const session = await getServerSession(AuthOptions);
 
     if (!session?.user) {
         redirect('/');
+    }
+    const formularios = ((session.user as any)?.formularios || []) as string[];
+    if (!hasModuleAccess(formularios, 'LICENCAS_SOFTWARE') || !hasActionPermission(formularios, 'UPDATE')) {
+        redirect('/acesso-negado');
     }
 
     const { id } = await params;

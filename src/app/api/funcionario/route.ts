@@ -1,9 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { criarFuncionario, listarFuncionarios, contarFuncionarios } from '@/back-end/service/Funcionario.service/funcionario.service';
-import { getCentrosFiltro } from '@/lib/access';
+import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 import { parseDateInput, parseOptionalDateInput } from '@/lib/date-input';
 
 export async function GET(request: NextRequest) {
+    const canAccess = await hasModuleAccessForRequest(request, 'FUNCIONARIOS');
+    if (!canAccess) return NextResponse.json({ message: 'Sem permissao para acessar funcionarios' }, { status: 403 });
     try {
         const { searchParams } = new URL(request.url);
         const nome = searchParams.get('nome');
@@ -48,6 +50,9 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+    const canAccess = await hasModuleAccessForRequest(request, 'FUNCIONARIOS');
+    const canCreate = await hasActionPermissionForRequest(request, 'CREATE');
+    if (!canAccess || !canCreate) return NextResponse.json({ message: 'Sem permissao para criar funcionario' }, { status: 403 });
     try {
         const dados = await request.json();
 
@@ -94,3 +99,5 @@ export async function POST(request: NextRequest) {
         );
     }
 }
+
+

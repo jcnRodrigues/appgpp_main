@@ -58,9 +58,9 @@ const ALERT_STYLES: Record<
   },
   confirmacao: {
     icon: "?",
-    iconClass: "bg-slate-100 text-slate-700",
+    iconClass: "bg-emerald-100 text-emerald-700",
     titleClass: "text-slate-900",
-    actionClass: "bg-primary text-white hover:bg-primary/90",
+    actionClass: "bg-emerald-600 text-white hover:bg-emerald-600/90",
   },
 }
 
@@ -118,7 +118,10 @@ export default function AlertaDialogo({
             <>
               <AlertDialogCancel
                 onClick={handleCancel}
-                className="border-slate-200"
+                className={cn(
+                  "border-slate-200",
+                  isConfirm && "border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100"
+                )}
               >
                 {cancelText ?? "Cancelar"}
               </AlertDialogCancel>

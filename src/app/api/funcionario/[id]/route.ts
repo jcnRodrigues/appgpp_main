@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { getFuncionarioByIdInterno, atualizarFuncionario } from '@/back-end/service/Funcionario.service/funcionario.service';
 import prisma from '../../../../../prisma/prisma';
-import { getCentrosFiltro, hasDeleteAnyPermission } from '@/lib/access';
+import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 import { parseDateInput, parseNullableDateInput } from '@/lib/date-input';
 
 export async function GET(
@@ -9,6 +9,14 @@ export async function GET(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const canAccess = await hasModuleAccessForRequest(request, 'FUNCIONARIOS');
+        if (!canAccess) {
+            return NextResponse.json({ message: 'Sem permissao para acessar funcionarios' }, { status: 403 });
+        }
+        const canUpdate = await hasActionPermissionForRequest(request, 'UPDATE');
+        if (!canUpdate) {
+            return NextResponse.json({ message: 'Sem permissao para alterar funcionario' }, { status: 403 });
+        }
         const { id } = await params;
         const funcionario = await getFuncionarioByIdInterno(id);
 
@@ -45,6 +53,10 @@ export async function PUT(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const canAccess = await hasModuleAccessForRequest(request, 'FUNCIONARIOS');
+        if (!canAccess) {
+            return NextResponse.json({ message: 'Sem permissao para acessar funcionarios' }, { status: 403 });
+        }
         const { id } = await params;
         const dados = await request.json();
 
@@ -52,7 +64,6 @@ export async function PUT(
             return NextResponse.json({ message: 'Nenhum dado para atualizar' }, { status: 400 });
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const updateData: any = {};
         if (typeof dados.nomeFun !== 'undefined') updateData.nomeFun = dados.nomeFun;
         if (typeof dados.cpfFun !== 'undefined') updateData.cpfFun = dados.cpfFun;
@@ -88,9 +99,13 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const canDelete = await hasDeleteAnyPermission(request);
+        const canAccess = await hasModuleAccessForRequest(request, 'FUNCIONARIOS');
+        if (!canAccess) {
+            return NextResponse.json({ message: 'Sem permissao para acessar funcionarios' }, { status: 403 });
+        }
+        const canDelete = await hasActionPermissionForRequest(request, 'DELETE');
         if (!canDelete) {
-            return NextResponse.json({ message: 'Sem permissão para deletar' }, { status: 403 });
+            return NextResponse.json({ message: 'Sem permissÃ£o para deletar' }, { status: 403 });
         }
         const { id } = await params;
 
@@ -115,3 +130,5 @@ export async function DELETE(
         );
     }
 }
+
+

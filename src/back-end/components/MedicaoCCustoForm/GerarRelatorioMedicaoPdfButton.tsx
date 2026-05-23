@@ -319,7 +319,7 @@ export default function GerarRelatorioMedicaoPdfButton({
         pdf.text(pdfSafeText('Detalhe da conferência'), margin, y);
         y += 3.5;
 
-        const cols = [10, 34, 44, 18, 24, 16, 16, 24, contentWidth - (10 + 34 + 44 + 18 + 24 + 16 + 16 + 24)];
+        const cols = [10, 34, 44, 20, 24, 20, 20, 40, contentWidth - (10 + 34 + 44 + 20 + 24 + 20 + 20 + 40)];
         addTableHeader(
             [
                 'Linha',
@@ -356,7 +356,7 @@ export default function GerarRelatorioMedicaoPdfButton({
                     centerCols: [0, 4, 5, 6],
                     statusBadges: [
                         { col: 3, kind: kindStatusPatrimonio(r.statusPatrimonio || 'SEM STATUS') },
-                        { col: 7, kind: statusConferenciaKind }
+                        { col: 8, kind: statusConferenciaKind }
                     ]
                 }
             );

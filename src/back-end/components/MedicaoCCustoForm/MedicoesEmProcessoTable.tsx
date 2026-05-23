@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
+import { FolderOpen, RefreshCw, LucideDoorClosedLocked } from 'lucide-react';
 
 type BmItem = {
   idBm: string;
@@ -84,11 +85,20 @@ export default function MedicoesEmProcessoTable() {
     [itens, bmSelecionadoId]
   );
 
-  const fecharBm = async (idBm: string) => {
+  const fecharBm = async (bm: BmItem) => {
+    const mensagem = `Confirma o fechamento do BM ${bm.codigoBm} (${formatarData(bm.dataInicioMedicao)} até ${formatarData(bm.dataFimMedicao)})?`;
+    const confirmou = window.systemConfirm
+      ? await window.systemConfirm(mensagem, 'Confirmar fechamento', {
+        confirmText: 'Fechar BM',
+        cancelText: 'Cancelar'
+      })
+      : window.confirm(mensagem);
+    if (!confirmou) return;
+
     const res = await fetch('/api/ccusto/medicao/bm', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ idBm, statusBm: 'FECHADO' })
+      body: JSON.stringify({ idBm: bm.idBm, statusBm: 'FECHADO' })
     });
     const data = await res.json();
     if (!res.ok) {
@@ -105,13 +115,24 @@ export default function MedicoesEmProcessoTable() {
           <p className="text-sm font-medium">BM em aberto</p>
           <div className="flex items-center gap-2">
             {bmSelecionado && (
-              <Link href={`/ccusto/medicao?bmId=${encodeURIComponent(bmSelecionado.idBm)}`} className="text-xs px-2 py-1 rounded border bg-white">
-                Abrir BM
+              <Link
+                href={`/ccusto/medicao?bmId=${encodeURIComponent(bmSelecionado.idBm)}`}
+                className="p-2 text-green-700 hover:bg-green-100 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none"
+                title="Abrir BM"
+                aria-label="Abrir BM"
+              >
+                <FolderOpen className="h-4 w-4" />
               </Link>
             )}
             {bmSelecionado && (
-              <button type="button" className="text-xs px-2 py-1 rounded border bg-white" onClick={() => void fecharBm(bmSelecionado.idBm)}>
-                Fechar BM Atual
+              <button
+                type="button"
+                className="p-2 text-red-700 hover:bg-red-100 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none"
+                onClick={() => void fecharBm(bmSelecionado)}
+                title="Fechar BM Atual"
+                aria-label="Fechar BM Atual"
+              >
+                <LucideDoorClosedLocked className="h-4 w-4" />
               </button>
             )}
           </div>
@@ -135,8 +156,14 @@ export default function MedicoesEmProcessoTable() {
       <div className="rounded-lg border p-4 bg-white">
         <div className="flex items-center justify-between mb-3">
           <h2 className="font-semibold">Medições em processo (todos os centros de custo)</h2>
-          <button type="button" className="text-xs px-2 py-1 rounded border" onClick={() => void carregar()}>
-            Atualizar
+          <button
+            type="button"
+            className="p-2 text-green-700 hover:bg-green-100 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none"
+            onClick={() => void carregar()}
+            title="Atualizar"
+            aria-label="Atualizar"
+          >
+            <RefreshCw className="h-4 w-4"   />
           </button>
         </div>
 
@@ -173,11 +200,22 @@ export default function MedicoesEmProcessoTable() {
                     <td className="px-3 py-2">{formatarDataHora(bm.updatedAt)}</td>
                     <td className="px-3 py-2">
                       <div className="flex items-center gap-2">
-                        <Link href={`/ccusto/medicao?bmId=${encodeURIComponent(bm.idBm)}`} className="text-xs px-2 py-1 rounded border">
-                          Abrir
+                        <Link
+                          href={`/ccusto/medicao?bmId=${encodeURIComponent(bm.idBm)}`}
+                          className="p-2 text-green-700 hover:bg-green-100 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none"
+                          title="Abrir BM"
+                          aria-label="Abrir BM"
+                        >
+                          <FolderOpen className="h-4 w-4" />
                         </Link>
-                        <button type="button" className="text-xs px-2 py-1 rounded border" onClick={() => void fecharBm(bm.idBm)}>
-                          Fechar
+                        <button
+                          type="button"
+                          className="p-2 text-red-700 hover:bg-red-100 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none"
+                          onClick={() => void fecharBm(bm)}
+                          title="Fechar BM"
+                          aria-label="Fechar BM"
+                        >
+                          <LucideDoorClosedLocked className="h-4 w-4" />
                         </button>
                       </div>
                     </td>

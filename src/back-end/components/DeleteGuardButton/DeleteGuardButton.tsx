@@ -1,8 +1,9 @@
-'use client';
+﻿'use client';
 
 import { useMemo } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { hasActionPermission } from '@/lib/permissions';
 
 type DeleteResource =
     | 'funcionario'
@@ -20,6 +21,8 @@ type DeleteGuardButtonProps = {
     onAuthorizedDelete: () => void;
     className: string;
     title?: string;
+    unauthorizedBehavior?: 'authorize' | 'alert';
+    unauthorizedMessage?: string;
     children: React.ReactNode;
 };
 
@@ -29,6 +32,8 @@ export default function DeleteGuardButton({
     onAuthorizedDelete,
     className,
     title = 'Excluir',
+    unauthorizedBehavior = 'authorize',
+    unauthorizedMessage = 'Você não tem permissão para excluir registros.',
     children
 }: DeleteGuardButtonProps) {
     const router = useRouter();
@@ -36,9 +41,9 @@ export default function DeleteGuardButton({
     const searchParams = useSearchParams();
     const { data: session } = useSession();
 
-    const canDeleteAny = useMemo(() => {
+    const canDeleteDirectly = useMemo(() => {
         const formularios = ((session?.user as any)?.formularios || []) as string[];
-        return Array.isArray(formularios) && formularios.includes('DELETE_ANY');
+        return hasActionPermission(formularios, 'DELETE');
     }, [session]);
 
     const returnTo = useMemo(() => {
@@ -47,8 +52,13 @@ export default function DeleteGuardButton({
     }, [pathname, searchParams]);
 
     const handleClick = () => {
-        if (canDeleteAny) {
+        if (canDeleteDirectly) {
             onAuthorizedDelete();
+            return;
+        }
+
+        if (unauthorizedBehavior === 'alert') {
+            window.systemAlert?.('aviso', unauthorizedMessage);
             return;
         }
 
@@ -65,10 +75,9 @@ export default function DeleteGuardButton({
             type="button"
             onClick={handleClick}
             className={className}
-            title={canDeleteAny ? title : 'Requer autorização para excluir'}
+            title={canDeleteDirectly ? title : 'Requer autorizacao para excluir'}
         >
             {children}
         </button>
     );
 }
-

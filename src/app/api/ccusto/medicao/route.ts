@@ -1,7 +1,7 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
 import * as XLSX from 'xlsx';
 import { listarPatrimoniosPorCentroCusto } from '@/back-end/service/Patrimonio.services/patrimonio.service';
-import { getCentrosFiltro } from '@/lib/access';
+import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 
 export const runtime = 'nodejs';
 
@@ -207,6 +207,9 @@ function parseValor(value: unknown): number | null {
 }
 
 export async function POST(request: NextRequest) {
+    const canAccess = await hasModuleAccessForRequest(request, 'MEDICAO_CCUSTO');
+    const canCreate = await hasActionPermissionForRequest(request, 'CREATE');
+    if (!canAccess || !canCreate) return NextResponse.json({ message: 'Sem permissao para processar medicao' }, { status: 403 });
     try {
         const formData = await request.formData();
         const file = formData.get('file');
@@ -493,6 +496,7 @@ export async function POST(request: NextRequest) {
         );
     }
 }
+
 
 
 

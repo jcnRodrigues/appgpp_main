@@ -1,7 +1,7 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
 import { getPatrimonioCardById, atualizarPatrimonio } from '@/back-end/service/Patrimonio.services/patrimonio.service';
 import prisma from '../../../../../prisma/prisma';
-import { getCentrosFiltro, hasDeleteAnyPermission } from '@/lib/access';
+import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 import { parseNullableDateInput } from '@/lib/date-input';
 
 function normalizar(valor?: string | null) {
@@ -17,6 +17,14 @@ export async function GET(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const canAccess = await hasModuleAccessForRequest(request, 'PATRIMONIO');
+        if (!canAccess) {
+            return NextResponse.json({ message: 'Sem permissao para acessar patrimonio' }, { status: 403 });
+        }
+        const canUpdate = await hasActionPermissionForRequest(request, 'UPDATE');
+        if (!canUpdate) {
+            return NextResponse.json({ message: 'Sem permissao para alterar patrimonio' }, { status: 403 });
+        }
         const { id } = await params;
         const patrimonio = await getPatrimonioCardById(id);
 
@@ -53,6 +61,10 @@ export async function PUT(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const canAccess = await hasModuleAccessForRequest(request, 'PATRIMONIO');
+        if (!canAccess) {
+            return NextResponse.json({ message: 'Sem permissao para acessar patrimonio' }, { status: 403 });
+        }
         const { id } = await params;
         const dados = await request.json();
 
@@ -150,7 +162,11 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const canDelete = await hasDeleteAnyPermission(request);
+        const canAccess = await hasModuleAccessForRequest(request, 'PATRIMONIO');
+        if (!canAccess) {
+            return NextResponse.json({ message: 'Sem permissao para acessar patrimonio' }, { status: 403 });
+        }
+        const canDelete = await hasActionPermissionForRequest(request, 'DELETE');
         if (!canDelete) {
             return NextResponse.json({ message: 'Sem permissão para deletar' }, { status: 403 });
         }
@@ -182,4 +198,6 @@ export async function DELETE(
 
     
 }
+
+
 

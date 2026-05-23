@@ -3,12 +3,16 @@ import { getToken } from 'next-auth/jwt';
 import prisma from '../../../../../../prisma/prisma';
 import { transferirAlocacao } from '@/back-end/service/Cadastro.service/cadastro.service';
 import { parseOptionalDateInput } from '@/lib/date-input';
+import { hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const canAccess = await hasModuleAccessForRequest(request, 'ALOCACOES');
+    const canUpdate = await hasActionPermissionForRequest(request, 'UPDATE');
+    if (!canAccess || !canUpdate) return NextResponse.json({ message: 'Sem permissao para transferir alocacao' }, { status: 403 });
     const { id } = await params;
     const body = await request.json();
 
@@ -43,4 +47,5 @@ export async function POST(
     );
   }
 }
+
 

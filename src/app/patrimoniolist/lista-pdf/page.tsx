@@ -5,9 +5,11 @@ import { getServerSession } from 'next-auth';
 import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
 import { Button } from '@/back-end/components/ui/button';
 import ListaPatrimoniosPdfForm from '@/back-end/components/PatrimonioTable/ListaPatrimoniosPdfForm';
+import { hasActionPermission, hasModuleAccess } from '@/lib/permissions';
 
 export default async function ListaPatrimoniosPdfPage() {
   const session = await getServerSession(AuthOptions);
+  const formularios = ((session?.user as any)?.formularios || []) as string[];
 
   if (!session?.user) {
     return (
@@ -19,6 +21,25 @@ export default async function ListaPatrimoniosPdfPage() {
             <p className="text-lg mb-6">Faça login para acessar</p>
             <Button asChild>
               <Link href="/">Ir para Login</Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const canAccess = hasModuleAccess(formularios, 'PATRIMONIO');
+  const canPrint = hasActionPermission(formularios, 'PRINT');
+  if (!canAccess || !canPrint) {
+    return (
+      <div className="bg-background min-h-screen py-6">
+        <Header />
+        <div className="max-w-4xl mx-auto px-4 py-12 text-center">
+          <h1 className="text-2xl font-bold mb-4">Lista de Patrimônios (PDF)</h1>
+          <div className="bg-white p-8 rounded-lg shadow-sm">
+            <p className="text-lg mb-6">Seu perfil não tem permissão para imprimir relatórios.</p>
+            <Button asChild>
+              <Link href="/patrimoniolist">Voltar para Patrimônios</Link>
             </Button>
           </div>
         </div>

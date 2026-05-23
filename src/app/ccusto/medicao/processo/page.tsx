@@ -5,6 +5,8 @@ import { getServerSession } from 'next-auth';
 import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
 import { Button } from '@/back-end/components/ui/button';
 import MedicoesEmProcessoTable from '@/back-end/components/MedicaoCCustoForm/MedicoesEmProcessoTable';
+import { hasModuleAccess } from '@/lib/permissions';
+import { redirect } from 'next/navigation';
 
 export default async function MedicaoProcessoPage() {
   const session = await getServerSession(AuthOptions);
@@ -24,6 +26,10 @@ export default async function MedicaoProcessoPage() {
         </div>
       </div>
     );
+  }
+  const formularios = ((session.user as any)?.formularios || []) as string[];
+  if (!hasModuleAccess(formularios, 'MEDICAO_CCUSTO')) {
+    redirect('/acesso-negado');
   }
 
   return (

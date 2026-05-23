@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import prisma from '../../../../prisma/prisma';
-import { hasDeleteAnyPermission } from '@/lib/access';
+import { hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 
 const prismaClient = prisma as any;
 
@@ -19,6 +19,11 @@ function normalizeArray(value: any) {
 
 export async function GET(request: NextRequest) {
     try {
+        const canAccess = await hasModuleAccessForRequest(request, 'ACESSO_USUARIOS');
+        if (!canAccess) {
+            return NextResponse.json({ message: 'Sem permissao para acessar usuarios' }, { status: 403 });
+        }
+
         const { searchParams } = new URL(request.url);
         const id = searchParams.get('id');
 
@@ -74,6 +79,12 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
     try {
+        const canAccess = await hasModuleAccessForRequest(request, 'ACESSO_USUARIOS');
+        const canCreate = await hasActionPermissionForRequest(request, 'CREATE');
+        if (!canAccess || !canCreate) {
+            return NextResponse.json({ message: 'Sem permissao para criar usuarios de acesso' }, { status: 403 });
+        }
+
         const payload = await request.json();
 
         const nome = String(payload.nome || '').trim();
@@ -135,6 +146,12 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
     try {
+        const canAccess = await hasModuleAccessForRequest(request, 'ACESSO_USUARIOS');
+        const canUpdate = await hasActionPermissionForRequest(request, 'UPDATE');
+        if (!canAccess || !canUpdate) {
+            return NextResponse.json({ message: 'Sem permissao para alterar usuarios de acesso' }, { status: 403 });
+        }
+
         const payload = await request.json();
         const id = String(payload.id || '').trim();
 
@@ -208,10 +225,12 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
     try {
-        const canDelete = await hasDeleteAnyPermission(request);
-        if (!canDelete) {
-            return NextResponse.json({ message: 'Sem permissão para deletar' }, { status: 403 });
+        const canAccess = await hasModuleAccessForRequest(request, 'ACESSO_USUARIOS');
+        const canDelete = await hasActionPermissionForRequest(request, 'DELETE');
+        if (!canAccess || !canDelete) {
+            return NextResponse.json({ message: 'Sem permissao para deletar' }, { status: 403 });
         }
+
         const { searchParams } = new URL(request.url);
         const id = searchParams.get('id');
 
@@ -227,4 +246,3 @@ export async function DELETE(request: NextRequest) {
         return NextResponse.json({ message: 'Erro ao remover acesso' }, { status: 500 });
     }
 }
-

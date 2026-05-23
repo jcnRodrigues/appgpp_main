@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import { Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import { Button } from '@/back-end/components/ui/button';
 import DeleteGuardButton from '@/back-end/components/DeleteGuardButton/DeleteGuardButton';
+import { hasActionPermission } from '@/lib/permissions';
 
 interface Centro {
     idCCusto: string;
@@ -18,6 +20,16 @@ interface Centro {
 }
 
 export default function CCustoTable({ centros: inicial }: { centros: Centro[] }) {
+    const { data: session } = useSession();
+    const formularios = ((session?.user as any)?.formularios || []) as string[];
+    const canUpdate = hasActionPermission(formularios, 'UPDATE');
+    const showNoPermissionAlert = (acao: string) => window.systemAlert?.('aviso', `Você não tem permissão para ${acao}.`);
+    const handleEditClick = (e: React.MouseEvent) => {
+        if (canUpdate) return;
+        e.preventDefault();
+        showNoPermissionAlert('alterar registros');
+    };
+
     const [centros, setCentros] = useState(inicial);
     const [loading, setLoading] = useState(false);
     const [paginaAtual, setPaginaAtual] = useState(1);
@@ -124,7 +136,7 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
                             </div>
                             <div className="flex items-center justify-end gap-2 pt-1">
                                 <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
-                                    <Link href={`/ccusto/${c.idCCusto}`} title="Editar">
+                                    <Link href={`/ccusto/${c.idCCusto}`} title="Editar" onClick={handleEditClick}>
                                         <Edit className="h-4 w-4" />
                                     </Link>
                                 </Button>
@@ -134,6 +146,7 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
                                     onAuthorizedDelete={() => handleDelete(c.idCCusto, c.descricaoCCusto || 'Centro de Custo')}
                                     className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
                                     title="Excluir"
+                                    unauthorizedBehavior="alert"
                                 >
                                     <Trash2 className="h-4 w-4" />
                                 </DeleteGuardButton>
@@ -181,7 +194,7 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
                                                     size="icon"
                                                     className="text-blue-600 hover:bg-blue-100 rounded-lg transition"
                                                 >
-                                                    <Link href={`/ccusto/${c.idCCusto}`} title="Editar">
+                                                    <Link href={`/ccusto/${c.idCCusto}`} title="Editar" onClick={handleEditClick}>
                                                         <Edit className="h-4 w-4" />
                                                     </Link>
                                                 </Button>
@@ -191,6 +204,7 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
                                                     onAuthorizedDelete={() => handleDelete(c.idCCusto, c.descricaoCCusto || 'Centro de Custo')}
                                                     className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
                                                     title="Excluir"
+                                                    unauthorizedBehavior="alert"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
                                                 </DeleteGuardButton>

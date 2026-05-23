@@ -1,0 +1,19 @@
+{
+  "/alocacoes/[id]/editar/page": "app/alocacoes/[id]/editar/page.js",
+  "/alocacoes/page": "app/alocacoes/page.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/cadastro/[id]/route": "app/api/cadastro/[id]/route.js",
+  "/api/cadastro/route": "app/api/cadastro/route.js",
+  "/api/cadastro/termo-pdf/route": "app/api/cadastro/termo-pdf/route.js",
+  "/api/ccusto/route": "app/api/ccusto/route.js",
+  "/api/dashboard/alocacoes-centro/route": "app/api/dashboard/alocacoes-centro/route.js",
+  "/api/dashboard/alocacoes-tempo/route": "app/api/dashboard/alocacoes-tempo/route.js",
+  "/api/dashboard/route": "app/api/dashboard/route.js",
+  "/api/funcionario/[id]/route": "app/api/funcionario/[id]/route.js",
+  "/api/funcionario/opcoes/route": "app/api/funcionario/opcoes/route.js",
+  "/api/funcionario/route": "app/api/funcionario/route.js",
+  "/ccusto/medicao/page": "app/ccusto/medicao/page.js",
+  "/funcionario/[id]/page": "app/funcionario/[id]/page.js",
+  "/funcionariosadd/page": "app/funcionariosadd/page.js",
+  "/page": "app/page.js"
+}

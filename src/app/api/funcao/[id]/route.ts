@@ -1,27 +1,30 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { getFuncaoById, atualizarFuncao, deletarFuncao } from '@/back-end/service/Funcao.service/funcao.service';
-import { hasDeleteAnyPermission } from '@/lib/access';
+import { hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 
 export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const canAccess = await hasModuleAccessForRequest(request, 'FUNCOES');
+        if (!canAccess) return NextResponse.json({ message: 'Sem permissao para acessar funcoes' }, { status: 403 });
+
         const { id } = await params;
         const funcao = await getFuncaoById(id);
 
         if (!funcao) {
             return NextResponse.json(
-                { message: 'Função não encontrada' },
+                { message: 'Funcao nao encontrada' },
                 { status: 404 }
             );
         }
 
         return NextResponse.json(funcao);
     } catch (error) {
-        console.error('Erro ao obter função:', error);
+        console.error('Erro ao obter funcao:', error);
         return NextResponse.json(
-            { message: 'Erro ao obter função' },
+            { message: 'Erro ao obter funcao' },
             { status: 500 }
         );
     }
@@ -32,13 +35,16 @@ export async function PUT(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const canAccess = await hasModuleAccessForRequest(request, 'FUNCOES');
+        const canUpdate = await hasActionPermissionForRequest(request, 'UPDATE');
+        if (!canAccess || !canUpdate) return NextResponse.json({ message: 'Sem permissao para alterar funcao' }, { status: 403 });
+
         const { id } = await params;
         const dados = await request.json();
 
-        // Validação básica
         if (!dados.nomeFuncao) {
             return NextResponse.json(
-                { message: 'Campo obrigatório faltando (nomeFuncao)' },
+                { message: 'Campo obrigatorio faltando (nomeFuncao)' },
                 { status: 400 }
             );
         }
@@ -49,15 +55,15 @@ export async function PUT(
 
         return NextResponse.json(funcao);
     } catch (error: any) {
-        console.error('Erro ao atualizar função:', error);
+        console.error('Erro ao atualizar funcao:', error);
         if (error.code === 'P2025') {
             return NextResponse.json(
-                { message: 'Função não encontrada' },
+                { message: 'Funcao nao encontrada' },
                 { status: 404 }
             );
         }
         return NextResponse.json(
-            { message: error.message || 'Erro ao atualizar função' },
+            { message: error.message || 'Erro ao atualizar funcao' },
             { status: 500 }
         );
     }
@@ -68,24 +74,24 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const canDelete = await hasDeleteAnyPermission(request);
-        if (!canDelete) {
-            return NextResponse.json({ message: 'Sem permissão para deletar' }, { status: 403 });
-        }
+        const canAccess = await hasModuleAccessForRequest(request, 'FUNCOES');
+        const canDelete = await hasActionPermissionForRequest(request, 'DELETE');
+        if (!canAccess || !canDelete) return NextResponse.json({ message: 'Sem permissao para deletar funcao' }, { status: 403 });
+
         const { id } = await params;
         await deletarFuncao(id);
 
-        return NextResponse.json({ message: 'Função deletada com sucesso' });
+        return NextResponse.json({ message: 'Funcao deletada com sucesso' });
     } catch (error: any) {
-        console.error('Erro ao deletar função:', error);
+        console.error('Erro ao deletar funcao:', error);
         if (error.code === 'P2025') {
             return NextResponse.json(
-                { message: 'Função não encontrada' },
+                { message: 'Funcao nao encontrada' },
                 { status: 404 }
             );
         }
         return NextResponse.json(
-            { message: error.message || 'Erro ao deletar função' },
+            { message: error.message || 'Erro ao deletar funcao' },
             { status: 500 }
         );
     }

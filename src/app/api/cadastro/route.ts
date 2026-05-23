@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { 
     listarAlocacoes, 
     criarAlocacao,
@@ -7,10 +7,12 @@ import {
     contarAlocacoes
 } from '@/back-end/service/Cadastro.service/cadastro.service';
 import { getStatusPatrimonio } from '@/back-end/service/Patrimonio.services/patrimonio.service';
-import { getCentrosFiltro } from '@/lib/access';
+import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 import { parseOptionalDateInput } from '@/lib/date-input';
 
 export async function GET(request: NextRequest) {
+    const canAccess = await hasModuleAccessForRequest(request, 'ALOCACOES');
+    if (!canAccess) return NextResponse.json({ message: 'Sem permissao para acessar alocacoes' }, { status: 403 });
     try {
         const { searchParams } = new URL(request.url);
         const idMatFun = searchParams.get('funcionario');
@@ -30,7 +32,7 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ data: [], total: 0 });
         }
 
-        // Se solicitar opções (funcionários e patrimônios)
+        // Se solicitar opÃ§Ãµes (funcionÃ¡rios e patrimÃ´nios)
         if (opcoes === 'true') {
             const [funcionarios, patrimonios, statusPatrimonio] = await Promise.all([
                 listarFuncionarios(filtroCentros),
@@ -45,7 +47,7 @@ export async function GET(request: NextRequest) {
             });
         }
 
-        // Listar alocações com filtros
+        // Listar alocaÃ§Ãµes com filtros
         const alocacoes = await listarAlocacoes({
             idMatFun: idMatFun || undefined,
             idPat: idPat || undefined,
@@ -72,22 +74,25 @@ export async function GET(request: NextRequest) {
             total
         });
     } catch (error) {
-        console.error('Erro ao listar alocações:', error);
+        console.error('Erro ao listar alocaÃ§Ãµes:', error);
         return NextResponse.json(
-            { message: 'Erro ao listar alocações' },
+            { message: 'Erro ao listar alocaÃ§Ãµes' },
             { status: 500 }
         );
     }
 }
 
 export async function POST(request: NextRequest) {
+    const canAccess = await hasModuleAccessForRequest(request, 'ALOCACOES');
+    const canCreate = await hasActionPermissionForRequest(request, 'CREATE');
+    if (!canAccess || !canCreate) return NextResponse.json({ message: 'Sem permissao para criar alocacao' }, { status: 403 });
     try {
         const dados = await request.json();
 
-        // Validação básica
+        // ValidaÃ§Ã£o bÃ¡sica
         if (!dados.idPatCad || !dados.idMatFunCad) {
             return NextResponse.json(
-                { message: 'Campos obrigatórios faltando (idPatCad, idMatFunCad)' },
+                { message: 'Campos obrigatÃ³rios faltando (idPatCad, idMatFunCad)' },
                 { status: 400 }
             );
         }
@@ -103,10 +108,11 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json(alocacao, { status: 201 });
     } catch (error: any) {
-        console.error('Erro ao criar alocação:', error);
+        console.error('Erro ao criar alocaÃ§Ã£o:', error);
         return NextResponse.json(
-            { message: error.message || 'Erro ao criar alocação' },
+            { message: error.message || 'Erro ao criar alocaÃ§Ã£o' },
             { status: 500 }
         );
     }
 }
+

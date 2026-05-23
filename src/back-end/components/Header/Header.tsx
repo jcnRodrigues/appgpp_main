@@ -4,11 +4,12 @@
 import { ClipboardCheck, DatabaseBackup, Home, KeyRound, LandmarkIcon, LaptopIcon, LogOut, Menu, Monitor, Moon, PackagePlusIcon, Settings, Sun, User, UserSearchIcon, UserCog } from "lucide-react";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Button } from "../ui/button";
 import { useTheme } from "../Providers/ThemeProvider";
 import Image from "next/image";
+import { hasModuleAccess } from "@/lib/permissions";
 
 
 
@@ -22,11 +23,16 @@ type MenuItem = {
 export default function Header() {
 
     const [open, setOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
     const { data: session, status } = useSession();
     const { mode, setMode } = useTheme();
 
-    const userFormularios = (session?.user as any)?.formularios as string[] | undefined;
-    const canView = (required?: string) => !required || !userFormularios || userFormularios.includes(required);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const userFormularios = ((session?.user as any)?.formularios || []) as string[];
+    const canView = (required?: string) => !required || hasModuleAccess(userFormularios, required);
 
     const menuItens: MenuItem[] = [
         { icon: Home, label: "Home", href: "/", required: "DASHBOARD" },
@@ -87,13 +93,18 @@ export default function Header() {
                     </button>
                 </div>
                 <div className="bg-white dark:bg-card p-3 rounded-full border border-transparent dark:border-border">
-                    <Sheet open={open} onOpenChange={setOpen}>
-                        <SheetTrigger asChild>
-                            <button className="flex items-center justify-center">
-                                <Menu className="h-6 w-6 text-primary " />
-                            </button>
-                        </SheetTrigger>
-                        <SheetContent className="border-l border-accent/30 p-0">
+                    {!mounted ? (
+                        <button className="flex items-center justify-center" type="button" aria-label="Abrir menu">
+                            <Menu className="h-6 w-6 text-primary " />
+                        </button>
+                    ) : (
+                        <Sheet open={open} onOpenChange={setOpen}>
+                            <SheetTrigger asChild>
+                                <button className="flex items-center justify-center">
+                                    <Menu className="h-6 w-6 text-primary " />
+                                </button>
+                            </SheetTrigger>
+                            <SheetContent className="border-l border-accent/30 p-0">
                             <div className="flex h-full min-h-0 flex-col">
                                 <SheetHeader className="shrink-0 border-b border-border px-4 py-4">
                                     <SheetTitle className="text-primary text-center">
@@ -171,8 +182,9 @@ export default function Header() {
                                     )}
                                 </div>
                             </div>
-                        </SheetContent>
-                    </Sheet>
+                            </SheetContent>
+                        </Sheet>
+                    )}
                 </div>
             </div>
         </div >

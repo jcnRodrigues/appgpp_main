@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ExternalLink } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import { hasActionPermission } from '@/lib/permissions';
 
 interface UnifiConfig {
   id?: string;
@@ -31,6 +32,14 @@ export default function UnifiConfigForm() {
   const [saveError, setSaveError] = useState('');
   const [consoles, setConsoles] = useState<ConsoleData[]>([]);
   const [loadingConsoles, setLoadingConsoles] = useState(false);
+  const formularios = ((session?.user as any)?.formularios || []) as string[];
+  const canCreate = hasActionPermission(formularios, 'CREATE');
+  const canUpdate = hasActionPermission(formularios, 'UPDATE');
+  const canDelete = hasActionPermission(formularios, 'DELETE');
+
+  const showNoPermissionAlert = (acao: string) => {
+    window.systemAlert?.('aviso', `Você não tem permissão para ${acao}.`);
+  };
 
   useEffect(() => {
     loadConfig();
@@ -75,6 +84,11 @@ export default function UnifiConfigForm() {
   };
 
   const handleSave = async () => {
+    if (!(canCreate || canUpdate)) {
+      showNoPermissionAlert('adicionar ou alterar registros');
+      return;
+    }
+
     setLoading(true);
     setSaveError('');
     setSaveSuccess(false);
@@ -147,12 +161,11 @@ export default function UnifiConfigForm() {
   };
 
   const handleDeleteClick = () => {
-    const formularios = ((session?.user as any)?.formularios || []) as string[];
-    if (Array.isArray(formularios) && formularios.includes('DELETE_ANY')) {
-      handleDelete();
+    if (!canDelete) {
+      showNoPermissionAlert('excluir registros');
       return;
     }
-    router.push(`/autorizacao-delete?resource=unifi_config&returnTo=${encodeURIComponent('/unifi-config')}`);
+    handleDelete();
   };
 
   return (

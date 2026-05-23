@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
+import { hasModuleAccessForRequest } from '@/lib/access';
 import { getUnifiConfig } from '@/back-end/service/unifi.service';
 
 type ProxyBody = {
@@ -137,6 +138,8 @@ function mapToSitesAndDevices(hosts: Array<{ hostId: string; hostName: string; d
 }
 
 export async function POST(request: NextRequest) {
+  const canAccess = await hasModuleAccessForRequest(request, 'UNIFI_CONFIG');
+  if (!canAccess) return NextResponse.json({ error: 'Sem permissao para acessar monitoramento' }, { status: 403 });
   try {
     const body = (await request.json()) as ProxyBody;
     const { apiKey, consoleId, path, method = 'GET', data = null, action } = body;
@@ -247,3 +250,4 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+

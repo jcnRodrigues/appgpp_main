@@ -1,12 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { atualizarLicenca, deletarLicenca, getLicencaById } from '@/back-end/service/Licenca.service/licenca.service';
-import { hasDeleteAnyPermission } from '@/lib/access';
+import { hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 
 export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const canAccess = await hasModuleAccessForRequest(request, 'LICENCAS_SOFTWARE');
+        if (!canAccess) return NextResponse.json({ message: 'Sem permissao para acessar licencas' }, { status: 403 });
+
         const { id } = await params;
         const licenca = await getLicencaById(id);
 
@@ -32,6 +35,10 @@ export async function PUT(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
+        const canAccess = await hasModuleAccessForRequest(request, 'LICENCAS_SOFTWARE');
+        const canUpdate = await hasActionPermissionForRequest(request, 'UPDATE');
+        if (!canAccess || !canUpdate) return NextResponse.json({ message: 'Sem permissao para alterar licenca' }, { status: 403 });
+
         const { id } = await params;
         const dados = await request.json();
 
@@ -67,10 +74,10 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const canDelete = await hasDeleteAnyPermission(request);
-        if (!canDelete) {
-            return NextResponse.json({ message: 'Sem permissão para deletar' }, { status: 403 });
-        }
+        const canAccess = await hasModuleAccessForRequest(request, 'LICENCAS_SOFTWARE');
+        const canDelete = await hasActionPermissionForRequest(request, 'DELETE');
+        if (!canAccess || !canDelete) return NextResponse.json({ message: 'Sem permissao para deletar licenca' }, { status: 403 });
+
         const { id } = await params;
         await deletarLicenca(id);
 

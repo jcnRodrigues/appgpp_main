@@ -6,6 +6,8 @@ import { ChevronLeft, Download, FileJson, FileSpreadsheet, Upload } from "lucide
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/back-end/components/ui/button";
 import * as XLSX from "xlsx";
+import { useSession } from "next-auth/react";
+import { hasModuleAccess } from "@/lib/permissions";
 
 const TABLE_NAMES = [
     "tbUser",
@@ -71,12 +73,17 @@ function notify(tipo: "erro" | "sucesso", mensagem: string) {
 }
 
 export default function SistemaDadosPage() {
+    const { data: session, status } = useSession();
     const [exportando, setExportando] = useState(false);
     const [importando, setImportando] = useState(false);
     const [arquivo, setArquivo] = useState<File | null>(null);
     const [centros, setCentros] = useState<CentroCustoOption[]>([]);
     const [centroSelecionado, setCentroSelecionado] = useState("");
     const [resumoOperacao, setResumoOperacao] = useState<ResumoOperacao | null>(null);
+    const formularios = ((session?.user as any)?.formularios || []) as string[];
+    const canAccessImportExport =
+        hasModuleAccess(formularios, "IMPORTACAO_EXPORTACAO") ||
+        hasModuleAccess(formularios, "ACESSO_USUARIOS");
 
     useEffect(() => {
         const carregarCentros = async () => {
@@ -388,6 +395,23 @@ export default function SistemaDadosPage() {
             setImportando(false);
         }
     };
+
+    if (status === "authenticated" && !canAccessImportExport) {
+        return (
+            <div className="bg-background min-h-screen py-6">
+                <Header />
+                <div className="max-w-4xl mx-auto px-4 py-12 text-center">
+                    <h1 className="text-2xl font-bold mb-4">Importacao e Exportacao de Dados</h1>
+                    <div className="bg-white p-8 rounded-lg shadow-sm">
+                        <p className="text-lg mb-6">Seu perfil nao possui permissao para este modulo.</p>
+                        <Button asChild>
+                            <Link href="/acesso-negado">Voltar</Link>
+                        </Button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-background min-h-screen py-6">

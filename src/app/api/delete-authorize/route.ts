@@ -6,6 +6,7 @@ import { deletarCentroCusto } from '@/back-end/service/CentroCusto.service/centr
 import { deletarFuncao } from '@/back-end/service/Funcao.service/funcao.service';
 import { deletarLicenca } from '@/back-end/service/Licenca.service/licenca.service';
 import { deleteUnifiConfig } from '@/back-end/service/unifi.service';
+import { hasActionPermissionForRequest } from '@/lib/access';
 
 type DeleteResource =
     | 'funcionario'
@@ -66,6 +67,10 @@ async function executeDelete(resource: DeleteResource, id?: string) {
 
 export async function POST(request: NextRequest) {
     try {
+        const canRequestDelete = await hasActionPermissionForRequest(request, 'DELETE');
+        if (!canRequestDelete) {
+            return NextResponse.json({ message: 'Acesso negado' }, { status: 403 });
+        }
         const body = await request.json();
         const resource = body?.resource as DeleteResource;
         const id = typeof body?.id === 'string' ? body.id : undefined;
@@ -104,4 +109,3 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ message: error?.message || 'Erro ao deletar registro' }, { status: 500 });
     }
 }
-

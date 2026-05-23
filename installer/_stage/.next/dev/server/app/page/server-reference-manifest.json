@@ -1,0 +1,125 @@
+{
+  "node": {
+    "40158f2986fb98a9f90013ec0591cdac4019bee93c": {
+      "workers": {
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Dashboard.service/dashboard.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "alocacoesAoLongoDoTempo",
+          "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      },
+      "exportedName": "alocacoesAoLongoDoTempo",
+      "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+    },
+    "40215ef5a0de825b5d3c9c0f3d7ca98930300e1d9a": {
+      "workers": {
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Dashboard.service/dashboard.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "alocacoesPorCentroCustoETipo",
+          "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      },
+      "exportedName": "alocacoesPorCentroCustoETipo",
+      "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+    },
+    "402bb1bbe21425377581b84daff07207e7d7088d03": {
+      "workers": {
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Dashboard.service/dashboard.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "alocacoesPorCentroCusto",
+          "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      },
+      "exportedName": "alocacoesPorCentroCusto",
+      "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+    },
+    "402ddecd5023ad5fc7a0be2787d0c387d65ab61349": {
+      "workers": {
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Dashboard.service/dashboard.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "contarFuncionarios",
+          "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      },
+      "exportedName": "contarFuncionarios",
+      "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+    },
+    "406c5621f62662cd14a3f616d8d558ec4c7fb0d58f": {
+      "workers": {
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Dashboard.service/dashboard.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "alocacoesEvolucaoPorCentroCusto",
+          "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      },
+      "exportedName": "alocacoesEvolucaoPorCentroCusto",
+      "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+    },
+    "40873bb55c5705a3033082f5f1cfa993e9ce765fa7": {
+      "workers": {
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Dashboard.service/dashboard.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "funcionariosPorCentroCusto",
+          "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      },
+      "exportedName": "funcionariosPorCentroCusto",
+      "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+    },
+    "4087a119de5b92756f7d1c4136c5cd531dfbf8cc35": {
+      "workers": {
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Dashboard.service/dashboard.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "resumoCentrosCusto",
+          "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      },
+      "exportedName": "resumoCentrosCusto",
+      "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+    },
+    "40f5d6fb1cb93e3b8ff723669dab6068d452e9fce8": {
+      "workers": {
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/back-end/service/Dashboard.service/dashboard.service.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "funcionariosPorStatus",
+          "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      },
+      "exportedName": "funcionariosPorStatus",
+      "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+    }
+  },
+  "edge": {}
+}

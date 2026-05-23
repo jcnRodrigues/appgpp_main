@@ -6,9 +6,14 @@ import {
 } from '@/back-end/service/Dashboard.service/dashboard.service';
 import { contarPatrimonios } from '@/back-end/service/Patrimonio.services/patrimonio.service';
 import { getCentrosFiltro } from '@/lib/access';
+import { hasModuleAccessForRequest } from '@/lib/access';
 
 export async function GET(request: NextRequest) {
     try {
+        const canAccess = await hasModuleAccessForRequest(request, 'DASHBOARD');
+        if (!canAccess) {
+            return NextResponse.json({ message: 'Acesso negado' }, { status: 403 });
+        }
         const { searchParams } = new URL(request.url);
         const tipo = searchParams.get('tipo');
         const { centros, allowAll } = await getCentrosFiltro(request);

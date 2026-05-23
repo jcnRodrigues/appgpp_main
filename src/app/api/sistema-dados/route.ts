@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { randomUUID } from "crypto";
 import { AuthOptions } from "../auth/[...nextauth]/route";
 import { getCentrosFiltro } from "@/lib/access";
+import { hasModuleAccess } from "@/lib/permissions";
 
 type SessionUser = {
     formularios?: string[];
@@ -65,14 +66,7 @@ function addIgnoredRow(
 
 function hasImportExportAccess(sessionUser?: SessionUser) {
     const formularios = sessionUser?.formularios;
-    if (!Array.isArray(formularios) || formularios.length === 0) {
-        return true;
-    }
-
-    return (
-        formularios.includes("IMPORTACAO_EXPORTACAO") ||
-        formularios.includes("ACESSO_USUARIOS")
-    );
+    return hasModuleAccess(formularios || [], "IMPORTACAO_EXPORTACAO") || hasModuleAccess(formularios || [], "ACESSO_USUARIOS");
 }
 
 async function validateCentroAccess(request: NextRequest, centroId?: string | null) {

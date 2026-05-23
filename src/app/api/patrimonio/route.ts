@@ -1,6 +1,6 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
 import { criarPatrimonio, listarPatrimonios } from '@/back-end/service/Patrimonio.services/patrimonio.service';
-import { getCentrosFiltro } from '@/lib/access';
+import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 import { parseDateInput, parseOptionalDateInput } from '@/lib/date-input';
 import prisma from '../../../../prisma/prisma';
 
@@ -13,6 +13,8 @@ function normalizar(valor?: string | null) {
 }
 
 export async function GET(request: NextRequest) {
+    const canAccess = await hasModuleAccessForRequest(request, 'PATRIMONIO');
+    if (!canAccess) return NextResponse.json({ message: 'Sem permissao para acessar patrimonio' }, { status: 403 });
     try {
         const { searchParams } = new URL(request.url);
         const idPat = searchParams.get('idPat');
@@ -150,6 +152,9 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+    const canAccess = await hasModuleAccessForRequest(request, 'PATRIMONIO');
+    const canCreate = await hasActionPermissionForRequest(request, 'CREATE');
+    if (!canAccess || !canCreate) return NextResponse.json({ message: 'Sem permissao para criar patrimonio' }, { status: 403 });
     try {
         const dados = await request.json();
 
@@ -217,4 +222,6 @@ export async function POST(request: NextRequest) {
         );
     }
 }
+
+
 

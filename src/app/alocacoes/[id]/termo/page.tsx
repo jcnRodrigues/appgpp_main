@@ -10,6 +10,8 @@ import { Button } from '@/back-end/components/ui/button';
 import { UndoIcon } from 'lucide-react';
 import fs from 'node:fs';
 import path from 'node:path';
+import { hasActionPermission, hasModuleAccess } from '@/lib/permissions';
+import { redirect } from 'next/navigation';
 
 type Props = { params: { id: string } };
 
@@ -28,6 +30,10 @@ export default async function TermoPage({ params }: Props) {
                 </div>
             </div>
         );
+    }
+    const formularios = ((session.user as any)?.formularios || []) as string[];
+    if (!hasModuleAccess(formularios, 'ALOCACOES') || !hasActionPermission(formularios, 'PRINT')) {
+        redirect('/acesso-negado');
     }
 
     const { id } = await params;

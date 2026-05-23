@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "../../../../../prisma/prisma";
 
@@ -8,6 +7,7 @@ import NextAuth from "next-auth/next";
 import crypto from "crypto";
 import fs from "fs";
 import path from "path";
+import { buildAdminPermissions, normalizePermissions } from "@/lib/permissions";
 
 const prismaClient = prisma as any;
 
@@ -57,20 +57,7 @@ if (resolvedNextAuthUrl) {
     process.env.NEXTAUTH_URL = resolvedNextAuthUrl;
 }
 
-const FORMULARIOS_TODOS = [
-    "DASHBOARD",
-    "FUNCIONARIOS",
-    "PATRIMONIO",
-    "CENTRO_CUSTO",
-    "MEDICAO_CCUSTO",
-    "FUNCOES",
-    "LICENCAS_SOFTWARE",
-    "ALOCACOES",
-    "ACESSO_USUARIOS",
-    "IMPORTACAO_EXPORTACAO",
-    "UNIFI_CONFIG",
-    "DELETE_ANY"
-];
+const FORMULARIOS_TODOS = buildAdminPermissions();
 
 function hashSenha(senha: string) {
     const salt = crypto.randomBytes(16);
@@ -85,10 +72,6 @@ function verifySenha(senha: string, hash: string) {
     const stored = Buffer.from(storedHex, "hex");
     const computed = crypto.scryptSync(senha, salt, stored.length);
     return crypto.timingSafeEqual(stored, computed);
-}
-
-function normalizeArray(value: any) {
-    return Array.isArray(value) ? value : [];
 }
 
 async function ensureAdminFromEnv() {
@@ -186,8 +169,8 @@ export const AuthOptions = {
                     name: acesso.nomeUser,
                     email: acesso.emailUser,
                     authType: "LOCAL",
-                    formularios: normalizeArray(acesso.formulariosUser),
-                    centros: normalizeArray(acesso.centrosUser),
+                    formularios: normalizePermissions(acesso.formulariosUser),
+                    centros: normalizePermissions(acesso.centrosUser),
                     status: acesso.statusUser
                 } as any;
             }
@@ -243,8 +226,8 @@ export const AuthOptions = {
                 }
                 if (acesso) {
                     token.name = acesso.nomeUser || token.name;
-                    token.formularios = normalizeArray(acesso.formulariosUser);
-                    token.centros = normalizeArray(acesso.centrosUser);
+                    token.formularios = normalizePermissions(acesso.formulariosUser);
+                    token.centros = normalizePermissions(acesso.centrosUser);
                     token.status = acesso.statusUser;
                 }
             }
@@ -266,7 +249,5 @@ export const AuthOptions = {
 
 const handler = NextAuth(AuthOptions);
 export { handler as GET, handler as POST };
-
-
 
 

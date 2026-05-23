@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
+import { hasModuleAccessForRequest } from '@/lib/access';
 import { getUnifiConfig } from '@/back-end/service/unifi.service';
 
 export const dynamic = 'force-dynamic';
@@ -124,6 +125,8 @@ async function fetchAllDeviceGroupsByApiKey(
 }
 
 export async function POST(request: NextRequest) {
+  const canAccess = await hasModuleAccessForRequest(request, 'UNIFI_CONFIG');
+  if (!canAccess) return NextResponse.json({ error: 'Sem permissao para acessar monitoramento' }, { status: 403 });
   const { apiKey } = await request.json();
   const savedConfig = await getUnifiConfig();
   const effectiveApiKey = apiKey || savedConfig?.apiKey || process.env.UNIFI_API_KEY;
@@ -172,3 +175,4 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+

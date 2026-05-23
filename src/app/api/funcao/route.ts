@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getFuncoes, criarFuncao, contarFuncoes } from '@/back-end/service/Funcao.service/funcao.service';
+import { hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 
 export async function GET(request: NextRequest) {
+    const canAccess = await hasModuleAccessForRequest(request, 'FUNCOES');
+    if (!canAccess) return NextResponse.json({ message: 'Sem permissao para acessar funcoes' }, { status: 403 });
     try {
         const { searchParams } = new URL(request.url);
         const skip = parseInt(searchParams.get('skip') || '0');
@@ -26,6 +29,9 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+    const canAccess = await hasModuleAccessForRequest(request, 'FUNCOES');
+    const canCreate = await hasActionPermissionForRequest(request, 'CREATE');
+    if (!canAccess || !canCreate) return NextResponse.json({ message: 'Sem permissao para criar funcao' }, { status: 403 });
     try {
         const dados = await request.json();
 

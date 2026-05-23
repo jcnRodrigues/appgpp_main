@@ -3,8 +3,10 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Edit, Trash2, Filter, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import { Button } from '@/back-end/components/ui/button';
 import DeleteGuardButton from '@/back-end/components/DeleteGuardButton/DeleteGuardButton';
+import { hasActionPermission } from '@/lib/permissions';
 
 interface Patrimonio {
     idP: string;
@@ -46,6 +48,20 @@ interface PatrimonioTableProps {
 }
 
 export default function PatrimonioTable({ patrimonios: initialPatrimonios }: PatrimonioTableProps) {
+    const { data: session } = useSession();
+    const formularios = ((session?.user as any)?.formularios || []) as string[];
+    const canUpdate = hasActionPermission(formularios, 'UPDATE');
+
+    const showNoPermissionAlert = (acao: string) => {
+        window.systemAlert?.('aviso', `Você não tem permissão para ${acao}.`);
+    };
+
+    const handleEditClick = (e: React.MouseEvent) => {
+        if (canUpdate) return;
+        e.preventDefault();
+        showNoPermissionAlert('editar registros');
+    };
+
     const isStatusDevolvido = (status?: string | null) => {
         if (!status) return false;
         const normalizado = status
@@ -318,8 +334,12 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                         <div key={patrimonio.idP} className="bg-white rounded-lg shadow-md p-4 space-y-3">
                             <div className="flex items-start justify-between gap-3">
                                 <div>
-                                    <div className="text-sm font-semibold text-gray-900 whitespace-nowrap">{formatarIdPatrimonio(patrimonio)}</div>
-                                    <div className="text-xs text-gray-500">{patrimonio.descricaoPat}</div>
+                                    <div className="text-sm font-semibold text-gray-900 whitespace-nowrap">
+                                        {formatarIdPatrimonio(patrimonio)}
+                                    </div>
+                                    <div className="text-xs text-gray-500">
+                                        {patrimonio.descricaoPat}
+                                    </div>
                                 </div>
                                 <span className={`px-2 py-1 rounded-full text-[9px] font-semibold 
                                 ${patrimonio.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
@@ -352,8 +372,9 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                             <div className="flex items-center justify-end gap-2 pt-1">
                                 {!patrimonio.isHistorico ? (
                                     <>
-                                        <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
-                                            <Link href={`/patrimonio/${patrimonio.idP}`} title="Editar">
+                                        <Button asChild variant="ghost" size="icon"
+                                            className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
+                                            <Link href={`/patrimonio/${patrimonio.idP}`} title="Editar" onClick={handleEditClick}>
                                                 <Edit className="h-4 w-4" />
                                             </Link>
                                         </Button>
@@ -452,7 +473,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                                             variant="default"
                                                             className="w-full gap-2 bg-gray-100 text-blue-600 hover:bg-blue-100 rounded-lg transition"
                                                         >
-                                                            <Link href={`/patrimonio/${patrimonio.idP}`} className="flex-1" title="Editar">
+                                                            <Link href={`/patrimonio/${patrimonio.idP}`} className="flex-1" title="Editar" onClick={handleEditClick}>
                                                                 <Edit className="h-4 w-4" />
                                                             </Link>
                                                         </Button>

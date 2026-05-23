@@ -7,6 +7,7 @@ import { ChevronLeft } from 'lucide-react';
 import { Button } from '@/back-end/components/ui/button';
 import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
 import { useFormDraft } from '@/back-end/hooks/useFormDraft';
+import { ACTION_TOKENS, ROLE_ADMIN, buildAdminPermissions } from '@/lib/permissions';
 
 interface CentroCusto {
     idCCusto: string;
@@ -40,6 +41,7 @@ const FORMULARIOS_DISPONIVEIS = [
 ];
 
 const initialForm = {
+    perfil: 'OPERACIONAL' as 'ADMIN' | 'OPERACIONAL',
     nome: '',
     email: '',
     authType: 'GOOGLE' as 'LOCAL' | 'GOOGLE',
@@ -91,6 +93,7 @@ export default function AccessUserForm({ usuarioId }: { usuarioId?: string }) {
                         const u: AcessoUsuario | undefined = userData.data;
                         if (u) {
                             setForm({
+                                perfil: Array.isArray(u.formularios) && u.formularios.includes(ROLE_ADMIN) ? 'ADMIN' : 'OPERACIONAL',
                                 nome: u.nome || '',
                                 email: u.email || '',
                                 authType: u.authType || 'GOOGLE',
@@ -133,6 +136,25 @@ export default function AccessUserForm({ usuarioId }: { usuarioId?: string }) {
         setForm(prev => ({ ...prev, formularios: toggleItem(prev.formularios, id) }));
     };
 
+    const handlePerfilChange = (perfil: 'ADMIN' | 'OPERACIONAL') => {
+        if (perfil === 'ADMIN') {
+            setForm(prev => ({
+                ...prev,
+                perfil,
+                centros: ['*'],
+                formularios: buildAdminPermissions()
+            }));
+            return;
+        }
+
+        setForm(prev => ({
+            ...prev,
+            perfil,
+            centros: prev.centros.filter((id) => id !== '*'),
+            formularios: prev.formularios.filter((id) => id !== ROLE_ADMIN)
+        }));
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
@@ -143,7 +165,7 @@ export default function AccessUserForm({ usuarioId }: { usuarioId?: string }) {
             return;
         }
 
-        if (form.centros.length === 0) {
+        if (form.perfil !== 'ADMIN' && form.centros.length === 0) {
             notify('erro', 'Selecione ao menos um centro de custo');
             setLoading(false);
             return;
@@ -225,6 +247,18 @@ export default function AccessUserForm({ usuarioId }: { usuarioId?: string }) {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
+                                <label className="block text-sm font-medium mb-2">Perfil</label>
+                                <select
+                                    name="perfil"
+                                    value={form.perfil}
+                                    onChange={(e) => handlePerfilChange(e.target.value as 'ADMIN' | 'OPERACIONAL')}
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                >
+                                    <option value="OPERACIONAL">Operacional</option>
+                                    <option value="ADMIN">Admin (acesso total)</option>
+                                </select>
+                            </div>
+                            <div>
                                 <label className="block text-sm font-medium mb-2">Tipo de Acesso</label>
                                 <select name="authType" value={form.authType} onChange={(e) => {
                                     const value = e.target.value as 'LOCAL' | 'GOOGLE';
@@ -262,10 +296,18 @@ export default function AccessUserForm({ usuarioId }: { usuarioId?: string }) {
 
                     <div className="border-b pb-6">
                         <h2 className="text-h4 font-bold mb-4">Acesso aos Formularios</h2>
+                        {form.perfil === 'ADMIN' && (
+                            <p className="text-sm text-muted-foreground mb-3">Perfil Admin possui acesso completo automaticamente.</p>
+                        )}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             {FORMULARIOS_DISPONIVEIS.map((formulario) => (
                                 <label key={formulario.id} className="flex items-center gap-2 text-sm">
-                                    <input type="checkbox" checked={formulariosSelecionados.has(formulario.id)} onChange={() => handleToggleFormulario(formulario.id)} />
+                                    <input
+                                        type="checkbox"
+                                        checked={formulariosSelecionados.has(formulario.id)}
+                                        onChange={() => handleToggleFormulario(formulario.id)}
+                                        disabled={form.perfil === 'ADMIN'}
+                                    />
                                     <span>{formulario.label}</span>
                                 </label>
                             ))}
@@ -273,14 +315,42 @@ export default function AccessUserForm({ usuarioId }: { usuarioId?: string }) {
                     </div>
 
                     <div>
+                        <h2 className="text-h4 font-bold mb-4">Permissoes de Acao</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+                            {[
+                                { id: ACTION_TOKENS.CREATE, label: 'Adicionar registros' },
+                                { id: ACTION_TOKENS.UPDATE, label: 'Alterar registros' },
+                                { id: ACTION_TOKENS.DELETE, label: 'Excluir registros' },
+                                { id: ACTION_TOKENS.PRINT, label: 'Imprimir/Gerar relatorios' }
+                            ].map((acao) => (
+                                <label key={acao.id} className="flex items-center gap-2 text-sm">
+                                    <input
+                                        type="checkbox"
+                                        checked={formulariosSelecionados.has(acao.id)}
+                                        onChange={() => handleToggleFormulario(acao.id)}
+                                        disabled={form.perfil === 'ADMIN'}
+                                    />
+                                    <span>{acao.label}</span>
+                                </label>
+                            ))}
+                        </div>
+
                         <h2 className="text-h4 font-bold mb-4">Centros de Custo</h2>
+                        {form.perfil === 'ADMIN' && (
+                            <p className="text-sm text-muted-foreground mb-3">Perfil Admin utiliza todos os centros de custo.</p>
+                        )}
                         {loadingData ? (
                             <p className="text-sm text-muted-foreground">Carregando centros...</p>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-60 overflow-auto border rounded-lg p-4">
                                 {centros.map((centro) => (
                                     <label key={centro.idCCusto} className="flex items-center gap-2 text-sm">
-                                        <input type="checkbox" checked={centrosSelecionados.has(centro.idCCusto)} onChange={() => handleToggleCentro(centro.idCCusto)} />
+                                        <input
+                                            type="checkbox"
+                                            checked={centrosSelecionados.has(centro.idCCusto)}
+                                            onChange={() => handleToggleCentro(centro.idCCusto)}
+                                            disabled={form.perfil === 'ADMIN'}
+                                        />
                                         <span>{centro.descricaoCCusto || 'Sem descricao'}{centro.codigoCCusto ? ` (${centro.codigoCCusto})` : ''}</span>
                                     </label>
                                 ))}

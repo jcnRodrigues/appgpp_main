@@ -1,0 +1,516 @@
+{
+  "node": {
+    "40058364870dd3d3cb7c4c24528bc39a0b103b10c8": {
+      "workers": {
+        "app/page": {
+          "moduleId": 46220,
+          "async": false,
+          "exportedName": "alocacoesPorCentroCustoETipo",
+          "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      },
+      "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts",
+      "exportedName": "alocacoesPorCentroCustoETipo"
+    },
+    "40389c0fb702c05cdaf6bc0bcd33a26ea479766def": {
+      "workers": {
+        "app/page": {
+          "moduleId": 46220,
+          "async": false,
+          "exportedName": "alocacoesEvolucaoPorCentroCusto",
+          "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      },
+      "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts",
+      "exportedName": "alocacoesEvolucaoPorCentroCusto"
+    },
+    "40424ca3a7ee444c2b82263d25c67cd88729d4c33b": {
+      "workers": {
+        "app/page": {
+          "moduleId": 46220,
+          "async": false,
+          "exportedName": "resumoCentrosCusto",
+          "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      },
+      "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts",
+      "exportedName": "resumoCentrosCusto"
+    },
+    "404de1a6cec50739de75fad5d420e7c0bad8936b96": {
+      "workers": {
+        "app/page": {
+          "moduleId": 46220,
+          "async": false,
+          "exportedName": "funcionariosPorStatus",
+          "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      },
+      "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts",
+      "exportedName": "funcionariosPorStatus"
+    },
+    "4053c1a0c8fa5a3aec93ebfd29c65ccfbce3de3ab9": {
+      "workers": {
+        "app/page": {
+          "moduleId": 46220,
+          "async": false,
+          "exportedName": "contarFuncionarios",
+          "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      },
+      "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts",
+      "exportedName": "contarFuncionarios"
+    },
+    "405648d99fcc6981584c91ab8744ef4a5f2ec14cf7": {
+      "workers": {
+        "app/page": {
+          "moduleId": 46220,
+          "async": false,
+          "exportedName": "alocacoesPorCentroCusto",
+          "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      },
+      "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts",
+      "exportedName": "alocacoesPorCentroCusto"
+    },
+    "407e386febf4ffb6bb0b7843fee8ad8733398a2fb3": {
+      "workers": {
+        "app/page": {
+          "moduleId": 46220,
+          "async": false,
+          "exportedName": "alocacoesAoLongoDoTempo",
+          "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      },
+      "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts",
+      "exportedName": "alocacoesAoLongoDoTempo"
+    },
+    "40a5ac053e5704656e63abe154ef25911692998a65": {
+      "workers": {
+        "app/page": {
+          "moduleId": 46220,
+          "async": false,
+          "exportedName": "funcionariosPorCentroCusto",
+          "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts"
+        }
+      },
+      "layer": {
+        "app/page": "rsc"
+      },
+      "filename": "src/back-end/service/Dashboard.service/dashboard.service.ts",
+      "exportedName": "funcionariosPorCentroCusto"
+    },
+    "406830b7814aaa9fd7c0af09736a6ea3203310212e": {
+      "workers": {
+        "app/alocacoes/[id]/termo/page": {
+          "moduleId": 96458,
+          "async": false,
+          "exportedName": "contarAlocacoes",
+          "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts"
+        }
+      },
+      "layer": {
+        "app/alocacoes/[id]/termo/page": "rsc"
+      },
+      "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts",
+      "exportedName": "contarAlocacoes"
+    },
+    "4077653c25f4f929ca0043711a85ae638db14d8ad7": {
+      "workers": {
+        "app/alocacoes/[id]/termo/page": {
+          "moduleId": 96458,
+          "async": false,
+          "exportedName": "patrimoniosPorFuncionario",
+          "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts"
+        }
+      },
+      "layer": {
+        "app/alocacoes/[id]/termo/page": "rsc"
+      },
+      "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts",
+      "exportedName": "patrimoniosPorFuncionario"
+    },
+    "407bcb8ea4e399b543068123671d765f2700d332a9": {
+      "workers": {
+        "app/alocacoes/[id]/termo/page": {
+          "moduleId": 96458,
+          "async": false,
+          "exportedName": "alocacoesPorPatrimonio",
+          "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts"
+        }
+      },
+      "layer": {
+        "app/alocacoes/[id]/termo/page": "rsc"
+      },
+      "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts",
+      "exportedName": "alocacoesPorPatrimonio"
+    },
+    "40a28d3c8c1bd780b1d7cff1616d8a10b80d71810c": {
+      "workers": {
+        "app/alocacoes/[id]/termo/page": {
+          "moduleId": 96458,
+          "async": false,
+          "exportedName": "listarFuncionarios",
+          "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts"
+        }
+      },
+      "layer": {
+        "app/alocacoes/[id]/termo/page": "rsc"
+      },
+      "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts",
+      "exportedName": "listarFuncionarios"
+    },
+    "40a79590e1c5b58d1a711fe23427a075ffe5cba524": {
+      "workers": {
+        "app/alocacoes/[id]/termo/page": {
+          "moduleId": 96458,
+          "async": false,
+          "exportedName": "listarPatrimonios",
+          "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts"
+        }
+      },
+      "layer": {
+        "app/alocacoes/[id]/termo/page": "rsc"
+      },
+      "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts",
+      "exportedName": "listarPatrimonios"
+    },
+    "40aeec86e14df237c4bc37d2128b747e498402c75c": {
+      "workers": {
+        "app/alocacoes/[id]/termo/page": {
+          "moduleId": 96458,
+          "async": false,
+          "exportedName": "listarAlocacoes",
+          "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts"
+        }
+      },
+      "layer": {
+        "app/alocacoes/[id]/termo/page": "rsc"
+      },
+      "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts",
+      "exportedName": "listarAlocacoes"
+    },
+    "40d4d60455f8b0de6bd14a0ef1426f82977c676a14": {
+      "workers": {
+        "app/alocacoes/[id]/termo/page": {
+          "moduleId": 96458,
+          "async": false,
+          "exportedName": "buscarAlocacaoById",
+          "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts"
+        }
+      },
+      "layer": {
+        "app/alocacoes/[id]/termo/page": "rsc"
+      },
+      "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts",
+      "exportedName": "buscarAlocacaoById"
+    },
+    "40dd33643ca8c6190e0f885214f1fb7b02aef97d51": {
+      "workers": {
+        "app/alocacoes/[id]/termo/page": {
+          "moduleId": 96458,
+          "async": false,
+          "exportedName": "deletarAlocacao",
+          "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts"
+        }
+      },
+      "layer": {
+        "app/alocacoes/[id]/termo/page": "rsc"
+      },
+      "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts",
+      "exportedName": "deletarAlocacao"
+    },
+    "40e410e35ebc11e007758160d97afea72f12b1c2c8": {
+      "workers": {
+        "app/alocacoes/[id]/termo/page": {
+          "moduleId": 96458,
+          "async": false,
+          "exportedName": "criarAlocacao",
+          "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts"
+        }
+      },
+      "layer": {
+        "app/alocacoes/[id]/termo/page": "rsc"
+      },
+      "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts",
+      "exportedName": "criarAlocacao"
+    },
+    "60b9a7ae1a21097bb9f3d49bbb2322b1614d92c98f": {
+      "workers": {
+        "app/alocacoes/[id]/termo/page": {
+          "moduleId": 96458,
+          "async": false,
+          "exportedName": "transferirAlocacao",
+          "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts"
+        }
+      },
+      "layer": {
+        "app/alocacoes/[id]/termo/page": "rsc"
+      },
+      "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts",
+      "exportedName": "transferirAlocacao"
+    },
+    "60d9ca6f80ee0595c46afba40436ac031015175a06": {
+      "workers": {
+        "app/alocacoes/[id]/termo/page": {
+          "moduleId": 96458,
+          "async": false,
+          "exportedName": "atualizarAlocacao",
+          "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts"
+        }
+      },
+      "layer": {
+        "app/alocacoes/[id]/termo/page": "rsc"
+      },
+      "filename": "src/back-end/service/Cadastro.service/cadastro.service.ts",
+      "exportedName": "atualizarAlocacao"
+    },
+    "40ad99a27d1ab784d20173cb5521d22b3557d3c1c8": {
+      "workers": {
+        "app/alocacoes/[id]/termo/page": {
+          "moduleId": 96458,
+          "async": false,
+          "exportedName": "getTipoPatId",
+          "filename": "src/back-end/service/TipoPatrimonio.service/tipoPatrimonio.service.ts"
+        }
+      },
+      "layer": {
+        "app/alocacoes/[id]/termo/page": "rsc"
+      },
+      "filename": "src/back-end/service/TipoPatrimonio.service/tipoPatrimonio.service.ts",
+      "exportedName": "getTipoPatId"
+    },
+    "000a5baba1cb70fe244e3987ce16d3b89a2d17c06f": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": 20135,
+          "async": false,
+          "exportedName": "getCentrosCustoFun",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts",
+      "exportedName": "getCentrosCustoFun"
+    },
+    "00381b5568b65da57a064706cddc310cd6c54e35f0": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": 20135,
+          "async": false,
+          "exportedName": "getStatusFuncionario",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts",
+      "exportedName": "getStatusFuncionario"
+    },
+    "0045ad310e6adc83daea80d2aa9e375673fc977ec7": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": 20135,
+          "async": false,
+          "exportedName": "getFuncionariosCard",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts",
+      "exportedName": "getFuncionariosCard"
+    },
+    "006c4249a6bcc4a08fd93c690edecfe45aa2a96a9b": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": 20135,
+          "async": false,
+          "exportedName": "getLicencasDisponiveisParaFuncionario",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts",
+      "exportedName": "getLicencasDisponiveisParaFuncionario"
+    },
+    "008e276de075b54194a24e05f99fe6df184c393faa": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": 20135,
+          "async": false,
+          "exportedName": "getFuncoes",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts",
+      "exportedName": "getFuncoes"
+    },
+    "402328abeeea36e5200776fece3e05af1450573e1f": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": 20135,
+          "async": false,
+          "exportedName": "getFuncionarioFuncaoById",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts",
+      "exportedName": "getFuncionarioFuncaoById"
+    },
+    "402d341b3316953209f107bc0c475117c2e3e436bc": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": 20135,
+          "async": false,
+          "exportedName": "getFuncionarioById",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts",
+      "exportedName": "getFuncionarioById"
+    },
+    "406c2a03b0b0ab955eccba21bbfd22a9d053312553": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": 20135,
+          "async": false,
+          "exportedName": "getFuncionarioByIdInterno",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts",
+      "exportedName": "getFuncionarioByIdInterno"
+    },
+    "4086741aac7a9c74519e2857c2da6a9322606192ae": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": 20135,
+          "async": false,
+          "exportedName": "criarFuncionario",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts",
+      "exportedName": "criarFuncionario"
+    },
+    "40bcc7b5e355851aaa4bf4cbe0fa0a446c597183b9": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": 20135,
+          "async": false,
+          "exportedName": "listarFuncionarios",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts",
+      "exportedName": "listarFuncionarios"
+    },
+    "40c3fe95d1e55d98058e9cb45bfe89d9a063dc0c5c": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": 20135,
+          "async": false,
+          "exportedName": "contarFuncionarios",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts",
+      "exportedName": "contarFuncionarios"
+    },
+    "40da1a5c61ada4e8a71839c9326e6b54e5cce2ea2c": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": 20135,
+          "async": false,
+          "exportedName": "getFuncionariosAppointmentByUserID",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts",
+      "exportedName": "getFuncionariosAppointmentByUserID"
+    },
+    "6085027f2e5e7fd93fa143b3ac6ac8ff1779116fa1": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": 20135,
+          "async": false,
+          "exportedName": "atualizarFuncionario",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts",
+      "exportedName": "atualizarFuncionario"
+    },
+    "60c2f1e3bf4836ba4994c86f99cbcae14fdbbf07f8": {
+      "workers": {
+        "app/funcionariosadd/page": {
+          "moduleId": 20135,
+          "async": false,
+          "exportedName": "getFuncionarioStatusById",
+          "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts"
+        }
+      },
+      "layer": {
+        "app/funcionariosadd/page": "rsc"
+      },
+      "filename": "src/back-end/service/Funcionario.service/funcionario.service.ts",
+      "exportedName": "getFuncionarioStatusById"
+    }
+  },
+  "edge": {},
+  "encryptionKey": "dlPJNgdL+ToV4BfABj6b3nUlyLz4mOwWxp+CvEWxoHA="
+}

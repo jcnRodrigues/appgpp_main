@@ -1,12 +1,16 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { renderPdf } from '@/lib/renderPdf';
 import { generatePdf } from '@/lib/generatePdf';
 import type { DadosTermoResponsabilidade } from '@/lib/termoResponsabilidadePdf';
+import { hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 export async function POST(request: NextRequest) {
+    const canAccess = await hasModuleAccessForRequest(request, 'ALOCACOES');
+    const canPrint = await hasActionPermissionForRequest(request, 'PRINT');
+    if (!canAccess || !canPrint) return NextResponse.json({ message: 'Sem permissao para gerar termo PDF' }, { status: 403 });
     try {
         const body = await request.json();
         const {
@@ -27,7 +31,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json(
                 {
                     message:
-                        'Dados obrigatórios: nomeFun, idMatFun, idPat, descricaoPat',
+                        'Dados obrigatÃ³rios: nomeFun, idMatFun, idPat, descricaoPat',
                 },
                 { status: 400 }
             );
@@ -79,3 +83,4 @@ export async function POST(request: NextRequest) {
         );
     }
 }
+
