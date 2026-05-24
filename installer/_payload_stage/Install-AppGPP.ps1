@@ -161,12 +161,7 @@ try {
   Set-Content -LiteralPath $serverConfigPath -Value $serverConfig -Encoding ASCII
   Write-Step "Configuracao salva em appgpp-server.env (host: $ServerHost, porta: $ServerPort)"
 
-  if (-not $SkipNpmInstall) {
-    Write-Step "Instalando dependencias npm"
-    npm install --no-audit --no-fund
-  }
-
-  if (Test-Path ".env.example" -and -not (Test-Path ".env")) {
+  if ((Test-Path ".env.example") -and -not (Test-Path ".env")) {
     Write-Step "Criando .env inicial a partir de .env.example"
     Copy-Item ".env.example" ".env"
   }
@@ -175,6 +170,11 @@ try {
     $envPath = Join-Path $InstallDir ".env"
     Set-Or-ReplaceEnvValue -EnvFilePath $envPath -Key "DATABASE_URL" -Value $finalDbUrl
     Write-Step "DATABASE_URL configurado com host/porta/usuario/senha/banco do MySQL"
+  }
+
+  if (-not $SkipNpmInstall) {
+    Write-Step "Instalando dependencias npm"
+    npm install --no-audit --no-fund
   }
 
   if ($RunBuild) {

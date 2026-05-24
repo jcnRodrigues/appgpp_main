@@ -572,7 +572,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "d:\\Project_Gestao\\appgpp\\prisma\\generated\\prisma",
+      "value": "d:\\Project_Gestao\\appgpp\\installer\\_stage\\prisma\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -586,12 +586,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "d:\\Project_Gestao\\appgpp\\prisma\\schema.prisma",
+    "sourceFilePath": "d:\\Project_Gestao\\appgpp\\installer\\_stage\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../..",
   "clientVersion": "6.13.0",

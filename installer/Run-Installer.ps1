@@ -15,11 +15,81 @@ function Test-MySqlInstalled {
   return ($null -ne $svc)
 }
 
+function Open-MySqlDownloadPage {
+  $url = "https://dev.mysql.com/downloads/installer/"
+  try {
+    Start-Process $url | Out-Null
+  } catch {}
+}
+
 function Show-CompanyForm {
   param(
     [string]$InstallDir,
     [System.Drawing.Icon]$AppIcon
   )
+
+  function Save-CompanyInDatabase {
+    param(
+      [string]$BaseDir,
+      [hashtable]$Company
+    )
+
+    $nodeScript = @"
+const path = require('path');
+process.chdir(path.resolve(process.argv[2]));
+const company = JSON.parse(process.argv[3]);
+const { PrismaClient } = require('./prisma/generated/prisma');
+const prisma = new PrismaClient();
+
+async function run() {
+  const existing = await prisma.tbEmpresa.findFirst({ orderBy: { idEmp: 'asc' } });
+  if (existing) {
+    await prisma.tbEmpresa.update({
+      where: { idEmp: existing.idEmp },
+      data: {
+        razaoEmpresa: company.razao_social || null,
+        fantasiaEmpresa: company.nome_fantasia || null,
+        cnpjEmpresa: company.cnpj || null
+      }
+    });
+  } else {
+    await prisma.tbEmpresa.create({
+      data: {
+        razaoEmpresa: company.razao_social || null,
+        fantasiaEmpresa: company.nome_fantasia || null,
+        cnpjEmpresa: company.cnpj || null
+      }
+    });
+  }
+}
+
+run()
+  .then(async () => { await prisma.`$disconnect(); process.exit(0); })
+  .catch(async (e) => {
+    console.error(e && e.message ? e.message : String(e));
+    await prisma.`$disconnect();
+    process.exit(1);
+  });
+"@
+
+    $scriptPath = Join-Path $env:TEMP ("appgpp-save-company-" + [guid]::NewGuid().ToString("N") + ".js")
+    $errPath = Join-Path $env:TEMP ("appgpp-save-company-" + [guid]::NewGuid().ToString("N") + ".err.log")
+    Set-Content -LiteralPath $scriptPath -Value $nodeScript -Encoding UTF8
+
+    try {
+      $companyJson = ($Company | ConvertTo-Json -Compress -Depth 4)
+      $proc = Start-Process -FilePath "node" -ArgumentList @($scriptPath, $BaseDir, $companyJson) -RedirectStandardError $errPath -Wait -PassThru
+      if ($proc.ExitCode -ne 0) {
+        $details = ""
+        if (Test-Path -LiteralPath $errPath) { $details = (Get-Content -LiteralPath $errPath -Raw) }
+        return @{ ok = $false; details = $details }
+      }
+      return @{ ok = $true; details = "" }
+    } finally {
+      Remove-Item -LiteralPath $scriptPath -Force -ErrorAction SilentlyContinue
+      Remove-Item -LiteralPath $errPath -Force -ErrorAction SilentlyContinue
+    }
+  }
 
   $form = New-Object System.Windows.Forms.Form
   $form.Text = "Cadastro da Empresa"
@@ -28,6 +98,7 @@ function Show-CompanyForm {
   $form.FormBorderStyle = "FixedDialog"
   $form.MaximizeBox = $false
   $form.MinimizeBox = $false
+  $form.ControlBox = $false
   if ($AppIcon) { $form.Icon = $AppIcon }
 
   function Add-Field {
@@ -48,16 +119,29 @@ function Show-CompanyForm {
   $tbRazao = Add-Field -Label "Razao social" -Y 20
   $tbFantasia = Add-Field -Label "Nome fantasia" -Y 74
   $tbCnpj = Add-Field -Label "CNPJ" -Y 128
+  $script:isFormattingCnpj = $false
+  $tbCnpj.Add_TextChanged({
+    if ($script:isFormattingCnpj) { return }
+    $script:isFormattingCnpj = $true
+    try {
+      $digits = ($tbCnpj.Text -replace '\D', '')
+      if ($digits.Length -gt 14) { $digits = $digits.Substring(0, 14) }
+
+      $formatted = $digits
+      if ($digits.Length -gt 2) { $formatted = $digits.Substring(0,2) + "." + $digits.Substring(2) }
+      if ($digits.Length -gt 5) { $formatted = $formatted.Substring(0,6) + "." + $formatted.Substring(6) }
+      if ($digits.Length -gt 8) { $formatted = $formatted.Substring(0,10) + "/" + $formatted.Substring(10) }
+      if ($digits.Length -gt 12) { $formatted = $formatted.Substring(0,15) + "-" + $formatted.Substring(15) }
+
+      $tbCnpj.Text = $formatted
+      $tbCnpj.SelectionStart = $tbCnpj.Text.Length
+    } finally {
+      $script:isFormattingCnpj = $false
+    }
+  })
   $tbEmail = Add-Field -Label "E-mail" -Y 182
   $tbTelefone = Add-Field -Label "Telefone" -Y 236
   $tbEndereco = Add-Field -Label "Endereco" -Y 290
-
-  $btnSkip = New-Object System.Windows.Forms.Button
-  $btnSkip.Text = "Pular"
-  $btnSkip.Location = New-Object System.Drawing.Point(330, 350)
-  $btnSkip.Size = New-Object System.Drawing.Size(100, 32)
-  $btnSkip.Add_Click({ $form.Tag = "skip"; $form.Close() })
-  $form.Controls.Add($btnSkip)
 
   $btnSave = New-Object System.Windows.Forms.Button
   $btnSave.Text = "Salvar"
@@ -82,16 +166,18 @@ function Show-CompanyForm {
       atualizado_em = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
     }
 
-    $dataDir = Join-Path $InstallDir "data"
-    New-Item -ItemType Directory -Path $dataDir -Force | Out-Null
-    $empresaPath = Join-Path $dataDir "empresa.json"
-    $empresa | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath $empresaPath -Encoding UTF8
-
-    [System.Windows.Forms.MessageBox]::Show("Cadastro salvo em: $empresaPath", "Cadastro da Empresa") | Out-Null
-    $form.Tag = "saved"
-    $form.Close()
+    $dbResult = Save-CompanyInDatabase -BaseDir $InstallDir -Company $empresa
+    if ($dbResult.ok) {
+      [System.Windows.Forms.MessageBox]::Show("Cadastro salvo no banco de dados MySQL (tbEmpresa).", "Cadastro da Empresa") | Out-Null
+      $form.Tag = "saved"
+      $form.Close()
+    } else {
+      [System.Windows.Forms.MessageBox]::Show("Nao foi possivel gravar no MySQL. Corrija a conexao e tente salvar novamente.`n`nDetalhes: $($dbResult.details)", "Cadastro da Empresa") | Out-Null
+    }
   })
   $form.Controls.Add($btnSave)
+
+  $form.AcceptButton = $btnSave
 
   [void]$form.ShowDialog()
 }
@@ -239,7 +325,8 @@ function Get-FriendlyErrorMessage {
 function Show-ErrorDialog {
   param(
     [string]$RawError,
-    [System.Drawing.Icon]$AppIcon
+    [System.Drawing.Icon]$AppIcon,
+    [string]$LogPath = ""
   )
 
   $friendly = Get-FriendlyErrorMessage -RawError $RawError
@@ -285,6 +372,14 @@ function Show-ErrorDialog {
   $tbDetails.Font = New-Object System.Drawing.Font("Consolas", 9)
   $tbDetails.Text = ($RawError | Out-String).Trim()
   $errForm.Controls.Add($tbDetails)
+
+  if (-not [string]::IsNullOrWhiteSpace($LogPath)) {
+    $lblLog = New-Object System.Windows.Forms.Label
+    $lblLog.Text = "Log salvo em: $LogPath"
+    $lblLog.Location = New-Object System.Drawing.Point(20, 314)
+    $lblLog.Size = New-Object System.Drawing.Size(560, 34)
+    $errForm.Controls.Add($lblLog)
+  }
 
   $btnOk = New-Object System.Windows.Forms.Button
   $btnOk.Text = "Voltar e corrigir"
@@ -343,7 +438,8 @@ $btnInstall.Add_Click({
 
       if ($choice -eq [System.Windows.Forms.DialogResult]::Yes) {
         if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
-          [System.Windows.Forms.MessageBox]::Show("Winget nao encontrado. Baixe MySQL em https://dev.mysql.com/downloads/installer/", "MySQL") | Out-Null
+          Open-MySqlDownloadPage
+          [System.Windows.Forms.MessageBox]::Show("Winget nao encontrado. O site oficial do MySQL foi aberto para download. Instale o MySQL e execute novamente.", "MySQL") | Out-Null
           return
         }
 
@@ -353,17 +449,20 @@ $btnInstall.Add_Click({
 
         $mysqlProc = Start-Process -FilePath "winget" -ArgumentList "install --id Oracle.MySQL --exact --accept-source-agreements --accept-package-agreements" -Wait -PassThru
         if ($mysqlProc.ExitCode -ne 0) {
-          [System.Windows.Forms.MessageBox]::Show("Nao foi possivel instalar MySQL automaticamente. Instale manualmente e execute novamente.", "MySQL") | Out-Null
+          Open-MySqlDownloadPage
+          [System.Windows.Forms.MessageBox]::Show("Nao foi possivel instalar MySQL automaticamente. O site oficial foi aberto para instalacao manual.", "MySQL") | Out-Null
           return
         }
 
         Start-Sleep -Seconds 2
         if (-not (Test-MySqlInstalled)) {
-          [System.Windows.Forms.MessageBox]::Show("MySQL ainda nao foi detectado. Verifique a instalacao manualmente.", "MySQL") | Out-Null
+          Open-MySqlDownloadPage
+          [System.Windows.Forms.MessageBox]::Show("MySQL ainda nao foi detectado. O site oficial foi aberto para instalacao manual.", "MySQL") | Out-Null
           return
         }
       } else {
-        [System.Windows.Forms.MessageBox]::Show("Instale o MySQL e execute o instalador novamente.", "MySQL") | Out-Null
+        Open-MySqlDownloadPage
+        [System.Windows.Forms.MessageBox]::Show("Instale o MySQL e execute o instalador novamente. O site oficial foi aberto.", "MySQL") | Out-Null
         return
       }
     }
@@ -432,46 +531,82 @@ $btnInstall.Add_Click({
       "-DbName " + (Escape-ArgValue $dbName)
     )
 
-    $psi = New-Object System.Diagnostics.ProcessStartInfo
-    $psi.FileName = "powershell.exe"
-    $psi.Arguments = ($argParts -join " ")
-    $psi.UseShellExecute = $false
-    $psi.RedirectStandardOutput = $true
-    $psi.RedirectStandardError = $true
-    $psi.CreateNoWindow = $true
+    $stdoutLog = Join-Path $tempDir "install-stdout.log"
+    $stderrLog = Join-Path $tempDir "install-stderr.log"
+    $combinedLog = Join-Path $tempDir "install-combined.log"
+    if (Test-Path $stdoutLog) { Remove-Item -LiteralPath $stdoutLog -Force -ErrorAction SilentlyContinue }
+    if (Test-Path $stderrLog) { Remove-Item -LiteralPath $stderrLog -Force -ErrorAction SilentlyContinue }
+    if (Test-Path $combinedLog) { Remove-Item -LiteralPath $combinedLog -Force -ErrorAction SilentlyContinue }
 
-    $proc = New-Object System.Diagnostics.Process
-    $proc.StartInfo = $psi
-
-    $null = $proc.Start()
+    $proc = Start-Process -FilePath "powershell.exe" -ArgumentList ($argParts -join " ") -RedirectStandardOutput $stdoutLog -RedirectStandardError $stderrLog -PassThru
     $progressForm.Show()
 
     while (-not $proc.HasExited) {
-      while ($proc.StandardOutput.Peek() -ge 0) {
-        $line = $proc.StandardOutput.ReadLine()
-        $log.AppendText($line + [Environment]::NewLine)
-      }
-      while ($proc.StandardError.Peek() -ge 0) {
-        $errLine = $proc.StandardError.ReadLine()
-        $log.AppendText("[ERRO] " + $errLine + [Environment]::NewLine)
+      if (Test-Path $stdoutLog) { $log.Text = (Get-Content -LiteralPath $stdoutLog -Raw) }
+      if (Test-Path $stderrLog) {
+        $errRaw = Get-Content -LiteralPath $stderrLog -Raw
+        if (-not [string]::IsNullOrWhiteSpace($errRaw)) {
+          $log.Text = $log.Text + [Environment]::NewLine + "[ERRO]" + [Environment]::NewLine + $errRaw
+        }
       }
       [System.Windows.Forms.Application]::DoEvents()
-      Start-Sleep -Milliseconds 120
+      Start-Sleep -Milliseconds 250
     }
 
-    while ($proc.StandardOutput.Peek() -ge 0) { $log.AppendText($proc.StandardOutput.ReadLine() + [Environment]::NewLine) }
-    while ($proc.StandardError.Peek() -ge 0) { $log.AppendText("[ERRO] " + $proc.StandardError.ReadLine() + [Environment]::NewLine) }
+    $outFinal = ""
+    $errFinal = ""
+    if (Test-Path $stdoutLog) { $outFinal = Get-Content -LiteralPath $stdoutLog -Raw }
+    if (Test-Path $stderrLog) { $errFinal = Get-Content -LiteralPath $stderrLog -Raw }
+    $log.Text = $outFinal
+    if (-not [string]::IsNullOrWhiteSpace($errFinal)) {
+      $log.Text = $log.Text + [Environment]::NewLine + "[ERRO]" + [Environment]::NewLine + $errFinal
+    }
 
-    if ($proc.ExitCode -ne 0) {
-      $log.AppendText("Instalacao finalizada com erro (codigo $($proc.ExitCode))." + [Environment]::NewLine)
-      $errorLine = ($log.Lines | Where-Object { $_ -match "\[ERRO\]" } | Select-Object -Last 1)
-      if (-not $errorLine) { $errorLine = "Falha na instalacao (codigo $($proc.ExitCode))." }
+    try {
+      $proc.WaitForExit()
+      $proc.Refresh()
+      $exitCode = $proc.ExitCode
+    } catch {
+      $exitCode = -1
+    }
+    if ($null -eq $exitCode) { $exitCode = -1 }
+
+    $successMarker = ($outFinal -match "\[AppGPP\] Instalacao concluida")
+    if ($exitCode -eq -1 -and $successMarker) {
+      $exitCode = 0
+    }
+    $combinedText = @(
+      "=== AppGPP Installer Log ===",
+      "Timestamp: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')",
+      "ExitCode: $exitCode",
+      "",
+      "----- STDOUT -----",
+      $outFinal,
+      "",
+      "----- STDERR -----",
+      $errFinal
+    ) -join [Environment]::NewLine
+    Set-Content -LiteralPath $combinedLog -Value $combinedText -Encoding UTF8
+
+    $persistLogPath = ""
+    try {
+      $logTargetDir = if (-not [string]::IsNullOrWhiteSpace($installDir) -and (Test-Path -LiteralPath $installDir)) { $installDir } else { $env:TEMP }
+      $persistLogPath = Join-Path $logTargetDir "appgpp-install.log"
+      Copy-Item -LiteralPath $combinedLog -Destination $persistLogPath -Force
+    } catch {
+      $persistLogPath = $combinedLog
+    }
+
+    if ($exitCode -ne 0) {
+      $log.AppendText("Instalacao finalizada com erro (codigo $exitCode)." + [Environment]::NewLine)
+      $errorLine = ($log.Lines | Where-Object { $_ -and $_.Trim() -ne "" -and $_ -notmatch "Environment variables loaded from \.env" } | Select-Object -Last 1)
+      if (-not $errorLine) { $errorLine = "Falha na instalacao (codigo $exitCode). Consulte os detalhes tecnicos." }
       $progressForm.Close()
       $btnInstall.Enabled = $true
       $btnCancel.Enabled = $true
       $form.Show()
       Set-FormError -Message (Get-FriendlyErrorMessage -RawError $errorLine) -FocusControl (Resolve-ErrorFocus -Text $errorLine)
-      Show-ErrorDialog -RawError $errorLine -AppIcon $appIcon
+      Show-ErrorDialog -RawError ($combinedText + [Environment]::NewLine + [Environment]::NewLine + "Resumo: " + $errorLine) -AppIcon $appIcon -LogPath $persistLogPath
       return
     }
 
