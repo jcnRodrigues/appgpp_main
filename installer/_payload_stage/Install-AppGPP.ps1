@@ -1,7 +1,7 @@
 param(
   [string]$InstallDir = "C:\\AppGPP",
   [switch]$SkipNpmInstall,
-  [bool]$RunBuild = $false,
+  [bool]$RunBuild = $true,
   [string]$ServerHost = "",
   [int]$ServerPort = 0,
   [string]$DbHost = "",
@@ -180,6 +180,11 @@ try {
   if ($RunBuild) {
     Write-Step "Gerando build de producao"
     npm run build
+  }
+
+  if (Test-Path ".\\Register-AppGPP-StartupTask.ps1") {
+    Write-Step "Registrando inicializacao automatica do AppGPP no boot do servidor"
+    powershell -NoProfile -ExecutionPolicy Bypass -File ".\\Register-AppGPP-StartupTask.ps1" -InstallDir $InstallDir
   }
 
   if (Test-Path "Criar-Atalho-AreaTrabalho.ps1") {

@@ -59,13 +59,13 @@ try {
 
 # Reaproveita servidor existente quando ja estiver rodando.
 $existing = Get-CimInstance Win32_Process -Filter "Name='cmd.exe'" |
-  Where-Object { $_.CommandLine -like '*npm run dev*' -and $_.CommandLine -like "*$projectRoot*" } |
+  Where-Object { $_.CommandLine -like '*npm run start*' -and $_.CommandLine -like "*$projectRoot*" } |
   Select-Object -First 1
 
 if ($existing) {
   $server = Get-Process -Id $existing.ProcessId -ErrorAction SilentlyContinue
 } else {
-  $cmdLine = "/c cd /d `"$projectRoot`" && set APPGPP_BIND_HOST=$bindHost && set APPGPP_PORT=$port && npm run dev -- --hostname $bindHost --port $port"
+  $cmdLine = "/c cd /d `"$projectRoot`" && npm run start -- -H $bindHost -p $port"
   $server = Start-Process -FilePath "cmd.exe" -ArgumentList $cmdLine -WindowStyle Hidden -PassThru
 }
 

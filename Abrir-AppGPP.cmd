@@ -3,22 +3,21 @@ setlocal
 
 set "APP_DIR=%~dp0"
 cd /d "%APP_DIR%"
-set "TRAY_SCRIPT=%APP_DIR%AppGPP-Tray.ps1"
+set "CFG=%APP_DIR%appgpp-server.env"
+set "HOST=localhost"
+set "PORT=3000"
 
-where npm >nul 2>nul
-if errorlevel 1 (
-  echo [ERRO] npm nao encontrado. Instale o Node.js 20+ e tente novamente.
-  pause
-  exit /b 1
+if exist "%CFG%" (
+  for /f "usebackq tokens=1,* delims==" %%A in ("%CFG%") do (
+    if /I "%%A"=="APPGPP_PUBLIC_HOST" set "HOST=%%B"
+    if /I "%%A"=="APPGPP_PORT" set "PORT=%%B"
+  )
 )
 
-if not exist "%TRAY_SCRIPT%" (
-  echo [ERRO] Script da bandeja nao encontrado: "%TRAY_SCRIPT%"
-  pause
-  exit /b 1
+if exist "%APP_DIR%Start-AppGPP-Server.ps1" (
+  powershell -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "%APP_DIR%Start-AppGPP-Server.ps1" >nul 2>nul
 )
 
-echo Iniciando AppGPP na bandeja do sistema...
-powershell -NoProfile -ExecutionPolicy Bypass -STA -WindowStyle Hidden -File "%TRAY_SCRIPT%"
+start "" "http://%HOST%:%PORT%"
 
 exit /b 0
