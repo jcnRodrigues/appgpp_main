@@ -64,18 +64,24 @@ export default function CCustoTable({ centros: inicial }: { centros: Centro[] })
     }, [itensPorPagina]);
 
     const handleDelete = async (id: string, descricao: string) => {
-        if (confirm(`Deletar "${descricao}"?`)) {
-            try {
-                const res = await fetch(`/api/ccusto/${id}`, { method: 'DELETE' });
-                if (res.ok) {
-                    await carregarCentros();
-                } else {
-                    alert('Erro ao deletar');
-                }
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            } catch (e) {
+        const confirmou = window.systemConfirm
+            ? await window.systemConfirm(`Deletar "${descricao}"?`, 'Confirmar exclusão', {
+                confirmText: 'Excluir',
+                cancelText: 'Cancelar'
+            })
+            : window.confirm(`Deletar "${descricao}"?`);
+        if (!confirmou) return;
+
+        try {
+            const res = await fetch(`/api/ccusto/${id}`, { method: 'DELETE' });
+            if (res.ok) {
+                await carregarCentros();
+            } else {
                 alert('Erro ao deletar');
             }
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (e) {
+            alert('Erro ao deletar');
         }
     };
 

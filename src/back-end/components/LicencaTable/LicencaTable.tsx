@@ -67,7 +67,13 @@ export default function LicencaTable() {
     }, [filtroDescricao, itensPorPagina]);
 
     const handleDelete = async (idLic: string) => {
-        if (!confirm('Tem certeza que deseja deletar esta licenca?')) return;
+        const confirmou = window.systemConfirm
+            ? await window.systemConfirm('Tem certeza que deseja deletar esta licenca?', 'Confirmar exclusão', {
+                confirmText: 'Excluir',
+                cancelText: 'Cancelar'
+            })
+            : window.confirm('Tem certeza que deseja deletar esta licenca?');
+        if (!confirmou) return;
 
         try {
             const response = await fetch(`/api/licenca/${idLic}`, {

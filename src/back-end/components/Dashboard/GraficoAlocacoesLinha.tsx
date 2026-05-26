@@ -93,7 +93,7 @@ export default function GraficoAlocacoesLinha() {
                         contentStyle={tooltipStyle}
                         labelStyle={{ color: 'var(--popover-foreground)', fontWeight: 600 }}
                         itemStyle={{ color: 'var(--popover-foreground)' }}
-                        formatter={(value: number | undefined) => [value ?? 0, '']}
+                        formatter={(value: number | undefined, name: string | number) => [value ?? 0, String(name)]}
                     />
                     <Legend wrapperStyle={{ fontSize: 12 }} />
                     {centros.map((centro, i) => (

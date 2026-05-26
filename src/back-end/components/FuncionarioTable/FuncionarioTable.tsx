@@ -88,7 +88,13 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
     };
 
     const handleDelete = async (idF: string) => {
-        if (!confirm('Tem certeza que deseja deletar este funcionário?')) return;
+        const confirmou = window.systemConfirm
+            ? await window.systemConfirm('Tem certeza que deseja deletar este funcionário?', 'Confirmar exclusão', {
+                confirmText: 'Excluir',
+                cancelText: 'Cancelar'
+            })
+            : window.confirm('Tem certeza que deseja deletar este funcionário?');
+        if (!confirmou) return;
 
         try {
             const response = await fetch(`/api/funcionario/${idF}`, {

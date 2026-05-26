@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Trash2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { hasActionPermission } from '@/lib/permissions';
 
@@ -121,9 +121,13 @@ export default function UnifiConfigForm() {
   };
 
   const handleDelete = async () => {
-    if (!confirm('Tem certeza que deseja deletar esta configuração?')) {
-      return;
-    }
+    const confirmou = window.systemConfirm
+      ? await window.systemConfirm('Tem certeza que deseja deletar esta configuração?', 'Confirmar exclusão', {
+        confirmText: 'Excluir',
+        cancelText: 'Cancelar'
+      })
+      : window.confirm('Tem certeza que deseja deletar esta configuração?');
+    if (!confirmou) return;
 
     setLoading(true);
     try {
@@ -283,9 +287,10 @@ export default function UnifiConfigForm() {
           <button
             onClick={handleDeleteClick}
             disabled={loading}
-            className="flex-1 bg-red-500 text-white py-2 rounded hover:bg-red-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="flex-1 bg-red-500 text-white py-2 rounded hover:bg-red-600 disabled:bg-gray-400 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2"
             title="Deletar configuração"
           >
+            <Trash2 className="h-4 w-4" />
             {loading ? 'Deletando...' : 'Deletar Configuração'}
           </button>
         )}

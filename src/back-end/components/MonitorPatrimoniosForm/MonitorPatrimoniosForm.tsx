@@ -141,7 +141,13 @@ export default function MonitorPatrimoniosForm() {
   };
 
   const handleDeactivateKey = async (id: string) => {
-    if (!confirm('Deseja desativar esta chave de API?')) return;
+    const confirmou = window.systemConfirm
+      ? await window.systemConfirm('Deseja desativar esta chave de API?', 'Confirmar exclusão', {
+        confirmText: 'Desativar',
+        cancelText: 'Cancelar'
+      })
+      : window.confirm('Deseja desativar esta chave de API?');
+    if (!confirmou) return;
 
     try {
       const response = await fetch(`/api/unifi-config?id=${id}`, {

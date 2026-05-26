@@ -94,6 +94,11 @@ export type tbTransferenciaAlocacao = $Result.DefaultSelection<Prisma.$tbTransfe
  */
 export type tbDevolucao = $Result.DefaultSelection<Prisma.$tbDevolucaoPayload>
 /**
+ * Model tbAuditoriaDevolucaoPatrimonio
+ * 
+ */
+export type tbAuditoriaDevolucaoPatrimonio = $Result.DefaultSelection<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload>
+/**
  * Model tbPatrimonioHistorico
  * 
  */
@@ -408,6 +413,16 @@ export class PrismaClient<
     * ```
     */
   get tbDevolucao(): Prisma.tbDevolucaoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tbAuditoriaDevolucaoPatrimonio`: Exposes CRUD operations for the **tbAuditoriaDevolucaoPatrimonio** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TbAuditoriaDevolucaoPatrimonios
+    * const tbAuditoriaDevolucaoPatrimonios = await prisma.tbAuditoriaDevolucaoPatrimonio.findMany()
+    * ```
+    */
+  get tbAuditoriaDevolucaoPatrimonio(): Prisma.tbAuditoriaDevolucaoPatrimonioDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.tbPatrimonioHistorico`: Exposes CRUD operations for the **tbPatrimonioHistorico** model.
@@ -924,6 +939,7 @@ export namespace Prisma {
     tbCadastro: 'tbCadastro',
     tbTransferenciaAlocacao: 'tbTransferenciaAlocacao',
     tbDevolucao: 'tbDevolucao',
+    tbAuditoriaDevolucaoPatrimonio: 'tbAuditoriaDevolucaoPatrimonio',
     tbPatrimonioHistorico: 'tbPatrimonioHistorico',
     Account: 'Account',
     Session: 'Session',
@@ -948,7 +964,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tbUser" | "tbFuncionario" | "tbLicenca" | "tbHasLicencaFuncionario" | "tbStatusFun" | "tbFuncao" | "tbPatrimonio" | "tbTipoPat" | "tbStatusPat" | "tbEmpresa" | "tbCCusto" | "tbBmMedicao" | "tbTransferenciaCustoPatrimonio" | "tbCadastro" | "tbTransferenciaAlocacao" | "tbDevolucao" | "tbPatrimonioHistorico" | "account" | "session" | "user" | "verificationToken" | "tbUnifiConfig"
+      modelProps: "tbUser" | "tbFuncionario" | "tbLicenca" | "tbHasLicencaFuncionario" | "tbStatusFun" | "tbFuncao" | "tbPatrimonio" | "tbTipoPat" | "tbStatusPat" | "tbEmpresa" | "tbCCusto" | "tbBmMedicao" | "tbTransferenciaCustoPatrimonio" | "tbCadastro" | "tbTransferenciaAlocacao" | "tbDevolucao" | "tbAuditoriaDevolucaoPatrimonio" | "tbPatrimonioHistorico" | "account" | "session" | "user" | "verificationToken" | "tbUnifiConfig"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2008,6 +2024,72 @@ export namespace Prisma {
           }
         }
       }
+      tbAuditoriaDevolucaoPatrimonio: {
+        payload: Prisma.$tbAuditoriaDevolucaoPatrimonioPayload<ExtArgs>
+        fields: Prisma.tbAuditoriaDevolucaoPatrimonioFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.tbAuditoriaDevolucaoPatrimonioFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.tbAuditoriaDevolucaoPatrimonioFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload>
+          }
+          findFirst: {
+            args: Prisma.tbAuditoriaDevolucaoPatrimonioFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.tbAuditoriaDevolucaoPatrimonioFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload>
+          }
+          findMany: {
+            args: Prisma.tbAuditoriaDevolucaoPatrimonioFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload>[]
+          }
+          create: {
+            args: Prisma.tbAuditoriaDevolucaoPatrimonioCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload>
+          }
+          createMany: {
+            args: Prisma.tbAuditoriaDevolucaoPatrimonioCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.tbAuditoriaDevolucaoPatrimonioDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload>
+          }
+          update: {
+            args: Prisma.tbAuditoriaDevolucaoPatrimonioUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload>
+          }
+          deleteMany: {
+            args: Prisma.tbAuditoriaDevolucaoPatrimonioDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.tbAuditoriaDevolucaoPatrimonioUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.tbAuditoriaDevolucaoPatrimonioUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload>
+          }
+          aggregate: {
+            args: Prisma.TbAuditoriaDevolucaoPatrimonioAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTbAuditoriaDevolucaoPatrimonio>
+          }
+          groupBy: {
+            args: Prisma.tbAuditoriaDevolucaoPatrimonioGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TbAuditoriaDevolucaoPatrimonioGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.tbAuditoriaDevolucaoPatrimonioCountArgs<ExtArgs>
+            result: $Utils.Optional<TbAuditoriaDevolucaoPatrimonioCountAggregateOutputType> | number
+          }
+        }
+      }
       tbPatrimonioHistorico: {
         payload: Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>
         fields: Prisma.tbPatrimonioHistoricoFieldRefs
@@ -2512,6 +2594,7 @@ export namespace Prisma {
     tbCadastro?: tbCadastroOmit
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoOmit
     tbDevolucao?: tbDevolucaoOmit
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioOmit
     tbPatrimonioHistorico?: tbPatrimonioHistoricoOmit
     account?: AccountOmit
     session?: SessionOmit
@@ -2621,6 +2704,7 @@ export namespace Prisma {
     transferenciasCustoPatrimonio: number
     transferenciasAlocacao: number
     tbBmMedicao: number
+    tbAuditoriaDevolucaoPatrimonio: number
   }
 
   export type TbUserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2628,6 +2712,7 @@ export namespace Prisma {
     transferenciasCustoPatrimonio?: boolean | TbUserCountOutputTypeCountTransferenciasCustoPatrimonioArgs
     transferenciasAlocacao?: boolean | TbUserCountOutputTypeCountTransferenciasAlocacaoArgs
     tbBmMedicao?: boolean | TbUserCountOutputTypeCountTbBmMedicaoArgs
+    tbAuditoriaDevolucaoPatrimonio?: boolean | TbUserCountOutputTypeCountTbAuditoriaDevolucaoPatrimonioArgs
   }
 
   // Custom InputTypes
@@ -2667,6 +2752,13 @@ export namespace Prisma {
    */
   export type TbUserCountOutputTypeCountTbBmMedicaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: tbBmMedicaoWhereInput
+  }
+
+  /**
+   * TbUserCountOutputType without action
+   */
+  export type TbUserCountOutputTypeCountTbAuditoriaDevolucaoPatrimonioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbAuditoriaDevolucaoPatrimonioWhereInput
   }
 
 
@@ -2831,6 +2923,7 @@ export namespace Prisma {
     tbPatrimonioHistorico: number
     tbTransferenciaCustoPatrimonio: number
     tbTransferenciaAlocacao: number
+    tbAuditoriaDevolucaoPatrimonio: number
   }
 
   export type TbPatrimonioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2839,6 +2932,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: boolean | TbPatrimonioCountOutputTypeCountTbPatrimonioHistoricoArgs
     tbTransferenciaCustoPatrimonio?: boolean | TbPatrimonioCountOutputTypeCountTbTransferenciaCustoPatrimonioArgs
     tbTransferenciaAlocacao?: boolean | TbPatrimonioCountOutputTypeCountTbTransferenciaAlocacaoArgs
+    tbAuditoriaDevolucaoPatrimonio?: boolean | TbPatrimonioCountOutputTypeCountTbAuditoriaDevolucaoPatrimonioArgs
   }
 
   // Custom InputTypes
@@ -2885,6 +2979,13 @@ export namespace Prisma {
    */
   export type TbPatrimonioCountOutputTypeCountTbTransferenciaAlocacaoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: tbTransferenciaAlocacaoWhereInput
+  }
+
+  /**
+   * TbPatrimonioCountOutputType without action
+   */
+  export type TbPatrimonioCountOutputTypeCountTbAuditoriaDevolucaoPatrimonioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbAuditoriaDevolucaoPatrimonioWhereInput
   }
 
 
@@ -3392,6 +3493,7 @@ export namespace Prisma {
     transferenciasCustoPatrimonio?: boolean | tbUser$transferenciasCustoPatrimonioArgs<ExtArgs>
     transferenciasAlocacao?: boolean | tbUser$transferenciasAlocacaoArgs<ExtArgs>
     tbBmMedicao?: boolean | tbUser$tbBmMedicaoArgs<ExtArgs>
+    tbAuditoriaDevolucaoPatrimonio?: boolean | tbUser$tbAuditoriaDevolucaoPatrimonioArgs<ExtArgs>
     _count?: boolean | TbUserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tbUser"]>
 
@@ -3419,6 +3521,7 @@ export namespace Prisma {
     transferenciasCustoPatrimonio?: boolean | tbUser$transferenciasCustoPatrimonioArgs<ExtArgs>
     transferenciasAlocacao?: boolean | tbUser$transferenciasAlocacaoArgs<ExtArgs>
     tbBmMedicao?: boolean | tbUser$tbBmMedicaoArgs<ExtArgs>
+    tbAuditoriaDevolucaoPatrimonio?: boolean | tbUser$tbAuditoriaDevolucaoPatrimonioArgs<ExtArgs>
     _count?: boolean | TbUserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3429,6 +3532,7 @@ export namespace Prisma {
       transferenciasCustoPatrimonio: Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>[]
       transferenciasAlocacao: Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>[]
       tbBmMedicao: Prisma.$tbBmMedicaoPayload<ExtArgs>[]
+      tbAuditoriaDevolucaoPatrimonio: Prisma.$tbAuditoriaDevolucaoPatrimonioPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3788,6 +3892,7 @@ export namespace Prisma {
     transferenciasCustoPatrimonio<T extends tbUser$transferenciasCustoPatrimonioArgs<ExtArgs> = {}>(args?: Subset<T, tbUser$transferenciasCustoPatrimonioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transferenciasAlocacao<T extends tbUser$transferenciasAlocacaoArgs<ExtArgs> = {}>(args?: Subset<T, tbUser$transferenciasAlocacaoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tbBmMedicao<T extends tbUser$tbBmMedicaoArgs<ExtArgs> = {}>(args?: Subset<T, tbUser$tbBmMedicaoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbBmMedicaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tbAuditoriaDevolucaoPatrimonio<T extends tbUser$tbAuditoriaDevolucaoPatrimonioArgs<ExtArgs> = {}>(args?: Subset<T, tbUser$tbAuditoriaDevolucaoPatrimonioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4266,6 +4371,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TbBmMedicaoScalarFieldEnum | TbBmMedicaoScalarFieldEnum[]
+  }
+
+  /**
+   * tbUser.tbAuditoriaDevolucaoPatrimonio
+   */
+  export type tbUser$tbAuditoriaDevolucaoPatrimonioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbAuditoriaDevolucaoPatrimonio
+     */
+    select?: tbAuditoriaDevolucaoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbAuditoriaDevolucaoPatrimonio
+     */
+    omit?: tbAuditoriaDevolucaoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbAuditoriaDevolucaoPatrimonioInclude<ExtArgs> | null
+    where?: tbAuditoriaDevolucaoPatrimonioWhereInput
+    orderBy?: tbAuditoriaDevolucaoPatrimonioOrderByWithRelationInput | tbAuditoriaDevolucaoPatrimonioOrderByWithRelationInput[]
+    cursor?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbAuditoriaDevolucaoPatrimonioScalarFieldEnum | TbAuditoriaDevolucaoPatrimonioScalarFieldEnum[]
   }
 
   /**
@@ -9506,6 +9635,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: boolean | tbPatrimonio$tbPatrimonioHistoricoArgs<ExtArgs>
     tbTransferenciaCustoPatrimonio?: boolean | tbPatrimonio$tbTransferenciaCustoPatrimonioArgs<ExtArgs>
     tbTransferenciaAlocacao?: boolean | tbPatrimonio$tbTransferenciaAlocacaoArgs<ExtArgs>
+    tbAuditoriaDevolucaoPatrimonio?: boolean | tbPatrimonio$tbAuditoriaDevolucaoPatrimonioArgs<ExtArgs>
     _count?: boolean | TbPatrimonioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tbPatrimonio"]>
 
@@ -9538,6 +9668,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: boolean | tbPatrimonio$tbPatrimonioHistoricoArgs<ExtArgs>
     tbTransferenciaCustoPatrimonio?: boolean | tbPatrimonio$tbTransferenciaCustoPatrimonioArgs<ExtArgs>
     tbTransferenciaAlocacao?: boolean | tbPatrimonio$tbTransferenciaAlocacaoArgs<ExtArgs>
+    tbAuditoriaDevolucaoPatrimonio?: boolean | tbPatrimonio$tbAuditoriaDevolucaoPatrimonioArgs<ExtArgs>
     _count?: boolean | TbPatrimonioCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -9552,6 +9683,7 @@ export namespace Prisma {
       tbPatrimonioHistorico: Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>[]
       tbTransferenciaCustoPatrimonio: Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>[]
       tbTransferenciaAlocacao: Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>[]
+      tbAuditoriaDevolucaoPatrimonio: Prisma.$tbAuditoriaDevolucaoPatrimonioPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       idP: string
@@ -9916,6 +10048,7 @@ export namespace Prisma {
     tbPatrimonioHistorico<T extends tbPatrimonio$tbPatrimonioHistoricoArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonio$tbPatrimonioHistoricoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbPatrimonioHistoricoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tbTransferenciaCustoPatrimonio<T extends tbPatrimonio$tbTransferenciaCustoPatrimonioArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonio$tbTransferenciaCustoPatrimonioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaCustoPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tbTransferenciaAlocacao<T extends tbPatrimonio$tbTransferenciaAlocacaoArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonio$tbTransferenciaAlocacaoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbTransferenciaAlocacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tbAuditoriaDevolucaoPatrimonio<T extends tbPatrimonio$tbAuditoriaDevolucaoPatrimonioArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonio$tbAuditoriaDevolucaoPatrimonioArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10476,6 +10609,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TbTransferenciaAlocacaoScalarFieldEnum | TbTransferenciaAlocacaoScalarFieldEnum[]
+  }
+
+  /**
+   * tbPatrimonio.tbAuditoriaDevolucaoPatrimonio
+   */
+  export type tbPatrimonio$tbAuditoriaDevolucaoPatrimonioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbAuditoriaDevolucaoPatrimonio
+     */
+    select?: tbAuditoriaDevolucaoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbAuditoriaDevolucaoPatrimonio
+     */
+    omit?: tbAuditoriaDevolucaoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbAuditoriaDevolucaoPatrimonioInclude<ExtArgs> | null
+    where?: tbAuditoriaDevolucaoPatrimonioWhereInput
+    orderBy?: tbAuditoriaDevolucaoPatrimonioOrderByWithRelationInput | tbAuditoriaDevolucaoPatrimonioOrderByWithRelationInput[]
+    cursor?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TbAuditoriaDevolucaoPatrimonioScalarFieldEnum | TbAuditoriaDevolucaoPatrimonioScalarFieldEnum[]
   }
 
   /**
@@ -19863,6 +20020,1065 @@ export namespace Prisma {
 
 
   /**
+   * Model tbAuditoriaDevolucaoPatrimonio
+   */
+
+  export type AggregateTbAuditoriaDevolucaoPatrimonio = {
+    _count: TbAuditoriaDevolucaoPatrimonioCountAggregateOutputType | null
+    _avg: TbAuditoriaDevolucaoPatrimonioAvgAggregateOutputType | null
+    _sum: TbAuditoriaDevolucaoPatrimonioSumAggregateOutputType | null
+    _min: TbAuditoriaDevolucaoPatrimonioMinAggregateOutputType | null
+    _max: TbAuditoriaDevolucaoPatrimonioMaxAggregateOutputType | null
+  }
+
+  export type TbAuditoriaDevolucaoPatrimonioAvgAggregateOutputType = {
+    registrosRemovidos: number | null
+  }
+
+  export type TbAuditoriaDevolucaoPatrimonioSumAggregateOutputType = {
+    registrosRemovidos: number | null
+  }
+
+  export type TbAuditoriaDevolucaoPatrimonioMinAggregateOutputType = {
+    idAuditoria: string | null
+    idPatrimonioRef: string | null
+    idPat: string | null
+    statusAnterior: string | null
+    statusNovo: string | null
+    limpezaSolicitada: boolean | null
+    registrosRemovidos: number | null
+    idUserAcao: string | null
+    emailUserAcao: string | null
+    observacao: string | null
+    createdAt: Date | null
+  }
+
+  export type TbAuditoriaDevolucaoPatrimonioMaxAggregateOutputType = {
+    idAuditoria: string | null
+    idPatrimonioRef: string | null
+    idPat: string | null
+    statusAnterior: string | null
+    statusNovo: string | null
+    limpezaSolicitada: boolean | null
+    registrosRemovidos: number | null
+    idUserAcao: string | null
+    emailUserAcao: string | null
+    observacao: string | null
+    createdAt: Date | null
+  }
+
+  export type TbAuditoriaDevolucaoPatrimonioCountAggregateOutputType = {
+    idAuditoria: number
+    idPatrimonioRef: number
+    idPat: number
+    statusAnterior: number
+    statusNovo: number
+    limpezaSolicitada: number
+    registrosRemovidos: number
+    idUserAcao: number
+    emailUserAcao: number
+    observacao: number
+    detalhesJson: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TbAuditoriaDevolucaoPatrimonioAvgAggregateInputType = {
+    registrosRemovidos?: true
+  }
+
+  export type TbAuditoriaDevolucaoPatrimonioSumAggregateInputType = {
+    registrosRemovidos?: true
+  }
+
+  export type TbAuditoriaDevolucaoPatrimonioMinAggregateInputType = {
+    idAuditoria?: true
+    idPatrimonioRef?: true
+    idPat?: true
+    statusAnterior?: true
+    statusNovo?: true
+    limpezaSolicitada?: true
+    registrosRemovidos?: true
+    idUserAcao?: true
+    emailUserAcao?: true
+    observacao?: true
+    createdAt?: true
+  }
+
+  export type TbAuditoriaDevolucaoPatrimonioMaxAggregateInputType = {
+    idAuditoria?: true
+    idPatrimonioRef?: true
+    idPat?: true
+    statusAnterior?: true
+    statusNovo?: true
+    limpezaSolicitada?: true
+    registrosRemovidos?: true
+    idUserAcao?: true
+    emailUserAcao?: true
+    observacao?: true
+    createdAt?: true
+  }
+
+  export type TbAuditoriaDevolucaoPatrimonioCountAggregateInputType = {
+    idAuditoria?: true
+    idPatrimonioRef?: true
+    idPat?: true
+    statusAnterior?: true
+    statusNovo?: true
+    limpezaSolicitada?: true
+    registrosRemovidos?: true
+    idUserAcao?: true
+    emailUserAcao?: true
+    observacao?: true
+    detalhesJson?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TbAuditoriaDevolucaoPatrimonioAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbAuditoriaDevolucaoPatrimonio to aggregate.
+     */
+    where?: tbAuditoriaDevolucaoPatrimonioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbAuditoriaDevolucaoPatrimonios to fetch.
+     */
+    orderBy?: tbAuditoriaDevolucaoPatrimonioOrderByWithRelationInput | tbAuditoriaDevolucaoPatrimonioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbAuditoriaDevolucaoPatrimonios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbAuditoriaDevolucaoPatrimonios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned tbAuditoriaDevolucaoPatrimonios
+    **/
+    _count?: true | TbAuditoriaDevolucaoPatrimonioCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TbAuditoriaDevolucaoPatrimonioAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TbAuditoriaDevolucaoPatrimonioSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TbAuditoriaDevolucaoPatrimonioMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TbAuditoriaDevolucaoPatrimonioMaxAggregateInputType
+  }
+
+  export type GetTbAuditoriaDevolucaoPatrimonioAggregateType<T extends TbAuditoriaDevolucaoPatrimonioAggregateArgs> = {
+        [P in keyof T & keyof AggregateTbAuditoriaDevolucaoPatrimonio]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTbAuditoriaDevolucaoPatrimonio[P]>
+      : GetScalarType<T[P], AggregateTbAuditoriaDevolucaoPatrimonio[P]>
+  }
+
+
+
+
+  export type tbAuditoriaDevolucaoPatrimonioGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tbAuditoriaDevolucaoPatrimonioWhereInput
+    orderBy?: tbAuditoriaDevolucaoPatrimonioOrderByWithAggregationInput | tbAuditoriaDevolucaoPatrimonioOrderByWithAggregationInput[]
+    by: TbAuditoriaDevolucaoPatrimonioScalarFieldEnum[] | TbAuditoriaDevolucaoPatrimonioScalarFieldEnum
+    having?: tbAuditoriaDevolucaoPatrimonioScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TbAuditoriaDevolucaoPatrimonioCountAggregateInputType | true
+    _avg?: TbAuditoriaDevolucaoPatrimonioAvgAggregateInputType
+    _sum?: TbAuditoriaDevolucaoPatrimonioSumAggregateInputType
+    _min?: TbAuditoriaDevolucaoPatrimonioMinAggregateInputType
+    _max?: TbAuditoriaDevolucaoPatrimonioMaxAggregateInputType
+  }
+
+  export type TbAuditoriaDevolucaoPatrimonioGroupByOutputType = {
+    idAuditoria: string
+    idPatrimonioRef: string
+    idPat: string
+    statusAnterior: string | null
+    statusNovo: string | null
+    limpezaSolicitada: boolean
+    registrosRemovidos: number
+    idUserAcao: string | null
+    emailUserAcao: string | null
+    observacao: string | null
+    detalhesJson: JsonValue | null
+    createdAt: Date
+    _count: TbAuditoriaDevolucaoPatrimonioCountAggregateOutputType | null
+    _avg: TbAuditoriaDevolucaoPatrimonioAvgAggregateOutputType | null
+    _sum: TbAuditoriaDevolucaoPatrimonioSumAggregateOutputType | null
+    _min: TbAuditoriaDevolucaoPatrimonioMinAggregateOutputType | null
+    _max: TbAuditoriaDevolucaoPatrimonioMaxAggregateOutputType | null
+  }
+
+  type GetTbAuditoriaDevolucaoPatrimonioGroupByPayload<T extends tbAuditoriaDevolucaoPatrimonioGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TbAuditoriaDevolucaoPatrimonioGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TbAuditoriaDevolucaoPatrimonioGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TbAuditoriaDevolucaoPatrimonioGroupByOutputType[P]>
+            : GetScalarType<T[P], TbAuditoriaDevolucaoPatrimonioGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type tbAuditoriaDevolucaoPatrimonioSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    idAuditoria?: boolean
+    idPatrimonioRef?: boolean
+    idPat?: boolean
+    statusAnterior?: boolean
+    statusNovo?: boolean
+    limpezaSolicitada?: boolean
+    registrosRemovidos?: boolean
+    idUserAcao?: boolean
+    emailUserAcao?: boolean
+    observacao?: boolean
+    detalhesJson?: boolean
+    createdAt?: boolean
+    tbPatrimonio?: boolean | tbPatrimonioDefaultArgs<ExtArgs>
+    tbUser?: boolean | tbAuditoriaDevolucaoPatrimonio$tbUserArgs<ExtArgs>
+  }, ExtArgs["result"]["tbAuditoriaDevolucaoPatrimonio"]>
+
+
+
+  export type tbAuditoriaDevolucaoPatrimonioSelectScalar = {
+    idAuditoria?: boolean
+    idPatrimonioRef?: boolean
+    idPat?: boolean
+    statusAnterior?: boolean
+    statusNovo?: boolean
+    limpezaSolicitada?: boolean
+    registrosRemovidos?: boolean
+    idUserAcao?: boolean
+    emailUserAcao?: boolean
+    observacao?: boolean
+    detalhesJson?: boolean
+    createdAt?: boolean
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idAuditoria" | "idPatrimonioRef" | "idPat" | "statusAnterior" | "statusNovo" | "limpezaSolicitada" | "registrosRemovidos" | "idUserAcao" | "emailUserAcao" | "observacao" | "detalhesJson" | "createdAt", ExtArgs["result"]["tbAuditoriaDevolucaoPatrimonio"]>
+  export type tbAuditoriaDevolucaoPatrimonioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tbPatrimonio?: boolean | tbPatrimonioDefaultArgs<ExtArgs>
+    tbUser?: boolean | tbAuditoriaDevolucaoPatrimonio$tbUserArgs<ExtArgs>
+  }
+
+  export type $tbAuditoriaDevolucaoPatrimonioPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "tbAuditoriaDevolucaoPatrimonio"
+    objects: {
+      tbPatrimonio: Prisma.$tbPatrimonioPayload<ExtArgs>
+      tbUser: Prisma.$tbUserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      idAuditoria: string
+      idPatrimonioRef: string
+      idPat: string
+      statusAnterior: string | null
+      statusNovo: string | null
+      limpezaSolicitada: boolean
+      registrosRemovidos: number
+      idUserAcao: string | null
+      emailUserAcao: string | null
+      observacao: string | null
+      detalhesJson: Prisma.JsonValue | null
+      createdAt: Date
+    }, ExtArgs["result"]["tbAuditoriaDevolucaoPatrimonio"]>
+    composites: {}
+  }
+
+  type tbAuditoriaDevolucaoPatrimonioGetPayload<S extends boolean | null | undefined | tbAuditoriaDevolucaoPatrimonioDefaultArgs> = $Result.GetResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload, S>
+
+  type tbAuditoriaDevolucaoPatrimonioCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<tbAuditoriaDevolucaoPatrimonioFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TbAuditoriaDevolucaoPatrimonioCountAggregateInputType | true
+    }
+
+  export interface tbAuditoriaDevolucaoPatrimonioDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['tbAuditoriaDevolucaoPatrimonio'], meta: { name: 'tbAuditoriaDevolucaoPatrimonio' } }
+    /**
+     * Find zero or one TbAuditoriaDevolucaoPatrimonio that matches the filter.
+     * @param {tbAuditoriaDevolucaoPatrimonioFindUniqueArgs} args - Arguments to find a TbAuditoriaDevolucaoPatrimonio
+     * @example
+     * // Get one TbAuditoriaDevolucaoPatrimonio
+     * const tbAuditoriaDevolucaoPatrimonio = await prisma.tbAuditoriaDevolucaoPatrimonio.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends tbAuditoriaDevolucaoPatrimonioFindUniqueArgs>(args: SelectSubset<T, tbAuditoriaDevolucaoPatrimonioFindUniqueArgs<ExtArgs>>): Prisma__tbAuditoriaDevolucaoPatrimonioClient<$Result.GetResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TbAuditoriaDevolucaoPatrimonio that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {tbAuditoriaDevolucaoPatrimonioFindUniqueOrThrowArgs} args - Arguments to find a TbAuditoriaDevolucaoPatrimonio
+     * @example
+     * // Get one TbAuditoriaDevolucaoPatrimonio
+     * const tbAuditoriaDevolucaoPatrimonio = await prisma.tbAuditoriaDevolucaoPatrimonio.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends tbAuditoriaDevolucaoPatrimonioFindUniqueOrThrowArgs>(args: SelectSubset<T, tbAuditoriaDevolucaoPatrimonioFindUniqueOrThrowArgs<ExtArgs>>): Prisma__tbAuditoriaDevolucaoPatrimonioClient<$Result.GetResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TbAuditoriaDevolucaoPatrimonio that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbAuditoriaDevolucaoPatrimonioFindFirstArgs} args - Arguments to find a TbAuditoriaDevolucaoPatrimonio
+     * @example
+     * // Get one TbAuditoriaDevolucaoPatrimonio
+     * const tbAuditoriaDevolucaoPatrimonio = await prisma.tbAuditoriaDevolucaoPatrimonio.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends tbAuditoriaDevolucaoPatrimonioFindFirstArgs>(args?: SelectSubset<T, tbAuditoriaDevolucaoPatrimonioFindFirstArgs<ExtArgs>>): Prisma__tbAuditoriaDevolucaoPatrimonioClient<$Result.GetResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TbAuditoriaDevolucaoPatrimonio that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbAuditoriaDevolucaoPatrimonioFindFirstOrThrowArgs} args - Arguments to find a TbAuditoriaDevolucaoPatrimonio
+     * @example
+     * // Get one TbAuditoriaDevolucaoPatrimonio
+     * const tbAuditoriaDevolucaoPatrimonio = await prisma.tbAuditoriaDevolucaoPatrimonio.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends tbAuditoriaDevolucaoPatrimonioFindFirstOrThrowArgs>(args?: SelectSubset<T, tbAuditoriaDevolucaoPatrimonioFindFirstOrThrowArgs<ExtArgs>>): Prisma__tbAuditoriaDevolucaoPatrimonioClient<$Result.GetResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TbAuditoriaDevolucaoPatrimonios that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbAuditoriaDevolucaoPatrimonioFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TbAuditoriaDevolucaoPatrimonios
+     * const tbAuditoriaDevolucaoPatrimonios = await prisma.tbAuditoriaDevolucaoPatrimonio.findMany()
+     * 
+     * // Get first 10 TbAuditoriaDevolucaoPatrimonios
+     * const tbAuditoriaDevolucaoPatrimonios = await prisma.tbAuditoriaDevolucaoPatrimonio.findMany({ take: 10 })
+     * 
+     * // Only select the `idAuditoria`
+     * const tbAuditoriaDevolucaoPatrimonioWithIdAuditoriaOnly = await prisma.tbAuditoriaDevolucaoPatrimonio.findMany({ select: { idAuditoria: true } })
+     * 
+     */
+    findMany<T extends tbAuditoriaDevolucaoPatrimonioFindManyArgs>(args?: SelectSubset<T, tbAuditoriaDevolucaoPatrimonioFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TbAuditoriaDevolucaoPatrimonio.
+     * @param {tbAuditoriaDevolucaoPatrimonioCreateArgs} args - Arguments to create a TbAuditoriaDevolucaoPatrimonio.
+     * @example
+     * // Create one TbAuditoriaDevolucaoPatrimonio
+     * const TbAuditoriaDevolucaoPatrimonio = await prisma.tbAuditoriaDevolucaoPatrimonio.create({
+     *   data: {
+     *     // ... data to create a TbAuditoriaDevolucaoPatrimonio
+     *   }
+     * })
+     * 
+     */
+    create<T extends tbAuditoriaDevolucaoPatrimonioCreateArgs>(args: SelectSubset<T, tbAuditoriaDevolucaoPatrimonioCreateArgs<ExtArgs>>): Prisma__tbAuditoriaDevolucaoPatrimonioClient<$Result.GetResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TbAuditoriaDevolucaoPatrimonios.
+     * @param {tbAuditoriaDevolucaoPatrimonioCreateManyArgs} args - Arguments to create many TbAuditoriaDevolucaoPatrimonios.
+     * @example
+     * // Create many TbAuditoriaDevolucaoPatrimonios
+     * const tbAuditoriaDevolucaoPatrimonio = await prisma.tbAuditoriaDevolucaoPatrimonio.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends tbAuditoriaDevolucaoPatrimonioCreateManyArgs>(args?: SelectSubset<T, tbAuditoriaDevolucaoPatrimonioCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a TbAuditoriaDevolucaoPatrimonio.
+     * @param {tbAuditoriaDevolucaoPatrimonioDeleteArgs} args - Arguments to delete one TbAuditoriaDevolucaoPatrimonio.
+     * @example
+     * // Delete one TbAuditoriaDevolucaoPatrimonio
+     * const TbAuditoriaDevolucaoPatrimonio = await prisma.tbAuditoriaDevolucaoPatrimonio.delete({
+     *   where: {
+     *     // ... filter to delete one TbAuditoriaDevolucaoPatrimonio
+     *   }
+     * })
+     * 
+     */
+    delete<T extends tbAuditoriaDevolucaoPatrimonioDeleteArgs>(args: SelectSubset<T, tbAuditoriaDevolucaoPatrimonioDeleteArgs<ExtArgs>>): Prisma__tbAuditoriaDevolucaoPatrimonioClient<$Result.GetResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TbAuditoriaDevolucaoPatrimonio.
+     * @param {tbAuditoriaDevolucaoPatrimonioUpdateArgs} args - Arguments to update one TbAuditoriaDevolucaoPatrimonio.
+     * @example
+     * // Update one TbAuditoriaDevolucaoPatrimonio
+     * const tbAuditoriaDevolucaoPatrimonio = await prisma.tbAuditoriaDevolucaoPatrimonio.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends tbAuditoriaDevolucaoPatrimonioUpdateArgs>(args: SelectSubset<T, tbAuditoriaDevolucaoPatrimonioUpdateArgs<ExtArgs>>): Prisma__tbAuditoriaDevolucaoPatrimonioClient<$Result.GetResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TbAuditoriaDevolucaoPatrimonios.
+     * @param {tbAuditoriaDevolucaoPatrimonioDeleteManyArgs} args - Arguments to filter TbAuditoriaDevolucaoPatrimonios to delete.
+     * @example
+     * // Delete a few TbAuditoriaDevolucaoPatrimonios
+     * const { count } = await prisma.tbAuditoriaDevolucaoPatrimonio.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends tbAuditoriaDevolucaoPatrimonioDeleteManyArgs>(args?: SelectSubset<T, tbAuditoriaDevolucaoPatrimonioDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TbAuditoriaDevolucaoPatrimonios.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbAuditoriaDevolucaoPatrimonioUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TbAuditoriaDevolucaoPatrimonios
+     * const tbAuditoriaDevolucaoPatrimonio = await prisma.tbAuditoriaDevolucaoPatrimonio.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends tbAuditoriaDevolucaoPatrimonioUpdateManyArgs>(args: SelectSubset<T, tbAuditoriaDevolucaoPatrimonioUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one TbAuditoriaDevolucaoPatrimonio.
+     * @param {tbAuditoriaDevolucaoPatrimonioUpsertArgs} args - Arguments to update or create a TbAuditoriaDevolucaoPatrimonio.
+     * @example
+     * // Update or create a TbAuditoriaDevolucaoPatrimonio
+     * const tbAuditoriaDevolucaoPatrimonio = await prisma.tbAuditoriaDevolucaoPatrimonio.upsert({
+     *   create: {
+     *     // ... data to create a TbAuditoriaDevolucaoPatrimonio
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TbAuditoriaDevolucaoPatrimonio we want to update
+     *   }
+     * })
+     */
+    upsert<T extends tbAuditoriaDevolucaoPatrimonioUpsertArgs>(args: SelectSubset<T, tbAuditoriaDevolucaoPatrimonioUpsertArgs<ExtArgs>>): Prisma__tbAuditoriaDevolucaoPatrimonioClient<$Result.GetResult<Prisma.$tbAuditoriaDevolucaoPatrimonioPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TbAuditoriaDevolucaoPatrimonios.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbAuditoriaDevolucaoPatrimonioCountArgs} args - Arguments to filter TbAuditoriaDevolucaoPatrimonios to count.
+     * @example
+     * // Count the number of TbAuditoriaDevolucaoPatrimonios
+     * const count = await prisma.tbAuditoriaDevolucaoPatrimonio.count({
+     *   where: {
+     *     // ... the filter for the TbAuditoriaDevolucaoPatrimonios we want to count
+     *   }
+     * })
+    **/
+    count<T extends tbAuditoriaDevolucaoPatrimonioCountArgs>(
+      args?: Subset<T, tbAuditoriaDevolucaoPatrimonioCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TbAuditoriaDevolucaoPatrimonioCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TbAuditoriaDevolucaoPatrimonio.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TbAuditoriaDevolucaoPatrimonioAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TbAuditoriaDevolucaoPatrimonioAggregateArgs>(args: Subset<T, TbAuditoriaDevolucaoPatrimonioAggregateArgs>): Prisma.PrismaPromise<GetTbAuditoriaDevolucaoPatrimonioAggregateType<T>>
+
+    /**
+     * Group by TbAuditoriaDevolucaoPatrimonio.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tbAuditoriaDevolucaoPatrimonioGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends tbAuditoriaDevolucaoPatrimonioGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: tbAuditoriaDevolucaoPatrimonioGroupByArgs['orderBy'] }
+        : { orderBy?: tbAuditoriaDevolucaoPatrimonioGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, tbAuditoriaDevolucaoPatrimonioGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTbAuditoriaDevolucaoPatrimonioGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the tbAuditoriaDevolucaoPatrimonio model
+   */
+  readonly fields: tbAuditoriaDevolucaoPatrimonioFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for tbAuditoriaDevolucaoPatrimonio.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__tbAuditoriaDevolucaoPatrimonioClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    tbPatrimonio<T extends tbPatrimonioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, tbPatrimonioDefaultArgs<ExtArgs>>): Prisma__tbPatrimonioClient<$Result.GetResult<Prisma.$tbPatrimonioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tbUser<T extends tbAuditoriaDevolucaoPatrimonio$tbUserArgs<ExtArgs> = {}>(args?: Subset<T, tbAuditoriaDevolucaoPatrimonio$tbUserArgs<ExtArgs>>): Prisma__tbUserClient<$Result.GetResult<Prisma.$tbUserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the tbAuditoriaDevolucaoPatrimonio model
+   */
+  interface tbAuditoriaDevolucaoPatrimonioFieldRefs {
+    readonly idAuditoria: FieldRef<"tbAuditoriaDevolucaoPatrimonio", 'String'>
+    readonly idPatrimonioRef: FieldRef<"tbAuditoriaDevolucaoPatrimonio", 'String'>
+    readonly idPat: FieldRef<"tbAuditoriaDevolucaoPatrimonio", 'String'>
+    readonly statusAnterior: FieldRef<"tbAuditoriaDevolucaoPatrimonio", 'String'>
+    readonly statusNovo: FieldRef<"tbAuditoriaDevolucaoPatrimonio", 'String'>
+    readonly limpezaSolicitada: FieldRef<"tbAuditoriaDevolucaoPatrimonio", 'Boolean'>
+    readonly registrosRemovidos: FieldRef<"tbAuditoriaDevolucaoPatrimonio", 'Int'>
+    readonly idUserAcao: FieldRef<"tbAuditoriaDevolucaoPatrimonio", 'String'>
+    readonly emailUserAcao: FieldRef<"tbAuditoriaDevolucaoPatrimonio", 'String'>
+    readonly observacao: FieldRef<"tbAuditoriaDevolucaoPatrimonio", 'String'>
+    readonly detalhesJson: FieldRef<"tbAuditoriaDevolucaoPatrimonio", 'Json'>
+    readonly createdAt: FieldRef<"tbAuditoriaDevolucaoPatrimonio", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * tbAuditoriaDevolucaoPatrimonio findUnique
+   */
+  export type tbAuditoriaDevolucaoPatrimonioFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbAuditoriaDevolucaoPatrimonio
+     */
+    select?: tbAuditoriaDevolucaoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbAuditoriaDevolucaoPatrimonio
+     */
+    omit?: tbAuditoriaDevolucaoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbAuditoriaDevolucaoPatrimonioInclude<ExtArgs> | null
+    /**
+     * Filter, which tbAuditoriaDevolucaoPatrimonio to fetch.
+     */
+    where: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput
+  }
+
+  /**
+   * tbAuditoriaDevolucaoPatrimonio findUniqueOrThrow
+   */
+  export type tbAuditoriaDevolucaoPatrimonioFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbAuditoriaDevolucaoPatrimonio
+     */
+    select?: tbAuditoriaDevolucaoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbAuditoriaDevolucaoPatrimonio
+     */
+    omit?: tbAuditoriaDevolucaoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbAuditoriaDevolucaoPatrimonioInclude<ExtArgs> | null
+    /**
+     * Filter, which tbAuditoriaDevolucaoPatrimonio to fetch.
+     */
+    where: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput
+  }
+
+  /**
+   * tbAuditoriaDevolucaoPatrimonio findFirst
+   */
+  export type tbAuditoriaDevolucaoPatrimonioFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbAuditoriaDevolucaoPatrimonio
+     */
+    select?: tbAuditoriaDevolucaoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbAuditoriaDevolucaoPatrimonio
+     */
+    omit?: tbAuditoriaDevolucaoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbAuditoriaDevolucaoPatrimonioInclude<ExtArgs> | null
+    /**
+     * Filter, which tbAuditoriaDevolucaoPatrimonio to fetch.
+     */
+    where?: tbAuditoriaDevolucaoPatrimonioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbAuditoriaDevolucaoPatrimonios to fetch.
+     */
+    orderBy?: tbAuditoriaDevolucaoPatrimonioOrderByWithRelationInput | tbAuditoriaDevolucaoPatrimonioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tbAuditoriaDevolucaoPatrimonios.
+     */
+    cursor?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbAuditoriaDevolucaoPatrimonios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbAuditoriaDevolucaoPatrimonios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tbAuditoriaDevolucaoPatrimonios.
+     */
+    distinct?: TbAuditoriaDevolucaoPatrimonioScalarFieldEnum | TbAuditoriaDevolucaoPatrimonioScalarFieldEnum[]
+  }
+
+  /**
+   * tbAuditoriaDevolucaoPatrimonio findFirstOrThrow
+   */
+  export type tbAuditoriaDevolucaoPatrimonioFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbAuditoriaDevolucaoPatrimonio
+     */
+    select?: tbAuditoriaDevolucaoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbAuditoriaDevolucaoPatrimonio
+     */
+    omit?: tbAuditoriaDevolucaoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbAuditoriaDevolucaoPatrimonioInclude<ExtArgs> | null
+    /**
+     * Filter, which tbAuditoriaDevolucaoPatrimonio to fetch.
+     */
+    where?: tbAuditoriaDevolucaoPatrimonioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbAuditoriaDevolucaoPatrimonios to fetch.
+     */
+    orderBy?: tbAuditoriaDevolucaoPatrimonioOrderByWithRelationInput | tbAuditoriaDevolucaoPatrimonioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tbAuditoriaDevolucaoPatrimonios.
+     */
+    cursor?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbAuditoriaDevolucaoPatrimonios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbAuditoriaDevolucaoPatrimonios.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tbAuditoriaDevolucaoPatrimonios.
+     */
+    distinct?: TbAuditoriaDevolucaoPatrimonioScalarFieldEnum | TbAuditoriaDevolucaoPatrimonioScalarFieldEnum[]
+  }
+
+  /**
+   * tbAuditoriaDevolucaoPatrimonio findMany
+   */
+  export type tbAuditoriaDevolucaoPatrimonioFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbAuditoriaDevolucaoPatrimonio
+     */
+    select?: tbAuditoriaDevolucaoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbAuditoriaDevolucaoPatrimonio
+     */
+    omit?: tbAuditoriaDevolucaoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbAuditoriaDevolucaoPatrimonioInclude<ExtArgs> | null
+    /**
+     * Filter, which tbAuditoriaDevolucaoPatrimonios to fetch.
+     */
+    where?: tbAuditoriaDevolucaoPatrimonioWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tbAuditoriaDevolucaoPatrimonios to fetch.
+     */
+    orderBy?: tbAuditoriaDevolucaoPatrimonioOrderByWithRelationInput | tbAuditoriaDevolucaoPatrimonioOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing tbAuditoriaDevolucaoPatrimonios.
+     */
+    cursor?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tbAuditoriaDevolucaoPatrimonios from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tbAuditoriaDevolucaoPatrimonios.
+     */
+    skip?: number
+    distinct?: TbAuditoriaDevolucaoPatrimonioScalarFieldEnum | TbAuditoriaDevolucaoPatrimonioScalarFieldEnum[]
+  }
+
+  /**
+   * tbAuditoriaDevolucaoPatrimonio create
+   */
+  export type tbAuditoriaDevolucaoPatrimonioCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbAuditoriaDevolucaoPatrimonio
+     */
+    select?: tbAuditoriaDevolucaoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbAuditoriaDevolucaoPatrimonio
+     */
+    omit?: tbAuditoriaDevolucaoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbAuditoriaDevolucaoPatrimonioInclude<ExtArgs> | null
+    /**
+     * The data needed to create a tbAuditoriaDevolucaoPatrimonio.
+     */
+    data: XOR<tbAuditoriaDevolucaoPatrimonioCreateInput, tbAuditoriaDevolucaoPatrimonioUncheckedCreateInput>
+  }
+
+  /**
+   * tbAuditoriaDevolucaoPatrimonio createMany
+   */
+  export type tbAuditoriaDevolucaoPatrimonioCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many tbAuditoriaDevolucaoPatrimonios.
+     */
+    data: tbAuditoriaDevolucaoPatrimonioCreateManyInput | tbAuditoriaDevolucaoPatrimonioCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * tbAuditoriaDevolucaoPatrimonio update
+   */
+  export type tbAuditoriaDevolucaoPatrimonioUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbAuditoriaDevolucaoPatrimonio
+     */
+    select?: tbAuditoriaDevolucaoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbAuditoriaDevolucaoPatrimonio
+     */
+    omit?: tbAuditoriaDevolucaoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbAuditoriaDevolucaoPatrimonioInclude<ExtArgs> | null
+    /**
+     * The data needed to update a tbAuditoriaDevolucaoPatrimonio.
+     */
+    data: XOR<tbAuditoriaDevolucaoPatrimonioUpdateInput, tbAuditoriaDevolucaoPatrimonioUncheckedUpdateInput>
+    /**
+     * Choose, which tbAuditoriaDevolucaoPatrimonio to update.
+     */
+    where: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput
+  }
+
+  /**
+   * tbAuditoriaDevolucaoPatrimonio updateMany
+   */
+  export type tbAuditoriaDevolucaoPatrimonioUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update tbAuditoriaDevolucaoPatrimonios.
+     */
+    data: XOR<tbAuditoriaDevolucaoPatrimonioUpdateManyMutationInput, tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyInput>
+    /**
+     * Filter which tbAuditoriaDevolucaoPatrimonios to update
+     */
+    where?: tbAuditoriaDevolucaoPatrimonioWhereInput
+    /**
+     * Limit how many tbAuditoriaDevolucaoPatrimonios to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbAuditoriaDevolucaoPatrimonio upsert
+   */
+  export type tbAuditoriaDevolucaoPatrimonioUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbAuditoriaDevolucaoPatrimonio
+     */
+    select?: tbAuditoriaDevolucaoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbAuditoriaDevolucaoPatrimonio
+     */
+    omit?: tbAuditoriaDevolucaoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbAuditoriaDevolucaoPatrimonioInclude<ExtArgs> | null
+    /**
+     * The filter to search for the tbAuditoriaDevolucaoPatrimonio to update in case it exists.
+     */
+    where: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput
+    /**
+     * In case the tbAuditoriaDevolucaoPatrimonio found by the `where` argument doesn't exist, create a new tbAuditoriaDevolucaoPatrimonio with this data.
+     */
+    create: XOR<tbAuditoriaDevolucaoPatrimonioCreateInput, tbAuditoriaDevolucaoPatrimonioUncheckedCreateInput>
+    /**
+     * In case the tbAuditoriaDevolucaoPatrimonio was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<tbAuditoriaDevolucaoPatrimonioUpdateInput, tbAuditoriaDevolucaoPatrimonioUncheckedUpdateInput>
+  }
+
+  /**
+   * tbAuditoriaDevolucaoPatrimonio delete
+   */
+  export type tbAuditoriaDevolucaoPatrimonioDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbAuditoriaDevolucaoPatrimonio
+     */
+    select?: tbAuditoriaDevolucaoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbAuditoriaDevolucaoPatrimonio
+     */
+    omit?: tbAuditoriaDevolucaoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbAuditoriaDevolucaoPatrimonioInclude<ExtArgs> | null
+    /**
+     * Filter which tbAuditoriaDevolucaoPatrimonio to delete.
+     */
+    where: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput
+  }
+
+  /**
+   * tbAuditoriaDevolucaoPatrimonio deleteMany
+   */
+  export type tbAuditoriaDevolucaoPatrimonioDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tbAuditoriaDevolucaoPatrimonios to delete
+     */
+    where?: tbAuditoriaDevolucaoPatrimonioWhereInput
+    /**
+     * Limit how many tbAuditoriaDevolucaoPatrimonios to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * tbAuditoriaDevolucaoPatrimonio.tbUser
+   */
+  export type tbAuditoriaDevolucaoPatrimonio$tbUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbUser
+     */
+    select?: tbUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbUser
+     */
+    omit?: tbUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbUserInclude<ExtArgs> | null
+    where?: tbUserWhereInput
+  }
+
+  /**
+   * tbAuditoriaDevolucaoPatrimonio without action
+   */
+  export type tbAuditoriaDevolucaoPatrimonioDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tbAuditoriaDevolucaoPatrimonio
+     */
+    select?: tbAuditoriaDevolucaoPatrimonioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tbAuditoriaDevolucaoPatrimonio
+     */
+    omit?: tbAuditoriaDevolucaoPatrimonioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tbAuditoriaDevolucaoPatrimonioInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model tbPatrimonioHistorico
    */
 
@@ -25963,6 +27179,24 @@ export namespace Prisma {
   export type TbDevolucaoScalarFieldEnum = (typeof TbDevolucaoScalarFieldEnum)[keyof typeof TbDevolucaoScalarFieldEnum]
 
 
+  export const TbAuditoriaDevolucaoPatrimonioScalarFieldEnum: {
+    idAuditoria: 'idAuditoria',
+    idPatrimonioRef: 'idPatrimonioRef',
+    idPat: 'idPat',
+    statusAnterior: 'statusAnterior',
+    statusNovo: 'statusNovo',
+    limpezaSolicitada: 'limpezaSolicitada',
+    registrosRemovidos: 'registrosRemovidos',
+    idUserAcao: 'idUserAcao',
+    emailUserAcao: 'emailUserAcao',
+    observacao: 'observacao',
+    detalhesJson: 'detalhesJson',
+    createdAt: 'createdAt'
+  };
+
+  export type TbAuditoriaDevolucaoPatrimonioScalarFieldEnum = (typeof TbAuditoriaDevolucaoPatrimonioScalarFieldEnum)[keyof typeof TbAuditoriaDevolucaoPatrimonioScalarFieldEnum]
+
+
   export const TbPatrimonioHistoricoScalarFieldEnum: {
     idHistorico: 'idHistorico',
     idPatrimonioOriginal: 'idPatrimonioOriginal',
@@ -26263,6 +27497,20 @@ export namespace Prisma {
   export type tbDevolucaoOrderByRelevanceFieldEnum = (typeof tbDevolucaoOrderByRelevanceFieldEnum)[keyof typeof tbDevolucaoOrderByRelevanceFieldEnum]
 
 
+  export const tbAuditoriaDevolucaoPatrimonioOrderByRelevanceFieldEnum: {
+    idAuditoria: 'idAuditoria',
+    idPatrimonioRef: 'idPatrimonioRef',
+    idPat: 'idPat',
+    statusAnterior: 'statusAnterior',
+    statusNovo: 'statusNovo',
+    idUserAcao: 'idUserAcao',
+    emailUserAcao: 'emailUserAcao',
+    observacao: 'observacao'
+  };
+
+  export type tbAuditoriaDevolucaoPatrimonioOrderByRelevanceFieldEnum = (typeof tbAuditoriaDevolucaoPatrimonioOrderByRelevanceFieldEnum)[keyof typeof tbAuditoriaDevolucaoPatrimonioOrderByRelevanceFieldEnum]
+
+
   export const tbPatrimonioHistoricoOrderByRelevanceFieldEnum: {
     idHistorico: 'idHistorico',
     idPatrimonioOriginal: 'idPatrimonioOriginal',
@@ -26413,6 +27661,7 @@ export namespace Prisma {
     transferenciasCustoPatrimonio?: TbTransferenciaCustoPatrimonioListRelationFilter
     transferenciasAlocacao?: TbTransferenciaAlocacaoListRelationFilter
     tbBmMedicao?: TbBmMedicaoListRelationFilter
+    tbAuditoriaDevolucaoPatrimonio?: TbAuditoriaDevolucaoPatrimonioListRelationFilter
   }
 
   export type tbUserOrderByWithRelationInput = {
@@ -26433,6 +27682,7 @@ export namespace Prisma {
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioOrderByRelationAggregateInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoOrderByRelationAggregateInput
     tbBmMedicao?: tbBmMedicaoOrderByRelationAggregateInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioOrderByRelationAggregateInput
     _relevance?: tbUserOrderByRelevanceInput
   }
 
@@ -26457,6 +27707,7 @@ export namespace Prisma {
     transferenciasCustoPatrimonio?: TbTransferenciaCustoPatrimonioListRelationFilter
     transferenciasAlocacao?: TbTransferenciaAlocacaoListRelationFilter
     tbBmMedicao?: TbBmMedicaoListRelationFilter
+    tbAuditoriaDevolucaoPatrimonio?: TbAuditoriaDevolucaoPatrimonioListRelationFilter
   }, "id" | "idUser" | "emailUser">
 
   export type tbUserOrderByWithAggregationInput = {
@@ -26820,6 +28071,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: TbPatrimonioHistoricoListRelationFilter
     tbTransferenciaCustoPatrimonio?: TbTransferenciaCustoPatrimonioListRelationFilter
     tbTransferenciaAlocacao?: TbTransferenciaAlocacaoListRelationFilter
+    tbAuditoriaDevolucaoPatrimonio?: TbAuditoriaDevolucaoPatrimonioListRelationFilter
   }
 
   export type tbPatrimonioOrderByWithRelationInput = {
@@ -26845,6 +28097,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoOrderByRelationAggregateInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioOrderByRelationAggregateInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoOrderByRelationAggregateInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioOrderByRelationAggregateInput
     _relevance?: tbPatrimonioOrderByRelevanceInput
   }
 
@@ -26874,6 +28127,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: TbPatrimonioHistoricoListRelationFilter
     tbTransferenciaCustoPatrimonio?: TbTransferenciaCustoPatrimonioListRelationFilter
     tbTransferenciaAlocacao?: TbTransferenciaAlocacaoListRelationFilter
+    tbAuditoriaDevolucaoPatrimonio?: TbAuditoriaDevolucaoPatrimonioListRelationFilter
   }, "idP" | "idPat">
 
   export type tbPatrimonioOrderByWithAggregationInput = {
@@ -27627,6 +28881,102 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"tbDevolucao"> | Date | string
   }
 
+  export type tbAuditoriaDevolucaoPatrimonioWhereInput = {
+    AND?: tbAuditoriaDevolucaoPatrimonioWhereInput | tbAuditoriaDevolucaoPatrimonioWhereInput[]
+    OR?: tbAuditoriaDevolucaoPatrimonioWhereInput[]
+    NOT?: tbAuditoriaDevolucaoPatrimonioWhereInput | tbAuditoriaDevolucaoPatrimonioWhereInput[]
+    idAuditoria?: StringFilter<"tbAuditoriaDevolucaoPatrimonio"> | string
+    idPatrimonioRef?: StringFilter<"tbAuditoriaDevolucaoPatrimonio"> | string
+    idPat?: StringFilter<"tbAuditoriaDevolucaoPatrimonio"> | string
+    statusAnterior?: StringNullableFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    statusNovo?: StringNullableFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    limpezaSolicitada?: BoolFilter<"tbAuditoriaDevolucaoPatrimonio"> | boolean
+    registrosRemovidos?: IntFilter<"tbAuditoriaDevolucaoPatrimonio"> | number
+    idUserAcao?: StringNullableFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    emailUserAcao?: StringNullableFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    observacao?: StringNullableFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    detalhesJson?: JsonNullableFilter<"tbAuditoriaDevolucaoPatrimonio">
+    createdAt?: DateTimeFilter<"tbAuditoriaDevolucaoPatrimonio"> | Date | string
+    tbPatrimonio?: XOR<TbPatrimonioScalarRelationFilter, tbPatrimonioWhereInput>
+    tbUser?: XOR<TbUserNullableScalarRelationFilter, tbUserWhereInput> | null
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioOrderByWithRelationInput = {
+    idAuditoria?: SortOrder
+    idPatrimonioRef?: SortOrder
+    idPat?: SortOrder
+    statusAnterior?: SortOrderInput | SortOrder
+    statusNovo?: SortOrderInput | SortOrder
+    limpezaSolicitada?: SortOrder
+    registrosRemovidos?: SortOrder
+    idUserAcao?: SortOrderInput | SortOrder
+    emailUserAcao?: SortOrderInput | SortOrder
+    observacao?: SortOrderInput | SortOrder
+    detalhesJson?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    tbPatrimonio?: tbPatrimonioOrderByWithRelationInput
+    tbUser?: tbUserOrderByWithRelationInput
+    _relevance?: tbAuditoriaDevolucaoPatrimonioOrderByRelevanceInput
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioWhereUniqueInput = Prisma.AtLeast<{
+    idAuditoria?: string
+    AND?: tbAuditoriaDevolucaoPatrimonioWhereInput | tbAuditoriaDevolucaoPatrimonioWhereInput[]
+    OR?: tbAuditoriaDevolucaoPatrimonioWhereInput[]
+    NOT?: tbAuditoriaDevolucaoPatrimonioWhereInput | tbAuditoriaDevolucaoPatrimonioWhereInput[]
+    idPatrimonioRef?: StringFilter<"tbAuditoriaDevolucaoPatrimonio"> | string
+    idPat?: StringFilter<"tbAuditoriaDevolucaoPatrimonio"> | string
+    statusAnterior?: StringNullableFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    statusNovo?: StringNullableFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    limpezaSolicitada?: BoolFilter<"tbAuditoriaDevolucaoPatrimonio"> | boolean
+    registrosRemovidos?: IntFilter<"tbAuditoriaDevolucaoPatrimonio"> | number
+    idUserAcao?: StringNullableFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    emailUserAcao?: StringNullableFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    observacao?: StringNullableFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    detalhesJson?: JsonNullableFilter<"tbAuditoriaDevolucaoPatrimonio">
+    createdAt?: DateTimeFilter<"tbAuditoriaDevolucaoPatrimonio"> | Date | string
+    tbPatrimonio?: XOR<TbPatrimonioScalarRelationFilter, tbPatrimonioWhereInput>
+    tbUser?: XOR<TbUserNullableScalarRelationFilter, tbUserWhereInput> | null
+  }, "idAuditoria">
+
+  export type tbAuditoriaDevolucaoPatrimonioOrderByWithAggregationInput = {
+    idAuditoria?: SortOrder
+    idPatrimonioRef?: SortOrder
+    idPat?: SortOrder
+    statusAnterior?: SortOrderInput | SortOrder
+    statusNovo?: SortOrderInput | SortOrder
+    limpezaSolicitada?: SortOrder
+    registrosRemovidos?: SortOrder
+    idUserAcao?: SortOrderInput | SortOrder
+    emailUserAcao?: SortOrderInput | SortOrder
+    observacao?: SortOrderInput | SortOrder
+    detalhesJson?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: tbAuditoriaDevolucaoPatrimonioCountOrderByAggregateInput
+    _avg?: tbAuditoriaDevolucaoPatrimonioAvgOrderByAggregateInput
+    _max?: tbAuditoriaDevolucaoPatrimonioMaxOrderByAggregateInput
+    _min?: tbAuditoriaDevolucaoPatrimonioMinOrderByAggregateInput
+    _sum?: tbAuditoriaDevolucaoPatrimonioSumOrderByAggregateInput
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioScalarWhereWithAggregatesInput = {
+    AND?: tbAuditoriaDevolucaoPatrimonioScalarWhereWithAggregatesInput | tbAuditoriaDevolucaoPatrimonioScalarWhereWithAggregatesInput[]
+    OR?: tbAuditoriaDevolucaoPatrimonioScalarWhereWithAggregatesInput[]
+    NOT?: tbAuditoriaDevolucaoPatrimonioScalarWhereWithAggregatesInput | tbAuditoriaDevolucaoPatrimonioScalarWhereWithAggregatesInput[]
+    idAuditoria?: StringWithAggregatesFilter<"tbAuditoriaDevolucaoPatrimonio"> | string
+    idPatrimonioRef?: StringWithAggregatesFilter<"tbAuditoriaDevolucaoPatrimonio"> | string
+    idPat?: StringWithAggregatesFilter<"tbAuditoriaDevolucaoPatrimonio"> | string
+    statusAnterior?: StringNullableWithAggregatesFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    statusNovo?: StringNullableWithAggregatesFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    limpezaSolicitada?: BoolWithAggregatesFilter<"tbAuditoriaDevolucaoPatrimonio"> | boolean
+    registrosRemovidos?: IntWithAggregatesFilter<"tbAuditoriaDevolucaoPatrimonio"> | number
+    idUserAcao?: StringNullableWithAggregatesFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    emailUserAcao?: StringNullableWithAggregatesFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    observacao?: StringNullableWithAggregatesFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    detalhesJson?: JsonNullableWithAggregatesFilter<"tbAuditoriaDevolucaoPatrimonio">
+    createdAt?: DateTimeWithAggregatesFilter<"tbAuditoriaDevolucaoPatrimonio"> | Date | string
+  }
+
   export type tbPatrimonioHistoricoWhereInput = {
     AND?: tbPatrimonioHistoricoWhereInput | tbPatrimonioHistoricoWhereInput[]
     OR?: tbPatrimonioHistoricoWhereInput[]
@@ -28083,6 +29433,7 @@ export namespace Prisma {
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbUserInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbUserInput
     tbBmMedicao?: tbBmMedicaoCreateNestedManyWithoutTbUserInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserUncheckedCreateInput = {
@@ -28103,6 +29454,7 @@ export namespace Prisma {
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbUserInput
     tbBmMedicao?: tbBmMedicaoUncheckedCreateNestedManyWithoutTbUserInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserUpdateInput = {
@@ -28123,6 +29475,7 @@ export namespace Prisma {
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbUserNestedInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbUserNestedInput
     tbBmMedicao?: tbBmMedicaoUpdateManyWithoutTbUserNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbUserUncheckedUpdateInput = {
@@ -28143,6 +29496,7 @@ export namespace Prisma {
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbUserNestedInput
     tbBmMedicao?: tbBmMedicaoUncheckedUpdateManyWithoutTbUserNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbUserCreateManyInput = {
@@ -28499,6 +29853,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbPatrimonioInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUncheckedCreateInput = {
@@ -28521,6 +29876,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUpdateInput = {
@@ -28543,6 +29899,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbPatrimonioNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateInput = {
@@ -28565,6 +29922,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioCreateManyInput = {
@@ -29347,6 +30705,109 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type tbAuditoriaDevolucaoPatrimonioCreateInput = {
+    idAuditoria?: string
+    idPat: string
+    statusAnterior?: string | null
+    statusNovo?: string | null
+    limpezaSolicitada?: boolean
+    registrosRemovidos?: number
+    emailUserAcao?: string | null
+    observacao?: string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    tbPatrimonio: tbPatrimonioCreateNestedOneWithoutTbAuditoriaDevolucaoPatrimonioInput
+    tbUser?: tbUserCreateNestedOneWithoutTbAuditoriaDevolucaoPatrimonioInput
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUncheckedCreateInput = {
+    idAuditoria?: string
+    idPatrimonioRef: string
+    idPat: string
+    statusAnterior?: string | null
+    statusNovo?: string | null
+    limpezaSolicitada?: boolean
+    registrosRemovidos?: number
+    idUserAcao?: string | null
+    emailUserAcao?: string | null
+    observacao?: string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUpdateInput = {
+    idAuditoria?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: NullableStringFieldUpdateOperationsInput | string | null
+    limpezaSolicitada?: BoolFieldUpdateOperationsInput | boolean
+    registrosRemovidos?: IntFieldUpdateOperationsInput | number
+    emailUserAcao?: NullableStringFieldUpdateOperationsInput | string | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbPatrimonio?: tbPatrimonioUpdateOneRequiredWithoutTbAuditoriaDevolucaoPatrimonioNestedInput
+    tbUser?: tbUserUpdateOneWithoutTbAuditoriaDevolucaoPatrimonioNestedInput
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUncheckedUpdateInput = {
+    idAuditoria?: StringFieldUpdateOperationsInput | string
+    idPatrimonioRef?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: NullableStringFieldUpdateOperationsInput | string | null
+    limpezaSolicitada?: BoolFieldUpdateOperationsInput | boolean
+    registrosRemovidos?: IntFieldUpdateOperationsInput | number
+    idUserAcao?: NullableStringFieldUpdateOperationsInput | string | null
+    emailUserAcao?: NullableStringFieldUpdateOperationsInput | string | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioCreateManyInput = {
+    idAuditoria?: string
+    idPatrimonioRef: string
+    idPat: string
+    statusAnterior?: string | null
+    statusNovo?: string | null
+    limpezaSolicitada?: boolean
+    registrosRemovidos?: number
+    idUserAcao?: string | null
+    emailUserAcao?: string | null
+    observacao?: string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUpdateManyMutationInput = {
+    idAuditoria?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: NullableStringFieldUpdateOperationsInput | string | null
+    limpezaSolicitada?: BoolFieldUpdateOperationsInput | boolean
+    registrosRemovidos?: IntFieldUpdateOperationsInput | number
+    emailUserAcao?: NullableStringFieldUpdateOperationsInput | string | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyInput = {
+    idAuditoria?: StringFieldUpdateOperationsInput | string
+    idPatrimonioRef?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: NullableStringFieldUpdateOperationsInput | string | null
+    limpezaSolicitada?: BoolFieldUpdateOperationsInput | boolean
+    registrosRemovidos?: IntFieldUpdateOperationsInput | number
+    idUserAcao?: NullableStringFieldUpdateOperationsInput | string | null
+    emailUserAcao?: NullableStringFieldUpdateOperationsInput | string | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type tbPatrimonioHistoricoCreateInput = {
     idHistorico?: string
     idPat: string
@@ -29910,6 +31371,12 @@ export namespace Prisma {
     none?: tbBmMedicaoWhereInput
   }
 
+  export type TbAuditoriaDevolucaoPatrimonioListRelationFilter = {
+    every?: tbAuditoriaDevolucaoPatrimonioWhereInput
+    some?: tbAuditoriaDevolucaoPatrimonioWhereInput
+    none?: tbAuditoriaDevolucaoPatrimonioWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -29928,6 +31395,10 @@ export namespace Prisma {
   }
 
   export type tbBmMedicaoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -30887,6 +32358,63 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type tbAuditoriaDevolucaoPatrimonioOrderByRelevanceInput = {
+    fields: tbAuditoriaDevolucaoPatrimonioOrderByRelevanceFieldEnum | tbAuditoriaDevolucaoPatrimonioOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioCountOrderByAggregateInput = {
+    idAuditoria?: SortOrder
+    idPatrimonioRef?: SortOrder
+    idPat?: SortOrder
+    statusAnterior?: SortOrder
+    statusNovo?: SortOrder
+    limpezaSolicitada?: SortOrder
+    registrosRemovidos?: SortOrder
+    idUserAcao?: SortOrder
+    emailUserAcao?: SortOrder
+    observacao?: SortOrder
+    detalhesJson?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioAvgOrderByAggregateInput = {
+    registrosRemovidos?: SortOrder
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioMaxOrderByAggregateInput = {
+    idAuditoria?: SortOrder
+    idPatrimonioRef?: SortOrder
+    idPat?: SortOrder
+    statusAnterior?: SortOrder
+    statusNovo?: SortOrder
+    limpezaSolicitada?: SortOrder
+    registrosRemovidos?: SortOrder
+    idUserAcao?: SortOrder
+    emailUserAcao?: SortOrder
+    observacao?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioMinOrderByAggregateInput = {
+    idAuditoria?: SortOrder
+    idPatrimonioRef?: SortOrder
+    idPat?: SortOrder
+    statusAnterior?: SortOrder
+    statusNovo?: SortOrder
+    limpezaSolicitada?: SortOrder
+    registrosRemovidos?: SortOrder
+    idUserAcao?: SortOrder
+    emailUserAcao?: SortOrder
+    observacao?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioSumOrderByAggregateInput = {
+    registrosRemovidos?: SortOrder
+  }
+
   export type tbPatrimonioHistoricoOrderByRelevanceInput = {
     fields: tbPatrimonioHistoricoOrderByRelevanceFieldEnum | tbPatrimonioHistoricoOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -31227,6 +32755,13 @@ export namespace Prisma {
     connect?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
   }
 
+  export type tbAuditoriaDevolucaoPatrimonioCreateNestedManyWithoutTbUserInput = {
+    create?: XOR<tbAuditoriaDevolucaoPatrimonioCreateWithoutTbUserInput, tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbUserInput> | tbAuditoriaDevolucaoPatrimonioCreateWithoutTbUserInput[] | tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbUserInput[]
+    connectOrCreate?: tbAuditoriaDevolucaoPatrimonioCreateOrConnectWithoutTbUserInput | tbAuditoriaDevolucaoPatrimonioCreateOrConnectWithoutTbUserInput[]
+    createMany?: tbAuditoriaDevolucaoPatrimonioCreateManyTbUserInputEnvelope
+    connect?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
+  }
+
   export type tbFuncionarioUncheckedCreateNestedManyWithoutTbUserInput = {
     create?: XOR<tbFuncionarioCreateWithoutTbUserInput, tbFuncionarioUncheckedCreateWithoutTbUserInput> | tbFuncionarioCreateWithoutTbUserInput[] | tbFuncionarioUncheckedCreateWithoutTbUserInput[]
     connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbUserInput | tbFuncionarioCreateOrConnectWithoutTbUserInput[]
@@ -31253,6 +32788,13 @@ export namespace Prisma {
     connectOrCreate?: tbBmMedicaoCreateOrConnectWithoutTbUserInput | tbBmMedicaoCreateOrConnectWithoutTbUserInput[]
     createMany?: tbBmMedicaoCreateManyTbUserInputEnvelope
     connect?: tbBmMedicaoWhereUniqueInput | tbBmMedicaoWhereUniqueInput[]
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput = {
+    create?: XOR<tbAuditoriaDevolucaoPatrimonioCreateWithoutTbUserInput, tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbUserInput> | tbAuditoriaDevolucaoPatrimonioCreateWithoutTbUserInput[] | tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbUserInput[]
+    connectOrCreate?: tbAuditoriaDevolucaoPatrimonioCreateOrConnectWithoutTbUserInput | tbAuditoriaDevolucaoPatrimonioCreateOrConnectWithoutTbUserInput[]
+    createMany?: tbAuditoriaDevolucaoPatrimonioCreateManyTbUserInputEnvelope
+    connect?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -31327,6 +32869,20 @@ export namespace Prisma {
     deleteMany?: tbBmMedicaoScalarWhereInput | tbBmMedicaoScalarWhereInput[]
   }
 
+  export type tbAuditoriaDevolucaoPatrimonioUpdateManyWithoutTbUserNestedInput = {
+    create?: XOR<tbAuditoriaDevolucaoPatrimonioCreateWithoutTbUserInput, tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbUserInput> | tbAuditoriaDevolucaoPatrimonioCreateWithoutTbUserInput[] | tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbUserInput[]
+    connectOrCreate?: tbAuditoriaDevolucaoPatrimonioCreateOrConnectWithoutTbUserInput | tbAuditoriaDevolucaoPatrimonioCreateOrConnectWithoutTbUserInput[]
+    upsert?: tbAuditoriaDevolucaoPatrimonioUpsertWithWhereUniqueWithoutTbUserInput | tbAuditoriaDevolucaoPatrimonioUpsertWithWhereUniqueWithoutTbUserInput[]
+    createMany?: tbAuditoriaDevolucaoPatrimonioCreateManyTbUserInputEnvelope
+    set?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
+    disconnect?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
+    delete?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
+    connect?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
+    update?: tbAuditoriaDevolucaoPatrimonioUpdateWithWhereUniqueWithoutTbUserInput | tbAuditoriaDevolucaoPatrimonioUpdateWithWhereUniqueWithoutTbUserInput[]
+    updateMany?: tbAuditoriaDevolucaoPatrimonioUpdateManyWithWhereWithoutTbUserInput | tbAuditoriaDevolucaoPatrimonioUpdateManyWithWhereWithoutTbUserInput[]
+    deleteMany?: tbAuditoriaDevolucaoPatrimonioScalarWhereInput | tbAuditoriaDevolucaoPatrimonioScalarWhereInput[]
+  }
+
   export type tbFuncionarioUncheckedUpdateManyWithoutTbUserNestedInput = {
     create?: XOR<tbFuncionarioCreateWithoutTbUserInput, tbFuncionarioUncheckedCreateWithoutTbUserInput> | tbFuncionarioCreateWithoutTbUserInput[] | tbFuncionarioUncheckedCreateWithoutTbUserInput[]
     connectOrCreate?: tbFuncionarioCreateOrConnectWithoutTbUserInput | tbFuncionarioCreateOrConnectWithoutTbUserInput[]
@@ -31381,6 +32937,20 @@ export namespace Prisma {
     update?: tbBmMedicaoUpdateWithWhereUniqueWithoutTbUserInput | tbBmMedicaoUpdateWithWhereUniqueWithoutTbUserInput[]
     updateMany?: tbBmMedicaoUpdateManyWithWhereWithoutTbUserInput | tbBmMedicaoUpdateManyWithWhereWithoutTbUserInput[]
     deleteMany?: tbBmMedicaoScalarWhereInput | tbBmMedicaoScalarWhereInput[]
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput = {
+    create?: XOR<tbAuditoriaDevolucaoPatrimonioCreateWithoutTbUserInput, tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbUserInput> | tbAuditoriaDevolucaoPatrimonioCreateWithoutTbUserInput[] | tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbUserInput[]
+    connectOrCreate?: tbAuditoriaDevolucaoPatrimonioCreateOrConnectWithoutTbUserInput | tbAuditoriaDevolucaoPatrimonioCreateOrConnectWithoutTbUserInput[]
+    upsert?: tbAuditoriaDevolucaoPatrimonioUpsertWithWhereUniqueWithoutTbUserInput | tbAuditoriaDevolucaoPatrimonioUpsertWithWhereUniqueWithoutTbUserInput[]
+    createMany?: tbAuditoriaDevolucaoPatrimonioCreateManyTbUserInputEnvelope
+    set?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
+    disconnect?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
+    delete?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
+    connect?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
+    update?: tbAuditoriaDevolucaoPatrimonioUpdateWithWhereUniqueWithoutTbUserInput | tbAuditoriaDevolucaoPatrimonioUpdateWithWhereUniqueWithoutTbUserInput[]
+    updateMany?: tbAuditoriaDevolucaoPatrimonioUpdateManyWithWhereWithoutTbUserInput | tbAuditoriaDevolucaoPatrimonioUpdateManyWithWhereWithoutTbUserInput[]
+    deleteMany?: tbAuditoriaDevolucaoPatrimonioScalarWhereInput | tbAuditoriaDevolucaoPatrimonioScalarWhereInput[]
   }
 
   export type tbStatusFunCreateNestedOneWithoutTbFuncionarioInput = {
@@ -31830,6 +33400,13 @@ export namespace Prisma {
     connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
   }
 
+  export type tbAuditoriaDevolucaoPatrimonioCreateNestedManyWithoutTbPatrimonioInput = {
+    create?: XOR<tbAuditoriaDevolucaoPatrimonioCreateWithoutTbPatrimonioInput, tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbPatrimonioInput> | tbAuditoriaDevolucaoPatrimonioCreateWithoutTbPatrimonioInput[] | tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbAuditoriaDevolucaoPatrimonioCreateOrConnectWithoutTbPatrimonioInput | tbAuditoriaDevolucaoPatrimonioCreateOrConnectWithoutTbPatrimonioInput[]
+    createMany?: tbAuditoriaDevolucaoPatrimonioCreateManyTbPatrimonioInputEnvelope
+    connect?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
+  }
+
   export type tbCadastroUncheckedCreateNestedManyWithoutTbPatrimonioInput = {
     create?: XOR<tbCadastroCreateWithoutTbPatrimonioInput, tbCadastroUncheckedCreateWithoutTbPatrimonioInput> | tbCadastroCreateWithoutTbPatrimonioInput[] | tbCadastroUncheckedCreateWithoutTbPatrimonioInput[]
     connectOrCreate?: tbCadastroCreateOrConnectWithoutTbPatrimonioInput | tbCadastroCreateOrConnectWithoutTbPatrimonioInput[]
@@ -31863,6 +33440,13 @@ export namespace Prisma {
     connectOrCreate?: tbTransferenciaAlocacaoCreateOrConnectWithoutTbPatrimonioInput | tbTransferenciaAlocacaoCreateOrConnectWithoutTbPatrimonioInput[]
     createMany?: tbTransferenciaAlocacaoCreateManyTbPatrimonioInputEnvelope
     connect?: tbTransferenciaAlocacaoWhereUniqueInput | tbTransferenciaAlocacaoWhereUniqueInput[]
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput = {
+    create?: XOR<tbAuditoriaDevolucaoPatrimonioCreateWithoutTbPatrimonioInput, tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbPatrimonioInput> | tbAuditoriaDevolucaoPatrimonioCreateWithoutTbPatrimonioInput[] | tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbAuditoriaDevolucaoPatrimonioCreateOrConnectWithoutTbPatrimonioInput | tbAuditoriaDevolucaoPatrimonioCreateOrConnectWithoutTbPatrimonioInput[]
+    createMany?: tbAuditoriaDevolucaoPatrimonioCreateManyTbPatrimonioInputEnvelope
+    connect?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -31973,6 +33557,20 @@ export namespace Prisma {
     deleteMany?: tbTransferenciaAlocacaoScalarWhereInput | tbTransferenciaAlocacaoScalarWhereInput[]
   }
 
+  export type tbAuditoriaDevolucaoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput = {
+    create?: XOR<tbAuditoriaDevolucaoPatrimonioCreateWithoutTbPatrimonioInput, tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbPatrimonioInput> | tbAuditoriaDevolucaoPatrimonioCreateWithoutTbPatrimonioInput[] | tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbAuditoriaDevolucaoPatrimonioCreateOrConnectWithoutTbPatrimonioInput | tbAuditoriaDevolucaoPatrimonioCreateOrConnectWithoutTbPatrimonioInput[]
+    upsert?: tbAuditoriaDevolucaoPatrimonioUpsertWithWhereUniqueWithoutTbPatrimonioInput | tbAuditoriaDevolucaoPatrimonioUpsertWithWhereUniqueWithoutTbPatrimonioInput[]
+    createMany?: tbAuditoriaDevolucaoPatrimonioCreateManyTbPatrimonioInputEnvelope
+    set?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
+    disconnect?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
+    delete?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
+    connect?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
+    update?: tbAuditoriaDevolucaoPatrimonioUpdateWithWhereUniqueWithoutTbPatrimonioInput | tbAuditoriaDevolucaoPatrimonioUpdateWithWhereUniqueWithoutTbPatrimonioInput[]
+    updateMany?: tbAuditoriaDevolucaoPatrimonioUpdateManyWithWhereWithoutTbPatrimonioInput | tbAuditoriaDevolucaoPatrimonioUpdateManyWithWhereWithoutTbPatrimonioInput[]
+    deleteMany?: tbAuditoriaDevolucaoPatrimonioScalarWhereInput | tbAuditoriaDevolucaoPatrimonioScalarWhereInput[]
+  }
+
   export type tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput = {
     create?: XOR<tbCadastroCreateWithoutTbPatrimonioInput, tbCadastroUncheckedCreateWithoutTbPatrimonioInput> | tbCadastroCreateWithoutTbPatrimonioInput[] | tbCadastroUncheckedCreateWithoutTbPatrimonioInput[]
     connectOrCreate?: tbCadastroCreateOrConnectWithoutTbPatrimonioInput | tbCadastroCreateOrConnectWithoutTbPatrimonioInput[]
@@ -32041,6 +33639,20 @@ export namespace Prisma {
     update?: tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbPatrimonioInput | tbTransferenciaAlocacaoUpdateWithWhereUniqueWithoutTbPatrimonioInput[]
     updateMany?: tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbPatrimonioInput | tbTransferenciaAlocacaoUpdateManyWithWhereWithoutTbPatrimonioInput[]
     deleteMany?: tbTransferenciaAlocacaoScalarWhereInput | tbTransferenciaAlocacaoScalarWhereInput[]
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput = {
+    create?: XOR<tbAuditoriaDevolucaoPatrimonioCreateWithoutTbPatrimonioInput, tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbPatrimonioInput> | tbAuditoriaDevolucaoPatrimonioCreateWithoutTbPatrimonioInput[] | tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbPatrimonioInput[]
+    connectOrCreate?: tbAuditoriaDevolucaoPatrimonioCreateOrConnectWithoutTbPatrimonioInput | tbAuditoriaDevolucaoPatrimonioCreateOrConnectWithoutTbPatrimonioInput[]
+    upsert?: tbAuditoriaDevolucaoPatrimonioUpsertWithWhereUniqueWithoutTbPatrimonioInput | tbAuditoriaDevolucaoPatrimonioUpsertWithWhereUniqueWithoutTbPatrimonioInput[]
+    createMany?: tbAuditoriaDevolucaoPatrimonioCreateManyTbPatrimonioInputEnvelope
+    set?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
+    disconnect?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
+    delete?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
+    connect?: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput | tbAuditoriaDevolucaoPatrimonioWhereUniqueInput[]
+    update?: tbAuditoriaDevolucaoPatrimonioUpdateWithWhereUniqueWithoutTbPatrimonioInput | tbAuditoriaDevolucaoPatrimonioUpdateWithWhereUniqueWithoutTbPatrimonioInput[]
+    updateMany?: tbAuditoriaDevolucaoPatrimonioUpdateManyWithWhereWithoutTbPatrimonioInput | tbAuditoriaDevolucaoPatrimonioUpdateManyWithWhereWithoutTbPatrimonioInput[]
+    deleteMany?: tbAuditoriaDevolucaoPatrimonioScalarWhereInput | tbAuditoriaDevolucaoPatrimonioScalarWhereInput[]
   }
 
   export type tbPatrimonioCreateNestedManyWithoutTbTipoPatInput = {
@@ -32903,6 +34515,36 @@ export namespace Prisma {
     update?: XOR<XOR<tbCadastroUpdateToOneWithWhereWithoutTbDevolucaoInput, tbCadastroUpdateWithoutTbDevolucaoInput>, tbCadastroUncheckedUpdateWithoutTbDevolucaoInput>
   }
 
+  export type tbPatrimonioCreateNestedOneWithoutTbAuditoriaDevolucaoPatrimonioInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbAuditoriaDevolucaoPatrimonioInput, tbPatrimonioUncheckedCreateWithoutTbAuditoriaDevolucaoPatrimonioInput>
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbAuditoriaDevolucaoPatrimonioInput
+    connect?: tbPatrimonioWhereUniqueInput
+  }
+
+  export type tbUserCreateNestedOneWithoutTbAuditoriaDevolucaoPatrimonioInput = {
+    create?: XOR<tbUserCreateWithoutTbAuditoriaDevolucaoPatrimonioInput, tbUserUncheckedCreateWithoutTbAuditoriaDevolucaoPatrimonioInput>
+    connectOrCreate?: tbUserCreateOrConnectWithoutTbAuditoriaDevolucaoPatrimonioInput
+    connect?: tbUserWhereUniqueInput
+  }
+
+  export type tbPatrimonioUpdateOneRequiredWithoutTbAuditoriaDevolucaoPatrimonioNestedInput = {
+    create?: XOR<tbPatrimonioCreateWithoutTbAuditoriaDevolucaoPatrimonioInput, tbPatrimonioUncheckedCreateWithoutTbAuditoriaDevolucaoPatrimonioInput>
+    connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbAuditoriaDevolucaoPatrimonioInput
+    upsert?: tbPatrimonioUpsertWithoutTbAuditoriaDevolucaoPatrimonioInput
+    connect?: tbPatrimonioWhereUniqueInput
+    update?: XOR<XOR<tbPatrimonioUpdateToOneWithWhereWithoutTbAuditoriaDevolucaoPatrimonioInput, tbPatrimonioUpdateWithoutTbAuditoriaDevolucaoPatrimonioInput>, tbPatrimonioUncheckedUpdateWithoutTbAuditoriaDevolucaoPatrimonioInput>
+  }
+
+  export type tbUserUpdateOneWithoutTbAuditoriaDevolucaoPatrimonioNestedInput = {
+    create?: XOR<tbUserCreateWithoutTbAuditoriaDevolucaoPatrimonioInput, tbUserUncheckedCreateWithoutTbAuditoriaDevolucaoPatrimonioInput>
+    connectOrCreate?: tbUserCreateOrConnectWithoutTbAuditoriaDevolucaoPatrimonioInput
+    upsert?: tbUserUpsertWithoutTbAuditoriaDevolucaoPatrimonioInput
+    disconnect?: tbUserWhereInput | boolean
+    delete?: tbUserWhereInput | boolean
+    connect?: tbUserWhereUniqueInput
+    update?: XOR<XOR<tbUserUpdateToOneWithWhereWithoutTbAuditoriaDevolucaoPatrimonioInput, tbUserUpdateWithoutTbAuditoriaDevolucaoPatrimonioInput>, tbUserUncheckedUpdateWithoutTbAuditoriaDevolucaoPatrimonioInput>
+  }
+
   export type tbPatrimonioCreateNestedOneWithoutTbPatrimonioHistoricoInput = {
     create?: XOR<tbPatrimonioCreateWithoutTbPatrimonioHistoricoInput, tbPatrimonioUncheckedCreateWithoutTbPatrimonioHistoricoInput>
     connectOrCreate?: tbPatrimonioCreateOrConnectWithoutTbPatrimonioHistoricoInput
@@ -33511,6 +35153,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type tbAuditoriaDevolucaoPatrimonioCreateWithoutTbUserInput = {
+    idAuditoria?: string
+    idPat: string
+    statusAnterior?: string | null
+    statusNovo?: string | null
+    limpezaSolicitada?: boolean
+    registrosRemovidos?: number
+    emailUserAcao?: string | null
+    observacao?: string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    tbPatrimonio: tbPatrimonioCreateNestedOneWithoutTbAuditoriaDevolucaoPatrimonioInput
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbUserInput = {
+    idAuditoria?: string
+    idPatrimonioRef: string
+    idPat: string
+    statusAnterior?: string | null
+    statusNovo?: string | null
+    limpezaSolicitada?: boolean
+    registrosRemovidos?: number
+    emailUserAcao?: string | null
+    observacao?: string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioCreateOrConnectWithoutTbUserInput = {
+    where: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput
+    create: XOR<tbAuditoriaDevolucaoPatrimonioCreateWithoutTbUserInput, tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbUserInput>
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioCreateManyTbUserInputEnvelope = {
+    data: tbAuditoriaDevolucaoPatrimonioCreateManyTbUserInput | tbAuditoriaDevolucaoPatrimonioCreateManyTbUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type tbFuncionarioUpsertWithWhereUniqueWithoutTbUserInput = {
     where: tbFuncionarioWhereUniqueInput
     update: XOR<tbFuncionarioUpdateWithoutTbUserInput, tbFuncionarioUncheckedUpdateWithoutTbUserInput>
@@ -33650,6 +35330,40 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"tbBmMedicao"> | Date | string
   }
 
+  export type tbAuditoriaDevolucaoPatrimonioUpsertWithWhereUniqueWithoutTbUserInput = {
+    where: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput
+    update: XOR<tbAuditoriaDevolucaoPatrimonioUpdateWithoutTbUserInput, tbAuditoriaDevolucaoPatrimonioUncheckedUpdateWithoutTbUserInput>
+    create: XOR<tbAuditoriaDevolucaoPatrimonioCreateWithoutTbUserInput, tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbUserInput>
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUpdateWithWhereUniqueWithoutTbUserInput = {
+    where: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput
+    data: XOR<tbAuditoriaDevolucaoPatrimonioUpdateWithoutTbUserInput, tbAuditoriaDevolucaoPatrimonioUncheckedUpdateWithoutTbUserInput>
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUpdateManyWithWhereWithoutTbUserInput = {
+    where: tbAuditoriaDevolucaoPatrimonioScalarWhereInput
+    data: XOR<tbAuditoriaDevolucaoPatrimonioUpdateManyMutationInput, tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbUserInput>
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioScalarWhereInput = {
+    AND?: tbAuditoriaDevolucaoPatrimonioScalarWhereInput | tbAuditoriaDevolucaoPatrimonioScalarWhereInput[]
+    OR?: tbAuditoriaDevolucaoPatrimonioScalarWhereInput[]
+    NOT?: tbAuditoriaDevolucaoPatrimonioScalarWhereInput | tbAuditoriaDevolucaoPatrimonioScalarWhereInput[]
+    idAuditoria?: StringFilter<"tbAuditoriaDevolucaoPatrimonio"> | string
+    idPatrimonioRef?: StringFilter<"tbAuditoriaDevolucaoPatrimonio"> | string
+    idPat?: StringFilter<"tbAuditoriaDevolucaoPatrimonio"> | string
+    statusAnterior?: StringNullableFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    statusNovo?: StringNullableFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    limpezaSolicitada?: BoolFilter<"tbAuditoriaDevolucaoPatrimonio"> | boolean
+    registrosRemovidos?: IntFilter<"tbAuditoriaDevolucaoPatrimonio"> | number
+    idUserAcao?: StringNullableFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    emailUserAcao?: StringNullableFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    observacao?: StringNullableFilter<"tbAuditoriaDevolucaoPatrimonio"> | string | null
+    detalhesJson?: JsonNullableFilter<"tbAuditoriaDevolucaoPatrimonio">
+    createdAt?: DateTimeFilter<"tbAuditoriaDevolucaoPatrimonio"> | Date | string
+  }
+
   export type tbStatusFunCreateWithoutTbFuncionarioInput = {
     idStatusFun?: string
     descricaoStatusFun: string
@@ -33682,6 +35396,7 @@ export namespace Prisma {
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbUserInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbUserInput
     tbBmMedicao?: tbBmMedicaoCreateNestedManyWithoutTbUserInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserUncheckedCreateWithoutTbFuncioanrioInput = {
@@ -33701,6 +35416,7 @@ export namespace Prisma {
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbUserInput
     tbBmMedicao?: tbBmMedicaoUncheckedCreateNestedManyWithoutTbUserInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserCreateOrConnectWithoutTbFuncioanrioInput = {
@@ -33933,6 +35649,7 @@ export namespace Prisma {
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbUserNestedInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbUserNestedInput
     tbBmMedicao?: tbBmMedicaoUpdateManyWithoutTbUserNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbUserUncheckedUpdateWithoutTbFuncioanrioInput = {
@@ -33952,6 +35669,7 @@ export namespace Prisma {
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbUserNestedInput
     tbBmMedicao?: tbBmMedicaoUncheckedUpdateManyWithoutTbUserNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbFuncaoUpsertWithoutTbFuncionarioInput = {
@@ -34627,6 +36345,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type tbAuditoriaDevolucaoPatrimonioCreateWithoutTbPatrimonioInput = {
+    idAuditoria?: string
+    idPat: string
+    statusAnterior?: string | null
+    statusNovo?: string | null
+    limpezaSolicitada?: boolean
+    registrosRemovidos?: number
+    emailUserAcao?: string | null
+    observacao?: string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    tbUser?: tbUserCreateNestedOneWithoutTbAuditoriaDevolucaoPatrimonioInput
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbPatrimonioInput = {
+    idAuditoria?: string
+    idPat: string
+    statusAnterior?: string | null
+    statusNovo?: string | null
+    limpezaSolicitada?: boolean
+    registrosRemovidos?: number
+    idUserAcao?: string | null
+    emailUserAcao?: string | null
+    observacao?: string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioCreateOrConnectWithoutTbPatrimonioInput = {
+    where: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput
+    create: XOR<tbAuditoriaDevolucaoPatrimonioCreateWithoutTbPatrimonioInput, tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbPatrimonioInput>
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioCreateManyTbPatrimonioInputEnvelope = {
+    data: tbAuditoriaDevolucaoPatrimonioCreateManyTbPatrimonioInput | tbAuditoriaDevolucaoPatrimonioCreateManyTbPatrimonioInput[]
+    skipDuplicates?: boolean
+  }
+
   export type tbTipoPatUpsertWithoutTbPatrimonioInput = {
     update: XOR<tbTipoPatUpdateWithoutTbPatrimonioInput, tbTipoPatUncheckedUpdateWithoutTbPatrimonioInput>
     create: XOR<tbTipoPatCreateWithoutTbPatrimonioInput, tbTipoPatUncheckedCreateWithoutTbPatrimonioInput>
@@ -34828,6 +36584,22 @@ export namespace Prisma {
     data: XOR<tbTransferenciaAlocacaoUpdateManyMutationInput, tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioInput>
   }
 
+  export type tbAuditoriaDevolucaoPatrimonioUpsertWithWhereUniqueWithoutTbPatrimonioInput = {
+    where: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput
+    update: XOR<tbAuditoriaDevolucaoPatrimonioUpdateWithoutTbPatrimonioInput, tbAuditoriaDevolucaoPatrimonioUncheckedUpdateWithoutTbPatrimonioInput>
+    create: XOR<tbAuditoriaDevolucaoPatrimonioCreateWithoutTbPatrimonioInput, tbAuditoriaDevolucaoPatrimonioUncheckedCreateWithoutTbPatrimonioInput>
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUpdateWithWhereUniqueWithoutTbPatrimonioInput = {
+    where: tbAuditoriaDevolucaoPatrimonioWhereUniqueInput
+    data: XOR<tbAuditoriaDevolucaoPatrimonioUpdateWithoutTbPatrimonioInput, tbAuditoriaDevolucaoPatrimonioUncheckedUpdateWithoutTbPatrimonioInput>
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUpdateManyWithWhereWithoutTbPatrimonioInput = {
+    where: tbAuditoriaDevolucaoPatrimonioScalarWhereInput
+    data: XOR<tbAuditoriaDevolucaoPatrimonioUpdateManyMutationInput, tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioInput>
+  }
+
   export type tbPatrimonioCreateWithoutTbTipoPatInput = {
     idP?: string
     idPat: string
@@ -34847,6 +36619,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbPatrimonioInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUncheckedCreateWithoutTbTipoPatInput = {
@@ -34868,6 +36641,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioCreateOrConnectWithoutTbTipoPatInput = {
@@ -34995,6 +36769,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbPatrimonioInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUncheckedCreateWithoutTbStatusPatInput = {
@@ -35016,6 +36791,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioCreateOrConnectWithoutTbStatusPatInput = {
@@ -35254,6 +37030,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbPatrimonioInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUncheckedCreateWithoutTbCCustoInput = {
@@ -35275,6 +37052,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioCreateOrConnectWithoutTbCCustoInput = {
@@ -35662,6 +37440,7 @@ export namespace Prisma {
     tbFuncioanrio?: tbFuncionarioCreateNestedManyWithoutTbUserInput
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbUserInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbUserInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserUncheckedCreateWithoutTbBmMedicaoInput = {
@@ -35681,6 +37460,7 @@ export namespace Prisma {
     tbFuncioanrio?: tbFuncionarioUncheckedCreateNestedManyWithoutTbUserInput
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbUserInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserCreateOrConnectWithoutTbBmMedicaoInput = {
@@ -35751,6 +37531,7 @@ export namespace Prisma {
     tbFuncioanrio?: tbFuncionarioUpdateManyWithoutTbUserNestedInput
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbUserNestedInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbUserNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbUserUncheckedUpdateWithoutTbBmMedicaoInput = {
@@ -35770,6 +37551,7 @@ export namespace Prisma {
     tbFuncioanrio?: tbFuncionarioUncheckedUpdateManyWithoutTbUserNestedInput
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbUserNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbPatrimonioCreateWithoutTbTransferenciaCustoPatrimonioInput = {
@@ -35791,6 +37573,7 @@ export namespace Prisma {
     tbDevolucao?: tbDevolucaoCreateNestedManyWithoutTbPatrimonioInput
     tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbPatrimonioInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUncheckedCreateWithoutTbTransferenciaCustoPatrimonioInput = {
@@ -35812,6 +37595,7 @@ export namespace Prisma {
     tbDevolucao?: tbDevolucaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioCreateOrConnectWithoutTbTransferenciaCustoPatrimonioInput = {
@@ -35894,6 +37678,7 @@ export namespace Prisma {
     tbFuncioanrio?: tbFuncionarioCreateNestedManyWithoutTbUserInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbUserInput
     tbBmMedicao?: tbBmMedicaoCreateNestedManyWithoutTbUserInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserUncheckedCreateWithoutTransferenciasCustoPatrimonioInput = {
@@ -35913,6 +37698,7 @@ export namespace Prisma {
     tbFuncioanrio?: tbFuncionarioUncheckedCreateNestedManyWithoutTbUserInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbUserInput
     tbBmMedicao?: tbBmMedicaoUncheckedCreateNestedManyWithoutTbUserInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserCreateOrConnectWithoutTransferenciasCustoPatrimonioInput = {
@@ -35950,6 +37736,7 @@ export namespace Prisma {
     tbDevolucao?: tbDevolucaoUpdateManyWithoutTbPatrimonioNestedInput
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbPatrimonioNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateWithoutTbTransferenciaCustoPatrimonioInput = {
@@ -35971,6 +37758,7 @@ export namespace Prisma {
     tbDevolucao?: tbDevolucaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbCCustoUpsertWithoutTransferenciasOrigemInput = {
@@ -36071,6 +37859,7 @@ export namespace Prisma {
     tbFuncioanrio?: tbFuncionarioUpdateManyWithoutTbUserNestedInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbUserNestedInput
     tbBmMedicao?: tbBmMedicaoUpdateManyWithoutTbUserNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbUserUncheckedUpdateWithoutTransferenciasCustoPatrimonioInput = {
@@ -36090,6 +37879,7 @@ export namespace Prisma {
     tbFuncioanrio?: tbFuncionarioUncheckedUpdateManyWithoutTbUserNestedInput
     transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbUserNestedInput
     tbBmMedicao?: tbBmMedicaoUncheckedUpdateManyWithoutTbUserNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbPatrimonioCreateWithoutTbCadastroInput = {
@@ -36111,6 +37901,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbPatrimonioInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUncheckedCreateWithoutTbCadastroInput = {
@@ -36132,6 +37923,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioCreateOrConnectWithoutTbCadastroInput = {
@@ -36299,6 +38091,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbPatrimonioNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateWithoutTbCadastroInput = {
@@ -36320,6 +38113,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbFuncionarioUpsertWithoutTbCadastroInput = {
@@ -36472,6 +38266,7 @@ export namespace Prisma {
     tbDevolucao?: tbDevolucaoCreateNestedManyWithoutTbPatrimonioInput
     tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUncheckedCreateWithoutTbTransferenciaAlocacaoInput = {
@@ -36493,6 +38288,7 @@ export namespace Prisma {
     tbDevolucao?: tbDevolucaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioCreateOrConnectWithoutTbTransferenciaAlocacaoInput = {
@@ -36595,6 +38391,7 @@ export namespace Prisma {
     tbFuncioanrio?: tbFuncionarioCreateNestedManyWithoutTbUserInput
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbUserInput
     tbBmMedicao?: tbBmMedicaoCreateNestedManyWithoutTbUserInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserUncheckedCreateWithoutTransferenciasAlocacaoInput = {
@@ -36614,6 +38411,7 @@ export namespace Prisma {
     tbFuncioanrio?: tbFuncionarioUncheckedCreateNestedManyWithoutTbUserInput
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput
     tbBmMedicao?: tbBmMedicaoUncheckedCreateNestedManyWithoutTbUserInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput
   }
 
   export type tbUserCreateOrConnectWithoutTransferenciasAlocacaoInput = {
@@ -36686,6 +38484,7 @@ export namespace Prisma {
     tbDevolucao?: tbDevolucaoUpdateManyWithoutTbPatrimonioNestedInput
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateWithoutTbTransferenciaAlocacaoInput = {
@@ -36707,6 +38506,7 @@ export namespace Prisma {
     tbDevolucao?: tbDevolucaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbFuncionarioUpsertWithoutTbTransferenciaAlocacaoOrigemInput = {
@@ -36827,6 +38627,7 @@ export namespace Prisma {
     tbFuncioanrio?: tbFuncionarioUpdateManyWithoutTbUserNestedInput
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbUserNestedInput
     tbBmMedicao?: tbBmMedicaoUpdateManyWithoutTbUserNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbUserUncheckedUpdateWithoutTransferenciasAlocacaoInput = {
@@ -36846,6 +38647,7 @@ export namespace Prisma {
     tbFuncioanrio?: tbFuncionarioUncheckedUpdateManyWithoutTbUserNestedInput
     transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput
     tbBmMedicao?: tbBmMedicaoUncheckedUpdateManyWithoutTbUserNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput
   }
 
   export type tbPatrimonioCreateWithoutTbDevolucaoInput = {
@@ -36867,6 +38669,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbPatrimonioInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUncheckedCreateWithoutTbDevolucaoInput = {
@@ -36888,6 +38691,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioCreateOrConnectWithoutTbDevolucaoInput = {
@@ -36954,6 +38758,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbPatrimonioNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateWithoutTbDevolucaoInput = {
@@ -36975,6 +38780,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbCadastroUpsertWithoutTbDevolucaoInput = {
@@ -37012,6 +38818,206 @@ export namespace Prisma {
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbCadastroNestedInput
   }
 
+  export type tbPatrimonioCreateWithoutTbAuditoriaDevolucaoPatrimonioInput = {
+    idP?: string
+    idPat: string
+    descricaoPat: string
+    descricaoDetalhadaPat?: string | null
+    licencaPat?: string | null
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    valorPat: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
+    tbTipoPat?: tbTipoPatCreateNestedOneWithoutTbPatrimonioInput
+    tbStatusPat?: tbStatusPatCreateNestedOneWithoutTbPatrimonioInput
+    tbCCusto?: tbCCustoCreateNestedOneWithoutTbPatrimonioInput
+    tbCadastro?: tbCadastroCreateNestedManyWithoutTbPatrimonioInput
+    tbDevolucao?: tbDevolucaoCreateNestedManyWithoutTbPatrimonioInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbPatrimonioInput
+  }
+
+  export type tbPatrimonioUncheckedCreateWithoutTbAuditoriaDevolucaoPatrimonioInput = {
+    idP?: string
+    idPat: string
+    descricaoPat: string
+    descricaoDetalhadaPat?: string | null
+    licencaPat?: string | null
+    dataEntPat: Date | string
+    dataSaiPat?: Date | string | null
+    notaFiscalPat?: string | null
+    valorPat: number
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
+    idPat_TipoPat?: string | null
+    idPat_StatusPat?: string | null
+    idPat_CustoPat?: string | null
+    tbCadastro?: tbCadastroUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbDevolucao?: tbDevolucaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+  }
+
+  export type tbPatrimonioCreateOrConnectWithoutTbAuditoriaDevolucaoPatrimonioInput = {
+    where: tbPatrimonioWhereUniqueInput
+    create: XOR<tbPatrimonioCreateWithoutTbAuditoriaDevolucaoPatrimonioInput, tbPatrimonioUncheckedCreateWithoutTbAuditoriaDevolucaoPatrimonioInput>
+  }
+
+  export type tbUserCreateWithoutTbAuditoriaDevolucaoPatrimonioInput = {
+    id?: string
+    idUser?: string | null
+    nomeUser?: string | null
+    emailUser?: string | null
+    emailVerified?: Date | string | null
+    senhaUser?: string | null
+    avatarUser?: string | null
+    authTypeUser?: string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tbFuncioanrio?: tbFuncionarioCreateNestedManyWithoutTbUserInput
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbUserInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbUserInput
+    tbBmMedicao?: tbBmMedicaoCreateNestedManyWithoutTbUserInput
+  }
+
+  export type tbUserUncheckedCreateWithoutTbAuditoriaDevolucaoPatrimonioInput = {
+    id?: string
+    idUser?: string | null
+    nomeUser?: string | null
+    emailUser?: string | null
+    emailVerified?: Date | string | null
+    senhaUser?: string | null
+    avatarUser?: string | null
+    authTypeUser?: string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tbFuncioanrio?: tbFuncionarioUncheckedCreateNestedManyWithoutTbUserInput
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbUserInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbUserInput
+    tbBmMedicao?: tbBmMedicaoUncheckedCreateNestedManyWithoutTbUserInput
+  }
+
+  export type tbUserCreateOrConnectWithoutTbAuditoriaDevolucaoPatrimonioInput = {
+    where: tbUserWhereUniqueInput
+    create: XOR<tbUserCreateWithoutTbAuditoriaDevolucaoPatrimonioInput, tbUserUncheckedCreateWithoutTbAuditoriaDevolucaoPatrimonioInput>
+  }
+
+  export type tbPatrimonioUpsertWithoutTbAuditoriaDevolucaoPatrimonioInput = {
+    update: XOR<tbPatrimonioUpdateWithoutTbAuditoriaDevolucaoPatrimonioInput, tbPatrimonioUncheckedUpdateWithoutTbAuditoriaDevolucaoPatrimonioInput>
+    create: XOR<tbPatrimonioCreateWithoutTbAuditoriaDevolucaoPatrimonioInput, tbPatrimonioUncheckedCreateWithoutTbAuditoriaDevolucaoPatrimonioInput>
+    where?: tbPatrimonioWhereInput
+  }
+
+  export type tbPatrimonioUpdateToOneWithWhereWithoutTbAuditoriaDevolucaoPatrimonioInput = {
+    where?: tbPatrimonioWhereInput
+    data: XOR<tbPatrimonioUpdateWithoutTbAuditoriaDevolucaoPatrimonioInput, tbPatrimonioUncheckedUpdateWithoutTbAuditoriaDevolucaoPatrimonioInput>
+  }
+
+  export type tbPatrimonioUpdateWithoutTbAuditoriaDevolucaoPatrimonioInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tbTipoPat?: tbTipoPatUpdateOneWithoutTbPatrimonioNestedInput
+    tbStatusPat?: tbStatusPatUpdateOneWithoutTbPatrimonioNestedInput
+    tbCCusto?: tbCCustoUpdateOneWithoutTbPatrimonioNestedInput
+    tbCadastro?: tbCadastroUpdateManyWithoutTbPatrimonioNestedInput
+    tbDevolucao?: tbDevolucaoUpdateManyWithoutTbPatrimonioNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbPatrimonioNestedInput
+  }
+
+  export type tbPatrimonioUncheckedUpdateWithoutTbAuditoriaDevolucaoPatrimonioInput = {
+    idP?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    descricaoPat?: StringFieldUpdateOperationsInput | string
+    descricaoDetalhadaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    licencaPat?: NullableStringFieldUpdateOperationsInput | string | null
+    dataEntPat?: DateTimeFieldUpdateOperationsInput | Date | string
+    dataSaiPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notaFiscalPat?: NullableStringFieldUpdateOperationsInput | string | null
+    valorPat?: FloatFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    idPat_TipoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_StatusPat?: NullableStringFieldUpdateOperationsInput | string | null
+    idPat_CustoPat?: NullableStringFieldUpdateOperationsInput | string | null
+    tbCadastro?: tbCadastroUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbDevolucao?: tbDevolucaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+  }
+
+  export type tbUserUpsertWithoutTbAuditoriaDevolucaoPatrimonioInput = {
+    update: XOR<tbUserUpdateWithoutTbAuditoriaDevolucaoPatrimonioInput, tbUserUncheckedUpdateWithoutTbAuditoriaDevolucaoPatrimonioInput>
+    create: XOR<tbUserCreateWithoutTbAuditoriaDevolucaoPatrimonioInput, tbUserUncheckedCreateWithoutTbAuditoriaDevolucaoPatrimonioInput>
+    where?: tbUserWhereInput
+  }
+
+  export type tbUserUpdateToOneWithWhereWithoutTbAuditoriaDevolucaoPatrimonioInput = {
+    where?: tbUserWhereInput
+    data: XOR<tbUserUpdateWithoutTbAuditoriaDevolucaoPatrimonioInput, tbUserUncheckedUpdateWithoutTbAuditoriaDevolucaoPatrimonioInput>
+  }
+
+  export type tbUserUpdateWithoutTbAuditoriaDevolucaoPatrimonioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    idUser?: NullableStringFieldUpdateOperationsInput | string | null
+    nomeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    emailUser?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    senhaUser?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUser?: NullableStringFieldUpdateOperationsInput | string | null
+    authTypeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbFuncioanrio?: tbFuncionarioUpdateManyWithoutTbUserNestedInput
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbUserNestedInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbUserNestedInput
+    tbBmMedicao?: tbBmMedicaoUpdateManyWithoutTbUserNestedInput
+  }
+
+  export type tbUserUncheckedUpdateWithoutTbAuditoriaDevolucaoPatrimonioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    idUser?: NullableStringFieldUpdateOperationsInput | string | null
+    nomeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    emailUser?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    senhaUser?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUser?: NullableStringFieldUpdateOperationsInput | string | null
+    authTypeUser?: NullableStringFieldUpdateOperationsInput | string | null
+    formulariosUser?: NullableJsonNullValueInput | InputJsonValue
+    centrosUser?: NullableJsonNullValueInput | InputJsonValue
+    statusUser?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbFuncioanrio?: tbFuncionarioUncheckedUpdateManyWithoutTbUserNestedInput
+    transferenciasCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbUserNestedInput
+    transferenciasAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbUserNestedInput
+    tbBmMedicao?: tbBmMedicaoUncheckedUpdateManyWithoutTbUserNestedInput
+  }
+
   export type tbPatrimonioCreateWithoutTbPatrimonioHistoricoInput = {
     idP?: string
     idPat: string
@@ -37031,6 +39037,7 @@ export namespace Prisma {
     tbDevolucao?: tbDevolucaoCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoCreateNestedManyWithoutTbPatrimonioInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioUncheckedCreateWithoutTbPatrimonioHistoricoInput = {
@@ -37052,6 +39059,7 @@ export namespace Prisma {
     tbDevolucao?: tbDevolucaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedCreateNestedManyWithoutTbPatrimonioInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedCreateNestedManyWithoutTbPatrimonioInput
   }
 
   export type tbPatrimonioCreateOrConnectWithoutTbPatrimonioHistoricoInput = {
@@ -37154,6 +39162,7 @@ export namespace Prisma {
     tbDevolucao?: tbDevolucaoUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbPatrimonioNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateWithoutTbPatrimonioHistoricoInput = {
@@ -37175,6 +39184,7 @@ export namespace Prisma {
     tbDevolucao?: tbDevolucaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbTipoPatUpsertWithoutTbPatrimonioHistoricoInput = {
@@ -37543,6 +39553,20 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type tbAuditoriaDevolucaoPatrimonioCreateManyTbUserInput = {
+    idAuditoria?: string
+    idPatrimonioRef: string
+    idPat: string
+    statusAnterior?: string | null
+    statusNovo?: string | null
+    limpezaSolicitada?: boolean
+    registrosRemovidos?: number
+    emailUserAcao?: string | null
+    observacao?: string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
   export type tbFuncionarioUpdateWithoutTbUserInput = {
     idF?: StringFieldUpdateOperationsInput | string
     idMatFun?: StringFieldUpdateOperationsInput | string
@@ -37726,6 +39750,48 @@ export namespace Prisma {
     fechadoAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUpdateWithoutTbUserInput = {
+    idAuditoria?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: NullableStringFieldUpdateOperationsInput | string | null
+    limpezaSolicitada?: BoolFieldUpdateOperationsInput | boolean
+    registrosRemovidos?: IntFieldUpdateOperationsInput | number
+    emailUserAcao?: NullableStringFieldUpdateOperationsInput | string | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbPatrimonio?: tbPatrimonioUpdateOneRequiredWithoutTbAuditoriaDevolucaoPatrimonioNestedInput
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUncheckedUpdateWithoutTbUserInput = {
+    idAuditoria?: StringFieldUpdateOperationsInput | string
+    idPatrimonioRef?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: NullableStringFieldUpdateOperationsInput | string | null
+    limpezaSolicitada?: BoolFieldUpdateOperationsInput | boolean
+    registrosRemovidos?: IntFieldUpdateOperationsInput | number
+    emailUserAcao?: NullableStringFieldUpdateOperationsInput | string | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbUserInput = {
+    idAuditoria?: StringFieldUpdateOperationsInput | string
+    idPatrimonioRef?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: NullableStringFieldUpdateOperationsInput | string | null
+    limpezaSolicitada?: BoolFieldUpdateOperationsInput | boolean
+    registrosRemovidos?: IntFieldUpdateOperationsInput | number
+    emailUserAcao?: NullableStringFieldUpdateOperationsInput | string | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type tbCadastroCreateManyTbFuncionarioInput = {
@@ -38116,6 +40182,20 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type tbAuditoriaDevolucaoPatrimonioCreateManyTbPatrimonioInput = {
+    idAuditoria?: string
+    idPat: string
+    statusAnterior?: string | null
+    statusNovo?: string | null
+    limpezaSolicitada?: boolean
+    registrosRemovidos?: number
+    idUserAcao?: string | null
+    emailUserAcao?: string | null
+    observacao?: string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
   export type tbCadastroUpdateWithoutTbPatrimonioInput = {
     idCad?: StringFieldUpdateOperationsInput | string
     dataCadPat?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38312,6 +40392,48 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type tbAuditoriaDevolucaoPatrimonioUpdateWithoutTbPatrimonioInput = {
+    idAuditoria?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: NullableStringFieldUpdateOperationsInput | string | null
+    limpezaSolicitada?: BoolFieldUpdateOperationsInput | boolean
+    registrosRemovidos?: IntFieldUpdateOperationsInput | number
+    emailUserAcao?: NullableStringFieldUpdateOperationsInput | string | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tbUser?: tbUserUpdateOneWithoutTbAuditoriaDevolucaoPatrimonioNestedInput
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUncheckedUpdateWithoutTbPatrimonioInput = {
+    idAuditoria?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: NullableStringFieldUpdateOperationsInput | string | null
+    limpezaSolicitada?: BoolFieldUpdateOperationsInput | boolean
+    registrosRemovidos?: IntFieldUpdateOperationsInput | number
+    idUserAcao?: NullableStringFieldUpdateOperationsInput | string | null
+    emailUserAcao?: NullableStringFieldUpdateOperationsInput | string | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioInput = {
+    idAuditoria?: StringFieldUpdateOperationsInput | string
+    idPat?: StringFieldUpdateOperationsInput | string
+    statusAnterior?: NullableStringFieldUpdateOperationsInput | string | null
+    statusNovo?: NullableStringFieldUpdateOperationsInput | string | null
+    limpezaSolicitada?: BoolFieldUpdateOperationsInput | boolean
+    registrosRemovidos?: IntFieldUpdateOperationsInput | number
+    idUserAcao?: NullableStringFieldUpdateOperationsInput | string | null
+    emailUserAcao?: NullableStringFieldUpdateOperationsInput | string | null
+    observacao?: NullableStringFieldUpdateOperationsInput | string | null
+    detalhesJson?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type tbPatrimonioCreateManyTbTipoPatInput = {
     idP?: string
     idPat: string
@@ -38364,6 +40486,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbPatrimonioNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateWithoutTbTipoPatInput = {
@@ -38385,6 +40508,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateManyWithoutTbTipoPatInput = {
@@ -38516,6 +40640,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbPatrimonioNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateWithoutTbStatusPatInput = {
@@ -38537,6 +40662,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateManyWithoutTbStatusPatInput = {
@@ -38785,6 +40911,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUpdateManyWithoutTbPatrimonioNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateWithoutTbCCustoInput = {
@@ -38806,6 +40933,7 @@ export namespace Prisma {
     tbPatrimonioHistorico?: tbPatrimonioHistoricoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaCustoPatrimonio?: tbTransferenciaCustoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
     tbTransferenciaAlocacao?: tbTransferenciaAlocacaoUncheckedUpdateManyWithoutTbPatrimonioNestedInput
+    tbAuditoriaDevolucaoPatrimonio?: tbAuditoriaDevolucaoPatrimonioUncheckedUpdateManyWithoutTbPatrimonioNestedInput
   }
 
   export type tbPatrimonioUncheckedUpdateManyWithoutTbCCustoInput = {

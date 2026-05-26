@@ -188,21 +188,44 @@ export async function POST(request: NextRequest) {
 
             if (isDevolucao) {
                 const dataDevolucao = parseOptionalDateInput(dados.dataDevPat) || parseOptionalDateInput(dados.dataSaiPat) || new Date();
-                await prisma.tbDevolucao.create({
-                    data: {
-                        idPatrimonio: patrimonio.idPat,
-                        dataInicioDevolucao: dataDevolucao,
-                        motivoDevolucao: typeof dados.motivoDevolucao === 'string' ? dados.motivoDevolucao.trim() || null : null,
-                        notaFiscalDevolucao: typeof dados.notaFiscalDevolucao === 'string' ? dados.notaFiscalDevolucao.trim() || null : null,
-                        dataSaidaFornecedor: parseOptionalDateInput(dados.dataSaidaFornecedor),
-                        dataChegadaFornecedor: parseOptionalDateInput(dados.dataChegadaFornecedor),
+                const devolucaoAberta = await prisma.tbDevolucao.findFirst({
+                    where: {
+                        idPatrimonio: patrimonio.idP,
                         dataFimDevolucao: null
-                    } as any
+                    },
+                    orderBy: {
+                        dataInicioDevolucao: 'desc'
+                    }
                 });
+                if (devolucaoAberta) {
+                    await prisma.tbDevolucao.update({
+                        where: { idDevolucao: devolucaoAberta.idDevolucao },
+                        data: {
+                            dataInicioDevolucao: dataDevolucao,
+                            motivoDevolucao: typeof dados.motivoDevolucao === 'string' ? dados.motivoDevolucao.trim() || null : null,
+                            notaFiscalDevolucao: typeof dados.notaFiscalDevolucao === 'string' ? dados.notaFiscalDevolucao.trim() || null : null,
+                            dataSaidaFornecedor: parseOptionalDateInput(dados.dataSaidaFornecedor),
+                            dataChegadaFornecedor: parseOptionalDateInput(dados.dataChegadaFornecedor),
+                            dataFimDevolucao: null
+                        } as any
+                    });
+                } else {
+                    await prisma.tbDevolucao.create({
+                        data: {
+                            idPatrimonio: patrimonio.idP,
+                            dataInicioDevolucao: dataDevolucao,
+                            motivoDevolucao: typeof dados.motivoDevolucao === 'string' ? dados.motivoDevolucao.trim() || null : null,
+                            notaFiscalDevolucao: typeof dados.notaFiscalDevolucao === 'string' ? dados.notaFiscalDevolucao.trim() || null : null,
+                            dataSaidaFornecedor: parseOptionalDateInput(dados.dataSaidaFornecedor),
+                            dataChegadaFornecedor: parseOptionalDateInput(dados.dataChegadaFornecedor),
+                            dataFimDevolucao: null
+                        } as any
+                    });
+                }
             } else {
                 await prisma.tbDevolucao.updateMany({
                     where: {
-                        idPatrimonio: patrimonio.idPat,
+                        idPatrimonio: patrimonio.idP,
                         dataFimDevolucao: null
                     },
                     data: {

@@ -12,23 +12,24 @@ datasource db {
 }
 
 model tbUser {
-  id                            String                           @id @default(uuid())
-  idUser                        String?                          @unique
-  nomeUser                      String?
-  emailUser                     String?                          @unique
-  emailVerified                 DateTime?
-  senhaUser                     String?
-  avatarUser                    String?
-  authTypeUser                  String?
-  formulariosUser               Json?
-  centrosUser                   Json?
-  statusUser                    String                           @default("ATIVO")
-  createdAt                     DateTime                         @default(now())
-  updatedAt                     DateTime                         @updatedAt
-  tbFuncioanrio                 tbFuncionario[]
-  transferenciasCustoPatrimonio tbTransferenciaCustoPatrimonio[]
-  transferenciasAlocacao        tbTransferenciaAlocacao[]
-  tbBmMedicao                   tbBmMedicao[]
+  id                             String                           @id @default(uuid())
+  idUser                         String?                          @unique
+  nomeUser                       String?
+  emailUser                      String?                          @unique
+  emailVerified                  DateTime?
+  senhaUser                      String?
+  avatarUser                     String?
+  authTypeUser                   String?
+  formulariosUser                Json?
+  centrosUser                    Json?
+  statusUser                     String                           @default("ATIVO")
+  createdAt                      DateTime                         @default(now())
+  updatedAt                      DateTime                         @updatedAt
+  tbFuncioanrio                  tbFuncionario[]
+  transferenciasCustoPatrimonio  tbTransferenciaCustoPatrimonio[]
+  transferenciasAlocacao         tbTransferenciaAlocacao[]
+  tbBmMedicao                    tbBmMedicao[]
+  tbAuditoriaDevolucaoPatrimonio tbAuditoriaDevolucaoPatrimonio[]
 }
 
 model tbFuncionario {
@@ -110,6 +111,7 @@ model tbPatrimonio {
   tbPatrimonioHistorico          tbPatrimonioHistorico[]
   tbTransferenciaCustoPatrimonio tbTransferenciaCustoPatrimonio[]
   tbTransferenciaAlocacao        tbTransferenciaAlocacao[]
+  tbAuditoriaDevolucaoPatrimonio tbAuditoriaDevolucaoPatrimonio[]
 }
 
 model tbTipoPat {
@@ -257,11 +259,33 @@ model tbDevolucao {
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
 
-  tbPatrimonio tbPatrimonio @relation(fields: [idPatrimonio], references: [idPat], onDelete: Cascade)
+  tbPatrimonio tbPatrimonio @relation(fields: [idPatrimonio], references: [idP], onDelete: Cascade)
   tbCadastro   tbCadastro?  @relation(fields: [idCadastro], references: [idCad], onDelete: SetNull)
 
   @@index([idPatrimonio, dataInicioDevolucao], map: "idx_devolucao_pat_inicio")
   @@index([idCadastro], map: "idx_devolucao_cadastro")
+}
+
+model tbAuditoriaDevolucaoPatrimonio {
+  idAuditoria        String   @id @default(uuid())
+  idPatrimonioRef    String
+  idPat              String
+  statusAnterior     String?
+  statusNovo         String?
+  limpezaSolicitada  Boolean  @default(false)
+  registrosRemovidos Int      @default(0)
+  idUserAcao         String?
+  emailUserAcao      String?
+  observacao         String?
+  detalhesJson       Json?
+  createdAt          DateTime @default(now())
+
+  tbPatrimonio tbPatrimonio @relation(fields: [idPatrimonioRef], references: [idP], onDelete: Cascade)
+  tbUser       tbUser?      @relation(fields: [idUserAcao], references: [id], onDelete: SetNull)
+
+  @@index([idPatrimonioRef, createdAt], map: "idx_aud_dev_pat_data")
+  @@index([idPat], map: "idx_aud_dev_idpat")
+  @@index([idUserAcao], map: "idx_aud_dev_user")
 }
 
 model tbPatrimonioHistorico {
