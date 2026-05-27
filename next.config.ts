@@ -1,8 +1,11 @@
 import type { NextConfig } from "next";
 
 const fallbackOrigins = [
+  "localhost",
   "localhost:3000",
+  "127.0.0.1",
   "127.0.0.1:3000",
+  "192.168.5.4",
   "192.168.5.4:3000",
   "local-origin.dev",
   "*.local-origin.dev",

@@ -66,6 +66,10 @@ export async function PUT(
         if (!canAccess) {
             return NextResponse.json({ message: 'Sem permissao para acessar patrimonio' }, { status: 403 });
         }
+        const canUpdate = await hasActionPermissionForRequest(request, 'UPDATE');
+        if (!canUpdate) {
+            return NextResponse.json({ message: 'Sem permissao para alterar patrimonio' }, { status: 403 });
+        }
         const { id } = await params;
         const dados = await request.json();
         const patrimonioAntes = await getPatrimonioCardById(id);

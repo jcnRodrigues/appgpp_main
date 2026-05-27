@@ -21,8 +21,8 @@ export async function GET(request: NextRequest) {
         if (!canAccess) {
             return NextResponse.json({ message: 'Acesso negado' }, { status: 403 });
         }
-        const { centros, allowAll, authenticated } = await getCentrosFiltro(request);
-        const allowAllEfetivo = allowAll || (authenticated && centros.length === 0);
+        const { centros, allowAll } = await getCentrosFiltro(request);
+        const allowAllEfetivo = allowAll;
         const [tipos, status, centrosDb] = await Promise.all([
             getTiposPatrimonio(),
             getStatusPatrimonio(),

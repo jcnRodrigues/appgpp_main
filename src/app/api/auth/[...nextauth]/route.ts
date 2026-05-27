@@ -139,7 +139,6 @@ export const AuthOptions = {
         GoogleProvider({
             clientId: googleCredentials.clientId,
             clientSecret: googleCredentials.clientSecret,
-            allowDangerousEmailAccountLinking: true,
         }),
         CredentialsProvider({
             name: "Login Local",
@@ -249,5 +248,4 @@ export const AuthOptions = {
 
 const handler = NextAuth(AuthOptions);
 export { handler as GET, handler as POST };
-
 

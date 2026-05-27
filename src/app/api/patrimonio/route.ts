@@ -29,8 +29,8 @@ export async function GET(request: NextRequest) {
         const skip = parseInt(searchParams.get('skip') || '0');
         const take = parseInt(searchParams.get('take') || '100');
 
-        const { centros, allowAll, authenticated } = await getCentrosFiltro(request);
-        const allowAllEfetivo = allowAll || (authenticated && centros.length === 0);
+        const { centros, allowAll } = await getCentrosFiltro(request);
+        const allowAllEfetivo = allowAll;
         const filtroCentros = allowAllEfetivo ? undefined : centros;
 
         if (!allowAllEfetivo && centros.length === 0) {

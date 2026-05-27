@@ -182,7 +182,13 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                         <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
                                             <Link href={`/funcionario/${funcionario.idF}`} title="Editar" onClick={handleEditClick}><Edit className="h-4 w-4" /></Link>
                                         </Button>
-                                        <DeleteGuardButton resource="funcionario" recordId={funcionario.idF} onAuthorizedDelete={() => handleDelete(funcionario.idF)} className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition" title="Excluir" unauthorizedBehavior="alert">
+                                        <DeleteGuardButton
+                                            resource="funcionario"
+                                            recordId={funcionario.idF}
+                                            onAuthorizedDelete={() => handleDelete(funcionario.idF)}
+                                            className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
+                                            title="Excluir"
+                                            unauthorizedBehavior="alert">
                                             <Trash2 className="h-4 w-4" />
                                         </DeleteGuardButton>
                                     </div>

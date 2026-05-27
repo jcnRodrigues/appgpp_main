@@ -51,3 +51,6 @@ client_secret*.json
 
 # local PowerShell scripts
 /scripts/
+
+# local dist folder
+/dist

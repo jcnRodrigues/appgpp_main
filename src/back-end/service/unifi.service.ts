@@ -1,4 +1,14 @@
 import prisma from '../../../prisma/prisma';
+import { decryptUnifiSecret, encryptUnifiSecret } from '@/lib/unifi-secrets';
+
+function mapConfigWithDecryptedSecrets<T extends { apiKey?: string | null; password?: string | null }>(config: T | null) {
+  if (!config) return null;
+  return {
+    ...config,
+    apiKey: decryptUnifiSecret(config.apiKey),
+    password: decryptUnifiSecret(config.password),
+  };
+}
 
 export async function getUnifiConfig() {
   try {
@@ -6,7 +16,7 @@ export async function getUnifiConfig() {
       where: { isActive: true },
       orderBy: { updatedAt: 'desc' },
     });
-    return config;
+    return mapConfigWithDecryptedSecrets(config as any);
   } catch (error) {
     console.error('Erro ao buscar configuração Unifi:', error);
     return null;
@@ -21,6 +31,12 @@ export async function saveUnifiConfig(data: {
   password?: string;
 }) {
   try {
+    const safeData = {
+      ...data,
+      apiKey: typeof data.apiKey === 'string' ? encryptUnifiSecret(data.apiKey) : data.apiKey,
+      password: typeof data.password === 'string' ? encryptUnifiSecret(data.password) : data.password,
+    };
+
     const existingConfig = await prisma.tbUnifiConfig.findFirst({
       where: { isActive: true },
     });
@@ -30,7 +46,7 @@ export async function saveUnifiConfig(data: {
       return await prisma.tbUnifiConfig.update({
         where: { id: existingConfig.id },
         data: {
-          ...data,
+          ...safeData,
           updatedAt: new Date(),
         },
       });
@@ -38,7 +54,7 @@ export async function saveUnifiConfig(data: {
       // Criar nova configuração
       return await prisma.tbUnifiConfig.create({
         data: {
-          ...data,
+          ...safeData,
         },
       });
     }
@@ -64,7 +80,7 @@ export async function getAllUnifiConfigs() {
     const configs = await prisma.tbUnifiConfig.findMany({
       orderBy: { createdAt: 'desc' },
     });
-    return configs;
+    return configs.map((config) => mapConfigWithDecryptedSecrets(config as any));
   } catch (error) {
     console.error('Erro ao buscar configurações Unifi:', error);
     return [];
