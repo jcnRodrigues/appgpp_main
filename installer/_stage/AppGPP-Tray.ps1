@@ -2,7 +2,27 @@ Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
 $projectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
-$url = "http://localhost:3000"
+$configPath = Join-Path $projectRoot "appgpp-server.env"
+$publicHost = "localhost"
+$port = "3000"
+$bindHost = "0.0.0.0"
+
+if (Test-Path -LiteralPath $configPath) {
+  foreach ($line in (Get-Content -LiteralPath $configPath)) {
+    if ([string]::IsNullOrWhiteSpace($line) -or $line.TrimStart().StartsWith("#")) { continue }
+    $parts = $line.Split("=", 2)
+    if ($parts.Count -ne 2) { continue }
+    $key = $parts[0].Trim()
+    $value = $parts[1].Trim()
+    switch ($key) {
+      "APPGPP_PUBLIC_HOST" { if ($value) { $publicHost = $value } }
+      "APPGPP_PORT" { if ($value) { $port = $value } }
+      "APPGPP_BIND_HOST" { if ($value) { $bindHost = $value } }
+    }
+  }
+}
+
+$url = "http://$publicHost`:$port"
 $trayIconPath = Join-Path $projectRoot "public\Imagens\AppGPP.ico"
 
 $mutexName = "Global\AppGPP_Tray_Icon"
@@ -39,13 +59,14 @@ try {
 
 # Reaproveita servidor existente quando ja estiver rodando.
 $existing = Get-CimInstance Win32_Process -Filter "Name='cmd.exe'" |
-  Where-Object { $_.CommandLine -like '*npm run dev*' -and $_.CommandLine -like "*$projectRoot*" } |
+  Where-Object { $_.CommandLine -like '*npm run start*' -and $_.CommandLine -like "*$projectRoot*" } |
   Select-Object -First 1
 
 if ($existing) {
   $server = Get-Process -Id $existing.ProcessId -ErrorAction SilentlyContinue
 } else {
-  $server = Start-Process -FilePath "cmd.exe" -ArgumentList "/c cd /d `"$projectRoot`" && npm run dev" -WindowStyle Hidden -PassThru
+  $cmdLine = "/c cd /d `"$projectRoot`" && npm run start -- -H $bindHost -p $port"
+  $server = Start-Process -FilePath "cmd.exe" -ArgumentList $cmdLine -WindowStyle Hidden -PassThru
 }
 
 $notifyIcon = New-Object System.Windows.Forms.NotifyIcon

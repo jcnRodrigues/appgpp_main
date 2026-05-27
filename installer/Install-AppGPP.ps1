@@ -111,6 +111,7 @@ if ($rc -ge 8) {
 
 Push-Location $InstallDir
 try {
+  $scriptDir = Join-Path $InstallDir "powershell-scripts"
   if ([string]::IsNullOrWhiteSpace($ServerHost)) {
     $ServerHost = Read-HostWithDefault -Prompt "Informe o host/IP para acesso ao AppGPP" -DefaultValue "localhost"
   }
@@ -182,18 +183,18 @@ try {
     npm run build
   }
 
-  if (Test-Path ".\\Register-AppGPP-StartupTask.ps1") {
+  if (Test-Path (Join-Path $scriptDir "Register-AppGPP-StartupTask.ps1")) {
     Write-Step "Registrando inicializacao automatica do AppGPP no boot do servidor"
-    powershell -NoProfile -ExecutionPolicy Bypass -File ".\\Register-AppGPP-StartupTask.ps1" -InstallDir $InstallDir
+    powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $scriptDir "Register-AppGPP-StartupTask.ps1") -InstallDir $InstallDir
   }
 
-  if (Test-Path "Criar-Atalho-AreaTrabalho.ps1") {
+  if (Test-Path (Join-Path $scriptDir "Criar-Atalho-AreaTrabalho.ps1")) {
     Write-Step "Criando atalho na area de trabalho"
-    powershell -NoProfile -ExecutionPolicy Bypass -File ".\\Criar-Atalho-AreaTrabalho.ps1"
+    powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $scriptDir "Criar-Atalho-AreaTrabalho.ps1")
   }
 } finally {
   Pop-Location
 }
 
 Write-Step "Instalacao concluida"
-Write-Host "Inicie por: $InstallDir\\Abrir-AppGPP.cmd" -ForegroundColor Green
+Write-Host "Inicie por: $InstallDir\\powershell-scripts\\Abrir-AppGPP.cmd" -ForegroundColor Green

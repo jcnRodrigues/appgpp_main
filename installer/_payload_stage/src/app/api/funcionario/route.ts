@@ -1,5 +1,5 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
-import { criarFuncionario, listarFuncionarios, contarFuncionarios } from '@/back-end/service/Funcionario.service/funcionario.service';
+import { criarFuncionario, listarFuncionarios, contarFuncionarios, listarFuncionariosTransferenciaCusto } from '@/back-end/service/Funcionario.service/funcionario.service';
 import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 import { parseDateInput, parseOptionalDateInput } from '@/lib/date-input';
 
@@ -9,8 +9,10 @@ export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
         const nome = searchParams.get('nome');
+        const matricula = searchParams.get('matricula');
         const status = searchParams.get('status');
         const funcao = searchParams.get('funcao');
+        const modo = searchParams.get('modo');
         const skip = parseInt(searchParams.get('skip') || '0');
         const take = parseInt(searchParams.get('take') || '100');
 
@@ -21,16 +23,25 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ data: [], total: 0 });
         }
 
-        const funcionarios = await listarFuncionarios({
+        const filtro = {
             nome: nome || undefined,
+            matricula: matricula || undefined,
             status: status || undefined,
             funcao: funcao || undefined,
             centros: filtroCentros,
             skip,
             take
-        });
-        const total = await contarFuncionarios({
+        };
+
+        const funcionarios = modo === 'transferencia-custo'
+            ? await listarFuncionariosTransferenciaCusto(filtro)
+            : await listarFuncionarios(filtro);
+
+        const total = modo === 'transferencia-custo'
+            ? funcionarios.length
+            : await contarFuncionarios({
             nome: nome || undefined,
+            matricula: matricula || undefined,
             status: status || undefined,
             funcao: funcao || undefined,
             centros: filtroCentros

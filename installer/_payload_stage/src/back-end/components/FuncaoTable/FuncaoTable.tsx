@@ -89,7 +89,13 @@ export default function FuncaoTable() {
     }, []);
 
     const handleDelete = async (idFuncao: string) => {
-        if (!confirm('Tem certeza que deseja deletar esta funcao?')) return;
+        const confirmou = window.systemConfirm
+            ? await window.systemConfirm('Tem certeza que deseja deletar esta funcao?', 'Confirmar exclusão', {
+                confirmText: 'Excluir',
+                cancelText: 'Cancelar'
+            })
+            : window.confirm('Tem certeza que deseja deletar esta funcao?');
+        if (!confirmou) return;
 
         try {
             const res = await fetch(`/api/funcao/${idFuncao}`, {

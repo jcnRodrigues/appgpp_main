@@ -183,7 +183,13 @@ export default function CadastroTable() {
     }, [totalItens, paginaAtual, itensPorPagina]);
 
     const handleDelete = async (idCad: string) => {
-        if (!confirm('Tem certeza que deseja deletar esta alocação?')) return;
+        const confirmou = window.systemConfirm
+            ? await window.systemConfirm('Tem certeza que deseja deletar esta alocação?', 'Confirmar exclusão', {
+                confirmText: 'Excluir',
+                cancelText: 'Cancelar'
+            })
+            : window.confirm('Tem certeza que deseja deletar esta alocação?');
+        if (!confirmou) return;
         try {
             const res = await fetch(`/api/cadastro/${idCad}`, { method: 'DELETE' });
             if (res.ok) {
@@ -395,22 +401,25 @@ export default function CadastroTable() {
                 <table className="w-full min-w-[1200px] table-fixed">
                     <thead className="bg-gray-50 border-b">
                         <tr className="border-b bg-gray-50">
-                            <th className="w-[10%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Funcionário</th>
-                            <th className="w-[10%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Patrimônio</th>
-                            <th className="w-[3%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Data Alocação</th>
-                            <th className="w-[3%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Data Devolução Interna</th>
-                            <th className="w-[3%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Início Devolução</th>
-                            <th className="w-[3%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Fim Devolução</th>
-                            <th className="w-[6%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Comparação</th>
-                            <th className="w-[4%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Status</th>
-                            <th className="w-[5%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Ações</th>
+                            <th className="w-[20%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Funcionário</th>
+                            <th className="w-[20%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Patrimônio</th>
+                            <th className="w-[6%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Data Alocação</th>
+                            <th className="w-[6%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Data Devolução Interna</th>
+                            <th className="w-[6%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Início Devolução</th>
+                            <th className="w-[6%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Fim Devolução</th>
+                            <th className="w-[12%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Comparação</th>
+                            <th className="w-[10%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Status</th>
+                            <th className="w-[9%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         {loading ? (
-                            <tr><td colSpan={10} className="px-6 py-8 text-center text-gray-500">Carregando...</td></tr>
+                            <tr>
+                                <td colSpan={10} className="px-6 py-8 text-center text-gray-500">Carregando...</td>
+                                </tr>
                         ) : alocacoes.length === 0 ? (
-                            <tr><td colSpan={10} className="px-6 py-8 text-center text-gray-500">Nenhuma alocação registrada</td></tr>
+                            <tr>
+                                <td colSpan={10} className="px-6 py-8 text-center text-gray-500">Nenhuma alocação registrada</td></tr>
                         ) : alocacoes.map((alocacao) => (
                             <tr key={alocacao.idCad} className="border-b hover:bg-gray-50 transition">
                                 <td className="px-4 py-2.5 text-[11px] font-medium leading-snug">

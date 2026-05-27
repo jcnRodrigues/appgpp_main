@@ -1,7 +1,7 @@
 ﻿import { listarFuncionarios } from "@/back-end/service/Funcionario.service/funcionario.service";
 import Header from "@/back-end/components/Header/Header";
 import FuncionarioTable from "@/back-end/components/FuncionarioTable/FuncionarioTable";
-import { ChevronLeft, Plus } from "lucide-react";
+import { ArrowRightLeft, ChevronLeft, Plus } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/back-end/components/ui/button";
 import PermissionActionLink from "@/back-end/components/PermissionActionLink/PermissionActionLink";
@@ -51,16 +51,24 @@ export default async function FuncionariosAdd() {
                             <p className="text-gray-600 text-sm mt-1">Gerenciar funcionarios da empresa</p>
                         </div>
                     </div>
-                    <PermissionActionLink
-                        href="/funcionario/cadastro"
-                        action="CREATE"
-                        deniedMessage="Você não tem permissão para adicionar registros."
-                    >
-                        <Button className="flex gap-2 bg-primary hover:bg-primary/90">
-                            <Plus className="h-5 w-5" />
-                            Novo Funcionario
+                    <div className="flex items-center gap-2">
+                        <Button asChild variant="outline" className="flex gap-2">
+                            <Link href="/funcionariosadd/transferencia-custo">
+                                <ArrowRightLeft className="h-4 w-4" />
+                                Transferencia de Custo
+                            </Link>
                         </Button>
-                    </PermissionActionLink>
+                        <PermissionActionLink
+                            href="/funcionario/cadastro"
+                            action="CREATE"
+                            deniedMessage="Você não tem permissão para adicionar registros."
+                        >
+                            <Button className="flex gap-2 bg-primary hover:bg-primary/90">
+                                <Plus className="h-5 w-5" />
+                                Novo Funcionario
+                            </Button>
+                        </PermissionActionLink>
+                    </div>
                 </div>
 
                 <FuncionarioTable funcionarios={funcionarios} />

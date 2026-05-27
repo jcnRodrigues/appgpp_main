@@ -36,9 +36,6 @@ $filesToCopy = @(
   "package-lock.json",
   "next.config.ts",
   "middleware.ts",
-  "Abrir-AppGPP.cmd",
-  "AppGPP-Tray.ps1",
-  "Criar-Atalho-AreaTrabalho.ps1",
   ".env.example"
 )
 foreach ($item in $filesToCopy) {
@@ -46,7 +43,7 @@ foreach ($item in $filesToCopy) {
   if (Test-Path $src) { Copy-Item -LiteralPath $src -Destination (Join-Path $stageDir $item) -Force }
 }
 
-$dirsToCopy = @(".next", "public", "prisma")
+$dirsToCopy = @(".next", "public", "prisma", "powershell-scripts")
 foreach ($dir in $dirsToCopy) {
   $src = Join-Path $projectRoot $dir
   if (Test-Path $src) {
@@ -55,6 +52,25 @@ foreach ($dir in $dirsToCopy) {
 }
 
 Copy-Item -LiteralPath (Join-Path $installerRoot "Install-AppGPP.ps1") -Destination (Join-Path $stageDir "Install-AppGPP.ps1") -Force
+
+Write-Step "Removendo artefatos nao essenciais do stage"
+$pathsToPrune = @(
+  ".next\\dev",
+  ".next\\cache",
+  ".next\\trace",
+  ".next\\turbopack"
+)
+foreach ($relativePath in $pathsToPrune) {
+  $fullPath = Join-Path $stageDir $relativePath
+  if (Test-Path -LiteralPath $fullPath) {
+    Remove-Item -LiteralPath $fullPath -Recurse -Force -ErrorAction SilentlyContinue
+  }
+}
+
+# Remove arquivos temporarios gerados por engines/binarios que nao sao necessarios no instalador.
+Get-ChildItem -LiteralPath $stageDir -Recurse -File -ErrorAction SilentlyContinue |
+  Where-Object { $_.Name -like "*.tmp*" -or $_.Name -eq "chrome-devtools-workspace-uuid" } |
+  Remove-Item -Force -ErrorAction SilentlyContinue
 
 Write-Step "Montando lista de arquivos"
 $files = Get-ChildItem -LiteralPath $stageDir -Recurse -File | ForEach-Object { $_.FullName }
@@ -85,16 +101,22 @@ $sed += "UserQuietInstCmd=powershell.exe -NoProfile -ExecutionPolicy Bypass -Fil
 $sed += "SourceFiles=SourceFiles"
 $sed += "[Strings]"
 $sed += "FILECOUNT=$($files.Count)"
-$sed += "[SourceFiles]"
-$sed += "SourceFiles0=$stageDir"
-$sed += "[SourceFiles0]"
 
+$fileDefs = @()
+$fileRefs = @()
 $idx = 0
 foreach ($file in $files) {
   $relative = $file.Substring($stageDir.Length).TrimStart('\\')
-  $sed += "$idx=$relative"
+  $fileDefs += "FILE$idx=$relative"
+  $fileRefs += "%FILE$idx%="
   $idx++
 }
+
+$sed += $fileDefs
+$sed += "[SourceFiles]"
+$sed += "SourceFiles0=$stageDir"
+$sed += "[SourceFiles0]"
+$sed += $fileRefs
 
 Set-Content -LiteralPath $sedPath -Value $sed -Encoding ASCII
 

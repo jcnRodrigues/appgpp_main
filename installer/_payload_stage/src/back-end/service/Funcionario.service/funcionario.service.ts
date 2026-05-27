@@ -4,6 +4,7 @@ import prisma from "../../../../prisma/prisma";
 
 function buildFuncionarioWhere(filtro?: {
     nome?: string;
+    matricula?: string;
     status?: string;
     funcao?: string;
     centros?: string[];
@@ -12,6 +13,11 @@ function buildFuncionarioWhere(filtro?: {
         ...(filtro?.nome && {
             nomeFun: {
                 contains: filtro.nome
+            }
+        }),
+        ...(filtro?.matricula && {
+            idMatFun: {
+                contains: filtro.matricula
             }
         }),
         ...(filtro?.status && {
@@ -135,6 +141,7 @@ export async function getFuncionarioById(id: string) {
 
 export async function listarFuncionarios(filtro?: {
     nome?: string;
+    matricula?: string;
     status?: string;
     funcao?: string;
     centros?: string[];
@@ -163,6 +170,7 @@ export async function listarFuncionarios(filtro?: {
 
 export async function contarFuncionarios(filtro?: {
     nome?: string;
+    matricula?: string;
     status?: string;
     funcao?: string;
     centros?: string[];
@@ -296,4 +304,65 @@ export async function getFuncionarioByIdInterno(idF: string) {
             }
         }
     });
+}
+
+export async function listarFuncionariosTransferenciaCusto(filtro?: {
+    nome?: string;
+    matricula?: string;
+    status?: string;
+    funcao?: string;
+    centros?: string[];
+    skip?: number;
+    take?: number;
+}) {
+    const funcionarios = await listarFuncionarios(filtro);
+    const matriculas = funcionarios.map((f) => f.idMatFun);
+
+    if (matriculas.length === 0) return [];
+
+    const transferencias = await prisma.tbTransferenciaAlocacao.findMany({
+        where: {
+            idMatriculaFuncionarioDestino: {
+                in: matriculas
+            }
+        },
+        include: {
+            tbFuncionario: {
+                include: {
+                    tbCCusto: true
+                }
+            },
+            tbFuncionarioDestino: {
+                include: {
+                    tbCCusto: true
+                }
+            }
+        },
+        orderBy: {
+            dataTransferencia: 'desc'
+        }
+    });
+
+    const ultimaTransferenciaPorMatricula = new Map<string, (typeof transferencias)[number]>();
+    for (const item of transferencias) {
+        const matriculaDestino = item.idMatriculaFuncionarioDestino;
+        if (!matriculaDestino) continue;
+        if (!ultimaTransferenciaPorMatricula.has(matriculaDestino)) {
+            ultimaTransferenciaPorMatricula.set(matriculaDestino, item);
+        }
+    }
+
+    return funcionarios
+        .map((funcionario) => {
+            const ultimaTransferencia = ultimaTransferenciaPorMatricula.get(funcionario.idMatFun);
+            if (!ultimaTransferencia) return null;
+
+            return {
+                ...funcionario,
+                dataUltimaTransferencia: ultimaTransferencia.dataTransferencia,
+                custoAnteriorTransferencia: ultimaTransferencia.tbFuncionario?.tbCCusto?.descricaoCCusto || null,
+                custoAtualTransferencia: ultimaTransferencia.tbFuncionarioDestino?.tbCCusto?.descricaoCCusto || funcionario.tbCCusto?.descricaoCCusto || null
+            };
+        })
+        .filter(Boolean);
 }

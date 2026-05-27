@@ -51,7 +51,13 @@ export default function AccessUserTable() {
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm('Tem certeza que deseja remover este acesso?')) return;
+        const confirmou = window.systemConfirm
+            ? await window.systemConfirm('Tem certeza que deseja remover este acesso?', 'Confirmar exclusão', {
+                confirmText: 'Excluir',
+                cancelText: 'Cancelar'
+            })
+            : window.confirm('Tem certeza que deseja remover este acesso?');
+        if (!confirmou) return;
 
         try {
             const response = await fetch(`/api/usuarios-acesso?id=${id}`, { method: 'DELETE' });

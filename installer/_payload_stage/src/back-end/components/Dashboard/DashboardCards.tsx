@@ -1,7 +1,7 @@
 ﻿'use client'
 
 import { useEffect, useState } from 'react';
-import { ArrowUpRight, Package, Users } from 'lucide-react';
+import { ArrowUpRight, Computer, Laptop, Laptop2, LaptopMinimal, LaptopMinimalCheck, LaptopMinimalCheckIcon, Notebook, Package, Users } from 'lucide-react';
 import { getDashboardRefreshMs } from './refreshConfig';
 
 interface DashboardCardsProps {
@@ -61,7 +61,7 @@ export default function DashboardCards({ totalPatrimonios, totalFuncionarios }: 
             <p className="mt-2 text-sm text-muted-foreground">Total de patrimonios registrado no sistema.</p>
           </div>
           <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white">
-            <Package className="h-8 w-8" />
+            <Laptop2 className="h-10 w-10" />
           </div>
         </div>
 
@@ -83,7 +83,7 @@ export default function DashboardCards({ totalPatrimonios, totalFuncionarios }: 
             <p className="mt-2 text-sm text-muted-foreground">Total de funcionarios registrado no sistema.</p>
           </div>
           <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center text-white">
-            <Users className="h-8 w-8" />
+            <Users className="h-10 w-10" />
           </div>
         </div>
 

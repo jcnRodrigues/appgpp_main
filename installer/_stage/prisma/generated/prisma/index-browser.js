@@ -290,6 +290,21 @@ exports.Prisma.TbDevolucaoScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.TbAuditoriaDevolucaoPatrimonioScalarFieldEnum = {
+  idAuditoria: 'idAuditoria',
+  idPatrimonioRef: 'idPatrimonioRef',
+  idPat: 'idPat',
+  statusAnterior: 'statusAnterior',
+  statusNovo: 'statusNovo',
+  limpezaSolicitada: 'limpezaSolicitada',
+  registrosRemovidos: 'registrosRemovidos',
+  idUserAcao: 'idUserAcao',
+  emailUserAcao: 'emailUserAcao',
+  observacao: 'observacao',
+  detalhesJson: 'detalhesJson',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.TbPatrimonioHistoricoScalarFieldEnum = {
   idHistorico: 'idHistorico',
   idPatrimonioOriginal: 'idPatrimonioOriginal',
@@ -509,6 +524,17 @@ exports.Prisma.tbDevolucaoOrderByRelevanceFieldEnum = {
   notaFiscalDevolucao: 'notaFiscalDevolucao'
 };
 
+exports.Prisma.tbAuditoriaDevolucaoPatrimonioOrderByRelevanceFieldEnum = {
+  idAuditoria: 'idAuditoria',
+  idPatrimonioRef: 'idPatrimonioRef',
+  idPat: 'idPat',
+  statusAnterior: 'statusAnterior',
+  statusNovo: 'statusNovo',
+  idUserAcao: 'idUserAcao',
+  emailUserAcao: 'emailUserAcao',
+  observacao: 'observacao'
+};
+
 exports.Prisma.tbPatrimonioHistoricoOrderByRelevanceFieldEnum = {
   idHistorico: 'idHistorico',
   idPatrimonioOriginal: 'idPatrimonioOriginal',
@@ -581,6 +607,7 @@ exports.Prisma.ModelName = {
   tbCadastro: 'tbCadastro',
   tbTransferenciaAlocacao: 'tbTransferenciaAlocacao',
   tbDevolucao: 'tbDevolucao',
+  tbAuditoriaDevolucaoPatrimonio: 'tbAuditoriaDevolucaoPatrimonio',
   tbPatrimonioHistorico: 'tbPatrimonioHistorico',
   Account: 'Account',
   Session: 'Session',

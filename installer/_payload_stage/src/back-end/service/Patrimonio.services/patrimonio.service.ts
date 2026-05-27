@@ -185,7 +185,7 @@ export async function criarPatrimonio(dados: {
         }
 
         const ultimaDevolucao = await prisma.tbDevolucao.findFirst({
-            where: { idPatrimonio: existente.idPat, dataFimDevolucao: null },
+            where: { idPatrimonio: existente.idP, dataFimDevolucao: null },
             orderBy: { dataInicioDevolucao: 'desc' }
         });
 

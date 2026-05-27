@@ -45,6 +45,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
     const [status, setStatus] = useState<StatusPatrimonio[]>([]);
     const [centros, setCentros] = useState<CentroCusto[]>([]);
     const [historicoTransferencias, setHistoricoTransferencias] = useState<TransferenciaCusto[]>([]);
+    const [limparDadosDevolucaoNoBanco, setLimparDadosDevolucaoNoBanco] = useState(false);
     const [novoCentroCusto, setNovoCentroCusto] = useState('');
     const [observacaoTransferencia, setObservacaoTransferencia] = useState('');
     const [dataTransferencia, setDataTransferencia] = useState(new Date().toISOString().split('T')[0]);
@@ -71,6 +72,11 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
         setState: setPatrimonio,
         clearDraft: clearPatrimonioDraft
     } = useFormDraft('patrimonio-form-create', initialPatrimonio, { enabled: !patrimonioId });
+
+    const isStatusDevolucaoById = (statusId?: string) => {
+        const statusSelecionado = status.find((s) => s.idStatusPat === statusId);
+        return (statusSelecionado?.descricaoStatPat || '').toUpperCase().includes('DEVOLU');
+    };
 
     const carregarHistoricoTransferencias = async (id: string) => {
         try {
@@ -140,10 +146,54 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
         carregarDados();
     }, [patrimonioId, setPatrimonio]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const handleChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         const fieldsToUppercase = ['idPat', 'descricaoPat', 'descricaoDetalhadaPat', 'licencaPat', 'notaFiscalPat'];
         const newValue = fieldsToUppercase.includes(name) ? value.toUpperCase() : value;
+
+        if (name === 'idPat_StatusPat') {
+            const statusAnteriorEhDevolucao = isStatusDevolucaoById(patrimonio.idPat_StatusPat);
+            const statusNovoEhDevolucao = isStatusDevolucaoById(value);
+            const temDadosDevolucao =
+                Boolean(patrimonio.dataDevPat) ||
+                Boolean(patrimonio.notaFiscalDevolucao) ||
+                Boolean(patrimonio.dataSaidaFornecedor) ||
+                Boolean(patrimonio.dataChegadaFornecedor) ||
+                Boolean(patrimonio.motivoDevolucao);
+
+            if (statusAnteriorEhDevolucao && !statusNovoEhDevolucao && temDadosDevolucao) {
+                const apagarDadosDevolucao = window.systemConfirm
+                    ? await window.systemConfirm(
+                        'Você mudou o status para uma opção diferente de devolução. Deseja apagar os dados da devolução para evitar duplicidade no banco?',
+                        'Limpar dados de devolução',
+                        {
+                            confirmText: 'Apagar dados',
+                            cancelText: 'Manter dados'
+                        }
+                    )
+                    : window.confirm('Deseja apagar os dados da devolução para evitar duplicidade no banco?');
+
+                setPatrimonio((prev) => ({
+                    ...prev,
+                    [name]: value,
+                    ...(apagarDadosDevolucao
+                        ? {
+                            dataDevPat: '',
+                            motivoDevolucao: '',
+                            notaFiscalDevolucao: '',
+                            dataSaidaFornecedor: '',
+                            dataChegadaFornecedor: ''
+                        }
+                        : {})
+                }));
+                setLimparDadosDevolucaoNoBanco(apagarDadosDevolucao);
+                return;
+            }
+        }
+
+        if (name === 'idPat_StatusPat' && isStatusDevolucaoById(value)) {
+            setLimparDadosDevolucaoNoBanco(false);
+        }
 
         setPatrimonio(prev => ({
             ...prev,
@@ -234,7 +284,8 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                 dataSaiPat: patrimonio.dataSaiPat || null,
                 dataDevPat: patrimonio.dataDevPat || null,
                 dataSaidaFornecedor: patrimonio.dataSaidaFornecedor || null,
-                dataChegadaFornecedor: patrimonio.dataChegadaFornecedor || null
+                dataChegadaFornecedor: patrimonio.dataChegadaFornecedor || null,
+                limparDadosDevolucao: limparDadosDevolucaoNoBanco
             };
 
             let response;
@@ -258,6 +309,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                     : 'Patrimônio criado com sucesso';
                 window.systemAlert?.('sucesso', mensagemSucesso);
                 if (!patrimonioId) clearPatrimonioDraft();
+                setLimparDadosDevolucaoNoBanco(false);
                 router.push('/patrimoniolist');
             } else {
                 const error = await response.json();

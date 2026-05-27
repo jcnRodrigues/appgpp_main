@@ -186,7 +186,13 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
     };
 
     const handleDelete = async (idP: string) => {
-        if (!confirm('Tem certeza que deseja deletar este patrimônio?')) return;
+        const confirmou = window.systemConfirm
+            ? await window.systemConfirm('Tem certeza que deseja deletar este patrimônio?', 'Confirmar exclusão', {
+                confirmText: 'Excluir',
+                cancelText: 'Cancelar'
+            })
+            : window.confirm('Tem certeza que deseja deletar este patrimônio?');
+        if (!confirmou) return;
 
         try {
             const response = await fetch(`/api/patrimonio/${idP}`, {
