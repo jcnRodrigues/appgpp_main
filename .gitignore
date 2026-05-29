@@ -54,3 +54,6 @@ client_secret*.json
 
 # local dist folder
 /dist
+
+# local database backup folders
+/backup_DB_*/

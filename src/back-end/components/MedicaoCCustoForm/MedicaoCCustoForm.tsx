@@ -71,6 +71,7 @@ type BmMedicao = {
 type BmSelecionadoInfo = {
     idBm: string;
     codigoBm: string;
+    statusBm: 'ABERTO' | 'FECHADO';
     dataInicioMedicao: string;
     dataFimMedicao: string;
 } | null;
@@ -128,27 +129,13 @@ export default function MedicaoCCustoForm({
             day: '2-digit'
         }).format(data);
     };
-    const formatarDataHoraPtBr = (value?: string | Date | null) => {
-        if (!value) return '-';
-        const data = value instanceof Date ? value : new Date(value);
-        if (Number.isNaN(data.getTime())) return '-';
-        return new Intl.DateTimeFormat('pt-BR', {
-            timeZone: 'America/Sao_Paulo',
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false
-        }).format(data);
-    };
     const centroSelecionadoObj = centros.find((c) => c.idCCusto === centroSelecionado);
     const codigoCentroSelecionado =
         centroSelecionadoObj?.codigoCCusto || null;
     const centroSelecionadoLabel = centroSelecionadoObj
         ? `${centroSelecionadoObj.codigoCCusto ? `${centroSelecionadoObj.codigoCCusto} - ` : ''}${centroSelecionadoObj.descricaoCCusto || 'Sem descrição'}`
         : null;
+    const bmFechado = bmSelecionadoInfo?.statusBm === 'FECHADO';
 
     const resumoInconsistencias = resultado
         ? {
@@ -201,6 +188,10 @@ export default function MedicaoCCustoForm({
     }, [bmIdInicial]);
 
     const registrarBm = async (formato: 'excel' | 'pdf') => {
+        if (bmFechado) {
+            setErro('BM fechado não pode ser alterado.');
+            return null;
+        }
         if (!resultado || !centroSelecionado || !centroSelecionadoObj) return null;
 
         const res = await fetch('/api/ccusto/medicao/bm', {
@@ -234,6 +225,7 @@ export default function MedicaoCCustoForm({
         setBmSelecionadoInfo({
             idBm: bm.idBm,
             codigoBm: bm.codigoBm,
+            statusBm: bm.statusBm,
             dataInicioMedicao: bm.dataInicioMedicao,
             dataFimMedicao: bm.dataFimMedicao
         });
@@ -253,6 +245,7 @@ export default function MedicaoCCustoForm({
         setBmSelecionadoInfo({
             idBm: bm.idBm,
             codigoBm: bm.codigoBm,
+            statusBm: bm.statusBm,
             dataInicioMedicao: bm.dataInicioMedicao,
             dataFimMedicao: bm.dataFimMedicao
         });
@@ -271,6 +264,10 @@ export default function MedicaoCCustoForm({
     };
 
     const atualizarBmSelecionado = async () => {
+        if (bmFechado) {
+            setErro('BM fechado não pode ser alterado.');
+            return;
+        }
         if (!bmAtualId || !resultado) {
             setErro('Selecione um BM e carregue a medição para atualizar.');
             return;
@@ -299,6 +296,7 @@ export default function MedicaoCCustoForm({
         setBmSelecionadoInfo({
             idBm: bm.idBm,
             codigoBm: bm.codigoBm,
+            statusBm: bm.statusBm,
             dataInicioMedicao: bm.dataInicioMedicao,
             dataFimMedicao: bm.dataFimMedicao
         });
@@ -375,13 +373,13 @@ export default function MedicaoCCustoForm({
                 {bmSelecionadoInfo && (
                     <div className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 flex items-center justify-between gap-3">
                         <p className="text-sm text-blue-900">
-                            BM selecionado: <strong>{bmSelecionadoInfo.codigoBm}</strong> | {formatarDataPtBr(bmSelecionadoInfo.dataInicioMedicao)} até {formatarDataPtBr(bmSelecionadoInfo.dataFimMedicao)}
+                            BM selecionado: <strong>{bmSelecionadoInfo.codigoBm}</strong> | {bmSelecionadoInfo.statusBm} | {formatarDataPtBr(bmSelecionadoInfo.dataInicioMedicao)} até {formatarDataPtBr(bmSelecionadoInfo.dataFimMedicao)}
                         </p>
                         <button
                             type="button"
                             className="text-xs px-2 py-1 rounded border bg-white"
                             onClick={atualizarBmSelecionado}
-                            disabled={loading || !resultado}
+                            disabled={loading || !resultado || bmFechado}
                         >
                             Atualizar BM Selecionado
                         </button>
@@ -391,12 +389,12 @@ export default function MedicaoCCustoForm({
                     <ConferirPatrimoniosButton loading={loading} />
                     <GerarRelatorioMedicaoButton
                         resultado={resultado}
-                        disabled={loading}
+                        disabled={loading || bmFechado}
                         onRegistrarBm={registrarBm}
                     />
                     <GerarRelatorioMedicaoPdfButton
                         resultado={resultado}
-                        disabled={loading}
+                        disabled={loading || bmFechado}
                         codigoCentroCusto={codigoCentroSelecionado}
                         centroCustoLabel={centroSelecionadoLabel}
                         periodoInicioMedicao={dataInicioMedicao}
@@ -412,6 +410,7 @@ export default function MedicaoCCustoForm({
                         className="w-full border rounded-lg px-3 py-2"
                         value={centroSelecionado}
                         onChange={(e) => setCentroSelecionado(e.target.value)}
+                        disabled={bmFechado}
                     >
                         <option value="">Selecione um centro de custo</option>
                         {centros.map((centro) => (
@@ -430,6 +429,7 @@ export default function MedicaoCCustoForm({
                         accept=".xlsx,.xls"
                         onChange={(e) => setArquivo(e.target.files?.[0] || null)}
                         className="w-full border rounded-lg px-3 py-2"
+                        disabled={bmFechado}
                     />
                     <p className="text-xs text-gray-500 mt-2">
                         A planilha deve ter colunas: <strong>idPat</strong> e <strong>valor</strong>.
@@ -444,6 +444,7 @@ export default function MedicaoCCustoForm({
                             value={dataInicioMedicao}
                             onChange={(e) => setDataInicioMedicao(e.target.value)}
                             className="w-full border rounded-lg px-3 py-2"
+                            disabled={bmFechado}
                         />
                     </div>
                     <div>
@@ -453,6 +454,7 @@ export default function MedicaoCCustoForm({
                             value={dataFimMedicao}
                             onChange={(e) => setDataFimMedicao(e.target.value)}
                             className="w-full border rounded-lg px-3 py-2"
+                            disabled={bmFechado}
                         />
                     </div>
                     <div>
@@ -464,6 +466,7 @@ export default function MedicaoCCustoForm({
                             value={mesBm}
                             onChange={(e) => setMesBm(e.target.value)}
                             className="w-full border rounded-lg px-3 py-2"
+                            disabled={bmFechado}
                         />
                     </div>
                     <div>
@@ -475,6 +478,7 @@ export default function MedicaoCCustoForm({
                             value={anoBm}
                             onChange={(e) => setAnoBm(e.target.value)}
                             className="w-full border rounded-lg px-3 py-2"
+                            disabled={bmFechado}
                         />
                     </div>
                 </div>

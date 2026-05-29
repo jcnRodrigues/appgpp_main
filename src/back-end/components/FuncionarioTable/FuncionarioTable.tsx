@@ -19,6 +19,11 @@ interface Funcionario {
     tbCCusto?: { descricaoCCusto?: string | null } | null;
 }
 
+interface StatusOption {
+    idStatusFun: string;
+    descricaoStatusFun: string;
+}
+
 interface FuncionarioTableProps {
     funcionarios?: Funcionario[];
 }
@@ -37,8 +42,10 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
 
     const [funcionarios, setFuncionarios] = useState<Funcionario[]>(initialFuncionarios || []);
     const [filtro, setFiltro] = useState('');
+    const [matriculaFiltro, setMatriculaFiltro] = useState('');
     const [statusFiltro, setStatusFiltro] = useState('');
     const [funcaoFiltro, setFuncaoFiltro] = useState('');
+    const [statusOptions, setStatusOptions] = useState<StatusOption[]>([]);
     const [loading, setLoading] = useState(false);
     const [paginaAtual, setPaginaAtual] = useState(1);
     const [itensPorPagina, setItensPorPagina] = useState(10);
@@ -46,13 +53,14 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
 
     useEffect(() => {
         setPaginaAtual(1);
-    }, [filtro, statusFiltro, funcaoFiltro]);
+    }, [filtro, matriculaFiltro, statusFiltro, funcaoFiltro]);
 
     const carregarFuncionarios = useCallback(async () => {
         setLoading(true);
         try {
             const params = new URLSearchParams();
             if (filtro) params.append('nome', filtro);
+            if (matriculaFiltro) params.append('matricula', matriculaFiltro);
             if (statusFiltro) params.append('status', statusFiltro);
             if (funcaoFiltro) params.append('funcao', funcaoFiltro);
             params.append('skip', String((paginaAtual - 1) * itensPorPagina));
@@ -69,11 +77,26 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
         } finally {
             setLoading(false);
         }
-    }, [filtro, statusFiltro, funcaoFiltro, paginaAtual, itensPorPagina]);
+    }, [filtro, matriculaFiltro, statusFiltro, funcaoFiltro, paginaAtual, itensPorPagina]);
 
     useEffect(() => {
         carregarFuncionarios();
     }, [carregarFuncionarios]);
+
+    useEffect(() => {
+        const carregarOpcoes = async () => {
+            try {
+                const response = await fetch('/api/funcionario/opcoes');
+                if (!response.ok) return;
+                const data = await response.json();
+                setStatusOptions(Array.isArray(data?.status) ? data.status : []);
+            } catch (error) {
+                console.error('Erro ao carregar opcoes de status:', error);
+            }
+        };
+
+        carregarOpcoes();
+    }, []);
 
     const handleDelete = async (idF: string) => {
         const confirmou = window.systemConfirm
@@ -143,10 +166,27 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                         <h3 className="font-semibold">Filtros</h3>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <input type="text" placeholder="Buscar por nome..." value={filtro} onChange={(e) => setFiltro(e.target.value.toUpperCase())} className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
-                        <input type="text" placeholder="Filtrar por status..." value={statusFiltro} onChange={(e) => setStatusFiltro(e.target.value.toUpperCase())} className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
-                        <input type="text" placeholder="Filtrar por funcao..." value={funcaoFiltro} onChange={(e) => setFuncaoFiltro(e.target.value.toUpperCase())} className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <input
+                            type="text"
+                            placeholder="Buscar por matricula..."
+                            value={matriculaFiltro}
+                            onChange={(e) => setMatriculaFiltro(e.target.value.toUpperCase())}
+                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+
+                        <select
+                            value={statusFiltro}
+                            onChange={(e) => setStatusFiltro(e.target.value)}
+                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                            <option value="">Filtrar por status...</option>
+                            {statusOptions.map((status) => (
+                                <option key={status.idStatusFun} value={status.idStatusFun}>
+                                    {status.descricaoStatusFun}
+                                </option>
+                            ))}
+                        </select>
+
                     </div>
                 </div>
             </div>
@@ -179,8 +219,15 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                                 <td className="px-3 py-4 text-xs md:text-sm"><span className={`px-3 py-1 rounded-full text-xs text-[9px] font-semibold ${getStatusBadgeClass(funcionario.tbStatusFun?.descricaoStatusFun)}`}>{funcionario.tbStatusFun?.descricaoStatusFun || '-'}</span></td>
                                 <td className="px-3 py-4 text-xs md:text-sm whitespace-nowrap">
                                     <div className="flex items-center gap-1 md:gap-2">
-                                        <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
-                                            <Link href={`/funcionario/${funcionario.idF}`} title="Editar" onClick={handleEditClick}><Edit className="h-4 w-4" /></Link>
+                                        <Button asChild
+                                            variant="ghost"
+                                            size="icon"
+                                            className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
+                                            <Link href={`/funcionario/${funcionario.idF}`}
+                                                title="Editar"
+                                                onClick={handleEditClick}>
+                                                <Edit className="h-4 w-4" />
+                                            </Link>
                                         </Button>
                                         <DeleteGuardButton
                                             resource="funcionario"

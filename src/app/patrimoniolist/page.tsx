@@ -1,7 +1,7 @@
 ﻿import { listarPatrimonios } from '@/back-end/service/Patrimonio.services/patrimonio.service';
 import Header from '@/back-end/components/Header/Header';
 import PatrimonioTable from '@/back-end/components/PatrimonioTable/PatrimonioTable';
-import { ChevronLeft, Plus, FileText } from 'lucide-react';
+import { ArrowRightLeft, ChevronLeft, Plus, FileText } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/back-end/components/ui/button';
 import { getServerSession } from 'next-auth';
@@ -33,6 +33,7 @@ export default async function PatrimonioList() {
   if (!hasModuleAccess(formularios, 'PATRIMONIO')) redirect('/acesso-negado');
   const canCreate = hasActionPermission(formularios, 'CREATE');
   const canPrint = hasActionPermission(formularios, 'PRINT');
+  const canUpdate = hasActionPermission(formularios, 'UPDATE');
 
   const patrimonios = await listarPatrimonios({ take: 10, skip: 0 });
 
@@ -64,6 +65,14 @@ export default async function PatrimonioList() {
                 <Button variant="outline" className="flex gap-2">
                   <FileText className="h-5 w-5" />
                   Lista PDF
+                </Button>
+              </Link>
+            )}
+            {canUpdate && (
+              <Link href="/patrimoniolist/transferencia-custo">
+                <Button variant="outline" className="flex gap-2">
+                  <ArrowRightLeft className="h-5 w-5" />
+                  Transferir Custo
                 </Button>
               </Link>
             )}

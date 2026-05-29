@@ -45,6 +45,7 @@ export default function Header() {
         { icon: KeyRound, label: "Licenças de Software", href: "/licencas", required: "LICENCAS_SOFTWARE" },
         { icon: PackagePlusIcon, label: "Alocação de Patrimonios", href: "/alocacoes", required: "ALOCACOES" },
         { icon: DatabaseBackup, label: "Importar e Exportar Dados", href: "/sistema-dados", required: "IMPORTACAO_EXPORTACAO" },
+        { icon: DatabaseBackup, label: "Backup DB (1 a 6)", href: "/backup-db", required: "IMPORTACAO_EXPORTACAO" },
         { icon: UserCog, label: "Acesso de Usuarios", href: "/acesso-usuarios", required: "ACESSO_USUARIOS" }
     ]
 

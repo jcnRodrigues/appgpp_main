@@ -21,8 +21,47 @@ const TABLE_NAMES = [
     "tbFuncionario",
     "tbPatrimonio",
     "tbHasLicencaFuncionario",
-    "tbCadastro"
+    "tbCadastro",
+    "tbBmMedicao",
+    "tbTransferenciaCustoPatrimonio",
+    "tbTransferenciaAlocacao",
+    "tbDevolucao",
+    "tbAuditoriaDevolucaoPatrimonio",
+    "tbPatrimonioHistorico",
+    "Account",
+    "Session",
+    "User",
+    "VerificationToken",
+    "tbUnifiConfig"
 ] as const;
+
+const TABLE_HEADERS: Record<(typeof TABLE_NAMES)[number], string[]> = {
+    tbUser: ["id", "idUser", "nomeUser", "emailUser", "emailVerified", "senhaUser", "avatarUser", "authTypeUser", "formulariosUser", "centrosUser", "statusUser"],
+    tbStatusFun: ["idStatusFun", "descricaoStatusFun"],
+    tbFuncao: ["idFuncao", "nomeFuncao"],
+    tbTipoPat: ["idTipPat", "descricaoTipPat"],
+    tbStatusPat: ["idStatusPat", "descricaoStatPat"],
+    tbEmpresa: ["idEmp", "razaoEmpresa", "fantasiaEmpresa", "cnpjEmpresa", "idCustEmp"],
+    tbCCusto: ["idCCusto", "codigoCCusto", "descricaoCCusto", "idEmp_Custo", "idEmp_Custo_descricao"],
+    tbLicenca: ["idLic", "descricaoLic"],
+    tbFuncionario: ["idF", "idMatFun", "nomeFun", "cpfFun", "dataAdmFun", "dataDesFun", "avatarFun", "idFuncaoFun", "idUserFun", "idStatusFun", "idCustoFun", "idFuncaoFun_descricao", "idUserFun_descricao", "idStatusFun_descricao", "idCustoFun_descricao"],
+    tbPatrimonio: ["idP", "idPat", "descricaoPat", "descricaoDetalhadaPat", "licencaPat", "dataEntPat", "dataSaiPat", "notaFiscalPat", "valorPat", "idPat_TipoPat", "idPat_StatusPat", "idPat_CustoPat", "idPat_TipoPat_descricao", "idPat_StatusPat_descricao", "idPat_CustoPat_descricao"],
+    tbHasLicencaFuncionario: ["idHas", "idFunc", "idLinc", "dataInicio", "dataVencimetno", "idFunc_descricao", "idLinc_descricao"],
+    tbCadastro: ["idCad", "dataCadPat", "dataDevPat", "idPatCad", "idMatFunCad", "idStatusPatCad", "idStatusPatCad_descricao", "idPatCad_descricao", "idMatFunCad_descricao"],
+    tbBmMedicao: ["idBm", "codigoBm", "idCCusto", "codigoCCusto", "descricaoCCusto", "mesBm", "anoBm", "contadorBm", "statusBm", "dataInicioMedicao", "dataFimMedicao", "resumoJson", "resultadosJson", "naoInformadosJson", "gerouRelatorioExcel", "gerouRelatorioPdf", "idUserGeracao", "fechadoAt", "createdAt", "updatedAt"],
+    tbTransferenciaCustoPatrimonio: ["idTransferencia", "idPatrimonio", "idCustoOrigem", "idCustoDestino", "valorTransferido", "observacao", "idUserTransferencia", "dataTransferencia", "createdAt"],
+    tbTransferenciaAlocacao: ["idTransferenciaAlocacao", "idCadastro", "idPatrimonio", "idMatriculaFuncionario", "idMatriculaFuncionarioDestino", "statusAnterior", "statusNovo", "observacao", "idUserTransferencia", "dataTransferencia", "createdAt"],
+    tbDevolucao: ["idDevolucao", "idPatrimonio", "idCadastro", "dataInicioDevolucao", "dataFimDevolucao", "dataSaidaFornecedor", "dataChegadaFornecedor", "motivoDevolucao", "notaFiscalDevolucao", "createdAt", "updatedAt"],
+    tbAuditoriaDevolucaoPatrimonio: ["idAuditoria", "idPatrimonioRef", "idPat", "statusAnterior", "statusNovo", "limpezaSolicitada", "registrosRemovidos", "idUserAcao", "emailUserAcao", "observacao", "detalhesJson", "createdAt"],
+    tbPatrimonioHistorico: ["idHistorico", "idPatrimonioOriginal", "idPat", "descricaoPat", "valorPat", "dataEntPat", "dataSaiPat", "notaFiscalPat", "idPat_TipoPat", "idPat_StatusPat", "idPat_CustoPat", "dataDevolucao", "motivoDevolucao", "notaFiscalDevolucao", "createdAt"],
+    Account: ["idAccont", "userId", "type", "provider", "providerAccountId", "refresh_token", "access_token", "expires_at", "token_type", "scope", "id_token", "sesseion_state"],
+    Session: ["id", "sessionToken", "userId", "expires"],
+    User: ["id", "name", "email", "emailVerified", "image"],
+    VerificationToken: ["identifier", "token", "expires"],
+    tbUnifiConfig: ["id", "type", "apiKey", "host", "username", "password", "isActive", "createdAt", "updatedAt"]
+};
+
+const EXCEL_CELL_MAX_LENGTH = 32767;
 
 type BackupPayload = {
     version?: number;
@@ -49,14 +88,17 @@ type ResumoOperacao = {
     inconsistencias: string[];
     horario: string;
     centroId: string | null;
+    detalhado?: Partial<Record<(typeof TABLE_NAMES)[number], { created: number; updated: number; ignored: number }>>;
 };
 
 type ImportResult = {
     message?: string;
+    mode?: "replace" | "merge";
     scope?: {
         centroId?: string | null;
     };
     imported?: Partial<TotaisPorTabela>;
+    detailed?: Partial<Record<(typeof TABLE_NAMES)[number], { created: number; updated: number; ignored: number }>>;
     ignored?: Array<{
         table: (typeof TABLE_NAMES)[number];
         row: number;
@@ -77,6 +119,7 @@ export default function SistemaDadosPage() {
     const [exportando, setExportando] = useState(false);
     const [importando, setImportando] = useState(false);
     const [arquivo, setArquivo] = useState<File | null>(null);
+    const [modoImportacao, setModoImportacao] = useState<"replace" | "merge">("merge");
     const [centros, setCentros] = useState<CentroCustoOption[]>([]);
     const [centroSelecionado, setCentroSelecionado] = useState("");
     const [resumoOperacao, setResumoOperacao] = useState<ResumoOperacao | null>(null);
@@ -142,10 +185,69 @@ export default function SistemaDadosPage() {
         window.URL.revokeObjectURL(url);
     };
 
+    const baixarModeloImportacao = () => {
+        const modelo: BackupPayload = {
+            version: 3,
+            exportedAt: new Date().toISOString(),
+            scope: {
+                centroId: centroSelecionado || null
+            },
+            data: TABLE_NAMES.reduce((acc, tableName) => {
+                acc[tableName] = [];
+                return acc;
+            }, {} as Record<string, any[]>)
+        };
+
+        const dataHoje = new Date().toISOString().slice(0, 10);
+        const blob = new Blob([JSON.stringify(modelo, null, 2)], {
+            type: "application/json;charset=utf-8"
+        });
+        baixarArquivo(blob, `appgpp-modelo-importacao-${centroLabel}-${dataHoje}.json`);
+        notify("sucesso", "Modelo de importacao gerado com sucesso.");
+    };
+
+    const baixarModeloImportacaoExcel = () => {
+        const workbook = XLSX.utils.book_new();
+        const resumoSheet = XLSX.utils.json_to_sheet([
+            {
+                version: 3,
+                exportedAt: new Date().toISOString(),
+                source: "APPGPP",
+                centroId: centroSelecionado || null
+            }
+        ]);
+        XLSX.utils.book_append_sheet(workbook, resumoSheet, "resumo");
+
+        for (const tableName of TABLE_NAMES) {
+            const header = TABLE_HEADERS[tableName] || [];
+            const emptyRow = Object.fromEntries(header.map((column) => [column, ""]));
+            const sheet = XLSX.utils.json_to_sheet([emptyRow], {
+                header
+            });
+            XLSX.utils.book_append_sheet(workbook, sheet, tableName.slice(0, 31));
+        }
+
+        const excelArray = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+        const blob = new Blob([excelArray], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        });
+
+        const dataHoje = new Date().toISOString().slice(0, 10);
+        baixarArquivo(blob, `appgpp-modelo-importacao-${centroLabel}-${dataHoje}.xlsx`);
+        notify("sucesso", "Modelo Excel de importacao gerado com sucesso.");
+    };
+
     const normalizeExcelValue = (value: unknown) => {
         if (value instanceof Date) return value.toISOString();
         if (Array.isArray(value) || (typeof value === "object" && value !== null)) {
-            return JSON.stringify(value);
+            const text = JSON.stringify(value);
+            if (text.length > EXCEL_CELL_MAX_LENGTH) {
+                return `${text.slice(0, EXCEL_CELL_MAX_LENGTH - 26)}...[TRUNCADO_NO_EXCEL]`;
+            }
+            return text;
+        }
+        if (typeof value === "string" && value.length > EXCEL_CELL_MAX_LENGTH) {
+            return `${value.slice(0, EXCEL_CELL_MAX_LENGTH - 26)}...[TRUNCADO_NO_EXCEL]`;
         }
         return value;
     };
@@ -324,9 +426,11 @@ export default function SistemaDadosPage() {
         }
 
         const confirmar = window.confirm(
-            centroSelecionado
-                ? "A importacao por Centro de Custo substitui os dados existentes desse centro. Deseja continuar?"
-                : "A importacao completa substitui todos os dados atuais do sistema. Deseja continuar?"
+            modoImportacao === "merge"
+                ? "Importacao parcial (merge): registros existentes serao atualizados por chave e novos serao inseridos, sem limpeza em lote. Deseja continuar?"
+                : centroSelecionado
+                    ? "A importacao por Centro de Custo substitui os dados existentes desse centro. Deseja continuar?"
+                    : "A importacao completa substitui todos os dados atuais do sistema. Deseja continuar?"
         );
         if (!confirmar) return;
 
@@ -343,7 +447,10 @@ export default function SistemaDadosPage() {
             const response = await fetch("/api/sistema-dados", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(backup)
+                body: JSON.stringify({
+                    ...backup,
+                    mode: modoImportacao
+                })
             });
 
             const result = await response.json();
@@ -384,7 +491,8 @@ export default function SistemaDadosPage() {
                 totaisPorTabela: totaisImportados,
                 inconsistencias,
                 horario: new Date().toISOString(),
-                centroId: (result as ImportResult)?.scope?.centroId || centroSelecionado || backup.scope?.centroId || null
+                centroId: (result as ImportResult)?.scope?.centroId || centroSelecionado || backup.scope?.centroId || null,
+                detalhado: (result as ImportResult)?.detailed
             });
 
             notify("sucesso", "Importacao concluida com sucesso.");
@@ -467,6 +575,10 @@ export default function SistemaDadosPage() {
                             <FileSpreadsheet className="h-4 w-4 mr-2" />
                             {exportando ? "Exportando..." : "Baixar backup Excel (.xlsx)"}
                         </Button>
+                        <p className="text-xs text-muted-foreground mt-3">
+                            Observacao: no arquivo Excel, campos de texto muito longos podem ser truncados por limite tecnico de celula.
+                            O backup JSON continua com os dados completos.
+                        </p>
                     </section>
 
                     <section className="bg-card border border-border rounded-xl p-6 shadow-sm">
@@ -477,6 +589,35 @@ export default function SistemaDadosPage() {
                         <p className="text-body2 mb-3">
                             Selecione um arquivo `.json` ou `.xlsx` exportado pelo sistema.
                         </p>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={baixarModeloImportacao}
+                            className="w-full mb-3"
+                        >
+                            <FileJson className="h-4 w-4 mr-2" />
+                            Baixar modelo de importacao (.json)
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={baixarModeloImportacaoExcel}
+                            className="w-full mb-3"
+                        >
+                            <FileSpreadsheet className="h-4 w-4 mr-2" />
+                            Baixar modelo de importacao (.xlsx)
+                        </Button>
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium mb-2">Modo de importacao</label>
+                            <select
+                                value={modoImportacao}
+                                onChange={(e) => setModoImportacao(e.target.value as "replace" | "merge")}
+                                className="w-full px-3 py-2 border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                            >
+                                <option value="merge">Parcial (merge, sem sobrescrever em lote)</option>
+                                <option value="replace">Substituir (com sobrescrita)</option>
+                            </select>
+                        </div>
                         <label
                             htmlFor="arquivo-importacao"
                             className="flex items-center gap-2 border border-dashed border-border rounded-lg px-3 py-2 text-sm text-muted-foreground cursor-pointer hover:bg-secondary/40 mb-4"
@@ -507,8 +648,8 @@ export default function SistemaDadosPage() {
                 </div>
 
                 <div className="mt-6 rounded-xl border border-amber-500/45 bg-amber-50/80 dark:bg-amber-900/20 px-4 py-3 text-sm text-amber-800 dark:text-amber-300">
-                    A importacao com filtro sobrescreve os dados do centro escolhido. Sem filtro,
-                    a importacao continua sendo completa e sobrescreve todo o sistema.
+                    No modo parcial (merge), use filtro por Centro de Custo para atualizar/inserir sem limpeza em lote.
+                    No modo substituir (replace), os dados podem ser sobrescritos conforme o escopo escolhido.
                 </div>
 
                 {resumoOperacao && (
@@ -558,6 +699,13 @@ export default function SistemaDadosPage() {
                                     <tr>
                                         <th className="text-left px-3 py-2">Tabela</th>
                                         <th className="text-right px-3 py-2">Registros</th>
+                                        {resumoOperacao.tipo === "IMPORTACAO" && (
+                                            <>
+                                                <th className="text-right px-3 py-2">Criados</th>
+                                                <th className="text-right px-3 py-2">Atualizados</th>
+                                                <th className="text-right px-3 py-2">Ignorados</th>
+                                            </>
+                                        )}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -565,6 +713,13 @@ export default function SistemaDadosPage() {
                                         <tr key={nomeTabela} className="border-t">
                                             <td className="px-3 py-2">{nomeTabela}</td>
                                             <td className="px-3 py-2 text-right">{resumoOperacao.totaisPorTabela[nomeTabela]}</td>
+                                            {resumoOperacao.tipo === "IMPORTACAO" && (
+                                                <>
+                                                    <td className="px-3 py-2 text-right">{resumoOperacao.detalhado?.[nomeTabela]?.created ?? 0}</td>
+                                                    <td className="px-3 py-2 text-right">{resumoOperacao.detalhado?.[nomeTabela]?.updated ?? 0}</td>
+                                                    <td className="px-3 py-2 text-right">{resumoOperacao.detalhado?.[nomeTabela]?.ignored ?? 0}</td>
+                                                </>
+                                            )}
                                         </tr>
                                     ))}
                                 </tbody>

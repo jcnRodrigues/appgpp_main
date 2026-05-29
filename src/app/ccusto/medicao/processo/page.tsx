@@ -42,7 +42,7 @@ export default async function MedicaoProcessoPage() {
           </Link>
           <div>
             <h1 className="text-h2 font-bold">Medições em Processo</h1>
-            <p className="text-gray-600 text-sm mt-1">Consulta e gestão de BMs em aberto</p>
+            <p className="text-gray-600 text-sm mt-1">Consulta e gestão de BMs abertos e fechados</p>
           </div>
         </div>
 

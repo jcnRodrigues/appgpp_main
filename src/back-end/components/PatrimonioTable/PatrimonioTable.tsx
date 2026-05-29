@@ -483,12 +483,19 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                                                 <Edit className="h-4 w-4" />
                                                             </Link>
                                                         </Button>
-                                                        <DeleteGuardButton resource="patrimonio" recordId={patrimonio.idP} onAuthorizedDelete={() => handleDelete(patrimonio.idP)} className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition" title="Deletar patrimônio">
+                                                        <DeleteGuardButton
+                                                            resource="patrimonio"
+                                                            recordId={patrimonio.idP}
+                                                            onAuthorizedDelete={() => handleDelete(patrimonio.idP)}
+                                                            className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition"
+                                                            title="Deletar patrimônio">
                                                             <Trash2 className="h-4 w-4" />
                                                         </DeleteGuardButton>
                                                     </>
                                                 ) : (
-                                                    <span className="text-xs text-amber-700 font-medium">Histórico</span>
+                                                    <span className="text-xs text-amber-700 font-medium">
+                                                        Histórico
+                                                    </span>
                                                 )}
                                             </div>
                                         </td>

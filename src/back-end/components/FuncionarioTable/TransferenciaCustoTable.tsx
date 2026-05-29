@@ -1,9 +1,10 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react';
-import { ArrowLeft, ArrowRight, FileDown, Search, Shuffle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, FileDown, Search, Shuffle, Trash2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { Button } from '@/back-end/components/ui/button';
+import { Badge } from '@/back-end/components/ui/badge';
 import { hasActionPermission } from '@/lib/permissions';
 
 type FuncionarioTransferencia = {
@@ -112,6 +113,10 @@ export default function TransferenciaCustoTable() {
 
     const atualizarCustoDestino = (idF: string, custoDestino: string) => {
         setItensTransferencia((prev) => prev.map((item) => item.funcionario.idF === idF ? { ...item, custoDestino } : item));
+    };
+
+    const removerItemTransferencia = (idF: string) => {
+        setItensTransferencia((prev) => prev.filter((item) => item.funcionario.idF !== idF));
     };
 
     const executarTransferencia = async (idF: string) => {
@@ -232,22 +237,36 @@ export default function TransferenciaCustoTable() {
 
     return (
         <div className="space-y-4">
-            <div className="bg-white rounded-lg shadow-md p-3 space-y-3">
+            <div className="rounded-lg shadow-md p-3 space-y-3">
                 <h3 className="font-semibold">Transferir Funcionario por Matricula</h3>
                 <div className="flex flex-col md:flex-row gap-2 md:items-center">
                     <input
                         type="text"
                         value={matriculaBusca}
-                        onChange={(e) => setMatriculaBusca(e.target.value.trim())}
+                        onChange={(e) => setMatriculaBusca(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                buscarPorMatricula();
+                            }
+                        }}
                         placeholder="Digite a matricula..."
                         className="w-full md:w-80 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
-                    <Button type="button" onClick={buscarPorMatricula} className="gap-2">
+                    <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={buscarPorMatricula}
+                        className=" text-blue-900 hover:bg-blue-50 rounded-lg transition">
                         <Search className="h-4 w-4" />
-                        Buscar
                     </Button>
                     <div className="md:ml-auto">
-                        <Button type="button" variant="outline" onClick={gerarCsv} disabled={dados.length === 0} className="gap-2">
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            onClick={gerarCsv}
+                            disabled={dados.length === 0}
+                            className="gap-2">
                             <FileDown className="h-4 w-4" />
                             Gerar Relatorio
                         </Button>
@@ -267,13 +286,22 @@ export default function TransferenciaCustoTable() {
                         </thead>
                         <tbody>
                             {itensTransferencia.length === 0 ? (
-                                <tr><td colSpan={5} className="px-4 py-6 text-center text-gray-500">Nenhum funcionario relacionado para transferencia</td></tr>
+                                <tr>
+                                    <td colSpan={5} className="px-4 py-6 text-center text-gray-500">
+                                        Nenhum funcionario relacionado para transferencia
+                                    </td>
+                                </tr>
                             ) : itensTransferencia.map((item) => (
-                                <tr key={item.funcionario.idF} className="border-b hover:bg-gray-50">
-                                    <td className="px-4 py-3 text-sm">{item.funcionario.idMatFun}</td>
-                                    <td className="px-4 py-3 text-sm">{item.funcionario.nomeFun}</td>
-                                    <td className="px-4 py-3 text-sm">{item.funcionario.tbCCusto?.descricaoCCusto || '-'}</td>
-                                    <td className="px-4 py-3 text-sm">
+                                <tr key={item.funcionario.idF}
+                                    className="border-b hover:bg-gray-50">
+                                    <td className="px-4 py-3 text-[12px]">{item.funcionario.idMatFun}</td>
+                                    <td className="px-4 py-3 text-[12px]">{item.funcionario.nomeFun}</td>
+                                    <td className="px-4 py-3 text-[12px]">
+                                        <Badge className='bg-green-100 text-green-800 transition rounded-lg'>
+                                            {item.funcionario.tbCCusto?.descricaoCCusto || '-'}
+                                        </Badge>
+                                    </td>
+                                    <td className="px-4 py-3 text-[12px]">
                                         <select
                                             value={item.custoDestino}
                                             onChange={(e) => atualizarCustoDestino(item.funcionario.idF, e.target.value)}
@@ -285,14 +313,27 @@ export default function TransferenciaCustoTable() {
                                             ))}
                                         </select>
                                     </td>
-                                    <td className="px-4 py-3 text-sm">
-                                        <Button type="button"
-                                            onClick={() => executarTransferencia(item.funcionario.idF)}
-                                            disabled={item.salvando}
-                                            className="gap-2">
-                                            <Shuffle className="h-4 w-4" />
-                                            {item.salvando ? 'Transferindo...' : 'Executar Transferencia'}
-                                        </Button>
+                                    <td className="px-4 py-3 text-[12px]">
+                                        <div className="flex items-center gap-2">
+                                            <Button type="button"
+                                                variant="ghost"
+                                                onClick={() => executarTransferencia(item.funcionario.idF)}
+                                                disabled={item.salvando}
+                                                aria-label={item.salvando ? 'Transferindo custo' : 'Executar transferencia de custo'}
+                                                title={item.salvando ? 'Transferindo...' : 'Executar transferencia'}
+                                                className="h-9 w-9 p-0">
+                                                <Shuffle className="h-4 w-4 text-green-900 hover:bg-green-100 transition rounded-lg" />
+                                            </Button>
+                                            <Button type="button"
+                                                variant="ghost"
+                                                onClick={() => removerItemTransferencia(item.funcionario.idF)}
+                                                disabled={item.salvando}
+                                                aria-label="Remover registro da transferencia"
+                                                title="Remover"
+                                                className="h-9 w-9 p-0">
+                                                <Trash2 className="h-4 w-4 text-red-900 hover:bg-red-100 transition rounded-lg" />
+                                            </Button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
@@ -314,16 +355,34 @@ export default function TransferenciaCustoTable() {
                     </thead>
                     <tbody>
                         {loading ? (
-                            <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-500">Carregando...</td></tr>
+                            <tr>
+                                <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+                                    Carregando...
+                                </td>
+                            </tr>
                         ) : dados.length === 0 ? (
                             <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-500">Nenhuma transferencia encontrada</td></tr>
                         ) : dados.map((item) => (
                             <tr key={item.idF} className="border-b hover:bg-gray-50">
-                                <td className="px-4 py-3 text-sm">{item.idMatFun}</td>
-                                <td className="px-4 py-3 text-sm">{item.nomeFun}</td>
-                                <td className="px-4 py-3 text-sm">{item.custoAnteriorTransferencia || '-'}</td>
-                                <td className="px-4 py-3 text-sm">{item.custoAtualTransferencia || item.tbCCusto?.descricaoCCusto || '-'}</td>
-                                <td className="px-4 py-3 text-sm">{item.dataUltimaTransferencia ? new Date(item.dataUltimaTransferencia).toLocaleDateString('pt-BR') : '-'}</td>
+                                <td className="px-4 py-3 text-[12px]">
+                                    {item.idMatFun}
+                                </td>
+                                <td className="px-4 py-3 text-[12px]">
+                                    {item.nomeFun}
+                                </td>
+                                <td className="px-4 py-3 text-[12px]">
+                                    <Badge className='bg-red-100 text-red-800 transition rounded-lg'>
+                                        {item.custoAnteriorTransferencia || '-'}
+                                    </Badge>
+                                </td>
+                                <td className="px-4 py-3 text-[12px]">
+                                    <Badge className='bg-green-100 text-green-800 transition rounded-lg'>
+                                        {item.custoAtualTransferencia || item.tbCCusto?.descricaoCCusto || '-'}
+                                    </Badge>
+                                </td>
+                                <td className="px-4 py-3 text-[12px]">
+                                    {item.dataUltimaTransferencia ? new Date(item.dataUltimaTransferencia).toLocaleDateString('pt-BR') : '-'}
+                                </td>
                             </tr>
                         ))}
                     </tbody>

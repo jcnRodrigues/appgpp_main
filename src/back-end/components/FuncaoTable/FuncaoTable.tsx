@@ -188,15 +188,34 @@ export default function FuncaoTable() {
             <div className="w-full">
                 <div className="md:hidden space-y-3">
                     {loading ? (
-                        <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">Carregando...</div>
+                        <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">
+                            Carregando...
+                        </div>
                     ) : funcoes.length === 0 ? (
-                        <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">Nenhuma funcao cadastrada</div>
+                        <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">
+                            Nenhuma funcao cadastrada
+                        </div>
                     ) : (
                         funcoes.map((funcao) => (
                             <div key={funcao.idFuncao} className="bg-white rounded-lg shadow p-4 space-y-3">
-                                <div className="text-sm text-gray-600">Codigo: <span className="font-semibold text-gray-900">{funcao.codigoFuncao}</span></div>
-                                <div className="text-sm text-gray-600">Funcao: <span className="font-semibold text-gray-900">{funcao.nomeFuncao}</span></div>
-                                <div className="text-sm text-gray-600">Qtd Funcionarios: <span className="font-semibold text-gray-900">{funcao.quantidadeFuncionarios ?? 0}</span></div>
+                                <div className="text-sm text-gray-600">
+                                    Codigo:
+                                    <span className="font-semibold text-gray-900">
+                                        {funcao.codigoFuncao}
+                                    </span>
+                                </div>
+                                <div className="text-sm text-gray-600">
+                                    Funcao:
+                                    <span className="font-semibold text-gray-900">
+                                        {funcao.nomeFuncao}
+                                    </span>
+                                </div>
+                                <div className="text-sm text-gray-600">
+                                    Qtd Funcionarios:
+                                    <span className="font-semibold text-gray-900">
+                                        {funcao.quantidadeFuncionarios ?? 0}
+                                    </span>
+                                </div>
                                 <div className="flex items-center justify-end gap-2 pt-1">
                                     <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
                                         <Link href={`/funcao/${funcao.idFuncao}/editar`} title="Editar" onClick={handleEditClick}>
@@ -317,11 +336,10 @@ export default function FuncaoTable() {
                                 {mostrarReticencias && <span className="px-1 text-sm text-muted-foreground">...</span>}
                                 <button type="button"
                                     onClick={() => irParaPagina(pagina)}
-                                    className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
-                                        ativa
-                                            ? 'bg-accent/20 text-accent border border-accent/35'
-                                            : 'bg-card text-foreground border border-border hover:bg-secondary'
-                                    }`}
+                                    className={`h-9 w-9 rounded-lg text-sm font-medium transition ${ativa
+                                        ? 'bg-accent/20 text-accent border border-accent/35'
+                                        : 'bg-card text-foreground border border-border hover:bg-secondary'
+                                        }`}
                                 >
                                     {pagina}
                                 </button>

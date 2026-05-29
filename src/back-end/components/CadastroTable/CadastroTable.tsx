@@ -398,7 +398,7 @@ export default function CadastroTable() {
             </div>
 
             <div className="hidden md:block overflow-x-auto bg-white rounded-lg shadow">
-                <table className="w-full min-w-[1200px] table-fixed">
+                <table className="w-full min-w-[1000px] table-fixed">
                     <thead className="bg-gray-50 border-b">
                         <tr className="border-b bg-gray-50">
                             <th className="w-[20%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Funcionário</th>
@@ -408,15 +408,15 @@ export default function CadastroTable() {
                             <th className="w-[6%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Início Devolução</th>
                             <th className="w-[6%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Fim Devolução</th>
                             <th className="w-[12%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Comparação</th>
-                            <th className="w-[10%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Status</th>
-                            <th className="w-[9%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Ações</th>
+                            <th className="w-[9%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Status</th>
+                            <th className="w-[12%] px-4 py-3 text-left text-[11px] font-semibold text-gray-900">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         {loading ? (
                             <tr>
                                 <td colSpan={10} className="px-6 py-8 text-center text-gray-500">Carregando...</td>
-                                </tr>
+                            </tr>
                         ) : alocacoes.length === 0 ? (
                             <tr>
                                 <td colSpan={10} className="px-6 py-8 text-center text-gray-500">Nenhuma alocação registrada</td></tr>
@@ -473,12 +473,17 @@ export default function CadastroTable() {
                                             type="button"
                                             onClick={() => handleGerarTermoPdf(alocacao)}
                                             disabled={pdfLoading === alocacao.idCad}
-                                            className="p-2 text-green-700 hover:bg-green-50 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none" 
+                                            className="p-2 text-green-700 hover:bg-green-50 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none"
                                             title={pdfLoading === alocacao.idCad ? 'Gerando PDF...' : 'Gerar Termo de Responsabilidade (PDF)'}>
                                             <FileDown className="h-4 w-4" />
                                         </button>
-                                        <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-50 rounded-lg transition">
-                                            <Link href={`/alocacoes/${alocacao.idCad}/editar`} title="Editar" onClick={handleEditClick}>
+                                        <Button asChild
+                                            variant="ghost"
+                                            size="icon"
+                                            className="text-blue-600 hover:bg-blue-50 rounded-lg transition">
+                                            <Link href={`/alocacoes/${alocacao.idCad}/editar`}
+                                                title="Editar"
+                                                onClick={handleEditClick}>
                                                 <Edit className="h-4 w-4" />
                                             </Link>
                                         </Button>
