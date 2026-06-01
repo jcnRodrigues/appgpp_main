@@ -76,7 +76,8 @@ export default function Header() {
                         type="button"
                         onClick={() => setMode("system")}
                         aria-label="Tema do sistema"
-                        className={`h-9 w-9 rounded-full grid place-items-center transition-colors ${mode === "system" ? "bg-accent/20 text-accent ring-1 ring-accent/35" : "text-foreground hover:bg-secondary"}`}
+                        className={`h-9 w-9 rounded-full grid place-items-center transition-colors 
+                            ${mode === "system" ? "bg-accent/20 text-accent ring-1 ring-accent/35" : "text-foreground hover:bg-secondary"}`}
                     >
                         <Monitor className="h-4 w-4" />
                     </button>
@@ -84,7 +85,8 @@ export default function Header() {
                         type="button"
                         onClick={() => setMode("light")}
                         aria-label="Tema claro"
-                        className={`h-9 w-9 rounded-full grid place-items-center transition-colors ${mode === "light" ? "bg-accent/20 text-accent ring-1 ring-accent/35" : "text-foreground hover:bg-secondary"}`}
+                        className={`h-9 w-9 rounded-full grid place-items-center transition-colors 
+                            ${mode === "light" ? "bg-accent/20 text-accent ring-1 ring-accent/35" : "text-foreground hover:bg-secondary"}`}
                     >
                         <Sun className="h-4 w-4" />
                     </button>

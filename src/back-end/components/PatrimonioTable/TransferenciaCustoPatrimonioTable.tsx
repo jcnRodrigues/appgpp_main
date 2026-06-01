@@ -468,21 +468,25 @@ export default function TransferenciaCustoPatrimonioTable() {
                         <ArrowLeft className="h-4 w-4" />
                         Anterior
                     </Button>
-                    {paginasVisiveis.map((item, idx) => item === '...'
-                        ? <span key={`ellipsis-${idx}`} className="px-1 text-sm text-muted-foreground">...</span>
-                        : (
-                            <button
-                                key={item}
-                                type="button"
-                                onClick={() => irParaPagina(item)}
-                                className={`h-9 w-9 rounded-lg text-sm font-medium transition ${item === paginaAtual
-                                    ? 'bg-accent/20 text-accent border border-accent/35'
-                                    : 'bg-card text-foreground border border-border hover:bg-secondary'
-                                    }`}
-                            >
-                                {item}
-                            </button>
-                        ))}
+                    {paginasVisiveis.map((item, idx) =>
+                        item === '...'
+                            ? <span key={`ellipsis-${idx}`}
+                                className="px-1 text-sm text-muted-foreground">
+                                ...
+                            </span>
+                            : (
+                                <button
+                                    key={item}
+                                    type="button"
+                                    onClick={() => irParaPagina(item)}
+                                    className={`h-9 w-9 rounded-lg text-sm font-medium transition ${item === paginaAtual
+                                        ? 'bg-accent/20 text-accent border border-accent/35'
+                                        : 'bg-card text-foreground border border-border hover:bg-secondary'
+                                        }`}
+                                >
+                                    {item}
+                                </button>
+                            ))}
                     <Button
                         type="button"
                         variant="outline"
@@ -498,7 +502,9 @@ export default function TransferenciaCustoPatrimonioTable() {
                 <div className="text-xs text-gray-500 text-center">
                     Exibindo {totalItens === 0 ? 0 : inicio + 1} - {Math.min(inicio + dados.length, totalItens)} de {totalItens}
                 </div>
-                <div className="text-sm text-gray-600 text-center">Total de transferências: {totalItens}</div>
+                <div className="text-sm text-gray-600 text-center">
+                    Total de transferências: {totalItens}
+                </div>
             </div>
         </div>
     );

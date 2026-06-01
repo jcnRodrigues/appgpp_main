@@ -310,7 +310,8 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                         Todos os status
                                     </button>
                                     {statusOpcoes.map((status) => (
-                                        <label key={status.idStatusPat} className="flex items-center gap-2 text-sm px-2 py-1 rounded hover:bg-gray-50">
+                                        <label key={status.idStatusPat}
+                                            className="flex items-center gap-2 text-sm px-2 py-1 rounded hover:bg-gray-50">
                                             <input
                                                 type="checkbox"
                                                 checked={statusSelecionados.includes(status.idStatusPat)}
@@ -320,7 +321,9 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                         </label>
                                     ))}
                                     {statusOpcoes.length === 0 && (
-                                        <span className="text-xs text-gray-500 px-2 py-1 block">Sem status disponíveis</span>
+                                        <span className="text-xs text-gray-500 px-2 py-1 block">
+                                            Sem status disponíveis
+                                        </span>
                                     )}
                                 </div>
                             )}
@@ -332,9 +335,13 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
             {/* Lista mobile */}
             <div className="md:hidden space-y-3">
                 {loading ? (
-                    <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500">Carregando...</div>
+                    <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500">
+                        Carregando...
+                    </div>
                 ) : patrimonios.length === 0 ? (
-                    <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500">Nenhum patrimônio encontrado</div>
+                    <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500">
+                        Nenhum patrimônio encontrado
+                    </div>
                 ) : (
                     patrimonios.map((patrimonio) => (
                         <div key={patrimonio.idP} className="bg-white rounded-lg shadow-md p-4 space-y-3">
@@ -384,7 +391,11 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                                 <Edit className="h-4 w-4" />
                                             </Link>
                                         </Button>
-                                        <DeleteGuardButton resource="patrimonio" recordId={patrimonio.idP} onAuthorizedDelete={() => handleDelete(patrimonio.idP)} className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition" title="Deletar patrimônio">
+                                        <DeleteGuardButton
+                                            resource="patrimonio"
+                                            recordId={patrimonio.idP}
+                                            onAuthorizedDelete={() => handleDelete(patrimonio.idP)}
+                                            className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition" title="Deletar patrimônio">
                                             <Trash2 className="h-4 w-4" />
                                         </DeleteGuardButton>
                                     </>
@@ -479,7 +490,9 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                                             variant="default"
                                                             className="w-full gap-2 bg-gray-100 text-blue-600 hover:bg-blue-100 rounded-lg transition"
                                                         >
-                                                            <Link href={`/patrimonio/${patrimonio.idP}`} className="flex-1" title="Editar" onClick={handleEditClick}>
+                                                            <Link href={`/patrimonio/${patrimonio.idP}`}
+                                                                className="flex-1"
+                                                                title="Editar" onClick={handleEditClick}>
                                                                 <Edit className="h-4 w-4" />
                                                             </Link>
                                                         </Button>
