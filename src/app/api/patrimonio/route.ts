@@ -20,6 +20,7 @@ export async function GET(request: NextRequest) {
         const idPat = searchParams.get('idPat');
         const descricao = searchParams.get('descricao');
         const status = searchParams.get('status');
+        const statusAtivo = searchParams.get('statusAtivo') === 'true';
         const statusIdsRaw = searchParams.get('statusIds');
         const statusIds = statusIdsRaw
             ? statusIdsRaw.split(',').map((s) => s.trim()).filter(Boolean)
@@ -126,10 +127,12 @@ export async function GET(request: NextRequest) {
                 if (item.idPat_CustoPat && !filtroCentros.includes(item.idPat_CustoPat)) return false;
             }
 
-            if (statusIds.length > 0) {
+            if (statusAtivo) {
+                const statusText = (item.tbStatusPat?.descricaoStatPat || '').toLowerCase();
+                if (!statusText.includes('ativo')) return false;
+            } else if (statusIds.length > 0) {
                 return !!item.idPat_StatusPat && statusIds.includes(item.idPat_StatusPat);
-            }
-            if (status) {
+            } else if (status) {
                 return item.idPat_StatusPat === status;
             }
             return true;

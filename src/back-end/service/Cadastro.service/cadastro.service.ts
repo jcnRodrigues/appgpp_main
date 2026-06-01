@@ -486,10 +486,13 @@ export async function atualizarAlocacao(idCad: string, dados: Partial<{
             }
 
             if (statusDefinidoExplicitamente && dados.idStatusPatCad) {
-                await tx.tbPatrimonio.update({
-                    where: { idPat: alocacao.idPatCad },
-                    data: { idPat_StatusPat: dados.idStatusPatCad }
-                });
+                const novoStatusEhTransferido = dados.idStatusPatCad === statusTransferidoId;
+                if (!novoStatusEhTransferido) {
+                    await tx.tbPatrimonio.update({
+                        where: { idPat: alocacao.idPatCad },
+                        data: { idPat_StatusPat: dados.idStatusPatCad }
+                    });
+                }
             }
 
             const eraTransferido = registroAnterior.idStatusPatCad === statusTransferidoId;

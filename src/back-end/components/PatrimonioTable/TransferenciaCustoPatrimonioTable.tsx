@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import { Button } from '@/back-end/components/ui/button';
 import { Badge } from '@/back-end/components/ui/badge';
 import { hasActionPermission } from '@/lib/permissions';
+import { gerarTransferenciaCustoPatrimonioPdf, type ItemTransferenciaRelatorio } from '@/back-end/components/PatrimonioTable/TransferenciaCustoPatrimonioReport';
 
 type CentroCusto = {
     idCCusto: string;
@@ -67,11 +68,15 @@ export default function TransferenciaCustoPatrimonioTable() {
             const params = new URLSearchParams();
             params.append('skip', String((paginaAtual - 1) * itensPorPagina));
             params.append('take', String(itensPorPagina));
+            params.append('statusAtivo', 'true');
             const response = await fetch(`/api/patrimonio?${params}`);
             if (response.ok) {
                 const json = await response.json();
-                setDados(json.data || []);
-                setTotalItens(typeof json.total === 'number' ? json.total : (json.data || []).length);
+                const dadosFiltrados = (json.data || []).filter((item: PatrimonioTransferencia) =>
+                    item.custoAnteriorTransferencia && item.dataUltimaTransferencia
+                );
+                setDados(dadosFiltrados);
+                setTotalItens(typeof json.total === 'number' ? json.total : dadosFiltrados.length);
             }
         } catch (error) {
             console.error('Erro ao carregar patrimonios:', error);
@@ -108,6 +113,7 @@ export default function TransferenciaCustoPatrimonioTable() {
             const params = new URLSearchParams();
             params.append('idPat', idBusca.trim().toUpperCase());
             params.append('take', '10');
+            params.append('statusAtivo', 'true');
             const response = await fetch(`/api/patrimonio?${params}`);
             if (!response.ok) {
                 window.systemAlert?.('erro', 'Nao foi possivel buscar o patrimonio.');
@@ -117,7 +123,7 @@ export default function TransferenciaCustoPatrimonioTable() {
             const json = await response.json();
             const encontrado = (json.data || []).find((p: PatrimonioTransferencia) => p.idPat === idBusca.trim().toUpperCase()) || (json.data || [])[0] || null;
             if (!encontrado) {
-                window.systemAlert?.('aviso', 'Patrimônio nao encontrado para o ID informado.');
+                window.systemAlert?.('aviso', 'Patrimônio ativo nao encontrado para o ID informado.');
                 return;
             }
 
@@ -217,7 +223,7 @@ export default function TransferenciaCustoPatrimonioTable() {
         }
     };
 
-    const gerarCsv = () => {
+    const gerarPdf = () => {
         if (!canPrint) {
             window.systemAlert?.('aviso', 'Voce nao tem permissao para imprimir/gerar relatorios.');
             return;
@@ -227,28 +233,16 @@ export default function TransferenciaCustoPatrimonioTable() {
             return;
         }
 
-        const esc = (v: string) => `"${v.replace(/"/g, '""')}"`;
-        const linhas = [
-            ['ID Patrimonio', 'Descricao', 'Centro Anterior', 'Centro Atual', 'Data Ultima Transferencia'],
-            ...dados.map((p) => [
-                p.idPat || '-',
-                p.descricaoPat || '-',
-                p.custoAnteriorTransferencia || p.tbCCusto?.descricaoCCusto || '-',
-                p.custoAtualTransferencia || p.tbCCusto?.descricaoCCusto || '-',
-                p.dataUltimaTransferencia ? new Date(p.dataUltimaTransferencia).toLocaleDateString('pt-BR') : '-'
-            ])
-        ];
+        const dadosRelatorio: ItemTransferenciaRelatorio[] = dados.map((p) => ({
+            idPat: p.idPat || '-',
+            descricaoPat: p.descricaoPat || '-',
+            custoAnteriorTransferencia: p.custoAnteriorTransferencia || p.tbCCusto?.descricaoCCusto || '-',
+            custoAtualTransferencia: p.custoAtualTransferencia || p.tbCCusto?.descricaoCCusto || '-',
+            dataUltimaTransferencia: p.dataUltimaTransferencia,
+            valorPat: p.valorPat
+        }));
 
-        const csv = linhas.map((row) => row.map((c) => esc(c)).join(';')).join('\n');
-        const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `relatorio-transferencia-patrimonio-${new Date().toISOString().slice(0, 10)}.csv`;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        URL.revokeObjectURL(url);
+        gerarTransferenciaCustoPatrimonioPdf(dadosRelatorio);
     };
 
     const totalPaginas = Math.max(1, Math.ceil(totalItens / itensPorPagina));
@@ -281,7 +275,7 @@ export default function TransferenciaCustoPatrimonioTable() {
                     <Button
                         type="button"
                         variant="ghost"
-                        onClick={gerarCsv}
+                        onClick={gerarPdf}
                         disabled={dados.length === 0}
                         className="gap-2"
                     >

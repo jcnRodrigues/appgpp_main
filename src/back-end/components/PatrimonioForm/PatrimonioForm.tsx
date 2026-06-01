@@ -267,11 +267,23 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
             return;
         }
 
+        if (patrimonio.dataSaiPat && patrimonio.dataEntPat && patrimonio.dataSaiPat < patrimonio.dataEntPat) {
+            window.systemAlert?.('aviso', 'A data de entrega no almoxarifado não pode ser menor que a data de entrada');
+            setLoading(false);
+            return;
+        }
+
         const statusSelecionado = status.find((s) => s.idStatusPat === patrimonio.idPat_StatusPat);
         const isDevolucao = (statusSelecionado?.descricaoStatPat || '').toUpperCase().includes('DEVOLU');
 
         if (isDevolucao && !patrimonio.dataDevPat) {
             window.systemAlert?.('aviso', 'Informe a data de devolução');
+            setLoading(false);
+            return;
+        }
+
+        if (isDevolucao && patrimonio.dataDevPat && patrimonio.dataEntPat && patrimonio.dataDevPat < patrimonio.dataEntPat) {
+            window.systemAlert?.('aviso', 'A data de devolução não pode ser menor que a data de entrada');
             setLoading(false);
             return;
         }
@@ -391,7 +403,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                             <div>
                                 <label className="block text-sm font-medium mb-2">Data de Entrega - Almoxarifado</label>
-                                <input type="date" name="dataSaiPat" value={patrimonio.dataSaiPat} onChange={handleChange} className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+                                <input type="date" name="dataSaiPat" value={patrimonio.dataSaiPat} onChange={handleChange} min={patrimonio.dataEntPat} className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
                             </div>
                         </div>
 
@@ -401,7 +413,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium mb-2">Data da Emissão - Nota Fiscal *</label>
-                                        <input type="date" name="dataDevPat" value={patrimonio.dataDevPat} onChange={handleChange} className="w-full px-4 py-2 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300" required />
+                                        <input type="date" name="dataDevPat" value={patrimonio.dataDevPat} onChange={handleChange} min={patrimonio.dataEntPat} className="w-full px-4 py-2 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300" required />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium mb-2">NF da devolução</label>
@@ -457,37 +469,6 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                         <div>
                             {patrimonioId && (
                                 <div className="mt-4 space-y-3">
-                                    <Button type="button" variant="outline" onClick={() => setMostrarTransferencia((prev) => !prev)}>
-                                        {mostrarTransferencia ? 'Cancelar transferência' : 'Transferir custo para outro centro'}
-                                    </Button>
-
-                                    {mostrarTransferencia && (
-                                        <div className="border rounded-lg p-4 space-y-3 bg-gray-50">
-                                            <div>
-                                                <label className="block text-sm font-medium mb-2">Centro de custo de destino *</label>
-                                                <select value={novoCentroCusto} onChange={(e) => setNovoCentroCusto(e.target.value)} className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-                                                    <option value="">Selecione o centro de destino</option>
-                                                    {centros.filter((c) => c.idCCusto !== patrimonio.idPat_CustoPat).map((centro) => (
-                                                        <option key={centro.idCCusto} value={centro.idCCusto}>{centro.descricaoCCusto || 'Sem descrição'}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <label className="block text-sm font-medium mb-2">Data da transferência</label>
-                                                <input type="date" value={dataTransferencia} onChange={(e) => setDataTransferencia(e.target.value)} className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
-                                            </div>
-                                            <div>
-                                                <label className="block text-sm font-medium mb-2">Observação</label>
-                                                <textarea value={observacaoTransferencia} onChange={(e) => setObservacaoTransferencia(e.target.value)} className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary h-20 resize-none" placeholder="Motivo da transferência (opcional)" />
-                                            </div>
-                                            <div className="flex justify-end">
-                                                <Button type="button" disabled={transferindo} onClick={handleTransferenciaCentroCusto}>
-                                                    {transferindo ? 'Transferindo...' : 'Confirmar transferência'}
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    )}
-
                                     <div className="border rounded-lg p-3">
                                         <p className="font-semibold mb-2">Histórico de Transferências</p>
                                         {historicoTransferencias.length === 0 ? (
