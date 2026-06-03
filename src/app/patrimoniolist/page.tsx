@@ -61,16 +61,20 @@ export default async function PatrimonioList() {
           </div>
           <div className="flex items-center gap-2">
             {canPrint && (
-              <Link href="/patrimoniolist/lista-pdf">
-                <Button variant="outline" className="flex gap-2">
+              <Link href="/patrimoniolist/lista-devolucao">
+                <Button
+                  variant="ghost"
+                  className="flex gap-2 bg-red-500 hover:bg-red-600 text-white">
                   <FileText className="h-5 w-5" />
-                  Lista PDF
+                  Devolucao Patrimonio
                 </Button>
               </Link>
             )}
             {canUpdate && (
               <Link href="/patrimoniolist/transferencia-custo">
-                <Button variant="outline" className="flex gap-2">
+                <Button
+                  variant="ghost"
+                  className="flex gap-2 bg-blue-500 hover:bg-blue-600">
                   <ArrowRightLeft className="h-5 w-5" />
                   Transferir Custo
                 </Button>
@@ -78,7 +82,9 @@ export default async function PatrimonioList() {
             )}
             {canCreate && (
               <Link href="/patrimonio/cadastro">
-                <Button className="flex gap-2 bg-primary hover:bg-primary/90">
+                <Button
+                  variant="ghost"
+                  className="flex gap-2 bg-green-500 hover:bg-green-600">
                   <Plus className="h-5 w-5" />
                   Novo Patrimonio
                 </Button>

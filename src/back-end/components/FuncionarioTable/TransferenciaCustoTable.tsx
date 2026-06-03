@@ -257,7 +257,7 @@ export default function TransferenciaCustoTable() {
                         type="button"
                         variant="ghost"
                         onClick={buscarPorMatricula}
-                        className=" text-blue-900 hover:bg-blue-50 rounded-lg transition">
+                        className=" bg-blue-900 hover:bg-blue-100 rounded-lg transition">
                         <Search className="h-4 w-4" />
                     </Button>
                     <div className="md:ml-auto">
@@ -266,7 +266,7 @@ export default function TransferenciaCustoTable() {
                             variant="ghost"
                             onClick={gerarCsv}
                             disabled={dados.length === 0}
-                            className="gap-2">
+                            className="gap-2 bg-green-600 hover:bg-green-100 rounded-lg transition">
                             <FileDown className="h-4 w-4" />
                             Gerar Relatorio
                         </Button>

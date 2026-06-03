@@ -101,12 +101,22 @@ export async function alocacoesPorCentroCustoETipo(centros?: string[]) {
             descricaoCCusto: true,
             codigoCCusto: true,
             tbPatrimonio: {
+                where: {
+                    tbCadastro: {
+                        some: {
+                            dataDevPat: null
+                        }
+                    }
+                },
                 select: {
                     idP: true,
                     tbTipoPat: {
                         select: { descricaoTipPat: true }
                     },
                     tbCadastro: {
+                        where: {
+                            dataDevPat: null
+                        },
                         select: { idCad: true }
                     }
                 }

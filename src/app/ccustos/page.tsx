@@ -56,14 +56,19 @@ export default async function CCustosPage() {
                     </div>
                     <div className="flex items-center gap-2">
                         <Link href="/ccusto/medicao">
-                            <Button variant="outline">Medicao</Button>
+                            <Button variant="ghost"
+                                className="flex gap-2 bg-green-500 hover:bg-green-600">
+                                Medição
+                            </Button>
                         </Link>
                         <PermissionActionLink
                             href="/ccusto/cadastro"
                             action="CREATE"
                             deniedMessage="Você não tem permissão para adicionar registros."
                         >
-                            <Button className="flex gap-2 bg-primary hover:bg-primary/90">
+                            <Button
+                                variant="ghost"
+                                className="flex gap-2 bg-green-500 hover:bg-green-600">
                                 <Plus className="h-5 w-5" />
                                 Novo Centro
                             </Button>

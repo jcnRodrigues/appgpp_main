@@ -342,27 +342,41 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                     <Link href="/patrimoniolist" className="mr-4">
                         <ChevronLeft className="h-6 w-6 text-primary" />
                     </Link>
-                    <h1 className="text-h3 font-bold">
+                    <h1 className="text-h2 font-bold">
                         {patrimonioId ? 'Editar Patrimônio' : 'Cadastrar Novo Patrimônio'}
+
                     </h1>
                 </div>
 
-                <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-lg p-5 sm:p-8 space-y-6">
+                <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext}
+                    className="bg-white rounded-lg shadow-lg p-5 sm:p-8 space-y-6">
                     <div className="border-b pb-6">
                         <h2 className="text-h4 font-bold mb-4">Informações Básicas</h2>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mb-4">
                             <div>
                                 <label className="block text-sm font-medium mb-2">ID Patrimônio *</label>
-                                <input type="text" name="idPat" value={patrimonio.idPat} onChange={handleChange} disabled={!!patrimonioId} placeholder="Ex: PAT001" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary disabled:bg-gray-100" required />
+                                <input
+                                    type="text"
+                                    name="idPat"
+                                    value={patrimonio.idPat}
+                                    onChange={handleChange}
+                                    disabled={!!patrimonioId}
+                                    placeholder="Ex: PAT001"
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary disabled:bg-gray-100" required />
                             </div>
 
                             <div>
                                 <label className="block text-sm font-medium mb-2 text-red-600">Tipo de Patrimônio * (Obrigatório)</label>
-                                <select name="idPat_TipoPat" value={patrimonio.idPat_TipoPat} onChange={handleChange} className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!patrimonio.idPat_TipoPat ? 'border-red-300 bg-red-50' : ''}`} required>
+                                <select name="idPat_TipoPat"
+                                    value={patrimonio.idPat_TipoPat}
+                                    onChange={handleChange}
+                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!patrimonio.idPat_TipoPat ? 'border-red-300 bg-red-50' : ''}`} required>
                                     <option value="">--- Selecione um tipo ---</option>
                                     {tipos.map(tipo => (
-                                        <option key={tipo.idTipPat} value={tipo.idTipPat}>{tipo.descricaoTipPat || 'Sem descrição'}</option>
+                                        <option key={tipo.idTipPat}
+                                            value={tipo.idTipPat}>{tipo.descricaoTipPat || 'Sem descrição'}
+                                        </option>
                                     ))}
                                 </select>
                                 {!patrimonio.idPat_TipoPat && <p className="text-red-600 text-xs mt-1">Campo obrigatório</p>}
@@ -370,18 +384,37 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                         </div>
 
                         <div className="mb-4">
-                            <label className="block text-sm font-medium mb-2">Descrição *</label>
-                            <input type="text" name="descricaoPat" value={patrimonio.descricaoPat} onChange={handleChange} placeholder="Ex: Computador Dell" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required />
+                            <label className="block text-sm font-medium mb-2">
+                                Descrição *
+                            </label>
+                            <input type="text"
+                                name="descricaoPat"
+                                value={patrimonio.descricaoPat}
+                                onChange={handleChange} placeholder="Ex: Computador Dell"
+                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required />
                         </div>
 
                         <div className="mb-4">
-                            <label className="block text-sm font-medium mb-2">Descrição Detalhada</label>
-                            <textarea name="descricaoDetalhadaPat" value={patrimonio.descricaoDetalhadaPat} onChange={handleChange} placeholder="Detalhe as características do patrimônio" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary h-24 resize-none" />
+                            <label className="block text-sm font-medium mb-2">
+                                Descrição Detalhada
+                            </label>
+                            <textarea name="descricaoDetalhadaPat"
+                                value={patrimonio.descricaoDetalhadaPat}
+                                onChange={handleChange}
+                                placeholder="Detalhe as características do patrimônio"
+                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary h-24 resize-none" />
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label className="block text-sm font-medium mb-2">Licença/Série</label>
-                                <input type="text" name="licencaPat" value={patrimonio.licencaPat} onChange={handleChange} placeholder="Ex: ABC123XYZ" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+                                <label className="block text-sm font-medium mb-2">
+                                    Licença/Série
+                                </label>
+                                <input type="text"
+                                    name="licencaPat"
+                                    value={patrimonio.licencaPat}
+                                    onChange={handleChange}
+                                    placeholder="Ex: ABC123XYZ"
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
                             </div>
                         </div>
 
@@ -391,19 +424,38 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                         <h2 className="text-h4 font-bold mb-4">Datas de Documentação e Movimentação</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                             <div>
-                                <label className="block text-sm font-medium mb-2">Data de Entrada - NF *</label>
-                                <input type="date" name="dataEntPat" value={patrimonio.dataEntPat} onChange={handleChange} className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required />
+                                <label className="block text-sm font-medium mb-2">
+                                    Data de Entrada - NF *
+                                </label>
+                                <input type="date"
+                                    name="dataEntPat"
+                                    value={patrimonio.dataEntPat}
+                                    onChange={handleChange}
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium mb-2">Nota Fiscal</label>
-                                <input type="text" name="notaFiscalPat" value={patrimonio.notaFiscalPat} onChange={handleChange} placeholder="Ex: NF 123456" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+                                <label className="block text-sm font-medium mb-2">
+                                    Nota Fiscal
+                                </label>
+                                <input type="text"
+                                    name="notaFiscalPat"
+                                    value={patrimonio.notaFiscalPat}
+                                    onChange={handleChange}
+                                    placeholder="Ex: NF 123456"
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
                             </div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                             <div>
-                                <label className="block text-sm font-medium mb-2">Data de Entrega - Almoxarifado</label>
-                                <input type="date" name="dataSaiPat" value={patrimonio.dataSaiPat} onChange={handleChange} min={patrimonio.dataEntPat} className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+                                <label className="block text-sm font-medium mb-2">
+                                    Data de Entrega - Almoxarifado
+                                </label>
+                                <input type="date"
+                                    name="dataSaiPat"
+                                    value={patrimonio.dataSaiPat}
+                                    onChange={handleChange} min={patrimonio.dataEntPat}
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
                             </div>
                         </div>
 
@@ -412,27 +464,57 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                                 <h2 className="text-sm font-semibold text-amber-800">Dados da devolução</h2>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">Data da Emissão - Nota Fiscal *</label>
-                                        <input type="date" name="dataDevPat" value={patrimonio.dataDevPat} onChange={handleChange} min={patrimonio.dataEntPat} className="w-full px-4 py-2 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300" required />
+                                        <label className="block text-sm font-medium mb-2">
+                                            Data da Emissão - Nota Fiscal *
+                                        </label>
+                                        <input type="date"
+                                            name="dataDevPat"
+                                            value={patrimonio.dataDevPat}
+                                            onChange={handleChange} min={patrimonio.dataEntPat}
+                                            className="w-full px-4 py-2 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300" required />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">NF da devolução</label>
-                                        <input type="text" name="notaFiscalDevolucao" value={patrimonio.notaFiscalDevolucao} onChange={handleChange} placeholder="Ex: NF-DEV-123" className="w-full px-4 py-2 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300" />
+                                        <label className="block text-sm font-medium mb-2">
+                                            NF da devolução
+                                        </label>
+                                        <input type="text"
+                                            name="notaFiscalDevolucao"
+                                            value={patrimonio.notaFiscalDevolucao}
+                                            onChange={handleChange} placeholder="Ex: NF-DEV-123"
+                                            className="w-full px-4 py-2 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300" />
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">Data Saida - fornecedor</label>
-                                        <input type="date" name="dataSaidaFornecedor" value={patrimonio.dataSaidaFornecedor} onChange={handleChange} className="w-full px-4 py-2 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300" />
+                                        <label className="block text-sm font-medium mb-2">
+                                            Data Saida - fornecedor
+                                        </label>
+                                        <input type="date"
+                                            name="dataSaidaFornecedor"
+                                            value={patrimonio.dataSaidaFornecedor}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-2 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">Data Chegada - fornecedor</label>
-                                        <input type="date" name="dataChegadaFornecedor" value={patrimonio.dataChegadaFornecedor} onChange={handleChange} className="w-full px-4 py-2 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300" />
+                                        <label className="block text-sm font-medium mb-2">
+                                            Data Chegada - fornecedor
+                                        </label>
+                                        <input type="date"
+                                            name="dataChegadaFornecedor"
+                                            value={patrimonio.dataChegadaFornecedor}
+                                            onChange={handleChange}
+                                            className="w-full px-4 py-2 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300" />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium mb-2">Motivo da devolução</label>
-                                    <textarea name="motivoDevolucao" value={patrimonio.motivoDevolucao} onChange={handleChange} placeholder="Informe o motivo" className="w-full px-4 py-2 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300 h-20 resize-none" />
+                                    <label className="block text-sm font-medium mb-2">
+                                        Motivo da devolução
+                                    </label>
+                                    <textarea name="motivoDevolucao"
+                                        value={patrimonio.motivoDevolucao}
+                                        onChange={handleChange}
+                                        placeholder="Informe o motivo"
+                                        className="w-full px-4 py-2 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300 h-20 resize-none" />
                                 </div>
                             </div>
                         )}
@@ -442,25 +524,54 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                         <h2 className="text-h4 font-bold mb-4">Dados Financeiros e Gestão</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mb-4">
                             <div>
-                                <label className="block text-sm font-medium mb-2">Valor (R$) *</label>
-                                <input type="number" name="valorPat" value={patrimonio.valorPat} onChange={handleChange} placeholder="0.00" step="0.01" className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required />
+                                <label className="block text-sm font-medium mb-2">
+                                    Valor (R$) *
+                                </label>
+                                <input type="number"
+                                    name="valorPat"
+                                    value={patrimonio.valorPat}
+                                    onChange={handleChange}
+                                    placeholder="R$ - 0.00" step="0.01"
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium mb-2 text-red-600">Status * (Obrigatório)</label>
-                                <select name="idPat_StatusPat" value={patrimonio.idPat_StatusPat} onChange={handleChange} className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!patrimonio.idPat_StatusPat ? 'border-red-300 bg-red-50' : ''}`} required>
-                                    <option value="">--- Selecione um status ---</option>
+                                <label className="block text-sm font-medium mb-2 text-red-600">
+                                    Status * (Obrigatório)
+                                </label>
+                                <select name="idPat_StatusPat"
+                                    value={patrimonio.idPat_StatusPat}
+                                    onChange={handleChange}
+                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!patrimonio.idPat_StatusPat ? 'border-red-300 bg-red-50' : ''}`} required>
+                                    <option value="">
+                                        --- Selecione um status ---
+                                    </option>
                                     {status.map(s => (
-                                        <option key={s.idStatusPat} value={s.idStatusPat}>{s.descricaoStatPat}</option>
+                                        <option key={s.idStatusPat} value={s.idStatusPat}>
+                                            {s.descricaoStatPat}
+                                        </option>
                                     ))}
                                 </select>
-                                {!patrimonio.idPat_StatusPat && <p className="text-red-600 text-xs mt-1">Campo obrigatório</p>}
+                                {!patrimonio.idPat_StatusPat &&
+                                    <p className="text-red-600 text-xs mt-1">
+                                        Campo obrigatório
+                                    </p>}
                             </div>
                             <div>
-                                <label className="block text-sm font-medium mb-2">Centro de Custo</label>
-                                <select name="idPat_CustoPat" value={patrimonio.idPat_CustoPat} onChange={handleChange} className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-                                    <option value="">Selecione um centro de custo</option>
+                                <label className="block text-sm font-medium mb-2">
+                                    Centro de Custo
+                                </label>
+                                <select name="idPat_CustoPat"
+                                    value={patrimonio.idPat_CustoPat}
+                                    onChange={handleChange}
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <option value="">
+                                        Selecione um centro de custo
+                                    </option>
                                     {centros.map(centro => (
-                                        <option key={centro.idCCusto} value={centro.idCCusto}>{centro.descricaoCCusto || 'Sem descrição'}</option>
+                                        <option
+                                            key={centro.idCCusto} value={centro.idCCusto}>
+                                            {centro.descricaoCCusto || 'Sem descrição'}
+                                        </option>
                                     ))}
                                 </select>
                             </div>
@@ -505,8 +616,15 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                     </div>
 
                     <div className="flex gap-4 justify-end pt-6">
-                        <Link href="/patrimoniolist"><Button variant="outline">Cancelar</Button></Link>
-                        <Button type="submit" disabled={loading} className="bg-primary hover:bg-primary/90">
+                        <Link href="/patrimoniolist">
+                            <Button variant="ghost" className="bg-red-600 hover:bg-red-100">
+                                Cancelar
+                            </Button>
+                        </Link>
+                        <Button type="submit"
+                            variant="ghost"
+                            disabled={loading}
+                            className="bg-green-600 hover:bg-green-100">
                             {loading ? 'Salvando...' : patrimonioId ? 'Atualizar' : 'Criar Patrimônio'}
                         </Button>
                     </div>

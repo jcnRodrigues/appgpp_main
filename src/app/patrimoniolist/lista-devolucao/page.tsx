@@ -16,7 +16,7 @@ export default async function ListaPatrimoniosPdfPage() {
       <div className="bg-background min-h-screen py-6">
         <Header />
         <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-          <h1 className="text-2xl font-bold mb-4">Lista de Patrimônios (PDF)</h1>
+          <h1 className="text-2xl font-bold mb-4">Lista de Patrimônios - Devolução</h1>
           <div className="bg-white p-8 rounded-lg shadow-sm">
             <p className="text-lg mb-6">Faça login para acessar</p>
             <Button asChild>
@@ -35,7 +35,7 @@ export default async function ListaPatrimoniosPdfPage() {
       <div className="bg-background min-h-screen py-6">
         <Header />
         <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-          <h1 className="text-2xl font-bold mb-4">Lista de Patrimônios (PDF)</h1>
+          <h1 className="text-2xl font-bold mb-4">Lista de Patrimônios - Devolução</h1>
           <div className="bg-white p-8 rounded-lg shadow-sm">
             <p className="text-lg mb-6">Seu perfil não tem permissão para imprimir relatórios.</p>
             <Button asChild>
@@ -56,7 +56,7 @@ export default async function ListaPatrimoniosPdfPage() {
             <ChevronLeft className="h-6 w-6 text-primary hover:text-primary/80 transition" />
           </Link>
           <div>
-            <h1 className="text-h2 font-bold">Lista de Patrimônios (PDF)</h1>
+            <h1 className="text-h2 font-bold">Lista de Patrimônios - Devolução</h1>
             <p className="text-gray-600 text-sm mt-1">Pesquisar, adicionar em lista e gerar PDF</p>
           </div>
         </div>

@@ -41,8 +41,12 @@ export default async function MedicaoProcessoPage() {
             <ChevronLeft className="h-6 w-6 text-primary hover:text-primary/80 transition" />
           </Link>
           <div>
-            <h1 className="text-h2 font-bold">Medições em Processo</h1>
-            <p className="text-gray-600 text-sm mt-1">Consulta e gestão de BMs abertos e fechados</p>
+            <h1 className="text-h2 font-bold">
+              Medições em Processo
+            </h1>
+            <p className="text-gray-600 text-sm mt-1">
+              Consulta e gestão de BMs abertos e fechados
+            </p>
           </div>
         </div>
 

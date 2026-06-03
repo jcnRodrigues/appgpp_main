@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEnterToNext } from '@/back-end/hooks/useEnterToNext';
 import { Button } from '@/back-end/components/ui/button';
-import { ChevronLeft, Search, Check } from 'lucide-react';
+import { ChevronLeft, Search, Check, Ghost } from 'lucide-react';
 import Link from 'next/link';
 import { useFormDraft } from '@/back-end/hooks/useFormDraft';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/back-end/components/ui/sheet';
@@ -479,12 +479,17 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
 
                     <div className="flex gap-4 justify-end pt-6">
                         <Link href="/funcionariosadd">
-                            <Button variant="outline">Cancelar</Button>
+                            <Button
+                                variant="ghost" 
+                                className=" bg-red-600 hover:bg-red-100">
+                                Cancelar
+                            </Button>
                         </Link>
                         <Button
                             type="submit"
                             disabled={loading}
-                            className="bg-primary hover:bg-primary/90"
+                            variant="ghost"
+                            className="bg-green-600 hover:bg-green-100"
                         >
                             {loading ? 'Salvando...' : funcionarioId ? 'Atualizar' : 'Criar Funcionario'}
                         </Button>

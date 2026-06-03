@@ -200,7 +200,9 @@ export default function ListaPatrimoniosPdfForm() {
   return (
     <div className="space-y-4">
       <div className="bg-white rounded-lg shadow p-4 space-y-3">
-        <h2 className="font-semibold">Pesquisar Patrimônios</h2>
+        <h2 className="font-semibold">
+          Pesquisar Patrimônios
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           <input
             value={busca}
@@ -249,7 +251,8 @@ export default function ListaPatrimoniosPdfForm() {
                   <td className="px-2 py-2">
                     <div>{item.descricaoPat}</div>
                     <div className="mt-1">
-                      <span className="inline-block rounded-full bg-green-100 text-green-800 px-2 py-0.5 text-[10px] font-semibold">
+                      <span
+                        className="inline-block rounded-full bg-green-100 text-green-800 px-2 py-0.5 text-[10px] font-semibold">
                         {item.tbCCusto?.descricaoCCusto || 'Sem centro de custo'}
                       </span>
                     </div>
@@ -267,8 +270,8 @@ export default function ListaPatrimoniosPdfForm() {
                       <Button
                         type="button"
                         size="icon"
-                        variant="outline"
-                        className="h-8 w-8 text-green-700"
+                        variant="ghost"
+                        className="h-8 w-8 bg-green-700 border-green-100 cursor-not-allowed hover:bg-green-800"
                         disabled
                         title="Adicionado"
                       >
@@ -278,8 +281,8 @@ export default function ListaPatrimoniosPdfForm() {
                       <Button
                         type="button"
                         size="icon"
-                        variant="outline"
-                        className="h-8 w-8"
+                        variant="ghost"
+                        className="h-8 w-8 bg-green-700 border-green-100 hover:bg-green-800"
                         onClick={() => adicionar(item)}
                         title="Adicionar à lista"
                       >
@@ -305,7 +308,8 @@ export default function ListaPatrimoniosPdfForm() {
           <div className="flex items-center gap-2">
             <Button
               type="button"
-              variant="outline"
+              variant="ghost"
+              className="h-8 border-yellow-300 bg-yellow-700 hover:bg-yellow-100"
               onClick={() => setMostrarSaida((prev) => !prev)}
               disabled={selecionados.length === 0}
               title="Inserir data de saída na lista selecionada"
@@ -313,7 +317,11 @@ export default function ListaPatrimoniosPdfForm() {
               <CalendarCheck2 className="h-4 w-4 mr-2" />
               Inserir Data Saída
             </Button>
-            <button type="button" className="px-3 py-2 border rounded" onClick={gerarPdf} disabled={selecionados.length === 0}>
+            <button
+              type="button"
+              variant="ghost" 
+              className="px-3 py-2 border rounded bg-green-700 text-green-100 hover:bg-green-100"
+              onClick={gerarPdf} disabled={selecionados.length === 0}>
               Gerar PDF da Lista
             </button>
           </div>

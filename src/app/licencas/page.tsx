@@ -14,7 +14,18 @@ export default async function LicencasPage() {
 
     if (!session?.user) {
         return (
-            <div className="bg-background min-h-screen py-6"><Header /><div className="max-w-4xl mx-auto px-4 py-12 text-center"><h1 className="text-2xl font-bold mb-4">Licencas de Software</h1><div className="bg-white p-8 rounded-lg shadow-sm"><p className="text-lg mb-6">Faca login para visualizar as licencas</p><Button asChild><Link href="/">Ir para Login</Link></Button></div></div></div>
+            <div className="bg-background min-h-screen py-6">
+                <Header />
+                <div className="max-w-4xl mx-auto px-4 py-12 text-center">
+                    <h1 className="text-2xl font-bold mb-4">Licencas de Software</h1>
+                    <div className="bg-white p-8 rounded-lg shadow-sm">
+                        <p className="text-lg mb-6">Faca login para visualizar as licencas</p>
+                        <Button asChild>
+                            <Link href="/">Ir para Login</Link>
+                        </Button>
+                    </div>
+                </div>
+            </div>
         );
     }
 
@@ -34,7 +45,12 @@ export default async function LicencasPage() {
                         action="CREATE"
                         deniedMessage="Você não tem permissão para adicionar registros."
                     >
-                        <Button className="flex gap-2 bg-primary hover:bg-primary/90"><Plus className="h-5 w-5" />Nova Licenca</Button>
+                        <Button 
+                        variant="ghost"
+                        className="flex gap-2 bg-green-500 hover:bg-green-600">
+                            <Plus className="h-5 w-5" />
+                            Nova Licenca
+                        </Button>
                     </PermissionActionLink>
                 </div>
                 <LicencaTable />

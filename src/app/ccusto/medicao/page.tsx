@@ -35,8 +35,25 @@ export default async function MedicaoCCustoPage({ searchParams }: { searchParams
       <Header />
       <div className="max-w-[86.4rem] mx-auto px-4">
         <div className="form-title-sticky flex items-center justify-between gap-4 mb-8 mt-4">
-          <div className="flex items-center gap-4"><Link href="/ccustos"><ChevronLeft className="h-6 w-6 text-primary hover:text-primary/80 transition" /></Link><div><h1 className="text-h2 font-bold">Medicao por Centro de Custo</h1><p className="text-gray-600 text-sm mt-1">Conferencia de patrimonios via importacao de Excel</p></div></div>
-          <Link href="/ccusto/medicao/processo"><Button variant="outline">Medicoes em Processo</Button></Link>
+          <div className="flex items-center gap-4">
+            <Link href="/ccustos">
+              <ChevronLeft className="h-6 w-6 text-primary hover:text-primary/80 transition" />
+            </Link>
+            <div>
+              <h1 className="text-h2 font-bold">
+                Medicao por Centro de Custo
+              </h1>
+              <p className="text-gray-600 text-sm mt-1">
+                Conferencia de patrimonios via importacao de Excel
+              </p>
+            </div>
+          </div>
+          <Link href="/ccusto/medicao/processo">
+            <Button variant="ghost" 
+            className="flex gap-2 bg-green-500 hover:bg-green-600">
+              Medicoes em Processo
+            </Button>
+          </Link>
         </div>
 
         <MedicaoCCustoForm centros={centros} bmIdInicial={bmIdInicial} />
