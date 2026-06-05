@@ -5,10 +5,12 @@ import jsPDF from 'jspdf';
 export type ItemTransferenciaRelatorio = {
   idPat: string;
   descricaoPat: string;
+  situacaoPatrimonio?: string | null;
   custoAnteriorTransferencia?: string | null;
   custoAtualTransferencia?: string | null;
   dataUltimaTransferencia?: string | Date | null;
   valorPat?: number | null;
+  observacao?: string | null;
 };
 
 function formatarMoeda(valor?: number | null) {
@@ -121,6 +123,16 @@ export function gerarTransferenciaCustoPatrimonioPdf(dados: ItemTransferenciaRel
   };
 
   const totalValor = dados.reduce((acc, item) => acc + (item.valorPat || 0), 0);
+  const gruposDestino = Array.from(
+    dados.reduce((map, item) => {
+      const chave = item.custoAtualTransferencia || 'Sem centro de destino';
+      const lista = map.get(chave) || [];
+      lista.push(item);
+      map.set(chave, lista);
+      return map;
+    }, new Map<string, ItemTransferenciaRelatorio[]>())
+  ).sort((a, b) => a[0].localeCompare(b[0], 'pt-BR'));
+
   const agora = new Date();
   const dataToken = `${agora.getFullYear()}${String(agora.getMonth() + 1).padStart(2, '0')}${String(agora.getDate()).padStart(2, '0')}`;
   const contadorKey = `pdf-emissao-transferencia-${dataToken}`;
@@ -155,42 +167,49 @@ export function gerarTransferenciaCustoPatrimonioPdf(dados: ItemTransferenciaRel
   const cardTop = y + 2;
   drawCard(margin, cardTop, cW, 18, 'Total de itens', String(dados.length), formatarMoeda(totalValor), [35, 43, 54]);
   drawCard(margin + cW + gap, cardTop, cW, 18, 'Valor total', formatarMoeda(totalValor), '-', [15, 125, 67]);
-  drawCard(margin + (cW + gap) * 2, cardTop, cW, 18, 'Centro de origem', '-', '-', [64, 83, 111]);
-  drawCard(margin + (cW + gap) * 3, cardTop, cW, 18, 'Centro de destino', '-', '-', [185, 83, 0]);
+  drawCard(margin + (cW + gap) * 2, cardTop, cW, 18, 'Destinos distintos', String(gruposDestino.length), '-', [185, 83, 0]);
+  drawCard(margin + (cW + gap) * 3, cardTop, cW, 18, 'Emissão', emissaoCode, '-', [64, 83, 111]);
   y = cardTop + 22;
 
-  ensureSpace(18);
-  pdf.setFont('helvetica', 'bold');
-  pdf.setFontSize(10);
-  pdf.setTextColor(35, 43, 54);
-  pdf.text('Detalhe das transferências realizadas', margin, y);
-  y += 5;
+  const cols = [22, 70, 28, 35, 35, 25, 30];
+  gruposDestino.forEach(([destino, itensDestino], index) => {
+    if (index > 0) {
+      pdf.addPage();
+      y = 12;
+    }
 
-  const cols = [24, 90, 40, 40, 35, 25];
-  addTableHeader(
-    [
-      'ID',
-      'Descrição',
-      'Centro Anterior',
-      'Centro Atual',
-      'Valor BRL',
-      'Data Transferência'
-    ],
-    cols
-  );
+    ensureSpace(14);
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(10.5);
+    pdf.setTextColor(35, 43, 54);
+    pdf.text(pdfSafeText(`Centro de destino: ${destino}`), margin, y);
+    y += 4.8;
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(8.5);
+    pdf.setTextColor(86, 98, 114);
+    const totalGrupo = itensDestino.reduce((acc, item) => acc + (item.valorPat || 0), 0);
+    pdf.text(pdfSafeText(`Itens: ${itensDestino.length} | Valor total: ${formatarMoeda(totalGrupo)}`), margin, y);
+    y += 5;
 
-  dados.forEach((item) => {
-    addTableRow(
-      [
-        item.idPat || '-',
-        item.descricaoPat || '-',
-        item.custoAnteriorTransferencia || '-',
-        item.custoAtualTransferencia || '-',
-        formatarMoeda(item.valorPat),
-        formatarData(item.dataUltimaTransferencia)
-      ],
+    addTableHeader(
+      ['ID', 'Descrição', 'Situação', 'Centro Anterior', 'Centro Atual', 'Valor BRL', 'Data Transferência'],
       cols
     );
+
+    itensDestino.forEach((item) => {
+      addTableRow(
+        [
+          truncarTextoPdf(pdf, item.idPat || '-', cols[0]),
+          truncarTextoPdf(pdf, item.descricaoPat || '-', cols[1]),
+          truncarTextoPdf(pdf, item.situacaoPatrimonio || '-', cols[2]),
+          truncarTextoPdf(pdf, item.custoAnteriorTransferencia || '-', cols[3]),
+          truncarTextoPdf(pdf, item.custoAtualTransferencia || '-', cols[4]),
+          formatarMoeda(item.valorPat),
+          formatarData(item.dataUltimaTransferencia)
+        ],
+        cols
+      );
+    });
   });
 
   pdf.save(`${emissaoCode}.pdf`);

@@ -95,12 +95,19 @@ export default function FuncaoForm({ funcaoId }: { funcaoId?: string }) {
                     <Link href="/funcoes" className="mr-4">
                         <ChevronLeft className="h-6 w-6 text-primary" />
                     </Link>
-                    <h1 className="text-h3 font-bold">{funcaoId ? 'Editar Funcao' : 'Cadastrar Funcao'}</h1>
+                    <h1 className="text-h2 font-bold">
+                        {funcaoId ? 'Editar Funcao' : 'Cadastrar Funcao'}
+                    </h1>
                 </div>
 
-                <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
+                <form
+                    onSubmit={handleSubmit}
+                    onKeyDown={handleEnterToNext}
+                    className="bg-white rounded-lg shadow-lg p-8 space-y-6">
                     <div>
-                        <label className="block text-sm font-medium mb-2">Nome da Funcao *</label>
+                        <label className="block text-sm font-medium mb-2">
+                            Nome da Funcao *
+                        </label>
                         <input
                             type="text"
                             name="nomeFuncao"

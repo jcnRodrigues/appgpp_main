@@ -27,7 +27,34 @@ export async function GET(
             return NextResponse.json({ message: 'Sem permissao para alterar patrimonio' }, { status: 403 });
         }
         const { id } = await params;
-        const patrimonio = await getPatrimonioCardById(id);
+        let patrimonio = await getPatrimonioCardById(id);
+        if (!patrimonio) {
+            patrimonio = await prisma.tbPatrimonio.findFirst({
+                where: { idPat: id },
+                include: {
+                    tbTipoPat: true,
+                    tbStatusPat: true,
+                    tbCCusto: true,
+                    tbCadastro: true,
+                    tbDevolucao: {
+                        orderBy: {
+                            dataInicioDevolucao: 'desc'
+                        },
+                        take: 1
+                    },
+                    tbTransferenciaCustoPatrimonio: {
+                        include: {
+                            custoOrigem: true,
+                            custoDestino: true,
+                            tbUser: true
+                        },
+                        orderBy: {
+                            dataTransferencia: 'desc'
+                        }
+                    }
+                }
+            });
+        }
 
         if (!patrimonio) {
             return NextResponse.json(

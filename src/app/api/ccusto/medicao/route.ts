@@ -2,6 +2,7 @@
 import * as XLSX from 'xlsx';
 import { listarPatrimoniosPorCentroCusto } from '@/back-end/service/Patrimonio.services/patrimonio.service';
 import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
+import prisma from '../../../../../prisma/prisma';
 
 export const runtime = 'nodejs';
 
@@ -65,7 +66,12 @@ function formatarDataCurta(value?: Date | string | null) {
 
 function obterDetalheDevolucao(patrimonio: {
     tbStatusPat?: { descricaoStatPat?: string | null } | null;
-    tbDevolucao?: Array<{ dataInicioDevolucao: Date; dataFimDevolucao: Date | null }>;
+    tbDevolucao?: Array<{
+        dataInicioDevolucao: Date;
+        dataFimDevolucao: Date | null;
+        dataSaidaFornecedor?: Date | null;
+        dataChegadaFornecedor?: Date | null;
+    }>;
 }) {
     const status = normalizarTexto(patrimonio.tbStatusPat?.descricaoStatPat);
     const statusDevolvido = status.includes('devolv');
@@ -82,11 +88,14 @@ function obterDetalheDevolucao(patrimonio: {
     }
 
     const inicio = formatarDataPtBr(ultimaDevolucao.dataInicioDevolucao) || 'data não informada';
+    const chegadaFornecedor = formatarDataPtBr(ultimaDevolucao.dataChegadaFornecedor);
     const fim = formatarDataPtBr(ultimaDevolucao.dataFimDevolucao);
     return {
         devolvido: true,
         detalhe: fim
             ? `Movimentação de devolução: de ${inicio} até ${fim}.`
+            : chegadaFornecedor
+                ? `Movimentação de devolução: iniciada em ${inicio} com chegada ao fornecedor em ${chegadaFornecedor}.`
             : `Movimentação de devolução iniciada em ${inicio} (sem data de fim).`
     };
 }
@@ -130,7 +139,13 @@ function validarStatusPatrimonio(patrimonio: {
 function construirMovimentosPatrimonio(params: {
     patrimonio: {
         dataEntPat?: Date | null;
-        tbDevolucao?: Array<{ dataInicioDevolucao: Date; dataFimDevolucao: Date | null }>;
+        tbDevolucao?: Array<{
+            dataInicioDevolucao: Date;
+            dataFimDevolucao: Date | null;
+            dataSaidaFornecedor?: Date | null;
+            dataChegadaFornecedor?: Date | null;
+        }>;
+        tbTransferenciaAlocacao?: Array<{ dataTransferencia: Date }>;
         tbTransferenciaCustoPatrimonio?: Array<{ dataTransferencia: Date }>;
         rateioInfo?: { fator: number };
     };
@@ -152,15 +167,29 @@ function construirMovimentosPatrimonio(params: {
         }
     }
 
+    const transferenciaAlocacao = patrimonio.tbTransferenciaAlocacao
+        ?.map((t) => t.dataTransferencia)
+        .sort((a, b) => b.getTime() - a.getTime())[0] || null;
+    if (transferenciaAlocacao) {
+        const dataMs = transferenciaAlocacao.getTime();
+        if (dataMs < inicio) {
+            movimentos.push(`Transferência de alocação antes do período (${formatarDataCurta(transferenciaAlocacao)})`);
+        } else if (dataMs >= inicio && dataMs <= fim) {
+            movimentos.push(`Transferência de alocação no período (${formatarDataCurta(transferenciaAlocacao)})${estaRateado ? ' com rateio' : ''}`);
+        }
+    }
+
     const devolucao = patrimonio.tbDevolucao
-        ?.map((d) => d.dataInicioDevolucao)
+        ?.map((d) => d.dataChegadaFornecedor || d.dataFimDevolucao || d.dataInicioDevolucao)
         .sort((a, b) => a.getTime() - b.getTime())[0] || null;
     if (devolucao) {
         const devolucaoMs = devolucao.getTime();
         if (devolucaoMs < inicio) {
-            movimentos.push(`Devolução antes do período (${formatarDataCurta(devolucao)})`);
+            movimentos.push(`Devolvido em ${formatarDataCurta(devolucao)}`);
         } else if (devolucaoMs >= inicio && devolucaoMs <= fim) {
-            movimentos.push(`Devolução no período (${formatarDataCurta(devolucao)})${estaRateado ? ' com rateio' : ''}`);
+            movimentos.push(`Chegada do fornecedor no período (${formatarDataCurta(devolucao)})${estaRateado ? ' com rateio' : ''}`);
+        } else {
+            movimentos.push(`Chegada do fornecedor após o período (${formatarDataCurta(devolucao)})`);
         }
     }
 
@@ -170,8 +199,12 @@ function construirMovimentosPatrimonio(params: {
     }) || [];
     if (transferenciasNoPeriodo.length > 0) {
         const dataReferencia = transferenciasNoPeriodo[transferenciasNoPeriodo.length - 1]?.dataTransferencia || transferenciasNoPeriodo[0]?.dataTransferencia;
+        const ultimaTransferenciaAlocacao = patrimonio.tbTransferenciaAlocacao?.[0]?.dataTransferencia || null;
         if (dataReferencia) {
             const dataMs = dataReferencia.getTime();
+            if (ultimaTransferenciaAlocacao && dataMs === ultimaTransferenciaAlocacao.getTime()) {
+                return movimentos.join(' | ') || null;
+            }
             if (dataMs < inicio) {
                 movimentos.push(`Transferência antes do período (${formatarDataCurta(dataReferencia)})`);
             } else if (dataMs >= inicio && dataMs <= fim) {
@@ -180,7 +213,7 @@ function construirMovimentosPatrimonio(params: {
         }
     }
 
-    return movimentos.join(' | ') || null;
+    return movimentos.filter((movimento) => !movimento.includes('Transferência de alocação')).join(' | ') || null;
 }
 
 function normalizarHeader(value: unknown) {
@@ -204,6 +237,71 @@ function parseValor(value: unknown): number | null {
     if (!texto) return null;
     const numero = Number(texto);
     return Number.isFinite(numero) ? numero : null;
+}
+
+async function carregarPatrimonioGlobal(idPat: string) {
+    return prisma.tbPatrimonio.findFirst({
+        where: { idPat },
+        select: {
+            idPat: true,
+            descricaoPat: true,
+            valorPat: true,
+            dataEntPat: true,
+            dataSaiPat: true,
+            tbStatusPat: {
+                select: {
+                    descricaoStatPat: true
+                }
+            },
+            tbDevolucao: {
+                select: {
+                    dataInicioDevolucao: true,
+                    dataSaidaFornecedor: true,
+                    dataChegadaFornecedor: true,
+                    dataFimDevolucao: true
+                },
+                orderBy: {
+                    dataInicioDevolucao: 'asc'
+                }
+            },
+            tbTransferenciaAlocacao: {
+                select: {
+                    dataTransferencia: true
+                },
+                orderBy: {
+                    dataTransferencia: 'asc'
+                }
+            },
+            tbTransferenciaCustoPatrimonio: {
+                select: {
+                    dataTransferencia: true,
+                    custoDestino: {
+                        select: {
+                            codigoCCusto: true,
+                            descricaoCCusto: true
+                        }
+                    }
+                },
+                orderBy: {
+                    dataTransferencia: 'desc'
+                }
+            },
+            tbCadastro: {
+                select: {
+                    idMatFunCad: true,
+                    tbFuncionario: {
+                        select: {
+                            nomeFun: true
+                        }
+                    }
+                },
+                orderBy: {
+                    dataCadPat: 'desc'
+                },
+                take: 1
+            }
+        }
+    });
 }
 
 export async function POST(request: NextRequest) {
@@ -320,6 +418,38 @@ export async function POST(request: NextRequest) {
             const patrimonio = mapaPatrimonios.get(idPat);
 
             if (!patrimonio) {
+                const patrimonioGlobal = await carregarPatrimonioGlobal(idPat);
+                if (patrimonioGlobal) {
+                    const movimentosPatrimonio = construirMovimentosPatrimonio({
+                        patrimonio: patrimonioGlobal as {
+                            dataEntPat?: Date | null;
+                            tbDevolucao?: Array<{ dataInicioDevolucao: Date; dataFimDevolucao: Date | null }>;
+                            tbTransferenciaCustoPatrimonio?: Array<{ dataTransferencia: Date }>;
+                            rateioInfo?: { fator: number };
+                        },
+                        dataInicioMedicao,
+                        dataFimMedicao
+                    });
+                    resultados.push({
+                        linha: i + 1,
+                        idPat,
+                        descricaoPat: patrimonioGlobal.descricaoPat ?? null,
+                        matriculaAlocada: patrimonioGlobal.tbCadastro?.[0]?.idMatFunCad ?? null,
+                        nomeFuncionarioAlocado: patrimonioGlobal.tbCadastro?.[0]?.tbFuncionario?.nomeFun ?? null,
+                        statusPatrimonio: patrimonioGlobal.tbStatusPat?.descricaoStatPat ?? null,
+                        valorInformado,
+                        valorSistema: patrimonioGlobal.valorPat ?? null,
+                        detalheRateio: null,
+                        movimentosPatrimonio,
+                        dataTransferenciaConsiderada: patrimonioGlobal.tbTransferenciaCustoPatrimonio?.[0]?.dataTransferencia
+                            ? formatarDataPtBr(patrimonioGlobal.tbTransferenciaCustoPatrimonio[0].dataTransferencia)
+                            : null,
+                        status: 'NAO_ENCONTRADO',
+                        mensagem: 'Patrimônio encontrado, mas fora do centro de custo selecionado.'
+                    });
+                    continue;
+                }
+
                 resultados.push({
                     linha: i + 1,
                     idPat,
@@ -332,7 +462,7 @@ export async function POST(request: NextRequest) {
                     detalheRateio: null,
                     movimentosPatrimonio: null,
                     status: 'NAO_ENCONTRADO',
-                    mensagem: 'Patrimônio não está atribuído ao centro de custo.'
+                    mensagem: 'Patrimônio não está atribuído ao centro de custo e não foi localizado na base.'
                 });
                 continue;
             }
@@ -342,12 +472,32 @@ export async function POST(request: NextRequest) {
             const rateioInfo = (patrimonio as {
                 rateioInfo?: { msNoCentro: number; totalPeriodoMs: number; fator: number }
             }).rateioInfo;
+            const transferenciaAlocacaoData = (patrimonio as {
+                tbTransferenciaAlocacao?: Array<{ dataTransferencia: Date }>;
+            }).tbTransferenciaAlocacao?.[0]?.dataTransferencia || null;
+            const transferenciaCustoData = (patrimonio as {
+                tbTransferenciaCustoPatrimonio?: Array<{ dataTransferencia: Date }>;
+            }).tbTransferenciaCustoPatrimonio
+                ?.filter((t) => t.dataTransferencia.getTime() <= dataFimMedicao.getTime())
+                ?.sort((a, b) => b.dataTransferencia.getTime() - a.dataTransferencia.getTime())[0]?.dataTransferencia || null;
+            const chegadaFornecedorData = patrimonio.tbDevolucao?.[0]?.dataChegadaFornecedor || null;
             const msDia = 1000 * 60 * 60 * 24;
             const diasNoCentro = rateioInfo ? Math.max(0, Math.round(rateioInfo.msNoCentro / msDia)) : null;
             const diasPeriodo = rateioInfo ? Math.max(1, Math.round(rateioInfo.totalPeriodoMs / msDia)) : null;
+            const parametrosRateio = [
+                `Base da medição: ${formatarDataPtBr(dataInicioMedicao) || '-' } até ${formatarDataPtBr(dataFimMedicao) || '-'}`,
+                `Chegada do fornecedor: ${chegadaFornecedorData ? formatarDataPtBr(chegadaFornecedorData) : '-'}`,
+                `Corte por transferência de alocação: ${transferenciaAlocacaoData ? formatarDataPtBr(transferenciaAlocacaoData) : '-'}`,
+                `Transferência entre custos: ${transferenciaCustoData ? formatarDataPtBr(transferenciaCustoData) : '-'}`
+            ].join(' | ');
             const detalheRateio =
                 rateioInfo && valorBase !== null && valorSistema !== null
-                    ? `${formatarMoeda(valorBase)} x ${formatarPercentual(rateioInfo.fator)} (${diasNoCentro}/${diasPeriodo} dias) = ${formatarMoeda(valorSistema)}`
+                    ? [
+                        `Valor: ${formatarMoeda(valorBase)}`,
+                        `Rateio: ${formatarPercentual(rateioInfo.fator)}`,
+                        `Dias: ${diasNoCentro}/${diasPeriodo}`,
+                        `Resultado: ${formatarMoeda(valorSistema)}`
+                    ].join(' | ')
                     : null;
             const movimentosPatrimonio = construirMovimentosPatrimonio({
                 patrimonio: patrimonio as {
@@ -437,7 +587,13 @@ export async function POST(request: NextRequest) {
                 statusPatrimonio: patrimonio.tbStatusPat?.descricaoStatPat ?? null,
                 valorInformado,
                 valorSistema,
-                detalheRateio,
+                detalheRateio: detalheRateio
+                    ? detalheRateio
+                        .replace(/\s*\|\s*Base da medição:[^|]*/gi, '')
+                        .replace(/\s*\|\s*Transferência de alocação:[^|]*/gi, '')
+                        .replace(/\s{2,}/g, ' ')
+                        .trim()
+                    : null,
                 movimentosPatrimonio,
                 status: valorOk ? 'OK' : 'VALOR_DIVERGENTE',
                 mensagem: valorOk ? 'Valor confere.' : 'Valor divergente.'

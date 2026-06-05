@@ -13,6 +13,7 @@ type LinhaResultado = {
     dataTransferenciaConsiderada?: string | null;
     valorInformado: number | null;
     valorSistema: number | null;
+    detalheRateio?: string | null;
     movimentosPatrimonio: string | null;
     status: 'OK' | 'VALOR_DIVERGENTE' | 'NAO_ENCONTRADO' | 'INVALIDO';
     mensagem: string;
@@ -42,6 +43,13 @@ function formatarMoeda(valor: number) {
 
 function formatarMoedaOuTraco(valor: number | null) {
     return valor === null ? '-' : formatarMoeda(valor);
+}
+
+function limparDetalheRateio(detalhe?: string | null) {
+    if (!detalhe) return '';
+    return detalhe
+        .replace(/\s*\|\s*Base da medição:[^|]*/gi, '')
+        .trim();
 }
 
 function pdfSafeText(valor: string) {
@@ -347,7 +355,9 @@ export default function GerarRelatorioMedicaoPdfButton({
                     r.statusPatrimonio || 'SEM STATUS',
                     r.dataTransferenciaConsiderada || '-',
                     formatarMoedaOuTraco(r.valorInformado),
-                    formatarMoedaOuTraco(r.valorSistema),
+                    limparDetalheRateio(r.detalheRateio)
+                        ? `${formatarMoedaOuTraco(r.valorSistema)}\n${limparDetalheRateio(r.detalheRateio)}`
+                        : formatarMoedaOuTraco(r.valorSistema),
                     r.movimentosPatrimonio || '-',
                     r.mensagem
                 ],

@@ -106,29 +106,62 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
                     <Link href="/ccustos" className="mr-4">
                         <ChevronLeft className="h-6 w-6 text-primary" />
                     </Link>
-                    <h1 className="text-h3 font-bold">{centroId ? 'Editar Centro de Custo' : 'Cadastrar Centro de Custo'}</h1>
+                    <h1 className="text-h2 font-bold">
+                        {centroId ? 'Editar Centro de Custo' : 'Cadastrar Centro de Custo'}
+                    </h1>
                 </div>
 
-                <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
+                <form onSubmit={handleSubmit}
+                    onKeyDown={handleEnterToNext}
+                    className="bg-white rounded-lg shadow-lg p-8 space-y-6">
                     <div>
-                        <label className="block text-sm font-medium mb-2">Codigo</label>
-                        <input name="codigoCCusto" value={centro.codigoCCusto} onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" />
+                        <label className="block text-sm font-medium mb-2">
+                            Codigo
+                        </label>
+                        <input name="codigoCCusto"
+                            value={centro.codigoCCusto}
+                            onChange={handleChange}
+                            className="w-full px-4 py-2 border rounded-lg" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-2">Descricao *</label>
-                        <input name="descricaoCCusto" value={centro.descricaoCCusto} onChange={handleChange} required className="w-full px-4 py-2 border rounded-lg" />
+                        <label className="block text-sm font-medium mb-2">
+                            Descricao *
+                        </label>
+                        <input name="descricaoCCusto"
+                            value={centro.descricaoCCusto}
+                            onChange={handleChange} required
+                            className="w-full px-4 py-2 border rounded-lg" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-2">Empresa</label>
-                        <select name="idEmp_Custo" value={centro.idEmp_Custo} onChange={handleChange} className="w-full px-4 py-2 border rounded-lg">
+                        <label className="block text-sm font-medium mb-2">
+                            Empresa
+                        </label>
+                        <select name="idEmp_Custo"
+                            value={centro.idEmp_Custo}
+                            onChange={handleChange}
+                            className="w-full px-4 py-2 border rounded-lg">
                             <option value="">Selecione</option>
-                            {empresas.map(emp => (<option key={emp.idEmp} value={emp.idEmp}>{emp.fantasiaEmpresa || emp.razaoEmpresa || emp.idEmp}</option>))}
+                            {empresas.map(emp => (
+                                <option key={emp.idEmp}
+                                    value={emp.idEmp}>
+                                    {emp.fantasiaEmpresa || emp.razaoEmpresa || emp.idEmp}
+                                </option>))}
                         </select>
                     </div>
 
                     <div className="flex justify-end gap-4">
-                        <Link href="/ccustos"><Button variant="outline">Cancelar</Button></Link>
-                        <Button type="submit" disabled={loading}>{loading ? 'Salvando...' : centroId ? 'Atualizar' : 'Criar'}</Button>
+                        <Link href="/ccustos">
+                            <Button variant="ghost" 
+                            className="bg-red-500 hover:bg-red-600">
+                                Cancelar
+                            </Button>
+                        </Link>
+                        <Button type="submit"
+                        variant="ghost"
+                        className="bg-green-500 hover:bg-green-600"
+                            disabled={loading}>
+                            {loading ? 'Salvando...' : centroId ? 'Atualizar' : 'Criar'}
+                        </Button>
                     </div>
                 </form>
             </div>

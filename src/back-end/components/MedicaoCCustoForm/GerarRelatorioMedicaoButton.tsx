@@ -12,6 +12,7 @@ type LinhaResultado = {
     dataTransferenciaConsiderada?: string | null;
     valorInformado: number | null;
     valorSistema: number | null;
+    detalheRateio?: string | null;
     movimentosPatrimonio: string | null;
     status: 'OK' | 'VALOR_DIVERGENTE' | 'NAO_ENCONTRADO' | 'INVALIDO';
     mensagem: string;
@@ -41,6 +42,13 @@ function formatarMoeda(valor: number) {
 
 function formatarMoedaOuTraco(valor: number | null) {
     return valor === null ? '-' : formatarMoeda(valor);
+}
+
+function limparDetalheRateio(detalhe?: string | null) {
+    if (!detalhe) return '';
+    return detalhe
+        .replace(/\s*\|\s*Base da medição:[^|]*/gi, '')
+        .trim();
 }
 
 function escaparCsv(valor: string | number) {
@@ -90,7 +98,7 @@ export default function GerarRelatorioMedicaoButton({
         linhas.push(`Total de linhas;${resultado.resumo.totalLinhas};${formatarMoeda(valorTotalLinhas)}`);
         linhas.push('');
         linhas.push('DETALHE DA CONFERENCIA');
-        linhas.push('Linha;ID Patrimonio;Matricula Alocada;Status Patrimonio;Data Transferencia Considerada;Valor Informado;Valor Sistema;Movimentos do Patrimonio;Status;Mensagem');
+        linhas.push('Linha;ID Patrimonio;Matricula Alocada;Status Patrimonio;Data Transferencia Considerada;Valor Informado;Valor Sistema;Rateio;Movimentos do Patrimonio;Status;Mensagem');
 
         for (const item of resultado.resultados) {
             linhas.push([
@@ -101,6 +109,7 @@ export default function GerarRelatorioMedicaoButton({
                 escaparCsv(item.dataTransferenciaConsiderada || '-'),
                 escaparCsv(formatarMoedaOuTraco(item.valorInformado)),
                 escaparCsv(formatarMoedaOuTraco(item.valorSistema)),
+                escaparCsv(limparDetalheRateio(item.detalheRateio) || '-'),
                 escaparCsv(item.movimentosPatrimonio || '-'),
                 escaparCsv(item.status),
                 escaparCsv(item.mensagem)

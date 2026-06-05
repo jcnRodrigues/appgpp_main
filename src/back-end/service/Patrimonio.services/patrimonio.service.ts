@@ -93,6 +93,12 @@ export async function getPatrimonioCardById(id: string) {
                 orderBy: {
                     dataInicioDevolucao: 'desc'
                 },
+                select: {
+                    dataInicioDevolucao: true,
+                    dataSaidaFornecedor: true,
+                    dataChegadaFornecedor: true,
+                    dataFimDevolucao: true
+                },
                 take: 1
             },
             tbTransferenciaCustoPatrimonio: {
@@ -138,7 +144,7 @@ export async function listarPatrimonios(filtro?: {
     skip?: number;
     take?: number;
 }) {
-    return await prisma.tbPatrimonio.findMany({
+    const patrimonios = await prisma.tbPatrimonio.findMany({
         where: buildPatrimonioWhere(filtro),
         include: {
             tbStatusPat: true,
@@ -149,6 +155,16 @@ export async function listarPatrimonios(filtro?: {
                     dataInicioDevolucao: 'desc'
                 },
                 take: 1
+            },
+            tbTransferenciaCustoPatrimonio: {
+                orderBy: {
+                    dataTransferencia: 'desc'
+                },
+                take: 1,
+                include: {
+                    custoOrigem: true,
+                    custoDestino: true
+                }
             }
         },
         skip: filtro?.skip || 0,
@@ -157,6 +173,13 @@ export async function listarPatrimonios(filtro?: {
             createdAt: 'desc'
         }
     });
+
+    return patrimonios.map(p => ({
+        ...p,
+        custoAnteriorTransferencia: p.tbTransferenciaCustoPatrimonio?.[0]?.custoOrigem?.descricaoCCusto || null,
+        custoAtualTransferencia: p.tbTransferenciaCustoPatrimonio?.[0]?.custoDestino?.descricaoCCusto || null,
+        dataUltimaTransferencia: p.tbTransferenciaCustoPatrimonio?.[0]?.dataTransferencia || null
+    }));
 }
 
 // Função para criar um novo patrimônio
@@ -264,6 +287,12 @@ export async function criarPatrimonio(dados: {
                 orderBy: {
                     dataInicioDevolucao: 'desc'
                 },
+                select: {
+                    dataInicioDevolucao: true,
+                    dataSaidaFornecedor: true,
+                    dataChegadaFornecedor: true,
+                    dataFimDevolucao: true
+                },
                 take: 1
             }
         }
@@ -366,11 +395,14 @@ export async function listarPatrimoniosPorCentroCusto(
                 },
                 orderBy: {
                     dataTransferencia: 'desc'
-                }
+                },
+                take: 1
             },
             tbDevolucao: {
                 select: {
                     dataInicioDevolucao: true,
+                    dataSaidaFornecedor: true,
+                    dataChegadaFornecedor: true,
                     dataFimDevolucao: true
                 },
                 orderBy: {
@@ -421,6 +453,9 @@ export async function listarPatrimoniosPorCentroCusto(
         const transferencias = [...pat.tbTransferenciaCustoPatrimonio].sort(
             (a, b) => a.dataTransferencia.getTime() - b.dataTransferencia.getTime()
         );
+        const transferenciasAlocacao = [...pat.tbTransferenciaAlocacao].sort(
+            (a, b) => a.dataTransferencia.getTime() - b.dataTransferencia.getTime()
+        );
 
         let centroInicial = pat.idPat_CustoPat;
         for (let i = transferencias.length - 1; i >= 0; i -= 1) {
@@ -433,11 +468,16 @@ export async function listarPatrimoniosPorCentroCusto(
         let centroAtual = centroInicial;
         let cursor = pat.dataEntPat.getTime();
         const primeiraDevolucaoMs = pat.tbDevolucao
-            .map((d) => d.dataInicioDevolucao.getTime())
+            .map((d) => d.dataChegadaFornecedor)
+            .filter(Boolean)
+            .map((d) => (d as Date).getTime())
+            .sort((a, b) => a - b)[0];
+        const primeiraTransferenciaAlocacaoMs = transferenciasAlocacao
+            .map((t) => t.dataTransferencia.getTime())
             .sort((a, b) => a - b)[0];
         const limiteSaida = Math.min(
-            pat.dataSaiPat ? pat.dataSaiPat.getTime() : Number.POSITIVE_INFINITY,
-            primeiraDevolucaoMs ?? Number.POSITIVE_INFINITY
+            primeiraDevolucaoMs ?? Number.POSITIVE_INFINITY,
+            primeiraTransferenciaAlocacaoMs ?? Number.POSITIVE_INFINITY
         );
         let msNoCentro = 0;
 
@@ -450,8 +490,13 @@ export async function listarPatrimoniosPorCentroCusto(
             }
         };
 
+        const ultimaTransferenciaAlocacaoMs = transferenciasAlocacao[transferenciasAlocacao.length - 1]?.dataTransferencia.getTime() ?? null;
+
         for (const t of transferencias) {
             const dataTransf = t.dataTransferencia.getTime();
+            if (ultimaTransferenciaAlocacaoMs !== null && dataTransf === ultimaTransferenciaAlocacaoMs) {
+                continue;
+            }
             if (dataTransf <= cursor) continue;
             const segFim = Math.min(dataTransf, limiteSaida);
             somarSobreposicao(cursor, segFim);
@@ -511,6 +556,12 @@ export async function atualizarPatrimonio(idP: string, dados: Partial<{
             tbDevolucao: {
                 orderBy: {
                     dataInicioDevolucao: 'desc'
+                },
+                select: {
+                    dataInicioDevolucao: true,
+                    dataSaidaFornecedor: true,
+                    dataChegadaFornecedor: true,
+                    dataFimDevolucao: true
                 },
                 take: 1
             }
@@ -618,4 +669,3 @@ export async function contarPatrimonios(filtro?: {
         where: buildPatrimonioWhere(filtro)
     });
 }
-

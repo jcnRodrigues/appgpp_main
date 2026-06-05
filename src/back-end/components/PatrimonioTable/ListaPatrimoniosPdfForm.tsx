@@ -88,6 +88,7 @@ export default function ListaPatrimoniosPdfForm() {
       if (centroId) {
         params.append('centroId', centroId);
       }
+      params.append('includeHistorico', 'false');
       params.append('take', '50');
       params.append('skip', '0');
       const res = await fetch(`/api/patrimonio?${params.toString()}`);
@@ -409,4 +410,3 @@ export default function ListaPatrimoniosPdfForm() {
     </div>
   );
 }
-

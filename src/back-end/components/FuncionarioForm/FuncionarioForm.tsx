@@ -266,7 +266,7 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                     <Link href="/funcionariosadd" className="mr-4">
                         <ChevronLeft className="h-6 w-6 text-primary" />
                     </Link>
-                    <h1 className="text-h3 font-bold">
+                    <h1 className="text-h2 font-bold">
                         {funcionarioId ? 'Editar Funcionario' : 'Cadastrar Novo Funcionario'}
                     </h1>
                 </div>

@@ -438,7 +438,9 @@ export default function MedicaoCCustoForm({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div>
-                        <label className="block text-sm font-medium mb-2">Data Início da Medição</label>
+                        <label className="block text-sm font-medium mb-2">
+                            Data Início da Medição
+                        </label>
                         <input
                             type="date"
                             value={dataInicioMedicao}
@@ -448,7 +450,9 @@ export default function MedicaoCCustoForm({
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-2">Data Fim da Medição</label>
+                        <label className="block text-sm font-medium mb-2">
+                            Data Fim da Medição
+                        </label>
                         <input
                             type="date"
                             value={dataFimMedicao}
@@ -458,7 +462,9 @@ export default function MedicaoCCustoForm({
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-2">Mês BM</label>
+                        <label className="block text-sm font-medium mb-2">
+                            Mês BM
+                        </label>
                         <input
                             type="number"
                             min={1}
@@ -470,7 +476,9 @@ export default function MedicaoCCustoForm({
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-2">Ano BM</label>
+                        <label className="block text-sm font-medium mb-2">
+                            Ano BM
+                        </label>
                         <input
                             type="number"
                             min={2000}
@@ -496,7 +504,9 @@ export default function MedicaoCCustoForm({
                         ? 'bg-amber border-amber-200'
                         : 'bg-green-50 border-green-200'
                         }`}>
-                        <h3 className="font-semibold text-sm">Resumo de inconsistências da importação</h3>
+                        <h3 className="font-semibold text-sm">
+                            Resumo de inconsistências da importação
+                        </h3>
                         <p className="text-xs mt-1 text-gray-600">
                             Rateio calculado com base no período informado (inclusive início e fim da medição).
                         </p>
@@ -508,8 +518,12 @@ export default function MedicaoCCustoForm({
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3 text-sm">
                             <div className="bg-white rounded border px-3 py-2">
                                 <p className="text-xs text-gray-500">Valor divergente</p>
-                                <p className="font-semibold text-orange-600">{resumoInconsistencias?.divergentes || 0}</p>
-                                <p className="text-xs text-gray-500">{formatarMoeda(resumoInconsistencias?.valorDivergentes || 0)}</p>
+                                <p className="font-semibold text-orange-600">
+                                    {resumoInconsistencias?.divergentes || 0}
+                                </p>
+                                <p className="text-xs text-gray-500">
+                                    {formatarMoeda(resumoInconsistencias?.valorDivergentes || 0)}
+                                </p>
                             </div>
                             <div className="bg-white rounded border px-3 py-2">
                                 <p className="text-xs text-gray-500">Não encontrado</p>
@@ -559,14 +573,23 @@ export default function MedicaoCCustoForm({
 
                     <div className="md:hidden space-y-3">
                         {resultadosOrdenados.map((linha) => (
-                            <div key={`${linha.linha}-${linha.idPat}`} className="bg-white rounded-lg shadow p-4 space-y-2">
+                            <div key={`${linha.linha}-${linha.idPat}`}
+                                className="bg-white rounded-lg shadow p-4 space-y-2">
                                 <div className="flex items-start justify-between gap-3">
                                     <div>
                                         <div className="text-sm font-semibold text-gray-900">Patrimônio: {linha.idPat || '-'}</div>
-                                        <div className="text-xs text-gray-500">{linha.descricaoPat || 'Sem descrição'}</div>
-                                        <div className="text-xs text-gray-500">Linha: {linha.linha}</div>
-                                        <div className="text-xs text-gray-500">Matrícula: {linha.matriculaAlocada || '-'}</div>
-                                        <div className="text-xs text-gray-500">Funcionário: {linha.nomeFuncionarioAlocado || '-'}</div>
+                                        <div className="text-xs text-gray-500">
+                                            {linha.descricaoPat || 'Sem descrição'}
+                                        </div>
+                                        <div className="text-xs text-gray-500">
+                                            Linha: {linha.linha}
+                                        </div>
+                                        <div className="text-xs text-gray-500">
+                                            Matrícula: {linha.matriculaAlocada || '-'}
+                                        </div>
+                                        <div className="text-xs text-gray-500">
+                                            Funcionário: {linha.nomeFuncionarioAlocado || '-'}
+                                        </div>
                                         {linha.badgeAlocacao && (
                                             <div className="mt-1">
                                                 <span className="inline-block rounded-full bg-blue-100 text-blue-800 px-2 py-0.5 text-[10px] font-semibold">
@@ -574,7 +597,9 @@ export default function MedicaoCCustoForm({
                                                 </span>
                                             </div>
                                         )}
-                                        <div className="text-xs text-gray-500">Status Patrimônio: {linha.statusPatrimonio || '-'}</div>
+                                        <div className="text-xs text-gray-500">
+                                            Status Patrimônio: {linha.statusPatrimonio || '-'}
+                                        </div>
                                     </div>
                                     <span
                                         className={`px-2 py-1 rounded-full text-xs font-semibold ${linha.status === 'OK'
@@ -590,9 +615,15 @@ export default function MedicaoCCustoForm({
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-2 gap-2 text-xs">
-                                    <div className="text-gray-500">Valor Informado</div>
-                                    <div className="text-gray-800 text-right">{formatarMoedaOuTraco(linha.valorInformado)}</div>
-                                    <div className="text-gray-500">Valor Sistema</div>
+                                    <div className="text-gray-500">
+                                        Valor Informado
+                                    </div>
+                                    <div className="text-gray-800 text-right">
+                                        {formatarMoedaOuTraco(linha.valorInformado)}
+                                    </div>
+                                    <div className="text-gray-500">
+                                        Valor Sistema
+                                    </div>
                                     <div className="text-gray-800 text-right">
                                         {formatarMoedaOuTraco(linha.valorSistema)}
                                         {linha.detalheRateio && (
@@ -601,8 +632,12 @@ export default function MedicaoCCustoForm({
                                             </div>
                                         )}
                                     </div>
-                                    <div className="text-gray-500">Movimentos</div>
-                                    <div className="text-gray-800 text-right">{linha.movimentosPatrimonio || '-'}</div>
+                                    <div className="text-gray-500">
+                                        Movimentos
+                                    </div>
+                                    <div className="text-gray-800 text-right">
+                                        {linha.movimentosPatrimonio || '-'}
+                                    </div>
                                 </div>
                             </div>
                         ))}
@@ -660,8 +695,8 @@ export default function MedicaoCCustoForm({
                                                                 ${linha.statusPatrimonio === 'ATIVO' ? 'bg-green-100 text-green-800' :
                                                                 linha.statusPatrimonio === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
                                                                     linha.statusPatrimonio === 'INATIVO' ? 'bg-orange-100 text-orange-800' :
-                                                                        linha.statusPatrimonio === 'MANUTENÇÃO' ? 'bg-gray-100 text-purple-800' :
-                                                                            linha.statusPatrimonio === 'TRANSFERIDO' ? 'bg-gray-100 text-blue-800' :
+                                                                        linha.statusPatrimonio === 'MANUTENÇÃO' ? 'bg-purple-100 text-purple-800' :
+                                                                            linha.statusPatrimonio === 'TRANSFERIDO' ? 'bg-blue-100 text-blue-800' :
                                                                                 'bg-gray-100 text-gray-800'
                                                             }`}
                                                     >

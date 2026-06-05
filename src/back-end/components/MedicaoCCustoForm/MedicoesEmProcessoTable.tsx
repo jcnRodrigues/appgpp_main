@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { FolderOpen, RefreshCw, LucideDoorClosedLocked, Ghost } from 'lucide-react';
+import { FolderOpen, RefreshCw, LucideDoorClosedLocked} from 'lucide-react';
 
 type BmItem = {
   idBm: string;
@@ -92,7 +92,8 @@ function BmTable({
         <tbody>
           {itens.length === 0 ? (
             <tr>
-              <td colSpan={8} className="px-3 py-3 text-gray-500">
+              <td colSpan={8}
+                className="px-3 py-3 text-gray-500">
                 {loading ? 'Carregando...' : emptyMessage}
               </td>
             </tr>
@@ -122,9 +123,8 @@ function BmTable({
                 </td>
                 <td className="px-3 py-2">
                   <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      className="p-2 text-green-700 hover:bg-green-100 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none"
+                    <button type="button"
+                      className="p-2 text-green-700 hover:bg-green-100 rounded-lg transition disabled:pointer-events-none"
                       onClick={() => onAbrir?.(bm)}
                       title="Abrir BM"
                       aria-label="Abrir BM"
@@ -273,8 +273,8 @@ export default function MedicoesEmProcessoTable() {
                 onClick={() => setStatusFiltro(status)}
                 className={`rounded-lg px-3 py-2 text-sm font-medium transition
                   ${statusFiltro === status
-                  ? 'items-center gap-2 border bg-white text-green-700 hover:bg-green-100'
-                  : 'bg-white text-gray-700 border hover:bg-gray-100'
+                    ? 'items-center gap-2 border bg-white text-green-700 hover:bg-green-100'
+                    : 'bg-white text-gray-700 border hover:bg-gray-100'
                   }`}
               >
                 {status === 'ABERTO' ? 'Abertos' : 'Fechados'}

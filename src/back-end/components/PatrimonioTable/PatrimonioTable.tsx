@@ -157,6 +157,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
             if (idFiltro) params.append('idPat', idFiltro);
             if (statusSelecionados.length > 0) params.append('statusIds', statusSelecionados.join(','));
             if (centroFiltro) params.append('centroId', centroFiltro);
+            params.append('includeHistorico', 'false');
             params.append('skip', String((paginaAtual - 1) * itensPorPagina));
             params.append('take', String(itensPorPagina));
 

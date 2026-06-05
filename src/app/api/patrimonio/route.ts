@@ -21,6 +21,7 @@ export async function GET(request: NextRequest) {
         const descricao = searchParams.get('descricao');
         const status = searchParams.get('status');
         const statusAtivo = searchParams.get('statusAtivo') === 'true';
+        const includeHistorico = searchParams.get('includeHistorico') === 'true';
         const statusIdsRaw = searchParams.get('statusIds');
         const statusIds = statusIdsRaw
             ? statusIdsRaw.split(',').map((s) => s.trim()).filter(Boolean)
@@ -48,8 +49,10 @@ export async function GET(request: NextRequest) {
             take: 5000
         });
         const historicoDelegate = (prisma as any).tbPatrimonioHistorico;
-        const historicos = historicoDelegate
-            ? await historicoDelegate.findMany({
+        let linhas = [...patrimoniosBase];
+
+        if (includeHistorico && historicoDelegate) {
+            const historicos = await historicoDelegate.findMany({
                 where: {
                     ...(idPat ? { idPat: { contains: idPat } } : {}),
                     ...(descricao ? { descricaoPat: { contains: descricao } } : {}),
@@ -69,34 +72,34 @@ export async function GET(request: NextRequest) {
                 orderBy: {
                     createdAt: 'desc'
                 }
-            })
-            : [];
+            });
 
-        const historicosComoPatrimonio = historicos.map((h: any) => ({
-            idP: `hist-${h.idHistorico}`,
-            idPat: h.idPat,
-            descricaoPat: h.descricaoPat,
-            valorPat: h.valorPat,
-            dataEntPat: h.dataEntPat,
-            dataSaiPat: h.dataSaiPat,
-            notaFiscalPat: h.notaFiscalPat,
-            idPat_TipoPat: h.idPat_TipoPat,
-            idPat_StatusPat: h.idPat_StatusPat,
-            idPat_CustoPat: h.idPat_CustoPat,
-            createdAt: h.createdAt,
-            tbTipoPat: h.tbTipoPat,
-            tbStatusPat: h.tbStatusPat,
-            tbCCusto: h.tbCCusto,
-            tbDevolucao: h.dataDevolucao ? [{
-                dataInicioDevolucao: h.dataDevolucao,
-                motivoDevolucao: h.motivoDevolucao,
-                notaFiscalDevolucao: h.notaFiscalDevolucao
-            }] : [],
-            isHistorico: true
-        }));
+            const historicosComoPatrimonio = historicos.map((h: any) => ({
+                idP: `hist-${h.idHistorico}`,
+                idPat: h.idPat,
+                descricaoPat: h.descricaoPat,
+                valorPat: h.valorPat,
+                dataEntPat: h.dataEntPat,
+                dataSaiPat: h.dataSaiPat,
+                notaFiscalPat: h.notaFiscalPat,
+                idPat_TipoPat: h.idPat_TipoPat,
+                idPat_StatusPat: h.idPat_StatusPat,
+                idPat_CustoPat: h.idPat_CustoPat,
+                createdAt: h.createdAt,
+                tbTipoPat: h.tbTipoPat,
+                tbStatusPat: h.tbStatusPat,
+                tbCCusto: h.tbCCusto,
+                tbDevolucao: h.dataDevolucao ? [{
+                    dataInicioDevolucao: h.dataDevolucao,
+                    motivoDevolucao: h.motivoDevolucao,
+                    notaFiscalDevolucao: h.notaFiscalDevolucao
+                }] : [],
+                isHistorico: true
+            }));
 
-        const linhas = [...historicosComoPatrimonio, ...patrimoniosBase]
-            .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+            linhas = [...historicosComoPatrimonio, ...patrimoniosBase]
+                .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+        }
 
         const porIdPat = new Map<string, typeof linhas>();
         for (const item of linhas) {
@@ -248,6 +251,5 @@ export async function POST(request: NextRequest) {
         );
     }
 }
-
 
 

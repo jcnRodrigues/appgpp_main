@@ -541,7 +541,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                                 <select name="idPat_StatusPat"
                                     value={patrimonio.idPat_StatusPat}
                                     onChange={handleChange}
-                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!patrimonio.idPat_StatusPat ? 'border-red-300 bg-red-50' : ''}`} required>
+                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary disabled:bg-gray-100 disabled:cursor-not-allowed ${!patrimonio.idPat_StatusPat ? 'border-red-300 bg-red-50' : ''}`} required>
                                     <option value="">
                                         --- Selecione um status ---
                                     </option>
@@ -563,7 +563,8 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                                 <select name="idPat_CustoPat"
                                     value={patrimonio.idPat_CustoPat}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                                    disabled={!!patrimonioId}
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary disabled:bg-gray-100 disabled:cursor-not-allowed">
                                     <option value="">
                                         Selecione um centro de custo
                                     </option>
