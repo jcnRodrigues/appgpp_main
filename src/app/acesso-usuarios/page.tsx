@@ -1,12 +1,12 @@
-﻿import Header from '@/back-end/components/Header/Header';
-import AccessUserTable from '@/back-end/components/AccessUserTable/AccessUserTable';
-import { Button } from '@/back-end/components/ui/button';
+import Header from '@/components/Header/Header';
+import AccessUserTable from '@/features/acesso-usuarios/components/AccessUserTable/AccessUserTable';
+import { Button } from '@/components/ui/button';
 import { getServerSession } from 'next-auth';
 import { AuthOptions } from '../api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
 import { ChevronLeft, Plus } from 'lucide-react';
 import Link from 'next/link';
-import { hasActionPermission, hasModuleAccess } from '@/lib/permissions';
+import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
 
 export default async function AcessoUsuariosPage() {
     const session = await getServerSession(AuthOptions);
@@ -17,7 +17,7 @@ export default async function AcessoUsuariosPage() {
 
     const formularios = ((session.user as any)?.formularios || []) as string[];
     if (!hasModuleAccess(formularios, 'ACESSO_USUARIOS')) redirect('/acesso-negado');
-    const canCreate = hasActionPermission(formularios, 'CREATE');
+    const canCreate = hasModuleActionPermission(formularios, 'ACESSO_USUARIOS', 'CREATE');
 
     return (
         <div className="bg-background min-h-screen py-6">

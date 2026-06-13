@@ -1,0 +1,499 @@
+'use client'
+
+import Link from 'next/link';
+import { ChevronLeft, Router, Plus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import FormActions from '@/components/FormActions/FormActions';
+import {
+    AlertDialog,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogHeader,
+    AlertDialogTitle
+} from '@/components/ui/alert-dialog';
+
+type TipoAtivoRede = {
+    idTipoAtivoRede: string;
+    descricaoTipoAtivoRede: string;
+};
+
+type StatusAtivoRede = {
+    idStatusAtivoRede: string;
+    descricaoStatusAtivoRede: string;
+};
+
+type CentroCusto = {
+    idCCusto: string;
+    codigoCCusto?: string | null;
+    descricaoCCusto?: string | null;
+};
+
+type FormState = {
+    idAtivoRede: string;
+    nomeAtivoRede: string;
+    idTipoAtivoRede: string;
+    tipoAtivoRede: string;
+    fabricanteAtivoRede: string;
+    modeloAtivoRede: string;
+    serialAtivoRede: string;
+    macAtivoRede: string;
+    ipGerenciamentoAtivoRede: string;
+    hostnameAtivoRede: string;
+    localInstalacaoAtivoRede: string;
+    rackAtivoRede: string;
+    portaSwitchAtivoRede: string;
+    dataEntradaAtivoRede: string;
+    dataInstalacaoAtivoRede: string;
+    idStatusAtivoRede: string;
+    statusAtivoRede: string;
+    idCCustoAtivoRede: string;
+    centroResponsavelAtivoRede: string;
+    observacaoAtivoRede: string;
+};
+
+type Props = {
+    ativoRedeId?: string;
+    isEditing: boolean;
+    loading: boolean;
+    loadingOpcoes: boolean;
+    salvandoOpcao: boolean;
+    historicoTransferencias: any[];
+    historicoDevolucoes: any[];
+    opcoesTipo: TipoAtivoRede[];
+    opcoesStatus: StatusAtivoRede[];
+    opcoesCentros: CentroCusto[];
+    form: FormState;
+    formOpcao: { kind: string; descricao: string };
+    modalOpcaoAberto: boolean;
+    handleEnterToNext: (event: React.KeyboardEvent<HTMLFormElement>) => void;
+    handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
+    handleSubmit: (event: React.FormEvent) => void;
+    handleCreateOption: (event: React.FormEvent) => void;
+    setModalOpcaoAberto: (value: boolean) => void;
+    setFormOpcao: React.Dispatch<React.SetStateAction<{ kind: string; descricao: string }>>;
+    onSelectTipo: (id: string) => void;
+    onSelectStatus: (id: string) => void;
+    onSelectCentro: (id: string) => void;
+    onCancel: () => void;
+};
+
+function formatarCentro(centro?: CentroCusto | null) {
+    if (!centro) return '';
+    return [centro.codigoCCusto, centro.descricaoCCusto].filter(Boolean).join(' - ') || '';
+}
+
+export default function AtivoRedeFormView(props: Props) {
+    const {
+        ativoRedeId,
+        isEditing,
+        loading,
+        loadingOpcoes,
+        salvandoOpcao,
+        historicoTransferencias,
+        historicoDevolucoes,
+        opcoesTipo,
+        opcoesStatus,
+        opcoesCentros,
+        form,
+        formOpcao,
+        modalOpcaoAberto,
+        handleEnterToNext,
+        handleChange,
+        handleSubmit,
+        handleCreateOption,
+        setModalOpcaoAberto,
+        setFormOpcao,
+        onSelectTipo,
+        onSelectStatus,
+        onSelectCentro,
+        onCancel
+    } = props;
+
+    return (
+        <div className="bg-background min-h-screen py-6">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                <div className="form-title-sticky flex items-center mb-6">
+                    <Link href="/ativos-rede" className="mr-4">
+                        <ChevronLeft className="h-6 w-6 text-primary" />
+                    </Link>
+                    <div className="flex items-center justify-between gap-4 w-full">
+                        <h1 className="text-h2 font-bold">
+                            {isEditing ? 'Editar Ativo de Rede' : 'Cadastrar Novo Ativo de Rede'}
+                        </h1>
+                        {isEditing && (
+                            <div className="hidden md:flex gap-2">
+                                <Button asChild type="button" variant="ghost" className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm">
+                                    <Link href={`/ativos-rede/${ativoRedeId}/transferencia`}>
+                                        Transferencia
+                                    </Link>
+                                </Button>
+                                <Button asChild type="button" variant="ghost" className="bg-red-600 hover:bg-red-700 text-white shadow-sm">
+                                    <Link href={`/ativos-rede/${ativoRedeId}/devolucao`}>
+                                        Devolucao
+                                    </Link>
+                                </Button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                <form
+                    onSubmit={handleSubmit}
+                    onKeyDown={handleEnterToNext}
+                    className="bg-white rounded-lg shadow-lg p-5 sm:p-7 space-y-5"
+                >
+                    <section className="border-b pb-6">
+                        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                            <div>
+                                <h2 className="text-h4 font-bold mb-2">Informacoes Basicas</h2>
+                                <p className="text-sm text-gray-600">Cadastro no mesmo padrao visual do formulario de patrimonio.</p>
+                            </div>
+                            <div className="flex flex-wrap items-center gap-3 lg:justify-end">
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    onClick={() => setModalOpcaoAberto(true)}
+                                    className="border-emerald-600 text-emerald-700 hover:bg-emerald-50"
+                                >
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Cadastrar tipo/status
+                                </Button>
+                                <div className="flex h-20 w-28 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-900 to-emerald-700 text-white shadow-md">
+                                    <Router className="h-10 w-10" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                            <div>
+                                <label className="block text-sm font-medium mb-2">ID Ativo de Rede *</label>
+                                <input
+                                    type="text"
+                                    name="idAtivoRede"
+                                    value={form.idAtivoRede}
+                                    onChange={handleChange}
+                                    disabled={isEditing}
+                                    placeholder="Ex: NET001"
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary disabled:bg-gray-100"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Tipo *</label>
+                                <select
+                                    value={form.idTipoAtivoRede}
+                                    onChange={(e) => onSelectTipo(e.target.value)}
+                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!form.idTipoAtivoRede ? 'border-red-300 bg-red-50' : ''}`}
+                                    required
+                                    disabled={loadingOpcoes}
+                                >
+                                    <option value="">{loadingOpcoes ? 'Carregando...' : '--- Selecione um tipo ---'}</option>
+                                    {opcoesTipo.map((tipo) => (
+                                        <option key={tipo.idTipoAtivoRede} value={tipo.idTipoAtivoRede}>
+                                            {tipo.descricaoTipoAtivoRede}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Status *</label>
+                                <select
+                                    value={form.idStatusAtivoRede}
+                                    onChange={(e) => onSelectStatus(e.target.value)}
+                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!form.idStatusAtivoRede ? 'border-red-300 bg-red-50' : ''}`}
+                                    required
+                                    disabled={loadingOpcoes}
+                                >
+                                    <option value="">{loadingOpcoes ? 'Carregando...' : '--- Selecione um status ---'}</option>
+                                    {opcoesStatus.map((status) => (
+                                        <option key={status.idStatusAtivoRede} value={status.idStatusAtivoRede}>
+                                            {status.descricaoStatusAtivoRede}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="mt-4 grid grid-cols-1 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Nome / Identificacao *</label>
+                                <input
+                                    type="text"
+                                    name="nomeAtivoRede"
+                                    value={form.nomeAtivoRede}
+                                    onChange={handleChange}
+                                    placeholder="Ex: Switch principal do andar 2"
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                    required
+                                />
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="border-b pb-5">
+                        <h2 className="text-h4 font-bold mb-3">Especificacoes Tecnicas</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Fabricante</label>
+                                <input
+                                    type="text"
+                                    name="fabricanteAtivoRede"
+                                    value={form.fabricanteAtivoRede}
+                                    onChange={handleChange}
+                                    placeholder="Ex: UBIQUITI"
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Modelo</label>
+                                <input
+                                    type="text"
+                                    name="modeloAtivoRede"
+                                    value={form.modeloAtivoRede}
+                                    onChange={handleChange}
+                                    placeholder="Ex: USW-24"
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Serial</label>
+                                <input
+                                    type="text"
+                                    name="serialAtivoRede"
+                                    value={form.serialAtivoRede}
+                                    onChange={handleChange}
+                                    placeholder="Ex: 4C:... ou SN123"
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-2">MAC</label>
+                                <input
+                                    type="text"
+                                    name="macAtivoRede"
+                                    value={form.macAtivoRede}
+                                    onChange={handleChange}
+                                    placeholder="Ex: AA:BB:CC:DD:EE:FF"
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                />
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="border-b pb-5">
+                        <h2 className="text-h4 font-bold mb-3">Rede e Localizacao</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+                            <div>
+                                <label className="block text-sm font-medium mb-2">IP de Gerenciamento</label>
+                                <input
+                                    type="text"
+                                    name="ipGerenciamentoAtivoRede"
+                                    value={form.ipGerenciamentoAtivoRede}
+                                    onChange={handleChange}
+                                    placeholder="Ex: 192.168.1.10"
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Hostname</label>
+                                <input
+                                    type="text"
+                                    name="hostnameAtivoRede"
+                                    value={form.hostnameAtivoRede}
+                                    onChange={handleChange}
+                                    placeholder="Ex: sw-it-01"
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Local de Instalacao</label>
+                                <input
+                                    type="text"
+                                    name="localInstalacaoAtivoRede"
+                                    value={form.localInstalacaoAtivoRede}
+                                    onChange={handleChange}
+                                    placeholder="Ex: Bloco A - Sala TI"
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Rack / Sala</label>
+                                <input
+                                    type="text"
+                                    name="rackAtivoRede"
+                                    value={form.rackAtivoRede}
+                                    onChange={handleChange}
+                                    placeholder="Ex: Rack 02"
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Porta no Switch</label>
+                                <input
+                                    type="text"
+                                    name="portaSwitchAtivoRede"
+                                    value={form.portaSwitchAtivoRede}
+                                    onChange={handleChange}
+                                    placeholder="Ex: Gi0/24"
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                />
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <section className="border-b pb-5">
+                        <h2 className="text-h4 font-bold mb-3">Controle e Datas</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Data de Entrada *</label>
+                                <input
+                                    type="date"
+                                    name="dataEntradaAtivoRede"
+                                    value={form.dataEntradaAtivoRede}
+                                    onChange={handleChange}
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Data de Instalacao</label>
+                                <input
+                                    type="date"
+                                    name="dataInstalacaoAtivoRede"
+                                    value={form.dataInstalacaoAtivoRede}
+                                    onChange={handleChange}
+                                    min={form.dataEntradaAtivoRede}
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Centro de Custo *</label>
+                                <select
+                                    value={form.idCCustoAtivoRede}
+                                    onChange={(e) => onSelectCentro(e.target.value)}
+                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!form.idCCustoAtivoRede ? 'border-red-300 bg-red-50' : ''}`}
+                                    required
+                                    disabled={loadingOpcoes}
+                                >
+                                    <option value="">{loadingOpcoes ? 'Carregando...' : '--- Selecione um centro ---'}</option>
+                                    {opcoesCentros.map((centro) => (
+                                        <option key={centro.idCCusto} value={centro.idCCusto}>
+                                            {formatarCentro(centro)}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="mt-4">
+                            <label className="block text-sm font-medium mb-2">Observacoes</label>
+                            <textarea
+                                name="observacaoAtivoRede"
+                                value={form.observacaoAtivoRede}
+                                onChange={handleChange}
+                                placeholder="Informacoes adicionais, garantia, projeto, manutencoes, etc."
+                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary h-24 resize-none"
+                            />
+                        </div>
+                    </section>
+
+                    {isEditing && (
+                        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                            <div className="border rounded-lg p-4">
+                                <h2 className="text-h4 font-bold mb-3">Historico de Transferencias</h2>
+                                {historicoTransferencias.length === 0 ? (
+                                    <p className="text-sm text-gray-500">Nenhuma transferencia registrada.</p>
+                                ) : (
+                                    <div className="space-y-3">
+                                        {historicoTransferencias.map((item) => (
+                                            <div key={item.idTransferenciaAtivoRede} className="border-b last:border-b-0 pb-2 text-sm">
+                                                <p className="font-medium">
+                                                    {item.localOrigemAtivoRede || 'Sem local anterior'} {' -> '} {item.localDestinoAtivoRede || 'Sem local destino'}
+                                                </p>
+                                                <p className="text-gray-600">
+                                                    {item.centroOrigemAtivoRede || 'Sem centro anterior'} {' -> '} {item.centroDestinoAtivoRede || 'Sem centro destino'}
+                                                </p>
+                                                <p className="text-gray-600">
+                                                    {new Date(item.dataTransferencia).toLocaleString('pt-BR')}
+                                                </p>
+                                                {item.observacao && <p className="text-gray-500">{item.observacao}</p>}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                            <div className="border rounded-lg p-4">
+                                <h2 className="text-h4 font-bold mb-3">Historico de Devolucoes</h2>
+                                {historicoDevolucoes.length === 0 ? (
+                                    <p className="text-sm text-gray-500">Nenhuma devolucao registrada.</p>
+                                ) : (
+                                    <div className="space-y-3">
+                                        {historicoDevolucoes.map((item) => (
+                                            <div key={item.idDevolucaoAtivoRede} className="border-b last:border-b-0 pb-2 text-sm">
+                                                <p className="font-medium">{new Date(item.dataInicioDevolucao).toLocaleDateString('pt-BR')}</p>
+                                                <p className="text-gray-600">{item.destinoDevolucao || 'Sem destino'}</p>
+                                                {item.motivoDevolucao && <p className="text-gray-500">{item.motivoDevolucao}</p>}
+                                                {item.notaFiscalDevolucao && <p className="text-gray-500">NF: {item.notaFiscalDevolucao}</p>}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    <FormActions
+                        cancelHref="/ativos-rede"
+                        submitLabel={isEditing ? 'Atualizar' : 'Criar'}
+                        loading={loading}
+                        onCancel={onCancel}
+                    />
+                </form>
+            </div>
+
+            <AlertDialog open={modalOpcaoAberto} onOpenChange={setModalOpcaoAberto}>
+                <AlertDialogContent className="max-w-lg">
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Cadastrar tipo ou status</AlertDialogTitle>
+                        <AlertDialogDescription>Crie uma nova opcao para usar no cadastro do ativo de rede.</AlertDialogDescription>
+                    </AlertDialogHeader>
+
+                    <form onSubmit={handleCreateOption} className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium mb-2">Tipo de cadastro</label>
+                            <select
+                                value={formOpcao.kind}
+                                onChange={(e) => setFormOpcao((prev) => ({ ...prev, kind: e.target.value }))}
+                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                            >
+                                <option value="TIPO">Tipo</option>
+                                <option value="STATUS">Status</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-2">Descricao</label>
+                            <input
+                                type="text"
+                                value={formOpcao.descricao}
+                                onChange={(e) => setFormOpcao((prev) => ({ ...prev, descricao: e.target.value.toUpperCase() }))}
+                                placeholder="Ex: ROTEADOR"
+                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                required
+                            />
+                        </div>
+                        <FormActions
+                            cancelLabel="Cancelar"
+                            submitLabel="Salvar"
+                            loading={salvandoOpcao}
+                            className="flex justify-end gap-3 pt-2"
+                            onCancel={() => setModalOpcaoAberto(false)}
+                            cancelClassName="border-slate-300 bg-slate-950 text-slate-100 hover:bg-slate-900 hover:text-white shadow-sm"
+                            submitClassName="bg-emerald-600 text-white hover:bg-emerald-500 shadow-sm"
+                        />
+                    </form>
+                </AlertDialogContent>
+            </AlertDialog>
+        </div>
+    );
+}

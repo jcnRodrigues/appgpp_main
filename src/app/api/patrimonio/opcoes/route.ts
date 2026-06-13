@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getTiposPatrimonio, getStatusPatrimonio, getCentrosCusto } from '@/back-end/service/Patrimonio.services/patrimonio.service';
+import { getTiposPatrimonio, getStatusPatrimonio, getCentrosCusto } from '@/features/patrimonio/server/patrimonio.service';
 import { getCentrosFiltro, hasModuleAccessForRequest } from '@/lib/access';
 
 function sortCentros<T extends { descricaoCCusto?: string | null; codigoCCusto?: string | null }>(centros: T[]) {
@@ -29,9 +29,11 @@ export async function GET(request: NextRequest) {
             getCentrosCusto()
         ]);
 
-        const centrosFiltrados = allowAllEfetivo
-            ? centrosDb
-            : centrosDb.filter((c: any) => centros.includes(c.idCCusto));
+        const centrosFiltrados = (allowAllEfetivo ? centrosDb : centrosDb.filter((c: any) => centros.includes(c.idCCusto)))
+            .filter((c: any) => {
+                const statusDescricao = (c.tbStatusCCusto?.descricaoStatusCCusto || '').trim().toUpperCase();
+                return statusDescricao === 'ATIVO' || statusDescricao === 'MOBILIZADO';
+            });
 
         return NextResponse.json({
             tipos,

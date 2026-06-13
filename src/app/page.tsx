@@ -1,6 +1,6 @@
-import Dashborad from "@/back-end/components/Dashboard/Dashboard";
-import Header from "@/back-end/components/Header/Header";
-import SectionHeader from "@/back-end/components/SectionHeader/SectionHeader";
+import Dashboard from "@/features/dashboard/components/Dashboard/Dashboard";
+import Header from "@/components/Header/Header";
+import SectionHeader from "@/components/SectionHeader/SectionHeader";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "./api/auth/[...nextauth]/route";
 import { hasModuleAccess } from "@/lib/permissions";
@@ -36,7 +36,7 @@ export default async function Home() {
       <Header />
       <SectionHeader title="Dashboard" />
       <div className="max-w-7xl mx-auto px-4 md:px-6 mt-6 pb-8">
-        <Dashborad />
+        <Dashboard />
       </div>
     </div>
   );

@@ -1,10 +1,10 @@
 "use client";
 
-import Header from "@/back-end/components/Header/Header";
+import Header from "@/components/Header/Header";
 import Link from "next/link";
 import { ChevronLeft, Download, FileJson, FileSpreadsheet, Upload } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { Button } from "@/back-end/components/ui/button";
+import { Button } from "@/components/ui/button";
 import * as XLSX from "xlsx";
 import { useSession } from "next-auth/react";
 import { hasModuleAccess } from "@/lib/permissions";

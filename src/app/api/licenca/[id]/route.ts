@@ -1,5 +1,5 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
-import { atualizarLicenca, deletarLicenca, getLicencaById } from '@/back-end/service/Licenca.service/licenca.service';
+import { NextRequest, NextResponse } from 'next/server';
+import { atualizarLicenca, deletarLicenca, getLicencaById } from '@/features/licenca/server/licenca.service';
 import { hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 
 export async function GET(

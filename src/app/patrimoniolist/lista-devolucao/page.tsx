@@ -1,11 +1,11 @@
-import Header from '@/back-end/components/Header/Header';
+import Header from '@/components/Header/Header';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
-import { Button } from '@/back-end/components/ui/button';
-import ListaPatrimoniosPdfForm from '@/back-end/components/PatrimonioTable/ListaPatrimoniosPdfForm';
-import { hasActionPermission, hasModuleAccess } from '@/lib/permissions';
+import { Button } from '@/components/ui/button';
+import ListaPatrimoniosPdfForm from '@/features/patrimonio/components/PatrimonioTable/ListaPatrimoniosPdfForm';
+import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
 
 export default async function ListaPatrimoniosPdfPage() {
   const session = await getServerSession(AuthOptions);
@@ -29,7 +29,7 @@ export default async function ListaPatrimoniosPdfPage() {
   }
 
   const canAccess = hasModuleAccess(formularios, 'PATRIMONIO');
-  const canPrint = hasActionPermission(formularios, 'PRINT');
+  const canPrint = hasModuleActionPermission(formularios, 'PATRIMONIO', 'PRINT');
   if (!canAccess || !canPrint) {
     return (
       <div className="bg-background min-h-screen py-6">

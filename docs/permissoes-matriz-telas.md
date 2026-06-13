@@ -187,6 +187,6 @@
 - Status: bloqueio client-side com mensagem de permissao.
 
 ## Observacoes
-- Menu lateral/topo: filtrado por modulo em `src/back-end/components/Header/Header.tsx`.
+- Menu lateral/topo: filtrado por modulo em `src/components/Header/Header.tsx`.
 - Exclusao em componentes: protegida por `PERM_DELETE` no `DeleteGuardButton` e confirmada no backend.
 - Operacoes de API sempre prevalecem sobre UI (defesa em profundidade).

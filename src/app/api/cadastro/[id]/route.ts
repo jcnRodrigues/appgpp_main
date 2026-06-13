@@ -1,10 +1,10 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import {
     buscarAlocacaoById,
     atualizarAlocacao,
     deletarAlocacao
-} from '@/back-end/service/Cadastro.service/cadastro.service';
+} from '@/features/alocacoes/server/cadastro.service';
 import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 import { parseNullableDateInput } from '@/lib/date-input';
 import prisma from '../../../../../prisma/prisma';

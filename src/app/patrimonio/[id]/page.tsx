@@ -1,9 +1,9 @@
-import Header from "@/back-end/components/Header/Header";
-import PatrimonioForm from "@/back-end/components/PatrimonioForm/PatrimonioForm";
+import Header from "@/components/Header/Header";
+import PatrimonioForm from "@/features/patrimonio/components/PatrimonioForm/PatrimonioForm";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "../../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import { hasActionPermission, hasModuleAccess } from "@/lib/permissions";
+import { hasModuleActionPermission, hasModuleAccess } from "@/lib/permissions";
 
 export default async function EditarPat({ params }: { params: Promise<{ id: string }> }) {
     const session = await getServerSession(AuthOptions);
@@ -12,7 +12,7 @@ export default async function EditarPat({ params }: { params: Promise<{ id: stri
         redirect('/')
     }
     const formularios = ((session.user as any)?.formularios || []) as string[];
-    if (!hasModuleAccess(formularios, 'PATRIMONIO') || !hasActionPermission(formularios, 'UPDATE')) {
+    if (!hasModuleAccess(formularios, 'PATRIMONIO') || !hasModuleActionPermission(formularios, 'PATRIMONIO', 'UPDATE')) {
         redirect('/acesso-negado');
     }
 

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getFuncoes, criarFuncao, contarFuncoes } from '@/back-end/service/Funcao.service/funcao.service';
+import { getFuncoes, criarFuncao, contarFuncoes } from '@/features/funcao/server/funcao.service';
 import { hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 
 export async function GET(request: NextRequest) {

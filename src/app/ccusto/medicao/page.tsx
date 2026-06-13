@@ -1,7 +1,7 @@
-﻿import Header from '@/back-end/components/Header/Header';
-import MedicaoCCustoForm from '@/back-end/components/MedicaoCCustoForm/MedicaoCCustoForm';
-import { listarCentrosCusto } from '@/back-end/service/CentroCusto.service/centrocusto.service';
-import { Button } from '@/back-end/components/ui/button';
+import Header from '@/components/Header/Header';
+import MedicaoCCustoForm from '@/features/centro-custo/components/MedicaoCCustoForm/MedicaoCCustoForm';
+import { listarCentrosCusto } from '@/features/centro-custo/server/centrocusto.service';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 import { getServerSession } from 'next-auth';

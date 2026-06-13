@@ -1,17 +1,28 @@
-﻿import Header from '@/back-end/components/Header/Header';
-import CCustoTable from '@/back-end/components/CCustoTable/CCustoTable';
-import { listarCentrosCusto } from '@/back-end/service/CentroCusto.service/centrocusto.service';
+import Header from '@/components/Header/Header';
+import CCustoFilter from '@/features/centro-custo/components/CCustoFilter/CCustoFilter';
+import CCustoTable from '@/features/centro-custo/components/CCustoTable/CCustoTable';
+import { listarCentrosCusto, listarStatusCentroCusto } from '@/features/centro-custo/server/centrocusto.service';
 import Link from 'next/link';
-import { Button } from '@/back-end/components/ui/button';
-import PermissionActionLink from '@/back-end/components/PermissionActionLink/PermissionActionLink';
+import { Button } from '@/components/ui/button';
+import PermissionActionLink from '@/components/PermissionActionLink/PermissionActionLink';
 import { Plus, ChevronLeft } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import { AuthOptions } from '../api/auth/[...nextauth]/route';
 import { hasModuleAccess } from '@/lib/permissions';
 import { redirect } from 'next/navigation';
 
-export default async function CCustosPage() {
+type SearchParams = {
+    statusId?: string;
+};
+
+export default async function CCustosPage({
+    searchParams
+}: {
+    searchParams?: Promise<SearchParams>;
+}) {
     const session = await getServerSession(AuthOptions);
+    const params = searchParams ? await searchParams : undefined;
+    const statusId = params?.statusId?.trim() || '';
 
     if (!session?.user) {
         return (
@@ -36,9 +47,10 @@ export default async function CCustosPage() {
     const allowAll = centrosPerfil.includes('*');
     const idsFiltro = allowAll ? undefined : centrosPerfil;
 
+    const statusOptions = await listarStatusCentroCusto();
     const centros = !allowAll && centrosPerfil.length === 0
         ? []
-        : await listarCentrosCusto({ take: 10, skip: 0, ids: idsFiltro });
+        : await listarCentrosCusto({ take: 10, skip: 0, ids: idsFiltro, statusId: statusId || undefined });
 
     return (
         <div className="bg-background min-h-screen py-6">
@@ -56,19 +68,17 @@ export default async function CCustosPage() {
                     </div>
                     <div className="flex items-center gap-2">
                         <Link href="/ccusto/medicao">
-                            <Button variant="ghost"
-                                className="flex gap-2 bg-green-500 hover:bg-green-600">
+                            <Button variant="ghost" className="flex gap-2 bg-green-500 hover:bg-green-600">
                                 Medição
                             </Button>
                         </Link>
                         <PermissionActionLink
                             href="/ccusto/cadastro"
                             action="CREATE"
+                            module="CENTRO_CUSTO"
                             deniedMessage="Você não tem permissão para adicionar registros."
                         >
-                            <Button
-                                variant="ghost"
-                                className="flex gap-2 bg-green-500 hover:bg-green-600">
+                            <Button variant="ghost" className="flex gap-2 bg-green-500 hover:bg-green-600">
                                 <Plus className="h-5 w-5" />
                                 Novo Centro
                             </Button>
@@ -76,7 +86,8 @@ export default async function CCustosPage() {
                     </div>
                 </div>
 
-                <CCustoTable centros={centros} />
+                <CCustoFilter statusId={statusId} statusOptions={statusOptions} />
+                <CCustoTable centros={centros} statusId={statusId} />
             </div>
         </div>
     );

@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 
-import Header from "@/back-end/components/Header/Header";
+import Header from "@/components/Header/Header";
 import { ChevronLeft, CircleDollarSign, HardDriveIcon, Laptop, LibraryBig, NotebookIcon, ScrollText } from "lucide-react";
-import { getPatrimonioCardById } from "@/back-end/service/Patrimonio.services/patrimonio.service";
+import { getPatrimonioCardById } from "@/features/patrimonio/server/patrimonio.service";
 import Link from "next/link";
 
 

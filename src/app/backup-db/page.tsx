@@ -1,10 +1,10 @@
 "use client";
 
-import Header from "@/back-end/components/Header/Header";
+import Header from "@/components/Header/Header";
 import Link from "next/link";
 import { ChevronLeft, DatabaseBackup, FolderCheck } from "lucide-react";
 import { useMemo, useState } from "react";
-import { Button } from "@/back-end/components/ui/button";
+import { Button } from "@/components/ui/button";
 
 type BackupResult = {
   message?: string;

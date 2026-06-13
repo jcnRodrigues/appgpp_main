@@ -1,5 +1,5 @@
-﻿import Header from '@/back-end/components/Header/Header';
-import UnifiConfigForm from '@/back-end/components/UnifiConfigForm/UnifiConfigForm';
+import Header from '@/components/Header/Header';
+import UnifiConfigForm from '@/features/unifi-config/components/UnifiConfigForm/UnifiConfigForm';
 import { getServerSession } from 'next-auth';
 import { AuthOptions } from '../api/auth/[...nextauth]/route';
 import { ChevronLeft } from 'lucide-react';

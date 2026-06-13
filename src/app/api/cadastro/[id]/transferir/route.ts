@@ -1,7 +1,7 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import prisma from '../../../../../../prisma/prisma';
-import { transferirAlocacao } from '@/back-end/service/Cadastro.service/cadastro.service';
+import { transferirAlocacao } from '@/features/alocacoes/server/cadastro.service';
 import { parseOptionalDateInput } from '@/lib/date-input';
 import { hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 

@@ -1,10 +1,10 @@
-import Header from '@/back-end/components/Header/Header';
-import TransferenciaCustoPatrimonioTable from '@/back-end/components/PatrimonioTable/TransferenciaCustoPatrimonioTable';
+import Header from '@/components/Header/Header';
+import TransferenciaCustoPatrimonioTable from '@/features/patrimonio/components/PatrimonioTable/TransferenciaCustoPatrimonioTable';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
-import { hasActionPermission, hasModuleAccess } from '@/lib/permissions';
+import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
 import { redirect } from 'next/navigation';
 
 export default async function TransferenciaCustoPatrimonioPage() {
@@ -15,7 +15,7 @@ export default async function TransferenciaCustoPatrimonioPage() {
   if (!hasModuleAccess(formularios, 'PATRIMONIO')) {
     redirect('/acesso-negado');
   }
-  if (!hasActionPermission(formularios, 'UPDATE')) {
+  if (!hasModuleActionPermission(formularios, 'PATRIMONIO', 'UPDATE')) {
     redirect('/acesso-negado');
   }
 

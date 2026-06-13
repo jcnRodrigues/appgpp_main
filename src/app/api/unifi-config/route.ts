@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import {
   activateUnifiConfig,
   deactivateUnifiConfig,
@@ -6,7 +6,7 @@ import {
   getAllUnifiConfigs,
   getUnifiConfig,
   saveUnifiConfig,
-} from '@/back-end/service/unifi.service';
+} from '@/features/unifi-config/server/unifi.service';
 import { hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 
 export async function GET(request: NextRequest) {
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
   if (all === 'true') {
     try {
       const configs = await getAllUnifiConfigs();
-      const safeConfigs = configs.map(config => ({
+      const safeConfigs = configs.map((config: any) => ({
         id: config.id,
         type: config.type,
         apiKey: config.apiKey ? `${config.apiKey.substring(0, 8)}...${config.apiKey.substring(config.apiKey.length - 4)}` : null,

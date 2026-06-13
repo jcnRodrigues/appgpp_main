@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getFuncoes, getStatusFuncionario, getCentrosCustoFun, getLicencasDisponiveisParaFuncionario } from '@/back-end/service/Funcionario.service/funcionario.service';
+import { getFuncoes, getStatusFuncionario, getCentrosCustoFun, getLicencasDisponiveisParaFuncionario } from '@/features/funcionario/server/funcionario.service';
 import { getCentrosFiltro, hasModuleAccessForRequest } from '@/lib/access';
 
 function sortCentros<T extends { descricaoCCusto?: string | null; codigoCCusto?: string | null }>(centros: T[]) {

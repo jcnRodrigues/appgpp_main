@@ -1,10 +1,10 @@
-﻿import { listarFuncionarios } from "@/back-end/service/Funcionario.service/funcionario.service";
-import Header from "@/back-end/components/Header/Header";
-import FuncionarioTable from "@/back-end/components/FuncionarioTable/FuncionarioTable";
+import { listarFuncionarios } from "@/features/funcionario/server/funcionario.service";
+import Header from "@/components/Header/Header";
+import FuncionarioTable from "@/features/funcionario/components/FuncionarioTable/FuncionarioTable";
 import { ArrowRightLeft, ChevronLeft, Plus } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/back-end/components/ui/button";
-import PermissionActionLink from "@/back-end/components/PermissionActionLink/PermissionActionLink";
+import { Button } from "@/components/ui/button";
+import PermissionActionLink from "@/components/PermissionActionLink/PermissionActionLink";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "../api/auth/[...nextauth]/route";
 import { hasModuleAccess } from "@/lib/permissions";
@@ -63,6 +63,7 @@ export default async function FuncionariosAdd() {
                         <PermissionActionLink
                             href="/funcionario/cadastro"
                             action="CREATE"
+                            module="FUNCIONARIOS"
                             deniedMessage="Você não tem permissão para adicionar registros."
                         >
                             <Button 

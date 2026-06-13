@@ -30,6 +30,8 @@ model tbUser {
   transferenciasAlocacao tbTransferenciaAlocacao[]
   tbBmMedicao tbBmMedicao[]
   tbAuditoriaDevolucaoPatrimonio tbAuditoriaDevolucaoPatrimonio[]
+  tbAtivoRedeTransferencia tbTransferenciaAtivoRede[]
+  tbAtivoRedeDevolucao tbDevolucaoAtivoRede[]
 }
 
 model tbFuncionario {
@@ -138,18 +140,29 @@ model tbEmpresa {
   tbCCusto        tbCCusto[]
 }
 
+model tbStatusCCusto {
+  idStatusCCusto        String    @id @default(uuid())
+  descricaoStatusCCusto String    @unique
+  tbCCusto              tbCCusto[]
+}
+
 model tbCCusto {
   idCCusto        String          @id @default(uuid())
   codigoCCusto    String?
   descricaoCCusto String?
   idEmp_Custo     String?
+  idStatusCCusto   String?
   tbEmpresa       tbEmpresa?      @relation(fields: [idEmp_Custo], references: [idEmp])
+  tbStatusCCusto  tbStatusCCusto? @relation(fields: [idStatusCCusto], references: [idStatusCCusto])
   tbPatrimonio    tbPatrimonio[]
   tbFuncionario   tbFuncionario[]
   tbPatrimonioHistorico tbPatrimonioHistorico[]
   transferenciasOrigem tbTransferenciaCustoPatrimonio[] @relation("TransferenciaOrigem")
   transferenciasDestino tbTransferenciaCustoPatrimonio[] @relation("TransferenciaDestino")
   tbBmMedicao tbBmMedicao[]
+  tbAtivoRede    tbAtivoRede[]
+
+  @@index([idStatusCCusto], map: "idx_ccusto_status_fk")
 }
 
 model tbBmMedicao {
@@ -312,6 +325,99 @@ model tbPatrimonioHistorico {
 
   @@index([idPatrimonioOriginal], map: "idx_hist_pat_original")
   @@index([createdAt], map: "idx_hist_created_at")
+}
+
+model tbAtivoRede {
+  idAtivoRedePk            String   @id @default(uuid())
+  codigoAtivoRede          String   @unique
+  nomeAtivoRede            String
+  tipoAtivoRede            String
+  idTipoAtivoRede          String?
+  fabricanteAtivoRede      String?
+  modeloAtivoRede          String?
+  serialAtivoRede          String?
+  macAtivoRede             String?
+  ipGerenciamentoAtivoRede String?
+  hostnameAtivoRede        String?
+  localInstalacaoAtivoRede String?
+  rackAtivoRede            String?
+  portaSwitchAtivoRede     String?
+  dataEntradaAtivoRede     DateTime
+  dataInstalacaoAtivoRede  DateTime?
+  statusAtivoRede          String   @default("ATIVO")
+  idStatusAtivoRede        String?
+  centroResponsavelAtivoRede String?
+  idCCustoAtivoRede        String?
+  observacaoAtivoRede      String?
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  tbTipoAtivoRede          tbTipoAtivoRede? @relation(fields: [idTipoAtivoRede], references: [idTipoAtivoRede])
+  tbStatusAtivoRede        tbStatusAtivoRede? @relation(fields: [idStatusAtivoRede], references: [idStatusAtivoRede])
+  tbCCusto                 tbCCusto?        @relation(fields: [idCCustoAtivoRede], references: [idCCusto])
+  tbTransferenciaAtivoRede tbTransferenciaAtivoRede[]
+  tbDevolucaoAtivoRede     tbDevolucaoAtivoRede[]
+
+  @@index([codigoAtivoRede], map: "idx_ativo_rede_codigo")
+  @@index([tipoAtivoRede], map: "idx_ativo_rede_tipo")
+  @@index([idTipoAtivoRede], map: "idx_ativo_rede_tipo_fk")
+  @@index([statusAtivoRede], map: "idx_ativo_rede_status")
+  @@index([idStatusAtivoRede], map: "idx_ativo_rede_status_fk")
+  @@index([localInstalacaoAtivoRede], map: "idx_ativo_rede_local")
+  @@index([idCCustoAtivoRede], map: "idx_ativo_rede_ccusto")
+}
+
+model tbTipoAtivoRede {
+  idTipoAtivoRede   String       @id @default(uuid())
+  descricaoTipoAtivoRede String   @unique
+  ativoRede         tbAtivoRede[]
+}
+
+model tbStatusAtivoRede {
+  idStatusAtivoRede   String       @id @default(uuid())
+  descricaoStatusAtivoRede String   @unique
+  ativoRede         tbAtivoRede[]
+}
+
+model tbTransferenciaAtivoRede {
+  idTransferenciaAtivoRede String   @id @default(uuid())
+  idAtivoRede              String
+  localOrigemAtivoRede     String?
+  localDestinoAtivoRede    String?
+  centroOrigemAtivoRede    String?
+  centroDestinoAtivoRede   String?
+  statusAnteriorAtivoRede  String?
+  statusNovoAtivoRede      String?
+  observacao               String?
+  idUserTransferencia      String?
+  dataTransferencia        DateTime @default(now())
+  createdAt                DateTime @default(now())
+
+  tbAtivoRede              tbAtivoRede @relation(fields: [idAtivoRede], references: [idAtivoRedePk], onDelete: Cascade)
+  tbUser                   tbUser?     @relation(fields: [idUserTransferencia], references: [id], onDelete: SetNull)
+
+  @@index([idAtivoRede, dataTransferencia], map: "idx_transf_ativo_rede_data")
+  @@index([idUserTransferencia], map: "idx_transf_ativo_rede_user")
+}
+
+model tbDevolucaoAtivoRede {
+  idDevolucaoAtivoRede      String   @id @default(uuid())
+  idAtivoRede               String
+  dataInicioDevolucao       DateTime
+  dataFimDevolucao          DateTime?
+  motivoDevolucao           String?
+  destinoDevolucao          String?
+  notaFiscalDevolucao       String?
+  observacao                String?
+  idUserDevolucao           String?
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+
+  tbAtivoRede               tbAtivoRede @relation(fields: [idAtivoRede], references: [idAtivoRedePk], onDelete: Cascade)
+  tbUser                    tbUser?     @relation(fields: [idUserDevolucao], references: [id], onDelete: SetNull)
+
+  @@index([idAtivoRede, dataInicioDevolucao], map: "idx_dev_ativo_rede_data")
+  @@index([idUserDevolucao], map: "idx_dev_ativo_rede_user")
 }
 
 model Account {

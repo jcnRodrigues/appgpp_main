@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { listarEmpresas } from '@/back-end/service/CentroCusto.service/centrocusto.service';
+import { garantirStatusPadraoCentroCusto, listarEmpresas, listarStatusCentroCusto } from '@/features/centro-custo/server/centrocusto.service';
 import { hasModuleAccessForRequest } from '@/lib/access';
 
 export async function GET(request: NextRequest) {
@@ -8,8 +8,12 @@ export async function GET(request: NextRequest) {
         if (!canAccess) {
             return NextResponse.json({ message: 'Acesso negado' }, { status: 403 });
         }
-        const empresas = await listarEmpresas();
-        return NextResponse.json({ empresas });
+        await garantirStatusPadraoCentroCusto();
+        const [empresas, status] = await Promise.all([
+            listarEmpresas(),
+            listarStatusCentroCusto()
+        ]);
+        return NextResponse.json({ empresas, status });
     } catch (error) {
         console.error('Erro ao obter opções:', error);
         return NextResponse.json({ message: 'Erro ao obter opções' }, { status: 500 });

@@ -39,6 +39,9 @@ yarn-error.log*
 next-env.d.ts
 
 /prisma/generated/prisma
+/installer/_stage
+/installer/_payload_stage
+/dist/*.zip
 
 # local prisma sqlite
 /prisma/dev.db

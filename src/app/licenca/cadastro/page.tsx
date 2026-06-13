@@ -1,9 +1,9 @@
 import { getServerSession } from 'next-auth';
 import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
-import Header from '@/back-end/components/Header/Header';
-import LicencaForm from '@/back-end/components/LicencaForm/LicencaForm';
-import { hasActionPermission, hasModuleAccess } from '@/lib/permissions';
+import Header from '@/components/Header/Header';
+import LicencaForm from '@/features/licenca/components/LicencaForm/LicencaForm';
+import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
 
 export default async function CadastroLicencaPage() {
     const session = await getServerSession(AuthOptions);
@@ -12,7 +12,7 @@ export default async function CadastroLicencaPage() {
         redirect('/');
     }
     const formularios = ((session.user as any)?.formularios || []) as string[];
-    if (!hasModuleAccess(formularios, 'LICENCAS_SOFTWARE') || !hasActionPermission(formularios, 'CREATE')) {
+    if (!hasModuleAccess(formularios, 'LICENCAS_SOFTWARE') || !hasModuleActionPermission(formularios, 'LICENCAS_SOFTWARE', 'CREATE')) {
         redirect('/acesso-negado');
     }
 

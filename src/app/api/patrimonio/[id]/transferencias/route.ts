@@ -1,8 +1,8 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import prisma from '../../../../../../prisma/prisma';
 import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
-import { getPatrimonioCardById, listarTransferenciasCustoPatrimonio, transferirCentroCustoPatrimonio } from '@/back-end/service/Patrimonio.services/patrimonio.service';
+import { getPatrimonioCardById, listarTransferenciasCustoPatrimonio, transferirCentroCustoPatrimonio } from '@/features/patrimonio/server/patrimonio.service';
 import { parseOptionalDateInput } from '@/lib/date-input';
 
 export async function GET(

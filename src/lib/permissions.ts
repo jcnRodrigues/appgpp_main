@@ -1,4 +1,4 @@
-﻿export type ActionPermission = 'CREATE' | 'UPDATE' | 'DELETE' | 'PRINT';
+export type ActionPermission = 'CREATE' | 'UPDATE' | 'DELETE' | 'PRINT';
 
 export const ROLE_ADMIN = 'ROLE_ADMIN';
 export const ACTION_TOKENS: Record<ActionPermission, string> = {
@@ -6,6 +6,19 @@ export const ACTION_TOKENS: Record<ActionPermission, string> = {
   UPDATE: 'PERM_UPDATE',
   DELETE: 'PERM_DELETE',
   PRINT: 'PERM_PRINT'
+};
+
+export const MODULE_ACTIONS: Record<string, ActionPermission[]> = {
+  PATRIMONIO: ['CREATE', 'UPDATE', 'DELETE', 'PRINT'],
+  FUNCIONARIOS: ['CREATE', 'UPDATE', 'DELETE'],
+  CENTRO_CUSTO: ['CREATE', 'UPDATE', 'DELETE'],
+  FUNCOES: ['CREATE', 'UPDATE', 'DELETE'],
+  LICENCAS_SOFTWARE: ['CREATE', 'UPDATE', 'DELETE'],
+  ALOCACOES: ['CREATE', 'UPDATE', 'DELETE', 'PRINT'],
+  ACESSO_USUARIOS: ['CREATE', 'UPDATE', 'DELETE'],
+  IMPORTACAO_EXPORTACAO: ['PRINT'],
+  ATIVOS_REDE: ['CREATE', 'UPDATE', 'DELETE', 'PRINT'],
+  UNIFI_CONFIG: ['CREATE', 'UPDATE', 'DELETE', 'PRINT']
 };
 
 export const FORMULARIOS_BASE = [
@@ -19,6 +32,7 @@ export const FORMULARIOS_BASE = [
   'ALOCACOES',
   'ACESSO_USUARIOS',
   'IMPORTACAO_EXPORTACAO',
+  'ATIVOS_REDE',
   'UNIFI_CONFIG'
 ] as const;
 
@@ -42,6 +56,10 @@ export function hasActionPermission(formulariosRaw: unknown, action: ActionPermi
 export function hasModuleAccess(formulariosRaw: unknown, modulo: string): boolean {
   const formularios = normalizePermissions(formulariosRaw);
   return isAdminPermissions(formularios) || formularios.includes(modulo);
+}
+
+export function hasModuleActionPermission(formulariosRaw: unknown, modulo: string, action: ActionPermission): boolean {
+  return hasModuleAccess(formulariosRaw, modulo) && hasActionPermission(formulariosRaw, action);
 }
 
 export function getProfileFromPermissions(formulariosRaw: unknown): 'ADMIN' | 'OPERACIONAL' {

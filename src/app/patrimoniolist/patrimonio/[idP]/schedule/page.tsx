@@ -1,10 +1,10 @@
-﻿"use client"
+"use client"
 
 
-import Header from "@/back-end/components/Header/Header";
-import AlertaDialogo from "@/back-end/components/AlertDialog/AlertaDialogo";
-import { Badge } from "@/back-end/components/ui/badge";
-import { Calendar } from "@/back-end/components/ui/calendar";
+import Header from "@/components/Header/Header";
+import AlertaDialogo from "@/components/AlertDialog/AlertaDialogo";
+import { Badge } from "@/components/ui/badge";
+import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -30,13 +30,7 @@ const genereteTimeSlots = (
     return Slots;
 }
 
-interface SchedulePageProps {
-    params: {
-        idP: string;
-    }
-}
-
-export default function SchedulePage({ params }: SchedulePageProps) {
+export default function SchedulePage() {
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
     const [selectedTime, setSelectedTime] = React.useState<string | null>(null);
     const [isAlertOpen, setIsAlertOpen] = React.useState(false);

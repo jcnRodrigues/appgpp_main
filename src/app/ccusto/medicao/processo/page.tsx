@@ -1,10 +1,10 @@
-import Header from '@/back-end/components/Header/Header';
+import Header from '@/components/Header/Header';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
-import { Button } from '@/back-end/components/ui/button';
-import MedicoesEmProcessoTable from '@/back-end/components/MedicaoCCustoForm/MedicoesEmProcessoTable';
+import { Button } from '@/components/ui/button';
+import MedicoesEmProcessoTable from '@/features/centro-custo/components/MedicaoCCustoForm/MedicoesEmProcessoTable';
 import { hasModuleAccess } from '@/lib/permissions';
 import { redirect } from 'next/navigation';
 

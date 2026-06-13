@@ -51,9 +51,9 @@
 - `src/lib/permissions.ts`
 - `src/lib/access.ts`
 - Header/menu por modulo:
-- `src/back-end/components/Header/Header.tsx`
+- `src/components/Header/Header.tsx`
 - Guard de exclusao por acao:
-- `src/back-end/components/DeleteGuardButton/DeleteGuardButton.tsx`
+- `src/components/DeleteGuardButton/DeleteGuardButton.tsx`
 
 ## 7) Observacoes operacionais
 - Se um usuario nao visualizar menu, ainda assim o backend valida para evitar bypass.

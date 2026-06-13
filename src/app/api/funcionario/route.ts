@@ -1,5 +1,5 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
-import { criarFuncionario, listarFuncionarios, contarFuncionarios, listarFuncionariosTransferenciaCusto } from '@/back-end/service/Funcionario.service/funcionario.service';
+import { NextRequest, NextResponse } from 'next/server';
+import { criarFuncionario, listarFuncionarios, contarFuncionarios, listarFuncionariosTransferenciaCusto } from '@/features/funcionario/server/funcionario.service';
 import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 import { parseDateInput, parseOptionalDateInput } from '@/lib/date-input';
 

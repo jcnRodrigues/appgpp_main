@@ -3,8 +3,8 @@ import {
     contarFuncionarios,
     alocacoesPorCentroCusto,
     alocacoesAoLongoDoTempo
-} from '@/back-end/service/Dashboard.service/dashboard.service';
-import { contarPatrimonios } from '@/back-end/service/Patrimonio.services/patrimonio.service';
+} from '@/features/dashboard/server/dashboard.service';
+import { contarPatrimonios } from '@/features/patrimonio/server/patrimonio.service';
 import { getCentrosFiltro } from '@/lib/access';
 import { hasModuleAccessForRequest } from '@/lib/access';
 

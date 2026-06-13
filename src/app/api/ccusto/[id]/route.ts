@@ -1,5 +1,5 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
-import { getCentroCustoById, atualizarCentroCusto, deletarCentroCusto } from '@/back-end/service/CentroCusto.service/centrocusto.service';
+import { NextRequest, NextResponse } from 'next/server';
+import { getCentroCustoById, atualizarCentroCusto, deletarCentroCusto } from '@/features/centro-custo/server/centrocusto.service';
 import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -11,11 +11,11 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         const { id } = await params;
         const { centros, allowAll } = await getCentrosFiltro(request);
         if (!allowAll && centros.length > 0 && !centros.includes(id)) {
-            return NextResponse.json({ message: 'Centro de custo nÃ£o encontrado' }, { status: 404 });
+            return NextResponse.json({ message: 'Centro de custo não encontrado' }, { status: 404 });
         }
 
         const centro = await getCentroCustoById(id);
-        if (!centro) return NextResponse.json({ message: 'Centro de custo nÃ£o encontrado' }, { status: 404 });
+        if (!centro) return NextResponse.json({ message: 'Centro de custo não encontrado' }, { status: 404 });
         return NextResponse.json(centro);
     } catch (error) {
         console.error('Erro ao obter centro de custo:', error);
@@ -38,7 +38,8 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
         const updated = await atualizarCentroCusto(id, {
             codigoCCusto: dados.codigoCCusto,
             descricaoCCusto: dados.descricaoCCusto,
-            idEmp_Custo: dados.idEmp_Custo
+            idEmp_Custo: dados.idEmp_Custo,
+            idStatusCCusto: dados.idStatusCCusto
         });
         return NextResponse.json(updated);
     } catch (error) {
@@ -55,7 +56,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
         }
         const canDelete = await hasActionPermissionForRequest(request, 'DELETE');
         if (!canDelete) {
-            return NextResponse.json({ message: 'Sem permissÃ£o para deletar' }, { status: 403 });
+            return NextResponse.json({ message: 'Sem permissão para deletar' }, { status: 403 });
         }
         const { id } = await params;
         await deletarCentroCusto(id);

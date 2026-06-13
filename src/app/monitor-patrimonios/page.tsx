@@ -1,6 +1,6 @@
-import MonitorPatrimoniosForm from '@/back-end/components/MonitorPatrimoniosForm/MonitorPatrimoniosForm';
-import Header from '@/back-end/components/Header/Header';
-import { Button } from '@/back-end/components/ui/button';
+import MonitorPatrimoniosForm from '@/features/monitor-patrimonios/components/MonitorPatrimoniosForm/MonitorPatrimoniosForm';
+import Header from '@/components/Header/Header';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';

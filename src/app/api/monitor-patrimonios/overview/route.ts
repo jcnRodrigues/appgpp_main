@@ -1,6 +1,6 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { hasModuleAccessForRequest } from '@/lib/access';
-import { getUnifiConfig } from '@/back-end/service/unifi.service';
+import { getUnifiConfig } from '@/features/unifi-config/server/unifi.service';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;

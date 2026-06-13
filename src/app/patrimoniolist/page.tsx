@@ -1,12 +1,12 @@
-﻿import { listarPatrimonios } from '@/back-end/service/Patrimonio.services/patrimonio.service';
-import Header from '@/back-end/components/Header/Header';
-import PatrimonioTable from '@/back-end/components/PatrimonioTable/PatrimonioTable';
+import { listarPatrimonios } from '@/features/patrimonio/server/patrimonio.service';
+import Header from '@/components/Header/Header';
+import PatrimonioTable from '@/features/patrimonio/components/PatrimonioTable/PatrimonioTable';
 import { ArrowRightLeft, ChevronLeft, Plus, FileText } from 'lucide-react';
 import Link from 'next/link';
-import { Button } from '@/back-end/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { getServerSession } from 'next-auth';
 import { AuthOptions } from '../api/auth/[...nextauth]/route';
-import { hasActionPermission, hasModuleAccess } from '@/lib/permissions';
+import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
 import { redirect } from 'next/navigation';
 
 export default async function PatrimonioList() {
@@ -31,9 +31,9 @@ export default async function PatrimonioList() {
 
   const formularios = ((session.user as any)?.formularios || []) as string[];
   if (!hasModuleAccess(formularios, 'PATRIMONIO')) redirect('/acesso-negado');
-  const canCreate = hasActionPermission(formularios, 'CREATE');
-  const canPrint = hasActionPermission(formularios, 'PRINT');
-  const canUpdate = hasActionPermission(formularios, 'UPDATE');
+  const canCreate = hasModuleActionPermission(formularios, 'PATRIMONIO', 'CREATE');
+  const canPrint = hasModuleActionPermission(formularios, 'PATRIMONIO', 'PRINT');
+  const canUpdate = hasModuleActionPermission(formularios, 'PATRIMONIO', 'UPDATE');
 
   const patrimonios = await listarPatrimonios({ take: 10, skip: 0 });
 

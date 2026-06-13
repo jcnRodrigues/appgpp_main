@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
-import { getPatrimonioCardById, atualizarPatrimonio } from '@/back-end/service/Patrimonio.services/patrimonio.service';
+import { getPatrimonioCardById, atualizarPatrimonio } from '@/features/patrimonio/server/patrimonio.service';
 import prisma from '../../../../../prisma/prisma';
 import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 import { parseNullableDateInput } from '@/lib/date-input';
@@ -58,7 +58,7 @@ export async function GET(
 
         if (!patrimonio) {
             return NextResponse.json(
-                { message: 'Patrim�nio n�o encontrado' },
+                { message: 'Patrimônio não encontrado' },
                 { status: 404 }
             );
         }
@@ -68,7 +68,7 @@ export async function GET(
             const centroId = patrimonio.idPat_CustoPat || '';
             if (!centros.includes(centroId)) {
                 return NextResponse.json(
-                    { message: 'Patrim�nio n�o encontrado' },
+                    { message: 'Patrimônio não encontrado' },
                     { status: 404 }
                 );
             }
@@ -76,9 +76,9 @@ export async function GET(
 
         return NextResponse.json(patrimonio);
     } catch (error) {
-        console.error('Erro ao obter patrim�nio:', error);
+        console.error('Erro ao obter patrimônio:', error);
         return NextResponse.json(
-            { message: 'Erro ao obter patrim�nio' },
+            { message: 'Erro ao obter patrimônio' },
             { status: 500 }
         );
     }
@@ -104,7 +104,7 @@ export async function PUT(
             return NextResponse.json({ message: 'Patrimônio não encontrado' }, { status: 404 });
         }
 
-        // Valida��o m�nima
+        // Validação mínima
         if (!dados || Object.keys(dados).length === 0) {
             return NextResponse.json({ message: 'Nenhum dado para atualizar' }, { status: 400 });
         }
@@ -118,7 +118,7 @@ export async function PUT(
         if (typeof dados.notaFiscalPat !== 'undefined') updateData.notaFiscalPat = dados.notaFiscalPat;
         if (typeof dados.valorPat !== 'undefined') {
             const v = typeof dados.valorPat === 'number' ? dados.valorPat : parseFloat(dados.valorPat);
-            if (Number.isNaN(v)) return NextResponse.json({ message: 'Valor inv�lido' }, { status: 400 });
+            if (Number.isNaN(v)) return NextResponse.json({ message: 'Valor inválido' }, { status: 400 });
             updateData.valorPat = v;
         }
         if (typeof dados.idPat_TipoPat !== 'undefined') updateData.idPat_TipoPat = dados.idPat_TipoPat;
@@ -215,9 +215,9 @@ export async function PUT(
 
         return NextResponse.json(patrimonio);
     } catch (error: unknown) {
-        console.error('Erro ao atualizar patrim�nio:', error);
+        console.error('Erro ao atualizar patrimônio:', error);
         return NextResponse.json(
-            { message: error instanceof Error ? error.message : 'Erro ao atualizar patrim�nio' },
+            { message: error instanceof Error ? error.message : 'Erro ao atualizar patrimônio' },
             { status: 500 }
         );
     }
@@ -234,30 +234,30 @@ export async function DELETE(
         }
         const canDelete = await hasActionPermissionForRequest(request, 'DELETE');
         if (!canDelete) {
-            return NextResponse.json({ message: 'Sem permiss�o para deletar' }, { status: 403 });
+            return NextResponse.json({ message: 'Sem permissão para deletar' }, { status: 403 });
         }
         const { id } = await params;
-        // Verificar se patrim�nio existe
+        // Verificar se patrimônio existe
         const patrimonio = await getPatrimonioCardById(id);
         if (!patrimonio) {
             return NextResponse.json(
-                { message: 'Patrim�nio n�o encontrado' },
+                { message: 'Patrimônio não encontrado' },
                 { status: 404 }
             );
         }
 
-        // Deletar patrim�nio
+        // Deletar patrimônio
         await prisma.tbPatrimonio.delete({
             where: { idP: id }
         });
 
         return NextResponse.json({
-            message: 'Patrim�nio deletado com sucesso'
+            message: 'Patrimônio deletado com sucesso'
         });
     } catch (error: unknown) {
-        console.error('Erro ao deletar patrim�nio:', error);
+        console.error('Erro ao deletar patrimônio:', error);
         return NextResponse.json(
-            { message: error instanceof Error ? error.message : 'Erro ao deletar patrim�nio' },
+            { message: error instanceof Error ? error.message : 'Erro ao deletar patrimônio' },
             { status: 500 }
         );
     }

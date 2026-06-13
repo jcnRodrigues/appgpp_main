@@ -1,5 +1,5 @@
-import Header from "@/back-end/components/Header/Header";
-import TransferenciaCustoTable from "@/back-end/components/FuncionarioTable/TransferenciaCustoTable";
+import Header from "@/components/Header/Header";
+import TransferenciaCustoTable from "@/features/funcionario/components/FuncionarioTable/TransferenciaCustoTable";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { getServerSession } from "next-auth";

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { alocacoesEvolucaoPorCentroCusto } from '@/back-end/service/Dashboard.service/dashboard.service';
+import { alocacoesEvolucaoPorCentroCusto } from '@/features/dashboard/server/dashboard.service';
 import { getCentrosFiltro, hasModuleAccessForRequest } from '@/lib/access';
 
 export async function GET(request: NextRequest) {

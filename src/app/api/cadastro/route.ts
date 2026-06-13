@@ -1,12 +1,12 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { 
     listarAlocacoes, 
     criarAlocacao,
     listarFuncionarios,
     listarPatrimonios,
     contarAlocacoes
-} from '@/back-end/service/Cadastro.service/cadastro.service';
-import { getStatusPatrimonio } from '@/back-end/service/Patrimonio.services/patrimonio.service';
+} from '@/features/alocacoes/server/cadastro.service';
+import { getStatusPatrimonio } from '@/features/patrimonio/server/patrimonio.service';
 import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 import { parseOptionalDateInput } from '@/lib/date-input';
 
@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ data: [], total: 0 });
         }
 
-        // Se solicitar opÃ§Ãµes (funcionÃ¡rios e patrimÃ´nios)
+        // Se solicitar opções (funcionários e patrimônios)
         if (opcoes === 'true') {
             const [funcionarios, patrimonios, statusPatrimonio] = await Promise.all([
                 listarFuncionarios(filtroCentros),
@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
             });
         }
 
-        // Listar alocaÃ§Ãµes com filtros
+        // Listar alocações com filtros
         const alocacoes = await listarAlocacoes({
             idMatFun: idMatFun || undefined,
             idPat: idPat || undefined,
@@ -74,9 +74,9 @@ export async function GET(request: NextRequest) {
             total
         });
     } catch (error) {
-        console.error('Erro ao listar alocaÃ§Ãµes:', error);
+        console.error('Erro ao listar alocações:', error);
         return NextResponse.json(
-            { message: 'Erro ao listar alocaÃ§Ãµes' },
+            { message: 'Erro ao listar alocações' },
             { status: 500 }
         );
     }
@@ -89,10 +89,10 @@ export async function POST(request: NextRequest) {
     try {
         const dados = await request.json();
 
-        // ValidaÃ§Ã£o bÃ¡sica
+        // Validação básica
         if (!dados.idPatCad || !dados.idMatFunCad) {
             return NextResponse.json(
-                { message: 'Campos obrigatÃ³rios faltando (idPatCad, idMatFunCad)' },
+                { message: 'Campos obrigatórios faltando (idPatCad, idMatFunCad)' },
                 { status: 400 }
             );
         }
@@ -108,9 +108,9 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json(alocacao, { status: 201 });
     } catch (error: any) {
-        console.error('Erro ao criar alocaÃ§Ã£o:', error);
+        console.error('Erro ao criar alocação:', error);
         return NextResponse.json(
-            { message: error.message || 'Erro ao criar alocaÃ§Ã£o' },
+            { message: error.message || 'Erro ao criar alocação' },
             { status: 500 }
         );
     }

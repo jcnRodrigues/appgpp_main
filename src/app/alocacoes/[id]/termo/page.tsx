@@ -1,16 +1,16 @@
-import Header from '@/back-end/components/Header/Header';
+import Header from '@/components/Header/Header';
 import { getServerSession } from 'next-auth';
 import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
-import { buscarAlocacaoById } from '@/back-end/service/Cadastro.service/cadastro.service';
+import { buscarAlocacaoById } from '@/features/alocacoes/server/cadastro.service';
 import PrintButton from './PrintButton';
 import Image from 'next/image';
-import { getTipoPatId } from '@/back-end/service/TipoPatrimonio.service/tipoPatrimonio.service';
+import { getTipoPatId } from '@/features/patrimonio/server/tipoPatrimonio.service';
 import Link from 'next/link';
-import { Button } from '@/back-end/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { UndoIcon } from 'lucide-react';
 import fs from 'node:fs';
 import path from 'node:path';
-import { hasActionPermission, hasModuleAccess } from '@/lib/permissions';
+import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
 import { redirect } from 'next/navigation';
 
 type Props = { params: { id: string } };
@@ -32,7 +32,7 @@ export default async function TermoPage({ params }: Props) {
         );
     }
     const formularios = ((session.user as any)?.formularios || []) as string[];
-    if (!hasModuleAccess(formularios, 'ALOCACOES') || !hasActionPermission(formularios, 'PRINT')) {
+    if (!hasModuleAccess(formularios, 'ALOCACOES') || !hasModuleActionPermission(formularios, 'ALOCACOES', 'PRINT')) {
         redirect('/acesso-negado');
     }
 

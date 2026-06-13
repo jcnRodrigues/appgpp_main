@@ -1,9 +1,9 @@
 import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
-import CadastroForm from '@/back-end/components/CadastroForm/CadastroForm';
-import Header from '@/back-end/components/Header/Header';
+import CadastroForm from '@/features/alocacoes/components/CadastroForm/CadastroForm';
+import Header from '@/components/Header/Header';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
-import { hasActionPermission, hasModuleAccess } from '@/lib/permissions';
+import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
 
 export default async function NovaAlocacaoPage() {
     const session = await getServerSession(AuthOptions);
@@ -12,7 +12,7 @@ export default async function NovaAlocacaoPage() {
         redirect('/')
     }
     const formularios = ((session.user as any)?.formularios || []) as string[];
-    if (!hasModuleAccess(formularios, 'ALOCACOES') || !hasActionPermission(formularios, 'CREATE')) {
+    if (!hasModuleAccess(formularios, 'ALOCACOES') || !hasModuleActionPermission(formularios, 'ALOCACOES', 'CREATE')) {
         redirect('/acesso-negado');
     }
     return (

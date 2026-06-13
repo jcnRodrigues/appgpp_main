@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Footer from "@/back-end/components/Footer/Footer";
-import SessionProviders from "@/back-end/components/Providers/SessionProviders";
-import SystemAlertProvider from "@/back-end/components/SystemAlert/SystemAlertProvider";
-import ThemeProvider from "@/back-end/components/Providers/ThemeProvider";
+import Footer from "@/components/Footer/Footer";
+import SessionProviders from "@/components/Providers/SessionProviders";
+import SystemAlertProvider from "@/components/SystemAlert/SystemAlertProvider";
+import ThemeProvider from "@/components/Providers/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "AppGPP - Gestão de Patrimônio",

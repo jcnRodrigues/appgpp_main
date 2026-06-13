@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import prisma from '../../../../prisma/prisma';
-import { deletarAlocacao } from '@/back-end/service/Cadastro.service/cadastro.service';
-import { deletarCentroCusto } from '@/back-end/service/CentroCusto.service/centrocusto.service';
-import { deletarFuncao } from '@/back-end/service/Funcao.service/funcao.service';
-import { deletarLicenca } from '@/back-end/service/Licenca.service/licenca.service';
-import { deleteUnifiConfig } from '@/back-end/service/unifi.service';
+import { deletarAlocacao } from '@/features/alocacoes/server/cadastro.service';
+import { deletarCentroCusto } from '@/features/centro-custo/server/centrocusto.service';
+import { deletarFuncao } from '@/features/funcao/server/funcao.service';
+import { deletarLicenca } from '@/features/licenca/server/licenca.service';
+import { deleteUnifiConfig } from '@/features/unifi-config/server/unifi.service';
 import { hasActionPermissionForRequest } from '@/lib/access';
 
 type DeleteResource =

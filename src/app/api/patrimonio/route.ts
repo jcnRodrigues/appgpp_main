@@ -1,5 +1,5 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
-import { criarPatrimonio, listarPatrimonios } from '@/back-end/service/Patrimonio.services/patrimonio.service';
+import { NextRequest, NextResponse } from 'next/server';
+import { criarPatrimonio, listarPatrimonios } from '@/features/patrimonio/server/patrimonio.service';
 import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 import { parseDateInput, parseOptionalDateInput } from '@/lib/date-input';
 import prisma from '../../../../prisma/prisma';

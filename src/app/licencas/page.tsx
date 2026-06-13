@@ -1,11 +1,11 @@
-﻿import { getServerSession } from 'next-auth';
+import { getServerSession } from 'next-auth';
 import { AuthOptions } from '../api/auth/[...nextauth]/route';
-import Header from '@/back-end/components/Header/Header';
-import { Button } from '@/back-end/components/ui/button';
-import PermissionActionLink from '@/back-end/components/PermissionActionLink/PermissionActionLink';
+import Header from '@/components/Header/Header';
+import { Button } from '@/components/ui/button';
+import PermissionActionLink from '@/components/PermissionActionLink/PermissionActionLink';
 import Link from 'next/link';
 import { ChevronLeft, Plus } from 'lucide-react';
-import LicencaTable from '@/back-end/components/LicencaTable/LicencaTable';
+import LicencaTable from '@/features/licenca/components/LicencaTable/LicencaTable';
 import { hasModuleAccess } from '@/lib/permissions';
 import { redirect } from 'next/navigation';
 
@@ -43,6 +43,7 @@ export default async function LicencasPage() {
                     <PermissionActionLink
                         href="/licenca/cadastro"
                         action="CREATE"
+                        module="LICENCAS_SOFTWARE"
                         deniedMessage="Você não tem permissão para adicionar registros."
                     >
                         <Button 
