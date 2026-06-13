@@ -1,3 +1,0 @@
-module.exports=[9270,(a,b,c)=>{"use strict";b.exports=a.r(42602).vendored.contexts.AppRouterContext},38783,(a,b,c)=>{"use strict";b.exports=a.r(42602).vendored["react-ssr"].ReactServerDOMTurbopackClient},20786,a=>{"use strict";var b=a.i(87924);function c(){return(0,b.jsx)("div",{className:"mt-6",children:(0,b.jsx)("button",{onClick:()=>window.print(),className:"px-4 py-2 bg-primary text-white rounded-md hover:opacity-95",children:"Imprimir"})})}a.s(["default",()=>c])}];
-
-//# sourceMappingURL=_c708a4bf._.js.map
