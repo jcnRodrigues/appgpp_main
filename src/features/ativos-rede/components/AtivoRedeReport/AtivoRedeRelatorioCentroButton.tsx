@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import jsPDF from 'jspdf';
@@ -329,3 +329,5 @@ export default function AtivoRedeRelatorioCentroButton({ centroLabel, itens, dis
         </Button>
     );
 }
+
+

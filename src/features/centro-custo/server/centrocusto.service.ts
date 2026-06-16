@@ -81,7 +81,7 @@ export async function listarStatusCentroCusto() {
 export async function garantirStatusCentroCusto(descricao: string) {
     const descricaoNormalizada = descricao.trim().toUpperCase();
     if (!descricaoNormalizada) {
-        throw new Error('Descricao do status e obrigatoria');
+        throw new Error('Descricao do status e obrigat?ria');
     }
 
     return await prisma.tbStatusCCusto.upsert({

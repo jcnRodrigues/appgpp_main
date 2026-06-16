@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { garantirStatusPadraoCentroCusto, listarCentrosCusto, criarCentroCusto, contarCentrosCusto } from '@/features/centro-custo/server/centrocusto.service';
 import { getAccessContext, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 
 export async function GET(request: NextRequest) {
     const canAccess = await hasModuleAccessForRequest(request, 'CENTRO_CUSTO');
-    if (!canAccess) return NextResponse.json({ message: 'Sem permissao para acessar centro de custo' }, { status: 403 });
+    if (!canAccess) return NextResponse.json({ message: 'Sem permissão para acessar centro de custo' }, { status: 403 });
     try {
         const { searchParams } = new URL(request.url);
         const descricao = searchParams.get('descricao');
@@ -37,12 +37,12 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     const canAccess = await hasModuleAccessForRequest(request, 'CENTRO_CUSTO');
     const canCreate = await hasActionPermissionForRequest(request, 'CREATE');
-    if (!canAccess || !canCreate) return NextResponse.json({ message: 'Sem permissao para criar centro de custo' }, { status: 403 });
+    if (!canAccess || !canCreate) return NextResponse.json({ message: 'Sem permissão para criar centro de custo' }, { status: 403 });
     try {
         await garantirStatusPadraoCentroCusto();
         const dados = await request.json();
         if (!dados.descricaoCCusto && !dados.codigoCCusto) {
-            return NextResponse.json({ message: 'Campos obrigatórios faltando' }, { status: 400 });
+            return NextResponse.json({ message: 'Campos obrigatÃ³rios faltando' }, { status: 400 });
         }
 
         const created = await criarCentroCusto({
@@ -58,5 +58,6 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ message: 'Erro ao criar centro de custo' }, { status: 500 });
     }
 }
+
 
 

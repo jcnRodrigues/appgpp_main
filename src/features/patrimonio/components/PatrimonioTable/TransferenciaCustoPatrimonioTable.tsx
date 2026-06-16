@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react';
 import { CalendarClock, FileDown, Plus, Search, Trash2 } from 'lucide-react';
@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { hasModuleActionPermission } from '@/lib/permissions';
 import { gerarTransferenciaCustoPatrimonioPdf, type ItemTransferenciaRelatorio } from '@/features/patrimonio/components/PatrimonioTable/TransferenciaCustoPatrimonioReport';
+
+import { notify as showNotify } from '@/lib/notify';
 
 type CentroCusto = {
     idCCusto: string;
@@ -75,7 +77,7 @@ export default function TransferenciaCustoPatrimonioTable() {
     const { data: session } = useSession();
     const formularios = ((session?.user as any)?.formularios || []) as string[];
     const canPrint = hasModuleActionPermission(formularios, 'PATRIMONIO', 'PRINT');
-    const canUpdate = hasModuleActionPermission(formularios, 'PATRIMONIO', 'UPDATE');
+    const canTransfer = hasModuleActionPermission(formularios, 'PATRIMONIO', 'TRANSFER');
 
     const [resultadoBusca, setResultadoBusca] = useState<PatrimonioTransferencia | null>(null);
     const [selecionados, setSelecionados] = useState<ItemSelecionado[]>([]);
@@ -107,7 +109,7 @@ export default function TransferenciaCustoPatrimonioTable() {
         const id = modoBusca === 'idPat' ? idBruto.toUpperCase() : idBruto;
 
         if (!id) {
-            window.systemAlert?.('aviso', `Informe o ${modoBusca === 'idPat' ? 'idPat' : 'idP'} do patrimônio para buscar.`);
+            showNotify('aviso', `Informe o ${modoBusca === 'idPat' ? 'idPat' : 'idP'} do patrimônio para buscar.`);
             return;
         }
 
@@ -116,7 +118,7 @@ export default function TransferenciaCustoPatrimonioTable() {
             const response = await fetch(`/api/patrimonio/${encodeURIComponent(id)}`, { cache: 'no-store' });
             if (!response.ok) {
                 const err = await response.json().catch(() => ({}));
-                window.systemAlert?.('erro', err.message || 'Nao foi possivel buscar o patrimonio.');
+                showNotify('erro', err.message || 'Não foi possível buscar o patrimônio.');
                 setResultadoBusca(null);
                 return;
             }
@@ -124,7 +126,7 @@ export default function TransferenciaCustoPatrimonioTable() {
             const encontrado = (await response.json()) as PatrimonioTransferencia;
             if (!encontrado?.idPat) {
                 setResultadoBusca(null);
-                window.systemAlert?.('aviso', 'Patrimônio não encontrado para o ID informado.');
+                showNotify('aviso', 'patrimônio não encontrado para o ID informado.');
                 return;
             }
 
@@ -132,7 +134,7 @@ export default function TransferenciaCustoPatrimonioTable() {
             setIdBusca('');
         } catch (error) {
             console.error('Erro ao buscar patrimonio:', error);
-            window.systemAlert?.('erro', 'Erro ao buscar patrimonio.');
+            showNotify('erro', 'Erro ao buscar patrimonio.');
         } finally {
             setBuscando(false);
         }
@@ -143,7 +145,7 @@ export default function TransferenciaCustoPatrimonioTable() {
 
         const jaExiste = selecionados.some((item) => item.patrimonio.idP === resultadoBusca.idP);
         if (jaExiste) {
-            window.systemAlert?.('aviso', 'Este patrimônio já foi inserido na lista abaixo.');
+            showNotify('aviso', 'Este patrimônio já foi inserido na lista abaixo.');
             return;
         }
 
@@ -169,18 +171,18 @@ export default function TransferenciaCustoPatrimonioTable() {
     };
 
     const executarTransferencias = async () => {
-        if (!canUpdate) {
-            window.systemAlert?.('aviso', 'Voce nao tem permissao para alterar registros.');
+        if (!canTransfer) {
+            showNotify('aviso', 'Você não tem permissão para transferir registros.');
             return;
         }
         if (selecionados.length === 0) {
-            window.systemAlert?.('aviso', 'Adicione pelo menos um patrimônio na lista selecionada.');
+            showNotify('aviso', 'Adicione pelo menos um patrimônio na lista selecionada.');
             return;
         }
 
         const itensValidos = selecionados.filter((item) => item.custoDestino && item.custoDestino !== item.patrimonio.tbCCusto?.idCCusto);
         if (itensValidos.length === 0) {
-            window.systemAlert?.('aviso', 'Selecione o centro de custo de destino em pelo menos um item.');
+            showNotify('aviso', 'Selecione o centro de custo de destino em pelo menos um item.');
             return;
         }
 
@@ -188,7 +190,7 @@ export default function TransferenciaCustoPatrimonioTable() {
         try {
             const resultados = await Promise.allSettled(
                 itensValidos.map(async (item) => {
-                    const response = await fetch(`/api/patrimonio/${item.patrimonio.idP}/transferencias`, {
+                    const response = await fetch(`/api/patrimonio/${item.patrimonio.idP}/transferências`, {
                         method: 'POST',
                         cache: 'no-store',
                         headers: { 'Content-Type': 'application/json' },
@@ -239,13 +241,13 @@ export default function TransferenciaCustoPatrimonioTable() {
             }
 
             if (erros.length > 0) {
-                window.systemAlert?.('aviso', `Transferência parcial concluída. Falhas: ${erros.length}.`);
+                showNotify('aviso', `Transferência parcial concluída. Falhas: ${erros.length}.`);
             } else {
-                window.systemAlert?.('sucesso', 'Transferencia de patrimonio realizada com sucesso.');
+                showNotify('sucesso', 'Transferência de patrimônio realizada com sucesso.');
             }
         } catch (error) {
             console.error('Erro ao transferir patrimonio:', error);
-            window.systemAlert?.('erro', 'Erro ao transferir patrimonio.');
+            showNotify('erro', 'Erro ao transferir patrimônio.');
         } finally {
             setExecutando(false);
         }
@@ -253,11 +255,11 @@ export default function TransferenciaCustoPatrimonioTable() {
 
     const gerarPdf = () => {
         if (!canPrint) {
-            window.systemAlert?.('aviso', 'Voce nao tem permissao para imprimir/gerar relatorios.');
+            showNotify('aviso', 'Você não tem permissão para imprimir/gerar relatórios.');
             return;
         }
         if (movimentacoesExecutadas.length === 0) {
-            window.systemAlert?.('aviso', 'Nao ha dados para gerar o relatorio.');
+            showNotify('aviso', 'Não há dados para gerar o relatório.');
             return;
         }
 
@@ -279,7 +281,7 @@ export default function TransferenciaCustoPatrimonioTable() {
         <div className="space-y-4">
             <div className="bg-white rounded-lg shadow p-4 space-y-3">
                 <div className="flex items-center justify-between gap-2">
-                    <h3 className="font-semibold">Transferir Patrimônio por ID</h3>
+                    <h3 className="font-semibold">Transferir patrimônio por ID</h3>
                     <Button
                         type="button"
                         variant="ghost"
@@ -293,7 +295,7 @@ export default function TransferenciaCustoPatrimonioTable() {
                 </div>
 
                 <p className="text-xs text-gray-500">
-                    A transferência pode ser validada para patrimônio em qualquer situação cadastrada; a situação atual é exibida na lista e no relatório.
+                    A Transferência pode ser validada para patrimônio em qualquer situação cadastrada; a situação atual é exibida na lista e no relatório.
                 </p>
 
                 <div className="flex flex-col md:flex-row gap-2 md:items-center">
@@ -396,7 +398,7 @@ export default function TransferenciaCustoPatrimonioTable() {
                         className="h-8 border-yellow-300 bg-yellow-700 hover:bg-yellow-100"
                         onClick={executarTransferencias}
                         disabled={selecionados.length === 0 || executando}
-                        title="Executar transferências selecionadas"
+                        title="Executar Transferências selecionadas"
                     >
                         <CalendarClock className="h-4 w-4 mr-2" />
                         {executando ? 'Executando...' : 'Executar Transferências'}
@@ -542,3 +544,6 @@ export default function TransferenciaCustoPatrimonioTable() {
         </div>
     );
 }
+
+
+

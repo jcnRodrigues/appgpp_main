@@ -1,3 +1,6 @@
+import { Inbox } from 'lucide-react';
+import TableState from '@/components/TableState/TableState';
+
 interface CentroResumo {
   id: string;
   codigo: string;
@@ -13,9 +16,11 @@ interface CentroResumo {
 export default function CentrosResumoCards({ centros }: { centros: CentroResumo[] }) {
   if (!centros.length) {
     return (
-      <div className="bg-card text-muted-foreground border border-border rounded-lg shadow p-6 text-sm">
-        Nenhum centro de custo encontrado para exibir os cards.
-      </div>
+      <TableState
+        icon={Inbox}
+        title="Nenhum centro de custo encontrado"
+        description="Ainda não há dados suficientes para montar os cards do resumo."
+      />
     );
   }
 

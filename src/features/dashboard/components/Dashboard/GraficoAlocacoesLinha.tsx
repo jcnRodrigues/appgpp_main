@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Inbox } from 'lucide-react';
+import TableState from '@/components/TableState/TableState';
 import { getDashboardRefreshMs } from './refreshConfig';
 
 const CORES_CENTROS = [
@@ -69,9 +71,20 @@ export default function GraficoAlocacoesLinha() {
     if (loading) {
         return (
             <div className="bg-white rounded-lg shadow p-6">
-                <div className="h-80 flex items-center justify-center">
-                    <span className="text-gray-400">Carregando gráfico...</span>
-                </div>
+                <TableState icon={Inbox} title="Carregando gráfico" compact />
+            </div>
+        );
+    }
+
+    if (!dados.length) {
+        return (
+            <div className="bg-white rounded-lg shadow p-6">
+                <TableState
+                    icon={Inbox}
+                    title="Sem dados para o gráfico"
+                    description="Ainda não há histórico suficiente para exibir a evolução."
+                    compact
+                />
             </div>
         );
     }
@@ -89,7 +102,7 @@ export default function GraficoAlocacoesLinha() {
                     />
                     <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />
                     <Tooltip
-                        labelFormatter={(mes) => formatarMes(mes)}
+                        labelFormatter={(mes) => formatarMes(String(mes))}
                         contentStyle={tooltipStyle}
                         labelStyle={{ color: 'var(--popover-foreground)', fontWeight: 600 }}
                         itemStyle={{ color: 'var(--popover-foreground)' }}

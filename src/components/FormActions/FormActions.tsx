@@ -24,9 +24,9 @@ export default function FormActions({
     loadingLabel = 'Salvando...',
     loading = false,
     disabled = false,
-    className = 'flex gap-4 justify-end pt-6',
-    cancelClassName = 'border-slate-300 bg-slate-950 text-slate-100 hover:bg-slate-900 hover:text-white shadow-sm',
-    submitClassName = 'bg-emerald-600 text-white hover:bg-emerald-500 shadow-sm'
+    className = 'flex flex-col-reverse gap-3 pt-6 sm:flex-row sm:justify-end',
+    cancelClassName = 'border-slate-300 bg-slate-950 text-slate-100 shadow-sm hover:bg-slate-900 hover:text-white',
+    submitClassName = 'bg-emerald-600 text-white shadow-sm hover:bg-emerald-500'
 }: Props) {
     const cancelButton = (
         cancelHref ? (
@@ -52,7 +52,7 @@ export default function FormActions({
                 type="submit"
                 variant="default"
                 disabled={loading || disabled}
-                className={submitClassName}
+                className={`${submitClassName} min-w-[140px]`}
             >
                 {loading ? loadingLabel : submitLabel}
             </Button>

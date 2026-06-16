@@ -5,13 +5,14 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { hasActionPermission, hasModuleActionPermission } from '@/lib/permissions';
 import { cn } from '@/lib/utils';
+import { notify as showNotify } from '@/lib/notify';
 
 type DeleteResource =
     | 'funcionario'
     | 'patrimonio'
     | 'cadastro'
     | 'ccusto'
-    | 'funcao'
+    | 'função'
     | 'licenca'
     | 'usuario_acesso'
     | 'unifi_config';
@@ -51,7 +52,7 @@ export default function DeleteGuardButton({
             patrimonio: 'PATRIMONIO',
             cadastro: 'ALOCACOES',
             ccusto: 'CENTRO_CUSTO',
-            funcao: 'FUNCOES',
+            função: 'FUNCOES',
             licenca: 'LICENCAS_SOFTWARE',
             usuario_acesso: 'ACESSO_USUARIOS',
             unifi_config: 'UNIFI_CONFIG'
@@ -76,7 +77,7 @@ export default function DeleteGuardButton({
         }
 
         if (unauthorizedBehavior === 'alert') {
-            window.systemAlert?.('aviso', unauthorizedMessage);
+            showNotify('aviso', unauthorizedMessage);
             return;
         }
 
@@ -93,7 +94,7 @@ export default function DeleteGuardButton({
             type="button"
             onClick={handleClick}
             className={cn(
-                "inline-flex items-center justify-center gap-2 rounded-lg border border-rose-500/15 bg-slate-900 px-3 py-2 text-rose-100 shadow-sm transition-colors hover:bg-rose-600 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500/40 disabled:pointer-events-none disabled:opacity-50",
+                "items-center justify-center gap-2 rounded-lg border px-3 py-2  shadow-sm transition-colors hover:bg-red-600   focus-visible:ring-2 disabled:pointer-events-none ",
                 className
             )}
             title={canDeleteDirectly ? title : 'Requer autorizacao para excluir'}
@@ -102,3 +103,4 @@ export default function DeleteGuardButton({
         </button>
     );
 }
+

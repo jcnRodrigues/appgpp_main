@@ -97,7 +97,7 @@ async function resolverTipoAtivoRede(idTipoAtivoRede?: string | null, fallback?:
             where: { idTipoAtivoRede }
         });
         if (!tipo) {
-            throw new Error('Tipo de ativo de rede nao encontrado');
+            throw new Error('Tipo de ativo de rede não encontrado');
         }
         return { id: tipo.idTipoAtivoRede, descricao: tipo.descricaoTipoAtivoRede };
     }
@@ -125,7 +125,7 @@ async function resolverStatusAtivoRede(idStatusAtivoRede?: string | null, fallba
             where: { idStatusAtivoRede }
         });
         if (!status) {
-            throw new Error('Status de ativo de rede nao encontrado');
+            throw new Error('Status de ativo de rede não encontrado');
         }
         return { id: status.idStatusAtivoRede, descricao: status.descricaoStatusAtivoRede };
     }
@@ -153,7 +153,7 @@ async function resolverCentroAtivoRede(idCCustoAtivoRede?: string | null, fallba
             where: { idCCusto: idCCustoAtivoRede }
         });
         if (!centro) {
-            throw new Error('Centro de custo nao encontrado');
+            throw new Error('Centro de custo não encontrado');
         }
         return { id: centro.idCCusto, descricao: centro.descricaoCCusto || centro.codigoCCusto || null };
     }
@@ -194,7 +194,7 @@ async function buscarCentroParaupebasObrigatorio() {
     });
 
     if (!centro) {
-        throw new Error('Centro de custo Filial Paraupebas nao encontrado');
+        throw new Error('Centro de custo Filial Paraupebas não encontrado');
     }
 
     return centro;
@@ -223,7 +223,7 @@ export async function listarCentrosAtivoRede() {
 export async function criarTipoAtivoRede(descricaoTipoAtivoRede: string) {
     const descricao = descricaoTipoAtivoRede.trim().toUpperCase();
     if (!descricao) {
-        throw new Error('Descricao do tipo e obrigatoria');
+        throw new Error('Descrição do tipo é obrigatória');
     }
 
     const existente = await prisma.tbTipoAtivoRede.findFirst({
@@ -246,7 +246,7 @@ export async function criarTipoAtivoRede(descricaoTipoAtivoRede: string) {
 export async function criarStatusAtivoRede(descricaoStatusAtivoRede: string) {
     const descricao = descricaoStatusAtivoRede.trim().toUpperCase();
     if (!descricao) {
-        throw new Error('Descricao do status e obrigatoria');
+        throw new Error('Descrição do status é obrigatória');
     }
 
     const existente = await prisma.tbStatusAtivoRede.findFirst({
@@ -400,7 +400,7 @@ export async function criarAtivoRede(dados: {
     });
 
     if (existente) {
-        throw new Error('Ja existe um ativo de rede com este codigo');
+        throw new Error('Já existe um ativo de rede com este código');
     }
 
     const tipo = await resolverTipoAtivoRede(dados.idTipoAtivoRede, dados.tipoAtivoRede);
@@ -408,15 +408,15 @@ export async function criarAtivoRede(dados: {
     const centro = await resolverCentroAtivoRede(dados.idCCustoAtivoRede, dados.centroResponsavelAtivoRede);
 
     if (!tipo.id && !tipo.descricao) {
-        throw new Error('Tipo de ativo de rede e obrigatorio');
+        throw new Error('Tipo de ativo de rede é obrigatório');
     }
 
     if (!status.id && !status.descricao) {
-        throw new Error('Status de ativo de rede e obrigatorio');
+        throw new Error('Status de ativo de rede é obrigatório');
     }
 
     if (!centro.id && !centro.descricao) {
-        throw new Error('Centro de custo e obrigatorio');
+        throw new Error('Centro de custo é obrigatório');
     }
 
     return prisma.tbAtivoRede.create({
@@ -569,12 +569,12 @@ export async function transferirAtivoRede(params: {
     });
 
     if (!ativo) {
-        throw new Error('Ativo de rede nao encontrado');
+        throw new Error('Ativo de rede não encontrado');
     }
 
     const centroDestino = await resolverCentroAtivoRede(params.idCCustoDestinoAtivoRede, null);
     if (!centroDestino.id) {
-        throw new Error('Centro de custo de destino e obrigatorio');
+        throw new Error('Centro de custo de destino é obrigatório');
     }
 
     const centroDestinoCompleto = await prisma.tbCCusto.findUnique({
@@ -582,7 +582,7 @@ export async function transferirAtivoRede(params: {
     });
 
     if (!centroDestinoCompleto) {
-        throw new Error('Centro de custo de destino nao encontrado');
+        throw new Error('Centro de custo de destino não encontrado');
     }
 
     const statusNovo = (params.statusNovoAtivoRede?.trim() || 'TRANSFERIDO').toUpperCase();
@@ -633,7 +633,7 @@ export async function devolverAtivoRede(params: {
     });
 
     if (!ativo) {
-        throw new Error('Ativo de rede nao encontrado');
+        throw new Error('Ativo de rede não encontrado');
     }
 
     const centroParaupebas = await buscarCentroParaupebasObrigatorio();

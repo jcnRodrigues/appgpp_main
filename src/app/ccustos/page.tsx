@@ -1,15 +1,16 @@
-import Header from '@/components/Header/Header';
-import CCustoFilter from '@/features/centro-custo/components/CCustoFilter/CCustoFilter';
-import CCustoTable from '@/features/centro-custo/components/CCustoTable/CCustoTable';
-import { listarCentrosCusto, listarStatusCentroCusto } from '@/features/centro-custo/server/centrocusto.service';
-import Link from 'next/link';
+﻿import Header from '@/components/Header/Header';
+import PageHeader from '@/components/PageHeader/PageHeader';
 import { Button } from '@/components/ui/button';
 import PermissionActionLink from '@/components/PermissionActionLink/PermissionActionLink';
-import { Plus, ChevronLeft } from 'lucide-react';
-import { getServerSession } from 'next-auth';
-import { AuthOptions } from '../api/auth/[...nextauth]/route';
+import { listarCentrosCusto, listarStatusCentroCusto } from '@/features/centro-custo/server/centrocusto.service';
 import { hasModuleAccess } from '@/lib/permissions';
+import { getServerSession } from 'next-auth';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { AuthOptions } from '../api/auth/[...nextauth]/route';
+import CCustoFilter from '@/features/centro-custo/components/CCustoFilter/CCustoFilter';
+import CCustoTable from '@/features/centro-custo/components/CCustoTable/CCustoTable';
+import { LandmarkIcon, Plus } from 'lucide-react';
 
 type SearchParams = {
     statusId?: string;
@@ -28,10 +29,10 @@ export default async function CCustosPage({
         return (
             <div className="bg-background min-h-screen py-6">
                 <Header />
-                <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-                    <h1 className="text-2xl font-bold mb-4">Centros de Custo</h1>
-                    <div className="bg-white p-8 rounded-lg shadow-sm">
-                        <p className="text-lg mb-6">Faca login para visualizar os centros de custo</p>
+                <div className="mx-auto max-w-4xl px-4 py-12 text-center">
+                    <h1 className="mb-4 text-2xl font-bold">Centros de Custo</h1>
+                    <div className="rounded-lg bg-white p-8 shadow-sm">
+                        <p className="mb-6 text-lg">Faça login para visualizar os centros de custo.</p>
                         <Button asChild>
                             <Link href="/">Ir para Login</Link>
                         </Button>
@@ -55,36 +56,28 @@ export default async function CCustosPage({
     return (
         <div className="bg-background min-h-screen py-6">
             <Header />
-            <div className="max-w-[86.4rem] mx-auto px-4">
-                <div className="form-title-sticky flex items-center justify-between mb-8 mt-4">
-                    <div className="flex items-center gap-4">
-                        <Link href="/">
-                            <ChevronLeft className="h-6 w-6 text-primary hover:text-primary/80 transition" />
-                        </Link>
-                        <div>
-                            <h1 className="text-h2 font-bold">Centros de Custo</h1>
-                            <p className="text-gray-600 text-sm mt-1">Gerencie os centros de custo da empresa</p>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <Link href="/ccusto/medicao">
-                            <Button variant="ghost" className="flex gap-2 bg-green-500 hover:bg-green-600">
-                                Medição
-                            </Button>
-                        </Link>
-                        <PermissionActionLink
-                            href="/ccusto/cadastro"
-                            action="CREATE"
-                            module="CENTRO_CUSTO"
-                            deniedMessage="Você não tem permissão para adicionar registros."
-                        >
-                            <Button variant="ghost" className="flex gap-2 bg-green-500 hover:bg-green-600">
-                                <Plus className="h-5 w-5" />
-                                Novo Centro
-                            </Button>
-                        </PermissionActionLink>
-                    </div>
-                </div>
+            <div className="mx-auto max-w-[86.4rem] px-4">
+                <PageHeader
+                    icon={LandmarkIcon}
+                    title="Centros de Custo"
+                    description="Gerencie os centros de custo da empresa."
+                    backHref="/"
+                    actions={
+                        <>
+                            <PermissionActionLink
+                                href="/ccusto/cadastro"
+                                action="CREATE"
+                                module="CENTRO_CUSTO"
+                                deniedMessage="Você não tem permissão para adicionar registros."
+                            >
+                                <Button variant="ghost" className="flex gap-2 bg-green-500 hover:bg-green-600">
+                                    <Plus className="h-5 w-5" />
+                                    Novo Centro
+                                </Button>
+                            </PermissionActionLink>
+                        </>
+                    }
+                />
 
                 <CCustoFilter statusId={statusId} statusOptions={statusOptions} />
                 <CCustoTable centros={centros} statusId={statusId} />
@@ -92,3 +85,4 @@ export default async function CCustosPage({
         </div>
     );
 }
+

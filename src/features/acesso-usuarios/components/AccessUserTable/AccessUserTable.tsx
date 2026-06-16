@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useMemo, useState } from 'react';
 import { Edit, Filter, Trash2 } from 'lucide-react';
@@ -23,29 +23,39 @@ type ResumoModulo = {
     actions: ActionPermission[];
 };
 
+type UsuarioComResumo = AcessoUsuario & {
+    resumoAcessos: ResumoModulo[];
+    possuiDeleteAny: boolean;
+};
+
 const FORMULARIOS_LABELS: Record<string, string> = {
     DASHBOARD: 'Dashboard',
-    FUNCIONARIOS: 'Funcionarios',
-    PATRIMONIO: 'Patrimonio',
+    FUNCIONARIOS: 'Funcionários',
+    PATRIMONIO: 'Patrimônio',
     UNIFI_CONFIG: 'Monitor de Rede Ubiquiti',
     CENTRO_CUSTO: 'Centros de Custo',
-    MEDICAO_CCUSTO: 'Medicao por Centro de Custo',
-    FUNCOES: 'Funcoes',
-    LICENCAS_SOFTWARE: 'Licencas de Software',
-    ALOCACOES: 'Alocacao de Patrimonios',
-    ACESSO_USUARIOS: 'Acesso de Usuarios',
-    IMPORTACAO_EXPORTACAO: 'Importacao e Exportacao de Dados',
+    MEDICAO_CCUSTO: 'Medição por Centro de Custo',
+    FUNCOES: 'Funções',
+    LICENCAS_SOFTWARE: 'Licenças de Software',
+    ALOCACOES: 'Alocações de Patrimônios',
+    ACESSO_USUARIOS: 'Acesso de Usuários',
+    IMPORTACAO_EXPORTACAO: 'Importação e Exportação de Dados',
     ATIVOS_REDE: 'Ativos de Rede'
 };
 
 const ACTION_LABELS: Record<ActionPermission, string> = {
-    CREATE: 'Adicionar registros',
-    UPDATE: 'Alterar registros',
-    DELETE: 'Excluir registros',
-    PRINT: 'Imprimir/Gerar relatorios'
+    CREATE: 'Adicionar',
+    UPDATE: 'Alterar',
+    DELETE: 'Excluir',
+    PRINT: 'Relatório',
+    TRANSFER: 'Transferir',
+    RETURN: 'Devolver',
+    IMPORT: 'Importar',
+    EXPORT: 'Exportar'
 };
 
-const ACTION_ORDER: ActionPermission[] = ['CREATE', 'UPDATE', 'DELETE', 'PRINT'];
+const ACTION_ORDER: ActionPermission[] = ['CREATE', 'UPDATE', 'DELETE', 'PRINT', 'TRANSFER', 'RETURN', 'IMPORT', 'EXPORT'];
+const MAX_VISIBLE_MODULES = 2;
 
 function montarResumo(formularios: string[]): ResumoModulo[] {
     const set = new Set(formularios);
@@ -59,6 +69,45 @@ function montarResumo(formularios: string[]): ResumoModulo[] {
                 .filter((action) => set.has(ACTION_TOKENS[action]))
                 .sort((a, b) => ACTION_ORDER.indexOf(a) - ACTION_ORDER.indexOf(b))
         }));
+}
+
+function AccessSummaryList({ itens }: { itens: ResumoModulo[] }) {
+    const visiveis = itens.slice(0, MAX_VISIBLE_MODULES);
+    const restantes = Math.max(0, itens.length - visiveis.length);
+
+    return (
+        <div className="space-y-1.5">
+            {visiveis.map((item) => (
+                <div key={item.id} className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-2">
+                    <div className="flex items-center justify-between gap-2">
+                        <div className="min-w-0 text-sm font-semibold text-slate-900 truncate">{item.label}</div>
+                        <div className="shrink-0 text-[11px] font-medium text-slate-500">
+                            {item.actions.length} ação(ões)
+                        </div>
+                    </div>
+
+                    {item.actions.length > 0 ? (
+                        <div className="mt-2 flex flex-wrap gap-1.5">
+                            {item.actions.map((action) => (
+                                <span
+                                    key={`${item.id}-${action}`}
+                                    className="rounded-full bg-slate-200 px-2 py-0.5 text-[10px] font-medium text-slate-700"
+                                >
+                                    {ACTION_LABELS[action]}
+                                </span>
+                            ))}
+                        </div>
+                    ) : (
+                        <p className="mt-1 text-[11px] text-slate-500">Sem ações adicionais</p>
+                    )}
+                </div>
+            ))}
+
+            {restantes > 0 ? (
+                <div className="text-[11px] text-slate-500">+{restantes} módulo(s) adicional(is)</div>
+            ) : null}
+        </div>
+    );
 }
 
 export default function AccessUserTable() {
@@ -77,7 +126,7 @@ export default function AccessUserTable() {
         });
     }, [usuarios, filtroNome, filtroEmail, filtroStatus]);
 
-    const usuariosComResumo = useMemo(() => {
+    const usuariosComResumo = useMemo<UsuarioComResumo[]>(() => {
         return usuariosFiltrados.map((usuario) => ({
             ...usuario,
             resumoAcessos: montarResumo(usuario.formularios || []),
@@ -93,11 +142,11 @@ export default function AccessUserTable() {
                 const data = await response.json();
                 setUsuarios(data.data || []);
             } else {
-                window.systemAlert?.('erro', 'Erro ao carregar usuarios');
+                window.systemAlert?.('erro', 'Erro ao carregar usuários');
             }
         } catch (error) {
-            console.error('Erro ao carregar usuarios:', error);
-            window.systemAlert?.('erro', 'Erro ao carregar usuarios');
+            console.error('Erro ao carregar usuários:', error);
+            window.systemAlert?.('erro', 'Erro ao carregar usuários');
         } finally {
             setLoading(false);
         }
@@ -110,6 +159,7 @@ export default function AccessUserTable() {
                 cancelText: 'Cancelar'
             })
             : window.confirm('Tem certeza que deseja remover este acesso?');
+
         if (!confirmou) return;
 
         try {
@@ -133,32 +183,32 @@ export default function AccessUserTable() {
 
     return (
         <div className="space-y-4">
-            <div className="sticky top-[calc(var(--app-header-height)+96px)] z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-2">
-                <div className="bg-white rounded-lg shadow-md p-4 space-y-4">
-                    <div className="flex items-center gap-2 mb-4">
+            <div className="sticky top-[calc(var(--app-header-height)+96px)] z-30 bg-background/95 pb-2 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+                <div className="space-y-4 rounded-lg bg-white p-4 shadow-md">
+                    <div className="mb-2 flex items-center gap-2">
                         <Filter className="h-5 w-5 text-primary" />
                         <h3 className="font-semibold">Filtros</h3>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
                         <input
                             type="text"
                             placeholder="Buscar por nome..."
                             value={filtroNome}
                             onChange={(e) => setFiltroNome(e.target.value)}
-                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                            className="rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
                         />
                         <input
                             type="text"
                             placeholder="Buscar por email..."
                             value={filtroEmail}
                             onChange={(e) => setFiltroEmail(e.target.value)}
-                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                            className="rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
                         />
                         <select
                             value={filtroStatus}
                             onChange={(e) => setFiltroStatus(e.target.value)}
-                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                            className="rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
                         >
                             <option value="">Todos os status</option>
                             <option value="ATIVO">Ativo</option>
@@ -168,70 +218,59 @@ export default function AccessUserTable() {
                 </div>
             </div>
 
-            <div className="md:hidden space-y-3">
+            <div className="space-y-3 md:hidden">
                 {loading ? (
-                    <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500">Carregando...</div>
+                    <div className="rounded-lg bg-white p-4 text-center text-gray-500 shadow-md">Carregando...</div>
                 ) : usuariosComResumo.length === 0 ? (
-                    <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500">Nenhum usuário encontrado</div>
+                    <div className="rounded-lg bg-white p-4 text-center text-gray-500 shadow-md">Nenhum usuário encontrado</div>
                 ) : (
                     usuariosComResumo.map((usuario) => (
-                        <div key={usuario.id} className="bg-white rounded-lg shadow-md p-4 space-y-3">
+                        <div key={usuario.id} className="space-y-3 rounded-lg bg-white p-4 shadow-md">
                             <div className="flex items-start justify-between gap-3">
-                                <div>
-                                    <div className="text-sm font-semibold text-gray-900">{usuario.nome}</div>
-                                    <div className="text-xs text-gray-500">{usuario.email}</div>
+                                <div className="min-w-0">
+                                    <div className="truncate text-sm font-semibold text-gray-900">{usuario.nome}</div>
+                                    <div className="truncate text-xs text-gray-500">{usuario.email}</div>
                                 </div>
-                                <span className={`px-2 py-1 rounded-full text-[11px] font-semibold ${usuario.status === 'ATIVO' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                <span
+                                    className={`rounded-full px-2 py-1 text-[11px] font-semibold ${
+                                        usuario.status === 'ATIVO'
+                                            ? 'bg-green-100 text-green-800'
+                                            : 'bg-red-100 text-red-800'
+                                    }`}
+                                >
                                     {usuario.status === 'ATIVO' ? 'Ativo' : 'Inativo'}
                                 </span>
                             </div>
+
                             <div className="grid grid-cols-2 gap-2 text-xs">
                                 <div className="text-gray-500">Tipo</div>
-                                <div className="text-gray-800 text-right">
-                                    {usuario.authType === 'LOCAL' ? 'Local' : 'Google'}
-                                </div>
-                                <div className="text-gray-500">
-                                    Centros
-                                </div>
-                                <div className="text-gray-800 text-right">
-                                    {usuario.centros?.length || 0}
-                                </div>
+                                <div className="text-right text-gray-800">{usuario.authType === 'LOCAL' ? 'Local' : 'Google'}</div>
+                                <div className="text-gray-500">Centros</div>
+                                <div className="text-right text-gray-800">{usuario.centros?.length || 0}</div>
                             </div>
+
                             <div className="space-y-2 border-t pt-3">
                                 <div className="text-xs font-semibold uppercase tracking-wide text-gray-500">Acessos</div>
                                 {usuario.resumoAcessos.length > 0 ? (
-                                    usuario.resumoAcessos.map((item) => (
-                                        <div key={item.id} className="rounded-lg border border-slate-200 bg-slate-50 p-3">
-                                            <div className="text-sm font-semibold text-slate-900">{item.label}</div>
-                                            <div className="mt-2 flex flex-wrap gap-2">
-                                                {item.actions.length > 0 ? (
-                                                    item.actions.map((action) => (
-                                                        <span key={`${item.id}-${action}`} className="rounded-full bg-slate-200 px-2 py-1 text-[11px] text-slate-700">
-                                                            {ACTION_LABELS[action]}
-                                                        </span>
-                                                    ))
-                                                ) : (
-                                                    <span className="text-xs text-gray-500">Sem ações adicionais</span>
-                                                )}
-                                            </div>
-                                        </div>
-                                    ))
+                                    <AccessSummaryList itens={usuario.resumoAcessos} />
                                 ) : (
                                     <p className="text-xs text-gray-500">Nenhum acesso de formulário concedido.</p>
                                 )}
-                                {usuario.possuiDeleteAny && (
+
+                                {usuario.possuiDeleteAny ? (
                                     <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
                                         <div className="text-sm font-semibold text-amber-900">Permissão extra</div>
-                                        <div className="mt-2 flex flex-wrap gap-2">
+                                        <div className="mt-2">
                                             <span className="rounded-full bg-amber-200 px-2 py-1 text-[11px] text-amber-900">
                                                 Excluir qualquer registro
                                             </span>
                                         </div>
                                     </div>
-                                )}
+                                ) : null}
                             </div>
+
                             <div className="flex items-center justify-end gap-2 pt-1">
-                                <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
+                                <Button asChild variant="ghost" size="icon" className="rounded-lg text-blue-600 transition hover:bg-blue-100">
                                     <Link href={`/acesso-usuarios/cadastro?id=${usuario.id}`} title="Editar">
                                         <Edit className="h-4 w-4" />
                                     </Link>
@@ -240,7 +279,7 @@ export default function AccessUserTable() {
                                     resource="usuario_acesso"
                                     recordId={usuario.id}
                                     onAuthorizedDelete={() => handleDelete(usuario.id)}
-                                    className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
+                                    className="rounded-lg p-2 text-red-600 transition hover:bg-red-100"
                                     title="Excluir"
                                 >
                                     <Trash2 className="h-4 w-4" />
@@ -251,10 +290,10 @@ export default function AccessUserTable() {
                 )}
             </div>
 
-            <div className="hidden md:block bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="hidden overflow-hidden rounded-lg bg-white shadow-md md:block">
                 <div className="overflow-x-auto">
-                    <table className="w-full min-w-[1100px]">
-                        <thead className="bg-gray-50 border-b">
+                    <table className="min-w-[1100px] w-full">
+                        <thead className="border-b bg-gray-50">
                             <tr>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Nome</th>
                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Email</th>
@@ -272,57 +311,47 @@ export default function AccessUserTable() {
                                 </tr>
                             ) : usuariosComResumo.length === 0 ? (
                                 <tr>
-                                    <td colSpan={7} className="px-6 py-4 text-center text-gray-500">Nenhum usuario encontrado</td>
+                                    <td colSpan={7} className="px-6 py-4 text-center text-gray-500">Nenhum usuário encontrado</td>
                                 </tr>
                             ) : (
                                 usuariosComResumo.map((usuario) => (
-                                    <tr key={usuario.id} className="border-b hover:bg-gray-50 transition">
-                                        <td className="px-6 py-4 text-sm text-gray-900 font-medium">{usuario.nome}</td>
+                                    <tr key={usuario.id} className="border-b transition hover:bg-gray-50">
+                                        <td className="px-6 py-4 text-sm font-medium text-gray-900">{usuario.nome}</td>
                                         <td className="px-6 py-4 text-sm text-gray-700">{usuario.email}</td>
                                         <td className="px-6 py-4 text-sm text-gray-700">{usuario.authType === 'LOCAL' ? 'Local' : 'Google'}</td>
                                         <td className="px-6 py-4 text-sm">
-                                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${usuario.status === 'ATIVO' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                            <span
+                                                className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                                                    usuario.status === 'ATIVO'
+                                                        ? 'bg-green-100 text-green-800'
+                                                        : 'bg-red-100 text-red-800'
+                                                }`}
+                                            >
                                                 {usuario.status === 'ATIVO' ? 'Ativo' : 'Inativo'}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-sm text-gray-700">{usuario.centros?.length || 0}</td>
                                         <td className="px-6 py-4 text-sm text-gray-700">
-                                            <div className="space-y-2">
-                                                {usuario.resumoAcessos.length > 0 ? (
-                                                    usuario.resumoAcessos.map((item) => (
-                                                        <div key={item.id} className="rounded-lg border border-slate-200 bg-slate-50 p-3">
-                                                            <div className="text-sm font-semibold text-slate-900">{item.label}</div>
-                                                            <div className="mt-2 flex flex-wrap gap-2">
-                                                                {item.actions.length > 0 ? (
-                                                                    item.actions.map((action) => (
-                                                                        <span key={`${item.id}-${action}`} className="rounded-full bg-slate-200 px-2 py-1 text-[11px] text-slate-700">
-                                                                            {ACTION_LABELS[action]}
-                                                                        </span>
-                                                                    ))
-                                                                ) : (
-                                                                    <span className="text-xs text-gray-500">Sem ações adicionais</span>
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    ))
-                                                ) : (
-                                                    <span className="text-xs text-gray-500">Nenhum acesso de formulário concedido.</span>
-                                                )}
-                                                {usuario.possuiDeleteAny && (
-                                                    <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
-                                                        <div className="text-sm font-semibold text-amber-900">Permissão extra</div>
-                                                        <div className="mt-2 flex flex-wrap gap-2">
-                                                            <span className="rounded-full bg-amber-200 px-2 py-1 text-[11px] text-amber-900">
-                                                                Excluir qualquer registro
-                                                            </span>
-                                                        </div>
+                                            {usuario.resumoAcessos.length > 0 ? (
+                                                <AccessSummaryList itens={usuario.resumoAcessos} />
+                                            ) : (
+                                                <span className="text-xs text-gray-500">Nenhum acesso de formulário concedido.</span>
+                                            )}
+
+                                            {usuario.possuiDeleteAny ? (
+                                                <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3">
+                                                    <div className="text-sm font-semibold text-amber-900">Permissão extra</div>
+                                                    <div className="mt-2">
+                                                        <span className="rounded-full bg-amber-200 px-2 py-1 text-[11px] text-amber-900">
+                                                            Excluir qualquer registro
+                                                        </span>
                                                     </div>
-                                                )}
-                                            </div>
+                                                </div>
+                                            ) : null}
                                         </td>
                                         <td className="px-6 py-4 text-sm">
                                             <div className="flex gap-2">
-                                                <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
+                                                <Button asChild variant="ghost" size="icon" className="rounded-lg text-blue-600 transition hover:bg-blue-100">
                                                     <Link href={`/acesso-usuarios/cadastro?id=${usuario.id}`} title="Editar">
                                                         <Edit className="h-4 w-4" />
                                                     </Link>
@@ -331,7 +360,7 @@ export default function AccessUserTable() {
                                                     resource="usuario_acesso"
                                                     recordId={usuario.id}
                                                     onAuthorizedDelete={() => handleDelete(usuario.id)}
-                                                    className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
+                                                    className="rounded-lg p-2 text-red-600 transition hover:bg-red-100"
                                                     title="Excluir"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
@@ -346,9 +375,11 @@ export default function AccessUserTable() {
                 </div>
             </div>
 
-            <div className="text-sm text-gray-600 text-center py-2">
-                Total de usuarios: {usuariosComResumo.length}
+            <div className="py-2 text-center text-sm text-gray-600">
+                Total de usuários: {usuariosComResumo.length}
             </div>
         </div>
     );
 }
+
+

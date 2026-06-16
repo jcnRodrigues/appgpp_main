@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { criarPatrimonio, listarPatrimonios } from '@/features/patrimonio/server/patrimonio.service';
 import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 import { parseDateInput, parseOptionalDateInput } from '@/lib/date-input';
@@ -14,7 +14,7 @@ function normalizar(valor?: string | null) {
 
 export async function GET(request: NextRequest) {
     const canAccess = await hasModuleAccessForRequest(request, 'PATRIMONIO');
-    if (!canAccess) return NextResponse.json({ message: 'Sem permissao para acessar patrimonio' }, { status: 403 });
+    if (!canAccess) return NextResponse.json({ message: 'Sem permissão para acessar patrimônio' }, { status: 403 });
     try {
         const { searchParams } = new URL(request.url);
         const idPat = searchParams.get('idPat');
@@ -28,6 +28,10 @@ export async function GET(request: NextRequest) {
             : [];
         const tipo = searchParams.get('tipo');
         const centroId = searchParams.get('centroId');
+        const centroIdsRaw = searchParams.get('centroIds');
+        const centroIds = centroIdsRaw
+            ? centroIdsRaw.split(',').map((s) => s.trim()).filter(Boolean)
+            : [];
         const skip = parseInt(searchParams.get('skip') || '0');
         const take = parseInt(searchParams.get('take') || '100');
 
@@ -124,8 +128,9 @@ export async function GET(request: NextRequest) {
         }));
 
         const linhasFiltradas = linhasComCiclo.filter((item) => {
-            if (centroId) {
-                if (item.idPat_CustoPat !== centroId) return false;
+            const centroFiltroUnico = centroId || centroIds[0] || '';
+            if (centroFiltroUnico) {
+                if (item.idPat_CustoPat !== centroFiltroUnico) return false;
             } else if (filtroCentros && filtroCentros.length > 0) {
                 if (item.idPat_CustoPat && !filtroCentros.includes(item.idPat_CustoPat)) return false;
             }
@@ -149,9 +154,9 @@ export async function GET(request: NextRequest) {
             total
         });
     } catch (error) {
-        console.error('Erro ao listar patrimônios:', error);
+        console.error('Erro ao listar patrimÃ´nios:', error);
         return NextResponse.json(
-            { message: 'Erro ao listar patrimônios' },
+            { message: 'Erro ao listar patrimÃ´nios' },
             { status: 500 }
         );
     }
@@ -160,14 +165,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     const canAccess = await hasModuleAccessForRequest(request, 'PATRIMONIO');
     const canCreate = await hasActionPermissionForRequest(request, 'CREATE');
-    if (!canAccess || !canCreate) return NextResponse.json({ message: 'Sem permissao para criar patrimonio' }, { status: 403 });
+    if (!canAccess || !canCreate) return NextResponse.json({ message: 'Sem permissão para criar patrimônio' }, { status: 403 });
     try {
         const dados = await request.json();
 
-        // Validação básica
+        // ValidaÃ§Ã£o bÃ¡sica
         if (!dados.idPat || !dados.descricaoPat || !dados.valorPat || !dados.dataEntPat) {
             return NextResponse.json(
-                { message: 'Campos obrigatórios faltando' },
+                { message: 'Campos obrigatÃ³rios faltando' },
                 { status: 400 }
             );
         }
@@ -243,13 +248,14 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json(patrimonio, { status: 201 });
     } catch (error: unknown) {
-        console.error('Erro ao criar patrimônio:', error);
-        const errorMessage = error instanceof Error ? error.message : 'Erro ao criar patrimônio';
+        console.error('Erro ao criar patrimÃ´nio:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Erro ao criar patrimÃ´nio';
         return NextResponse.json(
             { message: errorMessage },
             { status: 500 }
         );
     }
 }
+
 
 

@@ -1,4 +1,4 @@
-"use server"
+﻿"use server"
 
 import prisma from "../../../../prisma/prisma";
 
@@ -47,8 +47,8 @@ export async function getFuncoes(paginacao?: { skip?: number; take?: number; nom
         }
     });
 
-    const filtradas = todasFuncoes.filter((funcao) =>
-        normalizarTexto(funcao.nomeFuncao).includes(filtroNormalizado)
+    const filtradas = todasFuncoes.filter((função) =>
+        normalizarTexto(função.nomeFuncao).includes(filtroNormalizado)
     );
 
     const paginadas = filtradas.slice(skip, skip + take);
@@ -78,8 +78,8 @@ export async function contarFuncoes(nome?: string, centroId?: string) {
         select: { nomeFuncao: true }
     });
 
-    return todasFuncoes.filter((funcao) =>
-        normalizarTexto(funcao.nomeFuncao).includes(filtroNormalizado)
+    return todasFuncoes.filter((função) =>
+        normalizarTexto(função.nomeFuncao).includes(filtroNormalizado)
     ).length;
 }
 
@@ -87,7 +87,7 @@ async function adicionarQuantidadeFuncionarios(
     funcoes: Array<{ idFuncao: string; codigoFuncao: number; nomeFuncao: string }>,
     centroId?: string
 ) {
-    const idsFuncoes = funcoes.map((funcao) => funcao.idFuncao);
+    const idsFuncoes = funcoes.map((função) => função.idFuncao);
 
     if (idsFuncoes.length === 0) return [];
 
@@ -108,13 +108,13 @@ async function adicionarQuantidadeFuncionarios(
             .map((item) => [item.idFuncaoFun as string, item._count.idF])
     );
 
-    return funcoes.map((funcao) => ({
-        ...funcao,
-        quantidadeFuncionarios: contagemPorFuncao.get(funcao.idFuncao) ?? 0
+    return funcoes.map((função) => ({
+        ...função,
+        quantidadeFuncionarios: contagemPorFuncao.get(função.idFuncao) ?? 0
     }));
 }
 
-// Funcao para buscar uma funcao pelo ID
+// Funcao para buscar uma função pelo ID
 export async function getFuncaoById(idFuncao: string) {
     return await prisma.tbFuncao.findUnique({
         where: { idFuncao },
@@ -129,7 +129,7 @@ export async function getFuncaoById(idFuncao: string) {
     });
 }
 
-// Funcao para criar uma nova funcao
+// Funcao para criar uma nova função
 export async function criarFuncao(dados: {
     nomeFuncao: string;
 }) {
@@ -140,7 +140,7 @@ export async function criarFuncao(dados: {
     });
 }
 
-// Funcao para atualizar uma funcao
+// Funcao para atualizar uma função
 export async function atualizarFuncao(idFuncao: string, dados: Partial<{
     nomeFuncao: string;
 }>) {
@@ -150,18 +150,19 @@ export async function atualizarFuncao(idFuncao: string, dados: Partial<{
     });
 }
 
-// Funcao para deletar uma funcao
+// Funcao para deletar uma função
 export async function deletarFuncao(idFuncao: string) {
-    // Verifica se ha funcionarios com essa funcao
+    // Verifica se ha funcionarios com essa função
     const funcionariosComFuncao = await prisma.tbFuncionario.count({
         where: { idFuncaoFun: idFuncao }
     });
 
     if (funcionariosComFuncao > 0) {
-        throw new Error(`Nao e possivel deletar. Existem ${funcionariosComFuncao} funcionario(s) com essa funcao.`);
+        throw new Error(`Nao e possivel deletar. Existem ${funcionariosComFuncao} funcionario(s) com essa função.`);
     }
 
     return await prisma.tbFuncao.delete({
         where: { idFuncao }
     });
 }
+

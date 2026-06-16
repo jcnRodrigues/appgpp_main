@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FolderOpen, RefreshCw, LucideDoorClosedLocked} from 'lucide-react';
@@ -369,3 +369,4 @@ export default function MedicoesEmProcessoTable() {
     </div>
   );
 }
+

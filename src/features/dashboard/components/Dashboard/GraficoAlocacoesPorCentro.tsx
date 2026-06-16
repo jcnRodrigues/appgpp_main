@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LabelList } from 'recharts';
 import { getDashboardRefreshMs } from './refreshConfig';
+import TableState from '@/components/TableState/TableState';
+import { Inbox } from 'lucide-react';
 
 const CORES_TIPOS = [
   '#3b82f6',
@@ -68,9 +70,15 @@ export default function GraficoAlocacoesPorCentro() {
   if (loading) {
     return (
       <div className="bg-white rounded-lg shadow p-6">
-        <div className="h-80 flex items-center justify-center">
-          <span className="text-gray-400">Carregando grafico...</span>
-        </div>
+        <TableState icon={Inbox} title="Carregando gráfico" compact />
+      </div>
+    );
+  }
+
+  if (!dados.length) {
+    return (
+      <div className="bg-white rounded-lg shadow p-6">
+        <TableState icon={Inbox} title="Sem dados para o gráfico" description="Ainda não há alocações suficientes para exibir este painel." compact />
       </div>
     );
   }

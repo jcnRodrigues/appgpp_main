@@ -1,12 +1,13 @@
-'use client'
+﻿'use client';
 
+import { notify as showNotify } from '@/lib/notify';
 import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEnterToNext } from '@/hooks/useEnterToNext';
 import FormActions from '@/components/FormActions/FormActions';
-import Link from 'next/link';
-import { ChevronLeft } from 'lucide-react';
 import { useFormDraft } from '@/hooks/useFormDraft';
+import PageHeader from '@/components/PageHeader/PageHeader';
+import { LandmarkIcon, Pencil, Plus } from 'lucide-react';
 
 export default function CentroCustoForm({ centroId }: { centroId?: string }) {
     const router = useRouter();
@@ -14,12 +15,17 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
     const [loading, setLoading] = useState(false);
     const [empresas, setEmpresas] = useState<any[]>([]);
     const [statusOptions, setStatusOptions] = useState<any[]>([]);
-    const initialCentro = useMemo(() => ({
-        codigoCCusto: '',
-        descricaoCCusto: '',
-        idEmp_Custo: '',
-        idStatusCCusto: ''
-    }), []);
+
+    const initialCentro = useMemo(
+        () => ({
+            codigoCCusto: '',
+            descricaoCCusto: '',
+            idEmp_Custo: '',
+            idStatusCCusto: ''
+        }),
+        []
+    );
+
     const {
         state: centro,
         setState: setCentro,
@@ -47,7 +53,7 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
                         setCentro({
                             codigoCCusto: data.codigoCCusto || '',
                             descricaoCCusto: data.descricaoCCusto || '',
-                            idEmp_Custo: data.idEmp_Custo || '',
+                            idEmp_Custo: data.idEmp_Custo || data.tbEmpresa?.idEmp || '',
                             idStatusCCusto: data.idStatusCCusto || data.tbStatusCCusto?.idStatusCCusto || ''
                         });
                     }
@@ -56,6 +62,7 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
                 }
             }
         };
+
         carregar();
     }, [centroId, setCentro]);
 
@@ -64,7 +71,7 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
         const fieldsToUppercase = ['codigoCCusto', 'descricaoCCusto'];
         const newValue = fieldsToUppercase.includes(name) ? value.toUpperCase() : value;
 
-        setCentro(prev => ({ ...prev, [name]: newValue }));
+        setCentro((prev) => ({ ...prev, [name]: newValue }));
     };
 
     const handleSubmit = async (e: any) => {
@@ -80,25 +87,33 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
 
             let res;
             if (centroId) {
-                res = await fetch(`/api/ccusto/${centroId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                res = await fetch(`/api/ccusto/${centroId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
             } else {
-                res = await fetch('/api/ccusto', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                res = await fetch('/api/ccusto', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
             }
 
             if (res.ok) {
                 const mensagemSucesso = centroId
                     ? 'Centro de custo atualizado com sucesso'
                     : 'Centro de custo criado com sucesso';
-                window.systemAlert?.('sucesso', mensagemSucesso);
+                showNotify('sucesso', mensagemSucesso);
                 if (!centroId) clearCentroDraft();
                 router.push('/ccustos');
             } else {
                 const err = await res.json();
-                window.systemAlert?.('erro', err.message || 'Erro');
+                showNotify('erro', err.message || 'Erro');
             }
         } catch (error) {
             console.error(error);
-            window.systemAlert?.('erro', 'Erro ao salvar');
+            showNotify('erro', 'Erro ao salvar');
         } finally {
             setLoading(false);
         }
@@ -106,62 +121,64 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
 
     return (
         <div className="bg-background min-h-screen py-6">
-            <div className="max-w-2xl mx-auto px-4">
-                <div className="form-title-sticky flex items-center mb-6">
-                    <Link href="/ccustos" className="mr-4">
-                        <ChevronLeft className="h-6 w-6 text-primary" />
-                    </Link>
-                    <h1 className="text-h2 font-bold">
-                        {centroId ? 'Editar Centro de Custo' : 'Cadastrar Centro de Custo'}
-                    </h1>
-                </div>
+            <div className="mx-auto max-w-2xl px-4">
+                <PageHeader
+                    icon={centroId ? Pencil : Plus}
+                    title={centroId ? 'Editar Centro de Custo' : 'Cadastrar Novo Centro de Custo'}
+                    description="Gerencie os dados cadastrais do centro de custo."
+                    backHref="/ccustos"
+                    iconClassName="from-slate-950 via-slate-800 to-emerald-700"
+                />
 
                 <form onSubmit={handleSubmit}
                     onKeyDown={handleEnterToNext}
-                    className="bg-white rounded-lg shadow-lg p-8 space-y-6">
+                    className="space-y-6 rounded-lg bg-white p-8 shadow-lg">
                     <div>
-                        <label className="block text-sm font-medium mb-2">
+                        <label className="mb-2 block text-sm font-medium">
                             Codigo
                         </label>
-                        <input name="codigoCCusto"
+                        <input
+                            name="codigoCCusto"
                             value={centro.codigoCCusto}
                             onChange={handleChange}
-                            className="w-full px-4 py-2 border rounded-lg" />
+                            className="w-full rounded-lg border px-4 py-2"
+                        />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-2">
-                            Descricao *
+                        <label className="mb-2 block text-sm font-medium">
+                            Descrição *
                         </label>
-                        <input name="descricaoCCusto"
+                        <input
+                            name="descricaoCCusto"
                             value={centro.descricaoCCusto}
-                            onChange={handleChange} required
-                            className="w-full px-4 py-2 border rounded-lg" />
+                            onChange={handleChange}
+                            required
+                            className="w-full rounded-lg border px-4 py-2"
+                        />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-2">
-                            Empresa
-                        </label>
-                        <select name="idEmp_Custo"
+                        <label className="mb-2 block text-sm font-medium">Empresa</label>
+                        <select
+                            name="idEmp_Custo"
                             value={centro.idEmp_Custo}
                             onChange={handleChange}
-                            className="w-full px-4 py-2 border rounded-lg">
+                            className="w-full rounded-lg border px-4 py-2"
+                        >
                             <option value="">Selecione</option>
-                            {empresas.map(emp => (
-                                <option key={emp.idEmp}
-                                    value={emp.idEmp}>
+                            {empresas.map((emp) => (
+                                <option key={emp.idEmp} value={emp.idEmp}>
                                     {emp.fantasiaEmpresa || emp.razaoEmpresa || emp.idEmp}
-                                </option>))}
+                                </option>
+                            ))}
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-2">
-                            Status do Centro de Custo *
-                        </label>
+                        <label className="mb-2 block text-sm font-medium">Status do Centro de Custo *</label>
                         <select
                             name="idStatusCCusto"
                             value={centro.idStatusCCusto}
                             onChange={handleChange}
-                            className="w-full px-4 py-2 border rounded-lg"
+                            className="w-full rounded-lg border px-4 py-2"
                             required
                         >
                             <option value="">Selecione</option>

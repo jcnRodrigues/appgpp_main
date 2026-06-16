@@ -1,10 +1,13 @@
-'use client'
+﻿'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEnterToNext } from '@/hooks/useEnterToNext';
 import { useFormDraft } from '@/hooks/useFormDraft';
 import AtivoRedeFormView from './AtivoRedeFormView';
+import { notify as showNotify } from '@/lib/notify';
+import { useSession } from 'next-auth/react';
+import { hasModuleActionPermission } from '@/lib/permissions';
 
 type TipoAtivoRede = {
     idTipoAtivoRede: string;
@@ -76,13 +79,14 @@ const initialState: FormState = {
 
 export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string }) {
     const router = useRouter();
+    const { data: session } = useSession();
     const handleEnterToNext = useEnterToNext();
     const [loading, setLoading] = useState(false);
     const [loadingOpcoes, setLoadingOpcoes] = useState(true);
     const [salvandoOpcao, setSalvandoOpcao] = useState(false);
     const [historicoTransferencias, setHistoricoTransferencias] = useState<any[]>([]);
     const [historicoDevolucoes, setHistoricoDevolucoes] = useState<any[]>([]);
-    const [opcoes, setOpcoes] = useState<OpcoesAtivoRede>({ tipos: [], status: [], centros: [] });
+    const [opções, setOpcoes] = useState<OpcoesAtivoRede>({ tipos: [], status: [], centros: [] });
     const [modalOpcaoAberto, setModalOpcaoAberto] = useState(false);
     const [formOpcao, setFormOpcao] = useState({
         kind: 'TIPO',
@@ -95,10 +99,14 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
     } = useFormDraft<FormState>('ativo-rede-form-create', initialState, { enabled: !ativoRedeId });
 
     const isEditing = !!ativoRedeId;
+    const formularios = ((session?.user as any)?.formularios || []) as string[];
+    const canManageOptions = hasModuleActionPermission(formularios, 'ATIVOS_REDE', 'CREATE');
+    const canManageTransfer = hasModuleActionPermission(formularios, 'ATIVOS_REDE', 'TRANSFER');
+    const canManageReturn = hasModuleActionPermission(formularios, 'ATIVOS_REDE', 'RETURN');
 
-    const opcoesTipo = useMemo(() => opcoes.tipos, [opcoes.tipos]);
-    const opcoesStatus = useMemo(() => opcoes.status, [opcoes.status]);
-    const opcoesCentros = useMemo(() => opcoes.centros, [opcoes.centros]);
+    const opçõesTipo = useMemo(() => opções.tipos, [opções.tipos]);
+    const opçõesStatus = useMemo(() => opções.status, [opções.status]);
+    const opçõesCentros = useMemo(() => opções.centros, [opções.centros]);
 
     const fieldsToUppercase = [
         'idAtivoRede',
@@ -116,8 +124,7 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
     ];
 
     const notify = useCallback((type: 'sucesso' | 'erro' | 'aviso', message: string) => {
-        window.systemAlert?.(type, message);
-        if (!window.systemAlert) window.alert(message);
+        showNotify(type, message);
     }, []);
 
     const formatarCentro = (centro?: CentroCusto | null) => {
@@ -135,7 +142,7 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
         setLoadingOpcoes(true);
         try {
             const response = await fetch('/api/ativos-rede/opcoes');
-            if (!response.ok) throw new Error('Erro ao carregar opcoes de ativo de rede');
+            if (!response.ok) throw new Error('Erro ao carregar opções de ativo de rede');
             const data = await response.json();
             setOpcoes({
                 tipos: Array.isArray(data.tipos) ? data.tipos : [],
@@ -143,8 +150,8 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
                 centros: Array.isArray(data.centros) ? data.centros : []
             });
         } catch (error) {
-            console.error('Erro ao carregar opcoes:', error);
-            notify('erro', 'Nao foi possivel carregar tipos, status e centros de custo.');
+            console.error('Erro ao carregar opções:', error);
+            notify('erro', 'Não foi possível carregar tipos, status e centros de custo.');
         } finally {
             setLoadingOpcoes(false);
         }
@@ -200,7 +207,7 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
     const handleCreateOption = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!formOpcao.descricao.trim()) {
-            notify('aviso', 'Informe a descricao para cadastrar.');
+            notify('aviso', 'Informe a descrição para cadastrar.');
             return;
         }
 
@@ -217,7 +224,7 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
 
             if (!response.ok) {
                 const err = await response.json().catch(() => ({}));
-                throw new Error(err.message || 'Erro ao cadastrar opcao');
+                throw new Error(err.message || 'Erro ao cadastrar opção');
             }
 
             const created = await response.json();
@@ -237,12 +244,12 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
                 }));
             }
 
-            notify('sucesso', 'Opcao cadastrada com sucesso.');
+            notify('sucesso', 'Opção cadastrada com sucesso.');
             setFormOpcao({ kind: 'TIPO', descricao: '' });
             setModalOpcaoAberto(false);
         } catch (error) {
-            console.error('Erro ao cadastrar opcao:', error);
-            notify('erro', error instanceof Error ? error.message : 'Erro ao cadastrar opcao.');
+            console.error('Erro ao cadastrar opção:', error);
+            notify('erro', error instanceof Error ? error.message : 'Erro ao cadastrar opção.');
         } finally {
             setSalvandoOpcao(false);
         }
@@ -271,9 +278,9 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
             return;
         }
 
-        const tipoSelecionado = opcoesTipo.find((item) => item.idTipoAtivoRede === form.idTipoAtivoRede);
-        const statusSelecionado = opcoesStatus.find((item) => item.idStatusAtivoRede === form.idStatusAtivoRede);
-        const centroSelecionado = opcoesCentros.find((item) => item.idCCusto === form.idCCustoAtivoRede);
+        const tipoSelecionado = opçõesTipo.find((item) => item.idTipoAtivoRede === form.idTipoAtivoRede);
+        const statusSelecionado = opçõesStatus.find((item) => item.idStatusAtivoRede === form.idStatusAtivoRede);
+        const centroSelecionado = opçõesCentros.find((item) => item.idCCusto === form.idCCustoAtivoRede);
 
         try {
             const payload = {
@@ -325,14 +332,17 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
         <AtivoRedeFormView
             ativoRedeId={ativoRedeId}
             isEditing={isEditing}
+            canManageOptions={canManageOptions}
+            canManageTransfer={canManageTransfer}
+            canManageReturn={canManageReturn}
             loading={loading}
             loadingOpcoes={loadingOpcoes}
             salvandoOpcao={salvandoOpcao}
             historicoTransferencias={historicoTransferencias}
             historicoDevolucoes={historicoDevolucoes}
-            opcoesTipo={opcoesTipo}
-            opcoesStatus={opcoesStatus}
-            opcoesCentros={opcoesCentros}
+            opçõesTipo={opçõesTipo}
+            opçõesStatus={opçõesStatus}
+            opçõesCentros={opçõesCentros}
             form={form}
             formOpcao={formOpcao}
             modalOpcaoAberto={modalOpcaoAberto}
@@ -343,7 +353,7 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
             setModalOpcaoAberto={setModalOpcaoAberto}
             setFormOpcao={setFormOpcao}
             onSelectTipo={(id) => {
-                const selected = opcoesTipo.find((item) => item.idTipoAtivoRede === id);
+                const selected = opçõesTipo.find((item) => item.idTipoAtivoRede === id);
                 setForm((prev) => ({
                     ...prev,
                     idTipoAtivoRede: id,
@@ -351,7 +361,7 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
                 }));
             }}
             onSelectStatus={(id) => {
-                const selected = opcoesStatus.find((item) => item.idStatusAtivoRede === id);
+                const selected = opçõesStatus.find((item) => item.idStatusAtivoRede === id);
                 setForm((prev) => ({
                     ...prev,
                     idStatusAtivoRede: id,
@@ -359,7 +369,7 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
                 }));
             }}
             onSelectCentro={(id) => {
-                const selected = opcoesCentros.find((item) => item.idCCusto === id);
+                const selected = opçõesCentros.find((item) => item.idCCusto === id);
                 setForm((prev) => ({
                     ...prev,
                     idCCustoAtivoRede: id,
@@ -370,3 +380,5 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
         />
     );
 }
+
+

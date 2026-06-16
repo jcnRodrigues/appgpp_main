@@ -1,43 +1,52 @@
 # Arquitetura do Projeto
 
 ## Objetivo
-Separar claramente o que é interface, o que é regra de negócio e o que é compartilhado para manter o projeto mais fácil de entender, testar e evoluir.
+Manter a aplicação organizada por responsabilidade, com páginas e componentes focados em interface, regras de negócio concentradas em `server` e utilitários compartilhados em camadas reutilizáveis.
 
-## Estrutura Atual
+## Estrutura Recomendada
 
 - `src/app`
   - Rotas do Next.js, páginas e endpoints `route.ts`.
-  - Aqui ficam as entradas da aplicação.
+  - Use este diretório apenas como ponto de entrada da aplicação.
 - `src/features`
-  - Domínios por contexto de negócio.
-  - Cada feature pode ter `components`, `server` e, quando necessário, `types` ou `models`.
-- Domínios já consolidados: `ativos-rede`, `patrimonio`, `centro-custo`, `funcionario`, `alocacoes`, `licenca`, `funcao`, `dashboard`, `acesso-usuarios`, `autorizacao-delete`, `monitor-patrimonios`, `unifi-config`.
+  - Domínios organizados por contexto de negócio.
+  - Cada feature pode conter `components`, `server`, `types` e `models`, conforme necessidade.
 - `src/components`
-  - Componentes realmente compartilhados entre domínios.
+  - Componentes compartilhados entre múltiplos domínios.
+  - Ideal para elementos genéricos como cabeçalho, rodapé, botões de ação e estados vazios.
 - `src/hooks`
-  - Hooks reutilizáveis pelo frontend.
+  - Hooks reutilizáveis do frontend.
 - `src/lib`
-  - Utilitários compartilhados, autenticação, permissões e helpers puros.
-- `installer/_stage` e `installer/_payload_stage`
-  - Artefatos gerados pelos scripts de empacotamento.
-  - Servem para distribuir a aplicação, mas não são a fonte principal de manutenção do código.
-  - Sempre que possível, altere o código em `src/` e regenere esses diretórios a partir dos scripts do `installer/`.
+  - Funções puras, permissões, formatação, notificações e helpers comuns.
+- `docs`
+  - Documentação do projeto e decisões de arquitetura.
+- `installer`
+  - Scripts e artefatos de empacotamento.
+  - Não deve ser a fonte principal de manutenção do código de negócio.
 - `prisma/generated`
   - Cliente Prisma gerado automaticamente.
-  - Não deve ser editado manualmente; ele é recriado pelo `prisma generate`.
+  - Não editar manualmente.
 
 ## Convenções
 
-- Páginas e rotas não devem conter regra de negócio pesada.
-- Componentes de UI não devem falar direto com o banco.
-- Serviços devem concentrar acesso a dados e regras de domínio.
-- Se um conjunto de componentes crescer em torno de um domínio, mova para `src/features/<dominio>`.
-- Utilitários compartilhados devem ficar em `src/lib`.
+- Página ou rota não deve concentrar regra de negócio complexa.
+- Componente de UI não deve acessar banco diretamente.
+- Regra de negócio e consultas devem ficar em `features/<dominio>/server`.
+- Se um domínio crescer, prefira organizar por feature antes de criar novos diretórios genéricos.
+- Reutilização horizontal vai para `src/components` e `src/lib`.
+- Texto de interface deve permanecer em português e com acentuação correta.
+
+## Sugestão de Fluxo
+
+1. Criar ou ajustar a página em `src/app`.
+2. Extrair a lógica de dados para `src/features/<dominio>/server`.
+3. Extrair blocos reutilizáveis para `src/features/<dominio>/components`.
+4. Promover componentes realmente genéricos para `src/components`.
+5. Centralizar utilitários comuns em `src/lib`.
 
 ## Próximos Passos
 
-- Quebrar serviços muito grandes em módulos menores por domínio.
-- Criar camadas de `repository` para consultas complexas quando fizer sentido.
 - Reduzir duplicação entre relatórios, listas e tabelas.
-- Corrigir warnings de lint prioritários.
-- Regenerar e revisar os artefatos do `installer/` quando houver mudanças estruturais em `src/`.
+- Extrair consultas repetidas para serviços menores por domínio.
+- Revisar nomes antigos e padronizar pastas que ainda usam convenções herdadas.
+- Manter a documentação sincronizada com a estrutura real do código.

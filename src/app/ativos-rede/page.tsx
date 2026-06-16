@@ -1,6 +1,7 @@
 import Header from '@/components/Header/Header';
-import AtivoRedeFilter from '@/features/ativos-rede/components/AtivoRedeFilter/AtivoRedeFilter';
-import AtivoRedeTable from '@/features/ativos-rede/components/AtivoRedeTable/AtivoRedeTable';
+import PageHeader from '@/components/PageHeader/PageHeader';
+import { Button } from '@/components/ui/button';
+import { hasModuleAccess, hasModuleActionPermission } from '@/lib/permissions';
 import {
     contarAtivosRede,
     listarAtivosRede,
@@ -8,11 +9,11 @@ import {
     listarStatusAtivoRede
 } from '@/features/ativos-rede/server/ativo-rede.service';
 import { getServerSession } from 'next-auth';
-import { AuthOptions } from '../api/auth/[...nextauth]/route';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { hasModuleAccess, hasModuleActionPermission } from '@/lib/permissions';
-import { Button } from '@/components/ui/button';
+import { AuthOptions } from '../api/auth/[...nextauth]/route';
+import AtivoRedeFilter from '@/features/ativos-rede/components/AtivoRedeFilter/AtivoRedeFilter';
+import AtivoRedeTable from '@/features/ativos-rede/components/AtivoRedeTable/AtivoRedeTable';
 import { ArrowRightLeft, FileText, Router, Undo2 } from 'lucide-react';
 
 type SearchParams = {
@@ -34,10 +35,10 @@ export default async function AtivosRedePage({
         return (
             <div className="bg-background min-h-screen py-6">
                 <Header />
-                <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-                    <h1 className="text-2xl font-bold mb-4">Ativos de Rede</h1>
-                    <div className="bg-white p-8 rounded-lg shadow-sm">
-                        <p className="text-lg mb-6">Faca login para visualizar esta pagina</p>
+                <div className="mx-auto max-w-4xl px-4 py-12 text-center">
+                    <h1 className="mb-4 text-2xl font-bold">Ativos de Rede</h1>
+                    <div className="rounded-lg bg-white p-8 shadow-sm">
+                        <p className="mb-6 text-lg">Faça login para visualizar esta página.</p>
                         <Button asChild>
                             <Link href="/">Ir para Login</Link>
                         </Button>
@@ -47,8 +48,11 @@ export default async function AtivosRedePage({
         );
     }
 
-    const formularios = ((session.user as any)?.formularios || []) as string[];
+    const formularios = ((session.user as any)?.formularios || []) as string[]; 
     if (!hasModuleAccess(formularios, 'ATIVOS_REDE')) redirect('/acesso-negado');
+    const canCreate = hasModuleActionPermission(formularios, 'ATIVOS_REDE', 'CREATE');
+    const canTransfer = hasModuleActionPermission(formularios, 'ATIVOS_REDE', 'TRANSFER');
+    const canReturn = hasModuleActionPermission(formularios, 'ATIVOS_REDE', 'RETURN');
     const canPrint = hasModuleActionPermission(formularios, 'ATIVOS_REDE', 'PRINT');
 
     const params = searchParams ? await searchParams : undefined;
@@ -57,6 +61,7 @@ export default async function AtivosRedePage({
     const statusId = params?.statusId?.trim() || '';
     const page = Math.max(1, Number.parseInt(params?.page || '1', 10) || 1);
     const take = Math.max(1, Number.parseInt(params?.take || '10', 10) || 10);
+
     const [totalAtivos, centros, statusOptions] = await Promise.all([
         contarAtivosRede({
             codigo: codigo || undefined,
@@ -79,45 +84,47 @@ export default async function AtivosRedePage({
 
     return (
         <div className="bg-background min-h-screen py-6">
-            <Header />
-            <div className="max-w-[86.4rem] mx-auto px-4 sm:px-6">
-                <div className="form-title-sticky flex items-center justify-between gap-4 mb-8 mt-4">
-                    <div className="flex items-center gap-4">
-                        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-900 to-emerald-700 text-white shadow-md">
-                            <Router className="h-7 w-7" />
-                        </div>
-                        <div>
-                            <h1 className="text-h2 font-bold">Ativos de Rede</h1>
-                            <p className="text-gray-600 text-sm mt-1">Cadastro, transferência e devolução de ativos de rede</p>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-2">
-                        {canPrint && (
-                            <Button asChild className="bg-amber-500 hover:bg-amber-600 text-white">
-                                <Link href="/ativos-rede/relatorio-centro">
-                                    <FileText className="h-4 w-4 mr-2" />
-                                    Relatório por Centro
-                                </Link>
-                            </Button>
-                        )}
-                        <Button asChild className="bg-red-500 hover:bg-red-600 text-white">
-                            <Link href="/ativos-rede/devolucao">
-                                <Undo2 className="h-4 w-4 mr-2" />
-                                Devolução
-                            </Link>
-                        </Button>
-                        <Button asChild className="bg-blue-500 hover:bg-blue-600 text-white">
-                            <Link href="/ativos-rede/transferencia">
-                                <ArrowRightLeft className="h-4 w-4 mr-2" />
-                                Transferir
-                            </Link>
-                        </Button>
-                        <Button asChild className="bg-green-500 hover:bg-green-600 text-white">
-                            <Link href="/ativos-rede/cadastro">Novo Ativo de Rede</Link>
-                        </Button>
-                    </div>
-                </div>
+            <Header /> 
+            <div className="mx-auto max-w-[86.4rem] px-4 sm:px-6">
+                <PageHeader
+                    icon={Router}
+                    title="Ativos de Rede"
+                    backHref="/"
+                    description="Cadastro, transferência e devolução de ativos de rede."
+                    actions={
+                        <>
+                            {canPrint ? (
+                                <Button asChild className="bg-amber-500 text-white hover:bg-amber-600">
+                                    <Link href="/ativos-rede/relatorio-centro">
+                                        <FileText className="mr-2 h-4 w-4" />
+                                        Relatório por Centro
+                                    </Link>
+                                </Button>
+                            ) : null}
+                            {canReturn ? (
+                                <Button asChild className="bg-red-500 text-white hover:bg-red-600">
+                                    <Link href="/ativos-rede/devolucao">
+                                        <Undo2 className="mr-2 h-4 w-4" />
+                                        Devolução Ativo
+                                    </Link>
+                                </Button>
+                            ) : null}
+                            {canTransfer ? (
+                                <Button asChild className="bg-blue-500 text-white hover:bg-blue-600">
+                                    <Link href="/ativos-rede/transferencia">
+                                        <ArrowRightLeft className="mr-2 h-4 w-4" />
+                                        Transferir Ativo
+                                    </Link>
+                                </Button>
+                            ) : null}
+                            {canCreate ? (
+                                <Button asChild className="bg-green-500 text-white hover:bg-green-600">
+                                    <Link href="/ativos-rede/cadastro">Novo Ativo de Rede</Link>
+                                </Button>
+                            ) : null}
+                        </>
+                    }
+                />
 
                 <AtivoRedeFilter
                     codigo={codigo}

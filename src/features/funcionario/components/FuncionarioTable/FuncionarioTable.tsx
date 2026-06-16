@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useCallback, useEffect, useState } from 'react';
 import { Edit, Trash2, Filter } from 'lucide-react';
@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import DeleteGuardButton from '@/components/DeleteGuardButton/DeleteGuardButton';
 import { hasModuleActionPermission } from '@/lib/permissions';
+import { notify as showNotify } from '@/lib/notify';
 
 interface Funcionario {
     idF: string;
@@ -33,7 +34,7 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
     const formularios = ((session?.user as any)?.formularios || []) as string[];
     const canUpdate = hasModuleActionPermission(formularios, 'FUNCIONARIOS', 'UPDATE');
 
-    const showNoPermissionAlert = (acao: string) => window.systemAlert?.('aviso', `Voce nao tem permissao para ${acao}.`);
+    const showNoPermissionAlert = (acao: string) => showNotify('aviso', `Você não tem permissão para ${acao}.`);
     const handleEditClick = (e: React.MouseEvent) => {
         if (canUpdate) return;
         e.preventDefault();
@@ -83,11 +84,14 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
         const carregarOpcoes = async () => {
             try {
                 const response = await fetch('/api/funcionario/opcoes');
-                if (!response.ok) return;
+                if (!response.ok) {
+                    console.error('Resposta inválida ao carregar opções de funcionário:', response.status);
+                    return;
+                }
                 const data = await response.json();
                 setStatusOptions(Array.isArray(data?.status) ? data.status : []);
             } catch (error) {
-                console.error('Erro ao carregar opcoes de status:', error);
+                console.error('Erro ao carregar opções de status:', error);
             }
         };
 
@@ -96,24 +100,24 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
 
     const handleDelete = async (idF: string) => {
         const confirmou = window.systemConfirm
-            ? await window.systemConfirm('Tem certeza que deseja deletar este funcionario?', 'Confirmar exclusao', {
+            ? await window.systemConfirm('Tem certeza que deseja deletar este funcionário?', 'Confirmar exclusão', {
                 confirmText: 'Excluir',
                 cancelText: 'Cancelar'
             })
-            : window.confirm('Tem certeza que deseja deletar este funcionario?');
+            : window.confirm('Tem certeza que deseja deletar este funcionário?');
         if (!confirmou) return;
 
         try {
             const response = await fetch(`/api/funcionario/${idF}`, { method: 'DELETE' });
             if (response.ok) {
                 await carregarFuncionarios();
-                alert('Funcionario deletado com sucesso');
+                showNotify('sucesso', 'Funcionário deletado com sucesso');
             } else {
-                alert('Erro ao deletar funcionario');
+                showNotify('erro', 'Erro ao deletar funcionário');
             }
         } catch (error) {
             console.error('Erro ao deletar:', error);
-            alert('Erro ao deletar funcionario');
+            showNotify('erro', 'Erro ao deletar funcionário');
         }
     };
 
@@ -191,20 +195,20 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
                 <table className="w-full min-w-[1200px] table-fixed">
                     <thead>
                         <tr>
-                            <th className="w-[6%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Matricula</th>
+                            <th className="w-[6%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Matrícula</th>
                             <th className="w-[25%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Nome</th>
                             <th className="w-[8%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">CPF</th>
-                            <th className="w-[15%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Funcao</th>
-                            <th className="w-[10%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Data Admissao</th>
+                            <th className="w-[15%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Função</th>
+                            <th className="w-[10%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Data Admissão</th>
                             <th className="w-[6%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Status</th>
-                            <th className="w-[6%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Acoes</th>
+                            <th className="w-[6%] bg-gray-50 px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         {loading ? (
                             <tr><td colSpan={8} className="px-6 py-4 text-center text-gray-500">Carregando...</td></tr>
                         ) : funcionarios.length === 0 ? (
-                            <tr><td colSpan={8} className="px-6 py-4 text-center text-gray-500">Nenhum funcionario encontrado</td></tr>
+                            <tr><td colSpan={8} className="px-6 py-4 text-center text-gray-500">Nenhum funcionário encontrado</td></tr>
                         ) : funcionarios.map((funcionario) => (
                             <tr key={funcionario.idF} className="border-b hover:bg-gray-50 transition">
                                 <td className="px-3 py-4 text-xs md:text-sm text-gray-900 font-medium">{funcionario.idMatFun}</td>
@@ -303,3 +307,4 @@ export default function FuncionarioTable({ funcionarios: initialFuncionarios }: 
         </div>
     );
 }
+

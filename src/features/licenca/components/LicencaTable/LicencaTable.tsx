@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useCallback, useEffect, useState } from 'react';
 import { Edit, Filter, Trash2 } from 'lucide-react';
@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import DeleteGuardButton from '@/components/DeleteGuardButton/DeleteGuardButton';
 import { hasModuleActionPermission } from '@/lib/permissions';
+import { notify as showNotify } from '@/lib/notify';
 
 interface Licenca {
     idLic: string;
@@ -20,7 +21,7 @@ export default function LicencaTable() {
     const { data: session } = useSession();
     const formularios = ((session?.user as any)?.formularios || []) as string[];
     const canUpdate = hasModuleActionPermission(formularios, 'LICENCAS_SOFTWARE', 'UPDATE');
-    const showNoPermissionAlert = (acao: string) => window.systemAlert?.('aviso', `Você não tem permissão para ${acao}.`);
+    const showNoPermissionAlert = (acao: string) => showNotify('aviso', `Você não tem permissão para ${acao}.`);
     const handleEditClick = (e: React.MouseEvent) => {
         if (canUpdate) return;
         e.preventDefault();
@@ -82,14 +83,14 @@ export default function LicencaTable() {
 
             if (response.ok) {
                 await carregarLicencas();
-                window.systemAlert?.('sucesso', 'Licenca deletada com sucesso');
+                showNotify('sucesso', 'Licenca deletada com sucesso');
             } else {
                 const error = await response.json().catch(() => ({}));
-                window.systemAlert?.('erro', error.message || 'Erro ao deletar licenca');
+                showNotify('erro', error.message || 'Erro ao deletar licenca');
             }
         } catch (error) {
             console.error('Erro ao deletar licenca:', error);
-            window.systemAlert?.('erro', 'Erro ao deletar licenca');
+            showNotify('erro', 'Erro ao deletar licenca');
         }
     };
 
@@ -132,19 +133,22 @@ export default function LicencaTable() {
 
     return (
         <div className="w-full space-y-4">
-            <div className="sticky top-[calc(var(--app-header-height)+96px)] z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-2">
+            <div className="sticky top-[calc(var(--app-header-height)+84px)] 
+            z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-1">
                 <div className="bg-white rounded-lg shadow-md p-4 space-y-4">
-                    <div className="flex items-center gap-2 mb-4">
+                    <div className="flex items-center gap-2 mb-3">
                         <Filter className="h-5 w-5 text-primary" />
-                        <h3 className="font-semibold">Filtros</h3>
+                        <h3 className="font-semibold">
+                            Filtros
+                        </h3>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                         <input
                             type="text"
                             placeholder="Buscar por descricao da licenca..."
                             value={filtroDescricao}
                             onChange={(e) => setFiltroDescricao(e.target.value)}
-                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary md:col-span-1"
                         />
                     </div>
                 </div>
@@ -152,9 +156,13 @@ export default function LicencaTable() {
 
             <div className="md:hidden space-y-3">
                 {loading ? (
-                    <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">Carregando...</div>
+                    <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">
+                        Carregando...
+                    </div>
                 ) : licencas.length === 0 ? (
-                    <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">Nenhuma licença cadastrada</div>
+                    <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">
+                        Nenhuma licença cadastrada
+                    </div>
                 ) : (
                     licencas.map((licenca) => (
                         <div key={licenca.idLic} className="bg-white rounded-lg shadow p-4 space-y-3">
@@ -185,13 +193,13 @@ export default function LicencaTable() {
                 )}
             </div>
 
-            <div className="hidden md:block overflow-x-auto bg-white rounded-lg shadow">
-                <table className="w-full min-w-full">
-                    <thead>
-                        <tr className="border-b bg-gray-50">
-                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Descricao</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Qtde Vinculos</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Ações</th>
+            <div className="hidden md:block overflow-x-auto bg-white rounded-lg shadow relative z-0 ">
+                <table className="w-full min-w-[900px] table-fixed">
+                    <thead className="bg-gray-50">
+                        <tr className="border-b">
+                            <th className="w-[65%] px-6 py-3 text-left text-sm font-semibold text-gray-900">Descrição</th>
+                            <th className="w-[15%] px-6 py-3 text-left text-sm font-semibold text-gray-900">Qtde Vínculos</th>
+                            <th className="w-[20%] px-6 py-3 text-left text-sm font-semibold text-gray-900">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -228,7 +236,7 @@ export default function LicencaTable() {
                                                 resource="licenca"
                                                 recordId={licenca.idLic}
                                                 onAuthorizedDelete={() => handleDelete(licenca.idLic)}
-                                                className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
+                                                className=" text-red-600 hover:bg-red-100 rounded-lg transition"
                                                 title="Excluir"
                                                 unauthorizedBehavior="alert"
                                             >
@@ -282,11 +290,10 @@ export default function LicencaTable() {
                                 <button
                                     type="button"
                                     onClick={() => irParaPagina(pagina)}
-                                    className={`h-9 w-9 rounded-lg text-sm font-medium transition ${
-                                        ativa
-                                            ? 'bg-accent/20 text-accent border border-accent/35'
-                                            : 'bg-card text-foreground border border-border hover:bg-secondary'
-                                    }`}
+                                    className={`h-9 w-9 rounded-lg text-sm font-medium transition ${ativa
+                                        ? 'bg-accent/20 text-accent border border-accent/35'
+                                        : 'bg-card text-foreground border border-border hover:bg-secondary'
+                                        }`}
                                 >
                                     {pagina}
                                 </button>
@@ -310,8 +317,3 @@ export default function LicencaTable() {
         </div>
     );
 }
-
-
-
-
-

@@ -1,4 +1,4 @@
-import Header from '@/components/Header/Header';
+﻿import Header from '@/components/Header/Header';
 import AccessUserForm from '@/features/acesso-usuarios/components/AccessUserForm/AccessUserForm';
 import { getServerSession } from 'next-auth';
 import { AuthOptions } from '../../api/auth/[...nextauth]/route';
@@ -31,3 +31,4 @@ export default async function CadastroAcessoPage({ searchParams }: CadastroAcess
         </>
     );
 }
+

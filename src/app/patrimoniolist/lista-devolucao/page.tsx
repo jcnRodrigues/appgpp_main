@@ -1,11 +1,12 @@
 import Header from '@/components/Header/Header';
-import { ChevronLeft } from 'lucide-react';
-import Link from 'next/link';
-import { getServerSession } from 'next-auth';
-import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
+import PageHeader from '@/components/PageHeader/PageHeader';
 import { Button } from '@/components/ui/button';
-import ListaPatrimoniosPdfForm from '@/features/patrimonio/components/PatrimonioTable/ListaPatrimoniosPdfForm';
 import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
+import ListaPatrimoniosPdfForm from '@/features/patrimonio/components/PatrimonioTable/ListaPatrimoniosPdfForm';
+import { getServerSession } from 'next-auth';
+import Link from 'next/link';
+import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
+import { FileText } from 'lucide-react';
 
 export default async function ListaPatrimoniosPdfPage() {
   const session = await getServerSession(AuthOptions);
@@ -15,10 +16,10 @@ export default async function ListaPatrimoniosPdfPage() {
     return (
       <div className="bg-background min-h-screen py-6">
         <Header />
-        <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-          <h1 className="text-2xl font-bold mb-4">Lista de Patrimônios - Devolução</h1>
-          <div className="bg-white p-8 rounded-lg shadow-sm">
-            <p className="text-lg mb-6">Faça login para acessar</p>
+        <div className="mx-auto max-w-4xl px-4 py-12 text-center">
+          <h1 className="mb-4 text-2xl font-bold">Lista de Patrimônios - Devolução</h1>
+          <div className="rounded-lg bg-white p-8 shadow-sm">
+            <p className="mb-6 text-lg">Faça login para acessar</p>
             <Button asChild>
               <Link href="/">Ir para Login</Link>
             </Button>
@@ -34,10 +35,10 @@ export default async function ListaPatrimoniosPdfPage() {
     return (
       <div className="bg-background min-h-screen py-6">
         <Header />
-        <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-          <h1 className="text-2xl font-bold mb-4">Lista de Patrimônios - Devolução</h1>
-          <div className="bg-white p-8 rounded-lg shadow-sm">
-            <p className="text-lg mb-6">Seu perfil não tem permissão para imprimir relatórios.</p>
+        <div className="mx-auto max-w-4xl px-4 py-12 text-center">
+          <h1 className="mb-4 text-2xl font-bold">Lista de Patrimônios - Devolução</h1>
+          <div className="rounded-lg bg-white p-8 shadow-sm">
+            <p className="mb-6 text-lg">Seu perfil não tem permissão para imprimir relatórios.</p>
             <Button asChild>
               <Link href="/patrimoniolist">Voltar para Patrimônios</Link>
             </Button>
@@ -50,16 +51,13 @@ export default async function ListaPatrimoniosPdfPage() {
   return (
     <div className="bg-background min-h-screen py-6">
       <Header />
-      <div className="max-w-[86.4rem] mx-auto px-4">
-        <div className="form-title-sticky flex items-center gap-4 mb-8 mt-4">
-          <Link href="/patrimoniolist">
-            <ChevronLeft className="h-6 w-6 text-primary hover:text-primary/80 transition" />
-          </Link>
-          <div>
-            <h1 className="text-h2 font-bold">Lista de Patrimônios - Devolução</h1>
-            <p className="text-gray-600 text-sm mt-1">Pesquisar, adicionar em lista e gerar PDF</p>
-          </div>
-        </div>
+      <div className="mx-auto max-w-[86.4rem] px-4">
+        <PageHeader
+          icon={FileText}
+          title="Lista de Patrimônios - Devolução"
+          description="Pesquisar, adicionar em lista e gerar PDF"
+          backHref="/patrimoniolist"
+        />
 
         <ListaPatrimoniosPdfForm />
       </div>

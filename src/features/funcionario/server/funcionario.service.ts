@@ -1,4 +1,4 @@
-"use server"
+﻿"use server"
 
 import prisma from "../../../../prisma/prisma";
 import { listarCentrosCustoAtivosEMobilizados } from '@/features/centro-custo/server/centrocusto.service';
@@ -7,7 +7,7 @@ function buildFuncionarioWhere(filtro?: {
     nome?: string;
     matricula?: string;
     status?: string;
-    funcao?: string;
+    função?: string;
     centros?: string[];
 }) {
     return {
@@ -24,8 +24,8 @@ function buildFuncionarioWhere(filtro?: {
         ...(filtro?.status && {
             idStatusFun: filtro.status
         }),
-        ...(filtro?.funcao && {
-            idFuncaoFun: filtro.funcao
+        ...(filtro?.função && {
+            idFuncaoFun: filtro.função
         }),
         ...(filtro?.centros && filtro.centros.length > 0 && {
             idCustoFun: {
@@ -144,7 +144,7 @@ export async function listarFuncionarios(filtro?: {
     nome?: string;
     matricula?: string;
     status?: string;
-    funcao?: string;
+    função?: string;
     centros?: string[];
     skip?: number;
     take?: number;
@@ -173,7 +173,7 @@ export async function contarFuncionarios(filtro?: {
     nome?: string;
     matricula?: string;
     status?: string;
-    funcao?: string;
+    função?: string;
     centros?: string[];
 }) {
     return await prisma.tbFuncionario.count({
@@ -311,7 +311,7 @@ export async function listarFuncionariosTransferenciaCusto(filtro?: {
     nome?: string;
     matricula?: string;
     status?: string;
-    funcao?: string;
+    função?: string;
     centros?: string[];
     skip?: number;
     take?: number;
@@ -321,7 +321,7 @@ export async function listarFuncionariosTransferenciaCusto(filtro?: {
 
     if (matriculas.length === 0) return [];
 
-    const transferencias = await prisma.tbTransferenciaAlocacao.findMany({
+    const transferências = await prisma.tbTransferenciaAlocacao.findMany({
         where: {
             idMatriculaFuncionarioDestino: {
                 in: matriculas
@@ -344,8 +344,8 @@ export async function listarFuncionariosTransferenciaCusto(filtro?: {
         }
     });
 
-    const ultimaTransferenciaPorMatricula = new Map<string, (typeof transferencias)[number]>();
-    for (const item of transferencias) {
+    const ultimaTransferenciaPorMatricula = new Map<string, (typeof transferências)[number]>();
+    for (const item of transferências) {
         const matriculaDestino = item.idMatriculaFuncionarioDestino;
         if (!matriculaDestino) continue;
         if (!ultimaTransferenciaPorMatricula.has(matriculaDestino)) {
@@ -367,3 +367,4 @@ export async function listarFuncionariosTransferenciaCusto(filtro?: {
         })
         .filter(Boolean);
 }
+

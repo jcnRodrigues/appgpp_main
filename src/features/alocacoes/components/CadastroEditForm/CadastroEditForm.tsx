@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -6,7 +6,9 @@ import { useEnterToNext } from '@/hooks/useEnterToNext';
 import { Button } from '@/components/ui/button';
 import FormActions from '@/components/FormActions/FormActions';
 import Link from 'next/link';
-import { ChevronLeft, Eye, EyeOff, SearchCheck } from 'lucide-react';
+import { Pencil, Eye, EyeOff, SearchCheck } from 'lucide-react';
+import { notify as showNotify } from '@/lib/notify';
+import PageHeader from '@/components/PageHeader/PageHeader';
 
 interface CadastroData {
     idCad: string;
@@ -78,13 +80,13 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
             try {
                 const [resCadastro, resOpcoes] = await Promise.all([
                     fetch(`/api/cadastro/${cadastroId}`),
-                    fetch('/api/cadastro?opcoes=true')
+                    fetch('/api/cadastro?opções=true')
                 ]);
 
                 if (resOpcoes.ok) {
-                    const opcoes = await resOpcoes.json();
-                    setStatusPatrimonio(opcoes.statusPatrimonio || []);
-                    setFuncionarios(opcoes.funcionarios || []);
+                    const opções = await resOpcoes.json();
+                    setStatusPatrimonio(opções.statusPatrimonio || []);
+                    setFuncionarios(opções.funcionarios || []);
                 }
 
                 if (resCadastro.ok) {
@@ -153,15 +155,15 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
             });
 
             if (res.ok) {
-                window.systemAlert?.('sucesso', 'Alocação atualizada com sucesso');
+                showNotify('sucesso', 'Alocação atualizada com sucesso');
                 router.push('/alocacoes');
             } else {
                 const err = await res.json();
-                window.systemAlert?.('erro', err.message || 'Erro ao atualizar');
+                showNotify('erro', err.message || 'Erro ao atualizar');
             }
         } catch (error) {
             console.error(error);
-            window.systemAlert?.('erro', 'Erro ao salvar');
+            showNotify('erro', 'Erro ao salvar');
         } finally {
             setSalvando(false);
         }
@@ -169,11 +171,11 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
 
     const handleConfirmarTransferencia = async () => {
         if (!funcionarioDestino) {
-            window.systemAlert?.('erro', 'Selecione o funcionário de destino.');
+            showNotify('erro', 'Selecione o funcionário de destino.');
             return;
         }
         if (!dataTransferencia) {
-            window.systemAlert?.('erro', 'Informe a data da transferência.');
+            showNotify('erro', 'Informe a data da transferência.');
             return;
         }
 
@@ -191,15 +193,14 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
 
             if (!res.ok) {
                 const err = await res.json();
-                window.systemAlert?.('erro', err.message || 'Erro ao transferir alocação');
+                showNotify('erro', err.message || 'Erro ao transferir alocação');
                 return;
             }
-
-            window.systemAlert?.('sucesso', 'Transferência concluída e nova alocação criada automaticamente.');
+                showNotify('sucesso', 'Transferência concluída e nova alocação criada automaticamente.');
             router.push('/alocacoes');
         } catch (error) {
             console.error(error);
-            window.systemAlert?.('erro', 'Erro ao transferir alocação');
+            showNotify('erro', 'Erro ao transferir alocação');
         } finally {
             setSalvando(false);
             setModalTransferenciaAberto(false);
@@ -235,12 +236,13 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
     return (
         <div className="bg-background min-h-screen py-6">
             <div className="max-w-[95vw] lg:max-w-[92vw] mx-auto px-4">
-                <div className="form-title-sticky flex items-center mb-6">
-                    <Link href="/alocacoes" className="mr-4">
-                        <ChevronLeft className="h-6 w-6 text-primary" />
-                    </Link>
-                    <h1 className="text-h2 font-bold">Editar Alocação</h1>
-                </div>
+                <PageHeader
+                    icon={Pencil}
+                    title="Editar Alocação"
+                    description="Atualize a vinculação do patrimônio ao funcionário."
+                    backHref="/alocacoes"
+                    iconClassName="from-slate-950 via-slate-800 to-emerald-700"
+                />
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <form
@@ -377,7 +379,7 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                                                 {new Date(item.dataTransferencia).toLocaleString('pt-BR')}
                                             </p>
                                             <p className="text-xs mt-1">
-                                                {item.statusAnterior || 'SEM STATUS'} ? {item.statusNovo}
+                                                {item.statusAnterior || 'SEM STATUS'} → {item.statusNovo}
                                             </p>
                                             <p className="text-xs mt-1">
                                                 Funcionário origem: {item.tbFuncionario ? `${item.tbFuncionario.idMatFun} - ${item.tbFuncionario.nomeFun}` : '-'}
@@ -478,3 +480,5 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
         </div>
     );
 }
+
+

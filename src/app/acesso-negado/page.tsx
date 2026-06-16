@@ -7,7 +7,7 @@ export default function AcessoNegadoPage() {
             <div className="max-w-2xl mx-auto px-4 py-16 text-center">
                 <h1 className="text-h3 font-bold mb-4">Acesso negado</h1>
                 <p className="text-muted-foreground">
-                    Voce nao possui permissao para acessar este formulario.
+                    Você não possui permissão para acessar este formulário.
                 </p>
             </div>
         </>

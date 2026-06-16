@@ -1,12 +1,13 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { ChevronLeft } from 'lucide-react';
 import FormActions from '@/components/FormActions/FormActions';
 import { useEnterToNext } from '@/hooks/useEnterToNext';
 import { useFormDraft } from '@/hooks/useFormDraft';
+import { notify as showNotify } from '@/lib/notify';
+import PageHeader from '@/components/PageHeader/PageHeader';
+import { Pencil, Plus } from 'lucide-react';
 
 export default function LicencaForm({ licencaId }: { licencaId?: string }) {
     const router = useRouter();
@@ -82,16 +83,16 @@ export default function LicencaForm({ licencaId }: { licencaId?: string }) {
                 const mensagemSucesso = licencaId
                     ? 'Licenca atualizada com sucesso'
                     : 'Licenca criada com sucesso';
-                window.systemAlert?.('sucesso', mensagemSucesso);
+                showNotify('sucesso', mensagemSucesso);
                 if (!licencaId) clearLicencaDraft();
                 router.push('/licencas');
             } else {
                 const error = await response.json();
-                window.systemAlert?.('erro', error.message || 'Erro ao salvar licenca');
+                showNotify('erro', error.message || 'Erro ao salvar licença');
             }
         } catch (error) {
             console.error('Erro ao salvar licenca:', error);
-            window.systemAlert?.('erro', 'Erro ao salvar licenca');
+            showNotify('erro', 'Erro ao salvar licença');
         } finally {
             setLoading(false);
         }
@@ -100,14 +101,13 @@ export default function LicencaForm({ licencaId }: { licencaId?: string }) {
     return (
         <div className="bg-background min-h-screen py-6">
             <div className="max-w-2xl mx-auto px-4">
-                <div className="form-title-sticky flex items-center mb-6">
-                    <Link href="/licencas" className="mr-4">
-                        <ChevronLeft className="h-6 w-6 text-primary" />
-                    </Link>
-                    <h1 className="text-h2 font-bold">
-                        {licencaId ? 'Editar Licenca' : 'Cadastrar Licenca'}
-                    </h1>
-                </div>
+                <PageHeader
+                    icon={licencaId ? Pencil : Plus}
+                    title={licencaId ? 'Editar Licença' : 'Cadastrar Nova Licença'}
+                    description="Gerencie os dados cadastrais da licença."
+                    backHref="/licencas"
+                    iconClassName="from-slate-950 via-slate-800 to-emerald-700"
+                />
 
                 <form
                     onSubmit={handleSubmit}
@@ -138,3 +138,4 @@ export default function LicencaForm({ licencaId }: { licencaId?: string }) {
         </div>
     );
 }
+

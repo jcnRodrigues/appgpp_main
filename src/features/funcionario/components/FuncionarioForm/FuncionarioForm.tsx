@@ -1,14 +1,16 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, useMemo, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEnterToNext } from '@/hooks/useEnterToNext';
 import { Button } from '@/components/ui/button';
 import FormActions from '@/components/FormActions/FormActions';
-import { ChevronLeft, Search, Check } from 'lucide-react';
+import { Search, Check, UserPenIcon, UserPlus, UserPen } from 'lucide-react';
 import Link from 'next/link';
 import { useFormDraft } from '@/hooks/useFormDraft';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { notify as showNotify } from '@/lib/notify';
+import PageHeader from '@/components/PageHeader/PageHeader';
 
 interface Funcao {
     [x: string]: ReactNode;
@@ -54,7 +56,9 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
     const [centros, setCentros] = useState<CentroCusto[]>([]);
     const [licencasDisponiveis, setLicencasDisponiveis] = useState<LicencaDisponivel[]>([]);
     const [isFuncaoSheetOpen, setIsFuncaoSheetOpen] = useState(false);
-    const [funcaoSearch, setFuncaoSearch] = useState('');
+    const [isLicencaSheetOpen, setIsLicencaSheetOpen] = useState(false);
+    const [funçãoSearch, setFuncaoSearch] = useState('');
+    const [licencaSearch, setLicencaSearch] = useState('');
 
     const initialFuncionario = useMemo(() => ({
         idMatFun: '',
@@ -76,17 +80,28 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
     } = useFormDraft('funcionario-form-create', initialFuncionario, { enabled: !funcionarioId });
 
     const funcoesFiltradas = useMemo(() => {
-        if (!funcaoSearch.trim()) return funcoes.slice(0, 50);
+        if (!funçãoSearch.trim()) return funcoes.slice(0, 50);
 
-        const busca = normalizarTexto(funcaoSearch);
+        const busca = normalizarTexto(funçãoSearch);
         return funcoes
-            .filter((funcao) => {
-                const id = normalizarTexto(funcao.idFuncao || '');
-                const nome = normalizarTexto(funcao.nomeFuncao || '');
+            .filter((função) => {
+                const id = normalizarTexto(função.idFuncao || '');
+                const nome = normalizarTexto(função.nomeFuncao || '');
                 return id.includes(busca) || nome.includes(busca);
             })
             .slice(0, 50);
-    }, [funcoes, funcaoSearch]);
+    }, [funcoes, funçãoSearch]);
+
+    const licencasFiltradas = useMemo(() => {
+        if (!licencaSearch.trim()) return licencasDisponiveis;
+
+        const busca = normalizarTexto(licencaSearch);
+        return licencasDisponiveis.filter((licenca) => {
+            const id = normalizarTexto(licenca.idLic || '');
+            const descricao = normalizarTexto(licenca.descricaoLic || '');
+            return id.includes(busca) || descricao.includes(busca);
+        });
+    }, [licencaSearch, licencasDisponiveis]);
 
     useEffect(() => {
         const carregarDados = async () => {
@@ -98,9 +113,11 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                     setStatus(data.status || []);
                     setCentros(data.centros || []);
                     setLicencasDisponiveis(data.licencas || []);
+                } else {
+                    console.error('Falha ao carregar opções do funcionário:', responseOpcoes.status);
                 }
             } catch (error) {
-                console.error('Erro ao carregar opcoes:', error);
+                    console.error('Erro ao carregar opções:', error);
             }
 
             if (funcionarioId) {
@@ -128,7 +145,7 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                         });
                     }
                 } catch (error) {
-                    console.error('Erro ao carregar funcionario:', error);
+                    console.error('Erro ao carregar funcionário:', error);
                 }
             }
         };
@@ -188,6 +205,10 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
         return funcionario.licencasVinculos.find((v) => v.idLic === idLic);
     };
 
+    const getLicencaDisponivel = (idLic: string) => {
+        return licencasDisponiveis.find((licenca) => licenca.idLic === idLic);
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
@@ -195,13 +216,13 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
         try {
             for (const vinculo of funcionario.licencasVinculos) {
                 if (!vinculo.dataInicio || !vinculo.dataVencimetno) {
-                    window.systemAlert?.('erro', 'Preencha as datas de inicio e vencimento das licencas selecionadas');
+                    showNotify('erro', 'Preencha as datas de início e vencimento das licenças selecionadas');
                     setLoading(false);
                     return;
                 }
 
                 if (vinculo.dataVencimetno < vinculo.dataInicio) {
-                    window.systemAlert?.('erro', 'A data de vencimento da licenca nao pode ser menor que a data de inicio');
+                    showNotify('erro', 'A data de vencimento da licença não pode ser menor que a data de início');
                     setLoading(false);
                     return;
                 }
@@ -237,44 +258,49 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
 
             if (response.ok) {
                 const mensagemSucesso = funcionarioId
-                    ? 'Funcionario atualizado com sucesso'
-                    : 'Funcionario criado com sucesso';
-                window.systemAlert?.('sucesso', mensagemSucesso);
+                    ? 'Funcionário atualizado com sucesso'
+                    : 'Funcionário criado com sucesso';
+                showNotify('sucesso', mensagemSucesso);
                 if (!funcionarioId) clearFuncionarioDraft();
                 router.push('/funcionariosadd');
             } else {
                 const error = await response.json();
-                window.systemAlert?.('erro', 'Erro ao salvar funcionario: ' + error.message);
+                showNotify('erro', 'Erro ao salvar funcionário: ' + error.message);
             }
         } catch (error) {
             console.error('Erro:', error);
-            window.systemAlert?.('erro', 'Erro ao salvar funcionario');
+            showNotify('erro', 'Erro ao salvar funcionário');
         } finally {
             setLoading(false);
         }
     };
 
-    const selecionarFuncao = (funcao: Funcao) => {
-        setFuncionario((prev) => ({ ...prev, idFuncaoFun: funcao.idFuncao }));
+    const selecionarFuncao = (função: Funcao) => {
+        setFuncionario((prev) => ({ ...prev, idFuncaoFun: função.idFuncao }));
         setIsFuncaoSheetOpen(false);
         setFuncaoSearch('');
     };
 
+    const abrirBuscaLicencas = () => {
+        setLicencaSearch('');
+        setIsLicencaSheetOpen(true);
+    };
+
+    const HeaderIcon = funcionarioId ? UserPen : UserPlus;
+
     return (
         <div className="bg-background min-h-screen py-6">
             <div className="max-w-2xl mx-auto px-4">
-                <div className="form-title-sticky flex items-center mb-6">
-                    <Link href="/funcionariosadd" className="mr-4">
-                        <ChevronLeft className="h-6 w-6 text-primary" />
-                    </Link>
-                    <h1 className="text-h2 font-bold">
-                        {funcionarioId ? 'Editar Funcionario' : 'Cadastrar Novo Funcionario'}
-                    </h1>
-                </div>
+                <PageHeader
+                    icon={HeaderIcon}
+                    title={funcionarioId ? 'Editar Funcionário' : 'Cadastrar Novo Funcionário'}
+                    description="Gerenciar dados cadastrais e profissionais do funcionário"
+                    backHref="/funcionariosadd"
+                />
 
                 <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
                     <div className="border-b pb-6">
-                        <h2 className="text-h4 font-bold mb-4">Informacoes Pessoais</h2>
+                        <h2 className="text-h4 font-bold mb-4">Informações Pessoais</h2>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
@@ -337,7 +363,7 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label className="block text-sm font-medium mb-2">Data de Admissao</label>
+                                <label className="block text-sm font-medium mb-2">Data de Admissão</label>
                                 <input
                                     type="date"
                                     name="dataAdmFun"
@@ -361,7 +387,7 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label className="block text-sm font-medium mb-2">Funcao</label>
+                                <label className="block text-sm font-medium mb-2">Função</label>
                                 <div className="flex w-full gap-2 items-stretch">
                                     <select
                                         name="idFuncaoFun"
@@ -369,10 +395,10 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                                         onChange={handleChange}
                                         className="min-w-0 w-full flex-1 h-10 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                                     >
-                                        <option value="">Selecione uma funcao</option>
-                                        {funcoes.map(funcao => (
-                                            <option key={funcao.idFuncao} value={funcao.idFuncao}>
-                                                {funcao.nomeFuncao}
+                                        <option value="">Selecione uma função</option>
+                                        {funcoes.map(função => (
+                                            <option key={função.idFuncao} value={função.idFuncao}>
+                                                {função.nomeFuncao}
                                             </option>
                                         ))}
                                     </select>
@@ -381,8 +407,8 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                                         variant="outline"
                                         onClick={() => setIsFuncaoSheetOpen(true)}
                                         className="h-10 w-10 shrink-0 p-0"
-                                        title="Pesquisar funcao"
-                                        aria-label="Pesquisar funcao"
+                                        title="Pesquisar função"
+                                        aria-label="Pesquisar função"
                                     >
                                         <Search className="h-4 w-4" />
                                     </Button>
@@ -418,7 +444,7 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                                 <option value="">Selecione um centro de custo</option>
                                 {centros.map(centro => (
                                     <option key={centro.idCCusto} value={centro.idCCusto}>
-                                        {centro.descricaoCCusto || 'Sem descricao'}
+                                        {centro.descricaoCCusto || 'Sem descrição'}
                                     </option>
                                 ))}
                             </select>
@@ -426,51 +452,65 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                     </div>
 
                     <div className="border-b pb-6">
-                        <h2 className="text-h4 font-bold mb-4">Licencas Vinculadas</h2>
-                        {licencasDisponiveis.length === 0 ? (
-                            <p className="text-sm text-muted-foreground">Nenhuma licenca disponivel para vinculacao.</p>
+                        <div className="mb-4 flex items-center justify-between gap-3">
+                            <h2 className="text-h4 font-bold">Licenças Vinculadas</h2>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={abrirBuscaLicencas}
+                                className="shrink-0"
+                            >
+                                Buscar licença
+                            </Button>
+                        </div>
+
+                        {funcionario.licencasVinculos.length === 0 ? (
+                            <p className="text-sm text-muted-foreground">Nenhuma licença vinculada ao funcionário.</p>
                         ) : (
-                            <div className="space-y-4 max-h-80 overflow-auto border rounded-lg p-4">
-                                {licencasDisponiveis.map((licenca) => {
-                                    const selecionada = isLicencaSelecionada(licenca.idLic);
-                                    const vinculo = getVinculoLicenca(licenca.idLic);
-
+                            <div className="space-y-4">
+                                {funcionario.licencasVinculos.map((vinculo) => {
+                                    const licenca = getLicencaDisponivel(vinculo.idLic);
                                     return (
-                                        <div key={licenca.idLic} className="border-b pb-3 last:border-b-0">
-                                            <label className="flex items-center gap-2 text-sm font-medium">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={selecionada}
-                                                    onChange={() => handleToggleLicenca(licenca.idLic)}
-                                                />
-                                                <span>{licenca.descricaoLic}</span>
-                                            </label>
-
-                                            {selecionada && vinculo && (
-                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 ml-6">
-                                                    <div>
-                                                        <label className="block text-xs font-medium mb-1">Data Inicio</label>
-                                                        <input
-                                                            type="date"
-                                                            value={vinculo.dataInicio}
-                                                            onChange={(e) => handleChangeDataLicenca(licenca.idLic, 'dataInicio', e.target.value)}
-                                                            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                                            required
-                                                        />
-                                                    </div>
-                                                    <div>
-                                                        <label className="block text-xs font-medium mb-1">Data Vencimento</label>
-                                                        <input
-                                                            type="date"
-                                                            value={vinculo.dataVencimetno}
-                                                            min={vinculo.dataInicio || undefined}
-                                                            onChange={(e) => handleChangeDataLicenca(licenca.idLic, 'dataVencimetno', e.target.value)}
-                                                            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                                            required
-                                                        />
-                                                    </div>
+                                        <div key={vinculo.idLic} className="rounded-lg border border-border p-4">
+                                            <div className="mb-3 flex items-start justify-between gap-3">
+                                                <div>
+                                                    <p className="font-medium text-foreground">
+                                                        {licenca?.descricaoLic || vinculo.idLic}
+                                                    </p>
+                                                    <p className="text-xs text-muted-foreground">{vinculo.idLic}</p>
                                                 </div>
-                                            )}
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleToggleLicenca(vinculo.idLic)}
+                                                    className="text-sm font-medium text-red-600 transition hover:text-red-700"
+                                                >
+                                                    Remover
+                                                </button>
+                                            </div>
+
+                                            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                                                <div>
+                                                    <label className="block text-xs font-medium mb-1">Data Início</label>
+                                                    <input
+                                                        type="date"
+                                                        value={vinculo.dataInicio}
+                                                        onChange={(e) => handleChangeDataLicenca(vinculo.idLic, 'dataInicio', e.target.value)}
+                                                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-xs font-medium mb-1">Data Vencimento</label>
+                                                    <input
+                                                        type="date"
+                                                        value={vinculo.dataVencimetno}
+                                                        min={vinculo.dataInicio || undefined}
+                                                        onChange={(e) => handleChangeDataLicenca(vinculo.idLic, 'dataVencimetno', e.target.value)}
+                                                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
                                     );
                                 })}
@@ -480,7 +520,7 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
 
                     <FormActions
                         cancelHref="/funcionariosadd"
-                        submitLabel={funcionarioId ? 'Atualizar' : 'Criar Funcionario'}
+                        submitLabel={funcionarioId ? 'Atualizar' : 'Criar Funcionário'}
                         loading={loading}
                     />
                 </form>
@@ -489,9 +529,9 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
             <Sheet open={isFuncaoSheetOpen} onOpenChange={setIsFuncaoSheetOpen}>
                 <SheetContent side="right" className="w-[600px] sm:max-w-[600px]">
                     <SheetHeader>
-                        <SheetTitle>Pesquisar Funcao</SheetTitle>
+                        <SheetTitle>Pesquisar Função</SheetTitle>
                         <SheetDescription>
-                            Digite o nome ou codigo da funcao para buscar
+                            Digite o nome ou código da função para buscar
                         </SheetDescription>
                     </SheetHeader>
 
@@ -500,8 +540,8 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                             <input
                                 type="text"
-                                placeholder="Buscar por codigo ou funcao..."
-                                value={funcaoSearch}
+                                placeholder="Buscar por código ou função..."
+                                value={funçãoSearch}
                                 onChange={(e) => setFuncaoSearch(e.target.value)}
                                 className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                                 autoFocus
@@ -512,32 +552,32 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                             <table className="w-full min-w-full">
                                 <thead className="bg-gray-50 sticky top-0">
                                     <tr>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Codigo</th>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Funcao</th>
-                                        <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600">Acao</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Código</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Função</th>
+                                        <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600">Ação</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {funcoesFiltradas.length === 0 ? (
                                         <tr>
                                             <td colSpan={3} className="px-4 py-8 text-center text-gray-500">
-                                                Nenhuma funcao encontrada
+                                                Nenhuma função encontrada
                                             </td>
                                         </tr>
                                     ) : (
-                                        funcoesFiltradas.map((funcao) => (
-                                            <tr key={funcao.idFuncao}
+                                        funcoesFiltradas.map((função) => (
+                                            <tr key={função.idFuncao}
                                                 className="border-t hover:bg-gray-50">
                                                 <td className="px-4 py-3 text-sm font-medium">
-                                                    {funcao.codigoFuncao}
+                                                    {função.codigoFuncao}
                                                 </td>
                                                 <td className="px-4 py-3 text-sm">
-                                                    {funcao.nomeFuncao}
+                                                    {função.nomeFuncao}
                                                 </td>
                                                 <td className="px-4 py-3 text-center">
                                                     <button
                                                         type="button"
-                                                        onClick={() => selecionarFuncao(funcao)}
+                                                        onClick={() => selecionarFuncao(função)}
                                                         className="p-1 text-green-600 hover:bg-green-50 rounded"
                                                         title="Selecionar"
                                                     >
@@ -553,9 +593,69 @@ export default function FuncionarioForm({ funcionarioId }: { funcionarioId?: str
                     </div>
                 </SheetContent>
             </Sheet>
+
+            <Sheet open={isLicencaSheetOpen} onOpenChange={setIsLicencaSheetOpen}>
+                <SheetContent side="right" className="w-[600px] sm:max-w-[600px]">
+                    <SheetHeader>
+                        <SheetTitle>Buscar Licença</SheetTitle>
+                        <SheetDescription>
+                            Pesquise por código ou descrição e marque as licenças que deseja vincular.
+                        </SheetDescription>
+                    </SheetHeader>
+
+                    <div className="mt-4 space-y-4">
+                        <div className="relative">
+                            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                            <input
+                                type="text"
+                                placeholder="Buscar por código ou licença..."
+                                value={licencaSearch}
+                                onChange={(e) => setLicencaSearch(e.target.value)}
+                                className="w-full rounded-lg border px-4 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-primary"
+                                autoFocus
+                            />
+                        </div>
+
+                        <div className="max-h-[60vh] overflow-y-auto rounded-lg border">
+                            {licencasFiltradas.length === 0 ? (
+                                <div className="p-4 text-sm text-muted-foreground">
+                                    Nenhuma licença encontrada.
+                                </div>
+                            ) : (
+                                <div className="divide-y">
+                                    {licencasFiltradas.map((licenca) => {
+                                        const selecionada = isLicencaSelecionada(licenca.idLic);
+                                        return (
+                                            <label
+                                                key={licenca.idLic}
+                                                className="flex cursor-pointer items-center gap-3 px-4 py-3 hover:bg-secondary/40"
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selecionada}
+                                                    onChange={() => handleToggleLicenca(licenca.idLic)}
+                                                    className="h-4 w-4"
+                                                />
+                                                <div className="min-w-0">
+                                                    <div className="font-medium text-foreground">
+                                                        {licenca.descricaoLic}
+                                                    </div>
+                                                    <div className="text-xs text-muted-foreground">{licenca.idLic}</div>
+                                                </div>
+                                            </label>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </SheetContent>
+            </Sheet>
         </div>
     );
 }
+
+
 
 
 

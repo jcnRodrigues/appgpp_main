@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { Button } from '@/components/ui/button';
 
@@ -47,7 +47,7 @@ function formatarMoedaOuTraco(valor: number | null) {
 function limparDetalheRateio(detalhe?: string | null) {
     if (!detalhe) return '';
     return detalhe
-        .replace(/\s*\|\s*Base da medição:[^|]*/gi, '')
+        .replace(/\s*\|\s*Período[^|]*/gi, '')
         .trim();
 }
 
@@ -98,9 +98,17 @@ export default function GerarRelatorioMedicaoButton({
         linhas.push(`Total de linhas;${resultado.resumo.totalLinhas};${formatarMoeda(valorTotalLinhas)}`);
         linhas.push('');
         linhas.push('DETALHE DA CONFERENCIA');
-        linhas.push('Linha;ID Patrimonio;Matricula Alocada;Status Patrimonio;Data Transferencia Considerada;Valor Informado;Valor Sistema;Rateio;Movimentos do Patrimonio;Status;Mensagem');
+        linhas.push('Linha;ID Patrimonio;Matricula Alocada;Status Patrimonio;Data Transferencia Considerada;Valor Informado;Valor Sistema;Movimentos do Patrimonio');
 
         for (const item of resultado.resultados) {
+            const statusLinha =
+                item.status === 'OK'
+                    ? 'Valor confere.'
+                    : item.status === 'VALOR_DIVERGENTE'
+                        ? 'Valor divergente.'
+                        : item.status === 'NAO_ENCONTRADO'
+                            ? 'Não encontrado.'
+                            : 'Linha inválida.';
             linhas.push([
                 item.linha,
                 escaparCsv(`${item.idPat || '-'}\n${item.descricaoPat || 'Sem descricao'}`),
@@ -108,11 +116,12 @@ export default function GerarRelatorioMedicaoButton({
                 escaparCsv(item.statusPatrimonio || 'SEM STATUS'),
                 escaparCsv(item.dataTransferenciaConsiderada || '-'),
                 escaparCsv(formatarMoedaOuTraco(item.valorInformado)),
-                escaparCsv(formatarMoedaOuTraco(item.valorSistema)),
-                escaparCsv(limparDetalheRateio(item.detalheRateio) || '-'),
-                escaparCsv(item.movimentosPatrimonio || '-'),
-                escaparCsv(item.status),
-                escaparCsv(item.mensagem)
+                escaparCsv([
+                    formatarMoedaOuTraco(item.valorSistema),
+                    statusLinha,
+                    limparDetalheRateio(item.detalheRateio)
+                ].filter(Boolean).join('\n')),
+                escaparCsv(item.movimentosPatrimonio || '-')
             ].join(';'));
         }
 
@@ -145,7 +154,8 @@ export default function GerarRelatorioMedicaoButton({
 
     return (
         <Button type="button" onClick={handleGerarRelatorio} disabled={!resultado || disabled}>
-            Gerar Relatorio da Medicao
+            Gerar Relatório da Medição
         </Button>
     );
 }
+

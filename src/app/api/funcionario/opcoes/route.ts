@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { getFuncoes, getStatusFuncionario, getCentrosCustoFun, getLicencasDisponiveisParaFuncionario } from '@/features/funcionario/server/funcionario.service';
 import { getCentrosFiltro, hasModuleAccessForRequest } from '@/lib/access';
 
@@ -40,10 +40,11 @@ export async function GET(request: NextRequest) {
             licencas
         });
     } catch (error) {
-        console.error('Erro ao obter opcoes:', error);
+        console.error('Erro ao obter opções:', error);
         return NextResponse.json(
-            { message: 'Erro ao obter opcoes' },
+            { message: 'Erro ao obter opções' },
             { status: 500 }
         );
     }
 }
+

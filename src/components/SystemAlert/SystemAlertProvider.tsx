@@ -30,12 +30,23 @@ declare global {
   }
 }
 
+function normalizeMessage(message: unknown) {
+  if (message === null || message === undefined) return "";
+  if (typeof message === "string") return message;
+
+  try {
+    return JSON.stringify(message, null, 2);
+  } catch {
+    return String(message);
+  }
+}
+
 export default function SystemAlertProvider() {
   const [open, setOpen] = React.useState(false);
   const [payload, setPayload] = React.useState<AlertPayload>({
     type: "aviso",
     title: "Atenção",
-    message: "",
+    message: ""
   });
   const confirmResolver = React.useRef<((value: boolean) => void) | null>(null);
 
@@ -44,33 +55,25 @@ export default function SystemAlertProvider() {
 
     const originalAlert = window.alert;
 
-    const normalizeMessage = (message?: unknown) => {
-      if (message === null || message === undefined) return "";
-      if (typeof message === "string") return message;
-      return JSON.stringify(message, null, 2);
-    };
-
     const systemAlert: SystemAlertFn = (type, message, title) => {
-      const normalized = normalizeMessage(message);
       confirmResolver.current = null;
       setPayload({
         type,
         title,
-        message: normalized,
+        message: normalizeMessage(message)
       });
       setOpen(true);
     };
 
     const systemConfirm: SystemConfirmFn = (message, title, options) =>
       new Promise((resolve) => {
-        const normalized = normalizeMessage(message);
         confirmResolver.current = resolve;
         setPayload({
           type: "confirmacao",
           title,
-          message: normalized,
+          message: normalizeMessage(message),
           confirmText: options?.confirmText,
-          cancelText: options?.cancelText,
+          cancelText: options?.cancelText
         });
         setOpen(true);
       });
@@ -89,17 +92,13 @@ export default function SystemAlertProvider() {
   }, []);
 
   const handleConfirm = () => {
-    if (confirmResolver.current) {
-      confirmResolver.current(true);
-      confirmResolver.current = null;
-    }
+    confirmResolver.current?.(true);
+    confirmResolver.current = null;
   };
 
   const handleCancel = () => {
-    if (confirmResolver.current) {
-      confirmResolver.current(false);
-      confirmResolver.current = null;
-    }
+    confirmResolver.current?.(false);
+    confirmResolver.current = null;
   };
 
   const handleOpenChange = (nextOpen: boolean) => {

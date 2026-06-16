@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import * as XLSX from 'xlsx';
 import { listarPatrimoniosPorCentroCusto } from '@/features/patrimonio/server/patrimonio.service';
 import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
@@ -83,20 +83,20 @@ function obterDetalheDevolucao(patrimonio: {
     if (!ultimaDevolucao) {
         return {
             devolvido: true,
-            detalhe: 'Sem movimenta��o de devolu��o registrada.'
+            detalhe: 'Sem movimentação de devolução registrada.'
         };
     }
 
-    const inicio = formatarDataPtBr(ultimaDevolucao.dataInicioDevolucao) || 'data n�o informada';
+    const inicio = formatarDataPtBr(ultimaDevolucao.dataInicioDevolucao) || 'data não informada';
     const chegadaFornecedor = formatarDataPtBr(ultimaDevolucao.dataChegadaFornecedor);
     const fim = formatarDataPtBr(ultimaDevolucao.dataFimDevolucao);
     return {
         devolvido: true,
         detalhe: fim
-            ? `Movimenta��o de devolu��o: de ${inicio} at� ${fim}.`
+            ? `Movimentação de devolução: de ${inicio} até ${fim}.`
             : chegadaFornecedor
-                ? `Movimenta��o de devolu��o: iniciada em ${inicio} com chegada ao fornecedor em ${chegadaFornecedor}.`
-            : `Movimenta��o de devolu��o iniciada em ${inicio} (sem data de fim).`
+                ? `Movimentação de devolução: iniciada em ${inicio} com chegada ao fornecedor em ${chegadaFornecedor}.`
+            : `Movimentação de devolução iniciada em ${inicio} (sem data de fim).`
     };
 }
 
@@ -111,22 +111,22 @@ function validarStatusPatrimonio(patrimonio: {
 
     if (!statusOriginal) {
         return {
-            statusExibicao: temMovimentacaoDevolucao ? 'SEM STATUS (COM DEVOLU��O)' : 'SEM STATUS',
-            alerta: 'Patrim�nio sem status cadastrado.'
+            statusExibicao: temMovimentacaoDevolucao ? 'SEM STATUS (COM DEVOLUÇÃO)' : 'SEM STATUS',
+            alerta: 'Patrimônio sem status cadastrado.'
         };
     }
 
     if (statusEhDevolvido && !temMovimentacaoDevolucao) {
         return {
             statusExibicao: statusOriginal,
-            alerta: 'Status devolvido sem movimenta��o de devolu��o registrada.'
+            alerta: 'Status devolvido sem movimentação de devolução registrada.'
         };
     }
 
     if (!statusEhDevolvido && temMovimentacaoDevolucao) {
         return {
-            statusExibicao: `${statusOriginal} (COM MOV. DE DEVOLU��O)`,
-            alerta: 'H� movimenta��o de devolu��o vinculada a este patrim�nio.'
+            statusExibicao: `${statusOriginal} (COM MOV. DE DEVOLUÇÃO)`,
+            alerta: 'Há movimentação de devolução vinculada a este patrimônio.'
         };
     }
 
@@ -161,9 +161,9 @@ function construirMovimentosPatrimonio(params: {
     const entrada = patrimonio.dataEntPat ? patrimonio.dataEntPat.getTime() : null;
     if (entrada !== null) {
         if (entrada < inicio) {
-            movimentos.push(`Entrada antes do per�odo (${formatarDataCurta(patrimonio.dataEntPat)})`);
+            movimentos.push(`Entrada antes do período (${formatarDataCurta(patrimonio.dataEntPat)})`);
         } else if (entrada >= inicio && entrada <= fim) {
-            movimentos.push(`Entrada no per�odo (${formatarDataCurta(patrimonio.dataEntPat)})${estaRateado ? ' com rateio' : ''}`);
+            movimentos.push(`Entrada no período (${formatarDataCurta(patrimonio.dataEntPat)})${estaRateado ? ' com rateio' : ''}`);
         }
     }
 
@@ -173,9 +173,9 @@ function construirMovimentosPatrimonio(params: {
     if (transferenciaAlocacao) {
         const dataMs = transferenciaAlocacao.getTime();
         if (dataMs < inicio) {
-            movimentos.push(`Transfer�ncia de aloca��o antes do per�odo (${formatarDataCurta(transferenciaAlocacao)})`);
+            movimentos.push(`Transferência de alocação antes do período (${formatarDataCurta(transferenciaAlocacao)})`);
         } else if (dataMs >= inicio && dataMs <= fim) {
-            movimentos.push(`Transfer�ncia de aloca��o no per�odo (${formatarDataCurta(transferenciaAlocacao)})${estaRateado ? ' com rateio' : ''}`);
+            movimentos.push(`Transferência de alocação no período (${formatarDataCurta(transferenciaAlocacao)})${estaRateado ? ' com rateio' : ''}`);
         }
     }
 
@@ -187,18 +187,18 @@ function construirMovimentosPatrimonio(params: {
         if (devolucaoMs < inicio) {
             movimentos.push(`Devolvido em ${formatarDataCurta(devolucao)}`);
         } else if (devolucaoMs >= inicio && devolucaoMs <= fim) {
-            movimentos.push(`Chegada do fornecedor no per�odo (${formatarDataCurta(devolucao)})${estaRateado ? ' com rateio' : ''}`);
+            movimentos.push(`Chegada do fornecedor no período (${formatarDataCurta(devolucao)})${estaRateado ? ' com rateio' : ''}`);
         } else {
-            movimentos.push(`Chegada do fornecedor ap�s o per�odo (${formatarDataCurta(devolucao)})`);
+            movimentos.push(`Chegada do fornecedor após o período (${formatarDataCurta(devolucao)})`);
         }
     }
 
-    const transferenciasNoPeriodo = patrimonio.tbTransferenciaCustoPatrimonio?.filter((t) => {
+    const transferênciasNoPeriodo = patrimonio.tbTransferenciaCustoPatrimonio?.filter((t) => {
         const data = t.dataTransferencia.getTime();
         return data <= fim;
     }) || [];
-    if (transferenciasNoPeriodo.length > 0) {
-        const dataReferencia = transferenciasNoPeriodo[transferenciasNoPeriodo.length - 1]?.dataTransferencia || transferenciasNoPeriodo[0]?.dataTransferencia;
+    if (transferênciasNoPeriodo.length > 0) {
+        const dataReferencia = transferênciasNoPeriodo[transferênciasNoPeriodo.length - 1]?.dataTransferencia || transferênciasNoPeriodo[0]?.dataTransferencia;
         const ultimaTransferenciaAlocacao = patrimonio.tbTransferenciaAlocacao?.[0]?.dataTransferencia || null;
         if (dataReferencia) {
             const dataMs = dataReferencia.getTime();
@@ -206,14 +206,14 @@ function construirMovimentosPatrimonio(params: {
                 return movimentos.join(' | ') || null;
             }
             if (dataMs < inicio) {
-                movimentos.push(`Transfer�ncia antes do per�odo (${formatarDataCurta(dataReferencia)})`);
+                movimentos.push(`Transferência antes do período (${formatarDataCurta(dataReferencia)})`);
             } else if (dataMs >= inicio && dataMs <= fim) {
-                movimentos.push(`Transfer�ncia no per�odo (${formatarDataCurta(dataReferencia)})${estaRateado ? ' com rateio' : ''}`);
+                movimentos.push(`Transferência no período (${formatarDataCurta(dataReferencia)})${estaRateado ? ' com rateio' : ''}`);
             }
         }
     }
 
-    return movimentos.filter((movimento) => !movimento.includes('Transfer�ncia de aloca��o')).join(' | ') || null;
+    return movimentos.filter((movimento) => !movimento.includes('Transferência de alocação')).join(' | ') || null;
 }
 
 function normalizarHeader(value: unknown) {
@@ -307,7 +307,7 @@ async function carregarPatrimonioGlobal(idPat: string) {
 export async function POST(request: NextRequest) {
     const canAccess = await hasModuleAccessForRequest(request, 'MEDICAO_CCUSTO');
     const canCreate = await hasActionPermissionForRequest(request, 'CREATE');
-    if (!canAccess || !canCreate) return NextResponse.json({ message: 'Sem permissao para processar medicao' }, { status: 403 });
+    if (!canAccess || !canCreate) return NextResponse.json({ message: 'Sem permissão para processar medição' }, { status: 403 });
     try {
         const formData = await request.formData();
         const file = formData.get('file');
@@ -316,15 +316,15 @@ export async function POST(request: NextRequest) {
         const dataFimMedicaoRaw = formData.get('dataFimMedicao');
 
         if (!idCCusto || typeof idCCusto !== 'string') {
-            return NextResponse.json({ message: 'Centro de custo inv�lido.' }, { status: 400 });
+            return NextResponse.json({ message: 'Centro de custo inválido.' }, { status: 400 });
         }
 
         const { centros, allowAll } = await getCentrosFiltro(request);
         if (!allowAll && centros.length > 0 && !centros.includes(idCCusto)) {
-            return NextResponse.json({ message: 'Centro de custo n�o permitido.' }, { status: 403 });
+            return NextResponse.json({ message: 'Centro de custo não permitido.' }, { status: 403 });
         }
         if (!file || !(file instanceof File)) {
-            return NextResponse.json({ message: 'Arquivo Excel n�o informado.' }, { status: 400 });
+            return NextResponse.json({ message: 'Arquivo Excel não informado.' }, { status: 400 });
         }
 
         const dataInicioMedicao =
@@ -337,14 +337,14 @@ export async function POST(request: NextRequest) {
                 : null;
 
         if (!dataInicioMedicao || Number.isNaN(dataInicioMedicao.getTime())) {
-            return NextResponse.json({ message: 'Data de in�cio da medi��o inv�lida.' }, { status: 400 });
+            return NextResponse.json({ message: 'Data de início da medição inválida.' }, { status: 400 });
         }
         if (!dataFimMedicao || Number.isNaN(dataFimMedicao.getTime())) {
-            return NextResponse.json({ message: 'Data de fim da medi��o inv�lida.' }, { status: 400 });
+            return NextResponse.json({ message: 'Data de fim da medição inválida.' }, { status: 400 });
         }
         if (dataInicioMedicao > dataFimMedicao) {
             return NextResponse.json(
-                { message: 'Data de in�cio n�o pode ser maior que a data de fim da medi��o.' },
+                { message: 'Data de início não pode ser maior que a data de fim da medição.' },
                 { status: 400 }
             );
         }
@@ -354,7 +354,7 @@ export async function POST(request: NextRequest) {
         const sheetName = workbook.SheetNames[0];
 
         if (!sheetName) {
-            return NextResponse.json({ message: 'Planilha n�o encontrada no arquivo.' }, { status: 400 });
+            return NextResponse.json({ message: 'Planilha não encontrada no arquivo.' }, { status: 400 });
         }
 
         const sheet = workbook.Sheets[sheetName];
@@ -371,7 +371,7 @@ export async function POST(request: NextRequest) {
 
         if (idIndex === -1 || valorIndex === -1) {
             return NextResponse.json(
-                { message: 'Cabe�alho inv�lido. Use colunas "idPat" e "valor".' },
+                { message: 'Cabeçalho inválido. Use colunas "idPat" e "valor".' },
                 { status: 400 }
             );
         }
@@ -410,7 +410,7 @@ export async function POST(request: NextRequest) {
                     detalheRateio: null,
                     movimentosPatrimonio: null,
                     status: 'INVALIDO',
-                    mensagem: 'ID do patrim�nio vazio.'
+                    mensagem: 'ID do patrimônio vazio.'
                 });
                 continue;
             }
@@ -446,7 +446,7 @@ export async function POST(request: NextRequest) {
                             ? formatarDataPtBr(patrimonioGlobal.tbTransferenciaCustoPatrimonio[0].dataTransferencia)
                             : null,
                         status: 'NAO_ENCONTRADO',
-                        mensagem: 'Patrim�nio encontrado, mas fora do centro de custo selecionado.'
+                        mensagem: 'Patrimônio encontrado, mas fora do centro de custo selecionado.'
                     });
                     continue;
                 }
@@ -463,7 +463,7 @@ export async function POST(request: NextRequest) {
                     detalheRateio: null,
                     movimentosPatrimonio: null,
                     status: 'NAO_ENCONTRADO',
-                    mensagem: 'Patrim�nio n�o est� atribu�do ao centro de custo e n�o foi localizado na base.'
+                    mensagem: 'Patrimônio não está atribuído ao centro de custo e não foi localizado na base.'
                 });
                 continue;
             }
@@ -492,14 +492,14 @@ export async function POST(request: NextRequest) {
             const detalheRateio =
                 rateioInfo && valorBase !== null && valorSistema !== null
                     ? [
-                        `Base da medicao: ${formatarDataPtBr(dataInicioMedicao) || '-'} ate ${formatarDataPtBr(dataFimMedicao) || '-'}`,
-                        `Chegada do fornecedor: ${chegadaFornecedorData ? formatarDataPtBr(chegadaFornecedorData) : '-'}`,
-                        `Corte por transferencia de alocacao: ${transferenciaAlocacaoData ? formatarDataPtBr(transferenciaAlocacaoData) : '-'}`,
-                        `Transferencia entre custos: ${transferenciaCustoData ? formatarDataPtBr(transferenciaCustoData) : '-'}`,
-                        `Valor: ${formatarMoeda(valorBase)}`,
-                        `Rateio: ${formatarPercentual(rateioInfo.fator)}`,
-                        `Dias: ${diasNoCentro}/${diasPeriodo}`,
-                        `Resultado: ${formatarMoeda(valorSistema)}`
+                        `Período ${formatarDataPtBr(dataInicioMedicao) || '-'} a ${formatarDataPtBr(dataFimMedicao) || '-'}`,
+                        `Fornecedor ${chegadaFornecedorData ? formatarDataPtBr(chegadaFornecedorData) : '-'}`,
+                        `Alocação ${transferenciaAlocacaoData ? formatarDataPtBr(transferenciaAlocacaoData) : '-'}`,
+                        `Custo ${transferenciaCustoData ? formatarDataPtBr(transferenciaCustoData) : '-'}`,
+                        `Base ${formatarMoeda(valorBase)}`,
+                        `Rateio ${formatarPercentual(rateioInfo.fator)}`,
+                        `Dias ${diasNoCentro}/${diasPeriodo}`,
+                        `Resultado ${formatarMoeda(valorSistema)}`
                     ].join(' | ')
                     : null;
             const movimentosPatrimonio = construirMovimentosPatrimonio({
@@ -586,8 +586,8 @@ export async function POST(request: NextRequest) {
                 valorSistema,
                 detalheRateio: detalheRateio
                     ? detalheRateio
-                        .replace(/\s*\|\s*Base da medi[açãoa]:[^|]*/gi, '')
-                        .replace(/\s*\|\s*Transfer[êe]ncia de aloca[çc][ãa]o:[^|]*/gi, '')
+                        .replace(/\s*\|\s*Base da medi??o:[^|]*/gi, '')
+                        .replace(/\s*\|\s*Transfer?ncia de alocação:[^|]*/gi, '')
                         .replace(/\s{2,}/g, ' ')
                         .trim()
                     : null,
@@ -642,13 +642,15 @@ export async function POST(request: NextRequest) {
             naoInformados
         });
     } catch (error) {
-        console.error('Erro ao processar medi��o:', error);
+        console.error('Erro ao processar medição:', error);
         return NextResponse.json(
-            { message: 'Erro ao processar a medi��o.' },
+            { message: 'Erro ao processar a medição.' },
             { status: 500 }
         );
     }
 }
+
+
 
 
 

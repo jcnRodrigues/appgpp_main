@@ -1,26 +1,26 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { devolverAtivoRede, listarDevolucoesAtivoRede } from '@/features/ativos-rede/server/ativo-rede.service';
 import { hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 import { parseDateInput } from '@/lib/date-input';
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const canAccess = await hasModuleAccessForRequest(request, 'ATIVOS_REDE');
-    if (!canAccess) return NextResponse.json({ message: 'Sem permissao para acessar devolucoes' }, { status: 403 });
+    if (!canAccess) return NextResponse.json({ message: 'Sem permissão para acessar devoluções' }, { status: 403 });
 
     try {
         const { id } = await params;
         const data = await listarDevolucoesAtivoRede(id);
         return NextResponse.json(data);
     } catch (error) {
-        console.error('Erro ao buscar devolucoes:', error);
-        return NextResponse.json({ message: 'Erro ao buscar devolucoes' }, { status: 500 });
+        console.error('Erro ao buscar devoluções:', error);
+        return NextResponse.json({ message: 'Erro ao buscar devoluções' }, { status: 500 });
     }
 }
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const canAccess = await hasModuleAccessForRequest(request, 'ATIVOS_REDE');
-    const canUpdate = await hasActionPermissionForRequest(request, 'UPDATE');
-    if (!canAccess || !canUpdate) return NextResponse.json({ message: 'Sem permissao para devolver ativo de rede' }, { status: 403 });
+    const canReturn = await hasActionPermissionForRequest(request, 'RETURN');
+    if (!canAccess || !canReturn) return NextResponse.json({ message: 'Sem permissão para devolver ativo de rede' }, { status: 403 });
 
     try {
         const { id } = await params;
@@ -41,3 +41,4 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         return NextResponse.json({ message }, { status: 500 });
     }
 }
+

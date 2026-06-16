@@ -201,7 +201,7 @@ export function gerarListaPatrimoniosPdf(selecionados: ItemBusca[]) {
 
   const totalValor = selecionados.reduce((acc, item) => acc + (item.valorPat || 0), 0);
   const totalAtivos = selecionados.filter((item) => kindStatusPatrimonio(item.tbStatusPat?.descricaoStatPat) === 'ok').length;
-  const totalComSaida = selecionados.filter((item) => !!item.dataSaiPat).length;
+  const totalComSaída = selecionados.filter((item) => !!item.dataSaiPat).length;
   const agora = new Date();
   const dataToken = `${agora.getFullYear()}${String(agora.getMonth() + 1).padStart(2, '0')}${String(agora.getDate()).padStart(2, '0')}`;
   const contadorKey = `pdf-emissao-dev-${dataToken}`;
@@ -218,7 +218,7 @@ export function gerarListaPatrimoniosPdf(selecionados: ItemBusca[]) {
   pdf.setFont('helvetica', 'bold');
   pdf.setFontSize(15);
   pdf.setTextColor(18, 24, 40);
-  pdf.text('Relatorio - Lista de Devolução', margin, y);
+  pdf.text('Relatório - Lista de Devolução', margin, y);
   const codeWidth = pdf.getTextWidth(emissaoCode);
   pdf.text(emissaoCode, pageWidth - margin - codeWidth, y);
   y += 6;
@@ -227,7 +227,7 @@ export function gerarListaPatrimoniosPdf(selecionados: ItemBusca[]) {
   pdf.setTextColor(86, 98, 114);
   pdf.text(pdfSafeText(`Data/Hora: ${agora.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}`), margin, y);
   y += 5;
-  pdf.text(pdfSafeText(`Total de patrimonios selecionados: ${selecionados.length}`), margin, y);
+  pdf.text(pdfSafeText(`Total de patrimônios selecionados: ${selecionados.length}`), margin, y);
   y += 6;
 
   ensureSpace(24);
@@ -236,8 +236,8 @@ export function gerarListaPatrimoniosPdf(selecionados: ItemBusca[]) {
   const cardTop = y + 2;
   drawCard(margin, cardTop, cW, 18, 'Total de itens', String(selecionados.length), formatarMoeda(totalValor), [35, 43, 54]);
   drawCard(margin + cW + gap, cardTop, cW, 18, 'Status ativo', String(totalAtivos), '-', [15, 125, 67]);
-  drawCard(margin + (cW + gap) * 2, cardTop, cW, 18, 'Com data de saida', String(totalComSaida), '-', [64, 83, 111]);
-  drawCard(margin + (cW + gap) * 3, cardTop, cW, 18, 'Sem data de saida', String(selecionados.length - totalComSaida), '-', [185, 83, 0]);
+  drawCard(margin + (cW + gap) * 2, cardTop, cW, 18, 'Com data de saída', String(totalComSaída), '-', [64, 83, 111]);
+  drawCard(margin + (cW + gap) * 3, cardTop, cW, 18, 'Sem data de saída', String(selecionados.length - totalComSaída), '-', [185, 83, 0]);
   y = cardTop + 22;
 
   ensureSpace(18);
@@ -270,13 +270,13 @@ export function gerarListaPatrimoniosPdf(selecionados: ItemBusca[]) {
 
     addTableHeader(
       [
-        ['ID', 'Patrimonio'],
-        'Descricao',
+        ['ID', 'Patrimônio'],
+        'Descrição',
         'Tipo',
         ['Valor', 'BRL'],
-        ['Status', 'Patrimonio'],
+        ['Status', 'Patrimônio'],
         'Entrada',
-        'Saida'
+        'Saída'
       ],
       cols
     );
@@ -301,4 +301,7 @@ export function gerarListaPatrimoniosPdf(selecionados: ItemBusca[]) {
 
   pdf.save(`${emissaoCode}.pdf`);
 }
+
+
+
 

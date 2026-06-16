@@ -1,25 +1,26 @@
-import { getServerSession } from 'next-auth';
-import { AuthOptions } from '../api/auth/[...nextauth]/route';
 import Header from '@/components/Header/Header';
+import PageHeader from '@/components/PageHeader/PageHeader';
 import { Button } from '@/components/ui/button';
 import PermissionActionLink from '@/components/PermissionActionLink/PermissionActionLink';
-import Link from 'next/link';
-import { ChevronLeft, Plus } from 'lucide-react';
-import LicencaTable from '@/features/licenca/components/LicencaTable/LicencaTable';
 import { hasModuleAccess } from '@/lib/permissions';
+import { getServerSession } from 'next-auth';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { AuthOptions } from '../api/auth/[...nextauth]/route';
+import LicencaTable from '@/features/licenca/components/LicencaTable/LicencaTable';
+import { KeyRound, Plus } from 'lucide-react';
 
 export default async function LicencasPage() {
     const session = await getServerSession(AuthOptions);
 
     if (!session?.user) {
         return (
-            <div className="bg-background min-h-screen py-6">
-                <Header />
-                <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-                    <h1 className="text-2xl font-bold mb-4">Licencas de Software</h1>
-                    <div className="bg-white p-8 rounded-lg shadow-sm">
-                        <p className="text-lg mb-6">Faca login para visualizar as licencas</p>
+        <div className="bg-background min-h-screen py-4">
+            <Header />
+            <div className="mx-auto max-w-4xl px-4 py-12 text-center">
+                    <h1 className="mb-4 text-2xl font-bold">Licenças de Software</h1>
+                    <div className="rounded-lg bg-white p-8 shadow-sm">
+                        <p className="mb-6 text-lg">Faça login para visualizar as licenças</p>
                         <Button asChild>
                             <Link href="/">Ir para Login</Link>
                         </Button>
@@ -31,29 +32,31 @@ export default async function LicencasPage() {
 
     const formularios = ((session.user as any)?.formularios || []) as string[];
     if (!hasModuleAccess(formularios, 'LICENCAS_SOFTWARE')) redirect('/acesso-negado');
+
     return (
-        <div className="bg-background min-h-screen py-6">
+        <div className="bg-background min-h-screen py-4">
             <Header />
-            <div className="max-w-[86.4rem] mx-auto px-4">
-                <div className="form-title-sticky flex items-center justify-between mb-8 mt-4">
-                    <div className="flex items-center gap-4">
-                        <Link href="/"><ChevronLeft className="h-6 w-6 text-primary hover:text-primary/80 transition" /></Link>
-                        <div><h1 className="text-h2 font-bold">Licencas de Software</h1><p className="text-gray-600 text-sm mt-1">Lista de licencas vinculadas aos funcionarios</p></div>
-                    </div>
-                    <PermissionActionLink
-                        href="/licenca/cadastro"
-                        action="CREATE"
-                        module="LICENCAS_SOFTWARE"
-                        deniedMessage="Você não tem permissão para adicionar registros."
-                    >
-                        <Button 
-                        variant="ghost"
-                        className="flex gap-2 bg-green-500 hover:bg-green-600">
-                            <Plus className="h-5 w-5" />
-                            Nova Licenca
-                        </Button>
-                    </PermissionActionLink>
-                </div>
+            <div className="mx-auto max-w-[86.4rem] px-4">
+                <PageHeader
+                    icon={KeyRound}
+                    title="Licenças de Software"
+                    description="Lista de licenças vinculadas aos funcionários"
+                    backHref="/"
+                    className="mt-0 mb-3"
+                    actions={
+                        <PermissionActionLink
+                            href="/licenca/cadastro"
+                            action="CREATE"
+                            module="LICENCAS_SOFTWARE"
+                            deniedMessage="Você não tem permissão para adicionar registros."
+                        >
+                            <Button variant="ghost" className="flex gap-2 bg-green-500 hover:bg-green-600">
+                                <Plus className="h-5 w-5" />
+                                Nova Licença
+                            </Button>
+                        </PermissionActionLink>
+                    }
+                />
                 <LicencaTable />
             </div>
         </div>

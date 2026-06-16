@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import Link from 'next/link';
@@ -7,6 +7,8 @@ import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import DeleteGuardButton from '@/components/DeleteGuardButton/DeleteGuardButton';
 import { hasModuleActionPermission } from '@/lib/permissions';
+import { normalizeStatusText } from '@/lib/status';
+import { notify as showNotify } from '@/lib/notify';
 
 interface Alocacao {
     idCad: string;
@@ -154,7 +156,7 @@ export default function CadastroTable() {
     useEffect(() => {
         const carregarStatus = async () => {
             try {
-                const response = await fetch('/api/cadastro?opcoes=true');
+                const response = await fetch('/api/cadastro?opções=true');
                 if (!response.ok) return;
                 const data = await response.json();
                 setStatusOpcoes(data.statusPatrimonio || []);
@@ -196,29 +198,31 @@ export default function CadastroTable() {
             const res = await fetch(`/api/cadastro/${idCad}`, { method: 'DELETE' });
             if (res.ok) {
                 await carregarAlocacoes();
-                alert('Alocação deletada com sucesso');
+                showNotify('sucesso', 'Alocação deletada com sucesso');
             } else {
                 const err = await res.json().catch(() => ({}));
-                alert(err.message || 'Erro ao deletar');
+                showNotify('erro', err.message || 'Erro ao deletar');
             }
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao deletar');
+            showNotify('erro', 'Erro ao deletar');
         }
     };
 
     const getStatusBadgeClass = (status?: string) => {
-        if (status === 'ADMITIDO') return 'bg-green-100 text-green-800';
-        if (status === 'DEMITIDO') return 'bg-red-100 text-red-800';
-        if (status === 'TRANSFERIDO') return 'bg-yellow-100 text-yellow-800';
+        const normalizado = normalizeStatusText(status);
+        if (normalizado === 'ADMITIDO') return 'bg-green-100 text-green-800';
+        if (normalizado === 'DEMITIDO') return 'bg-red-100 text-red-800';
+        if (normalizado === 'TRANSFERIDO') return 'bg-yellow-100 text-yellow-800';
         return 'bg-gray-100 text-gray-800';
     };
     const getStatusPatBadgeClass = (status?: string) => {
-        if (status === 'ATIVO') return 'bg-green-100 text-green-800';
-        if (status === 'INATIVO') return 'bg-purple-100 text-purple-800';
-        if (status === 'DEVOLUÇÃO') return 'bg-red-100 text-red-800';
-        if (status === 'TRANSFERIDO') return 'bg-blue-100 text-blue-800';
-        if (status === 'MANUTENÇÃO') return 'bg-orange-100 text-orange-800';
+        const normalizado = normalizeStatusText(status);
+        if (normalizado === 'ATIVO') return 'bg-green-100 text-green-800';
+        if (normalizado === 'INATIVO') return 'bg-purple-100 text-purple-800';
+        if (normalizado === 'DEVOLUCAO') return 'bg-red-100 text-red-800';
+        if (normalizado === 'TRANSFERIDO') return 'bg-blue-100 text-blue-800';
+        if (normalizado === 'MANUTENCAO') return 'bg-orange-100 text-orange-800';
         return 'bg-yellow-100 text-yellow-800';
     };
 
@@ -258,7 +262,7 @@ export default function CadastroTable() {
         const func = alocacao.tbFuncionario;
         const pat = alocacao.tbPatrimonio;
         if (!func || !pat) {
-            alert('Dados do funcionário ou patrimônio não disponíveis para gerar o termo.');
+            showNotify('aviso', 'Dados do funcionário ou patrimônio não disponíveis para gerar o termo.');
             return;
         }
 
@@ -280,7 +284,7 @@ export default function CadastroTable() {
 
             if (!res.ok) {
                 const err = await res.json().catch(() => ({}));
-                alert(err.message || 'Falha ao gerar o PDF.');
+                showNotify('erro', err.message || 'Falha ao gerar o PDF.');
                 return;
             }
 
@@ -294,10 +298,10 @@ export default function CadastroTable() {
             link.click();
             link.remove();
             URL.revokeObjectURL(url);
-            alert('PDF gerado com sucesso. Iniciando o download...');
+            showNotify('sucesso', 'PDF gerado com sucesso. Iniciando o download...');
         } catch (e) {
             console.error(e);
-            alert('Erro ao gerar PDF. Tente novamente.');
+            showNotify('erro', 'Erro ao gerar PDF. Tente novamente.');
         } finally {
             setPdfLoading(null);
         }
@@ -393,7 +397,7 @@ export default function CadastroTable() {
                                 {alocacao.tbFuncionario?.nomeFun || '-'}
                             </div>
                             <div className="text-xs text-gray-500">
-                                {alocacao.tbFuncionario?.idMatFun || '-'} • {alocacao.tbPatrimonio?.idPat || '-'}
+                                {alocacao.tbFuncionario?.idMatFun || '-'} - {alocacao.tbPatrimonio?.idPat || '-'}
                             </div>
                         </div>
                         <div className="grid grid-cols-2 gap-2 text-xs">
@@ -513,7 +517,7 @@ export default function CadastroTable() {
                                 <td className="px-4 py-2.5 text-[11px] font-medium leading-snug">
                                     {alocacao.tbFuncionario?.idMatFun || '-'} - {alocacao.tbFuncionario?.nomeFun || '-'}
                                     <p className="text-s text-gray-500">
-                                        <span className={`px-3 py-1 rounded-full text-xs text-[7px] font-semibold 
+                                        <span className={`inline-flex px-3 py-1 rounded-full  text-[7px] font-semibold 
                                             ${getStatusBadgeClass(alocacao.tbFuncionario?.tbStatusFun?.descricaoStatusFun)}`}>
                                             {alocacao.tbFuncionario?.tbCCusto?.descricaoCCusto || '-'}
                                         </span>
@@ -522,7 +526,7 @@ export default function CadastroTable() {
                                 <td className="px-4 py-2.5 text-[11px]">
                                     {alocacao.tbPatrimonio?.idPat || '-'} - {alocacao.tbPatrimonio?.descricaoPat || '-'}
                                     <p className="text-s text-gray-500">
-                                        <span className={`inline-flex px-2 py-0.5 rounded-full text-[7px] font-semibold bg-green-100 text-green-800
+                                        <span className={`inline-flex px-2 py-0.5 rounded-full text-[7px] font-semibold 
                                         ${getStatusPatBadgeClass(alocacao.tbStatusPat?.descricaoStatPat)}`}>
                                             {formatarCentroCusto(alocacao.tbPatrimonio?.tbCCusto)}
                                         </span>
@@ -631,3 +635,7 @@ export default function CadastroTable() {
         </div>
     );
 }
+
+
+
+

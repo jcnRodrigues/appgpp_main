@@ -117,7 +117,7 @@ function mapBm(item: any) {
 
 export async function GET(request: NextRequest) {
     const canAccess = await hasModuleAccessForRequest(request, 'MEDICAO_CCUSTO');
-    if (!canAccess) return NextResponse.json({ message: 'Sem permissao para acessar BM de medicao' }, { status: 403 });
+    if (!canAccess) return NextResponse.json({ message: 'Sem permissão para acessar BM de medição' }, { status: 403 });
     try {
         const { searchParams } = new URL(request.url);
         const idBm = searchParams.get('idBm');
@@ -128,9 +128,9 @@ export async function GET(request: NextRequest) {
 
         if (idBm) {
             const bm = await prismaClient.tbBmMedicao.findUnique({ where: { idBm } });
-            if (!bm) return NextResponse.json({ message: 'BM nÃ£o encontrado.' }, { status: 404 });
+            if (!bm) return NextResponse.json({ message: 'BM não encontrado.' }, { status: 404 });
             if (!allowAll && centros.length > 0 && !centros.includes(bm.idCCusto)) {
-                return NextResponse.json({ message: 'Centro de custo nÃ£o permitido.' }, { status: 403 });
+                return NextResponse.json({ message: 'Centro de custo não permitido.' }, { status: 403 });
             }
             return NextResponse.json({ data: mapBm(bm) });
         }
@@ -160,7 +160,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     const canAccess = await hasModuleAccessForRequest(request, 'MEDICAO_CCUSTO');
     const canCreate = await hasActionPermissionForRequest(request, 'CREATE');
-    if (!canAccess || !canCreate) return NextResponse.json({ message: 'Sem permissao para registrar BM' }, { status: 403 });
+    if (!canAccess || !canCreate) return NextResponse.json({ message: 'Sem permissão para registrar BM' }, { status: 403 });
     try {
         const body = await request.json();
         const {
@@ -179,18 +179,18 @@ export async function POST(request: NextRequest) {
         } = body || {};
 
         if (!idCCusto || typeof idCCusto !== 'string') {
-            return NextResponse.json({ message: 'Centro de custo invÃ¡lido.' }, { status: 400 });
+            return NextResponse.json({ message: 'Centro de custo inválido.' }, { status: 400 });
         }
 
         const { centros, allowAll } = await getCentrosFiltro(request);
         if (!allowAll && centros.length > 0 && !centros.includes(idCCusto)) {
-            return NextResponse.json({ message: 'Centro de custo nÃ£o permitido.' }, { status: 403 });
+            return NextResponse.json({ message: 'Centro de custo não permitido.' }, { status: 403 });
         }
 
         const ini = new Date(dataInicioMedicao);
         const fim = new Date(dataFimMedicao);
         if (Number.isNaN(ini.getTime()) || Number.isNaN(fim.getTime())) {
-            return NextResponse.json({ message: 'PerÃ­odo de mediÃ§Ã£o invÃ¡lido.' }, { status: 400 });
+            return NextResponse.json({ message: 'Período de medição inválido.' }, { status: 400 });
         }
 
         const session = await getServerSession(AuthOptions);
@@ -199,7 +199,7 @@ export async function POST(request: NextRequest) {
         let bm: any = null;
         if (idBm) {
             bm = await prismaClient.tbBmMedicao.findUnique({ where: { idBm } });
-            if (!bm) return NextResponse.json({ message: 'BM nÃ£o encontrado.' }, { status: 404 });
+            if (!bm) return NextResponse.json({ message: 'BM não encontrado.' }, { status: 404 });
             if (bm.statusBm !== 'ABERTO') {
                 return NextResponse.json({ message: 'Somente BM em aberto pode ser atualizado.' }, { status: 400 });
             }
@@ -252,32 +252,32 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
     const canAccess = await hasModuleAccessForRequest(request, 'MEDICAO_CCUSTO');
     const canUpdate = await hasActionPermissionForRequest(request, 'UPDATE');
-    if (!canAccess || !canUpdate) return NextResponse.json({ message: 'Sem permissao para atualizar BM' }, { status: 403 });
+    if (!canAccess || !canUpdate) return NextResponse.json({ message: 'Sem permissão para atualizar BM' }, { status: 403 });
     try {
         const body = await request.json();
         const { idBm, statusBm, dataInicioMedicao, dataFimMedicao, resumo, resultados, naoInformados } = body || {};
 
         if (!idBm || typeof idBm !== 'string') {
-            return NextResponse.json({ message: 'ID do BM invÃ¡lido.' }, { status: 400 });
+            return NextResponse.json({ message: 'ID do BM inválido.' }, { status: 400 });
         }
 
         const existente = await prismaClient.tbBmMedicao.findUnique({ where: { idBm } });
-        if (!existente) return NextResponse.json({ message: 'BM nÃ£o encontrado.' }, { status: 404 });
+        if (!existente) return NextResponse.json({ message: 'BM não encontrado.' }, { status: 404 });
 
         const { centros, allowAll } = await getCentrosFiltro(request);
         if (!allowAll && centros.length > 0 && !centros.includes(existente.idCCusto)) {
-            return NextResponse.json({ message: 'Centro de custo nÃ£o permitido.' }, { status: 403 });
+            return NextResponse.json({ message: 'Centro de custo não permitido.' }, { status: 403 });
         }
 
         if (existente.statusBm !== 'ABERTO' && statusBm !== 'ABERTO') {
-            return NextResponse.json({ message: 'BM fechado nÃ£o pode ser editado.' }, { status: 400 });
+            return NextResponse.json({ message: 'BM fechado não pode ser editado.' }, { status: 400 });
         }
 
         const data: any = {};
         if (typeof statusBm === 'string') {
             const status = statusBm.toUpperCase();
             if (status !== 'ABERTO' && status !== 'FECHADO') {
-                return NextResponse.json({ message: 'Status invÃ¡lido.' }, { status: 400 });
+                return NextResponse.json({ message: 'Status inválido.' }, { status: 400 });
             }
             data.statusBm = status;
             data.fechadoAt = status === 'FECHADO' ? new Date() : null;
@@ -286,7 +286,7 @@ export async function PUT(request: NextRequest) {
         if (dataInicioMedicao) {
             const ini = new Date(dataInicioMedicao);
             if (Number.isNaN(ini.getTime())) {
-                return NextResponse.json({ message: 'Data de inÃ­cio invÃ¡lida.' }, { status: 400 });
+                return NextResponse.json({ message: 'Data de início inválida.' }, { status: 400 });
             }
             data.dataInicioMedicao = ini;
         }
@@ -294,7 +294,7 @@ export async function PUT(request: NextRequest) {
         if (dataFimMedicao) {
             const fim = new Date(dataFimMedicao);
             if (Number.isNaN(fim.getTime())) {
-                return NextResponse.json({ message: 'Data de fim invÃ¡lida.' }, { status: 400 });
+                return NextResponse.json({ message: 'Data de fim inválida.' }, { status: 400 });
             }
             data.dataFimMedicao = fim;
         }

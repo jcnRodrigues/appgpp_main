@@ -1,12 +1,14 @@
-'use client'
+﻿'use client'
 
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Edit, Filter, Trash2 } from 'lucide-react';
+import { Edit, Filter, Inbox, Trash2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import DeleteGuardButton from '@/components/DeleteGuardButton/DeleteGuardButton';
 import { hasModuleActionPermission } from '@/lib/permissions';
+import TableState from '@/components/TableState/TableState';
+import { notify as showNotify } from '@/lib/notify';
 
 interface Funcao {
     idFuncao: string;
@@ -25,7 +27,7 @@ export default function FuncaoTable() {
     const { data: session } = useSession();
     const formularios = ((session?.user as any)?.formularios || []) as string[];
     const canUpdate = hasModuleActionPermission(formularios, 'FUNCOES', 'UPDATE');
-    const showNoPermissionAlert = (acao: string) => window.systemAlert?.('aviso', `Você não tem permissão para ${acao}.`);
+    const showNoPermissionAlert = (acao: string) => showNotify('aviso', `Você não tem permissão para ${acao}.`);
     const handleEditClick = (e: React.MouseEvent) => {
         if (canUpdate) return;
         e.preventDefault();
@@ -90,11 +92,11 @@ export default function FuncaoTable() {
 
     const handleDelete = async (idFuncao: string) => {
         const confirmou = window.systemConfirm
-            ? await window.systemConfirm('Tem certeza que deseja deletar esta funcao?', 'Confirmar exclusão', {
+            ? await window.systemConfirm('Tem certeza que deseja deletar esta função?', 'Confirmar exclusão', {
                 confirmText: 'Excluir',
                 cancelText: 'Cancelar'
             })
-            : window.confirm('Tem certeza que deseja deletar esta funcao?');
+            : window.confirm('Tem certeza que deseja deletar esta função?');
         if (!confirmou) return;
 
         try {
@@ -104,14 +106,14 @@ export default function FuncaoTable() {
 
             if (res.ok) {
                 await carregarFuncoes();
-                alert('Funcao deletada com sucesso');
+                showNotify('sucesso', 'Função deletada com sucesso');
             } else {
                 const err = await res.json().catch(() => ({}));
-                alert(err.message || 'Erro ao deletar');
+                showNotify('erro', err.message || 'Erro ao deletar');
             }
         } catch (error) {
             console.error('Erro:', error);
-            alert('Erro ao deletar');
+            showNotify('erro', 'Erro ao deletar');
         }
     };
 
@@ -164,7 +166,7 @@ export default function FuncaoTable() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <input
                             type="text"
-                            placeholder="Buscar por nome da funcao..."
+                            placeholder="Buscar por nome da função..."
                             value={filtroNome}
                             onChange={(e) => setFiltroNome(e.target.value)}
                             className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
@@ -188,44 +190,40 @@ export default function FuncaoTable() {
             <div className="w-full">
                 <div className="md:hidden space-y-3">
                     {loading ? (
-                        <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">
-                            Carregando...
-                        </div>
+                        <TableState icon={Inbox} title="Carregando funções" compact />
                     ) : funcoes.length === 0 ? (
-                        <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">
-                            Nenhuma funcao cadastrada
-                        </div>
+                        <TableState icon={Inbox} title="Nenhuma função cadastrada" description="Tente alterar os filtros ou criar uma nova função." compact />
                     ) : (
-                        funcoes.map((funcao) => (
-                            <div key={funcao.idFuncao} className="bg-white rounded-lg shadow p-4 space-y-3">
+                        funcoes.map((função) => (
+                            <div key={função.idFuncao} className="bg-white rounded-lg shadow p-4 space-y-3">
                                 <div className="text-sm text-gray-600">
                                     Codigo:
                                     <span className="font-semibold text-gray-900">
-                                        {funcao.codigoFuncao}
+                                        {função.codigoFuncao}
                                     </span>
                                 </div>
                                 <div className="text-sm text-gray-600">
                                     Funcao:
                                     <span className="font-semibold text-gray-900">
-                                        {funcao.nomeFuncao}
+                                        {função.nomeFuncao}
                                     </span>
                                 </div>
                                 <div className="text-sm text-gray-600">
                                     Qtd Funcionarios:
                                     <span className="font-semibold text-gray-900">
-                                        {funcao.quantidadeFuncionarios ?? 0}
+                                        {função.quantidadeFuncionarios ?? 0}
                                     </span>
                                 </div>
                                 <div className="flex items-center justify-end gap-2 pt-1">
                                     <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
-                                        <Link href={`/funcao/${funcao.idFuncao}/editar`} title="Editar" onClick={handleEditClick}>
+                                        <Link href={`/funcao/${função.idFuncao}/editar`} title="Editar" onClick={handleEditClick}>
                                             <Edit className="h-4 w-4" />
                                         </Link>
                                     </Button>
                                     <DeleteGuardButton
-                                        resource="funcao"
-                                        recordId={funcao.idFuncao}
-                                        onAuthorizedDelete={() => handleDelete(funcao.idFuncao)}
+                                        resource="função"
+                                        recordId={função.idFuncao}
+                                        onAuthorizedDelete={() => handleDelete(função.idFuncao)}
                                         className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
                                         title="Excluir"
                                         unauthorizedBehavior="alert"
@@ -251,22 +249,18 @@ export default function FuncaoTable() {
                         <tbody>
                             {loading ? (
                                 <tr>
-                                    <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
-                                        Carregando...
-                                    </td>
+                                    <td colSpan={4} className="px-6 py-8"><TableState icon={Inbox} title="Carregando funções" compact /></td>
                                 </tr>
                             ) : funcoes.length === 0 ? (
                                 <tr>
-                                    <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
-                                        Nenhuma funcao cadastrada
-                                    </td>
+                                    <td colSpan={4} className="px-6 py-8"><TableState icon={Inbox} title="Nenhuma função cadastrada" description="Tente alterar os filtros ou criar uma nova função." compact /></td>
                                 </tr>
                             ) : (
-                                funcoes.map(funcao => (
-                                    <tr key={funcao.idFuncao} className="border-b hover:bg-gray-50 transition">
-                                        <td className="px-6 py-4 text-sm">{funcao.codigoFuncao}</td>
-                                        <td className="px-6 py-4 text-sm">{funcao.nomeFuncao}</td>
-                                        <td className="px-6 py-4 text-sm">{funcao.quantidadeFuncionarios ?? 0}</td>
+                                funcoes.map(função => (
+                                    <tr key={função.idFuncao} className="border-b hover:bg-gray-50 transition">
+                                        <td className="px-6 py-4 text-sm">{função.codigoFuncao}</td>
+                                        <td className="px-6 py-4 text-sm">{função.nomeFuncao}</td>
+                                        <td className="px-6 py-4 text-sm">{função.quantidadeFuncionarios ?? 0}</td>
                                         <td className="px-6 py-4 text-sm">
                                             <div className="flex gap-2">
                                                 <Button
@@ -275,14 +269,14 @@ export default function FuncaoTable() {
                                                     size="icon"
                                                     className="text-blue-600 hover:bg-blue-100 rounded-lg transition"
                                                 >
-                                                    <Link href={`/funcao/${funcao.idFuncao}/editar`} title="Editar" onClick={handleEditClick}>
+                                                    <Link href={`/funcao/${função.idFuncao}/editar`} title="Editar" onClick={handleEditClick}>
                                                         <Edit className="h-4 w-4" />
                                                     </Link>
                                                 </Button>
                                                 <DeleteGuardButton
-                                                    resource="funcao"
-                                                    recordId={funcao.idFuncao}
-                                                    onAuthorizedDelete={() => handleDelete(funcao.idFuncao)}
+                                                    resource="função"
+                                                    recordId={função.idFuncao}
+                                                    onAuthorizedDelete={() => handleDelete(função.idFuncao)}
                                                     className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
                                                     title="Excluir"
                                                     unauthorizedBehavior="alert"
@@ -362,3 +356,6 @@ export default function FuncaoTable() {
         </div>
     );
 }
+
+
+

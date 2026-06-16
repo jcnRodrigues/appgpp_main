@@ -1,11 +1,13 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { ChevronLeft, ExternalLink, RefreshCw, Building2, Router, Settings, Activity, AlertTriangle, CheckCircle2, Users, Users2 } from 'lucide-react';
+import { ExternalLink, RefreshCw, Building2, Router, Settings, Activity, AlertTriangle, CheckCircle2, Users, Users2, Inbox } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
 import Header from '@/components/Header/Header';
+import PageHeader from '@/components/PageHeader/PageHeader';
+import TableState from '@/components/TableState/TableState';
 
 interface ConsoleData {
   id: string;
@@ -307,7 +309,7 @@ export default function MonitorPatrimoniosForm() {
             const clientsOnly = await postMonitorData('/api/monitor-patrimonios/clients');
             overviewClients = Array.isArray(clientsOnly.clients) ? clientsOnly.clients : [];
           } catch {
-            // Mantem vazio quando clients nao estiver disponivel
+            // Mant?m vazio quando clients não estiver dispon?vel
           }
         }
 
@@ -848,32 +850,28 @@ export default function MonitorPatrimoniosForm() {
     <div className="bg-background min-h-screen py-6">
       <Header />
       <div className="max-w-[86.4rem] mx-auto px-4">
-        <div className="form-title-sticky flex items-center justify-between mb-8 mt-4">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="mr-4">
-              <ChevronLeft className="h-6 w-6 text-primary hover:text-primary/80 transition" />
-            </Link>
-            <div>
-              <h1 className="text-h2 font-bold">Monitor de Rede Ubiquiti</h1>
-              <p className="text-gray-600 text-sm mt-1">Configuração e monitoramento da rede Ubiquiti</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <a href="https://unifi.ui.com" target="_blank" rel="noreferrer">
-              <Button variant="outline" className="flex items-center gap-2">
-                <ExternalLink className="h-4 w-4" />
-                Login Ubiquiti
-              </Button>
-            </a>
-            <Link href="/unifi-config">
-              <Button variant="outline" className="flex items-center gap-2">
-                <Settings className="h-4 w-4" />
-                Configurar UniFi
-              </Button>
-            </Link>
-          </div>
-        </div>
+        <PageHeader
+          icon={Router}
+          title="Monitor de Rede Ubiquiti"
+          description="Configuração e monitoramento da rede Ubiquiti"
+          backHref="/"
+          actions={
+            <>
+              <a href="https://unifi.ui.com" target="_blank" rel="noreferrer">
+                <Button variant="outline" className="flex items-center gap-2">
+                  <ExternalLink className="h-4 w-4" />
+                  Login Ubiquiti
+                </Button>
+              </a>
+              <Link href="/unifi-config">
+                <Button variant="outline" className="flex items-center gap-2">
+                  <Settings className="h-4 w-4" />
+                  Configurar UniFi
+                </Button>
+              </Link>
+            </>
+          }
+        />
 
         <div className="bg-white rounded-lg shadow-lg p-8 space-y-6">
           {/* Card de API Key */}
@@ -920,7 +918,7 @@ export default function MonitorPatrimoniosForm() {
             </div>
             {lastUpdatedAt && (
               <p className="text-xs text-gray-500 mt-2">
-                Última atualização: {lastUpdatedAt.toLocaleTimeString('pt-BR')}
+                Ãšltima atualização: {lastUpdatedAt.toLocaleTimeString('pt-BR')}
               </p>
             )}
 
@@ -935,7 +933,7 @@ export default function MonitorPatrimoniosForm() {
               </div>
             )}
 
-            {/* Botão para ver chaves salvas */}
+            {/* BotÃ£o para ver chaves salvas */}
             <div className="mt-4">
               <button
                 onClick={() => setShowSavedKeys(true)}
@@ -965,7 +963,7 @@ export default function MonitorPatrimoniosForm() {
                 </div>
 
                 {loadingKeys ? (
-                  <p className="text-gray-500">Carregando...</p>
+                  <TableState icon={Inbox} title="Carregando consoles" compact />
                 ) : savedKeys.length > 0 ? (
                   <div className="overflow-x-auto">
                     <table className="w-full border-collapse min-w-full">
@@ -1014,7 +1012,7 @@ export default function MonitorPatrimoniosForm() {
                     </table>
                   </div>
                 ) : (
-                  <p className="text-gray-500">Nenhuma chave de API cadastrada.</p>
+                  <TableState icon={Inbox} title="Nenhuma chave de API cadastrada" compact />
                 )}
               </div>
             )}
@@ -1064,12 +1062,12 @@ export default function MonitorPatrimoniosForm() {
               </button>
             </div>
 
-            {/* Conteúdo das Tabs */}
+            {/* ConteÃºdo das Tabs */}
             <div className="p-6">
               {activeTab === 'sites' && (
                 <div>
                   {consoles.length === 0 ? (
-                    <p className="text-red-500 text-center py-8">Nenhum console encontrado. Clique em "Buscar Dados" para carregar.</p>
+                    <TableState icon={Inbox} title="Nenhum console encontrado" description="Clique em Buscar Dados para carregar." compact />
                   ) : (
                     <div className="mb-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                       {(dadosPaginados as ConsoleData[]).map((console) => {
@@ -1229,11 +1227,12 @@ export default function MonitorPatrimoniosForm() {
                     <span>Offline: {devicesOfflineCount}</span>
                   </div>
                   {devicesExibidos.length === 0 ? (
-                    <p className="text-gray-500 text-center py-8">
-                      {consoleSelecionadoId
-                        ? 'Nenhum device encontrado para o site selecionado.'
-                        : 'Nenhum device encontrado no momento.'}
-                    </p>
+                    <TableState
+                      icon={Inbox}
+                      title="Nenhum device encontrado"
+                      description={consoleSelecionadoId ? 'Nenhum device para o site selecionado.' : 'Tente buscar novamente ou selecionar outro site.'}
+                      compact
+                    />
                   ) : (
                     <div className="overflow-x-auto">
                       <table className="w-full border-collapse min-w-full">
@@ -1271,9 +1270,7 @@ export default function MonitorPatrimoniosForm() {
               {activeTab === 'clients' && (
                 <div>
                   {clientsExibidos.length === 0 ? (
-                    <p className="text-gray-500 text-center py-8">
-                      Nenhum client encontrado no momento.
-                    </p>
+                    <TableState icon={Inbox} title="Nenhum client encontrado" compact />
                   ) : (
                     <div className="overflow-x-auto">
                       <table className="w-full border-collapse min-w-full">
@@ -1382,6 +1379,8 @@ export default function MonitorPatrimoniosForm() {
     </div>
   );
 }
+
+
 
 
 

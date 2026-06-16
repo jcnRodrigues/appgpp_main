@@ -1,10 +1,11 @@
 import Dashboard from "@/features/dashboard/components/Dashboard/Dashboard";
 import Header from "@/components/Header/Header";
-import SectionHeader from "@/components/SectionHeader/SectionHeader";
+import PageHeader from "@/components/PageHeader/PageHeader";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "./api/auth/[...nextauth]/route";
 import { hasModuleAccess } from "@/lib/permissions";
 import { redirect } from "next/navigation";
+import { Home as HomeIcon } from "lucide-react";
 
 
 export default async function Home() {
@@ -34,8 +35,14 @@ export default async function Home() {
   return (
     <div>
       <Header />
-      <SectionHeader title="Dashboard" />
-      <div className="max-w-7xl mx-auto px-4 md:px-6 mt-6 pb-8">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 mt-6">
+        <PageHeader
+          icon={HomeIcon}
+          title="Dashboard"
+          description="Visão geral do sistema e atalhos principais"
+        />
+      </div>
+      <div className="max-w-7xl mx-auto px-4 md:px-6 pb-8">
         <Dashboard />
       </div>
     </div>

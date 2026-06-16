@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -7,8 +7,10 @@ import { Button } from '@/components/ui/button';
 import FormActions from '@/components/FormActions/FormActions';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import Link from 'next/link';
-import { ChevronLeft, Search, Check } from 'lucide-react';
+import { PackagePlus, Search, Check } from 'lucide-react';
 import { useFormDraft } from '@/hooks/useFormDraft';
+import { notify as showNotify } from '@/lib/notify';
+import PageHeader from '@/components/PageHeader/PageHeader';
 
 interface Funcionario {
     idF: string;
@@ -90,7 +92,7 @@ export default function CadastroForm({
 
     const carregarOpcoes = useCallback(async () => {
         try {
-            const res = await fetch('/api/cadastro?opcoes=true');
+            const res = await fetch('/api/cadastro?opções=true');
             if (res.ok) {
                 const data = await res.json();
                 setFuncionarios(data.funcionarios || []);
@@ -101,7 +103,7 @@ export default function CadastroForm({
                 }
             }
         } catch (error) {
-            console.error('Erro ao carregar opções:', error);
+            console.error('Erro ao carregar opÃ§Ãµes:', error);
         }
     }, [cadastro.idStatusPatCad, setCadastro]);
 
@@ -109,7 +111,7 @@ export default function CadastroForm({
         carregarOpcoes();
     }, [carregarOpcoes]);
 
-    // Efeito para filtrar funcionários (matricula + nome)
+    // Efeito para filtrar funcionÃ¡rios (matricula + nome)
     useEffect(() => {
         const filtrarFuncionarios = () => {
             if (!funcionarioSearch.trim()) {
@@ -130,7 +132,7 @@ export default function CadastroForm({
         filtrarFuncionarios();
     }, [funcionarioSearch, funcionarios]);
 
-    // Efeito para filtrar patrimônios (codigo + descricao)
+    // Efeito para filtrar patrimÃ´nios (codigo + descricao)
     useEffect(() => {
         const filtrarPatrimonios = () => {
             if (!patrimonioSearch.trim()) {
@@ -178,15 +180,15 @@ export default function CadastroForm({
         e.preventDefault();
         setLoading(true); //  Corrigido: era setLoading(false)
 
-        // Validações
+        // ValidaÃ§Ãµes
         if (!cadastro.idMatFunCad) {
-            window.systemAlert?.("aviso", 'Por favor, selecione um funcionário');
+            showNotify("aviso", 'Por favor, selecione um funcionário');
             setLoading(false);
             return;
         }
 
         if (!cadastro.idPatCad) {
-            window.systemAlert?.("aviso", 'Por favor, selecione um patrimônio');
+            showNotify("aviso", 'Por favor, selecione um funcionário');
             setLoading(false);
             return;
         }
@@ -208,16 +210,16 @@ export default function CadastroForm({
             });
 
             if (res.ok) {
-                window.systemAlert?.("sucesso", 'Alocação criada com sucesso');
+                showNotify("sucesso", 'AlocaÃ§Ã£o criada com sucesso');
                 clearCadastroDraft();
                 router.push('/alocacoes');
             } else {
                 const err = await res.json();
-                window.systemAlert?.("erro", err.message || 'Erro ao vincular patrimônio');
+                showNotify("erro", err.message || 'Erro ao vincular patrimônio');
             }
         } catch (error) {
             console.error(error);
-            window.systemAlert?.("erro", 'Erro ao salvar');
+            showNotify("erro", 'Erro ao salvar');
         } finally {
             setLoading(false);
         }
@@ -238,16 +240,17 @@ export default function CadastroForm({
     return (
         <div className="bg-background min-h-screen py-6">
             <div className="max-w-[54.6rem] mx-auto px-4">
-                <div className="form-title-sticky flex items-center mb-6">
-                    <Link href="/alocacoes" className="mr-4">
-                        <ChevronLeft className="h-6 w-6 text-primary" />
-                    </Link>
-                    <h1 className="text-h3 font-bold">Vincular Patrimônio ao Funcionário</h1>
-                </div>
+                <PageHeader
+                    icon={PackagePlus}
+                    title="Vincular Patrimônio ao Funcionário"
+                    description="Associe um patrimônio a um funcionário com segurança."
+                    backHref="/alocacoes"
+                    iconClassName="from-slate-950 via-slate-800 to-emerald-700"
+                />
 
                 <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
                     <div>
-                        <label className="block text-sm font-medium mb-2 text-red-600">Funcionário *</label>
+                        <label className="block text-sm font-medium mb-2 text-red-600">FuncionÃ¡rio *</label>
                         <div className="flex w-full gap-2 items-stretch">
                             <select
                                 name="idMatFunCad"
@@ -258,7 +261,7 @@ export default function CadastroForm({
                                     !cadastro.idMatFunCad ? 'border-red-300 bg-red-50' : ''
                                 }`}
                             >
-                                <option value="">--- Selecione um funcionário ---</option>
+                                <option value="">--- Selecione um funcionÃ¡rio ---</option>
                                 {funcionarios.map(func => (
                                     <option key={func.idMatFun} value={func.idMatFun}>
                                         {func.idMatFun} - {func.nomeFun}
@@ -272,19 +275,19 @@ export default function CadastroForm({
                                     setFuncionariosFiltrados(funcionarios.slice(0, 50));
                                     setIsFuncionarioSheetOpen(true);
                                 }}
-                                title="Pesquisar funcionário"
+                                title="Pesquisar funcionÃ¡rio"
                                 className="h-10 w-10 shrink-0 p-0"
                             >
                                 <Search className="h-4 w-4" />
                             </Button>
                         </div>
                         {!cadastro.idMatFunCad && (
-                            <p className="text-red-600 text-xs mt-1">Campo obrigatório</p>
+                            <p className="text-red-600 text-xs mt-1">Campo obrigatÃ³rio</p>
                         )}
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2 text-red-600">Patrimônio *</label>
+                        <label className="block text-sm font-medium mb-2 text-red-600">PatrimÃ´nio *</label>
                         <div className="flex w-full gap-2 items-stretch">
                             <select
                                 name="idPatCad"
@@ -295,7 +298,7 @@ export default function CadastroForm({
                                     !cadastro.idPatCad ? 'border-red-300 bg-red-50' : ''
                                 }`}
                             >
-                                <option value="">--- Selecione um patrimônio ---</option>
+                                <option value="">--- Selecione um patrimÃ´nio ---</option>
                                 {patrimonios.map(pat => (
                                     <option key={pat.idPat} value={pat.idPat}>
                                         {pat.idPat} - {pat.descricaoPat}
@@ -309,19 +312,19 @@ export default function CadastroForm({
                                     setPatrimoniosFiltrados(patrimonios.slice(0, 50));
                                     setIsPatrimonioSheetOpen(true);
                                 }}
-                                title="Pesquisar patrimônio"
+                                title="Pesquisar patrimÃ´nio"
                                 className="h-10 w-10 shrink-0 p-0"
                             >
                                 <Search className="h-4 w-4" />
                             </Button>
                         </div>
                         {!cadastro.idPatCad && (
-                            <p className="text-red-600 text-xs mt-1">Campo obrigatório</p>
+                            <p className="text-red-600 text-xs mt-1">Campo obrigatÃ³rio</p>
                         )}
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2">Data de Alocação *</label>
+                        <label className="block text-sm font-medium mb-2">Data de AlocaÃ§Ã£o *</label>
                         <input
                             type="date"
                             name="dataCadPat"
@@ -333,7 +336,7 @@ export default function CadastroForm({
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2">Status da Alocação *</label>
+                        <label className="block text-sm font-medium mb-2">Status da AlocaÃ§Ã£o *</label>
                         <select
                             name="idStatusPatCad"
                             value={cadastro.idStatusPatCad}
@@ -351,19 +354,19 @@ export default function CadastroForm({
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2">Data de Devolução</label>
+                        <label className="block text-sm font-medium mb-2">Data de DevoluÃ§Ã£o</label>
                         <input
                             type="date"
                             name="dataDevPat"
                             value={cadastro.dataDevPat}
                             onChange={handleChange}
                             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                            placeholder="Deixe em branco se ainda não foi devolvido"
+                            placeholder="Deixe em branco se ainda nÃ£o foi devolvido"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2">Motivo da Devolução</label>
+                        <label className="block text-sm font-medium mb-2">Motivo da DevoluÃ§Ã£o</label>
                         <input
                             type="text"
                             name="motivoDevolucao"
@@ -382,13 +385,13 @@ export default function CadastroForm({
                 </form>
             </div>
 
-            {/* Sheet de Pesquisa de Funcionário */}
+            {/* Sheet de Pesquisa de FuncionÃ¡rio */}
             <Sheet open={isFuncionarioSheetOpen} onOpenChange={setIsFuncionarioSheetOpen}>
                 <SheetContent side="right" className="w-[600px] sm:max-w-[600px]">
                     <SheetHeader>
-                        <SheetTitle>Pesquisar Funcionário</SheetTitle>
+                        <SheetTitle>Pesquisar FuncionÃ¡rio</SheetTitle>
                         <SheetDescription>
-                            Digite o nome ou matrícula do funcionário para buscar
+                            Digite o nome ou matrÃ­cula do funcionÃ¡rio para buscar
                         </SheetDescription>
                     </SheetHeader>
 
@@ -397,7 +400,7 @@ export default function CadastroForm({
                             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                             <input
                                 type="text"
-                                placeholder="Buscar por nome ou matrí­cula..."
+                                placeholder="Buscar por nome ou matrÃ­Â­cula..."
                                 value={funcionarioSearch}
                                 onChange={(e) => setFuncionarioSearch(e.target.value)}
                                 className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
@@ -409,18 +412,18 @@ export default function CadastroForm({
                             <table className="w-full min-w-full">
                                 <thead className="bg-gray-50 sticky top-0">
                                     <tr>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Matrícula</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">MatrÃ­cula</th>
                                         <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Nome</th>
                                         <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Função</th>
                                         <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Status</th>
-                                        <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600">Ação</th>
+                                        <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600">AÃ§Ã£o</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {funcionariosFiltrados.length === 0 ? (
                                         <tr>
                                             <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
-                                                Nenhum funcionário encontrado
+                                                Nenhum funcionÃ¡rio encontrado
                                             </td>
                                         </tr>
                                     ) : (
@@ -456,13 +459,13 @@ export default function CadastroForm({
                 </SheetContent>
             </Sheet>
 
-            {/* Sheet de Pesquisa de Patrimônio */}
+            {/* Sheet de Pesquisa de PatrimÃ´nio */}
             <Sheet open={isPatrimonioSheetOpen} onOpenChange={setIsPatrimonioSheetOpen}>
                 <SheetContent side="right" className="w-[600px] sm:max-w-[600px]">
                     <SheetHeader>
-                        <SheetTitle>Pesquisar Patrimônio</SheetTitle>
+                        <SheetTitle>Pesquisar PatrimÃ´nio</SheetTitle>
                         <SheetDescription>
-                            Digite a descrição ou ID do patrimônio para buscar
+                            Digite a descriÃ§Ã£o ou ID do patrimÃ´nio para buscar
                         </SheetDescription>
                     </SheetHeader>
 
@@ -484,17 +487,17 @@ export default function CadastroForm({
                                 <thead className="bg-gray-50 sticky top-0">
                                     <tr>
                                         <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">ID</th>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Descrição</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">DescriÃ§Ã£o</th>
                                         <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Status</th>
                                         <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Centro Custo</th>
-                                        <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600">Ação</th>
+                                        <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600">AÃ§Ã£o</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {patrimoniosFiltrados.length === 0 ? (
                                         <tr>
                                             <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
-                                                Nenhum patrimônio encontrado
+                                                Nenhum patrimÃ´nio encontrado
                                             </td>
                                         </tr>
                                     ) : (
@@ -505,10 +508,10 @@ export default function CadastroForm({
                                                 <td className="px-4 py-3 text-sm">
                                                     <span className={`px-2 py-1 rounded-full text-xs ${pat.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
                                                             pat.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-blue-100 text-gray-800' :
-                                                                pat.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-yellow-100 text-red-800' :
+                                                                pat.tbStatusPat?.descricaoStatPat === 'DEVOLUÃ‡ÃƒO' ? 'bg-yellow-100 text-red-800' :
                                                                     pat.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-green-100 text-blue-800' :
                                                                         pat.tbStatusPat?.descricaoStatPat === 'PENDENTE' ? 'bg-blue-100 text-yellow-800' :
-                                                                            pat.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-yellow-100 text-purple-800' :
+                                                                            pat.tbStatusPat?.descricaoStatPat === 'MANUTENÃ‡ÃƒO' ? 'bg-yellow-100 text-purple-800' :
                                                                                 'bg-gray-100 text-gray-800'
                                                         }`}>
                                                         {pat.tbStatusPat?.descricaoStatPat || '-'}
@@ -536,6 +539,8 @@ export default function CadastroForm({
         </div>
     );
 }
+
+
 
 
 

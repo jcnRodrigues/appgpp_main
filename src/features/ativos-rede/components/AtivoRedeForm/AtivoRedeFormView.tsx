@@ -1,9 +1,11 @@
-'use client'
+﻿'use client'
 
 import Link from 'next/link';
-import { ChevronLeft, Router, Plus } from 'lucide-react';
+import { Inbox, Router, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import FormActions from '@/components/FormActions/FormActions';
+import PageHeader from '@/components/PageHeader/PageHeader';
+import TableState from '@/components/TableState/TableState';
 import {
     AlertDialog,
     AlertDialogContent,
@@ -54,14 +56,17 @@ type FormState = {
 type Props = {
     ativoRedeId?: string;
     isEditing: boolean;
+    canManageOptions: boolean;
+    canManageTransfer: boolean;
+    canManageReturn: boolean;
     loading: boolean;
     loadingOpcoes: boolean;
     salvandoOpcao: boolean;
     historicoTransferencias: any[];
     historicoDevolucoes: any[];
-    opcoesTipo: TipoAtivoRede[];
-    opcoesStatus: StatusAtivoRede[];
-    opcoesCentros: CentroCusto[];
+    opçõesTipo: TipoAtivoRede[];
+    opçõesStatus: StatusAtivoRede[];
+    opçõesCentros: CentroCusto[];
     form: FormState;
     formOpcao: { kind: string; descricao: string };
     modalOpcaoAberto: boolean;
@@ -86,14 +91,17 @@ export default function AtivoRedeFormView(props: Props) {
     const {
         ativoRedeId,
         isEditing,
+        canManageOptions,
+        canManageTransfer,
+        canManageReturn,
         loading,
         loadingOpcoes,
         salvandoOpcao,
         historicoTransferencias,
         historicoDevolucoes,
-        opcoesTipo,
-        opcoesStatus,
-        opcoesCentros,
+        opçõesTipo,
+        opçõesStatus,
+        opçõesCentros,
         form,
         formOpcao,
         modalOpcaoAberto,
@@ -112,30 +120,31 @@ export default function AtivoRedeFormView(props: Props) {
     return (
         <div className="bg-background min-h-screen py-6">
             <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                <div className="form-title-sticky flex items-center mb-6">
-                    <Link href="/ativos-rede" className="mr-4">
-                        <ChevronLeft className="h-6 w-6 text-primary" />
-                    </Link>
-                    <div className="flex items-center justify-between gap-4 w-full">
-                        <h1 className="text-h2 font-bold">
-                            {isEditing ? 'Editar Ativo de Rede' : 'Cadastrar Novo Ativo de Rede'}
-                        </h1>
-                        {isEditing && (
-                            <div className="hidden md:flex gap-2">
-                                <Button asChild type="button" variant="ghost" className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm">
-                                    <Link href={`/ativos-rede/${ativoRedeId}/transferencia`}>
-                                        Transferencia
-                                    </Link>
-                                </Button>
-                                <Button asChild type="button" variant="ghost" className="bg-red-600 hover:bg-red-700 text-white shadow-sm">
-                                    <Link href={`/ativos-rede/${ativoRedeId}/devolucao`}>
-                                        Devolucao
-                                    </Link>
-                                </Button>
-                            </div>
-                        )}
-                    </div>
-                </div>
+                <PageHeader
+                    icon={Router}
+                    title={isEditing ? 'Editar Ativo de Rede' : 'Cadastrar Novo Ativo de Rede'}
+                    backHref="/ativos-rede"
+                    actions={
+                        isEditing && (canManageTransfer || canManageReturn) ? (
+                            <>
+                                {canManageTransfer ? (
+                                    <Button asChild type="button" variant="ghost" className="bg-blue-600 text-white shadow-sm hover:bg-blue-700">
+                                        <Link href={`/ativos-rede/${ativoRedeId}/transferencia`}>
+                                            Transferência
+                                        </Link>
+                                    </Button>
+                                ) : null}
+                                {canManageReturn ? (
+                                    <Button asChild type="button" variant="ghost" className="bg-red-600 text-white shadow-sm hover:bg-red-700">
+                                        <Link href={`/ativos-rede/${ativoRedeId}/devolucao`}>
+                                            Devolução
+                                        </Link>
+                                    </Button>
+                                ) : null}
+                            </>
+                        ) : null
+                    }
+                />
 
                 <form
                     onSubmit={handleSubmit}
@@ -145,19 +154,21 @@ export default function AtivoRedeFormView(props: Props) {
                     <section className="border-b pb-6">
                         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                             <div>
-                                <h2 className="text-h4 font-bold mb-2">Informacoes Basicas</h2>
-                                <p className="text-sm text-gray-600">Cadastro no mesmo padrao visual do formulario de patrimonio.</p>
+                                <h2 className="text-h4 font-bold mb-2">Informações Básicas</h2>
+                                <p className="text-sm text-gray-600">Cadastro no mesmo padrão visual do formulário de patrimônio.</p>
                             </div>
                             <div className="flex flex-wrap items-center gap-3 lg:justify-end">
-                                <Button
-                                    type="button"
-                                    variant="ghost"
-                                    onClick={() => setModalOpcaoAberto(true)}
-                                    className="border-emerald-600 text-emerald-700 hover:bg-emerald-50"
-                                >
-                                    <Plus className="mr-2 h-4 w-4" />
-                                    Cadastrar tipo/status
-                                </Button>
+                                {canManageOptions ? (
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        onClick={() => setModalOpcaoAberto(true)}
+                                        className="border-emerald-600 text-emerald-700 hover:bg-emerald-50"
+                                    >
+                                        <Plus className="mr-2 h-4 w-4" />
+                                        Cadastrar tipo/status
+                                    </Button>
+                                ) : null}
                                 <div className="flex h-20 w-28 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-900 to-emerald-700 text-white shadow-md">
                                     <Router className="h-10 w-10" />
                                 </div>
@@ -188,7 +199,7 @@ export default function AtivoRedeFormView(props: Props) {
                                     disabled={loadingOpcoes}
                                 >
                                     <option value="">{loadingOpcoes ? 'Carregando...' : '--- Selecione um tipo ---'}</option>
-                                    {opcoesTipo.map((tipo) => (
+                                    {opçõesTipo.map((tipo) => (
                                         <option key={tipo.idTipoAtivoRede} value={tipo.idTipoAtivoRede}>
                                             {tipo.descricaoTipoAtivoRede}
                                         </option>
@@ -205,7 +216,7 @@ export default function AtivoRedeFormView(props: Props) {
                                     disabled={loadingOpcoes}
                                 >
                                     <option value="">{loadingOpcoes ? 'Carregando...' : '--- Selecione um status ---'}</option>
-                                    {opcoesStatus.map((status) => (
+                                    {opçõesStatus.map((status) => (
                                         <option key={status.idStatusAtivoRede} value={status.idStatusAtivoRede}>
                                             {status.descricaoStatusAtivoRede}
                                         </option>
@@ -231,7 +242,7 @@ export default function AtivoRedeFormView(props: Props) {
                     </section>
 
                     <section className="border-b pb-5">
-                        <h2 className="text-h4 font-bold mb-3">Especificacoes Tecnicas</h2>
+                        <h2 className="text-h4 font-bold mb-3">Especificações Técnicas</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
                             <div>
                                 <label className="block text-sm font-medium mb-2">Fabricante</label>
@@ -281,7 +292,7 @@ export default function AtivoRedeFormView(props: Props) {
                     </section>
 
                     <section className="border-b pb-5">
-                        <h2 className="text-h4 font-bold mb-3">Rede e Localizacao</h2>
+                        <h2 className="text-h4 font-bold mb-3">Rede e Localização</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
                             <div>
                                 <label className="block text-sm font-medium mb-2">IP de Gerenciamento</label>
@@ -306,7 +317,7 @@ export default function AtivoRedeFormView(props: Props) {
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium mb-2">Local de Instalacao</label>
+                                <label className="block text-sm font-medium mb-2">Local de Instalação</label>
                                 <input
                                     type="text"
                                     name="localInstalacaoAtivoRede"
@@ -357,7 +368,7 @@ export default function AtivoRedeFormView(props: Props) {
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium mb-2">Data de Instalacao</label>
+                                <label className="block text-sm font-medium mb-2">Data de Instalação</label>
                                 <input
                                     type="date"
                                     name="dataInstalacaoAtivoRede"
@@ -377,7 +388,7 @@ export default function AtivoRedeFormView(props: Props) {
                                     disabled={loadingOpcoes}
                                 >
                                     <option value="">{loadingOpcoes ? 'Carregando...' : '--- Selecione um centro ---'}</option>
-                                    {opcoesCentros.map((centro) => (
+                                    {opçõesCentros.map((centro) => (
                                         <option key={centro.idCCusto} value={centro.idCCusto}>
                                             {formatarCentro(centro)}
                                         </option>
@@ -387,12 +398,12 @@ export default function AtivoRedeFormView(props: Props) {
                         </div>
 
                         <div className="mt-4">
-                            <label className="block text-sm font-medium mb-2">Observacoes</label>
+                            <label className="block text-sm font-medium mb-2">Observações</label>
                             <textarea
                                 name="observacaoAtivoRede"
                                 value={form.observacaoAtivoRede}
                                 onChange={handleChange}
-                                placeholder="Informacoes adicionais, garantia, projeto, manutencoes, etc."
+                                placeholder="Informações adicionais, garantia, projeto, manutenções, etc."
                                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary h-24 resize-none"
                             />
                         </div>
@@ -401,18 +412,18 @@ export default function AtivoRedeFormView(props: Props) {
                     {isEditing && (
                         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
                             <div className="border rounded-lg p-4">
-                                <h2 className="text-h4 font-bold mb-3">Historico de Transferencias</h2>
+                                <h2 className="text-h4 font-bold mb-3">Histórico de Transferências</h2>
                                 {historicoTransferencias.length === 0 ? (
-                                    <p className="text-sm text-gray-500">Nenhuma transferencia registrada.</p>
+                                    <TableState icon={Inbox} title="Nenhuma transferência registrada" compact />
                                 ) : (
                                     <div className="space-y-3">
                                         {historicoTransferencias.map((item) => (
                                             <div key={item.idTransferenciaAtivoRede} className="border-b last:border-b-0 pb-2 text-sm">
                                                 <p className="font-medium">
-                                                    {item.localOrigemAtivoRede || 'Sem local anterior'} {' -> '} {item.localDestinoAtivoRede || 'Sem local destino'}
+                                                    {item.localOrigemAtivoRede || 'Sem local anterior'} {' → '} {item.localDestinoAtivoRede || 'Sem local destino'}
                                                 </p>
                                                 <p className="text-gray-600">
-                                                    {item.centroOrigemAtivoRede || 'Sem centro anterior'} {' -> '} {item.centroDestinoAtivoRede || 'Sem centro destino'}
+                                                    {item.centroOrigemAtivoRede || 'Sem centro anterior'} {' → '} {item.centroDestinoAtivoRede || 'Sem centro destino'}
                                                 </p>
                                                 <p className="text-gray-600">
                                                     {new Date(item.dataTransferencia).toLocaleString('pt-BR')}
@@ -424,9 +435,9 @@ export default function AtivoRedeFormView(props: Props) {
                                 )}
                             </div>
                             <div className="border rounded-lg p-4">
-                                <h2 className="text-h4 font-bold mb-3">Historico de Devolucoes</h2>
+                                <h2 className="text-h4 font-bold mb-3">Histórico de Devoluções</h2>
                                 {historicoDevolucoes.length === 0 ? (
-                                    <p className="text-sm text-gray-500">Nenhuma devolucao registrada.</p>
+                                    <TableState icon={Inbox} title="Nenhuma devolução registrada" compact />
                                 ) : (
                                     <div className="space-y-3">
                                         {historicoDevolucoes.map((item) => (
@@ -456,7 +467,7 @@ export default function AtivoRedeFormView(props: Props) {
                 <AlertDialogContent className="max-w-lg">
                     <AlertDialogHeader>
                         <AlertDialogTitle>Cadastrar tipo ou status</AlertDialogTitle>
-                        <AlertDialogDescription>Crie uma nova opcao para usar no cadastro do ativo de rede.</AlertDialogDescription>
+                        <AlertDialogDescription>Crie uma nova opção para usar no cadastro do ativo de rede.</AlertDialogDescription>
                     </AlertDialogHeader>
 
                     <form onSubmit={handleCreateOption} className="space-y-4">
@@ -472,7 +483,7 @@ export default function AtivoRedeFormView(props: Props) {
                             </select>
                         </div>
                         <div>
-                            <label className="block text-sm font-medium mb-2">Descricao</label>
+                            <label className="block text-sm font-medium mb-2">Descrição</label>
                             <input
                                 type="text"
                                 value={formOpcao.descricao}
@@ -497,3 +508,5 @@ export default function AtivoRedeFormView(props: Props) {
         </div>
     );
 }
+
+

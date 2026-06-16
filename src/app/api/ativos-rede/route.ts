@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import {
     contarAtivosRede,
     criarAtivoRede,
@@ -9,7 +9,7 @@ import { parseDateInput, parseOptionalDateInput } from '@/lib/date-input';
 
 export async function GET(request: NextRequest) {
     const canAccess = await hasModuleAccessForRequest(request, 'ATIVOS_REDE');
-    if (!canAccess) return NextResponse.json({ message: 'Sem permissao para acessar ativos de rede' }, { status: 403 });
+    if (!canAccess) return NextResponse.json({ message: 'Sem permissão para acessar ativos de rede' }, { status: 403 });
 
     try {
         const { searchParams } = new URL(request.url);
@@ -54,13 +54,13 @@ export async function POST(request: NextRequest) {
     const canAccess = await hasModuleAccessForRequest(request, 'ATIVOS_REDE');
     const canCreate = await hasActionPermissionForRequest(request, 'CREATE');
     if (!canAccess || !canCreate) {
-        return NextResponse.json({ message: 'Sem permissao para criar ativo de rede' }, { status: 403 });
+        return NextResponse.json({ message: 'Sem permissão para criar ativo de rede' }, { status: 403 });
     }
 
     try {
         const dados = await request.json();
         if (!dados.codigoAtivoRede || !dados.nomeAtivoRede || !dados.dataEntradaAtivoRede || !dados.idTipoAtivoRede || !dados.idStatusAtivoRede || !dados.idCCustoAtivoRede) {
-            return NextResponse.json({ message: 'Campos obrigatorios faltando' }, { status: 400 });
+            return NextResponse.json({ message: 'Campos obrigat?rios faltando' }, { status: 400 });
         }
 
         const ativo = await criarAtivoRede({
@@ -93,3 +93,4 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ message }, { status: 500 });
     }
 }
+

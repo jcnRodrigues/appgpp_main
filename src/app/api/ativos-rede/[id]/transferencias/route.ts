@@ -1,26 +1,26 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { listarTransferenciasAtivoRede, transferirAtivoRede } from '@/features/ativos-rede/server/ativo-rede.service';
 import { hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 import { parseDateInput } from '@/lib/date-input';
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const canAccess = await hasModuleAccessForRequest(request, 'ATIVOS_REDE');
-    if (!canAccess) return NextResponse.json({ message: 'Sem permissao para acessar transferencias' }, { status: 403 });
+    if (!canAccess) return NextResponse.json({ message: 'Sem permissão para acessar transferências' }, { status: 403 });
 
     try {
         const { id } = await params;
         const data = await listarTransferenciasAtivoRede(id);
         return NextResponse.json(data);
     } catch (error) {
-        console.error('Erro ao buscar transferencias:', error);
-        return NextResponse.json({ message: 'Erro ao buscar transferencias' }, { status: 500 });
+        console.error('Erro ao buscar transferências:', error);
+        return NextResponse.json({ message: 'Erro ao buscar transferências' }, { status: 500 });
     }
 }
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const canAccess = await hasModuleAccessForRequest(request, 'ATIVOS_REDE');
-    const canUpdate = await hasActionPermissionForRequest(request, 'UPDATE');
-    if (!canAccess || !canUpdate) return NextResponse.json({ message: 'Sem permissao para transferir ativo de rede' }, { status: 403 });
+    const canTransfer = await hasActionPermissionForRequest(request, 'TRANSFER');
+    if (!canAccess || !canTransfer) return NextResponse.json({ message: 'Sem permissão para transferir ativo de rede' }, { status: 403 });
 
     try {
         const { id } = await params;
@@ -41,3 +41,4 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         return NextResponse.json({ message }, { status: 500 });
     }
 }
+

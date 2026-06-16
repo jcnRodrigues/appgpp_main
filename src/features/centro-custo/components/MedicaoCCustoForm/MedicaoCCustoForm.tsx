@@ -1,8 +1,9 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react';
 import { useEnterToNext } from '@/hooks/useEnterToNext';
 import { Eye, EyeOff } from 'lucide-react';
+import { normalizeStatusText } from '@/lib/status';
 import ConferirPatrimoniosButton from './ConferirPatrimoniosButton';
 import GerarRelatorioMedicaoButton from './GerarRelatorioMedicaoButton';
 import GerarRelatorioMedicaoPdfButton from './GerarRelatorioMedicaoPdfButton';
@@ -128,6 +129,15 @@ export default function MedicaoCCustoForm({
             month: '2-digit',
             day: '2-digit'
         }).format(data);
+    };
+    const getStatusPatrimonioBadgeClass = (status?: string | null) => {
+        const normalizado = normalizeStatusText(status);
+        if (normalizado === 'ATIVO') return 'bg-green-100 text-green-800';
+        if (normalizado === 'DEVOLUCAO') return 'bg-red-100 text-red-800';
+        if (normalizado === 'INATIVO') return 'bg-orange-100 text-orange-800';
+        if (normalizado === 'MANUTENCAO') return 'bg-purple-100 text-purple-800';
+        if (normalizado === 'TRANSFERIDO') return 'bg-blue-100 text-blue-800';
+        return 'bg-gray-100 text-gray-800';
     };
     const centroSelecionadoObj = centros.find((c) => c.idCCusto === centroSelecionado);
     const codigoCentroSelecionado =
@@ -624,10 +634,17 @@ export default function MedicaoCCustoForm({
                                     <div className="text-gray-500">
                                         Valor Sistema
                                     </div>
-                                    <div className="text-gray-800 text-right">
-                                        {formatarMoedaOuTraco(linha.valorSistema)}
+                                    <div className="text-right">
+                                        <div className="whitespace-nowrap font-medium text-gray-800">
+                                            {formatarMoedaOuTraco(linha.valorSistema)}
+                                        </div>
+                                        {linha.status === 'OK' && (
+                                            <div className="mt-1 inline-flex rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-semibold text-green-700">
+                                                Valor confere
+                                            </div>
+                                        )}
                                         {linha.detalheRateio && (
-                                            <div className="text-[10px] text-gray-500 mt-1 whitespace-normal text-right">
+                                            <div className="mt-1 max-w-[280px] whitespace-normal text-right text-[10px] leading-snug text-gray-500">
                                                 {linha.detalheRateio}
                                             </div>
                                         )}
@@ -655,7 +672,6 @@ export default function MedicaoCCustoForm({
                                         <th className="px-4 py-3 text-left text-sm font-semibold">Valor Informado</th>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">Valor Sistema</th>
                                         <th className="px-4 py-3 text-left text-sm font-semibold">Movimentos do Patrimônio</th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -691,14 +707,9 @@ export default function MedicaoCCustoForm({
                                             <td className="px-4 py-3 text-sm text-[12px]">
                                                 {linha.statusPatrimonio ? (
                                                     <span
-                                                        className={`px-3 py-1 rounded-full text-xs text-[9px] font-semibold 
-                                                                ${linha.statusPatrimonio === 'ATIVO' ? 'bg-green-100 text-green-800' :
-                                                                linha.statusPatrimonio === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
-                                                                    linha.statusPatrimonio === 'INATIVO' ? 'bg-orange-100 text-orange-800' :
-                                                                        linha.statusPatrimonio === 'MANUTENÇÃO' ? 'bg-purple-100 text-purple-800' :
-                                                                            linha.statusPatrimonio === 'TRANSFERIDO' ? 'bg-blue-100 text-blue-800' :
-                                                                                'bg-gray-100 text-gray-800'
-                                                            }`}
+                                                        className={`px-3 py-1 rounded-full text-xs text-[9px] font-semibold ${getStatusPatrimonioBadgeClass(
+                                                            linha.statusPatrimonio
+                                                        )}`}
                                                     >
                                                         {linha.statusPatrimonio || '-'}
                                                     </span>
@@ -711,31 +722,30 @@ export default function MedicaoCCustoForm({
                                             <td className="px-4 py-3 text-sm text-[12px]">
                                                 {formatarMoedaOuTraco(linha.valorInformado)}
                                             </td>
-                                            <td className="px-4 py-3 text-sm text-[12px]">
-                                                {formatarMoedaOuTraco(linha.valorSistema)}
+                                            <td className="px-4 py-3 text-sm text-[12px] align-top min-w-[240px]">
+                                                <div className="whitespace-nowrap font-medium text-gray-800">
+                                                    {formatarMoedaOuTraco(linha.valorSistema)}
+                                                </div>
+                                                <div
+                                                    className={`mt-1 inline-flex rounded-full px-2 py-0.5 text-[9px] font-semibold ${linha.status === 'OK'
+                                                        ? 'bg-green-100 text-green-700'
+                                                        : linha.status === 'VALOR_DIVERGENTE'
+                                                            ? 'bg-orange-100 text-orange-700'
+                                                            : linha.status === 'NAO_ENCONTRADO'
+                                                                ? 'bg-red-100 text-red-700'
+                                                                : 'bg-gray-100 text-gray-700'
+                                                        }`}
+                                                >
+                                                    {linha.mensagem}
+                                                </div>
                                                 {linha.detalheRateio && (
-                                                    <div className="text-xs text-[8px] text-gray-500 mt-1">
+                                                    <div className="mt-1 max-w-[300px] whitespace-normal text-[10px] leading-snug text-gray-500">
                                                         {linha.detalheRateio}
                                                     </div>
                                                 )}
                                             </td>
                                             <td className="px-4 py-3 text-sm text-[11px] text-gray-700">
                                                 {linha.movimentosPatrimonio || '-'}
-                                            </td>
-                                            <td className="px-4 py-3 text-sm">
-                                                <span
-                                                    className={`px-2 py-1 rounded-full text-xs text-[9px] font-semibold 
-                                                        ${linha.status === 'OK'
-                                                            ? 'bg-green-100 text-green-800'
-                                                            : linha.status === 'VALOR_DIVERGENTE'
-                                                                ? 'bg-orange-100 text-orange-800'
-                                                                : linha.status === 'NAO_ENCONTRADO'
-                                                                    ? 'bg-red-100 text-red-800'
-                                                                    : 'bg-gray-100 text-gray-800'
-                                                        }`}
-                                                >
-                                                    {linha.mensagem}
-                                                </span>
                                             </td>
                                         </tr>
                                     ))}
@@ -787,14 +797,9 @@ export default function MedicaoCCustoForm({
                                                     <td className="px-3 py-2">
                                                         {item.statusPatrimonio ? (
                                                             <span
-                                                                className={`px-3 py-1 rounded-full text-xs text-[9px] font-semibold 
-                                                                ${item.statusPatrimonio === 'ATIVO' ? 'bg-green-100 text-green-800' :
-                                                                        item.statusPatrimonio === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
-                                                                            item.statusPatrimonio === 'INATIVO' ? 'bg-orange-100 text-orange-800' :
-                                                                                item.statusPatrimonio === 'MANUTENÇÃO' ? 'bg-gray-100 text-purple-800' :
-                                                                                    item.statusPatrimonio === 'TRANSFERIDO' ? 'bg-gray-100 text-blue-800' :
-                                                                                        'bg-gray-100 text-gray-800'
-                                                                    }`}
+                                                                className={`px-3 py-1 rounded-full text-xs text-[9px] font-semibold ${getStatusPatrimonioBadgeClass(
+                                                                    item.statusPatrimonio
+                                                                )}`}
                                                             >
                                                                 {item.statusPatrimonio || '-'}
                                                             </span>
@@ -818,3 +823,8 @@ export default function MedicaoCCustoForm({
         </div>
     );
 }
+
+
+
+
+

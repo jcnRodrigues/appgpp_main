@@ -1,34 +1,30 @@
-"use client"
+"use client";
 
+import Header from '@/components/Header/Header';
+import PageHeader from '@/components/PageHeader/PageHeader';
+import AlertaDialogo from '@/components/AlertDialog/AlertaDialogo';
+import { Badge } from '@/components/ui/badge';
+import { Calendar } from '@/components/ui/calendar';
+import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { CalendarDays } from 'lucide-react';
+import React from 'react';
 
-import Header from "@/components/Header/Header";
-import AlertaDialogo from "@/components/AlertDialog/AlertaDialogo";
-import { Badge } from "@/components/ui/badge";
-import { Calendar } from "@/components/ui/calendar";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import { ChevronLeft } from "lucide-react";
-import Link from "next/link";
-import React from "react";
-
-const genereteTimeSlots = (
-    startHour: number,
-    endHour: number,
-    intervalMinute: number
-): string[] => {
-    const Slots: string[] = [];
+const genereteTimeSlots = (startHour: number, endHour: number, intervalMinute: number): string[] => {
+    const slots: string[] = [];
     const startDate = new Date();
     startDate.setHours(startHour, 0, 0, 0);
     const endDate = new Date();
     endDate.setHours(endHour, 0, 0, 0);
-    while (startDate < endDate) {
-        Slots.push(format(startDate, 'HH:mm'));
-        startDate.setMinutes(startDate.getMinutes() + intervalMinute);
 
+    while (startDate < endDate) {
+        slots.push(format(startDate, 'HH:mm'));
+        startDate.setMinutes(startDate.getMinutes() + intervalMinute);
     }
-    return Slots;
-}
+
+    return slots;
+};
 
 export default function SchedulePage() {
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
@@ -40,88 +36,80 @@ export default function SchedulePage() {
         setSelectedTime(null);
     }
 
-    const handleTimeSelect = (time: string) => {
-        setSelectedTime(time);
-    }
-
     const handleScheduloClick = () => {
         if (selectedDate && selectedTime) {
             setIsAlertOpen(true);
         }
-    }
+    };
+
     const timeSlots = genereteTimeSlots(9, 18, 30);
+
     return (
         <div>
             <Header />
-            <div className="flex items-center mb-6 mt-4">
-                <Link href="/" className="mr-4">
-                    <ChevronLeft className="h-6 w-6 text-primary" />
-                </Link>
-                <h6 className="text-h6 text-center flex-grow">Patrimonio data</h6>
-                <div className="w-6"></div>
-            </div>
-            <div className="max-w-6xl mx-auto">
-                <div className="flex flex-col md:flex-row">
-                    <div className="md:w-auto mb-6 flex justify-center md:justify-center md:pr-8">
-                        <Calendar
-                            mode="single"
-                            required={true}
-                            selected={selectedDate ?? undefined}
-                            onSelect={handleDateSelect}
-                            locale={ptBR}
-                            disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
-                        />
-                    </div>
-                    <div className="flex-1">
-                        {selectedDate && (
-                            <div className="mb-6 bg-white rounded-lg shadow-sm p-4">
-                                <h3 className=" font-semibold mb-3 text-primary text-center">
-                                    Patrimonio hora
-                                </h3>
-                                <div className="grid grid-cols-4 gap-2">
-                                    {timeSlots.map((slot) => (
-                                        <Badge
-                                            key={slot}
-                                            onClick={() => handleTimeSelect(slot)}
-                                            className={cn(
-                                                "cursor-pointer justify-center py-2 text-sm font-medium rounded-md border transition-colors",
-                                                selectedTime === slot
-                                                    ? "bg-accent text-white border-accent hover:bg-accent/90"
-                                                    : "bg-transparent text-accent border-accent hover:bg-accent/10"
-                                            )}>
-                                            {slot}
-                                        </Badge>
-                                    ))}
-
-                                </div>
-                            </div>
-                        )}
-                        <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-                            <h3 className=" font-semibold mb-3 text-primary text-center">
-                                Patrimonio hora
-                            </h3>
-                            <p className="text-sm">
-                                Data: 21 de julho de 2025
-                            </p>
-                            <p className="text-sm">
-                                Hora: 11:30
-                            </p>
-                            <button onClick={handleScheduloClick}
-                                className="mt-2 bg-accent w-full text-white p-2 rounded-full">
-                                agendar Patrimônio
-                            </button>
+            <div className="mx-auto max-w-[86.4rem] px-4">
+                <PageHeader
+                    icon={CalendarDays}
+                    title="Patrimônio data"
+                    description="Escolha uma data e um horário para agendar o patrimônio"
+                    backHref="/patrimoniolist"
+                />
+                <div className="mx-auto max-w-6xl">
+                    <div className="flex flex-col md:flex-row">
+                        <div className="mb-6 flex justify-center md:pr-8 md:w-auto">
+                            <Calendar
+                                mode="single"
+                                required={true}
+                                selected={selectedDate ?? undefined}
+                                onSelect={handleDateSelect}
+                                locale={ptBR}
+                                disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                            />
                         </div>
-                        <AlertaDialogo
-                            open={isAlertOpen}
-                            onOpenChange={setIsAlertOpen}
-                            type="aviso"
-                            title="Patrimônio"
-                            message="teste de Patrimonio"
-                        />
+                        <div className="flex-1">
+                            {selectedDate && (
+                                <div className="mb-6 rounded-lg bg-white p-4 shadow-sm">
+                                    <h3 className="mb-3 text-center font-semibold text-primary">Horários do patrimônio</h3>
+                                    <div className="grid grid-cols-4 gap-2">
+                                        {timeSlots.map((slot) => (
+                                            <Badge
+                                                key={slot}
+                                                onClick={() => setSelectedTime(slot)}
+                                                className={cn(
+                                                    'cursor-pointer justify-center rounded-md border py-2 text-sm font-medium transition-colors',
+                                                    selectedTime === slot
+                                                        ? 'border-accent bg-accent text-white hover:bg-accent/90'
+                                                        : 'border-accent bg-transparent text-accent hover:bg-accent/10'
+                                                )}
+                                            >
+                                                {slot}
+                                            </Badge>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                            <div className="mb-6 rounded-lg bg-white p-4 shadow-sm">
+                                <h3 className="mb-3 text-center font-semibold text-primary">Resumo do agendamento</h3>
+                                <p className="text-sm">Data: {selectedDate ? format(selectedDate, 'dd/MM/yyyy', { locale: ptBR }) : '-'}</p>
+                                <p className="text-sm">Hora: {selectedTime || '-'}</p>
+                                <button
+                                    onClick={handleScheduloClick}
+                                    className="mt-2 w-full rounded-full bg-accent p-2 text-white"
+                                >
+                                    Agendar Patrimônio
+                                </button>
+                            </div>
+                            <AlertaDialogo
+                                open={isAlertOpen}
+                                onOpenChange={setIsAlertOpen}
+                                type="aviso"
+                                title="Patrimônio"
+                                message="Teste de patrimônio"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }
-

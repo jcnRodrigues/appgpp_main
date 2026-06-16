@@ -14,7 +14,7 @@ export default async function DevolucaoAtivoRedePage({ params }: { params: Promi
 
     const { id } = await params;
     const formularios = ((session.user as any)?.formularios || []) as string[];
-    if (!hasModuleAccess(formularios, 'ATIVOS_REDE') || !hasModuleActionPermission(formularios, 'ATIVOS_REDE', 'UPDATE')) {
+    if (!hasModuleAccess(formularios, 'ATIVOS_REDE') || !hasModuleActionPermission(formularios, 'ATIVOS_REDE', 'RETURN')) {
         redirect('/acesso-negado');
     }
 

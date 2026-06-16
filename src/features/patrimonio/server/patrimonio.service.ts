@@ -1,4 +1,4 @@
-
+﻿
 import prisma from "../../../../prisma/prisma";
 
 function normalizarStatus(valor?: string | null) {
@@ -97,7 +97,9 @@ export async function getPatrimonioCardById(id: string) {
                     dataInicioDevolucao: true,
                     dataSaidaFornecedor: true,
                     dataChegadaFornecedor: true,
-                    dataFimDevolucao: true
+                    dataFimDevolucao: true,
+                    motivoDevolucao: true,
+                    notaFiscalDevolucao: true
                 },
                 take: 1
             },
@@ -132,7 +134,7 @@ export async function getStatusPatrimonioById(id: string) {
     });
 }
 
-// Função para listar todos os patrimônios com filtros
+// Função para listar todos os patrimÃ´nios com filtros
 export async function listarPatrimonios(filtro?: {
     idPat?: string;
     descricao?: string;
@@ -182,7 +184,7 @@ export async function listarPatrimonios(filtro?: {
     }));
 }
 
-// Função para criar um novo patrimônio
+// Função para criar um novo patrimÃ´nio
 export async function criarPatrimonio(dados: {
     idPat: string;
     descricaoPat: string;
@@ -204,7 +206,7 @@ export async function criarPatrimonio(dados: {
     if (existente) {
         const statusDescricao = existente.tbStatusPat?.descricaoStatPat;
         if (!isStatusDevolucao(statusDescricao)) {
-            throw new Error('Já existe um patrimônio com este ID');
+            throw new Error('JÃ¡ existe um patrimÃ´nio com este ID');
         }
 
         const ultimaDevolucao = await prisma.tbDevolucao.findFirst({
@@ -291,7 +293,9 @@ export async function criarPatrimonio(dados: {
                     dataInicioDevolucao: true,
                     dataSaidaFornecedor: true,
                     dataChegadaFornecedor: true,
-                    dataFimDevolucao: true
+                    dataFimDevolucao: true,
+                    motivoDevolucao: true,
+                    notaFiscalDevolucao: true
                 },
                 take: 1
             }
@@ -450,16 +454,16 @@ export async function listarPatrimoniosPorCentroCusto(
     const totalPeriodoMs = Math.max(1, fimExclusivo - inicio);
 
     const calcularMsNoCentro = (pat: (typeof patrimonios)[number]) => {
-        const transferencias = [...pat.tbTransferenciaCustoPatrimonio].sort(
+        const transferências = [...pat.tbTransferenciaCustoPatrimonio].sort(
             (a, b) => a.dataTransferencia.getTime() - b.dataTransferencia.getTime()
         );
-        const transferenciasAlocacao = [...pat.tbTransferenciaAlocacao].sort(
+        const transferênciasAlocacao = [...pat.tbTransferenciaAlocacao].sort(
             (a, b) => a.dataTransferencia.getTime() - b.dataTransferencia.getTime()
         );
 
         let centroInicial = pat.idPat_CustoPat;
-        for (let i = transferencias.length - 1; i >= 0; i -= 1) {
-            const t = transferencias[i];
+        for (let i = transferências.length - 1; i >= 0; i -= 1) {
+            const t = transferências[i];
             if (centroInicial && t.idCustoDestino === centroInicial && t.idCustoOrigem) {
                 centroInicial = t.idCustoOrigem;
             }
@@ -472,7 +476,7 @@ export async function listarPatrimoniosPorCentroCusto(
             .filter(Boolean)
             .map((d) => (d as Date).getTime())
             .sort((a, b) => a - b)[0];
-        const primeiraTransferenciaAlocacaoMs = transferenciasAlocacao
+        const primeiraTransferenciaAlocacaoMs = transferênciasAlocacao
             .map((t) => t.dataTransferencia.getTime())
             .sort((a, b) => a - b)[0];
         const limiteSaida = Math.min(
@@ -490,9 +494,9 @@ export async function listarPatrimoniosPorCentroCusto(
             }
         };
 
-        const ultimaTransferenciaAlocacaoMs = transferenciasAlocacao[transferenciasAlocacao.length - 1]?.dataTransferencia.getTime() ?? null;
+        const ultimaTransferenciaAlocacaoMs = transferênciasAlocacao[transferênciasAlocacao.length - 1]?.dataTransferencia.getTime() ?? null;
 
-        for (const t of transferencias) {
+        for (const t of transferências) {
             const dataTransf = t.dataTransferencia.getTime();
             if (ultimaTransferenciaAlocacaoMs !== null && dataTransf === ultimaTransferenciaAlocacaoMs) {
                 continue;
@@ -533,7 +537,7 @@ export async function listarPatrimoniosPorCentroCusto(
         });
 }
 
-// Função para atualizar um patrimônio
+// Função para atualizar um patrimÃ´nio
 export async function atualizarPatrimonio(idP: string, dados: Partial<{
     descricaoPat: string;
     descricaoDetalhadaPat?: string;
@@ -561,7 +565,9 @@ export async function atualizarPatrimonio(idP: string, dados: Partial<{
                     dataInicioDevolucao: true,
                     dataSaidaFornecedor: true,
                     dataChegadaFornecedor: true,
-                    dataFimDevolucao: true
+                    dataFimDevolucao: true,
+                    motivoDevolucao: true,
+                    notaFiscalDevolucao: true
                 },
                 take: 1
             }
@@ -600,11 +606,11 @@ export async function transferirCentroCustoPatrimonio(params: {
     });
 
     if (!patrimonio) {
-        throw new Error('Patrimônio não encontrado');
+        throw new Error('PatrimÃ´nio nÃ£o encontrado');
     }
 
     if (patrimonio.idPat_CustoPat === params.idCustoDestino) {
-        throw new Error('O centro de custo de destino é igual ao centro atual');
+        throw new Error('O centro de custo de destino Ã© igual ao centro atual');
     }
 
     const centroDestino = await prisma.tbCCusto.findUnique({
@@ -613,7 +619,7 @@ export async function transferirCentroCustoPatrimonio(params: {
     });
 
     if (!centroDestino) {
-        throw new Error('Centro de custo de destino não encontrado');
+        throw new Error('Centro de custo de destino nÃ£o encontrado');
     }
 
     await prisma.$transaction(async (tx) => {
@@ -640,12 +646,12 @@ export async function transferirCentroCustoPatrimonio(params: {
     return await getPatrimonioCardById(params.idPatrimonio);
 }
 
-// Função para obter tipos de patrimônio
+// Função para obter tipos de patrimÃ´nio
 export async function getTiposPatrimonio() {
     return await prisma.tbTipoPat.findMany();
 }
 
-// Função para obter status de patrimônio
+// Função para obter status de patrimÃ´nio
 export async function getStatusPatrimonio() {
     return await prisma.tbStatusPat.findMany();
 }
@@ -659,7 +665,7 @@ export async function getCentrosCusto() {
     });
 }
 
-// Função para contar patrimônios
+// Função para contar patrimÃ´nios
 export async function contarPatrimonios(filtro?: {
     idPat?: string;
     descricao?: string;
@@ -673,3 +679,5 @@ export async function contarPatrimonios(filtro?: {
         where: buildPatrimonioWhere(filtro)
     });
 }
+
+

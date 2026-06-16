@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
@@ -6,9 +6,10 @@ import { useRouter } from 'next/navigation';
 import { useEnterToNext } from '@/hooks/useEnterToNext';
 
 import FormActions from '@/components/FormActions/FormActions';
-import { ChevronLeft } from 'lucide-react';
-import Link from 'next/link';
+import PageHeader from '@/components/PageHeader/PageHeader';
+import { PackagePlus, Pencil } from 'lucide-react';
 import { useFormDraft } from '@/hooks/useFormDraft';
+import { notify as showNotify } from '@/lib/notify';
 
 interface TipoPatrimonio {
     idTipPat: string;
@@ -77,7 +78,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
 
     const carregarHistoricoTransferencias = async (id: string) => {
         try {
-            const response = await fetch(`/api/patrimonio/${id}/transferencias`);
+            const response = await fetch(`/api/patrimonio/${id}/transferências`);
             if (response.ok) {
                 const data = await response.json();
                 setHistoricoTransferencias(Array.isArray(data) ? data : []);
@@ -197,19 +198,19 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
         setLoading(true);
 
         if (!patrimonio.idPat_TipoPat) {
-            window.systemAlert?.('aviso', 'Por favor, selecione o tipo de patrimônio');
+            showNotify('aviso', 'Por favor, selecione o tipo de patrimônio');
             setLoading(false);
             return;
         }
 
         if (!patrimonio.idPat_StatusPat) {
-            window.systemAlert?.('aviso', 'Por favor, selecione o status do patrimônio');
+            showNotify('aviso', 'Por favor, selecione o status do patrimônio');
             setLoading(false);
             return;
         }
 
         if (patrimonio.dataSaiPat && patrimonio.dataEntPat && patrimonio.dataSaiPat < patrimonio.dataEntPat) {
-            window.systemAlert?.('aviso', 'A data de entrega no almoxarifado não pode ser menor que a data de entrada');
+            showNotify('aviso', 'A data de entrega no almoxarifado não pode ser menor que a data de entrada');
             setLoading(false);
             return;
         }
@@ -218,13 +219,13 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
         const isDevolucao = (statusSelecionado?.descricaoStatPat || '').toUpperCase().includes('DEVOLU');
 
         if (isDevolucao && !patrimonio.dataDevPat) {
-            window.systemAlert?.('aviso', 'Informe a data de devolução');
+            showNotify('aviso', 'Informe a data de devolução');
             setLoading(false);
             return;
         }
 
         if (isDevolucao && patrimonio.dataDevPat && patrimonio.dataEntPat && patrimonio.dataDevPat < patrimonio.dataEntPat) {
-            window.systemAlert?.('aviso', 'A data de devolução não pode ser menor que a data de entrada');
+            showNotify('aviso', 'A data de devolução não pode ser menor que a data de entrada');
             setLoading(false);
             return;
         }
@@ -261,17 +262,17 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                 const mensagemSucesso = patrimonioId
                     ? 'Patrimônio atualizado com sucesso'
                     : 'Patrimônio criado com sucesso';
-                window.systemAlert?.('sucesso', mensagemSucesso);
+                showNotify('sucesso', mensagemSucesso);
                 if (!patrimonioId) clearPatrimonioDraft();
                 setLimparDadosDevolucaoNoBanco(false);
                 router.push('/patrimoniolist');
             } else {
                 const error = await response.json();
-                window.systemAlert?.('erro', `Erro ao salvar patrimônio: ${error.message}`);
+                showNotify('erro', `Erro ao salvar patrimônio: ${error.message}`);
             }
         } catch (error) {
             console.error('Erro:', error);
-            window.systemAlert?.('erro', 'Erro ao salvar patrimônio');
+            showNotify('erro', 'Erro ao salvar patrimônio');
         } finally {
             setLoading(false);
         }
@@ -280,15 +281,14 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
     return (
         <div className="bg-background min-h-screen py-6">
             <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                <div className="form-title-sticky flex items-center mb-6">
-                    <Link href="/patrimoniolist" className="mr-4">
-                        <ChevronLeft className="h-6 w-6 text-primary" />
-                    </Link>
-                    <h1 className="text-h2 font-bold">
-                        {patrimonioId ? 'Editar Patrimônio' : 'Cadastrar Novo Patrimônio'}
-
-                    </h1>
-                </div>
+                <PageHeader
+                    icon={patrimonioId ? Pencil : PackagePlus}
+                    title={patrimonioId ? 'Editar Patrimônio' : 'Cadastrar Novo Patrimônio'}
+                    description="Gerencie os dados básicos, status e centro de custo do patrimônio."
+                    backHref="/patrimoniolist"
+                    className="px-5 py-5"
+                    iconClassName="from-slate-950 via-slate-800 to-emerald-700"
+                />
 
                 <form onSubmit={handleSubmit}
                     onKeyDown={handleEnterToNext}
@@ -503,6 +503,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                                 <select name="idPat_StatusPat"
                                     value={patrimonio.idPat_StatusPat}
                                     onChange={handleChange}
+                                    disabled={!!patrimonioId}
                                     className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary disabled:bg-gray-100 disabled:cursor-not-allowed ${!patrimonio.idPat_StatusPat ? 'border-red-300 bg-red-50' : ''}`} required>
                                     <option value="">
                                         --- Selecione um status ---
@@ -590,3 +591,6 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
         </div>
     );
 }
+
+
+

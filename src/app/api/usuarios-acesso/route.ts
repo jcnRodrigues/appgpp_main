@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     try {
         const canAccess = await hasModuleAccessForRequest(request, 'ACESSO_USUARIOS');
         if (!canAccess) {
-            return NextResponse.json({ message: 'Sem permissao para acessar usuarios' }, { status: 403 });
+            return NextResponse.json({ message: 'Sem permissão para acessar usuários' }, { status: 403 });
         }
 
         const { searchParams } = new URL(request.url);
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
             const usuario = await prismaClient.tbUser.findUnique({ where: { id } });
 
             if (!usuario) {
-                return NextResponse.json({ message: 'Usuario nao encontrado' }, { status: 404 });
+                return NextResponse.json({ message: 'Usuário não encontrado' }, { status: 404 });
             }
 
             return NextResponse.json({
@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
         const canAccess = await hasModuleAccessForRequest(request, 'ACESSO_USUARIOS');
         const canCreate = await hasActionPermissionForRequest(request, 'CREATE');
         if (!canAccess || !canCreate) {
-            return NextResponse.json({ message: 'Sem permissao para criar usuarios de acesso' }, { status: 403 });
+            return NextResponse.json({ message: 'Sem permissão para criar usuários de acesso' }, { status: 403 });
         }
 
         const payload = await request.json();
@@ -96,11 +96,11 @@ export async function POST(request: NextRequest) {
         const senha = payload.senha ? String(payload.senha) : '';
 
         if (!nome || !email) {
-            return NextResponse.json({ message: 'Nome e email sao obrigatorios' }, { status: 400 });
+            return NextResponse.json({ message: 'Nome e email são obrigatórios' }, { status: 400 });
         }
 
         if (authType === 'LOCAL' && !senha) {
-            return NextResponse.json({ message: 'Senha obrigatoria para acesso local' }, { status: 400 });
+            return NextResponse.json({ message: 'Senha obrigatória para acesso local' }, { status: 400 });
         }
 
         const existente = await prismaClient.tbUser.findFirst({
@@ -110,7 +110,7 @@ export async function POST(request: NextRequest) {
             }
         });
         if (existente) {
-            return NextResponse.json({ message: 'Ja existe acesso para este email e tipo' }, { status: 409 });
+            return NextResponse.json({ message: 'Já existe acesso para este email e tipo' }, { status: 409 });
         }
 
         const created = await prismaClient.tbUser.create({
@@ -149,14 +149,14 @@ export async function PUT(request: NextRequest) {
         const canAccess = await hasModuleAccessForRequest(request, 'ACESSO_USUARIOS');
         const canUpdate = await hasActionPermissionForRequest(request, 'UPDATE');
         if (!canAccess || !canUpdate) {
-            return NextResponse.json({ message: 'Sem permissao para alterar usuarios de acesso' }, { status: 403 });
+            return NextResponse.json({ message: 'Sem permissão para alterar usuários de acesso' }, { status: 403 });
         }
 
         const payload = await request.json();
         const id = String(payload.id || '').trim();
 
         if (!id) {
-            return NextResponse.json({ message: 'ID obrigatorio' }, { status: 400 });
+            return NextResponse.json({ message: 'ID obrigatório' }, { status: 400 });
         }
 
         const nome = String(payload.nome || '').trim();
@@ -168,7 +168,7 @@ export async function PUT(request: NextRequest) {
         const senha = payload.senha ? String(payload.senha) : '';
 
         if (!nome || !email) {
-            return NextResponse.json({ message: 'Nome e email sao obrigatorios' }, { status: 400 });
+            return NextResponse.json({ message: 'Nome e email são obrigatórios' }, { status: 400 });
         }
 
         const existente = await prismaClient.tbUser.findFirst({
@@ -228,14 +228,14 @@ export async function DELETE(request: NextRequest) {
         const canAccess = await hasModuleAccessForRequest(request, 'ACESSO_USUARIOS');
         const canDelete = await hasActionPermissionForRequest(request, 'DELETE');
         if (!canAccess || !canDelete) {
-            return NextResponse.json({ message: 'Sem permissao para deletar' }, { status: 403 });
+            return NextResponse.json({ message: 'Sem permissão para deletar' }, { status: 403 });
         }
 
         const { searchParams } = new URL(request.url);
         const id = searchParams.get('id');
 
         if (!id) {
-            return NextResponse.json({ message: 'ID obrigatorio' }, { status: 400 });
+            return NextResponse.json({ message: 'ID obrigatório' }, { status: 400 });
         }
 
         await prismaClient.tbUser.delete({ where: { id } });

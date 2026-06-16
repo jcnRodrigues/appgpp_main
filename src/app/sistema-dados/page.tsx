@@ -1,13 +1,15 @@
-"use client";
+﻿"use client";
 
 import Header from "@/components/Header/Header";
 import Link from "next/link";
-import { ChevronLeft, Download, FileJson, FileSpreadsheet, Upload } from "lucide-react";
+import PageHeader from "@/components/PageHeader/PageHeader";
+import { Database, Download, FileJson, FileSpreadsheet, Upload } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import * as XLSX from "xlsx";
 import { useSession } from "next-auth/react";
-import { hasModuleAccess } from "@/lib/permissions";
+import { hasModuleAccess, hasModuleActionPermission } from "@/lib/permissions";
+import { notify as showNotify } from "@/lib/notify";
 
 const TABLE_NAMES = [
     "tbUser",
@@ -45,10 +47,10 @@ const TABLE_HEADERS: Record<(typeof TABLE_NAMES)[number], string[]> = {
     tbCCusto: ["idCCusto", "codigoCCusto", "descricaoCCusto", "idEmp_Custo", "idEmp_Custo_descricao"],
     tbLicenca: ["idLic", "descricaoLic"],
     tbFuncionario: ["idF", "idMatFun", "nomeFun", "cpfFun", "dataAdmFun", "dataDesFun", "avatarFun", "idFuncaoFun", "idUserFun", "idStatusFun", "idCustoFun", "idFuncaoFun_descricao", "idUserFun_descricao", "idStatusFun_descricao", "idCustoFun_descricao"],
-    tbPatrimonio: ["idP", "idPat", "descricaoPat", "descricaoDetalhadaPat", "licencaPat", "dataEntPat", "dataSaiPat", "notaFiscalPat", "valorPat", "idPat_TipoPat", "idPat_StatusPat", "idPat_CustoPat", "idPat_TipoPat_descricao", "idPat_StatusPat_descricao", "idPat_CustoPat_descricao"],
+    tbPatrimonio: ["idP", "idPat", "descricaoPat", "descricaoDetalhadaPat", "licençaPat", "dataEntPat", "dataSaiPat", "notaFiscalPat", "valorPat", "idPat_TipoPat", "idPat_StatusPat", "idPat_CustoPat", "idPat_TipoPat_descricao", "idPat_StatusPat_descricao", "idPat_CustoPat_descricao"],
     tbHasLicencaFuncionario: ["idHas", "idFunc", "idLinc", "dataInicio", "dataVencimetno", "idFunc_descricao", "idLinc_descricao"],
     tbCadastro: ["idCad", "dataCadPat", "dataDevPat", "idPatCad", "idMatFunCad", "idStatusPatCad", "idStatusPatCad_descricao", "idPatCad_descricao", "idMatFunCad_descricao"],
-    tbBmMedicao: ["idBm", "codigoBm", "idCCusto", "codigoCCusto", "descricaoCCusto", "mesBm", "anoBm", "contadorBm", "statusBm", "dataInicioMedicao", "dataFimMedicao", "resumoJson", "resultadosJson", "naoInformadosJson", "gerouRelatorioExcel", "gerouRelatorioPdf", "idUserGeracao", "fechadoAt", "createdAt", "updatedAt"],
+    tbBmMedicao: ["idBm", "codigoBm", "idCCusto", "codigoCCusto", "descricaoCCusto", "mesBm", "anoBm", "contadorBm", "statusBm", "dataInicioMedicao", "dataFimMedicao", "resumoJson", "resultadosJson", "nãoInformadosJson", "gerouRelatorioExcel", "gerouRelatorioPdf", "idUserGeracao", "fechadoAt", "createdAt", "updatedAt"],
     tbTransferenciaCustoPatrimonio: ["idTransferencia", "idPatrimonio", "idCustoOrigem", "idCustoDestino", "valorTransferido", "observacao", "idUserTransferencia", "dataTransferencia", "createdAt"],
     tbTransferenciaAlocacao: ["idTransferenciaAlocacao", "idCadastro", "idPatrimonio", "idMatriculaFuncionario", "idMatriculaFuncionarioDestino", "statusAnterior", "statusNovo", "observacao", "idUserTransferencia", "dataTransferencia", "createdAt"],
     tbDevolucao: ["idDevolucao", "idPatrimonio", "idCadastro", "dataInicioDevolucao", "dataFimDevolucao", "dataSaidaFornecedor", "dataChegadaFornecedor", "motivoDevolucao", "notaFiscalDevolucao", "createdAt", "updatedAt"],
@@ -106,14 +108,6 @@ type ImportResult = {
     }>;
 };
 
-function notify(tipo: "erro" | "sucesso", mensagem: string) {
-    if (typeof window !== "undefined" && typeof window.systemAlert === "function") {
-        window.systemAlert?.(tipo, mensagem);
-        return;
-    }
-    window.alert(mensagem);
-}
-
 export default function SistemaDadosPage() {
     const { data: session, status } = useSession();
     const [exportando, setExportando] = useState(false);
@@ -124,9 +118,13 @@ export default function SistemaDadosPage() {
     const [centroSelecionado, setCentroSelecionado] = useState("");
     const [resumoOperacao, setResumoOperacao] = useState<ResumoOperacao | null>(null);
     const formularios = ((session?.user as any)?.formularios || []) as string[];
-    const canAccessImportExport =
-        hasModuleAccess(formularios, "IMPORTACAO_EXPORTACAO") ||
+    const canExport =
+        hasModuleActionPermission(formularios, "IMPORTACAO_EXPORTACAO", "EXPORT") ||
         hasModuleAccess(formularios, "ACESSO_USUARIOS");
+    const canImport =
+        hasModuleActionPermission(formularios, "IMPORTACAO_EXPORTACAO", "IMPORT") ||
+        hasModuleAccess(formularios, "ACESSO_USUARIOS");
+    const canAccessImportExport = canImport || canExport;
 
     useEffect(() => {
         const carregarCentros = async () => {
@@ -169,7 +167,7 @@ export default function SistemaDadosPage() {
         const response = await fetch(`/api/sistema-dados?${params.toString()}`, { method: "GET" });
         const payload = await response.json();
         if (!response.ok) {
-            throw new Error(payload?.message || "Nao foi possivel exportar os dados.");
+            throw new Error(payload?.message || "Não foi possível exportar os dados.");
         }
         return payload;
     };
@@ -203,7 +201,7 @@ export default function SistemaDadosPage() {
             type: "application/json;charset=utf-8"
         });
         baixarArquivo(blob, `appgpp-modelo-importacao-${centroLabel}-${dataHoje}.json`);
-        notify("sucesso", "Modelo de importacao gerado com sucesso.");
+        showNotify("sucesso", "Modelo de importação gerado com sucesso.");
     };
 
     const baixarModeloImportacaoExcel = () => {
@@ -234,7 +232,7 @@ export default function SistemaDadosPage() {
 
         const dataHoje = new Date().toISOString().slice(0, 10);
         baixarArquivo(blob, `appgpp-modelo-importacao-${centroLabel}-${dataHoje}.xlsx`);
-        notify("sucesso", "Modelo Excel de importacao gerado com sucesso.");
+        showNotify("sucesso", "Modelo Excel de importação gerado com sucesso.");
     };
 
     const normalizeExcelValue = (value: unknown) => {
@@ -271,28 +269,28 @@ export default function SistemaDadosPage() {
         const inconsistencias: string[] = [];
 
         if (!payload || !payload.data) {
-            inconsistencias.push("Arquivo sem estrutura de dados valida (campo data ausente).");
+            inconsistencias.push("Arquivo sem estrutura de dados válida (campo data ausente).");
             return inconsistencias;
         }
 
         for (const nomeTabela of TABLE_NAMES) {
             if (!Array.isArray(payload.data[nomeTabela])) {
-                inconsistencias.push(`Tabela ${nomeTabela} ausente ou fora do formato esperado.`);
+            inconsistencias.push(`Tabela ${nomeTabela} ausente ou fora do formato esperado.`);
             }
         }
 
         if (!payload.exportedAt) {
-            inconsistencias.push("Campo de data de exportacao (exportedAt) ausente no arquivo.");
+            inconsistencias.push("Campo de data de exportação (exportedAt) ausente no arquivo.");
         }
 
         if (typeof payload.version !== "number" || Number.isNaN(payload.version)) {
-            inconsistencias.push("Versao do backup ausente ou invalida.");
+            inconsistencias.push("Versão do backup ausente ou inválida.");
         }
 
         const centroArquivo = payload.scope?.centroId || null;
         if (centroComparacao && centroArquivo && centroComparacao !== centroArquivo) {
             inconsistencias.push(
-                "Centro de custo do arquivo diferente do centro selecionado na tela. O filtro da tela sera priorizado."
+                "Centro de custo do arquivo diferente do centro selecionado na tela. O filtro da tela será priorizado."
             );
         }
 
@@ -325,9 +323,9 @@ export default function SistemaDadosPage() {
                 centroId: payload?.scope?.centroId || centroSelecionado || null
             });
 
-            notify("sucesso", "Exportacao JSON concluida com sucesso.");
+            showNotify("sucesso", "ExportaÃ§Ã£o JSON concluída com sucesso.");
         } catch (error: any) {
-            notify("erro", error?.message || "Erro ao exportar dados.");
+            showNotify("erro", error?.message || "Erro ao exportar dados.");
         } finally {
             setExportando(false);
         }
@@ -377,9 +375,9 @@ export default function SistemaDadosPage() {
                 horario: new Date().toISOString(),
                 centroId: payload?.scope?.centroId || centroSelecionado || null
             });
-            notify("sucesso", "Exportacao Excel concluida com sucesso.");
+            showNotify("sucesso", "ExportaÃ§Ã£o Excel concluída com sucesso.");
         } catch (error: any) {
-            notify("erro", error?.message || "Erro ao exportar Excel.");
+            showNotify("erro", error?.message || "Erro ao exportar Excel.");
         } finally {
             setExportando(false);
         }
@@ -421,16 +419,16 @@ export default function SistemaDadosPage() {
 
     const importarDados = async () => {
         if (!arquivo) {
-            notify("erro", "Selecione um arquivo JSON ou Excel para importar.");
+            showNotify("erro", "Selecione um arquivo JSON ou Excel para importar.");
             return;
         }
 
         const confirmar = window.confirm(
             modoImportacao === "merge"
-                ? "Importacao parcial (merge): registros existentes serao atualizados por chave e novos serao inseridos, sem limpeza em lote. Deseja continuar?"
+                ? "Importação parcial (merge): registros existentes serão atualizados por chave e novos serão inseridos, sem limpeza em lote. Deseja continuar?"
                 : centroSelecionado
-                    ? "A importacao por Centro de Custo substitui os dados existentes desse centro. Deseja continuar?"
-                    : "A importacao completa substitui todos os dados atuais do sistema. Deseja continuar?"
+                    ? "A importação por Centro de Custo substitui os dados existentes desse centro. Deseja continuar?"
+                    : "A importação completa substitui todos os dados atuais do sistema. Deseja continuar?"
         );
         if (!confirmar) return;
 
@@ -455,7 +453,7 @@ export default function SistemaDadosPage() {
 
             const result = await response.json();
             if (!response.ok) {
-                throw new Error(result?.message || "Nao foi possivel importar os dados.");
+                throw new Error(result?.message || "Não foi possível importar os dados.");
             }
 
             const totaisArquivo = calcularTotaisPorTabela(backup);
@@ -474,7 +472,7 @@ export default function SistemaDadosPage() {
                 const importado = totaisImportados[nomeTabela];
                 if (esperado !== importado) {
                     inconsistencias.push(
-                        `Tabela ${nomeTabela}: arquivo com ${esperado} registro(s), retorno de importacao com ${importado}.`
+                    `Tabela ${nomeTabela}: arquivo com ${esperado} registro(s), retorno de importação com ${importado}.`
                     );
                 }
             }
@@ -495,10 +493,10 @@ export default function SistemaDadosPage() {
                 detalhado: (result as ImportResult)?.detailed
             });
 
-            notify("sucesso", "Importacao concluida com sucesso.");
+            showNotify("sucesso", "Importação concluída com sucesso.");
             setArquivo(null);
         } catch (error: any) {
-            notify("erro", error?.message || "Erro ao importar dados.");
+            showNotify("erro", error?.message || "Erro ao importar dados.");
         } finally {
             setImportando(false);
         }
@@ -509,9 +507,9 @@ export default function SistemaDadosPage() {
             <div className="bg-background min-h-screen py-6">
                 <Header />
                 <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-                    <h1 className="text-2xl font-bold mb-4">Importacao e Exportacao de Dados</h1>
+                    <h1 className="text-2xl font-bold mb-4">Importação e Exportação de Dados</h1>
                     <div className="bg-white p-8 rounded-lg shadow-sm">
-                        <p className="text-lg mb-6">Seu perfil nao possui permissao para este modulo.</p>
+                        <p className="text-lg mb-6">Seu perfil não possui permissão para este módulo.</p>
                         <Button asChild>
                             <Link href="/acesso-negado">Voltar</Link>
                         </Button>
@@ -526,17 +524,12 @@ export default function SistemaDadosPage() {
             <Header />
 
             <div className="max-w-[86.4rem] mx-auto px-4">
-                <div className="form-title-sticky flex items-center gap-4 mb-8 mt-4">
-                    <Link href="/">
-                        <ChevronLeft className="h-6 w-6 text-primary hover:text-primary/80 transition" />
-                    </Link>
-                    <div>
-                        <h1 className="text-h2 font-bold">Importacao e Exportacao de Dados</h1>
-                        <p className="text-sm text-muted-foreground mt-1">
-                            Exporte um backup em JSON ou importe dados para restaurar o sistema.
-                        </p>
-                    </div>
-                </div>
+                <PageHeader
+                    icon={Database}
+                    title="Importação e Exportação de Dados"
+                    description="Exporte um backup em JSON ou importe dados para restaurar o sistema."
+                    backHref="/"
+                />
 
                 <div className="bg-card border border-border rounded-xl p-4 mb-5">
                     <label className="block text-sm font-medium mb-2">Filtro por Centro de Custo</label>
@@ -567,14 +560,16 @@ export default function SistemaDadosPage() {
                         <p className="text-body2 mb-6">
                             Gere um backup em JSON ou Excel com os dados principais do sistema.
                         </p>
-                        <Button onClick={exportarJson} disabled={exportando} className="w-full mb-3">
-                            <FileJson className="h-4 w-4 mr-2" />
-                            {exportando ? "Exportando..." : "Baixar backup JSON"}
-                        </Button>
-                        <Button onClick={exportarExcel} disabled={exportando} className="w-full" variant="outline">
-                            <FileSpreadsheet className="h-4 w-4 mr-2" />
-                            {exportando ? "Exportando..." : "Baixar backup Excel (.xlsx)"}
-                        </Button>
+                        <div className={canExport ? '' : 'pointer-events-none opacity-50'}>
+                            <Button onClick={exportarJson} disabled={exportando || !canExport} className="w-full mb-3">
+                                <FileJson className="h-4 w-4 mr-2" />
+                                {exportando ? "Exportando..." : "Baixar backup JSON"}
+                            </Button>
+                            <Button onClick={exportarExcel} disabled={exportando || !canExport} className="w-full" variant="outline">
+                                <FileSpreadsheet className="h-4 w-4 mr-2" />
+                                {exportando ? "Exportando..." : "Baixar backup Excel (.xlsx)"}
+                            </Button>
+                        </div>
                         <p className="text-xs text-muted-foreground mt-3">
                             Observacao: no arquivo Excel, campos de texto muito longos podem ser truncados por limite tecnico de celula.
                             O backup JSON continua com os dados completos.
@@ -589,61 +584,67 @@ export default function SistemaDadosPage() {
                         <p className="text-body2 mb-3">
                             Selecione um arquivo `.json` ou `.xlsx` exportado pelo sistema.
                         </p>
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={baixarModeloImportacao}
-                            className="w-full mb-3"
-                        >
-                            <FileJson className="h-4 w-4 mr-2" />
-                            Baixar modelo de importacao (.json)
-                        </Button>
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={baixarModeloImportacaoExcel}
-                            className="w-full mb-3"
-                        >
-                            <FileSpreadsheet className="h-4 w-4 mr-2" />
-                            Baixar modelo de importacao (.xlsx)
-                        </Button>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium mb-2">Modo de importacao</label>
-                            <select
-                                value={modoImportacao}
-                                onChange={(e) => setModoImportacao(e.target.value as "replace" | "merge")}
-                                className="w-full px-3 py-2 border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                        <div className={canImport ? '' : 'pointer-events-none opacity-50'}>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={baixarModeloImportacao}
+                                className="w-full mb-3"
+                                disabled={!canImport}
                             >
-                                <option value="merge">Parcial (merge, sem sobrescrever em lote)</option>
-                                <option value="replace">Substituir (com sobrescrita)</option>
-                            </select>
-                        </div>
-                        <label
-                            htmlFor="arquivo-importacao"
-                            className="flex items-center gap-2 border border-dashed border-border rounded-lg px-3 py-2 text-sm text-muted-foreground cursor-pointer hover:bg-secondary/40 mb-4"
-                        >
-                            {arquivo?.name.toLowerCase().endsWith(".xlsx") ? (
-                                <FileSpreadsheet className="h-4 w-4" />
-                            ) : (
-                                <FileJson className="h-4 w-4" />
-                            )}
-                            <span>{arquivo ? arquivo.name : "Escolher arquivo .json ou .xlsx"}</span>
-                        </label>
-                        <input
-                            id="arquivo-importacao"
-                            type="file"
-                            accept=".json,.xlsx,.xls,application/json,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-                            className="hidden"
-                            onChange={(event) => setArquivo(event.target.files?.[0] || null)}
-                        />
+                                <FileJson className="h-4 w-4 mr-2" />
+                                Baixar modelo de importacao (.json)
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={baixarModeloImportacaoExcel}
+                                className="w-full mb-3"
+                                disabled={!canImport}
+                            >
+                                <FileSpreadsheet className="h-4 w-4 mr-2" />
+                                Baixar modelo de importacao (.xlsx)
+                            </Button>
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium mb-2">Modo de importacao</label>
+                                <select
+                                    value={modoImportacao}
+                                    onChange={(e) => setModoImportacao(e.target.value as "replace" | "merge")}
+                                    className="w-full px-3 py-2 border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                                    disabled={!canImport}
+                                >
+                                    <option value="merge">Parcial (merge, sem sobrescrever em lote)</option>
+                                    <option value="replace">Substituir (com sobrescrita)</option>
+                                </select>
+                            </div>
+                            <label
+                                htmlFor="arquivo-importacao"
+                                className="flex items-center gap-2 border border-dashed border-border rounded-lg px-3 py-2 text-sm text-muted-foreground cursor-pointer hover:bg-secondary/40 mb-4"
+                            >
+                                {arquivo?.name.toLowerCase().endsWith(".xlsx") ? (
+                                    <FileSpreadsheet className="h-4 w-4" />
+                                ) : (
+                                    <FileJson className="h-4 w-4" />
+                                )}
+                                <span>{arquivo ? arquivo.name : "Escolher arquivo .json ou .xlsx"}</span>
+                            </label>
+                            <input
+                                id="arquivo-importacao"
+                                type="file"
+                                accept=".json,.xlsx,.xls,application/json,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                                className="hidden"
+                                onChange={(event) => setArquivo(event.target.files?.[0] || null)}
+                                disabled={!canImport}
+                            />
 
-                        <Button
-                            onClick={importarDados}
-                            disabled={importando || !arquivo}
-                            className="w-full bg-primary hover:bg-primary/90"
-                        >
-                            {importando ? "Importando..." : "Importar backup"}
-                        </Button>
+                            <Button
+                                onClick={importarDados}
+                                disabled={importando || !arquivo || !canImport}
+                                className="w-full bg-primary hover:bg-primary/90"
+                            >
+                                {importando ? "Importando..." : "Importar backup"}
+                            </Button>
+                        </div>
                     </section>
                 </div>
 
@@ -731,6 +732,8 @@ export default function SistemaDadosPage() {
         </div>
     );
 }
+
+
 
 
 

@@ -1,4 +1,5 @@
 import Header from '@/components/Header/Header';
+import PageHeader from '@/components/PageHeader/PageHeader';
 import AtivoRedeRelatorioCentroButton, {
     type AtivoRedeRelatorioItem
 } from '@/features/ativos-rede/components/AtivoRedeReport/AtivoRedeRelatorioCentroButton';
@@ -9,10 +10,9 @@ import {
 } from '@/features/ativos-rede/server/ativo-rede.service';
 import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
 import { getServerSession } from 'next-auth';
-import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { AuthOptions } from '../../api/auth/[...nextauth]/route';
-import { ChevronLeft, FileText } from 'lucide-react';
+import { FileText } from 'lucide-react';
 
 type SearchParams = {
     centroId?: string;
@@ -81,34 +81,21 @@ export default async function RelatorioAtivosRedePorCentroPage({
         return 'bg-gray-100 text-gray-800';
     };
 
-
     return (
         <div className="bg-background min-h-screen py-6">
             <Header />
-            <div className="max-w-[86.4rem] mx-auto px-4 sm:px-6">
-                <div className="form-title-sticky flex items-center justify-between gap-4 mb-8 mt-4">
-                    <div className="flex items-center gap-4">
-                        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-900 to-amber-700 text-white shadow-md">
-                            <FileText className="h-7 w-7" />
-                        </div>
-                        <div>
-                            <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
-                                <Link href="/ativos-rede" className="inline-flex items-center gap-1 hover:text-primary transition">
-                                    <ChevronLeft className="h-4 w-4" />
-                                    Voltar
-                                </Link>
-                            </div>
-                            <h1 className="text-h2 font-bold">Relatório de Ativos por Centro de Custo</h1>
-                            <p className="text-gray-600 text-sm mt-1">
-                                Selecione um centro de custo e gere o PDF com os ativos vinculados.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+            <div className="mx-auto max-w-[86.4rem] px-4 sm:px-6">
+                <PageHeader
+                    icon={FileText}
+                    title="Relatório de Ativos por Centro de Custo"
+                    description="Selecione um centro de custo e gere o PDF com os ativos vinculados."
+                    backHref="/ativos-rede"
+                    backLabel="Voltar para Ativos de Rede"
+                />
 
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-4 items-start mb-6">
+                <div className="mb-6 grid grid-cols-1 items-start gap-4 lg:grid-cols-[1fr_auto]">
                     <AtivoRedeRelatorioCentroSelector centros={centros as CentroCusto[]} centroId={centroId} />
-                    <div className="bg-white rounded-lg shadow-sm p-4 min-w-[280px]">
+                    <div className="min-w-[280px] rounded-lg bg-white p-4 shadow-sm">
                         <div className="text-xs uppercase tracking-wide text-gray-500">Resumo</div>
                         <div className="mt-2 text-sm text-gray-700">
                             <p>
@@ -128,8 +115,8 @@ export default async function RelatorioAtivosRedePorCentroPage({
                     </div>
                 </div>
 
-                <div className="bg-white rounded-lg shadow-sm p-4">
-                    <h2 className="text-lg font-semibold mb-4">Prévia dos ativos</h2>
+                <div className="rounded-lg bg-white p-4 shadow-sm">
+                    <h2 className="mb-4 text-lg font-semibold">Prévia dos ativos</h2>
                     {!centroId ? (
                         <p className="text-sm text-gray-500">Escolha um centro de custo para visualizar os ativos do relatório.</p>
                     ) : itensRelatorio.length === 0 ? (
@@ -137,7 +124,7 @@ export default async function RelatorioAtivosRedePorCentroPage({
                     ) : (
                         <div className="overflow-x-auto">
                             <table className="w-full min-w-[900px]">
-                                <thead className="bg-gray-50 border-b">
+                                <thead className="border-b bg-gray-50">
                                     <tr>
                                         <th className="px-4 py-3 text-left text-xs font-semibold">Código</th>
                                         <th className="px-4 py-3 text-left text-xs font-semibold">Nome</th>
@@ -150,28 +137,21 @@ export default async function RelatorioAtivosRedePorCentroPage({
                                 <tbody>
                                     {itensRelatorio.map((item) => (
                                         <tr key={item.codigoAtivoRede} className="border-b">
+                                            <td className="px-4 py-3 text-sm">{item.codigoAtivoRede}</td>
+                                            <td className="px-4 py-3 text-sm">{item.nomeAtivoRede}</td>
+                                            <td className="px-4 py-3 text-sm">{item.tbTipoAtivoRede?.descricaoTipoAtivoRede || item.tipoAtivoRede || '-'}</td>
                                             <td className="px-4 py-3 text-sm">
-                                                {item.codigoAtivoRede}
-                                            </td>
-                                            <td className="px-4 py-3 text-sm">
-                                                {item.nomeAtivoRede}
-                                            </td>
-                                            <td className="px-4 py-3 text-sm">
-                                                {item.tbTipoAtivoRede?.descricaoTipoAtivoRede || item.tipoAtivoRede || '-'}
-                                            </td>
-                                            <td className="px-4 py-3 text-sm">
-                                                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium 
-                                                    ${getStatusPatBadgeClass(item.tbStatusAtivoRede?.descricaoStatusAtivoRede || item.statusAtivoRede)}`}>
+                                                <span
+                                                    className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${getStatusPatBadgeClass(
+                                                        item.tbStatusAtivoRede?.descricaoStatusAtivoRede || item.statusAtivoRede
+                                                    )}`}
+                                                >
                                                     {item.tbStatusAtivoRede?.descricaoStatusAtivoRede || item.statusAtivoRede || '-'}
                                                 </span>
                                             </td>
+                                            <td className="px-4 py-3 text-sm">{item.localInstalacaoAtivoRede || '-'}</td>
                                             <td className="px-4 py-3 text-sm">
-                                                {item.localInstalacaoAtivoRede || '-'}
-                                            </td>
-                                            <td className="px-4 py-3 text-sm">
-                                                {item.dataEntradaAtivoRede
-                                                    ? new Date(item.dataEntradaAtivoRede).toLocaleDateString('pt-BR')
-                                                    : '-'}
+                                                {item.dataEntradaAtivoRede ? new Date(item.dataEntradaAtivoRede).toLocaleDateString('pt-BR') : '-'}
                                             </td>
                                         </tr>
                                     ))}

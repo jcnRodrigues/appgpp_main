@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useMemo, useState } from 'react';
 import { Plus, Check, Trash2, CalendarCheck2 } from 'lucide-react';
@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { gerarListaPatrimoniosPdf, type ItemBusca } from '@/features/patrimonio/components/PatrimonioTable/ListaPatrimoniosPdfReport';
 import { hasModuleActionPermission } from '@/lib/permissions';
+import { notify as showNotify } from '@/lib/notify';
 
 type CentroCusto = {
   idCCusto: string;
@@ -45,7 +46,7 @@ export default function ListaPatrimoniosPdfForm() {
   const canPrint = hasModuleActionPermission(formularios, 'PATRIMONIO', 'PRINT');
 
   const showNoPermissionAlert = (acao: string) => {
-    window.systemAlert?.('aviso', `Você não tem permissão para ${acao}.`);
+    showNotify('aviso', `Você não tem permissão para ${acao}.`);
   };
 
   const [busca, setBusca] = useState('');
@@ -124,17 +125,17 @@ export default function ListaPatrimoniosPdfForm() {
 
   const aplicarDataSaidaSelecionados = async () => {
     if (!dataSaidaLote) {
-      window.systemAlert?.('aviso', 'Informe a data de saída.');
+      showNotify('aviso', 'Informe a data de saída.');
       return;
     }
     if (selecionados.length === 0) {
-      window.systemAlert?.('aviso', 'Adicione ao menos um patrimônio na lista selecionada.');
+      showNotify('aviso', 'Adicione ao menos um patrimônio na lista selecionada.');
       return;
     }
 
     const itensValidos = selecionados.filter((item) => !item.idP.startsWith('hist-'));
     if (itensValidos.length === 0) {
-      window.systemAlert?.('aviso', 'Nenhum patrimônio ativo para atualizar.');
+      showNotify('aviso', 'Nenhum patrimônio ativo para atualizar.');
       return;
     }
 
@@ -179,12 +180,12 @@ export default function ListaPatrimoniosPdfForm() {
       }
 
       if (falhas > 0) {
-        window.systemAlert?.('aviso', `Data de saída atualizada parcialmente. Falhas: ${falhas}.`);
+        showNotify('aviso', `Data de saída atualizada parcialmente. Falhas: ${falhas}.`);
       } else {
-        window.systemAlert?.('sucesso', 'Data de saída atualizada com sucesso na base.');
+        showNotify('sucesso', 'Data de saída atualizada com sucesso na base.');
       }
     } catch {
-      window.systemAlert?.('erro', 'Erro ao atualizar data de saída.');
+      showNotify('erro', 'Erro ao atualizar data de saída.');
     } finally {
       setSalvandoSaida(false);
     }
@@ -200,11 +201,9 @@ export default function ListaPatrimoniosPdfForm() {
 
   return (
     <div className="space-y-4">
-      <div className="bg-white rounded-lg shadow p-4 space-y-3">
-        <h2 className="font-semibold">
-          Pesquisar Patrimônios
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+      <div className="space-y-3 rounded-lg bg-white p-4 shadow">
+        <h2 className="font-semibold">Pesquisar Patrimônios</h2>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-5">
           <input
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
@@ -215,12 +214,12 @@ export default function ListaPatrimoniosPdfForm() {
               }
             }}
             placeholder="Buscar por ID de Patrimônio..."
-            className="md:col-span-1 border rounded px-3 py-2"
+            className="border rounded px-3 py-2 md:col-span-1"
           />
           <select
             value={centroId}
             onChange={(e) => setCentroId(e.target.value)}
-            className="md:col-span-3 border rounded px-3 py-2"
+            className="border rounded px-3 py-2 md:col-span-3"
           >
             <option value="">Todos os centros de custo</option>
             {centros.map((centro) => (
@@ -229,13 +228,13 @@ export default function ListaPatrimoniosPdfForm() {
               </option>
             ))}
           </select>
-
         </div>
-        {erro && <p className="text-sm text-red-600">{erro}</p>}
+
+        {erro ? <p className="text-sm text-red-600">{erro}</p> : null}
 
         <div className="overflow-x-auto">
-          <table className="w-full text-sm min-w-[900px]">
-            <thead className="bg-gray-50 border-b">
+          <table className="min-w-[900px] w-full text-sm">
+            <thead className="border-b bg-gray-50">
               <tr>
                 <th className="px-2 py-2 text-left">ID</th>
                 <th className="px-2 py-2 text-left">Descrição</th>
@@ -252,8 +251,7 @@ export default function ListaPatrimoniosPdfForm() {
                   <td className="px-2 py-2">
                     <div>{item.descricaoPat}</div>
                     <div className="mt-1">
-                      <span
-                        className="inline-block rounded-full bg-green-100 text-green-800 px-2 py-0.5 text-[10px] font-semibold">
+                      <span className="inline-block rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-semibold text-green-800">
                         {item.tbCCusto?.descricaoCCusto || 'Sem centro de custo'}
                       </span>
                     </div>
@@ -261,50 +259,35 @@ export default function ListaPatrimoniosPdfForm() {
                   <td className="px-2 py-2">{item.tbTipoPat?.descricaoTipPat || '-'}</td>
                   <td className="px-2 py-2">{formatarMoeda(item.valorPat)}</td>
                   <td className="px-2 py-2">
-                    <span className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold 
-                      ${getStatusBadgeClass(item.tbStatusPat?.descricaoStatPat)}`}>
+                    <span className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold ${getStatusBadgeClass(item.tbStatusPat?.descricaoStatPat)}`}>
                       {item.tbStatusPat?.descricaoStatPat || 'SEM STATUS'}
                     </span>
                   </td>
                   <td className="px-2 py-2">
                     {idsSelecionados.has(item.idP) ? (
-                      <Button
-                        type="button"
-                        size="icon"
-                        variant="ghost"
-                        className="h-8 w-8 bg-green-700 border-green-100 cursor-not-allowed hover:bg-green-800"
-                        disabled
-                        title="Adicionado"
-                      >
+                      <Button type="button" size="icon" variant="ghost" className="h-8 w-8 cursor-not-allowed border-green-100 bg-green-700 hover:bg-green-800" disabled title="Adicionado">
                         <Check className="h-4 w-4" />
                       </Button>
                     ) : (
-                      <Button
-                        type="button"
-                        size="icon"
-                        variant="ghost"
-                        className="h-8 w-8 bg-green-700 border-green-100 hover:bg-green-800"
-                        onClick={() => adicionar(item)}
-                        title="Adicionar à lista"
-                      >
+                      <Button type="button" size="icon" variant="ghost" className="h-8 w-8 border-green-100 bg-green-700 hover:bg-green-800" onClick={() => adicionar(item)} title="Adicionar à lista">
                         <Plus className="h-4 w-4" />
                       </Button>
                     )}
                   </td>
                 </tr>
               ))}
-              {resultados.length === 0 && !loading && (
+              {resultados.length === 0 && !loading ? (
                 <tr>
                   <td colSpan={6} className="px-2 py-3 text-gray-500">Nenhum resultado.</td>
                 </tr>
-              )}
+              ) : null}
             </tbody>
           </table>
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow p-4 space-y-3">
-        <div className="flex items-center justify-between">
+      <div className="space-y-3 rounded-lg bg-white p-4 shadow">
+        <div className="flex items-center justify-between gap-3">
           <h2 className="font-semibold">Lista Selecionada ({selecionados.length})</h2>
           <div className="flex items-center gap-2">
             <Button
@@ -315,13 +298,13 @@ export default function ListaPatrimoniosPdfForm() {
               disabled={selecionados.length === 0}
               title="Inserir data de saída na lista selecionada"
             >
-              <CalendarCheck2 className="h-4 w-4 mr-2" />
+              <CalendarCheck2 className="mr-2 h-4 w-4" />
               Inserir Data Saída
             </Button>
             <Button
               type="button"
               variant="ghost"
-              className="px-3 py-2 border rounded bg-green-700 text-green-100 hover:bg-green-100"
+              className="rounded border bg-green-700 px-3 py-2 text-green-100 hover:bg-green-100"
               onClick={gerarPdf}
               disabled={selecionados.length === 0}
             >
@@ -330,15 +313,15 @@ export default function ListaPatrimoniosPdfForm() {
           </div>
         </div>
 
-        {mostrarSaida && (
-          <div className="border rounded-lg p-3 flex flex-col md:flex-row md:items-end gap-3">
+        {mostrarSaida ? (
+          <div className="flex flex-col gap-3 rounded-lg border p-3 md:flex-row md:items-end">
             <div>
-              <label className="block text-sm font-medium mb-1">Data de saída</label>
+              <label className="mb-1 block text-sm font-medium">Data de saída</label>
               <input
                 type="date"
                 value={dataSaidaLote}
                 onChange={(e) => setDataSaidaLote(e.target.value)}
-                className="border rounded px-3 py-2"
+                className="rounded border px-3 py-2"
               />
             </div>
             <Button
@@ -349,11 +332,11 @@ export default function ListaPatrimoniosPdfForm() {
               {salvandoSaida ? 'Salvando...' : 'Salvar na Base'}
             </Button>
           </div>
-        )}
+        ) : null}
 
         <div className="overflow-x-auto">
-          <table className="w-full text-sm min-w-[900px]">
-            <thead className="bg-gray-50 border-b">
+          <table className="min-w-[900px] w-full text-sm">
+            <thead className="border-b bg-gray-50">
               <tr>
                 <th className="px-2 py-2 text-left">ID</th>
                 <th className="px-2 py-2 text-left">Descrição</th>
@@ -372,7 +355,7 @@ export default function ListaPatrimoniosPdfForm() {
                   <td className="px-2 py-2">
                     <div>{item.descricaoPat}</div>
                     <div className="mt-1">
-                      <span className="inline-block rounded-full bg-green-100 text-green-800 px-2 py-0.5 text-[10px] font-semibold">
+                      <span className="inline-block rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-semibold text-green-800">
                         {item.tbCCusto?.descricaoCCusto || 'Sem centro de custo'}
                       </span>
                     </div>
@@ -400,11 +383,11 @@ export default function ListaPatrimoniosPdfForm() {
                   </td>
                 </tr>
               ))}
-              {selecionados.length === 0 && (
+              {selecionados.length === 0 ? (
                 <tr>
                   <td colSpan={8} className="px-2 py-3 text-gray-500">Nenhum patrimônio selecionado.</td>
                 </tr>
-              )}
+              ) : null}
             </tbody>
           </table>
         </div>
@@ -412,3 +395,5 @@ export default function ListaPatrimoniosPdfForm() {
     </div>
   );
 }
+
+

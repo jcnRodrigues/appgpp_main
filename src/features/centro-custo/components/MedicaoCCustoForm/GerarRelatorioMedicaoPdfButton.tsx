@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import jsPDF from 'jspdf';
 import { Button } from '@/components/ui/button';
@@ -45,18 +45,17 @@ function formatarMoedaOuTraco(valor: number | null) {
     return valor === null ? '-' : formatarMoeda(valor);
 }
 
-function limparDetalheRateio(detalhe?: string | null) {
-    if (!detalhe) return '';
-    return detalhe
-        .replace(/\s*\|\s*Base da medição:[^|]*/gi, '')
-        .trim();
-}
-
 function pdfSafeText(valor: string) {
     return String(valor)
         .replace(/[\u2013\u2014]/g, '-')
-        // Preserva quebras de linha para células com conteúdo em duas linhas
         .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, ' ');
+}
+
+function limparDetalheRateioAtual(detalhe?: string | null) {
+    if (!detalhe) return '';
+    return detalhe
+        .replace(/\s*\|\s*Período[^|]*/gi, '')
+        .trim();
 }
 
 function kindStatusPatrimonio(status: string): 'ok' | 'warn' | 'error' | 'neutral' {
@@ -239,6 +238,34 @@ export default function GerarRelatorioMedicaoPdfButton({
                     const badgeX = x + Math.max(1.2, (widths[i] - badgeWidth) / 2);
                     const badgeY = y + (rowHeight / 2) + 1.2;
                     drawStatusBadge(badgeX, badgeY, statusTxt, badge.kind);
+                } else if (i === 6 && cells[i].includes('\n')) {
+                    const [valorPrincipal, statusTxt = '', ...resto] = cells[i].split('\n');
+                    const detalheRateio = resto.join(' ').trim();
+                    const larguraUtil = widths[i] - 3.2;
+                    pdf.setTextColor(15, 23, 42);
+                    pdf.setFontSize(7.3);
+                    pdf.text(truncarTextoPdf(pdf, valorPrincipal, larguraUtil), x + (widths[i] / 2), y + 4.0, { align: 'center' });
+
+                    const statusLinha = statusTxt.toLowerCase();
+                    const badgeKind: 'ok' | 'warn' | 'error' | 'neutral' =
+                        statusLinha.includes('confere')
+                            ? 'ok'
+                            : statusLinha.includes('diverg')
+                                ? 'warn'
+                                : statusLinha.includes('encontr')
+                                    ? 'error'
+                                    : 'neutral';
+                    const badgeTexto = statusTxt || 'Sem status';
+                    const badgeWidth = measureStatusBadgeWidth(badgeTexto);
+                    const badgeX = x + Math.max(1.2, (widths[i] - badgeWidth) / 2);
+                    const badgeY = y + 8.0;
+                    drawStatusBadge(badgeX, badgeY, badgeTexto, badgeKind);
+
+                    if (detalheRateio) {
+                        pdf.setTextColor(15, 23, 42);
+                        pdf.setFontSize(6.0);
+                        pdf.text(pdf.splitTextToSize(pdfSafeText(detalheRateio), larguraUtil), x + (widths[i] / 2), y + 12.5, { align: 'center' });
+                    }
                 } else if ((i === 1 || i === 2) && cells[i].includes('\n')) {
                     const [linhaPrincipal, ...resto] = cells[i].split('\n');
                     const linhaSecundaria = resto.join(' ').trim();
@@ -247,7 +274,7 @@ export default function GerarRelatorioMedicaoPdfButton({
                     pdf.setFontSize(7.3);
                     pdf.text(truncarTextoPdf(pdf, linhaPrincipal, larguraUtil), x + 1.5, y + 4.3);
                     if (linhaSecundaria) {
-                        pdf.setTextColor(100, 116, 139);
+                        pdf.setTextColor(55, 65, 81);
                         pdf.setFontSize(6.1);
                         pdf.text(truncarTextoPdf(pdf, linhaSecundaria, larguraUtil), x + 1.5, y + 8.2);
                     }
@@ -327,7 +354,7 @@ export default function GerarRelatorioMedicaoPdfButton({
         pdf.text(pdfSafeText('Detalhe da conferência'), margin, y);
         y += 3.5;
 
-        const cols = [10, 34, 44, 20, 24, 20, 20, 40, contentWidth - (10 + 34 + 44 + 20 + 24 + 20 + 20 + 40)];
+        const cols = [12, 40, 50, 22, 25, 22, 50, contentWidth - (12 + 40 + 50 + 22 + 25 + 22 + 50)];
         addTableHeader(
             [
                 'Linha',
@@ -337,16 +364,19 @@ export default function GerarRelatorioMedicaoPdfButton({
                 ['Data', 'Transferência'],
                 ['Valor', 'Informado'],
                 ['Valor', 'Sistema'],
-                ['Movimentos', 'Patrimônio'],
-                'Status'
+                ['Movimentos', 'Patrimônio']
             ],
             cols
         );
         resultado.resultados.forEach((r) => {
-            let statusConferenciaKind: 'ok'|'warn'|'error'|'neutral' = 'neutral';
-            if (r.status === 'OK') statusConferenciaKind = 'ok';
-            if (r.status === 'VALOR_DIVERGENTE') statusConferenciaKind = 'warn';
-            if (r.status === 'NAO_ENCONTRADO') statusConferenciaKind = 'error';
+            const statusLinha =
+                r.status === 'OK'
+                    ? 'Valor confere.'
+                    : r.status === 'VALOR_DIVERGENTE'
+                        ? 'Valor divergente.'
+                        : r.status === 'NAO_ENCONTRADO'
+                            ? 'Não encontrado.'
+                            : 'Linha inválida.';
             addTableRow(
                 [
                     String(r.linha -1), // -1 para considerar que a linha 1 é o cabeçalho do arquivo
@@ -355,18 +385,18 @@ export default function GerarRelatorioMedicaoPdfButton({
                     r.statusPatrimonio || 'SEM STATUS',
                     r.dataTransferenciaConsiderada || '-',
                     formatarMoedaOuTraco(r.valorInformado),
-                    limparDetalheRateio(r.detalheRateio)
-                        ? `${formatarMoedaOuTraco(r.valorSistema)}\n${limparDetalheRateio(r.detalheRateio)}`
-                        : formatarMoedaOuTraco(r.valorSistema),
-                    r.movimentosPatrimonio || '-',
-                    r.mensagem
+                    [
+                        formatarMoedaOuTraco(r.valorSistema),
+                        statusLinha,
+                        limparDetalheRateioAtual(r.detalheRateio)
+                    ].filter(Boolean).join('\n'),
+                    r.movimentosPatrimonio || '-'
                 ],
                 cols,
                 {
                     centerCols: [0, 4, 5, 6],
                     statusBadges: [
-                        { col: 3, kind: kindStatusPatrimonio(r.statusPatrimonio || 'SEM STATUS') },
-                        { col: 8, kind: statusConferenciaKind }
+                        { col: 3, kind: kindStatusPatrimonio(r.statusPatrimonio || 'SEM STATUS') }
                     ]
                 }
             );

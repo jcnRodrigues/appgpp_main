@@ -12,7 +12,11 @@ export async function POST(
   try {
     const canAccess = await hasModuleAccessForRequest(request, 'ALOCACOES');
     const canUpdate = await hasActionPermissionForRequest(request, 'UPDATE');
-    if (!canAccess || !canUpdate) return NextResponse.json({ message: 'Sem permissao para transferir alocacao' }, { status: 403 });
+
+    if (!canAccess || !canUpdate) {
+      return NextResponse.json({ message: 'Sem permissão para transferir alocação' }, { status: 403 });
+    }
+
     const { id } = await params;
     const body = await request.json();
 
@@ -23,6 +27,7 @@ export async function POST(
     const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
     let idUserTransferencia: string | null = null;
     const userEmail = String(token?.email || '').trim().toLowerCase();
+
     if (userEmail) {
       const acesso = await prisma.tbUser.findFirst({
         where: { emailUser: userEmail },
@@ -47,5 +52,3 @@ export async function POST(
     );
   }
 }
-
-

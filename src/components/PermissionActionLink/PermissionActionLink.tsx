@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { hasActionPermission, hasModuleActionPermission, type ActionPermission } from '@/lib/permissions';
+import { notify as showNotify } from '@/lib/notify';
 
 type PermissionActionLinkProps = {
   href: string;
@@ -32,7 +33,7 @@ export default function PermissionActionLink({
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (allowed) return;
     e.preventDefault();
-    window.systemAlert?.('aviso', deniedMessage);
+    showNotify('aviso', deniedMessage);
   };
 
   return (

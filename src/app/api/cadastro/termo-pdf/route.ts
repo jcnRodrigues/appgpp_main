@@ -10,7 +10,7 @@ export const maxDuration = 60;
 export async function POST(request: NextRequest) {
     const canAccess = await hasModuleAccessForRequest(request, 'ALOCACOES');
     const canPrint = await hasActionPermissionForRequest(request, 'PRINT');
-    if (!canAccess || !canPrint) return NextResponse.json({ message: 'Sem permissao para gerar termo PDF' }, { status: 403 });
+    if (!canAccess || !canPrint) return NextResponse.json({ message: 'Sem permissão para gerar termo PDF' }, { status: 403 });
     try {
         const body = await request.json();
         const {
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json(
                 {
                     message:
-                        'Dados obrigatÃ³rios: nomeFun, idMatFun, idPat, descricaoPat',
+                        'Dados obrigatórios: nomeFun, idMatFun, idPat, descricaoPat',
                 },
                 { status: 400 }
             );
@@ -83,4 +83,5 @@ export async function POST(request: NextRequest) {
         );
     }
 }
+
 

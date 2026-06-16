@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import jsPDF from 'jspdf';
 
@@ -214,3 +214,5 @@ export function gerarTransferenciaCustoPatrimonioPdf(dados: ItemTransferenciaRel
 
   pdf.save(`${emissaoCode}.pdf`);
 }
+
+

@@ -39,9 +39,12 @@ export default function CCustoFilter({ statusId = '', statusOptions }: Props) {
 
     return (
         <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-[1fr] gap-3 items-end">
+            <form onSubmit={handleSubmit}
+                className="grid grid-cols-1 lg:grid-cols-[1fr] gap-3 items-end">
                 <div>
-                    <label className="block text-sm font-medium mb-1.5">Filtrar por status</label>
+                    <label className="block text-sm font-medium mb-1.5">
+                        Filtrar por status
+                    </label>
                     <select
                         name="statusId"
                         defaultValue={statusId}

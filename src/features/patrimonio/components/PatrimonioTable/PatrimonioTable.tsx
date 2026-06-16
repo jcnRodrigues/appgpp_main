@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Edit, Trash2, Filter, ChevronDown, KeyIcon } from 'lucide-react';
@@ -7,6 +7,8 @@ import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import DeleteGuardButton from '@/components/DeleteGuardButton/DeleteGuardButton';
 import { hasModuleActionPermission } from '@/lib/permissions';
+import { normalizeStatusText } from '@/lib/status';
+import { notify as showNotify } from '@/lib/notify';
 
 interface Patrimonio {
     idP: string;
@@ -53,7 +55,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
     const canUpdate = hasModuleActionPermission(formularios, 'PATRIMONIO', 'UPDATE');
 
     const showNoPermissionAlert = (acao: string) => {
-        window.systemAlert?.('aviso', `Você não tem permissão para ${acao}.`);
+        showNotify('aviso', `Você não tem permissão para ${acao}.`);
     };
 
     const handleEditClick = (e: React.MouseEvent) => {
@@ -63,12 +65,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
     };
 
     const isStatusDevolvido = (status?: string | null) => {
-        if (!status) return false;
-        const normalizado = status
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .toUpperCase();
-        return normalizado.includes('DEVOLU');
+        return normalizeStatusText(status).includes('DEVOLU');
     };
 
     const formatarIdPatrimonio = (patrimonio: Patrimonio) => {
@@ -93,7 +90,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
     const [patrimonios, setPatrimonios] = useState<Patrimonio[]>(initialPatrimonios || []);
     const [idFiltro, setIdFiltro] = useState('');
     const [statusSelecionados, setStatusSelecionados] = useState<string[]>([]);
-    const [centroSelecionado, setCentroSelecionado] = useState<string[]>([]);
+    const [centroSelecionado, setCentroSelecionado] = useState('');
     const [statusOpcoes, setStatusOpcoes] = useState<StatusOption[]>([]);
     const [centroOpcoes, setCentroOpcoes] = useState<CentroOption[]>([]);
     const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
@@ -120,7 +117,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                     setCentroOpcoes(data.centros || []);
                 }
             } catch (error) {
-                console.error('Erro ao carregar opções de filtro:', error);
+                console.error('Erro ao carregar patrimônios:', error);
             }
         };
 
@@ -160,7 +157,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
             const params = new URLSearchParams();
             if (idFiltro) params.append('idPat', idFiltro);
             if (statusSelecionados.length > 0) params.append('statusIds', statusSelecionados.join(','));
-            if (centroSelecionado.length > 0) params.append('centroIds', centroSelecionado.join(','));
+            if (centroSelecionado) params.append('centroIds', centroSelecionado);
             params.append('includeHistorico', 'false');
             params.append('skip', String((paginaAtual - 1) * itensPorPagina));
             params.append('take', String(itensPorPagina));
@@ -191,16 +188,12 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
     };
 
     const toggleCentro = (idCentro: string) => {
-        setCentroSelecionado((prev) =>
-            prev.includes(idCentro)
-                ? prev.filter((id) => id !== idCentro)
-                : [...prev, idCentro]
-        );
+        setCentroSelecionado((prev) => (prev === idCentro ? '' : idCentro));
     };
 
     const handleDelete = async (idP: string) => {
         const confirmou = window.systemConfirm
-            ? await window.systemConfirm('Tem certeza que deseja deletar este patrimônio?', 'Confirmar exclusão', {
+            ? await window.systemConfirm('Tem certeza que deseja deletar este patrimônio?', 'Confirmar exclus?o', {
                 confirmText: 'Excluir',
                 cancelText: 'Cancelar'
             })
@@ -213,13 +206,13 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
             });
             if (response.ok) {
                 await carregarPatrimonios();
-                alert('Patrimônio deletado com sucesso');
+                showNotify('sucesso', 'Patrimônio deletado com sucesso');
             } else {
-                alert('Erro ao deletar patrimônio');
+                showNotify('erro', 'Erro ao deletar patrimônio');
             }
         } catch (error) {
             console.error('Erro ao deletar:', error);
-            alert('Erro ao deletar patrimônio');
+            showNotify('erro', 'Erro ao deletar patrimônio');
         }
     };
 
@@ -261,11 +254,12 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
     };
 
     const getStatusPatBadgeClass = (status?: string) => {
-        if (status === 'ATIVO') return 'bg-green-100 text-green-800';
-        if (status === 'DEVOLUÇÃO') return 'bg-red-100 text-red-800';
-        if (status === 'INATIVO') return 'bg-orange-100 text-orange-800';
-        if (status === 'MANUTENÇÃO') return 'bg-purple-100 text-purple-800';
-        if (status === 'TRANSFERIDO') return 'bg-blue-100 text-blue-800';
+        const normalizado = normalizeStatusText(status);
+        if (normalizado === 'ATIVO') return 'bg-green-100 text-green-800';
+        if (normalizado === 'DEVOLUCAO') return 'bg-red-100 text-red-800';
+        if (normalizado === 'INATIVO') return 'bg-orange-100 text-orange-800';
+        if (normalizado === 'MANUTENCAO') return 'bg-purple-100 text-purple-800';
+        if (normalizado === 'TRANSFERIDO') return 'bg-blue-100 text-blue-800';
         return 'bg-gray-100 text-gray-800';
     };
 
@@ -297,8 +291,8 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                 className="w-full px-4 py-2 border rounded-lg text-left focus:outline-none focus:ring-2 focus:ring-primary flex items-center justify-between"
                             >
                                 <span className="truncate">
-                                    {centroSelecionado.length > 0
-                                        ? `Centro(s) selecionado(s): ${centroSelecionado.length}`
+                                    {centroSelecionado
+                                        ? (centroOpcoes.find((centro) => centro.idCCusto === centroSelecionado)?.descricaoCCusto || 'Centro selecionado')
                                         : 'Todos os centros de custo'}
                                 </span>
                                 <ChevronDown className={`h-4 w-4 transition ${centroDropdownOpen ? 'rotate-180' : ''}`} />
@@ -308,7 +302,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                 <div className="absolute z-30 mt-1 w-full bg-white border rounded-lg shadow-lg max-h-56 overflow-auto p-2 space-y-2">
                                     <button
                                         type="button"
-                                        onClick={() => setCentroSelecionado([])}
+                                        onClick={() => setCentroSelecionado('')}
                                         className="w-full text-left text-sm px-2 py-1 rounded hover:bg-gray-100"
                                     >
                                         Todos os centros de custo
@@ -317,8 +311,9 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                     {centroOpcoes.map((centro) => (
                                         <label key={centro.idCCusto}
                                             className="flex items-center gap-2 text-sm px-2 py-1 rounded hover:bg-gray-50">
-                                            <input type="checkbox"
-                                                checked={centroSelecionado.includes(centro.idCCusto)}
+                                            <input type="radio"
+                                                name="centro-custo-filtro"
+                                                checked={centroSelecionado === centro.idCCusto}
                                                 onChange={() => toggleCentro(centro.idCCusto)}
                                             />
                                             <span>
@@ -328,7 +323,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                     ))}
                                     {centroOpcoes.length === 0 && (
                                         <span className="text-xs text-gray-500 px-2 py-1 block">
-                                            Sem centros de custo disponíveis
+                                                                                        Sem centros de custo dispon?veis
                                         </span>
                                     )}
                                 </div>
@@ -371,7 +366,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                     ))}
                                     {statusOpcoes.length === 0 && (
                                         <span className="text-xs text-gray-500 px-2 py-1 block">
-                                            Sem status disponíveis
+                                                                                        Sem status dispon?veis
                                         </span>
                                     )}
                                 </div>
@@ -389,7 +384,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                     </div>
                 ) : patrimonios.length === 0 ? (
                     <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500">
-                        Nenhum patrimônio encontrado
+                                                Nenhum patrimônio encontrado
                     </div>
                 ) : (
                     patrimonios.map((patrimonio) => (
@@ -403,14 +398,9 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                         {patrimonio.descricaoPat}
                                     </div>
                                 </div>
-                                <span className={`px-2 py-1 rounded-full text-[9px] font-semibold 
-                                ${patrimonio.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
-                                        patrimonio.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
-                                            patrimonio.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-orange-100 text-orange-800' :
-                                                patrimonio.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-gray-100 text-purple-800' :
-                                                    patrimonio.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-gray-100 text-blue-800' :
-                                                        'bg-gray-100 text-gray-800'
-                                    }`}>
+                                <span className={`px-2 py-1 rounded-full text-[9px] font-semibold ${getStatusPatBadgeClass(
+                                    patrimonio.tbStatusPat?.descricaoStatPat
+                                )}`}>
                                     {patrimonio.tbStatusPat?.descricaoStatPat || '-'}
                                 </span>
                             </div>
@@ -525,14 +515,9 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                             {isLinhaDevolucao(patrimonio) ? (patrimonio.tbDevolucao?.[0]?.notaFiscalDevolucao) : '-'}
                                         </td>
                                         <td className="px-6 py-4 text-sm">
-                                            <span className={`px-3 py-1 rounded-full text-xs text-[9px] font-semibold 
-                                            ${patrimonio.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
-                                                    patrimonio.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-red-100 text-red-800' :
-                                                        patrimonio.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-orange-100 text-orange-800' :
-                                                            patrimonio.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-gray-100 text-purple-800' :
-                                                                patrimonio.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-blue-100 text-blue-800' :
-                                                                    'bg-gray-100 text-gray-800'
-                                                }`}>
+                                            <span className={`px-3 py-1 rounded-full text-xs text-[9px] font-semibold ${getStatusPatBadgeClass(
+                                                patrimonio.tbStatusPat?.descricaoStatPat
+                                            )}`}>
                                                 {patrimonio.tbStatusPat?.descricaoStatPat || '-'}
                                             </span>
                                         </td>
@@ -641,3 +626,5 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
         </div>
     );
 }
+
+

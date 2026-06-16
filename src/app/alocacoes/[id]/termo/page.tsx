@@ -1,4 +1,4 @@
-import Header from '@/components/Header/Header';
+﻿import Header from '@/components/Header/Header';
 import { getServerSession } from 'next-auth';
 import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
 import { buscarAlocacaoById } from '@/features/alocacoes/server/cadastro.service';
@@ -25,7 +25,7 @@ export default async function TermoPage({ params }: Props) {
                 <div className="max-w-4xl mx-auto px-4 py-12 text-center">
                     <h1 className="text-2xl font-bold mb-4">Termo de Responsabilidade</h1>
                     <div className="bg-white p-8 rounded-lg shadow-sm">
-                        <p className="text-lg mb-6">Faca login para visualizar o termo</p>
+                        <p className="text-lg mb-6">Fa?a login para visualizar o termo</p>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@ export default async function TermoPage({ params }: Props) {
             <>
                 <Header />
                 <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-                    <h2 className="text-xl font-semibold">Alocacao nao encontrada</h2>
+                    <h2 className="text-xl font-semibold">Aloca??o não encontrada</h2>
                 </div>
             </>
         );
@@ -124,24 +124,24 @@ export default async function TermoPage({ params }: Props) {
 
                 <div className="text-sm text-gray-800 whitespace-pre-wrap m-4 text-justify">
                     <h2 className='text-center'>Termo de Responsabilidade</h2>
-                    <h4 className='text-center'>Uso {tipoPatrimonio?.descricaoTipPat || 'TIPO PATRIMONIO'} Parex - Funcionarios</h4>
+                    <h4 className='text-center'>Uso {tipoPatrimonio?.descricaoTipPat || 'TIPO PATRIM?NIO'} Parex - Funcion?rios</h4>
 
                     {`
 \t Por este instrumento a PAREX entrega a guarda ao Sr., ${alocacao.tbFuncionario?.nomeFun || 'NOME'} - ${alocacao.tbFuncionario?.idMatFun || 'MATRICULA'} neste ato denominado USUARIO, inscrito no CPF no ${alocacao.tbFuncionario?.cpfFun || 'CPF'}, um computador marca ${patrimonio?.descricaoPat ? patrimonio.descricaoPat.split(' ')[0] : 'MARCA'}, modelo ${patrimonio?.descricaoDetalhadaPat || 'MODELO'}, contendo: 01 carregador de bateria, patrimoniado sob o Numero PAT${patrimonio?.idPat || 'PATRIMONIO'}, ficando o mesmo responsavel por qualquer dano, perda ou furto, e da mesma forma, pelo zelo e manutencao deste equipamento, sob pena de ressarcimento a PAREX se algum destes fatos ocorrer e for constatada negligencia por parte do USUARIO.
 
-\t O usuario permanece responsavel tambem pelo equipamento quando da transferencia do mesmo a outros funcionarios / terceiros sem a previa autorizacao da Coordenacao de TI Corporativa.
+\t O usuário permanece responsável também pelo equipamento quando da transferência do mesmo a outros funcionários / terceiros sem a prévia autorização da Coordenação de TI Corporativa.
 
-\t O USUARIO reconhece que a utilizacao do equipamento se dara somente no horario comercial de trabalho, ou seja, de 07h30min (Sete horas e trinta minutos) as 17h30min (dezessete horas e trinta minutos), com intervalo de 01h00min (Uma hora), de 2a a 5a feiras e das 07h30min (Sete horas e trinta minutos) as 16h30min (dezesseis horas e trinta minutos), com intervalo de 01h00min (Uma hora) as 6a feiras e que o equipamento e para uso exclusivo no trabalho da empresa.
+\t O USUÁRIO reconhece que a utilização do equipamento se dará somente no horário comercial de trabalho, ou seja, de 07h30min (sete horas e trinta minutos) às 17h30min (dezessete horas e trinta minutos), com intervalo de 01h00min (uma hora), de 2ª a 5ª feiras e das 07h30min (sete horas e trinta minutos) às 16h30min (dezesseis horas e trinta minutos), com intervalo de 01h00min (uma hora) às 6ª feiras e que o equipamento é para uso exclusivo no trabalho da empresa.
 
-\t E proibida a instalacao de softwares sem a autorizacao da coordenacao da TI. Este equipamento esta licenciado com o sistema operacional Windows e o pacote Office (Word - Excel - Outlook - Power Point) e OBS se necessario incluir outros programas instalado que nao estao na lista.
+\t É proibida a instalação de softwares sem a autorização da coordenação da TI. Este equipamento está licenciado com o sistema operacional Windows e o pacote Office (Word - Excel - Outlook - Power Point) e OBS, se necessário, incluir outros programas instalados que não estejam na lista.
 
 \t ${condicaoPorStatus}
 
-\t PARAUAPEBAS PA, ${alocacao.tbPatrimonio?.dataEntPat ? new Date(alocacao.tbPatrimonio.dataEntPat).toLocaleDateString('pt-BR') : ''}
+\t PARAUAPEBAS-PA, ${alocacao.tbPatrimonio?.dataEntPat ? new Date(alocacao.tbPatrimonio.dataEntPat).toLocaleDateString('pt-BR') : ''}
 
 Matricula: ${alocacao.tbFuncionario?.idMatFun}
 Nome: ${alocacao.tbFuncionario?.nomeFun}
-CPF no: ${alocacao.tbFuncionario?.cpfFun}
+CPF n?: ${alocacao.tbFuncionario?.cpfFun}
 
 
 `}
@@ -153,7 +153,7 @@ CPF no: ${alocacao.tbFuncionario?.cpfFun}
                     </div>
                     <div className="flex flex-col">
                         <div className="w-80 border-b-2" style={{ height: '1px' }} />
-                        <div className="text-sm">Assinatura do Responsavel / Setor TI</div>
+                        <div className="text-sm">Assinatura do Respons?vel / Setor TI</div>
                     </div>
                 </div>
                 <div className="mt-10 grid md:grid-cols-2">
@@ -173,3 +173,4 @@ CPF no: ${alocacao.tbFuncionario?.cpfFun}
         </div>
     );
 }
+

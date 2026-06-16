@@ -186,8 +186,8 @@ select option:checked {
 
 .form-title-sticky {
   position: sticky;
-  top: calc(var(--app-header-height) + 8px);
-  z-index: 40;
+  top: calc(var(--app-header-height) + 16px);
+  z-index: 50;
   background: var(--background);
   backdrop-filter: blur(8px);
   padding: 8px 0;

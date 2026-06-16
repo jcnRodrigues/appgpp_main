@@ -1,9 +1,12 @@
-'use client'
+﻿'use client'
 
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { SquarePen, Trash2 } from 'lucide-react';
+import { Inbox, SquarePen, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import TableState from '@/components/TableState/TableState';
+import { normalizeStatusText } from '@/lib/status';
+import { notify as showNotify } from '@/lib/notify';
 
 type AtivoRedeItem = {
     idAtivoRedePk: string;
@@ -104,7 +107,7 @@ export default function AtivoRedeTable({ ativos, totalItens, paginaAtual, itensP
             router.refresh();
         } catch (error) {
             const message = error instanceof Error ? error.message : 'Erro ao excluir ativo de rede';
-            window.alert(message);
+            showNotify('erro', message);
         }
     };
 
@@ -128,38 +131,44 @@ export default function AtivoRedeTable({ ativos, totalItens, paginaAtual, itensP
             .sort((a, b) => a - b);
     };
     const getStatusPatBadgeClass = (status?: string | null) => {
-        if (status === 'ATIVO') return 'bg-green-100 text-green-800';
-        if (status === 'DESMOBILIZAÇÃO') return 'bg-red-100 text-red-800';
-        if (status === 'RESERVA') return 'bg-purple-100 text-purple-800';
-        if (status === 'EM ESTOQUE') return 'bg-orange-100 text-orange-800';
-        if (status === 'TRANSFERIDO') return 'bg-blue-100 text-blue-800';
+        const normalizado = normalizeStatusText(status);
+        if (normalizado === 'ATIVO') return 'bg-green-100 text-green-800';
+        if (normalizado === 'DESMOBILIZACAO') return 'bg-red-100 text-red-800';
+        if (normalizado === 'RESERVA') return 'bg-purple-100 text-purple-800';
+        if (normalizado === 'EM ESTOQUE') return 'bg-orange-100 text-orange-800';
+        if (normalizado === 'TRANSFERIDO') return 'bg-blue-100 text-blue-800';
         return 'bg-gray-100 text-gray-800';
     };
 
     const paginasVisiveis = getPaginasVisiveis();
 
     return (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="overflow-hidden rounded-lg bg-white shadow-md">
             <div className="overflow-hidden">
                 <table className="w-full min-w-[1200px] table-fixed">
-                    <thead>
+                    <thead className="bg-gray-50">
                         <tr>
-                            <th className="w-[6%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Código</th>
-                            <th className="w-[30%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Nome</th>
-                            <th className="w-[12%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Tipo</th>
-                            <th className="w-[20%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Local</th>
-                            <th className="w-[15%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Status</th>
-                            <th className="w-[8%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Entrada</th>
-                            <th className="w-[8%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Últ. Transf.</th>
-                            <th className="w-[8%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Últ. Devol.</th>
-                            <th className="w-[15%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900">Ações</th>
+                            <th className="w-[6%] px-3 py-3 text-left text-sm font-semibold text-gray-900">Código</th>
+                            <th className="w-[30%] px-3 py-3 text-left text-sm font-semibold text-gray-900">Nome</th>
+                            <th className="w-[12%] px-3 py-3 text-left text-sm font-semibold text-gray-900">Tipo</th>
+                            <th className="w-[20%] px-3 py-3 text-left text-sm font-semibold text-gray-900">Local</th>
+                            <th className="w-[15%] px-3 py-3 text-left text-sm font-semibold text-gray-900">Status</th>
+                            <th className="w-[8%] px-3 py-3 text-left text-sm font-semibold text-gray-900">Entrada</th>
+                            <th className="w-[8%] px-3 py-3 text-left text-sm font-semibold text-gray-900">Últ. Transf.</th>
+                            <th className="w-[8%] px-3 py-3 text-left text-sm font-semibold text-gray-900">Últ. Devol.</th>
+                            <th className="w-[15%] px-3 py-3 text-left text-sm font-semibold text-gray-900">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         {ativos.length === 0 ? (
                             <tr>
-                                <td colSpan={9} className="px-6 py-6 text-center text-gray-500">
-                                    Nenhum ativo de rede cadastrado
+                                <td colSpan={9} className="px-6 py-6">
+                                    <TableState
+                                        icon={Inbox}
+                                        title="Nenhum ativo de rede cadastrado"
+                                        description="Crie um novo ativo ou ajuste os filtros."
+                                        compact
+                                    />
                                 </td>
                             </tr>
                         ) : (
@@ -168,54 +177,58 @@ export default function AtivoRedeTable({ ativos, totalItens, paginaAtual, itensP
                                 const ultimaDevolucao = ativo.tbDevolucaoAtivoRede?.[0];
 
                                 return (
-                                    <tr key={ativo.idAtivoRedePk}
-                                        className="border-b hover:bg-gray-50">
-                                        <td className="px-4 py-4 text-sm font-medium text-[12px] text-gray-800 whitespace-nowrap">
+                                    <tr key={ativo.idAtivoRedePk} className="border-b transition hover:bg-gray-50">
+                                        <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-gray-800">
                                             {ativo.codigoAtivoRede}
                                         </td>
-                                        <td className="px-4 py-4 text-sm text-[12px] text-gray-700">
-                                            <div className="font-medium">
-                                                {ativo.nomeAtivoRede}
-                                            </div>
-                                            <div className="text-xs text-[8px] text-gray-500 truncate">
+                                        <td className="px-4 py-4 text-sm text-gray-700">
+                                            <div className="font-medium text-gray-900">{ativo.nomeAtivoRede}</div>
+                                            <div className="truncate text-xs text-gray-500">
                                                 {ativo.fabricanteAtivoRede || '-'} {ativo.modeloAtivoRede ? `| ${ativo.modeloAtivoRede}` : ''}
                                             </div>
-                                            <span className={`px-3 py-1 rounded-full text-xs text-[8px] font-semibold 
-                                                ${getStatusPatBadgeClass(ativo.tbStatusAtivoRede?.descricaoStatusAtivoRede)}`}>
+                                            <span
+                                                className={`mt-2 inline-flex rounded-full px-2.5 py-1 text-[11px] font-semibold ${getStatusPatBadgeClass(
+                                                    ativo.tbStatusAtivoRede?.descricaoStatusAtivoRede
+                                                )}`}
+                                            >
                                                 {formatarCentro(ativo)}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-[12px] text-gray-700">
+                                        <td className="px-6 py-4 text-sm text-gray-700">
                                             {ativo.tbTipoAtivoRede?.descricaoTipoAtivoRede || ativo.tipoAtivoRede || '-'}
                                         </td>
 
-                                        <td className="px-6 py-4 text-sm text-[12px] text-gray-700">
+                                        <td className="px-6 py-4 text-sm text-gray-700">
                                             {ativo.localInstalacaoAtivoRede || '-'}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-[12px] items-start">
-                                            <span className={`rounded-full px-3 py-1 text-xs font-semibold
-                                                ${getStatusPatBadgeClass(ativo.tbStatusAtivoRede?.descricaoStatusAtivoRede)}`}>
+                                        <td className="px-6 py-4 text-sm">
+                                            <span
+                                                className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${getStatusPatBadgeClass(
+                                                    ativo.tbStatusAtivoRede?.descricaoStatusAtivoRede
+                                                )}`}
+                                            >
                                                 {ativo.tbStatusAtivoRede?.descricaoStatusAtivoRede || ativo.statusAtivoRede || '-'}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-[12px] text-gray-700">
+                                        <td className="px-6 py-4 text-sm text-gray-700">
                                             {formatarData(ativo.dataEntradaAtivoRede)}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-[12px] text-gray-700">
+                                        <td className="px-6 py-4 text-sm text-gray-700">
                                             {ultimaTransferencia ? formatarData(ultimaTransferencia.dataTransferencia) : '-'}
                                         </td>
                                         <td className="px-6 py-4 text-sm text-gray-700">
                                             {ultimaDevolucao ? formatarData(ultimaDevolucao.dataInicioDevolucao) : '-'}
                                         </td>
-                                        <td className="px-4 py-2 text-[10px] items-center">
-                                            <div className="flex gap-2 items-center">
-                                                <Button asChild 
+                                        <td className="px-4 py-2">
+                                            <div className="flex items-center gap-2">
+                                                <Button
+                                                    asChild
                                                     variant="ghost"
                                                     title="Editar ativo de rede"
-                                                    className="p-2.5 bg-gray-100 hover:bg-blue-100 text-blue-700 rounded-lg transition">
+                                                    className="rounded-lg bg-gray-100 p-2.5 text-blue-700 transition hover:bg-blue-100"
+                                                >
                                                     <Link href={`/ativos-rede/${ativo.idAtivoRedePk}`}>
                                                         <SquarePen className="h-4 w-4" />
-
                                                     </Link>
                                                 </Button>
                                                 <Button
@@ -223,7 +236,7 @@ export default function AtivoRedeTable({ ativos, totalItens, paginaAtual, itensP
                                                     variant="ghost"
                                                     title="Excluir ativo de rede"
                                                     onClick={() => excluirAtivo(ativo.idAtivoRedePk)}
-                                                    className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition"
+                                                    className="rounded-lg bg-gray-100 p-2.5 text-red-800 transition hover:bg-red-100"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
                                                 </Button>
@@ -238,7 +251,7 @@ export default function AtivoRedeTable({ ativos, totalItens, paginaAtual, itensP
             </div>
 
 
-            <div className="flex flex-col gap-3 items-center">
+            <div className="flex flex-col items-center gap-3">
                 <div className="flex flex-wrap items-center justify-center gap-2">
                     <label htmlFor="itensPorPagina" className="text-xs text-gray-600">
                         Itens por página:
@@ -312,3 +325,4 @@ export default function AtivoRedeTable({ ativos, totalItens, paginaAtual, itensP
         </div>
     );
 }
+

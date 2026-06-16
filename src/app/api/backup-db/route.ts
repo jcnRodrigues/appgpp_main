@@ -1,8 +1,8 @@
-import prisma from "../../../../prisma/prisma";
+﻿import prisma from "../../../../prisma/prisma";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "../auth/[...nextauth]/route";
-import { hasModuleAccess } from "@/lib/permissions";
+import { hasModuleAccess, hasModuleActionPermission } from "@/lib/permissions";
 import fs from "node:fs/promises";
 import path from "node:path";
 
@@ -22,11 +22,14 @@ export async function POST() {
     const forms = sessionUser?.formularios || [];
 
     if (!session?.user) {
-      return NextResponse.json({ message: "Usuario nao autenticado." }, { status: 401 });
+      return NextResponse.json({ message: "Usuário não autenticado." }, { status: 401 });
     }
 
-    if (!hasModuleAccess(forms, "IMPORTACAO_EXPORTACAO") && !hasModuleAccess(forms, "ACESSO_USUARIOS")) {
-      return NextResponse.json({ message: "Usuario sem permissao para backup do banco." }, { status: 403 });
+    if (
+      (!hasModuleAccess(forms, "IMPORTACAO_EXPORTACAO") || !hasModuleActionPermission(forms, "IMPORTACAO_EXPORTACAO", "EXPORT")) &&
+      !hasModuleAccess(forms, "ACESSO_USUARIOS")
+    ) {
+      return NextResponse.json({ message: "Usuário sem permissão para backup do banco." }, { status: 403 });
     }
 
     const now = new Date();
@@ -94,4 +97,5 @@ export async function POST() {
     return NextResponse.json({ message: error?.message || "Erro ao gerar backup do banco." }, { status: 500 });
   }
 }
+
 

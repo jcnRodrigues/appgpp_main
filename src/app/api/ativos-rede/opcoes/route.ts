@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import {
     criarStatusAtivoRede,
     criarTipoAtivoRede,
@@ -11,7 +11,7 @@ import { hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/
 export async function GET(request: NextRequest) {
     const canAccess = await hasModuleAccessForRequest(request, 'ATIVOS_REDE');
     if (!canAccess) {
-        return NextResponse.json({ message: 'Sem permissao para acessar opcoes de ativos de rede' }, { status: 403 });
+        return NextResponse.json({ message: 'Sem permissão para acessar opções de ativos de rede' }, { status: 403 });
     }
 
     try {
@@ -23,8 +23,8 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json({ tipos, status, centros });
     } catch (error) {
-        console.error('Erro ao listar opcoes de ativos de rede:', error);
-        return NextResponse.json({ message: 'Erro ao listar opcoes de ativos de rede' }, { status: 500 });
+        console.error('Erro ao listar opções de ativos de rede:', error);
+        return NextResponse.json({ message: 'Erro ao listar opções de ativos de rede' }, { status: 500 });
     }
 }
 
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     const canAccess = await hasModuleAccessForRequest(request, 'ATIVOS_REDE');
     const canCreate = await hasActionPermissionForRequest(request, 'CREATE');
     if (!canAccess || !canCreate) {
-        return NextResponse.json({ message: 'Sem permissao para cadastrar tipo ou status' }, { status: 403 });
+        return NextResponse.json({ message: 'Sem permissão para cadastrar tipo ou status' }, { status: 403 });
     }
 
     try {
@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
         const descricao = String(body.descricao || '').trim();
 
         if (!kind || !descricao) {
-            return NextResponse.json({ message: 'Tipo e descricao sao obrigatorios' }, { status: 400 });
+            return NextResponse.json({ message: 'Tipo e descricao sao obrigat?rios' }, { status: 400 });
         }
 
         if (kind === 'TIPO') {
@@ -61,3 +61,4 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ message }, { status: 500 });
     }
 }
+

@@ -1,11 +1,12 @@
-'use client'
+﻿'use client'
 
 import { useCallback, useEffect, useState } from 'react';
-import { ArrowLeft, ArrowRight, FileDown, Search, Shuffle, Trash2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, FileDown, Inbox, Search, Shuffle, Trash2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { hasModuleActionPermission } from '@/lib/permissions';
+import TableState from '@/components/TableState/TableState';
 
 type FuncionarioTransferencia = {
     idF: string;
@@ -53,7 +54,7 @@ export default function TransferenciaCustoTable() {
                 setTotalItens(typeof json.total === 'number' ? json.total : (json.data || []).length);
             }
         } catch (error) {
-            console.error('Erro ao carregar transferencias de custo:', error);
+            console.error('Erro ao carregar transferências de custo:', error);
         } finally {
             setLoading(false);
         }
@@ -79,7 +80,7 @@ export default function TransferenciaCustoTable() {
 
     const buscarPorMatricula = async () => {
         if (!matriculaBusca.trim()) {
-            window.systemAlert?.('aviso', 'Informe a matricula para buscar.');
+            window.systemAlert?.('aviso', 'Informe a matrícula para buscar.');
             return;
         }
         try {
@@ -88,14 +89,14 @@ export default function TransferenciaCustoTable() {
             params.append('take', '10');
             const response = await fetch(`/api/funcionario?${params}`);
             if (!response.ok) {
-                window.systemAlert?.('erro', 'Nao foi possivel buscar o funcionario.');
+                window.systemAlert?.('erro', 'Não foi possível buscar o funcionário.');
                 return;
             }
 
             const json = await response.json();
             const encontrado = (json.data || []).find((f: FuncionarioTransferencia) => f.idMatFun === matriculaBusca.trim()) || (json.data || [])[0] || null;
             if (!encontrado) {
-                window.systemAlert?.('aviso', 'Funcionario nao encontrado para a matricula informada.');
+                window.systemAlert?.('aviso', 'Funcionário não encontrado para a matrícula informada.');
                 return;
             }
 
@@ -107,7 +108,7 @@ export default function TransferenciaCustoTable() {
             setMatriculaBusca('');
         } catch (error) {
             console.error('Erro ao buscar por matricula:', error);
-            window.systemAlert?.('erro', 'Erro ao buscar funcionario.');
+            window.systemAlert?.('erro', 'Erro ao buscar funcionário.');
         }
     };
 
@@ -121,7 +122,7 @@ export default function TransferenciaCustoTable() {
 
     const executarTransferencia = async (idF: string) => {
         if (!canUpdate) {
-            window.systemAlert?.('aviso', 'Voce nao tem permissao para alterar registros.');
+            window.systemAlert?.('aviso', 'Você não tem permissão para alterar registros.');
             return;
         }
 
@@ -146,7 +147,7 @@ export default function TransferenciaCustoTable() {
 
             if (!response.ok) {
                 const err = await response.json().catch(() => ({}));
-                window.systemAlert?.('erro', err.message || 'Nao foi possivel transferir custo.');
+                window.systemAlert?.('erro', err.message || 'Não foi possível transferir o custo.');
                 return;
             }
 
@@ -169,7 +170,7 @@ export default function TransferenciaCustoTable() {
                 return [resultadoTransferencia, ...semDuplicado];
             });
 
-            window.systemAlert?.('sucesso', 'Transferencia de custo realizada com sucesso.');
+            window.systemAlert?.('sucesso', 'Transferência de custo realizada com sucesso.');
             setItensTransferencia((prev) => prev.filter((i) => i.funcionario.idF !== idF));
         } catch (error) {
             console.error('Erro ao transferir custo:', error);
@@ -181,11 +182,11 @@ export default function TransferenciaCustoTable() {
 
     const gerarCsv = () => {
         if (!canPrint) {
-            window.systemAlert?.('aviso', 'Voce nao tem permissao para imprimir/gerar relatorios.');
+            window.systemAlert?.('aviso', 'Você não tem permissão para imprimir/gerar relatórios.');
             return;
         }
         if (dados.length === 0) {
-            window.systemAlert?.('aviso', 'Nao ha dados para gerar o relatorio.');
+            window.systemAlert?.('aviso', 'Não há dados para gerar o relatório.');
             return;
         }
 
@@ -238,7 +239,7 @@ export default function TransferenciaCustoTable() {
     return (
         <div className="space-y-4">
             <div className="rounded-lg shadow-md p-3 space-y-3">
-                <h3 className="font-semibold">Transferir Funcionario por Matricula</h3>
+                <h3 className="font-semibold">Transferir Funcionário por Matrícula</h3>
                 <div className="flex flex-col md:flex-row gap-2 md:items-center">
                     <input
                         type="text"
@@ -250,7 +251,7 @@ export default function TransferenciaCustoTable() {
                                 buscarPorMatricula();
                             }
                         }}
-                        placeholder="Digite a matricula..."
+                        placeholder="Digite a matrícula..."
                         className="w-full md:w-80 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                     <Button
@@ -288,7 +289,7 @@ export default function TransferenciaCustoTable() {
                             {itensTransferencia.length === 0 ? (
                                 <tr>
                                     <td colSpan={5} className="px-4 py-6 text-center text-gray-500">
-                                        Nenhum funcionario relacionado para transferencia
+                                        Nenhum funcionário relacionado para transferência
                                     </td>
                                 </tr>
                             ) : itensTransferencia.map((item) => (
@@ -356,12 +357,10 @@ export default function TransferenciaCustoTable() {
                     <tbody>
                         {loading ? (
                             <tr>
-                                <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
-                                    Carregando...
-                                </td>
+                                <td colSpan={5} className="px-4 py-8"><TableState icon={Inbox} title="Carregando transferências" compact /></td>
                             </tr>
                         ) : dados.length === 0 ? (
-                            <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-500">Nenhuma transferencia encontrada</td></tr>
+                            <tr><td colSpan={5} className="px-4 py-8"><TableState icon={Inbox} title="Nenhuma transferência encontrada" description="Ainda não há funcionários transferidos com custo." compact /></td></tr>
                         ) : dados.map((item) => (
                             <tr key={item.idF} className="border-b hover:bg-gray-50">
                                 <td className="px-4 py-3 text-[12px]">
@@ -439,8 +438,10 @@ export default function TransferenciaCustoTable() {
                 <div className="text-xs text-gray-500 text-center">
                     Exibindo {totalItens === 0 ? 0 : inicio + 1} - {Math.min(inicio + dados.length, totalItens)} de {totalItens}
                 </div>
-                <div className="text-sm text-gray-600 text-center">Total de transferencias: {totalItens}</div>
+                <div className="text-sm text-gray-600 text-center">Total de transferências: {totalItens}</div>
             </div>
         </div>
     );
 }
+
+

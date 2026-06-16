@@ -1,4 +1,4 @@
-"use server"
+﻿"use server"
 
 import prisma from "../../../../prisma/prisma";
 
@@ -7,14 +7,14 @@ function buildCentroFiltro(centros?: string[]) {
     return { in: centros };
 }
 
-// Contar funcionários
+// Contar funcionÃ¡rios
 export async function contarFuncionarios(centros?: string[]) {
     return await prisma.tbFuncionario.count({
         where: buildCentroFiltro(centros) ? { idCustoFun: buildCentroFiltro(centros) } : undefined
     });
 }
 
-// Contar funcionários por status
+// Contar funcionÃ¡rios por status
 export async function funcionariosPorStatus(centros?: string[]) {
     return await prisma.tbStatusFun.findMany({
         include: {
@@ -28,7 +28,7 @@ export async function funcionariosPorStatus(centros?: string[]) {
     });
 }
 
-// Contar funcionários por centro de custo
+// Contar funcionÃ¡rios por centro de custo
 export async function funcionariosPorCentroCusto(centros?: string[]) {
     return await prisma.tbCCusto.findMany({
         where: buildCentroFiltro(centros) ? { idCCusto: buildCentroFiltro(centros) } : undefined,
@@ -44,7 +44,7 @@ export async function funcionariosPorCentroCusto(centros?: string[]) {
     });
 }
 
-// Contar alocações de patrimônio por centro de custo (total simples - compatível com chamadas existentes)
+// Contar alocaÃ§Ãµes de patrimÃ´nio por centro de custo (total simples - compatÃ­vel com chamadas existentes)
 export async function alocacoesPorCentroCusto(centros?: string[]) {
     const centrosFiltro = buildCentroFiltro(centros);
     const centrosDb = await prisma.tbCCusto.findMany({
@@ -76,7 +76,7 @@ export async function alocacoesPorCentroCusto(centros?: string[]) {
             nome: centro.descricaoCCusto || centro.idCCusto,
         };
 
-        // Agrupar por tipo de patrimônio
+        // Agrupar por tipo de patrimÃ´nio
         const tiposCont: Record<string, number> = {};
         centro.tbPatrimonio.forEach(pat => {
             const tipoNome = pat.tbTipoPat?.descricaoTipPat || 'Sem Tipo';
@@ -91,7 +91,7 @@ export async function alocacoesPorCentroCusto(centros?: string[]) {
     });
 }
 
-// Alocações por centro de custo e por tipo de patrimônio (para gráfico de barras com tipo e custo)
+// AlocaÃ§Ãµes por centro de custo e por tipo de patrimÃ´nio (para grÃ¡fico de barras com tipo e custo)
 export async function alocacoesPorCentroCustoETipo(centros?: string[]) {
     const centrosFiltro = buildCentroFiltro(centros);
     const centrosDb = await prisma.tbCCusto.findMany({
@@ -151,7 +151,7 @@ export async function alocacoesPorCentroCustoETipo(centros?: string[]) {
     return { data, tipos: tiposOrdenados };
 }
 
-// Dados para gráfico de linha (evoluação ao longo do tempo - por mês)
+// Dados para grÃ¡fico de linha (evoluaÃ§Ã£o ao longo do tempo - por mÃªs)
 export async function alocacoesAoLongoDoTempo(centros?: string[]) {
     const centrosFiltro = buildCentroFiltro(centros);
     const alocacoes = await prisma.tbCadastro.findMany({
@@ -187,7 +187,7 @@ export async function alocacoesAoLongoDoTempo(centros?: string[]) {
         .slice(-12);
 }
 
-// Evolução das alocações ao longo do tempo por centro de custo (para gráfico de linha)
+// EvoluÃ§Ã£o das alocaÃ§Ãµes ao longo do tempo por centro de custo (para grÃ¡fico de linha)
 export async function alocacoesEvolucaoPorCentroCusto(centros?: string[]) {
     const centrosFiltro = buildCentroFiltro(centros);
     const alocacoes = await prisma.tbCadastro.findMany({
@@ -313,7 +313,7 @@ export async function resumoCentrosCusto(centros?: string[]) {
         }
     }
 
-    const devolucoes = await prisma.tbDevolucao.findMany({
+    const devoluções = await prisma.tbDevolucao.findMany({
         select: {
             idDevolucao: true,
             tbCadastro: {
@@ -338,7 +338,7 @@ export async function resumoCentrosCusto(centros?: string[]) {
         }
     });
 
-    for (const dev of devolucoes) {
+    for (const dev of devoluções) {
         const centroId =
             dev.tbCadastro?.tbFuncionario?.idCustoFun ||
             dev.tbCadastro?.tbPatrimonio?.idPat_CustoPat ||
@@ -357,7 +357,8 @@ export async function resumoCentrosCusto(centros?: string[]) {
         ativos: ativosPorCentro.get(centro.idCCusto)?.size || 0,
         devolvidos: devolvidosPorCentro.get(centro.idCCusto) || 0,
         transferidos: transferidosPorCentro.get(centro.idCCusto) || 0,
-        // Sem tabela historica de medicao por centro: usa previsao baseada no total de patrimonios.
+        // Sem tabela historica de medição por centro: usa previsao baseada no total de patrimonios.
         previsaoMedicao: ativosPorCentro.get(centro.idCCusto)?.size || 0
     }));
 }
+

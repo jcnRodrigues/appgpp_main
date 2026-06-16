@@ -1,10 +1,10 @@
-import prisma from "../../../../prisma/prisma";
+﻿import prisma from "../../../../prisma/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { randomUUID } from "crypto";
 import { AuthOptions } from "../auth/[...nextauth]/route";
 import { getCentrosFiltro } from "@/lib/access";
-import { hasModuleAccess } from "@/lib/permissions";
+import { hasModuleAccess, hasModuleActionPermission } from "@/lib/permissions";
 
 type SessionUser = {
     formularios?: string[];
@@ -96,9 +96,20 @@ function addIgnoredRow(
     ignored.push({ table, row, motivo });
 }
 
-function hasImportExportAccess(sessionUser?: SessionUser) {
+function hasImportAccess(sessionUser?: SessionUser) {
     const formularios = sessionUser?.formularios;
-    return hasModuleAccess(formularios || [], "IMPORTACAO_EXPORTACAO") || hasModuleAccess(formularios || [], "ACESSO_USUARIOS");
+    return (
+        hasModuleActionPermission(formularios || [], "IMPORTACAO_EXPORTACAO", "IMPORT") ||
+        hasModuleAccess(formularios || [], "ACESSO_USUARIOS")
+    );
+}
+
+function hasExportAccess(sessionUser?: SessionUser) {
+    const formularios = sessionUser?.formularios;
+    return (
+        hasModuleActionPermission(formularios || [], "IMPORTACAO_EXPORTACAO", "EXPORT") ||
+        hasModuleAccess(formularios || [], "ACESSO_USUARIOS")
+    );
 }
 
 async function validateCentroAccess(request: NextRequest, centroId?: string | null) {
@@ -198,7 +209,7 @@ function mapResolvedId(
 
 function enrichExportData(data: BackupData): BackupData {
     const statusFunById = new Map(data.tbStatusFun.map((row: any) => [row.idStatusFun, row.descricaoStatusFun ?? null]));
-    const funcaoById = new Map(data.tbFuncao.map((row: any) => [row.idFuncao, row.nomeFuncao ?? null]));
+    const funçãoById = new Map(data.tbFuncao.map((row: any) => [row.idFuncao, row.nomeFuncao ?? null]));
     const tipoPatById = new Map(data.tbTipoPat.map((row: any) => [row.idTipPat, row.descricaoTipPat ?? null]));
     const statusPatById = new Map(data.tbStatusPat.map((row: any) => [row.idStatusPat, row.descricaoStatPat ?? null]));
     const empresaById = new Map(data.tbEmpresa.map((row: any) => [row.idEmp, firstString(row.fantasiaEmpresa, row.razaoEmpresa, row.cnpjEmpresa)]));
@@ -219,7 +230,7 @@ function enrichExportData(data: BackupData): BackupData {
         })),
         tbFuncionario: data.tbFuncionario.map((row: any) => ({
             ...row,
-            idFuncaoFun_descricao: row.idFuncaoFun ? funcaoById.get(row.idFuncaoFun) ?? null : null,
+            idFuncaoFun_descricao: row.idFuncaoFun ? funçãoById.get(row.idFuncaoFun) ?? null : null,
             idStatusFun_descricao: row.idStatusFun ? statusFunById.get(row.idStatusFun) ?? null : null,
             idUserFun_descricao: row.idUserFun ? userById.get(row.idUserFun) ?? null : null,
             idCustoFun_descricao: row.idCustoFun ? ccustoById.get(row.idCustoFun) ?? null : null
@@ -449,7 +460,7 @@ async function importAllData(data: BackupData): Promise<ImportExecutionResult> {
     const detailed = emptyDetailedCounts();
     const userIdMap = new Map<string, string>();
     const statusFunMap = new Map<string, string>();
-    const funcaoMap = new Map<string, string>();
+    const funçãoMap = new Map<string, string>();
     const tipoPatMap = new Map<string, string>();
     const statusPatMap = new Map<string, string>();
     const empresaMap = new Map<string, string>();
@@ -460,7 +471,7 @@ async function importAllData(data: BackupData): Promise<ImportExecutionResult> {
     const cadastroMap = new Map<string, string>();
     const userSourceIndex = buildSourceIndex(data.tbUser, "id", ["emailUser", "idUser", "nomeUser"]);
     const statusFunSourceIndex = buildSourceIndex(data.tbStatusFun, "idStatusFun", ["descricaoStatusFun"]);
-    const funcaoSourceIndex = buildSourceIndex(data.tbFuncao, "idFuncao", ["nomeFuncao"]);
+    const funçãoSourceIndex = buildSourceIndex(data.tbFuncao, "idFuncao", ["nomeFuncao"]);
     const tipoPatSourceIndex = buildSourceIndex(data.tbTipoPat, "idTipPat", ["descricaoTipPat"]);
     const statusPatSourceIndex = buildSourceIndex(data.tbStatusPat, "idStatusPat", ["descricaoStatPat"]);
     const empresaSourceIndex = buildSourceIndex(data.tbEmpresa, "idEmp", ["fantasiaEmpresa", "razaoEmpresa", "cnpjEmpresa"]);
@@ -506,7 +517,7 @@ async function importAllData(data: BackupData): Promise<ImportExecutionResult> {
             return [];
         }
         const id = randomUUID();
-        if (item.idFuncao) funcaoMap.set(item.idFuncao, id);
+        if (item.idFuncao) funçãoMap.set(item.idFuncao, id);
         return [{
             idFuncao: id,
             nomeFuncao: item.nomeFuncao
@@ -592,7 +603,7 @@ async function importAllData(data: BackupData): Promise<ImportExecutionResult> {
             dataAdmFun: toDateOrNull(item.dataAdmFun),
             dataDesFun: toDateOrNull(item.dataDesFun),
             avatarFun: item.avatarFun ?? null,
-            idFuncaoFun: mapResolvedId(funcaoMap, item, "idFuncaoFun", funcaoSourceIndex, ["idFuncaoFun_descricao"]),
+            idFuncaoFun: mapResolvedId(funçãoMap, item, "idFuncaoFun", funçãoSourceIndex, ["idFuncaoFun_descricao"]),
             idUserFun: mapResolvedId(userIdMap, item, "idUserFun", userSourceIndex, ["idUserFun_descricao"]),
             idStatusFun: mapResolvedId(statusFunMap, item, "idStatusFun", statusFunSourceIndex, ["idStatusFun_descricao"]),
             idCustoFun: mapResolvedId(ccustoMap, item, "idCustoFun", ccustoSourceIndex, ["idCustoFun_descricao"])
@@ -955,7 +966,7 @@ async function importByCentro(data: BackupData, centroId: string): Promise<Impor
 
     await prisma.$transaction(async (tx: any) => {
         const statusFunMap = new Map<string, string>();
-        const funcaoMap = new Map<string, string>();
+        const funçãoMap = new Map<string, string>();
         const tipoPatMap = new Map<string, string>();
         const statusPatMap = new Map<string, string>();
         const userMap = new Map<string, string>();
@@ -963,7 +974,7 @@ async function importByCentro(data: BackupData, centroId: string): Promise<Impor
         const funcionarioMap = new Map<string, string>();
         const userSourceIndex = buildSourceIndex(data.tbUser, "id", ["emailUser", "idUser", "nomeUser"]);
         const statusFunSourceIndex = buildSourceIndex(data.tbStatusFun, "idStatusFun", ["descricaoStatusFun"]);
-        const funcaoSourceIndex = buildSourceIndex(data.tbFuncao, "idFuncao", ["nomeFuncao"]);
+        const funçãoSourceIndex = buildSourceIndex(data.tbFuncao, "idFuncao", ["nomeFuncao"]);
         const tipoPatSourceIndex = buildSourceIndex(data.tbTipoPat, "idTipPat", ["descricaoTipPat"]);
         const statusPatSourceIndex = buildSourceIndex(data.tbStatusPat, "idStatusPat", ["descricaoStatPat"]);
         const licencaSourceIndex = buildSourceIndex(data.tbLicenca, "idLic", ["descricaoLic"]);
@@ -998,13 +1009,13 @@ async function importByCentro(data: BackupData, centroId: string): Promise<Impor
                 where: { nomeFuncao: row.nomeFuncao }
             });
             if (existing) {
-                if (row.idFuncao) funcaoMap.set(row.idFuncao, existing.idFuncao);
+                if (row.idFuncao) funçãoMap.set(row.idFuncao, existing.idFuncao);
                 continue;
             }
             const created = await tx.tbFuncao.create({
                 data: { idFuncao: randomUUID(), nomeFuncao: row.nomeFuncao }
             });
-            if (row.idFuncao) funcaoMap.set(row.idFuncao, created.idFuncao);
+            if (row.idFuncao) funçãoMap.set(row.idFuncao, created.idFuncao);
         }
 
         for (const row of data.tbTipoPat) {
@@ -1186,7 +1197,7 @@ async function importByCentro(data: BackupData, centroId: string): Promise<Impor
                     dataAdmFun: toDateOrNull(row.dataAdmFun),
                     dataDesFun: toDateOrNull(row.dataDesFun),
                     avatarFun: row.avatarFun ?? null,
-                    idFuncaoFun: mapResolvedId(funcaoMap, row, "idFuncaoFun", funcaoSourceIndex, ["idFuncaoFun_descricao"]),
+                    idFuncaoFun: mapResolvedId(funçãoMap, row, "idFuncaoFun", funçãoSourceIndex, ["idFuncaoFun_descricao"]),
                     idUserFun: mapResolvedId(userMap, row, "idUserFun", userSourceIndex, ["idUserFun_descricao"]),
                     idStatusFun: mapResolvedId(statusFunMap, row, "idStatusFun", statusFunSourceIndex, ["idStatusFun_descricao"]),
                     idCustoFun: centroId
@@ -1358,7 +1369,7 @@ async function importByCentroMerge(data: BackupData, centroId: string): Promise<
 
     await prisma.$transaction(async (tx: any) => {
         const statusFunMap = new Map<string, string>();
-        const funcaoMap = new Map<string, string>();
+        const funçãoMap = new Map<string, string>();
         const tipoPatMap = new Map<string, string>();
         const statusPatMap = new Map<string, string>();
         const userMap = new Map<string, string>();
@@ -1366,7 +1377,7 @@ async function importByCentroMerge(data: BackupData, centroId: string): Promise<
         const funcionarioMap = new Map<string, string>();
         const userSourceIndex = buildSourceIndex(data.tbUser, "id", ["emailUser", "idUser", "nomeUser"]);
         const statusFunSourceIndex = buildSourceIndex(data.tbStatusFun, "idStatusFun", ["descricaoStatusFun"]);
-        const funcaoSourceIndex = buildSourceIndex(data.tbFuncao, "idFuncao", ["nomeFuncao"]);
+        const funçãoSourceIndex = buildSourceIndex(data.tbFuncao, "idFuncao", ["nomeFuncao"]);
         const tipoPatSourceIndex = buildSourceIndex(data.tbTipoPat, "idTipPat", ["descricaoTipPat"]);
         const statusPatSourceIndex = buildSourceIndex(data.tbStatusPat, "idStatusPat", ["descricaoStatPat"]);
         const licencaSourceIndex = buildSourceIndex(data.tbLicenca, "idLic", ["descricaoLic"]);
@@ -1399,14 +1410,14 @@ async function importByCentroMerge(data: BackupData, centroId: string): Promise<
             }
             const existing = await tx.tbFuncao.findFirst({ where: { nomeFuncao: row.nomeFuncao } });
             if (existing) {
-                if (row.idFuncao) funcaoMap.set(row.idFuncao, existing.idFuncao);
+                if (row.idFuncao) funçãoMap.set(row.idFuncao, existing.idFuncao);
                 detailed.tbFuncao.updated += 1;
                 continue;
             }
             const created = await tx.tbFuncao.create({
                 data: { idFuncao: randomUUID(), nomeFuncao: row.nomeFuncao }
             });
-            if (row.idFuncao) funcaoMap.set(row.idFuncao, created.idFuncao);
+            if (row.idFuncao) funçãoMap.set(row.idFuncao, created.idFuncao);
             detailed.tbFuncao.created += 1;
         }
 
@@ -1541,7 +1552,7 @@ async function importByCentroMerge(data: BackupData, centroId: string): Promise<
                 dataAdmFun: toDateOrNull(row.dataAdmFun),
                 dataDesFun: toDateOrNull(row.dataDesFun),
                 avatarFun: row.avatarFun ?? null,
-                idFuncaoFun: mapResolvedId(funcaoMap, row, "idFuncaoFun", funcaoSourceIndex, ["idFuncaoFun_descricao"]),
+                idFuncaoFun: mapResolvedId(funçãoMap, row, "idFuncaoFun", funçãoSourceIndex, ["idFuncaoFun_descricao"]),
                 idUserFun: mapResolvedId(userMap, row, "idUserFun", userSourceIndex, ["idUserFun_descricao"]),
                 idStatusFun: mapResolvedId(statusFunMap, row, "idStatusFun", statusFunSourceIndex, ["idStatusFun_descricao"]),
                 idCustoFun: centroId
@@ -1697,7 +1708,7 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        if (!hasImportExportAccess(sessionUser)) {
+        if (!hasExportAccess(sessionUser)) {
             return NextResponse.json(
                 { message: "Usuario sem permissao para exportar dados." },
                 { status: 403 }
@@ -1737,7 +1748,7 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        if (!hasImportExportAccess(sessionUser)) {
+        if (!hasImportAccess(sessionUser)) {
             return NextResponse.json(
                 { message: "Usuario sem permissao para importar dados." },
                 { status: 403 }
@@ -1813,3 +1824,5 @@ export async function POST(request: NextRequest) {
         );
     }
 }
+
+

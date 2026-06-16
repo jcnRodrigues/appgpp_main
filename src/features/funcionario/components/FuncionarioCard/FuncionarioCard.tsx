@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
+﻿/* eslint-disable @next/next/no-img-element */
 "use server"
 import { FuncionarioGP } from "@/features/funcionario/server/models/FuncionarioGP.model";
 import { getFuncionarioFuncaoById, getFuncionarioStatusById } from "@/features/funcionario/server/funcionario.service";
@@ -53,3 +53,5 @@ export default async function FuncionarioCard({ idMatFun, nomeFun, cpfFun, avata
         </div>
     );
 }
+
+

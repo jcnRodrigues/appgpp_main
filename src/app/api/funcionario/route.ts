@@ -1,17 +1,17 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { criarFuncionario, listarFuncionarios, contarFuncionarios, listarFuncionariosTransferenciaCusto } from '@/features/funcionario/server/funcionario.service';
 import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 import { parseDateInput, parseOptionalDateInput } from '@/lib/date-input';
 
 export async function GET(request: NextRequest) {
     const canAccess = await hasModuleAccessForRequest(request, 'FUNCIONARIOS');
-    if (!canAccess) return NextResponse.json({ message: 'Sem permissao para acessar funcionarios' }, { status: 403 });
+    if (!canAccess) return NextResponse.json({ message: 'Sem permissão para acessar funcionários' }, { status: 403 });
     try {
         const { searchParams } = new URL(request.url);
         const nome = searchParams.get('nome');
         const matricula = searchParams.get('matricula');
         const status = searchParams.get('status');
-        const funcao = searchParams.get('funcao');
+        const função = searchParams.get('função');
         const modo = searchParams.get('modo');
         const skip = parseInt(searchParams.get('skip') || '0');
         const take = parseInt(searchParams.get('take') || '100');
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
             nome: nome || undefined,
             matricula: matricula || undefined,
             status: status || undefined,
-            funcao: funcao || undefined,
+            função: função || undefined,
             centros: filtroCentros,
             skip,
             take
@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
             nome: nome || undefined,
             matricula: matricula || undefined,
             status: status || undefined,
-            funcao: funcao || undefined,
+            função: função || undefined,
             centros: filtroCentros
         });
 
@@ -52,9 +52,9 @@ export async function GET(request: NextRequest) {
             total
         });
     } catch (error) {
-        console.error('Erro ao listar funcionarios:', error);
+        console.error('Erro ao listar funcionários:', error);
         return NextResponse.json(
-            { message: 'Erro ao listar funcionarios' },
+            { message: 'Erro ao listar funcionários' },
             { status: 500 }
         );
     }
@@ -63,13 +63,13 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     const canAccess = await hasModuleAccessForRequest(request, 'FUNCIONARIOS');
     const canCreate = await hasActionPermissionForRequest(request, 'CREATE');
-    if (!canAccess || !canCreate) return NextResponse.json({ message: 'Sem permissao para criar funcionario' }, { status: 403 });
+    if (!canAccess || !canCreate) return NextResponse.json({ message: 'Sem permissão para criar funcionário' }, { status: 403 });
     try {
         const dados = await request.json();
 
         if (!dados.idMatFun || !dados.nomeFun) {
             return NextResponse.json(
-                { message: 'Campos obrigatorios faltando (idMatFun, nomeFun)' },
+                { message: 'Campos obrigat?rios faltando (idMatFun, nomeFun)' },
                 { status: 400 }
             );
         }
@@ -97,18 +97,19 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json(funcionario, { status: 201 });
     } catch (error: any) {
-        console.error('Erro ao criar funcionario:', error);
+        console.error('Erro ao criar funcionário:', error);
         if (error.code === 'P2002') {
             return NextResponse.json(
-                { message: 'Matricula ja existe' },
+                { message: 'Matrícula já existe' },
                 { status: 400 }
             );
         }
         return NextResponse.json(
-            { message: error.message || 'Erro ao criar funcionario' },
+            { message: error.message || 'Erro ao criar funcionário' },
             { status: 500 }
         );
     }
 }
+
 
 

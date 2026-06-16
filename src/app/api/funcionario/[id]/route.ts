@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { getFuncionarioByIdInterno, atualizarFuncionario } from '@/features/funcionario/server/funcionario.service';
 import prisma from '../../../../../prisma/prisma';
 import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
@@ -11,18 +11,18 @@ export async function GET(
     try {
         const canAccess = await hasModuleAccessForRequest(request, 'FUNCIONARIOS');
         if (!canAccess) {
-            return NextResponse.json({ message: 'Sem permissao para acessar funcionarios' }, { status: 403 });
+            return NextResponse.json({ message: 'Sem permissão para acessar funcionários' }, { status: 403 });
         }
         const canUpdate = await hasActionPermissionForRequest(request, 'UPDATE');
         if (!canUpdate) {
-            return NextResponse.json({ message: 'Sem permissao para alterar funcionario' }, { status: 403 });
+            return NextResponse.json({ message: 'Sem permissão para alterar funcionário' }, { status: 403 });
         }
         const { id } = await params;
         const funcionario = await getFuncionarioByIdInterno(id);
 
         if (!funcionario) {
             return NextResponse.json(
-                { message: 'Funcionario nao encontrado' },
+                { message: 'Funcion?rio não encontrado' },
                 { status: 404 }
             );
         }
@@ -32,7 +32,7 @@ export async function GET(
             const centroId = funcionario.idCustoFun || '';
             if (!centros.includes(centroId)) {
                 return NextResponse.json(
-                    { message: 'Funcionario nao encontrado' },
+                    { message: 'Funcion?rio não encontrado' },
                     { status: 404 }
                 );
             }
@@ -40,9 +40,9 @@ export async function GET(
 
         return NextResponse.json(funcionario);
     } catch (error) {
-        console.error('Erro ao obter funcionario:', error);
+        console.error('Erro ao obter funcionário:', error);
         return NextResponse.json(
-            { message: 'Erro ao obter funcionario' },
+            { message: 'Erro ao obter funcionário' },
             { status: 500 }
         );
     }
@@ -55,7 +55,7 @@ export async function PUT(
     try {
         const canAccess = await hasModuleAccessForRequest(request, 'FUNCIONARIOS');
         if (!canAccess) {
-            return NextResponse.json({ message: 'Sem permissao para acessar funcionarios' }, { status: 403 });
+            return NextResponse.json({ message: 'Sem permissão para acessar funcionários' }, { status: 403 });
         }
         const { id } = await params;
         const dados = await request.json();
@@ -86,9 +86,9 @@ export async function PUT(
 
         return NextResponse.json(funcionario);
     } catch (error: unknown) {
-        console.error('Erro ao atualizar funcionario:', error);
+        console.error('Erro ao atualizar funcionário:', error);
         return NextResponse.json(
-            { message: error instanceof Error ? error.message : 'Erro ao atualizar funcionario' },
+            { message: error instanceof Error ? error.message : 'Erro ao atualizar funcionário' },
             { status: 500 }
         );
     }
@@ -101,18 +101,18 @@ export async function DELETE(
     try {
         const canAccess = await hasModuleAccessForRequest(request, 'FUNCIONARIOS');
         if (!canAccess) {
-            return NextResponse.json({ message: 'Sem permissao para acessar funcionarios' }, { status: 403 });
+            return NextResponse.json({ message: 'Sem permissão para acessar funcionários' }, { status: 403 });
         }
         const canDelete = await hasActionPermissionForRequest(request, 'DELETE');
         if (!canDelete) {
-            return NextResponse.json({ message: 'Sem permissão para deletar' }, { status: 403 });
+            return NextResponse.json({ message: 'Sem permissÃ£o para deletar' }, { status: 403 });
         }
         const { id } = await params;
 
         const funcionario = await getFuncionarioByIdInterno(id);
         if (!funcionario) {
             return NextResponse.json(
-                { message: 'Funcionario nao encontrado' },
+                { message: 'Funcion?rio não encontrado' },
                 { status: 404 }
             );
         }
@@ -123,12 +123,13 @@ export async function DELETE(
 
         return NextResponse.json({ message: 'Funcionario deletado com sucesso' });
     } catch (error: unknown) {
-        console.error('Erro ao deletar funcionario:', error);
+        console.error('Erro ao deletar funcionário:', error);
         return NextResponse.json(
-            { message: error instanceof Error ? error.message : 'Erro ao deletar funcionario' },
+            { message: error instanceof Error ? error.message : 'Erro ao deletar funcionário' },
             { status: 500 }
         );
     }
 }
+
 
 

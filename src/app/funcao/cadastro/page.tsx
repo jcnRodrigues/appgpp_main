@@ -1,4 +1,4 @@
-import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
+﻿import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
 import FuncaoForm from '@/features/funcao/components/FuncaoForm/FuncaoForm';
 import Header from '@/components/Header/Header';
 import { getServerSession } from 'next-auth';
@@ -23,3 +23,5 @@ export default async function CadastroFuncaoPage() {
         </>
     );
 }
+
+

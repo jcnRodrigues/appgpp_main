@@ -11,7 +11,7 @@ import { hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/
 
 export async function GET(request: NextRequest) {
   const canAccess = await hasModuleAccessForRequest(request, 'UNIFI_CONFIG');
-  if (!canAccess) return NextResponse.json({ error: 'Sem permissao para acessar configuracoes' }, { status: 403 });
+  if (!canAccess) return NextResponse.json({ error: 'Sem permissão para acessar configurações' }, { status: 403 });
 
   const searchParams = request.nextUrl.searchParams;
   const all = searchParams.get('all');
@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const canAccess = await hasModuleAccessForRequest(request, 'UNIFI_CONFIG');
   const canCreate = await hasActionPermissionForRequest(request, 'CREATE');
-  if (!canAccess || !canCreate) return NextResponse.json({ error: 'Sem permissao para salvar configuracao' }, { status: 403 });
+  if (!canAccess || !canCreate) return NextResponse.json({ error: 'Sem permissão para salvar configuração' }, { status: 403 });
 
   try {
     const body = await request.json();
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const canAccess = await hasModuleAccessForRequest(request, 'UNIFI_CONFIG');
   const canDelete = await hasActionPermissionForRequest(request, 'DELETE');
-  if (!canAccess || !canDelete) return NextResponse.json({ error: 'Sem permissao para deletar' }, { status: 403 });
+  if (!canAccess || !canDelete) return NextResponse.json({ error: 'Sem permissão para deletar' }, { status: 403 });
 
   const searchParams = request.nextUrl.searchParams;
   const id = searchParams.get('id');
@@ -113,7 +113,7 @@ export async function DELETE(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   const canAccess = await hasModuleAccessForRequest(request, 'UNIFI_CONFIG');
   const canUpdate = await hasActionPermissionForRequest(request, 'UPDATE');
-  if (!canAccess || !canUpdate) return NextResponse.json({ error: 'Sem permissao para ativar configuracao' }, { status: 403 });
+  if (!canAccess || !canUpdate) return NextResponse.json({ error: 'Sem permissão para ativar configuração' }, { status: 403 });
 
   try {
     const body = await request.json();

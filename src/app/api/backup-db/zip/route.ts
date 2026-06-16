@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "../../auth/[...nextauth]/route";
-import { hasModuleAccess } from "@/lib/permissions";
+import { hasModuleAccess, hasModuleActionPermission } from "@/lib/permissions";
 import path from "node:path";
 import fs from "node:fs/promises";
 
@@ -16,10 +16,13 @@ export async function POST(request: NextRequest) {
     const forms = sessionUser?.formularios || [];
 
     if (!session?.user) {
-      return NextResponse.json({ message: "Usuario nao autenticado." }, { status: 401 });
+      return NextResponse.json({ message: "Usuário não autenticado." }, { status: 401 });
     }
-    if (!hasModuleAccess(forms, "IMPORTACAO_EXPORTACAO") && !hasModuleAccess(forms, "ACESSO_USUARIOS")) {
-      return NextResponse.json({ message: "Usuario sem permissao para compactar backup." }, { status: 403 });
+    if (
+      (!hasModuleAccess(forms, "IMPORTACAO_EXPORTACAO") || !hasModuleActionPermission(forms, "IMPORTACAO_EXPORTACAO", "EXPORT")) &&
+      !hasModuleAccess(forms, "ACESSO_USUARIOS")
+    ) {
+      return NextResponse.json({ message: "Usuário sem permissão para compactar backup." }, { status: 403 });
     }
 
     const body = await request.json().catch(() => ({}));
@@ -51,3 +54,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: error?.message || "Erro ao compactar backup." }, { status: 500 });
   }
 }
+

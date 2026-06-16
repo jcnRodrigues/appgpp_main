@@ -1,4 +1,4 @@
-import FuncaoForm from '@/features/funcao/components/FuncaoForm/FuncaoForm';
+﻿import FuncaoForm from '@/features/funcao/components/FuncaoForm/FuncaoForm';
 import { getServerSession } from 'next-auth';
 import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
@@ -27,3 +27,5 @@ export default async function EditarFuncaoPage({ params }: { params: Promise<{ i
         </>
     );
 }
+
+

@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import prisma from '../../../../prisma/prisma';
 import { deletarAlocacao } from '@/features/alocacoes/server/cadastro.service';
@@ -13,7 +13,7 @@ type DeleteResource =
     | 'patrimonio'
     | 'cadastro'
     | 'ccusto'
-    | 'funcao'
+    | 'função'
     | 'licenca'
     | 'usuario_acesso'
     | 'unifi_config';
@@ -75,38 +75,38 @@ function verifySenha(senha: string, hash: string) {
 async function executeDelete(resource: DeleteResource, id?: string) {
     switch (resource) {
         case 'funcionario':
-            if (!id) throw new Error('ID obrigatorio para funcionario');
+            if (!id) throw new Error('ID obrigatório para funcionário');
             await prisma.tbFuncionario.delete({ where: { idF: id } });
             return;
         case 'patrimonio':
-            if (!id) throw new Error('ID obrigatorio para patrimonio');
+            if (!id) throw new Error('ID obrigatório para patrimônio');
             await prisma.tbPatrimonio.delete({ where: { idP: id } });
             return;
         case 'cadastro':
-            if (!id) throw new Error('ID obrigatorio para alocacao');
+            if (!id) throw new Error('ID obrigatório para alocação');
             await deletarAlocacao(id);
             return;
         case 'ccusto':
-            if (!id) throw new Error('ID obrigatorio para centro de custo');
+            if (!id) throw new Error('ID obrigatório para centro de custo');
             await deletarCentroCusto(id);
             return;
-        case 'funcao':
-            if (!id) throw new Error('ID obrigatorio para funcao');
+        case 'função':
+            if (!id) throw new Error('ID obrigatório para função');
             await deletarFuncao(id);
             return;
         case 'licenca':
-            if (!id) throw new Error('ID obrigatorio para licenca');
+            if (!id) throw new Error('ID obrigatório para licença');
             await deletarLicenca(id);
             return;
         case 'usuario_acesso':
-            if (!id) throw new Error('ID obrigatorio para usuario de acesso');
+            if (!id) throw new Error('ID obrigatório para usuário de acesso');
             await prisma.tbUser.delete({ where: { id } });
             return;
         case 'unifi_config':
             await deleteUnifiConfig();
             return;
         default:
-            throw new Error('Recurso de exclusao invalido');
+            throw new Error('Recurso de exclusão invalido');
     }
 }
 
@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
         const senha = String(body?.senha || '');
 
         if (!resource || !email || !senha) {
-            return NextResponse.json({ message: 'Dados obrigatorios faltando' }, { status: 400 });
+            return NextResponse.json({ message: 'Dados obrigat?rios faltando' }, { status: 400 });
         }
 
         const key = getClientKey(request, email);
@@ -146,13 +146,13 @@ export async function POST(request: NextRequest) {
 
         if (!autorizador?.senhaUser) {
             registerFailedAttempt(key);
-            return NextResponse.json({ message: 'Usuario autorizador invalido' }, { status: 401 });
+            return NextResponse.json({ message: 'Usuário autorizador invalido' }, { status: 401 });
         }
 
         const formularios = Array.isArray(autorizador.formulariosUser) ? autorizador.formulariosUser : [];
         if (!formularios.includes('DELETE_ANY')) {
             registerFailedAttempt(key);
-            return NextResponse.json({ message: 'Usuario sem permissao de exclusao' }, { status: 403 });
+            return NextResponse.json({ message: 'Usuário sem permissão de exclusão' }, { status: 403 });
         }
 
         if (!verifySenha(senha, autorizador.senhaUser)) {
@@ -164,7 +164,10 @@ export async function POST(request: NextRequest) {
         await executeDelete(resource, id);
         return NextResponse.json({ message: 'Registro deletado com sucesso' });
     } catch (error: any) {
-        console.error('Erro ao executar exclusao autorizada:', error);
+        console.error('Erro ao executar exclusão autorizada:', error);
         return NextResponse.json({ message: error?.message || 'Erro ao deletar registro' }, { status: 500 });
     }
 }
+
+
+

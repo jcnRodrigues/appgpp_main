@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { atualizarAtivoRede, getAtivoRedeById } from '@/features/ativos-rede/server/ativo-rede.service';
 import { hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 import { parseDateInput, parseOptionalDateInput } from '@/lib/date-input';
@@ -6,13 +6,13 @@ import prisma from '../../../../../prisma/prisma';
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const canAccess = await hasModuleAccessForRequest(request, 'ATIVOS_REDE');
-    if (!canAccess) return NextResponse.json({ message: 'Sem permissao para acessar ativo de rede' }, { status: 403 });
+    if (!canAccess) return NextResponse.json({ message: 'Sem permissão para acessar ativo de rede' }, { status: 403 });
 
     const { id } = await params;
     try {
         const ativo = await getAtivoRedeById(id);
         if (!ativo) {
-            return NextResponse.json({ message: 'Ativo de rede nao encontrado' }, { status: 404 });
+            return NextResponse.json({ message: 'Ativo de rede não encontrado' }, { status: 404 });
         }
         return NextResponse.json(ativo);
     } catch (error) {
@@ -24,7 +24,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const canAccess = await hasModuleAccessForRequest(request, 'ATIVOS_REDE');
     const canUpdate = await hasActionPermissionForRequest(request, 'UPDATE');
-    if (!canAccess || !canUpdate) return NextResponse.json({ message: 'Sem permissao para alterar ativo de rede' }, { status: 403 });
+    if (!canAccess || !canUpdate) return NextResponse.json({ message: 'Sem permissão para alterar ativo de rede' }, { status: 403 });
 
     const { id } = await params;
 
@@ -64,7 +64,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const canAccess = await hasModuleAccessForRequest(request, 'ATIVOS_REDE');
     const canDelete = await hasActionPermissionForRequest(request, 'DELETE');
-    if (!canAccess || !canDelete) return NextResponse.json({ message: 'Sem permissao para excluir ativo de rede' }, { status: 403 });
+    if (!canAccess || !canDelete) return NextResponse.json({ message: 'Sem permissão para excluir ativo de rede' }, { status: 403 });
 
     const { id } = await params;
 
@@ -78,3 +78,4 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
         return NextResponse.json({ message: 'Erro ao excluir ativo de rede' }, { status: 500 });
     }
 }
+
