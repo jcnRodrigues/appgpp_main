@@ -1,5 +1,3 @@
-import fs from 'node:fs';
-import path from 'node:path';
 import type { DadosTermoResponsabilidade } from './termoResponsabilidadePdf';
 
 
@@ -18,25 +16,6 @@ function formatarCpf(cpf: string | null): string {
         return `${n.slice(0, 3)}.${n.slice(3, 6)}.${n.slice(6, 9)}-${n.slice(9)}`;
     }
     return cpf;
-}
-
-function getParexLogoDataUri(): string | null {
-    const logoCandidates = [
-        path.join(process.cwd(), 'public', 'iconPX.png'),
-        path.join(process.cwd(), 'public', 'Imagens', 'parex.png'),
-        path.join(process.cwd(), 'public', 'Imagens', 'parex_logo.png')
-    ];
-
-    for (const logoPath of logoCandidates) {
-        if (fs.existsSync(logoPath)) {
-            const ext = path.extname(logoPath).toLowerCase();
-            const mime = ext === '.jpg' || ext === '.jpeg' ? 'image/jpeg' : 'image/png';
-            const base64 = fs.readFileSync(logoPath).toString('base64');
-            return `data:${mime};base64,${base64}`;
-        }
-    }
-
-    return null;
 }
 
 /** Exportado para uso em renderPdf (gera HTML sem React). */
@@ -75,10 +54,7 @@ export function buildHtml(dados: DadosTermoResponsabilidade): string {
         textoProgramas += ' e OBS se necessario incluir outros programas instalados que nao estao na lista.';
     }
 
-    const logoDataUri = getParexLogoDataUri();
-    const logoHtml = logoDataUri
-        ? `<img src="${logoDataUri}" alt="Logo Parex" class="logo-img" />`
-        : `<div class="logo-fallback"><div class="logo">PAREX</div><div class="sub">ENGENHARIA</div></div>`;
+    const logoHtml = `<div class="logo-fallback"><div class="logo">PAREX</div><div class="sub">ENGENHARIA</div></div>`;
 
     return `<!DOCTYPE html>
 <html lang="pt-BR">

@@ -10,7 +10,7 @@ if (Test-Path $stageDir) { Remove-Item -LiteralPath $stageDir -Recurse -Force }
 New-Item -ItemType Directory -Path $stageDir -Force | Out-Null
 New-Item -ItemType Directory -Path $distDir -Force | Out-Null
 
-$excludeDirs = @(".git", "node_modules", ".next", ".netlify", ".vscode", "dist", "installer")
+$excludeDirs = @(".git", "node_modules", ".next", ".vscode", "dist", "installer")
 $excludeFiles = @("*.log", "npm-debug.log*", "*.tmp*", "tsconfig.tsbuildinfo")
 
 $robocopyArgs = @(

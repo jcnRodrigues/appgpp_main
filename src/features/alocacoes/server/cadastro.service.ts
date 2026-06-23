@@ -130,6 +130,24 @@ function buildAlocacaoWhere(filtro?: {
     };
 }
 
+function getComparacaoCustos(alocacao: {
+    tbFuncionario?: { tbCCusto?: { idCCusto?: string | null } | null } | null;
+    tbPatrimonio?: { tbCCusto?: { idCCusto?: string | null } | null } | null;
+}) {
+    const custoFuncionario = alocacao.tbFuncionario?.tbCCusto?.idCCusto;
+    const custoPatrimonio = alocacao.tbPatrimonio?.tbCCusto?.idCCusto;
+    if (!custoFuncionario || !custoPatrimonio) return 'SEM_CUSTO' as const;
+    return custoFuncionario === custoPatrimonio ? 'IGUAL' as const : 'DIFERENTE' as const;
+}
+
+function aplicarFiltroComparacao<T extends {
+    tbFuncionario?: { tbCCusto?: { idCCusto?: string | null } | null } | null;
+    tbPatrimonio?: { tbCCusto?: { idCCusto?: string | null } | null } | null;
+}>(items: T[], comparacao?: 'IGUAL' | 'DIFERENTE') {
+    if (!comparacao) return items;
+    return items.filter((item) => getComparacaoCustos(item) === comparacao);
+}
+
 // Buscar todas as alocações de patrimônio
 export async function listarAlocacoes(filtro?: {
     idMatFun?: string;
@@ -139,6 +157,7 @@ export async function listarAlocacoes(filtro?: {
     centroBusca?: string;
     statusIds?: string[];
     centros?: string[];
+    comparacao?: 'IGUAL' | 'DIFERENTE';
     skip?: number;
     take?: number;
 }) {
@@ -153,7 +172,7 @@ export async function listarAlocacoes(filtro?: {
         };
     }
 
-    return await prisma.tbCadastro.findMany({
+    const registros = await prisma.tbCadastro.findMany({
         where,
         include: {
             tbDevolucao: {
@@ -183,12 +202,15 @@ export async function listarAlocacoes(filtro?: {
                 }
             }
         },
-        skip: filtro?.skip || 0,
-        take: filtro?.take || 100,
         orderBy: {
             dataCadPat: 'desc'
         }
     });
+
+    const filtrados = aplicarFiltroComparacao(registros as any[], filtro?.comparacao);
+    const skip = filtro?.skip || 0;
+    const take = filtro?.take || 100;
+    return filtrados.slice(skip, skip + take);
 }
 
 export async function contarAlocacoes(filtro?: {
@@ -199,6 +221,7 @@ export async function contarAlocacoes(filtro?: {
     centroBusca?: string;
     statusIds?: string[];
     centros?: string[];
+    comparacao?: 'IGUAL' | 'DIFERENTE';
 }) {
     const where = buildAlocacaoWhere(filtro) as any;
     if (!filtro?.statusIds || filtro.statusIds.length === 0) {
@@ -211,9 +234,26 @@ export async function contarAlocacoes(filtro?: {
         };
     }
 
-    return await prisma.tbCadastro.count({
-        where
+    const registros = await prisma.tbCadastro.findMany({
+        where,
+        include: {
+            tbFuncionario: {
+                include: {
+                    tbCCusto: true
+                }
+            },
+            tbPatrimonio: {
+                include: {
+                    tbCCusto: true
+                }
+            }
+        },
+        orderBy: {
+            dataCadPat: 'desc'
+        }
     });
+
+    return aplicarFiltroComparacao(registros as any[], filtro?.comparacao).length;
 }
 
 // Buscar uma alocação específica

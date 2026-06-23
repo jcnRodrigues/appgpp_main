@@ -20,6 +20,7 @@
 - Dashboard (`/`): `DASHBOARD`.
 - Funcionarios (`/funcionariosadd`): `FUNCIONARIOS`; botao novo com `PERM_CREATE`.
 - Patrimonio (`/patrimoniolist`): `PATRIMONIO`; novo com `PERM_CREATE`; lista PDF com `PERM_PRINT`.
+- Inventario de patrimonio (`/patrimoniolist/inventario`): `PATRIMONIO` sem acao extra dedicada.
 - Lista PDF patrimonio (`/patrimoniolist/lista-pdf`): `PATRIMONIO` + `PERM_PRINT`.
 - Centros de custo (`/ccustos`): `CENTRO_CUSTO`; novo com `PERM_CREATE`.
 - Medicao (`/ccusto/medicao`): `MEDICAO_CCUSTO`.
@@ -28,10 +29,22 @@
 - Alocacoes (`/alocacoes`): `ALOCACOES`; nova com `PERM_CREATE`.
 - Acesso de usuarios (`/acesso-usuarios`): `ACESSO_USUARIOS`; novo com `PERM_CREATE`.
 - Unifi config (`/unifi-config`): `UNIFI_CONFIG`.
+- Agente de Inventario (`/monitor-patrimonios/agente`): `UNIFI_CONFIG`.
 - Sistema de dados (`/sistema-dados`): `IMPORTACAO_EXPORTACAO` (ou `ACESSO_USUARIOS`, regra de governanca atual).
+
+## 3.1) Agente de inventario: modos de consulta
+- `Hibrido`: consulta rede/VPN e inventario do host ao mesmo tempo.
+- `Rede/VPN`: consulta somente a infraestrutura interna.
+- `Internet`: consulta somente o inventario recebido pelo agente.
+- O token do agente é validado por `HOST_INVENTORY_AGENT_TOKEN`.
+- O script de instalacao e gerado pela tela do agente e pode sair com o token embutido.
+- A instalacao como servico Windows usa `NSSM` e cria o servico `AppGPP Host Inventory Agent`.
+- Sem `NSSM`, a instalacao continua disponivel como tarefa agendada para compatibilidade.
+- A remocao do servico fica disponivel pelo parametro `-UninstallService`.
 
 ## 4) Mapa rapido: Endpoint x Modulo x Acoes
 - Patrimonio: CRUD + transferencias protegidos por `PATRIMONIO` e `PERM_CREATE/UPDATE/DELETE`.
+- Inventario de patrimonio: tela operacional protegida por `PATRIMONIO`.
 - Funcionarios: CRUD protegido por `FUNCIONARIOS` e `PERM_CREATE/UPDATE/DELETE`.
 - Centro de custo: CRUD protegido por `CENTRO_CUSTO` e `PERM_CREATE/UPDATE/DELETE`.
 - Funcoes: CRUD protegido por `FUNCOES` e `PERM_CREATE/UPDATE/DELETE`.
@@ -40,6 +53,7 @@
 - Medicao/BM: protegido por `MEDICAO_CCUSTO` e `PERM_CREATE/UPDATE`.
 - Usuarios de acesso: protegido por `ACESSO_USUARIOS` e `PERM_CREATE/UPDATE/DELETE`.
 - Unifi/monitor/proxy: protegido por `UNIFI_CONFIG` (+ acoes em config).
+- Agente de inventario: protegido por `UNIFI_CONFIG`, com cruzamento complementar da base de ativos e seletor de modo de consulta.
 - Sistema dados import/export: protegido por `IMPORTACAO_EXPORTACAO`.
 
 ## 5) Arquivos de referencia

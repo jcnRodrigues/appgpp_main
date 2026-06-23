@@ -36,6 +36,7 @@
 - Acoes de UI:
 - `CREATE`: exibe botao `Novo Patrimonio`.
 - `PRINT`: exibe acesso `Lista PDF`.
+- acesso ao `Inventário` da lista sem acao extra, mantendo o bloqueio pelo modulo `PATRIMONIO`.
 - Status: protegido com redirect para `/acesso-negado`.
 
 - `src/app/patrimonio/cadastro/page.tsx`
@@ -48,6 +49,12 @@
 - Modulo: `PATRIMONIO`
 - Acoes de UI:
 - `UPDATE`: obrigatorio para abrir a tela.
+- Status: protegido com redirect para `/acesso-negado`.
+
+- `src/app/patrimoniolist/inventario/page.tsx`
+- Modulo: `PATRIMONIO`
+- Acoes de UI:
+- sem acao extra dedicada; a tela usa apenas o modulo base.
 - Status: protegido com redirect para `/acesso-negado`.
 
 ## Lista PDF de Patrimonios
@@ -177,6 +184,14 @@
 - Modulo: `UNIFI_CONFIG`
 - Acoes de UI:
 - consultas de monitor dependem de permissao de modulo nas APIs.
+- Status: protegido com redirect para `/acesso-negado`.
+
+## Agente de Inventario
+- `src/app/monitor-patrimonios/agente/page.tsx`
+- Modulo: `UNIFI_CONFIG`
+- Acoes de UI:
+- consulta de inventario cruza rede, VPN ou internet conforme o modo selecionado.
+- o modo selecionado fica visivel na tela e afeta a consulta executada.
 - Status: protegido com redirect para `/acesso-negado`.
 
 ## Sistema de Dados (Importacao/Exportacao)

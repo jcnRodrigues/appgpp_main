@@ -1,4 +1,4 @@
-import Header from '@/components/Header/Header';
+﻿import Header from '@/components/Header/Header';
 import PageHeader from '@/components/PageHeader/PageHeader';
 import TransferenciaCustoPatrimonioTable from '@/features/patrimonio/components/PatrimonioTable/TransferenciaCustoPatrimonioTable';
 import { getServerSession } from 'next-auth';
@@ -35,3 +35,4 @@ export default async function TransferenciaCustoPatrimonioPage() {
     </div>
   );
 }
+

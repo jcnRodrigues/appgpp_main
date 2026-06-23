@@ -57,7 +57,7 @@ export default async function RelatorioAtivosRedePorCentroPage({
         ? [centroSelecionado.codigoCCusto, centroSelecionado.descricaoCCusto].filter(Boolean).join(' - ')
         : 'Nenhum centro selecionado';
 
-    const itensRelatorio: AtivoRedeRelatorioItem[] = ativos.map((item) => ({
+    const itensRelatorio: AtivoRedeRelatorioItem[] = ativos.map((item: any) => ({
         codigoAtivoRede: item.codigoAtivoRede,
         nomeAtivoRede: item.nomeAtivoRede,
         tipoAtivoRede: item.tipoAtivoRede,

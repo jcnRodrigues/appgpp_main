@@ -19,12 +19,12 @@ export async function GET(request: NextRequest) {
   if (all === 'true') {
     try {
       const configs = await getAllUnifiConfigs();
-      const safeConfigs = configs.map((config: any) => ({
-        id: config.id,
-        type: config.type,
-        apiKey: config.apiKey ? `${config.apiKey.substring(0, 8)}...${config.apiKey.substring(config.apiKey.length - 4)}` : null,
-        isActive: config.isActive,
-        createdAt: config.createdAt,
+    const safeConfigs = configs.map((config: any) => ({
+      id: config.id,
+      type: config.type,
+      apiKey: config.apiKey ? `${config.apiKey.substring(0, 8)}...${config.apiKey.substring(config.apiKey.length - 4)}` : null,
+      isActive: config.isActive,
+      createdAt: config.createdAt,
         updatedAt: config.updatedAt,
       }));
       return NextResponse.json({ configs: safeConfigs });

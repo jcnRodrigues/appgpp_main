@@ -344,22 +344,22 @@ async function buildExportData(centroId?: string | null): Promise<BackupData> {
         where: { idPat_CustoPat: centroId }
     });
 
-    const funcionarioIds = new Set(tbFuncionario.map((f) => f.idF));
-    const matriculas = new Set(tbFuncionario.map((f) => f.idMatFun));
-    const patrimonioIds = new Set(tbPatrimonio.map((p) => p.idPat));
-    const userIds = new Set(onlyStrings(tbFuncionario.map((f) => f.idUserFun)));
-    const statusFunIds = new Set(onlyStrings(tbFuncionario.map((f) => f.idStatusFun)));
-    const funcaoIds = new Set(onlyStrings(tbFuncionario.map((f) => f.idFuncaoFun)));
-    const statusPatIdsFromPat = new Set(onlyStrings(tbPatrimonio.map((p) => p.idPat_StatusPat)));
-    const tipoPatIds = new Set(onlyStrings(tbPatrimonio.map((p) => p.idPat_TipoPat)));
-    const empresaIds = new Set(onlyStrings(tbCCusto.map((c) => c.idEmp_Custo)));
+    const funcionarioIds = new Set(tbFuncionario.map((f: any) => f.idF));
+    const matriculas = new Set(tbFuncionario.map((f: any) => f.idMatFun));
+    const patrimonioIds = new Set(tbPatrimonio.map((p: any) => p.idPat));
+    const userIds = new Set(onlyStrings(tbFuncionario.map((f: any) => f.idUserFun)));
+    const statusFunIds = new Set(onlyStrings(tbFuncionario.map((f: any) => f.idStatusFun)));
+    const funcaoIds = new Set(onlyStrings(tbFuncionario.map((f: any) => f.idFuncaoFun)));
+    const statusPatIdsFromPat = new Set(onlyStrings(tbPatrimonio.map((p: any) => p.idPat_StatusPat)));
+    const tipoPatIds = new Set(onlyStrings(tbPatrimonio.map((p: any) => p.idPat_TipoPat)));
+    const empresaIds = new Set(onlyStrings(tbCCusto.map((c: any) => c.idEmp_Custo)));
 
     const tbHasLicencaFuncionario = await prisma.tbHasLicencaFuncionario.findMany({
         where: {
             idFunc: { in: [...funcionarioIds] }
         }
     });
-    const licencaIds = new Set(tbHasLicencaFuncionario.map((h) => h.idLinc));
+    const licencaIds = new Set(tbHasLicencaFuncionario.map((h: any) => h.idLinc));
 
     const tbCadastro = await prisma.tbCadastro.findMany({
         where: {
@@ -369,7 +369,7 @@ async function buildExportData(centroId?: string | null): Promise<BackupData> {
             ]
         }
     });
-    const statusPatIdsFromCadastro = new Set(onlyStrings(tbCadastro.map((c) => c.idStatusPatCad)));
+    const statusPatIdsFromCadastro = new Set(onlyStrings(tbCadastro.map((c: any) => c.idStatusPatCad)));
     const statusPatIds = new Set([...statusPatIdsFromPat, ...statusPatIdsFromCadastro]);
     const tbBmMedicao = await prisma.tbBmMedicao.findMany({
         where: { idCCusto: centroId }

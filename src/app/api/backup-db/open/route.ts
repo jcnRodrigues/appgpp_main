@@ -2,12 +2,15 @@
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "../../auth/[...nextauth]/route";
 import { hasModuleAccess, hasModuleActionPermission } from "@/lib/permissions";
+import { execSync } from "node:child_process";
 import path from "node:path";
 import fs from "node:fs/promises";
 
 type SessionUser = {
   formularios?: string[];
 };
+
+const BACKUPS_DIR = path.join(process.cwd(), "backups");
 
 export async function POST(request: NextRequest) {
   try {
@@ -31,11 +34,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Nome de pasta invalido." }, { status: 400 });
     }
 
-    const cwd = process.cwd();
-    const folderPath = path.join(cwd, folderName);
+    const folderPath = path.join(BACKUPS_DIR, folderName);
     await fs.access(folderPath);
 
-    const { execSync } = await import("node:child_process");
     execSync(`explorer "${folderPath.replace(/"/g, '""')}"`, { stdio: "ignore" });
 
     return NextResponse.json({

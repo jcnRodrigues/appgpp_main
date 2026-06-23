@@ -10,38 +10,14 @@ npm run dev
 
 A aplicacao abre em `http://localhost:3000`.
 
-## Deploy na Netlify
+## Deploy
 
-O projeto ja esta configurado com:
+Consulte o guia em [`docs/DEPLOY.md`](/D:/Project_Gestao/appgpp/docs/DEPLOY.md) para um fluxo genérico de producao.
 
-- `netlify.toml`
-- plugin `@netlify/plugin-nextjs`
-- script `npm run netlify-build` (executa `prisma generate` + `next build`)
-
-### Build command
+Antes de publicar, execute:
 
 ```bash
-npm run netlify-build
+npm run build
 ```
 
-### Variaveis de ambiente (Netlify)
-
-Configure no painel da Netlify as mesmas variaveis do `.env.example`, principalmente:
-
-- `DATABASE_URL`
-- `NEXTAUTH_URL`
-- `NEXTAUTH_SECRET`
-- `ADMIN_EMAIL`
-- `ADMIN_PASSWORD`
-- `GOOGLE_CLIENT_ID`
-- `GOOGLE_CLIENT_SECRET`
-- `NEXT_PUBLIC_DASHBOARD_REFRESH_MS`
-
-### Publicar via CLI (passos finais)
-
-```bash
-npx netlify login
-npx netlify init
-npx netlify env:import .env --context production
-npx netlify deploy --build --prod
-```
+Garanta as variaveis de ambiente do arquivo `.env.example`.

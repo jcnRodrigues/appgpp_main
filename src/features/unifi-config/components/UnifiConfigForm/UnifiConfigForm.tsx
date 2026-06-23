@@ -9,6 +9,8 @@ import { hasModuleActionPermission } from '@/lib/permissions';
 interface UnifiConfig {
   id?: string;
   type: 'local' | 'cloud';
+  identitySource?: 'UNIFI' | 'WINDOWS_NPS' | 'FREERADIUS';
+  identitySourceNotes?: string;
   apiKey?: string;
   host?: string;
   username?: string;
@@ -26,7 +28,7 @@ interface ConsoleData {
 export default function UnifiConfigForm() {
   const router = useRouter();
   const { data: session } = useSession();
-  const [config, setConfig] = useState<UnifiConfig>({ type: 'cloud' });
+  const [config, setConfig] = useState<UnifiConfig>({ type: 'cloud', identitySource: 'UNIFI' });
   const [loading, setLoading] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [saveError, setSaveError] = useState('');
@@ -36,6 +38,12 @@ export default function UnifiConfigForm() {
   const canCreate = hasModuleActionPermission(formularios, 'UNIFI_CONFIG', 'CREATE');
   const canUpdate = hasModuleActionPermission(formularios, 'UNIFI_CONFIG', 'UPDATE');
   const canDelete = hasModuleActionPermission(formularios, 'UNIFI_CONFIG', 'DELETE');
+
+  const identitySourceOptions = [
+    { value: 'UNIFI', label: 'UniFi', help: 'Usa a base UniFi como origem inicial do identificador 802.1x.' },
+    { value: 'WINDOWS_NPS', label: 'Windows NPS', help: 'Prepara a configuração para leitura de eventos/integração com NPS.' },
+    { value: 'FREERADIUS', label: 'FreeRADIUS', help: 'Prepara a configuração para leitura de logs/integração com FreeRADIUS.' },
+  ] as const;
 
   const showNoPermissionAlert = (acao: string) => {
     window.systemAlert?.('aviso', `Você não tem permissão para ${acao}.`);
@@ -50,7 +58,11 @@ export default function UnifiConfigForm() {
       const response = await fetch('/api/unifi-config');
       const data = await response.json();
       if (data.config) {
-        setConfig(data.config);
+        setConfig({
+          type: 'cloud',
+          identitySource: 'UNIFI',
+          ...data.config,
+        });
       }
     } catch (error) {
       console.error('Erro ao carregar configuração:', error);
@@ -139,7 +151,7 @@ export default function UnifiConfigForm() {
         throw new Error('Erro ao deletar configuração');
       }
 
-      setConfig({ type: 'cloud' });
+      setConfig({ type: 'cloud', identitySource: 'UNIFI' });
       setConsoles([]);
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
@@ -213,6 +225,42 @@ export default function UnifiConfigForm() {
           </label>
         </div>
       </div>
+
+      <div className="mb-6">
+        <label className="block mb-2 font-medium">Origem do 802.1x:</label>
+        <div className="grid gap-3 md:grid-cols-3">
+          {identitySourceOptions.map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => handleChange('identitySource', option.value)}
+              className={`rounded-xl border p-4 text-left transition ${
+                config.identitySource === option.value
+                  ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-500'
+                  : 'border-gray-200 bg-white hover:border-blue-300'
+              }`}
+            >
+              <div className="text-sm font-semibold text-gray-900">{option.label}</div>
+              <div className="mt-1 text-xs text-gray-500">{option.help}</div>
+            </button>
+          ))}
+        </div>
+        <p className="mt-2 text-xs text-gray-500">
+          UniFi continua como origem inicial. Windows NPS e FreeRADIUS ficam prontos para a próxima etapa de integração.
+        </p>
+      </div>
+
+      {config.identitySource !== 'UNIFI' && (
+        <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4">
+          <label className="block mb-2 font-medium">Observações da origem selecionada:</label>
+          <textarea
+            value={config.identitySourceNotes || ''}
+            onChange={(e) => handleChange('identitySourceNotes', e.target.value)}
+            className="min-h-[110px] w-full rounded border border-amber-200 p-2"
+            placeholder="Ex: nome do servidor NPS, caminho do log do FreeRADIUS ou observações de integração"
+          />
+        </div>
+      )}
 
       {config.type === 'cloud' ? (
         <div className="space-y-4">

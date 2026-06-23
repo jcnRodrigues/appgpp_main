@@ -190,7 +190,7 @@ export default function TransferenciaCustoPatrimonioTable() {
         try {
             const resultados = await Promise.allSettled(
                 itensValidos.map(async (item) => {
-                    const response = await fetch(`/api/patrimonio/${item.patrimonio.idP}/transferências`, {
+                    const response = await fetch(`/api/patrimonio/${item.patrimonio.idP}/transferencias`, {
                         method: 'POST',
                         cache: 'no-store',
                         headers: { 'Content-Type': 'application/json' },

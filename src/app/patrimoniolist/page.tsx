@@ -2,7 +2,7 @@ import { listarPatrimonios } from '@/features/patrimonio/server/patrimonio.servi
 import Header from '@/components/Header/Header';
 import PageHeader from '@/components/PageHeader/PageHeader';
 import PatrimonioTable from '@/features/patrimonio/components/PatrimonioTable/PatrimonioTable';
-import { ArrowRightLeft, Boxes, Plus, FileText } from 'lucide-react';
+import { ArrowRightLeft, Boxes, Plus, FileText, ClipboardList } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { getServerSession } from 'next-auth';
@@ -38,7 +38,7 @@ export default async function PatrimonioList() {
 
   const patrimonios = await listarPatrimonios({ take: 10, skip: 0 });
 
-  const patrimoniosFormatted = patrimonios.map((p) => ({
+  const patrimoniosFormatted = patrimonios.map((p: any) => ({
     ...p,
     dataEntPat: p.dataEntPat instanceof Date ? p.dataEntPat.toISOString().split('T')[0] : p.dataEntPat,
     tbTipoPat: p.tbTipoPat ? { descricaoTipPat: p.tbTipoPat.descricaoTipPat ?? undefined } : undefined,
@@ -73,6 +73,12 @@ export default async function PatrimonioList() {
                   </Button>
                 </Link>
               ) : null}
+              <Link href="/patrimoniolist/inventario">
+                <Button variant="ghost" className="flex gap-2 bg-slate-900 hover:bg-slate-800">
+                  <ClipboardList className="h-5 w-5" />
+                  Inventário
+                </Button>
+              </Link>
               {canCreate ? (
                 <Link href="/patrimonio/cadastro">
                   <Button variant="ghost" className="flex gap-2 bg-green-500 hover:bg-green-600">

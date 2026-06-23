@@ -13,12 +13,7 @@ const prismaClient = prisma as any;
 
 function resolveNextAuthUrl() {
     const envUrl = process.env.NEXTAUTH_URL?.trim() || "";
-    const netlifyUrl = process.env.URL?.trim() || "";
     const isLocalhost = /localhost|127\.0\.0\.1/i.test(envUrl);
-
-    if (process.env.NODE_ENV === "production" && netlifyUrl && (!envUrl || isLocalhost)) {
-        return netlifyUrl;
-    }
 
     return envUrl;
 }
@@ -248,4 +243,3 @@ export const AuthOptions = {
 
 const handler = NextAuth(AuthOptions);
 export { handler as GET, handler as POST };
-

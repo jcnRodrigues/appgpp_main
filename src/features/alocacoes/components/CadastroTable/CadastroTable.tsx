@@ -85,6 +85,7 @@ export default function CadastroTable() {
     const [filtroFuncionario, setFiltroFuncionario] = useState('');
     const [filtroPatrimonio, setFiltroPatrimonio] = useState('');
     const [filtroCentroCusto, setFiltroCentroCusto] = useState('');
+    const [filtroComparacao, setFiltroComparacao] = useState('');
     const [filtroStatusIds, setFiltroStatusIds] = useState<string[]>([]);
     const [centroOpcoes, setCentroOpcoes] = useState<CentroOption[]>([]);
     const [statusOpcoes, setStatusOpcoes] = useState<StatusOption[]>([]);
@@ -114,6 +115,7 @@ export default function CadastroTable() {
             if (filtroFuncionario) params.append('funcionarioBusca', filtroFuncionario);
             if (filtroPatrimonio) params.append('patrimonioBusca', filtroPatrimonio);
             if (filtroCentroCusto) params.append('centroBusca', filtroCentroCusto);
+            if (filtroComparacao) params.append('comparacao', filtroComparacao);
             filtroStatusIds.forEach((statusId) => params.append('statusId', statusId));
             params.append('skip', String((paginaAtual - 1) * itensPorPagina));
             params.append('take', String(itensPorPagina));
@@ -129,7 +131,7 @@ export default function CadastroTable() {
         } finally {
             setLoading(false);
         }
-    }, [filtroFuncionario, filtroPatrimonio, filtroCentroCusto, filtroStatusIds, paginaAtual, itensPorPagina]);
+    }, [filtroFuncionario, filtroPatrimonio, filtroCentroCusto, filtroComparacao, filtroStatusIds, paginaAtual, itensPorPagina]);
 
     useEffect(() => {
         carregarAlocacoes();
@@ -137,7 +139,7 @@ export default function CadastroTable() {
 
     useEffect(() => {
         setPaginaAtual(1);
-    }, [filtroFuncionario, filtroPatrimonio, filtroCentroCusto, filtroStatusIds, itensPorPagina]);
+    }, [filtroFuncionario, filtroPatrimonio, filtroCentroCusto, filtroComparacao, filtroStatusIds, itensPorPagina]);
 
     useEffect(() => {
         const carregarCentros = async () => {
@@ -334,7 +336,7 @@ export default function CadastroTable() {
                         <Filter className="h-5 w-5 text-primary" />
                         <h3 className="font-semibold">Filtros</h3>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                         <input type="text"
                             placeholder="Filtrar funcionário (matrícula ou nome)..."
                             value={filtroFuncionario}
@@ -356,6 +358,15 @@ export default function CadastroTable() {
                                     {centro.descricaoCCusto || 'Sem descrição'}{centro.codigoCCusto ? ` (${centro.codigoCCusto})` : ''}
                                 </option>
                             ))}
+                        </select>
+                        <select
+                            value={filtroComparacao}
+                            onChange={(e) => setFiltroComparacao(e.target.value)}
+                            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                            <option value="">Todas as comparações</option>
+                            <option value="IGUAL">Permanecer custo</option>
+                            <option value="DIFERENTE">Mudar custo</option>
                         </select>
                         <details ref={statusDropdownRef} className="relative">
                             <summary className="list-none px-4 py-2 border rounded-lg cursor-pointer select-none flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-primary">
@@ -635,7 +646,6 @@ export default function CadastroTable() {
         </div>
     );
 }
-
 
 
 

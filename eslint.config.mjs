@@ -5,7 +5,7 @@ const eslintConfig = [
   ...nextCoreWebVitals,
   ...nextTypeScript,
   {
-    ignores: [".netlify/**", "prisma/generated/**", "coverage/**"],
+    ignores: ["prisma/generated/**", "coverage/**"],
   },
   {
     rules: {

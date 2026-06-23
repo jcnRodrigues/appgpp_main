@@ -3,6 +3,7 @@
 
 import {
   ClipboardCheck,
+  ClipboardList,
   DatabaseBackup,
   Home,
   KeyRound,
@@ -49,6 +50,7 @@ export default function Header() {
     { icon: User, label: 'Funcionários', href: '/funcionariosadd', required: 'FUNCIONARIOS' },
     { icon: LaptopIcon, label: 'Patrimônio', href: '/patrimoniolist', required: 'PATRIMONIO' },
     { icon: Settings, label: 'Monitor de Rede Ubiquiti', href: '/monitor-patrimonios', required: 'UNIFI_CONFIG' },
+    { icon: ClipboardList, label: 'Agente de Inventário', href: '/monitor-patrimonios/agente', required: 'UNIFI_CONFIG' },
     { icon: LandmarkIcon, label: 'Centros de Custo', href: '/ccustos', required: 'CENTRO_CUSTO' },
     { icon: ClipboardCheck, label: 'Conferir Medição', href: '/ccusto/medicao', required: 'MEDICAO_CCUSTO' },
     { icon: UserSearchIcon, label: 'Funções', href: '/funcoes', required: 'FUNCOES' },

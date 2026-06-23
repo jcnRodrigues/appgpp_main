@@ -84,7 +84,7 @@ $sourceRoot = Split-Path -Parent $PSCommandPath
 Write-Step "Copiando arquivos para $InstallDir"
 New-Item -ItemType Directory -Path $InstallDir -Force | Out-Null
 
-$excludeDirs = @(".git", ".next", "node_modules", "installer", ".netlify", ".vscode", "dist")
+$excludeDirs = @(".git", ".next", "node_modules", "installer", ".vscode", "dist")
 $excludeFiles = @("*.log", "npm-debug.log*", "*.tmp*", "tsconfig.tsbuildinfo")
 
 $robocopyArgs = @(

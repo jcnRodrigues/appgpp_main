@@ -10,6 +10,8 @@ type SessionUser = {
   formularios?: string[];
 };
 
+const BACKUPS_DIR = path.join(process.cwd(), "backups");
+
 function timestampLabel(date: Date) {
   const pad = (n: number) => String(n).padStart(2, "0");
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}_${pad(date.getHours())}-${pad(date.getMinutes())}-${pad(date.getSeconds())}`;
@@ -34,7 +36,7 @@ export async function POST() {
 
     const now = new Date();
     const folderName = `backup_DB_${timestampLabel(now)}`;
-    const folderPath = path.join(process.cwd(), folderName);
+    const folderPath = path.join(BACKUPS_DIR, folderName);
     const tablesDir = path.join(folderPath, "tables");
     await fs.mkdir(tablesDir, { recursive: true });
 

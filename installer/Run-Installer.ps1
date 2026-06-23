@@ -38,7 +38,7 @@ function Show-CompanyForm {
 const path = require('path');
 process.chdir(path.resolve(process.argv[2]));
 const company = JSON.parse(process.argv[3]);
-const { PrismaClient } = require('./prisma/generated/prisma');
+const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function run() {
