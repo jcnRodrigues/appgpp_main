@@ -341,6 +341,7 @@ model tbAtivoRede {
   localInstalacaoAtivoRede String?
   rackAtivoRede            String?
   portaSwitchAtivoRede     String?
+  fotoAtivoRede            String?  @db.LongText
   dataEntradaAtivoRede     DateTime
   dataInstalacaoAtivoRede  DateTime?
   statusAtivoRede          String   @default("ATIVO")

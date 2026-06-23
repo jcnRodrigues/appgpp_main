@@ -45,6 +45,7 @@ type FormState = {
     localInstalacaoAtivoRede: string;
     rackAtivoRede: string;
     portaSwitchAtivoRede: string;
+    fotoAtivoRede: string;
     dataEntradaAtivoRede: string;
     dataInstalacaoAtivoRede: string;
     idStatusAtivoRede: string;
@@ -68,6 +69,7 @@ const initialState: FormState = {
     localInstalacaoAtivoRede: '',
     rackAtivoRede: '',
     portaSwitchAtivoRede: '',
+    fotoAtivoRede: '',
     dataEntradaAtivoRede: new Date().toISOString().split('T')[0],
     dataInstalacaoAtivoRede: '',
     idStatusAtivoRede: '',
@@ -108,13 +110,18 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
     const opçõesStatus = useMemo(() => opções.status, [opções.status]);
     const opçõesCentros = useMemo(() => opções.centros, [opções.centros]);
 
+    const formatarMac = (valor: string) => {
+        const hex = valor.replace(/[^0-9a-fA-F]/g, '').toUpperCase().slice(0, 12);
+        const pares = hex.match(/.{1,2}/g);
+        return pares ? pares.join(':') : '';
+    };
+
     const fieldsToUppercase = [
         'idAtivoRede',
         'nomeAtivoRede',
         'fabricanteAtivoRede',
         'modeloAtivoRede',
         'serialAtivoRede',
-        'macAtivoRede',
         'hostnameAtivoRede',
         'localInstalacaoAtivoRede',
         'rackAtivoRede',
@@ -134,8 +141,47 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        const newValue = fieldsToUppercase.includes(name) ? value.toUpperCase() : value;
+        const newValue = name === 'macAtivoRede'
+            ? formatarMac(value)
+            : fieldsToUppercase.includes(name)
+                ? value.toUpperCase()
+                : value;
         setForm((prev) => ({ ...prev, [name]: newValue }));
+    };
+
+    const handleFotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const limiteBytes = 5 * 1024 * 1024;
+        if (file.size > limiteBytes) {
+            notify('aviso', 'A foto precisa ter no máximo 5 MB.');
+            e.target.value = '';
+            return;
+        }
+
+        if (!file.type.startsWith('image/')) {
+            notify('aviso', 'Selecione uma imagem válida.');
+            e.target.value = '';
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            setForm((prev) => ({
+                ...prev,
+                fotoAtivoRede: typeof reader.result === 'string' ? reader.result : ''
+            }));
+        };
+        reader.readAsDataURL(file);
+        e.target.value = '';
+    };
+
+    const handleFotoRemove = () => {
+        setForm((prev) => ({
+            ...prev,
+            fotoAtivoRede: ''
+        }));
     };
 
     const carregarOpcoes = useCallback(async () => {
@@ -180,12 +226,13 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
                     fabricanteAtivoRede: data.fabricanteAtivoRede || '',
                     modeloAtivoRede: data.modeloAtivoRede || '',
                     serialAtivoRede: data.serialAtivoRede || '',
-                    macAtivoRede: data.macAtivoRede || '',
+                    macAtivoRede: formatarMac(data.macAtivoRede || ''),
                     ipGerenciamentoAtivoRede: data.ipGerenciamentoAtivoRede || '',
                     hostnameAtivoRede: data.hostnameAtivoRede || '',
                     localInstalacaoAtivoRede: data.localInstalacaoAtivoRede || '',
                     rackAtivoRede: data.rackAtivoRede || '',
                     portaSwitchAtivoRede: data.portaSwitchAtivoRede || '',
+                    fotoAtivoRede: data.fotoAtivoRede || '',
                     dataEntradaAtivoRede: data.dataEntradaAtivoRede ? new Date(data.dataEntradaAtivoRede).toISOString().split('T')[0] : '',
                     dataInstalacaoAtivoRede: data.dataInstalacaoAtivoRede ? new Date(data.dataInstalacaoAtivoRede).toISOString().split('T')[0] : '',
                     idStatusAtivoRede: data.idStatusAtivoRede || data.tbStatusAtivoRede?.idStatusAtivoRede || '',
@@ -291,12 +338,13 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
                 fabricanteAtivoRede: form.fabricanteAtivoRede || null,
                 modeloAtivoRede: form.modeloAtivoRede || null,
                 serialAtivoRede: form.serialAtivoRede || null,
-                macAtivoRede: form.macAtivoRede || null,
+                macAtivoRede: form.macAtivoRede ? formatarMac(form.macAtivoRede) : null,
                 ipGerenciamentoAtivoRede: form.ipGerenciamentoAtivoRede || null,
                 hostnameAtivoRede: form.hostnameAtivoRede || null,
                 localInstalacaoAtivoRede: form.localInstalacaoAtivoRede || null,
                 rackAtivoRede: form.rackAtivoRede || null,
                 portaSwitchAtivoRede: form.portaSwitchAtivoRede || null,
+                fotoAtivoRede: form.fotoAtivoRede || null,
                 dataEntradaAtivoRede: form.dataEntradaAtivoRede,
                 dataInstalacaoAtivoRede: form.dataInstalacaoAtivoRede || null,
                 idStatusAtivoRede: form.idStatusAtivoRede,
@@ -348,6 +396,8 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
             modalOpcaoAberto={modalOpcaoAberto}
             handleEnterToNext={handleEnterToNext}
             handleChange={handleChange}
+            handleFotoChange={handleFotoChange}
+            handleFotoRemove={handleFotoRemove}
             handleSubmit={handleSubmit}
             handleCreateOption={handleCreateOption}
             setModalOpcaoAberto={setModalOpcaoAberto}

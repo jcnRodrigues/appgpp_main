@@ -64,6 +64,7 @@ export default async function RelatorioAtivosRedePorCentroPage({
         statusAtivoRede: item.statusAtivoRede,
         localInstalacaoAtivoRede: item.localInstalacaoAtivoRede,
         dataEntradaAtivoRede: item.dataEntradaAtivoRede ? item.dataEntradaAtivoRede.toISOString() : null,
+        fotoAtivoRede: item.fotoAtivoRede || null,
         tbTipoAtivoRede: item.tbTipoAtivoRede
             ? { descricaoTipoAtivoRede: item.tbTipoAtivoRede.descricaoTipoAtivoRede ?? null }
             : null,

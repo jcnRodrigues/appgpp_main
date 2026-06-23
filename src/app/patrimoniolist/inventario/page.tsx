@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
 import InventarioPatrimonioForm from '@/features/patrimonio/components/InventarioPatrimonioForm/InventarioPatrimonioForm';
+import PageHeader from '@/components/PageHeader/PageHeader';
+import { ClipboardList, Plus } from 'lucide-react';
 
 export default async function InventarioPatrimoniosPage() {
   const session = await getServerSession(AuthOptions);
@@ -30,5 +32,22 @@ export default async function InventarioPatrimoniosPage() {
   const formularios = ((session.user as any)?.formularios || []) as string[];
   if (!hasModuleAccess(formularios, 'PATRIMONIO')) redirect('/acesso-negado');
 
-  return <InventarioPatrimonioForm />;
+   
+
+    return (
+      <div className="bg-background min-h-screen py-6">
+        <Header />
+        <div className="mx-auto max-w-[86.4rem] px-4">
+        <PageHeader
+          icon={ClipboardList}
+          title="Inventário de Patrimônios"
+          description="Monte a conferência manual dos bens, salve o rascunho e exporte o resultado em JSON."
+          backHref="/patrimoniolist"
+          iconClassName="from-slate-950 via-slate-800 to-emerald-700"
+        />
+  
+          <InventarioPatrimonioForm />
+        </div>
+      </div>
+    );
 }

@@ -387,6 +387,7 @@ export async function criarAtivoRede(dados: {
     localInstalacaoAtivoRede?: string;
     rackAtivoRede?: string;
     portaSwitchAtivoRede?: string;
+    fotoAtivoRede?: string | null;
     dataEntradaAtivoRede: Date;
     dataInstalacaoAtivoRede?: Date | null;
     idStatusAtivoRede?: string | null;
@@ -434,6 +435,7 @@ export async function criarAtivoRede(dados: {
             localInstalacaoAtivoRede: dados.localInstalacaoAtivoRede,
             rackAtivoRede: dados.rackAtivoRede,
             portaSwitchAtivoRede: dados.portaSwitchAtivoRede,
+            fotoAtivoRede: dados.fotoAtivoRede ?? null,
             dataEntradaAtivoRede: dados.dataEntradaAtivoRede,
             dataInstalacaoAtivoRede: dados.dataInstalacaoAtivoRede ?? null,
             statusAtivoRede: status.descricao || dados.statusAtivoRede || 'ATIVO',
@@ -478,6 +480,7 @@ export async function atualizarAtivoRede(
         localInstalacaoAtivoRede?: string;
         rackAtivoRede?: string;
         portaSwitchAtivoRede?: string;
+        fotoAtivoRede?: string | null;
         dataEntradaAtivoRede?: Date;
         dataInstalacaoAtivoRede?: Date | null;
         idStatusAtivoRede?: string | null;
@@ -511,6 +514,10 @@ export async function atualizarAtivoRede(
     if (centro) {
         payload.centroResponsavelAtivoRede = centro.descricao;
         payload.idCCustoAtivoRede = centro.id;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(dados, 'fotoAtivoRede')) {
+        payload.fotoAtivoRede = dados.fotoAtivoRede ?? null;
     }
 
     return prisma.tbAtivoRede.update({

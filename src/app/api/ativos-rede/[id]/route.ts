@@ -44,6 +44,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
             localInstalacaoAtivoRede: typeof dados.localInstalacaoAtivoRede === 'string' ? dados.localInstalacaoAtivoRede.trim().toUpperCase() || undefined : undefined,
             rackAtivoRede: typeof dados.rackAtivoRede === 'string' ? dados.rackAtivoRede.trim().toUpperCase() || undefined : undefined,
             portaSwitchAtivoRede: typeof dados.portaSwitchAtivoRede === 'string' ? dados.portaSwitchAtivoRede.trim().toUpperCase() || undefined : undefined,
+            fotoAtivoRede: typeof dados.fotoAtivoRede === 'string' ? dados.fotoAtivoRede : undefined,
             dataEntradaAtivoRede: dados.dataEntradaAtivoRede ? parseDateInput(dados.dataEntradaAtivoRede) : undefined,
             dataInstalacaoAtivoRede: dados.dataInstalacaoAtivoRede ? parseOptionalDateInput(dados.dataInstalacaoAtivoRede) : undefined,
             idStatusAtivoRede: typeof dados.idStatusAtivoRede === 'string' ? dados.idStatusAtivoRede : undefined,

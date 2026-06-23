@@ -1,4 +1,5 @@
-﻿'use client'
+﻿/* eslint-disable @next/next/no-img-element */
+'use client'
 
 import Link from 'next/link';
 import { Inbox, Router, Plus } from 'lucide-react';
@@ -44,6 +45,7 @@ type FormState = {
     localInstalacaoAtivoRede: string;
     rackAtivoRede: string;
     portaSwitchAtivoRede: string;
+    fotoAtivoRede: string;
     dataEntradaAtivoRede: string;
     dataInstalacaoAtivoRede: string;
     idStatusAtivoRede: string;
@@ -72,6 +74,8 @@ type Props = {
     modalOpcaoAberto: boolean;
     handleEnterToNext: (event: React.KeyboardEvent<HTMLFormElement>) => void;
     handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
+    handleFotoChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleFotoRemove: () => void;
     handleSubmit: (event: React.FormEvent) => void;
     handleCreateOption: (event: React.FormEvent) => void;
     setModalOpcaoAberto: (value: boolean) => void;
@@ -107,6 +111,8 @@ export default function AtivoRedeFormView(props: Props) {
         modalOpcaoAberto,
         handleEnterToNext,
         handleChange,
+        handleFotoChange,
+        handleFotoRemove,
         handleSubmit,
         handleCreateOption,
         setModalOpcaoAberto,
@@ -153,11 +159,11 @@ export default function AtivoRedeFormView(props: Props) {
                 >
                     <section className="border-b pb-6">
                         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                            <div>
+                            <div className="max-w-xl">
                                 <h2 className="text-h4 font-bold mb-2">Informações Básicas</h2>
                                 <p className="text-sm text-gray-600">Cadastro no mesmo padrão visual do formulário de patrimônio.</p>
                             </div>
-                            <div className="flex flex-wrap items-center gap-3 lg:justify-end">
+                            <div className="flex flex-col gap-3 lg:items-end">
                                 {canManageOptions ? (
                                     <Button
                                         type="button"
@@ -169,128 +175,188 @@ export default function AtivoRedeFormView(props: Props) {
                                         Cadastrar tipo/status
                                     </Button>
                                 ) : null}
-                                <div className="flex h-20 w-28 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-900 to-emerald-700 text-white shadow-md">
-                                    <Router className="h-10 w-10" />
+                            </div>
+                        </div>
+
+                        <div className="mt-4 grid grid-cols-1 gap-5 xl:grid-cols-[1.45fr_1.05fr]">
+                            <div className="space-y-4">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">ID Ativo de Rede *</label>
+                                        <input
+                                            type="text"
+                                            name="idAtivoRede"
+                                            value={form.idAtivoRede}
+                                            onChange={handleChange}
+                                            disabled={isEditing}
+                                            placeholder="Ex: NET001"
+                                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary disabled:bg-gray-100"
+                                            required
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">Tipo *</label>
+                                        <select
+                                            value={form.idTipoAtivoRede}
+                                            onChange={(e) => onSelectTipo(e.target.value)}
+                                            className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!form.idTipoAtivoRede ? 'border-red-300 bg-red-50' : ''}`}
+                                            required
+                                            disabled={loadingOpcoes}
+                                        >
+                                            <option value="">{loadingOpcoes ? 'Carregando...' : '--- Selecione um tipo ---'}</option>
+                                            {opçõesTipo.map((tipo) => (
+                                                <option key={tipo.idTipoAtivoRede} value={tipo.idTipoAtivoRede}>
+                                                    {tipo.descricaoTipoAtivoRede}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">Status *</label>
+                                        <select
+                                            value={form.idStatusAtivoRede}
+                                            onChange={(e) => onSelectStatus(e.target.value)}
+                                            className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!form.idStatusAtivoRede ? 'border-red-300 bg-red-50' : ''}`}
+                                            required
+                                            disabled={loadingOpcoes}
+                                        >
+                                            <option value="">{loadingOpcoes ? 'Carregando...' : '--- Selecione um status ---'}</option>
+                                            {opçõesStatus.map((status) => (
+                                                <option key={status.idStatusAtivoRede} value={status.idStatusAtivoRede}>
+                                                    {status.descricaoStatusAtivoRede}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">Nome / Identificacao *</label>
+                                    <input
+                                        type="text"
+                                        name="nomeAtivoRede"
+                                        value={form.nomeAtivoRede}
+                                        onChange={handleChange}
+                                        placeholder="Ex: Switch principal do andar 2"
+                                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                        required
+                                    />
+                                </div>
+
+
+                                <h2 className="text-h4 font-bold mb-3 gap-4">Especificações Técnicas</h2>
+                                <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">Fabricante</label>
+                                        <input
+                                            type="text"
+                                            name="fabricanteAtivoRede"
+                                            value={form.fabricanteAtivoRede}
+                                            onChange={handleChange}
+                                            placeholder="Ex: UBIQUITI"
+                                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">Modelo</label>
+                                        <input
+                                            type="text"
+                                            name="modeloAtivoRede"
+                                            value={form.modeloAtivoRede}
+                                            onChange={handleChange}
+                                            placeholder="Ex: USW-24"
+                                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">Serial</label>
+                                        <input
+                                            type="text"
+                                            name="serialAtivoRede"
+                                            value={form.serialAtivoRede}
+                                            onChange={handleChange}
+                                            placeholder="Ex: 4C:... ou SN123"
+                                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">MAC</label>
+                                        <input
+                                            type="text"
+                                            name="macAtivoRede"
+                                            value={form.macAtivoRede}
+                                            onChange={handleChange}
+                                            placeholder="Ex: AA:BB:CC:DD:EE:FF"
+                                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={`rounded-2xl border p-4 text-white shadow-md transition-all 
+                            ${form.fotoAtivoRede
+                                    ? 'border-emerald-300/50 bg-gradient-to-br from-slate-950 to-emerald-700 shadow-emerald-950/20'
+                                    : 'border-slate-200 bg-gradient-to-br from-slate-950 to-emerald-700'
+                                }`}>
+                                <div className="flex items-center justify-between gap-3">
+                                    <div>
+                                        <p className="text-xs uppercase tracking-[0.18em] text-emerald-200">
+                                            Foto do equipamento
+                                        </p>
+                                        <p className="mt-1 text-sm text-slate-200">
+                                            Anexe a imagem logo no cadastro.
+                                        </p>
+                                    </div>
+                                    <div className={`flex h-14 w-14 items-center justify-center rounded-2xl text-white transition-colors 
+                                    ${form.fotoAtivoRede ? 'bg-emerald-500/30' : 'bg-white/10'
+                                        }`}>
+                                        <Router className="h-7 w-7" />
+                                    </div>
+                                </div>
+
+                                <div className={`mt-3 overflow-hidden rounded-2xl border bg-black/25 transition-all 
+                                ${form.fotoAtivoRede ? 'border-emerald-200/50 shadow-[0_0_0_1px_rgba(16,185,129,0.18)]'
+                                        : 'border-white/15'
+                                    }`}>
+                                    {form.fotoAtivoRede ? (
+                                        <button
+                                            type="button"
+                                            onClick={handleFotoRemove}
+                                            className="block w-full cursor-pointer"
+                                            title="Clique para remover a foto"
+                                        >
+                                            <img src={form.fotoAtivoRede}
+                                                alt="Foto do equipamento"
+                                                className="h-40 w-full object-contain bg-slate-950/30"
+                                            />
+                                        </button>
+                                    ) : (
+                                        <div className="flex h-40 items-center justify-center text-sm text-emerald-100/80">
+                                            Nenhuma foto adicionada
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="mt-4 rounded-2xl bg-white/10 p-2">
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleFotoChange}
+                                        className="block w-full text-sm text-slate-100 file:mr-4 file:rounded-md file:border-0 file:bg-white file:px-4 file:py-2 file:text-slate-900 hover:file:bg-slate-100"
+                                    />
+                                    <p className="mt-2 text-xs text-emerald-100">JPG, PNG, WEBP. Máximo sugerido: 5 MB.</p>
+                                    <div className="mt-3 flex gap-2">
+                                        <Button
+                                            type="button"
+                                            onClick={handleFotoRemove}
+                                            variant="ghost"
+                                            className="border border-white/20 bg-white/10 text-white hover:bg-white/20"
+                                        >
+                                            Remover foto
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                            <div>
-                                <label className="block text-sm font-medium mb-2">ID Ativo de Rede *</label>
-                                <input
-                                    type="text"
-                                    name="idAtivoRede"
-                                    value={form.idAtivoRede}
-                                    onChange={handleChange}
-                                    disabled={isEditing}
-                                    placeholder="Ex: NET001"
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary disabled:bg-gray-100"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium mb-2">Tipo *</label>
-                                <select
-                                    value={form.idTipoAtivoRede}
-                                    onChange={(e) => onSelectTipo(e.target.value)}
-                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!form.idTipoAtivoRede ? 'border-red-300 bg-red-50' : ''}`}
-                                    required
-                                    disabled={loadingOpcoes}
-                                >
-                                    <option value="">{loadingOpcoes ? 'Carregando...' : '--- Selecione um tipo ---'}</option>
-                                    {opçõesTipo.map((tipo) => (
-                                        <option key={tipo.idTipoAtivoRede} value={tipo.idTipoAtivoRede}>
-                                            {tipo.descricaoTipoAtivoRede}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium mb-2">Status *</label>
-                                <select
-                                    value={form.idStatusAtivoRede}
-                                    onChange={(e) => onSelectStatus(e.target.value)}
-                                    className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${!form.idStatusAtivoRede ? 'border-red-300 bg-red-50' : ''}`}
-                                    required
-                                    disabled={loadingOpcoes}
-                                >
-                                    <option value="">{loadingOpcoes ? 'Carregando...' : '--- Selecione um status ---'}</option>
-                                    {opçõesStatus.map((status) => (
-                                        <option key={status.idStatusAtivoRede} value={status.idStatusAtivoRede}>
-                                            {status.descricaoStatusAtivoRede}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div className="mt-4 grid grid-cols-1 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium mb-2">Nome / Identificacao *</label>
-                                <input
-                                    type="text"
-                                    name="nomeAtivoRede"
-                                    value={form.nomeAtivoRede}
-                                    onChange={handleChange}
-                                    placeholder="Ex: Switch principal do andar 2"
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                    required
-                                />
-                            </div>
-                        </div>
                     </section>
-
-                    <section className="border-b pb-5">
-                        <h2 className="text-h4 font-bold mb-3">Especificações Técnicas</h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
-                            <div>
-                                <label className="block text-sm font-medium mb-2">Fabricante</label>
-                                <input
-                                    type="text"
-                                    name="fabricanteAtivoRede"
-                                    value={form.fabricanteAtivoRede}
-                                    onChange={handleChange}
-                                    placeholder="Ex: UBIQUITI"
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium mb-2">Modelo</label>
-                                <input
-                                    type="text"
-                                    name="modeloAtivoRede"
-                                    value={form.modeloAtivoRede}
-                                    onChange={handleChange}
-                                    placeholder="Ex: USW-24"
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium mb-2">Serial</label>
-                                <input
-                                    type="text"
-                                    name="serialAtivoRede"
-                                    value={form.serialAtivoRede}
-                                    onChange={handleChange}
-                                    placeholder="Ex: 4C:... ou SN123"
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium mb-2">MAC</label>
-                                <input
-                                    type="text"
-                                    name="macAtivoRede"
-                                    value={form.macAtivoRede}
-                                    onChange={handleChange}
-                                    placeholder="Ex: AA:BB:CC:DD:EE:FF"
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                />
-                            </div>
-                        </div>
-                    </section>
-
                     <section className="border-b pb-5">
                         <h2 className="text-h4 font-bold mb-3">Rede e Localização</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">

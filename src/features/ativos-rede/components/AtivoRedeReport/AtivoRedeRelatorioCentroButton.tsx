@@ -11,6 +11,7 @@ export type AtivoRedeRelatorioItem = {
     statusAtivoRede?: string | null;
     localInstalacaoAtivoRede?: string | null;
     dataEntradaAtivoRede?: string | Date | null;
+    fotoAtivoRede?: string | null;
     tbTipoAtivoRede?: {
         descricaoTipoAtivoRede?: string | null;
     } | null;
@@ -101,6 +102,13 @@ function badgeWidth(pdf: jsPDF, text: string) {
     pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(6.4);
     return pdf.getTextWidth(pdfSafeText(text)) + 3.2;
+}
+
+function imageFormatFromDataUrl(value?: string | null) {
+    const prefix = String(value || '').slice(0, 30).toLowerCase();
+    if (prefix.includes('image/png')) return 'PNG';
+    if (prefix.includes('image/webp')) return 'WEBP';
+    return 'JPEG';
 }
 
 function drawCard(
@@ -201,6 +209,7 @@ export default function AtivoRedeRelatorioCentroButton({ centroLabel, itens, dis
 
         const addTableRow = (item: AtivoRedeRelatorioItem, widths: number[]) => {
             const cells = [
+                item.fotoAtivoRede ? 'Foto' : '-',
                 item.codigoAtivoRede || '-',
                 item.nomeAtivoRede || '-',
                 item.tbTipoAtivoRede?.descricaoTipoAtivoRede || item.tipoAtivoRede || '-',
@@ -212,9 +221,12 @@ export default function AtivoRedeRelatorioCentroButton({ centroLabel, itens, dis
             pdf.setFont('helvetica', 'normal');
             pdf.setFontSize(7.3);
             const lineHeight = 3.8;
-            const split = cells.map((cell, index) => pdf.splitTextToSize(truncate(pdf, cell, widths[index] - 3), widths[index] - 3));
+            const split = cells.map((cell, index) => {
+                if (index === 0) return [cell];
+                return pdf.splitTextToSize(truncate(pdf, cell, widths[index] - 3), widths[index] - 3);
+            });
             const maxLines = Math.max(...split.map((s) => s.length), 1);
-            const rowHeight = Math.max(7, maxLines * lineHeight + 2);
+            const rowHeight = Math.max(7, maxLines * lineHeight + 2, item.fotoAtivoRede ? 18 : 0);
             ensureSpace(rowHeight);
 
             let x = margin;
@@ -224,13 +236,30 @@ export default function AtivoRedeRelatorioCentroButton({ centroLabel, itens, dis
             cells.forEach((cell, index) => {
                 pdf.rect(x, y, widths[index], rowHeight);
 
-                if (index === 3) {
+                if (index === 0) {
+                    if (item.fotoAtivoRede) {
+                        const size = Math.min(widths[index] - 2, rowHeight - 2);
+                        const imgX = x + (widths[index] - size) / 2;
+                        const imgY = y + (rowHeight - size) / 2;
+                        try {
+                            pdf.addImage(item.fotoAtivoRede, imageFormatFromDataUrl(item.fotoAtivoRede), imgX, imgY, size, size);
+                        } catch {
+                            pdf.setFontSize(5.5);
+                            pdf.setTextColor(86, 98, 114);
+                            pdf.text('Foto', x + widths[index] / 2, y + (rowHeight / 2) + 1, { align: 'center' });
+                        }
+                    } else {
+                        pdf.setFontSize(5.5);
+                        pdf.setTextColor(86, 98, 114);
+                        pdf.text('-', x + widths[index] / 2, y + (rowHeight / 2) + 1, { align: 'center' });
+                    }
+                } else if (index === 4) {
                     const badgeY = y + (rowHeight / 2) + 1.2;
                     const w = badgeWidth(pdf, cell);
                     const badgeX = x + Math.max(1.2, (widths[index] - w) / 2);
                     drawBadge(pdf, badgeX, badgeY, cell, statusKind(cell));
                 } else {
-                    const center = index === 0 || index === 2 || index === 3 || index === 5;
+                    const center = index === 1 || index === 3 || index === 4 || index === 6;
                     pdf.setTextColor(35, 43, 54);
                     if (center) {
                         const blocoAltura = split[index].length * lineHeight;
@@ -294,6 +323,7 @@ export default function AtivoRedeRelatorioCentroButton({ centroLabel, itens, dis
 
         addTableHeader(
             [
+                'Foto',
                 ['Código', 'Ativo'],
                 'Nome',
                 'Tipo',
@@ -301,11 +331,11 @@ export default function AtivoRedeRelatorioCentroButton({ centroLabel, itens, dis
                 'Local',
                 'Entrada'
             ],
-            [28, 86, 38, 34, 48, 30]
+            [18, 28, 78, 38, 34, 48, 30]
         );
 
         itens.forEach((item) => {
-            addTableRow(item, [28, 86, 38, 34, 48, 30]);
+            addTableRow(item, [18, 28, 78, 38, 34, 48, 30]);
         });
 
         pdf.save(`${emissaoCode}.pdf`);

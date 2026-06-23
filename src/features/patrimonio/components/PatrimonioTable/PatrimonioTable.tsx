@@ -323,7 +323,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                     ))}
                                     {centroOpcoes.length === 0 && (
                                         <span className="text-xs text-gray-500 px-2 py-1 block">
-                                                                                        Sem centros de custo dispon?veis
+                                            Sem centros de custo disponiveis
                                         </span>
                                     )}
                                 </div>
@@ -366,7 +366,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                     ))}
                                     {statusOpcoes.length === 0 && (
                                         <span className="text-xs text-gray-500 px-2 py-1 block">
-                                                                                        Sem status dispon?veis
+                                            Sem status disponiveis
                                         </span>
                                     )}
                                 </div>
@@ -384,7 +384,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                     </div>
                 ) : patrimonios.length === 0 ? (
                     <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500">
-                                                Nenhum patrimônio encontrado
+                        Nenhum patrimônio encontrado
                     </div>
                 ) : (
                     patrimonios.map((patrimonio) => (
@@ -398,7 +398,8 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                         {patrimonio.descricaoPat}
                                     </div>
                                 </div>
-                                <span className={`px-2 py-1 rounded-full text-[9px] font-semibold ${getStatusPatBadgeClass(
+                                <span className={`px-2 py-1 rounded-full text-[9px] font-semibold 
+                                ${getStatusPatBadgeClass(
                                     patrimonio.tbStatusPat?.descricaoStatPat
                                 )}`}>
                                     {patrimonio.tbStatusPat?.descricaoStatPat || '-'}
@@ -408,11 +409,14 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                 <div className="text-gray-500">Tipo</div>
                                 <div className="text-gray-800 text-right">{patrimonio.tbTipoPat?.descricaoTipPat || '-'}</div>
                                 <div className="text-gray-500">Valor</div>
-                                <div className="text-gray-800 text-right">R$ {patrimonio.valorPat?.toFixed(2) || '0.00'}</div>
+                                <div className="text-gray-800 text-right">
+                                    R$ {patrimonio.valorPat?.toFixed(2) || ' 0.00'}</div>
                                 <div className="text-gray-500">Entrada</div>
-                                <div className="text-gray-800 text-right">{formatarData(patrimonio.dataEntPat)}</div>
+                                <div className="text-gray-800 text-right">
+                                    {formatarData(patrimonio.dataEntPat)}</div>
                                 <div className="text-gray-500">Centro Custo</div>
-                                <div className="text-gray-800 text-right">{patrimonio.tbCCusto?.descricaoCCusto || '-'}</div>
+                                <div className="text-gray-800 text-right">
+                                    {patrimonio.tbCCusto?.descricaoCCusto || '-'}</div>
                                 <div className="text-gray-500">Data devolução</div>
                                 <div className="text-gray-800 text-right">
                                     {isLinhaDevolucao(patrimonio) ? formatarData(patrimonio.tbDevolucao?.[0]?.dataInicioDevolucao) : '-'}

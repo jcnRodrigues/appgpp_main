@@ -77,6 +77,7 @@ export async function POST(request: NextRequest) {
             localInstalacaoAtivoRede: typeof dados.localInstalacaoAtivoRede === 'string' ? dados.localInstalacaoAtivoRede.trim().toUpperCase() || undefined : undefined,
             rackAtivoRede: typeof dados.rackAtivoRede === 'string' ? dados.rackAtivoRede.trim().toUpperCase() || undefined : undefined,
             portaSwitchAtivoRede: typeof dados.portaSwitchAtivoRede === 'string' ? dados.portaSwitchAtivoRede.trim().toUpperCase() || undefined : undefined,
+            fotoAtivoRede: typeof dados.fotoAtivoRede === 'string' ? dados.fotoAtivoRede : null,
             dataEntradaAtivoRede: parseDateInput(dados.dataEntradaAtivoRede),
             dataInstalacaoAtivoRede: parseOptionalDateInput(dados.dataInstalacaoAtivoRede),
             idStatusAtivoRede: typeof dados.idStatusAtivoRede === 'string' ? dados.idStatusAtivoRede : null,

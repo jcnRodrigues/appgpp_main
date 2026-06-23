@@ -40,7 +40,7 @@ export default async function AgenteInventarioPage() {
           icon={SearchCheck}
           title="Agente de Inventário"
           description="Consulta hostname, confirma conectividade, identifica 802.1x e cruza periféricos com a base de ativos."
-          backHref="/monitor-patrimonios"
+          backHref="/"
         />
         <AgenteInventarioForm />
       </div>
