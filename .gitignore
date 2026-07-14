@@ -60,3 +60,4 @@ client_secret*.json
 
 # local database backup folders
 /backup_DB_*/
+/backups/

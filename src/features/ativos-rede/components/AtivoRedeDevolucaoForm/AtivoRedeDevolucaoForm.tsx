@@ -96,7 +96,7 @@ export default function AtivoRedeDevolucaoForm({ ativoRedeId }: { ativoRedeId: s
         <form
           onSubmit={handleSubmit}
           onKeyDown={handleEnterToNext}
-          className="bg-white rounded-lg shadow-lg p-5 sm:p-8 space-y-6"
+          className="form-surface space-y-6 p-4 sm:p-6 lg:p-8"
         >
           {loadingData ? (
             <p className="text-sm text-gray-500">Carregando dados do ativo...</p>
@@ -173,7 +173,7 @@ export default function AtivoRedeDevolucaoForm({ ativoRedeId }: { ativoRedeId: s
                 loadingLabel="Registrando..."
                 loading={loading}
                 className="flex gap-4 justify-end pt-2"
-                cancelClassName="border-slate-300 bg-slate-950 text-slate-100 hover:bg-slate-900 hover:text-white shadow-sm"
+                cancelClassName="border-red-500 bg-red-600 text-white hover:bg-red-500 shadow-sm"
                 submitClassName="bg-emerald-600 text-white hover:bg-emerald-500 shadow-sm"
               />
             </>

@@ -3,7 +3,14 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { hasModuleAccessForRequest } from '@/lib/access';
 import { getUnifiConfig } from '@/features/unifi-config/server/unifi.service';
-import { listarAtivosRedeRelatorio } from '@/features/ativos-rede/server/ativo-rede.service';
+import { listarPatrimonios } from '@/features/patrimonio/server/patrimonio.service';
+import { inferMonitorStatus } from '@/lib/monitor-status';
+import {
+  extractRadiusLocalInfo,
+  fetchConnectedClientDetailsBySite,
+  fetchRadiusProfilesBySite,
+  resolveRadiusProfileForClient,
+} from '@/lib/monitor-unifi';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -17,6 +24,19 @@ function normalizeText(value: unknown) {
     .replace(/[\u0300-\u036f]/g, '')
     .trim()
     .toLowerCase();
+}
+
+function extractHostSearchKey(hostname: string) {
+  const raw = String(hostname || '').trim();
+  if (!raw) return '';
+
+  const digitsOnly = raw.replace(/\D+/g, '');
+  if (digitsOnly) {
+    return digitsOnly;
+  }
+
+  const match = raw.match(/(\d{3,})/);
+  return match?.[1] || raw;
 }
 
 function sanitizeDisplayText(value: unknown) {
@@ -279,8 +299,22 @@ async function readStoredInventory(hostname: string) {
   }
 }
 
+function extractSerialSearchKey(serial: string) {
+  const raw = String(serial || '').trim();
+  if (!raw) return '';
+
+  return raw.replace(/[^A-Za-z0-9]+/g, '');
+}
+
+function normalizeSerialMatch(value: unknown) {
+  return String(value || '')
+    .trim()
+    .replace(/[^A-Za-z0-9]+/g, '')
+    .toUpperCase();
+}
+
 export async function GET(request: NextRequest) {
-  const canAccess = await hasModuleAccessForRequest(request, 'UNIFI_CONFIG');
+  const canAccess = await hasModuleAccessForRequest(request, 'AGENTE_INVENTARIO');
   if (!canAccess) {
     return NextResponse.json({ error: 'Sem permissão para acessar o agente' }, { status: 403 });
   }
@@ -288,6 +322,7 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const hostname = searchParams.get('hostname') || '';
+    const serial = searchParams.get('serial') || '';
     const modoConsulta = String(searchParams.get('modo') || 'HIBRIDO').toUpperCase() as ConsultaModo;
     if (!hostname.trim()) {
       return NextResponse.json({ error: 'Informe um hostname para consultar' }, { status: 400 });
@@ -323,6 +358,10 @@ export async function GET(request: NextRequest) {
       status: string;
       siteId: string;
       siteName: string;
+      identity?: string | null;
+      clientIdentity?: string | null;
+      identity8021x?: string | null;
+      dot1xIdentity?: string | null;
     }> = [];
 
     if (allowsNetworkLookup) {
@@ -339,11 +378,7 @@ export async function GET(request: NextRequest) {
           mac: String(device.mac || device.macAddress || ''),
           ip: String(device.ip || device.ipAddress || device.host || ''),
           shortname: String(device.shortname || device.shortName || ''),
-          status: device.status
-            ? String(device.status)
-            : device.online === true || device.isOnline === true || Number(device.state) === 1
-              ? 'Online'
-              : 'Offline',
+          status: inferMonitorStatus(device),
           siteId: String(group.hostId || ''),
           siteName: String(group.hostName || 'Site sem nome'),
           model: String(device.model || device.deviceModel || ''),
@@ -379,13 +414,21 @@ export async function GET(request: NextRequest) {
             hostname: String(client.hostname || client.displayName || client.name || ''),
             mac: String(client.mac || client.macAddress || ''),
             ip: String(client.ip || client.ipAddress || ''),
-            status: client.status
-              ? String(client.status)
-              : client.online === true || Number(client.state) === 1
-                ? 'Online'
-                : 'Offline',
+            status: inferMonitorStatus(client),
             siteId,
             siteName: String(group.hostName || 'Site sem nome'),
+            identity: String(
+              client.identity ||
+                client.identity8021x ||
+                client.dot1xIdentity ||
+                client.clientIdentity ||
+                client.username ||
+                client.userName ||
+                ''
+            ).trim() || null,
+            clientIdentity: String(client.clientIdentity || '').trim() || null,
+            identity8021x: String(client.identity8021x || '').trim() || null,
+            dot1xIdentity: String(client.dot1xIdentity || '').trim() || null,
           });
         });
       }
@@ -416,7 +459,54 @@ export async function GET(request: NextRequest) {
       return haystack.includes(hostnameNorm) || (deviceMatch?.siteId && client.siteId === String(deviceMatch.siteId));
     });
 
-    const userEstimado = userCandidates[0] || clientMatch || null;
+    const connectedClientCandidate =
+      userCandidates.find((client) => normalizeText(client.status) === 'online') ||
+      (normalizeText(clientMatch?.status) === 'online' ? clientMatch : null) ||
+      userCandidates[0] ||
+      clientMatch ||
+      null;
+
+    const connectedSiteId = String(
+      connectedClientCandidate?.siteId ||
+      deviceMatch?.siteId ||
+      clientMatch?.siteId ||
+      ''
+    ).trim();
+
+    const hasRadiusLookup = Boolean(allowsNetworkLookup && effectiveApiKey && connectedSiteId);
+    const radiusProfiles = hasRadiusLookup
+      ? await fetchRadiusProfilesBySite(effectiveApiKey, connectedSiteId, connectedSiteId, { limit: 200, maxPages: 1 }).catch(() => null)
+      : null;
+
+    let connectedClientDetail: Record<string, unknown> | null = null;
+    if (hasRadiusLookup && connectedClientCandidate?.id) {
+      connectedClientDetail = await fetchConnectedClientDetailsBySite(
+        effectiveApiKey,
+        connectedSiteId,
+        connectedSiteId,
+        String(connectedClientCandidate.id)
+      ).catch(() => null);
+    }
+
+    const radiusClientSource = connectedClientDetail || connectedClientCandidate;
+    const radiusInfo = radiusClientSource ? extractRadiusLocalInfo(radiusClientSource) : null;
+    const radiusProfile = radiusClientSource ? resolveRadiusProfileForClient(radiusClientSource, radiusProfiles) : null;
+    const usuarioRadiusNome = String(
+      radiusProfile?.name ||
+      radiusInfo?.username ||
+      connectedClientCandidate?.name ||
+      connectedClientCandidate?.hostname ||
+      ''
+    ).trim();
+
+    const userEstimado =
+      usuarioRadiusNome
+        ? {
+            name: usuarioRadiusNome,
+            hostname: String(connectedClientCandidate?.hostname || connectedClientCandidate?.name || '').trim(),
+            siteName: String(connectedClientCandidate?.siteName || siteName || '').trim(),
+          }
+        : connectedClientCandidate;
     const userDerivado = String(
       userEstimado?.name ||
       userEstimado?.hostname ||
@@ -424,51 +514,113 @@ export async function GET(request: NextRequest) {
       ''
     ).trim();
 
-    const identificador8021x = extract8021xIdentity([
-      userEstimado?.name,
-      userEstimado?.hostname,
-      clientMatch?.name,
-      clientMatch?.hostname,
-      deviceMatch?.note,
-      deviceMatch?.name,
-      hostName,
-    ]);
+    const identificador8021xDireto = String(
+      connectedClientDetail?.identity ||
+        connectedClientDetail?.clientIdentity ||
+        connectedClientDetail?.identity8021x ||
+        connectedClientDetail?.dot1xIdentity ||
+        connectedClientCandidate?.identity ||
+        connectedClientCandidate?.clientIdentity ||
+        connectedClientCandidate?.identity8021x ||
+        connectedClientCandidate?.dot1xIdentity ||
+        ''
+    ).trim();
+
+    const identificador8021x = identificador8021xDireto
+      ? {
+          raw: identificador8021xDireto,
+          nome: identificador8021xDireto,
+          usuario: identificador8021xDireto,
+          origem: 'identidade UniFi',
+        }
+      : extract8021xIdentity([
+          userEstimado?.name,
+          userEstimado?.hostname,
+          clientMatch?.name,
+          clientMatch?.hostname,
+          deviceMatch?.note,
+          deviceMatch?.name,
+          hostName,
+        ]);
+
+    const identificador8021xAviso =
+      identificador8021xDireto
+        ? null
+        : !allowsNetworkLookup
+          ? 'A consulta está em modo Internet e não consegue ler a identidade 802.1X da UniFi.'
+          : !connectedClientCandidate
+            ? 'Não foi possível localizar um cliente conectado correspondente ao host informado.'
+            : !connectedClientDetail
+              ? 'O cliente foi encontrado, mas a UniFi não retornou o campo de identidade 802.1X.'
+              : 'A UniFi respondeu sem um identificador 802.1X claro para este cliente.';
 
     const usuarioRadius =
-      identitySource === 'WINDOWS_NPS' || identitySource === 'FREERADIUS'
+      usuarioRadiusNome || identificador8021x?.usuario || identitySource === 'WINDOWS_NPS' || identitySource === 'FREERADIUS'
         ? {
-            nome: sanitizeDisplayText(identificador8021x?.usuario || userDerivado || userEstimado?.name || userEstimado?.hostname),
+            nome: sanitizeDisplayText(
+              usuarioRadiusNome ||
+                identificador8021x?.usuario ||
+                userDerivado ||
+                userEstimado?.name ||
+                userEstimado?.hostname
+            ),
             origem:
-              identitySource === 'WINDOWS_NPS'
+              radiusProfile?.origin ||
+              radiusInfo?.authType ||
+              (identitySource === 'WINDOWS_NPS'
                 ? 'retorno Windows NPS'
-                : 'retorno FreeRADIUS',
-            fonte: sanitizeDisplayText(identitySourceNotes) || null,
+                : identitySource === 'FREERADIUS'
+                  ? 'retorno FreeRADIUS'
+                  : 'cliente UniFi conectado'),
+            fonte:
+              sanitizeDisplayText(identitySourceNotes) ||
+              sanitizeDisplayText(identificador8021x?.raw) ||
+              sanitizeDisplayText(radiusInfo?.raw) ||
+              null,
           }
         : null;
 
-    const ativosRelacionados: any[] = await listarAtivosRedeRelatorio({ nome: hostname });
-    const perifericosAtivos = ativosRelacionados
+    const hostSearchKey = extractHostSearchKey(hostname);
+    const serialSearchKey = extractSerialSearchKey(serial);
+    const patrimoniosRelacionadosBase: any[] = await listarPatrimonios(
+      serialSearchKey
+        ? {
+            licenca: serialSearchKey,
+            take: 50,
+          }
+        : {
+            idPat: hostSearchKey || undefined,
+            descricao: hostSearchKey || undefined,
+            take: 50,
+        }
+    );
+    const patrimoniosRelacionados = serialSearchKey
+      ? patrimoniosRelacionadosBase
+          .filter((item) => normalizeSerialMatch(item.licencaPat) === normalizeSerialMatch(serialSearchKey))
+          .slice(0, 1)
+      : patrimoniosRelacionadosBase;
+    const perifericosAtivos = patrimoniosRelacionados
       .map((ativo) => {
         const categoria = classifyPeripheral({
-          nome: ativo.nomeAtivoRede,
-          modelo: ativo.modeloAtivoRede,
-          tipo: ativo.tipoAtivoRede || ativo.tbTipoAtivoRede?.descricaoTipoAtivoRede || undefined,
-          hostname: ativo.hostnameAtivoRede,
-          observacao: ativo.observacaoAtivoRede,
-        });
+          nome: ativo.descricaoPat,
+          modelo: ativo.licencaPat,
+          tipo: ativo.tbTipoPat?.descricaoTipPat || undefined,
+          hostname: ativo.idPat,
+          observacao: ativo.descricaoDetalhadaPat,
+        }) || (serialSearchKey ? 'MONITOR' : null);
         if (!categoria) return null;
 
         return {
           categoria,
-          codigo: sanitizeDisplayText(ativo.codigoAtivoRede),
-          nome: sanitizeDisplayText(ativo.nomeAtivoRede),
-          hostname: sanitizeDisplayText(ativo.hostnameAtivoRede) || null,
-          serial: sanitizeDisplayText(ativo.serialAtivoRede) || null,
-          modelo: sanitizeDisplayText(ativo.modeloAtivoRede) || null,
-          fabricante: sanitizeDisplayText(ativo.fabricanteAtivoRede) || null,
-          local: sanitizeDisplayText(ativo.localInstalacaoAtivoRede) || null,
-          status: sanitizeDisplayText(ativo.statusAtivoRede || ativo.tbStatusAtivoRede?.descricaoStatusAtivoRede) || null,
-          origem: 'ATIVOS_REDE',
+          codigo: sanitizeDisplayText(ativo.idPat),
+          nome: sanitizeDisplayText(ativo.descricaoPat),
+          hostname: sanitizeDisplayText(ativo.idPat) || null,
+          serial: sanitizeDisplayText(ativo.licencaPat) || null,
+          modelo: sanitizeDisplayText(ativo.tbTipoPat?.descricaoTipPat) || null,
+          fabricante: null,
+          local: sanitizeDisplayText(ativo.tbCCusto?.descricaoCCusto) || null,
+          status: sanitizeDisplayText(ativo.tbStatusPat?.descricaoStatPat) || null,
+          origem: 'TB_PATRIMONIO',
         };
       })
       .filter(Boolean) as Array<{
@@ -522,6 +674,7 @@ export async function GET(request: NextRequest) {
           }
         : null,
       identificador8021x,
+      identificador8021xAviso,
       fonte8021xConfigurada: {
         origem: sanitizeDisplayText(identitySource),
         notas: sanitizeDisplayText(identitySourceNotes) || null,
@@ -529,7 +682,7 @@ export async function GET(request: NextRequest) {
       usuarioEstimado: userDerivado
         ? {
             nome: sanitizeDisplayText(userDerivado),
-            origem: userEstimado?.hostname ? 'cliente UniFi' : 'derivado da rede',
+            origem: usuarioRadius ? 'RADIUS do cliente conectado' : (userEstimado?.hostname ? 'cliente UniFi' : 'derivado da rede'),
           }
         : null,
       usuarioRadius,

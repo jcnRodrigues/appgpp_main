@@ -185,6 +185,7 @@ export async function listarAlocacoes(filtro?: {
             tbFuncionario: {
                 include: {
                     tbStatusFun: true,
+                    tbFuncao: true,
                     tbCCusto: true
                 }
             },
@@ -326,6 +327,7 @@ export async function criarAlocacao(dados: {
     dataDevPat?: Date;
     idStatusPatCad?: string;
     motivoDevolucao?: string | null;
+    preservarHistoricoPatrimonio?: boolean;
 }) {
     return await prisma.$transaction(async (tx) => {
         // Validar se o patrimônio existe
@@ -367,6 +369,7 @@ export async function criarAlocacao(dados: {
 
         const statusDescricao = patrimonio.tbStatusPat?.descricaoStatPat?.toLowerCase() || "";
         const statusDevolvido = statusDescricao.includes("devolv");
+        const devePreservarHistoricoPatrimonio = dados.preservarHistoricoPatrimonio === true;
 
         const alocacaoAtiva = await tx.tbCadastro.findFirst({
             where: {
@@ -382,7 +385,7 @@ export async function criarAlocacao(dados: {
             throw new Error("patrimônio já está alocado. Registre a devolução antes de realocar.");
         }
 
-        if (alocacaoAtiva && statusDevolvido) {
+        if (alocacaoAtiva && statusDevolvido && !devePreservarHistoricoPatrimonio) {
             await tx.tbCadastro.update({
                 where: { idCad: alocacaoAtiva.idCad },
                 data: { dataDevPat: new Date() }
@@ -430,14 +433,14 @@ export async function criarAlocacao(dados: {
             }
         });
 
-        if (dados.dataDevPat) {
+        if (dados.dataDevPat && !devePreservarHistoricoPatrimonio) {
             if (statusDevolvidoId) {
                 await tx.tbPatrimonio.update({
                     where: { idPat: dados.idPatCad },
                     data: { idPat_StatusPat: statusDevolvidoId }
                 });
             }
-        } else if (statusAtivoId) {
+        } else if (!devePreservarHistoricoPatrimonio && statusAtivoId) {
             await tx.tbPatrimonio.update({
                 where: { idPat: dados.idPatCad },
                 data: { idPat_StatusPat: statusAtivoId }
@@ -739,6 +742,27 @@ export async function alocacoesPorPatrimonio(idPat: string) {
         },
         include: {
             tbFuncionario: true
+        },
+        orderBy: {
+            dataCadPat: 'desc'
+        }
+    });
+}
+
+export async function listarTermosFuncionario(idMatFun: string) {
+    return await prisma.tbCadastro.findMany({
+        where: {
+            idMatFunCad: idMatFun
+        },
+        include: {
+            tbStatusPat: true,
+            tbPatrimonio: {
+                include: {
+                    tbStatusPat: true,
+                    tbCCusto: true,
+                    tbTipoPat: true
+                }
+            }
         },
         orderBy: {
             dataCadPat: 'desc'

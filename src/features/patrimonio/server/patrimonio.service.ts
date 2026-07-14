@@ -1,5 +1,6 @@
 ﻿
 import prisma from "../../../../prisma/prisma";
+import { obterOuCriarProcessoTransferenciaPorCodigo } from '@/features/transferencia/server/transferenciaCodigo.service';
 
 function normalizarStatus(valor?: string | null) {
     return (valor || '')
@@ -16,6 +17,7 @@ function isStatusDevolucao(valor?: string | null) {
 function buildPatrimonioWhere(filtro?: {
     idPat?: string;
     descricao?: string;
+    licenca?: string;
     status?: string;
     statusIds?: string[];
     tipo?: string;
@@ -46,6 +48,11 @@ function buildPatrimonioWhere(filtro?: {
         ...(filtro?.descricao && {
             descricaoPat: {
                 contains: filtro.descricao
+            }
+        }),
+        ...(filtro?.licenca && {
+            licencaPat: {
+                contains: filtro.licenca
             }
         }),
         ...(statusIds.length > 0 && {
@@ -89,17 +96,26 @@ export async function getPatrimonioCardById(id: string) {
             tbStatusPat: true,
             tbCCusto: true,
             tbCadastro: true,
-            tbDevolucao: {
-                orderBy: {
-                    dataInicioDevolucao: 'desc'
-                },
-                select: {
-                    dataInicioDevolucao: true,
-                    dataSaidaFornecedor: true,
-                    dataChegadaFornecedor: true,
-                    dataFimDevolucao: true,
-                    motivoDevolucao: true,
-                    notaFiscalDevolucao: true
+                    tbDevolucao: {
+                        orderBy: {
+                            dataInicioDevolucao: 'desc'
+                        },
+                        select: {
+                            dataInicioDevolucao: true,
+                            dataSaidaFornecedor: true,
+                            dataChegadaFornecedor: true,
+                            dataFimDevolucao: true,
+                            motivoDevolucao: true,
+                            notaFiscalDevolucao: true,
+                            tbDevolucaoProcesso: {
+                                select: {
+                                    idDevolucaoProcesso: true,
+                                    codigoDevolucao: true,
+                                    statusDevolucao: true,
+                            dataInicio: true,
+                            dataFechamento: true
+                        }
+                    }
                 },
                 take: 1
             },
@@ -138,6 +154,7 @@ export async function getStatusPatrimonioById(id: string) {
 export async function listarPatrimonios(filtro?: {
     idPat?: string;
     descricao?: string;
+    licenca?: string;
     status?: string;
     statusIds?: string[];
     tipo?: string;
@@ -145,42 +162,100 @@ export async function listarPatrimonios(filtro?: {
     centros?: string[];
     skip?: number;
     take?: number;
+    includeHistorico?: boolean;
 }) {
-    const patrimonios = await prisma.tbPatrimonio.findMany({
-        where: buildPatrimonioWhere(filtro),
-        include: {
-            tbStatusPat: true,
-            tbTipoPat: true,
-            tbCCusto: true,
-            tbDevolucao: {
-                orderBy: {
-                    dataInicioDevolucao: 'desc'
-                },
-                take: 1
-            },
-            tbTransferenciaCustoPatrimonio: {
-                orderBy: {
-                    dataTransferencia: 'desc'
-                },
-                take: 1,
-                include: {
-                    custoOrigem: true,
-                    custoDestino: true
-                }
-            }
-        },
-        skip: filtro?.skip || 0,
-        take: filtro?.take || 100,
-        orderBy: {
-            createdAt: 'desc'
-        }
-    });
+    const includeHistorico = Boolean(filtro?.includeHistorico);
 
-    return patrimonios.map(p => ({
+    const [patrimonios, historicos] = await Promise.all([
+        prisma.tbPatrimonio.findMany({
+            where: buildPatrimonioWhere(filtro),
+            include: {
+                tbStatusPat: true,
+                tbTipoPat: true,
+                tbCCusto: true,
+                tbDevolucao: {
+                    orderBy: {
+                        dataInicioDevolucao: 'desc'
+                    },
+                    take: 1
+                },
+                tbTransferenciaCustoPatrimonio: {
+                    orderBy: {
+                        dataTransferencia: 'desc'
+                    },
+                    take: 1,
+                    include: {
+                        custoOrigem: true,
+                        custoDestino: true
+                    }
+                }
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
+        }),
+        includeHistorico
+            ? prisma.tbPatrimonioHistorico.findMany({
+                where: buildPatrimonioWhere(filtro),
+                include: {
+                    tbStatusPat: true,
+                    tbTipoPat: true,
+                    tbCCusto: true
+                },
+                orderBy: {
+                    createdAt: 'desc'
+                }
+            })
+            : Promise.resolve([])
+    ]);
+
+    const historicosComoPatrimonio = historicos.map((h: any) => ({
+        ...h,
+        idP: `hist-${h.idHistorico}`,
+        isHistorico: true,
+        tbDevolucao: h.dataDevolucao ? [{
+            dataInicioDevolucao: h.dataDevolucao,
+            motivoDevolucao: h.motivoDevolucao,
+            notaFiscalDevolucao: h.notaFiscalDevolucao
+        }] : [],
+        custoAnteriorTransferencia: null,
+        custoAtualTransferencia: null,
+        dataUltimaTransferencia: null
+    }));
+
+    const linhas = includeHistorico ? [...historicosComoPatrimonio, ...patrimonios] : patrimonios;
+
+    const linhasOrdenadas = linhas.sort((a: any, b: any) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+
+    const porIdPat = new Map<string, typeof linhasOrdenadas>();
+    for (const item of linhasOrdenadas) {
+        const chave = item.idPat || '';
+        if (!porIdPat.has(chave)) porIdPat.set(chave, []);
+        porIdPat.get(chave)!.push(item);
+    }
+
+    const cicloPorLinha = new Map<string, number>();
+    for (const [, itens] of porIdPat) {
+        const ordenadoAntigoNovo = [...itens].sort(
+            (a, b) => new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime()
+        );
+        ordenadoAntigoNovo.forEach((item, idx) => {
+            cicloPorLinha.set(item.idP, idx + 1);
+        });
+    }
+
+    const linhasComCiclo = linhasOrdenadas.map((item: any) => ({
+        ...item,
+        cicloPatrimonio: cicloPorLinha.get(item.idP) || 1
+    }));
+
+    const inicio = filtro?.skip || 0;
+    const fim = inicio + (filtro?.take || 100);
+    return linhasComCiclo.slice(inicio, fim).map((p: any) => ({
         ...p,
-        custoAnteriorTransferencia: p.tbTransferenciaCustoPatrimonio?.[0]?.custoOrigem?.descricaoCCusto || null,
-        custoAtualTransferencia: p.tbTransferenciaCustoPatrimonio?.[0]?.custoDestino?.descricaoCCusto || null,
-        dataUltimaTransferencia: p.tbTransferenciaCustoPatrimonio?.[0]?.dataTransferencia || null
+        custoAnteriorTransferencia: p.custoAnteriorTransferencia ?? (p.tbTransferenciaCustoPatrimonio?.[0]?.custoOrigem?.descricaoCCusto || null),
+        custoAtualTransferencia: p.custoAtualTransferencia ?? (p.tbTransferenciaCustoPatrimonio?.[0]?.custoDestino?.descricaoCCusto || null),
+        dataUltimaTransferencia: p.dataUltimaTransferencia ?? (p.tbTransferenciaCustoPatrimonio?.[0]?.dataTransferencia || null)
     }));
 }
 
@@ -285,21 +360,30 @@ export async function criarPatrimonio(dados: {
             tbStatusPat: true,
             tbTipoPat: true,
             tbCCusto: true,
-            tbDevolucao: {
-                orderBy: {
-                    dataInicioDevolucao: 'desc'
-                },
-                select: {
-                    dataInicioDevolucao: true,
-                    dataSaidaFornecedor: true,
-                    dataChegadaFornecedor: true,
-                    dataFimDevolucao: true,
-                    motivoDevolucao: true,
-                    notaFiscalDevolucao: true
-                },
-                take: 1
+                    tbDevolucao: {
+                        orderBy: {
+                            dataInicioDevolucao: 'desc'
+                        },
+                        select: {
+                            dataInicioDevolucao: true,
+                            dataSaidaFornecedor: true,
+                            dataChegadaFornecedor: true,
+                            dataFimDevolucao: true,
+                            motivoDevolucao: true,
+                            notaFiscalDevolucao: true,
+                            tbDevolucaoProcesso: {
+                                select: {
+                                    idDevolucaoProcesso: true,
+                                    codigoDevolucao: true,
+                                    statusDevolucao: true,
+                                dataInicio: true,
+                                dataFechamento: true
+                            }
+                        }
+                    },
+                    take: 1
+                }
             }
-        }
     });
 }
 
@@ -557,21 +641,30 @@ export async function atualizarPatrimonio(idP: string, dados: Partial<{
             tbStatusPat: true,
             tbTipoPat: true,
             tbCCusto: true,
-            tbDevolucao: {
-                orderBy: {
-                    dataInicioDevolucao: 'desc'
-                },
-                select: {
-                    dataInicioDevolucao: true,
-                    dataSaidaFornecedor: true,
-                    dataChegadaFornecedor: true,
-                    dataFimDevolucao: true,
-                    motivoDevolucao: true,
-                    notaFiscalDevolucao: true
-                },
-                take: 1
+                    tbDevolucao: {
+                        orderBy: {
+                            dataInicioDevolucao: 'desc'
+                        },
+                        select: {
+                            dataInicioDevolucao: true,
+                            dataSaidaFornecedor: true,
+                            dataChegadaFornecedor: true,
+                            dataFimDevolucao: true,
+                            motivoDevolucao: true,
+                            notaFiscalDevolucao: true,
+                            tbDevolucaoProcesso: {
+                                select: {
+                                    idDevolucaoProcesso: true,
+                                    codigoDevolucao: true,
+                                    statusDevolucao: true,
+                                dataInicio: true,
+                                dataFechamento: true
+                            }
+                        }
+                    },
+                    take: 1
+                }
             }
-        }
     });
 }
 
@@ -595,6 +688,7 @@ export async function transferirCentroCustoPatrimonio(params: {
     observacao?: string;
     dataTransferencia?: Date;
     idUserTransferencia?: string;
+    codigoTransferencia?: string | null;
 }) {
     const patrimonio = await prisma.tbPatrimonio.findUnique({
         where: { idP: params.idPatrimonio },
@@ -622,6 +716,8 @@ export async function transferirCentroCustoPatrimonio(params: {
         throw new Error('Centro de custo de destino nÃ£o encontrado');
     }
 
+    const processoTransferencia = await obterOuCriarProcessoTransferenciaPorCodigo(params.codigoTransferencia);
+
     await prisma.$transaction(async (tx) => {
         await tx.tbTransferenciaCustoPatrimonio.create({
             data: {
@@ -631,6 +727,7 @@ export async function transferirCentroCustoPatrimonio(params: {
                 valorTransferido: patrimonio.valorPat,
                 observacao: params.observacao?.trim() || null,
                 idUserTransferencia: params.idUserTransferencia || null,
+                idTransferenciaProcesso: processoTransferencia?.idTransferenciaProcesso || null,
                 dataTransferencia: params.dataTransferencia || new Date()
             }
         });

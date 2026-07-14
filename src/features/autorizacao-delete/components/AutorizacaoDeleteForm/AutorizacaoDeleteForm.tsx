@@ -50,7 +50,7 @@ export default function AutorizacaoDeleteForm() {
     return (
         <div className="bg-background min-h-screen py-6">
             <div className="max-w-md mx-auto px-4">
-                <div className="bg-white rounded-lg shadow-lg p-6 space-y-5">
+                <div className="form-surface space-y-5 p-4 sm:p-6">
                     <div className="space-y-1">
                         <h1 className="text-xl font-bold">{titulo}</h1>
                         <p className="text-sm text-gray-600">
@@ -58,7 +58,7 @@ export default function AutorizacaoDeleteForm() {
                         </p>
                     </div>
 
-                    <div className="rounded-lg border bg-slate-50 p-4 text-sm text-slate-700 space-y-1">
+                    <div className="space-y-1 rounded-xl border border-border/60 bg-[#0d1416] p-4 text-sm text-slate-300">
                         <p>
                             <span className="font-medium">Recurso:</span> {recursoLabel}
                         </p>
@@ -75,7 +75,7 @@ export default function AutorizacaoDeleteForm() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Email do autorizador"
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                            className="w-full rounded-xl border border-border/60 bg-[#0d1416] px-4 py-2.5 text-slate-50 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
                             required
                         />
                         <input
@@ -83,7 +83,7 @@ export default function AutorizacaoDeleteForm() {
                             value={senha}
                             onChange={(e) => setSenha(e.target.value)}
                             placeholder="Senha do autorizador"
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                            className="w-full rounded-xl border border-border/60 bg-[#0d1416] px-4 py-2.5 text-slate-50 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
                             required
                         />
 
@@ -96,7 +96,7 @@ export default function AutorizacaoDeleteForm() {
                             loading={loading}
                             className="flex justify-end gap-2 pt-2"
                             onCancel={() => router.replace(returnTo)}
-                            cancelClassName="border-slate-300 bg-slate-950 text-slate-100 hover:bg-slate-900 hover:text-white shadow-sm"
+                            cancelClassName="border-red-500 bg-red-600 text-white hover:bg-red-500 shadow-sm"
                             submitClassName="bg-rose-600 text-white hover:bg-rose-500 shadow-sm"
                         />
                     </form>

@@ -21,19 +21,19 @@ export async function GET(request: NextRequest) {
         const patrimonioBusca = searchParams.get('patrimonioBusca');
         const centroBusca = searchParams.get('centroBusca');
         const statusIds = searchParams.getAll('statusId').filter(Boolean);
-        const opções = searchParams.get('opções');
+        const opcoes = searchParams.get('opcoes') || searchParams.get('opções');
         const skip = parseInt(searchParams.get('skip') || '0');
         const take = parseInt(searchParams.get('take') || '10');
 
         const { centros, allowAll } = await getCentrosFiltro(request);
         const filtroCentros = allowAll ? undefined : centros;
 
-        if (!allowAll && centros.length === 0 && opções !== 'true') {
+        if (!allowAll && centros.length === 0 && opcoes !== 'true') {
             return NextResponse.json({ data: [], total: 0 });
         }
 
         // Se solicitar opÃ§Ãµes (funcionÃ¡rios e patrimÃ´nios)
-        if (opções === 'true') {
+        if (opcoes === 'true') {
             const [funcionarios, patrimonios, statusPatrimonio] = await Promise.all([
                 listarFuncionarios(filtroCentros),
                 listarPatrimonios(filtroCentros),
@@ -103,7 +103,8 @@ export async function POST(request: NextRequest) {
             dataCadPat: parseOptionalDateInput(dados.dataCadPat),
             dataDevPat: parseOptionalDateInput(dados.dataDevPat),
             idStatusPatCad: dados.idStatusPatCad || undefined,
-            motivoDevolucao: typeof dados.motivoDevolucao === 'string' ? dados.motivoDevolucao : null
+            motivoDevolucao: typeof dados.motivoDevolucao === 'string' ? dados.motivoDevolucao : null,
+            preservarHistoricoPatrimonio: dados.preservarHistoricoPatrimonio === true || dados.preservarHistoricoPatrimonio === '1' || dados.preservarHistoricoPatrimonio === 'true'
         });
 
         return NextResponse.json(alocacao, { status: 201 });

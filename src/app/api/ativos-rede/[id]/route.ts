@@ -58,7 +58,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     } catch (error) {
         console.error('Erro ao atualizar ativo de rede:', error);
         const message = error instanceof Error ? error.message : 'Erro ao atualizar ativo de rede';
-        return NextResponse.json({ message }, { status: 500 });
+        const status = message.includes('Já existe um ativo de rede com este código') || message.includes('Código do ativo de rede é obrigatório')
+            ? 409
+            : 500;
+        return NextResponse.json({ message }, { status });
     }
 }
 

@@ -1,0 +1,36 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      HOSTNAME: 0.0.0.0
+      PORT: 3000
+      PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      APPGPP_PUBLIC_URL: ${APPGPP_PUBLIC_URL}
+    expose:
+      - "3000"
+    volumes:
+      - appgpp-backups:/app/backups
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.27-alpine
+    depends_on:
+      - app
+    environment:
+      NGINX_SERVER_NAME: ${NGINX_SERVER_NAME:-_}
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf.template:/etc/nginx/templates/default.conf.template:ro
+      - certbot-webroot:/var/www/certbot
+    restart: unless-stopped
+
+volumes:
+  appgpp-backups:
+  certbot-webroot:

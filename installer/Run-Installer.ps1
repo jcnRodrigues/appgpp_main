@@ -22,6 +22,56 @@ function Open-MySqlDownloadPage {
   } catch {}
 }
 
+function Get-NodeMsiUrl {
+  param([string]$Version)
+
+  $cleanVersion = $Version.Trim().TrimStart("v")
+  $arch = if ([Environment]::Is64BitOperatingSystem) { "x64" } else { "x86" }
+  return "https://nodejs.org/dist/v$cleanVersion/node-v$cleanVersion-$arch.msi"
+}
+
+function Get-NodeVersionFromPayload {
+  param([string]$BaseDir)
+
+  $versionPath = Join-Path $BaseDir "runtime\node-version.txt"
+  if (Test-Path -LiteralPath $versionPath) {
+    $value = (Get-Content -LiteralPath $versionPath -Raw).Trim()
+    if (-not [string]::IsNullOrWhiteSpace($value)) { return $value }
+  }
+  return ""
+}
+
+function Get-PayloadZipPath {
+  param([string]$BaseDir)
+
+  $candidate = Join-Path $BaseDir "AppGPP-Payload.zip"
+  if (Test-Path -LiteralPath $candidate) { return $candidate }
+  return ""
+}
+
+function Install-NodeIfMissing {
+  param([string]$Version)
+
+  if (Get-Command node -ErrorAction SilentlyContinue) { return $true }
+
+  $nodeUrl = Get-NodeMsiUrl -Version $Version
+  $tempMsi = Join-Path $env:TEMP ("node-" + $Version.Trim().TrimStart("v") + ".msi")
+
+  try {
+    Invoke-WebRequest -Uri $nodeUrl -OutFile $tempMsi -UseBasicParsing
+    $msiProc = Start-Process -FilePath "msiexec.exe" -ArgumentList @("/i", $tempMsi, "/qn", "/norestart") -Wait -PassThru
+    if ($msiProc.ExitCode -ne 0) {
+      return $false
+    }
+    Start-Sleep -Seconds 3
+    return [bool](Get-Command node -ErrorAction SilentlyContinue)
+  } catch {
+    return $false
+  } finally {
+    Remove-Item -LiteralPath $tempMsi -Force -ErrorAction SilentlyContinue
+  }
+}
+
 function Show-CompanyForm {
   param(
     [string]$InstallDir,
@@ -34,10 +84,21 @@ function Show-CompanyForm {
       [hashtable]$Company
     )
 
+    $localNodeExe = Join-Path $BaseDir "runtime\node\node.exe"
+    if (Test-Path -LiteralPath $localNodeExe) {
+      $bundledNodeExe = $localNodeExe
+    } else {
+      $bundledNodeExe = (Get-Command node -ErrorAction SilentlyContinue).Source
+    }
+    if (-not $bundledNodeExe) {
+      return @{ ok = $false; details = "Node.js nao encontrado no pacote instalado nem no sistema." }
+    }
+
     $nodeScript = @"
 const path = require('path');
+const fs = require('fs');
 process.chdir(path.resolve(process.argv[2]));
-const company = JSON.parse(process.argv[3]);
+const company = JSON.parse(fs.readFileSync(process.argv[3], 'utf8'));
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
@@ -74,11 +135,13 @@ run()
 
     $scriptPath = Join-Path $env:TEMP ("appgpp-save-company-" + [guid]::NewGuid().ToString("N") + ".js")
     $errPath = Join-Path $env:TEMP ("appgpp-save-company-" + [guid]::NewGuid().ToString("N") + ".err.log")
+    $companyPath = Join-Path $env:TEMP ("appgpp-save-company-" + [guid]::NewGuid().ToString("N") + ".json")
     Set-Content -LiteralPath $scriptPath -Value $nodeScript -Encoding UTF8
 
     try {
       $companyJson = ($Company | ConvertTo-Json -Compress -Depth 4)
-      $proc = Start-Process -FilePath "node" -ArgumentList @($scriptPath, $BaseDir, $companyJson) -RedirectStandardError $errPath -Wait -PassThru
+      Set-Content -LiteralPath $companyPath -Value $companyJson -Encoding UTF8
+      $proc = Start-Process -FilePath $bundledNodeExe -ArgumentList @($scriptPath, $BaseDir, $companyPath) -RedirectStandardError $errPath -Wait -PassThru
       if ($proc.ExitCode -ne 0) {
         $details = ""
         if (Test-Path -LiteralPath $errPath) { $details = (Get-Content -LiteralPath $errPath -Raw) }
@@ -88,7 +151,13 @@ run()
     } finally {
       Remove-Item -LiteralPath $scriptPath -Force -ErrorAction SilentlyContinue
       Remove-Item -LiteralPath $errPath -Force -ErrorAction SilentlyContinue
+      Remove-Item -LiteralPath $companyPath -Force -ErrorAction SilentlyContinue
     }
+  }
+
+  $bundledNodeVersion = Get-NodeVersionFromPayload -BaseDir $BaseDir
+  if ([string]::IsNullOrWhiteSpace($bundledNodeVersion) -and (Get-Command node -ErrorAction SilentlyContinue)) {
+    try { $bundledNodeVersion = (& (Get-Command node).Source --version).Trim() } catch {}
   }
 
   $form = New-Object System.Windows.Forms.Form
@@ -187,7 +256,7 @@ if ([string]::IsNullOrWhiteSpace($scriptPath)) { $scriptPath = $PSCommandPath }
 if ([string]::IsNullOrWhiteSpace($scriptPath)) { $scriptPath = [System.Diagnostics.Process]::GetCurrentProcess().MainModule.FileName }
 $baseDir = if ([string]::IsNullOrWhiteSpace($scriptPath)) { [System.AppDomain]::CurrentDomain.BaseDirectory } else { Split-Path -Parent $scriptPath }
 
-$payloadPath = Join-Path $baseDir "AppGPP-Payload.zip"
+$payloadPath = Get-PayloadZipPath -BaseDir $baseDir
 $iconPath = Join-Path $baseDir "AppGPP.ico"
 $appIcon = $null
 if (Test-Path -LiteralPath $iconPath) {
@@ -408,7 +477,7 @@ function Resolve-ErrorFocus {
 $btnInstall.Add_Click({
   try {
     $status.Text = ""
-    if (-not (Test-Path $payloadPath)) { throw "Arquivo AppGPP-Payload.zip nao encontrado ao lado do instalador." }
+    if ([string]::IsNullOrWhiteSpace($payloadPath)) { throw "Arquivo AppGPP-Payload.zip nao encontrado ao lado do instalador." }
 
     $installDir = $tbInstallDir.Text.Trim()
     $serverHost = $tbServerHost.Text.Trim()
@@ -481,7 +550,7 @@ $btnInstall.Add_Click({
     if ($appIcon) { $progressForm.Icon = $appIcon }
 
     $lbl = New-Object System.Windows.Forms.Label
-    $lbl.Text = "Processo de instalacao em andamento"
+    $lbl.Text = "Transferencia de arquivos e configuracao em andamento"
     $lbl.Location = New-Object System.Drawing.Point(16, 14)
     $lbl.AutoSize = $true
     $lbl.Font = New-Object System.Drawing.Font("Segoe UI", 11, [System.Drawing.FontStyle]::Bold)
@@ -510,7 +579,7 @@ $btnInstall.Add_Click({
     $btnCloseProgress.Add_Click({ $progressForm.Close() })
     $progressForm.Controls.Add($btnCloseProgress)
 
-    $tempDir = Join-Path $env:TEMP ("AppGPP_Install_" + [guid]::NewGuid().ToString("N"))
+    $tempDir = Join-Path $env:SystemDrive ("AGPP_Install_" + [guid]::NewGuid().ToString("N"))
     New-Item -ItemType Directory -Path $tempDir -Force | Out-Null
     Expand-Archive -LiteralPath $payloadPath -DestinationPath $tempDir -Force
 

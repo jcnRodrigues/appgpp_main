@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { hasModuleAccessForRequest } from '@/lib/access';
 import { getUnifiConfig } from '@/features/unifi-config/server/unifi.service';
+import { inferMonitorStatus } from '@/lib/monitor-status';
+import {
+  extractRadiusLocalInfo,
+  fetchConnectedClientDetailsBySite,
+  fetchIntegrationClientsBySite,
+  fetchRadiusProfilesBySite,
+  normalizeMonitorList,
+  resolveRadiusProfileForClient,
+} from '@/lib/monitor-unifi';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -9,13 +18,18 @@ function normalizeText(value: unknown) {
   return String(value || '').trim();
 }
 
-function normalizeList(payload: any): any[] {
-  if (Array.isArray(payload)) return payload;
-  if (Array.isArray(payload?.data)) return payload.data;
-  if (Array.isArray(payload?.hosts)) return payload.hosts;
-  if (Array.isArray(payload?.devices)) return payload.devices;
-  if (Array.isArray(payload?.clients)) return payload.clients;
-  return [];
+function normalizeSiteToken(value: unknown) {
+  const text = normalizeText(value);
+  return text && text.toLowerCase() !== 'default' ? text : '';
+}
+
+function pickNestedValue(source: unknown, path: string[]): unknown {
+  let current: any = source;
+  for (const key of path) {
+    if (!current || typeof current !== 'object') return undefined;
+    current = current[key];
+  }
+  return current;
 }
 
 function getNextToken(payload: any): string {
@@ -94,7 +108,7 @@ async function fetchAllDeviceGroupsByApiKey(
     }
 
     const payload = await response.json();
-    const list = normalizeList(payload);
+    const list = normalizeMonitorList(payload);
     for (const item of list) {
       const hostId = String(item?.hostId || '');
       if (!hostId) continue;
@@ -142,12 +156,12 @@ async function fetchConnectorPath(apiKey: string, consoleId: string, path: strin
   if (!response.ok) return null;
   const payload = await response.json().catch(() => null);
   if (!payload) return null;
-  const list = normalizeList(payload);
+    const list = normalizeMonitorList(payload);
   return list.length > 0 ? list : null;
 }
 
 export async function POST(request: NextRequest) {
-  const canAccess = await hasModuleAccessForRequest(request, 'UNIFI_CONFIG');
+  const canAccess = await hasModuleAccessForRequest(request, 'MONITOR_PATRIMONIOS');
   if (!canAccess) return NextResponse.json({ error: 'Sem permissão para acessar monitoramento' }, { status: 403 });
   const { apiKey } = await request.json();
   const savedConfig = await getUnifiConfig();
@@ -170,12 +184,7 @@ export async function POST(request: NextRequest) {
           ip: String(device.ip || device.ipAddress || device.host || ''),
           shortname: String(device.shortname || device.shortName || ''),
           productLine: String(device.productLine || device.platform || ''),
-          status:
-            device.status
-              ? String(device.status)
-              : device.online === true || device.isOnline === true || Number(device.state) === 1
-                ? 'Online'
-                : 'Offline',
+          status: inferMonitorStatus(device),
           siteId: String(group.hostId || ''),
           siteName: String(group.hostName || 'Site sem nome'),
           model: String(device.model || device.deviceModel || ''),
@@ -230,10 +239,109 @@ export async function POST(request: NextRequest) {
       };
     });
 
+    const siteNameByKey = new Map<string, string>();
+    for (const site of sites) {
+      const id = String(site.id || '').trim();
+      const name = String(site.name || '').trim();
+      const consoleId = String(site.consoleId || '').trim();
+      if (id && name && !siteNameByKey.has(id)) siteNameByKey.set(id, name);
+      if (consoleId && name && !siteNameByKey.has(consoleId)) siteNameByKey.set(consoleId, name);
+      if (name && !siteNameByKey.has(name.toLowerCase())) siteNameByKey.set(name.toLowerCase(), name);
+    }
+
     const clientsByKey = new Map<string, any>();
     for (const group of groups) {
       const siteId = String(group.hostId || '');
       if (!siteId) continue;
+      const isUcgConsole = /UCG|CLOUD GATEWAY/i.test(String(group.hostName || ''));
+      const useRadiusLookup = isUcgConsole;
+      const radiusProfiles = isUcgConsole
+        ? await fetchRadiusProfilesBySite(effectiveApiKey, siteId, siteId).catch(() => null)
+        : null;
+
+      const integrationClients = await fetchIntegrationClientsBySite(
+        effectiveApiKey,
+        siteId,
+        siteId,
+        { limit: 100, maxPages: 10 }
+      ).catch(() => null);
+      if (integrationClients) {
+        for (let idx = 0; idx < integrationClients.length; idx += 1) {
+          const client = integrationClients[idx] as Record<string, unknown>;
+          const maybeRadius = extractRadiusLocalInfo(client);
+          let radiusInfo = maybeRadius;
+          let radiusLocal = radiusInfo?.username || null;
+          let radiusLocalOrigin = radiusInfo?.authType || null;
+          const radiusProfile = useRadiusLookup ? resolveRadiusProfileForClient(client, radiusProfiles) : null;
+          if (radiusProfile) {
+            radiusLocal = radiusProfile.name || radiusLocal;
+            radiusLocalOrigin = radiusProfile.origin || radiusLocalOrigin;
+          }
+          if (!radiusInfo && isUcgConsole && String(client.id || client.clientId || client._id || client.mac || '').trim()) {
+            const detail = await fetchConnectedClientDetailsBySite(
+              effectiveApiKey,
+              siteId,
+              siteId,
+              String(client.id || client.clientId || client._id || client.mac || '').trim()
+            ).catch(() => null);
+            if (detail) {
+              radiusInfo = extractRadiusLocalInfo(detail);
+              if (!radiusProfile && radiusInfo) {
+                radiusLocal = radiusInfo.username;
+                radiusLocalOrigin = radiusInfo.authType;
+              }
+            }
+          }
+
+          const clientSiteIdRaw = String(
+            client.siteId ||
+              pickNestedValue(client, ['site', 'id']) ||
+              pickNestedValue(client, ['site', 'siteId']) ||
+              pickNestedValue(client, ['site', 'site_id']) ||
+              client.siteKey ||
+              client.networkSiteId ||
+              client.networkSite ||
+              siteId ||
+              ''
+          ).trim();
+          const clientSiteId = normalizeSiteToken(clientSiteIdRaw);
+          const clientSiteNameRaw = String(
+            client.siteName ||
+              pickNestedValue(client, ['site', 'name']) ||
+              pickNestedValue(client, ['site', 'displayName']) ||
+              client.hostName ||
+              client.ap_name ||
+              client.apName ||
+              ''
+          ).trim();
+          const clientSiteName = normalizeSiteToken(clientSiteNameRaw);
+          const hostNameResolved = String(group.hostName || '').trim();
+          const siteNameResolved =
+            (clientSiteId ? siteNameByKey.get(clientSiteId) || '' : '') ||
+            (clientSiteName ? siteNameByKey.get(clientSiteName.toLowerCase()) || clientSiteName : '') ||
+            (hostNameResolved && hostNameResolved !== 'default' ? hostNameResolved : '') ||
+            (siteId.toLowerCase() !== 'default' ? siteNameByKey.get(siteId) || '' : '') ||
+            (siteId.toLowerCase() !== 'default' ? siteId : '') ||
+            'Site sem nome';
+          const siteIdResolved = clientSiteId || (siteId.toLowerCase() !== 'default' ? siteId : '');
+
+          const normalized = {
+            id: String(client.id || client.clientId || client._id || client.mac || `${siteId}-${idx}`),
+            name: String(client.name || client.hostname || client.displayName || 'Cliente sem nome'),
+            mac: String(client.mac || client.macAddress || ''),
+            ip: String(client.ip || client.ipAddress || ''),
+            status: inferMonitorStatus(client),
+            siteId: siteIdResolved || siteId,
+            siteKey: siteIdResolved || siteId,
+            siteName: siteNameResolved,
+            radiusLocal,
+            radiusLocalOrigin,
+          };
+          const key = `${normalized.id}::${normalized.mac}`;
+          if (!clientsByKey.has(key)) clientsByKey.set(key, normalized);
+        }
+        continue;
+      }
 
       const candidatePaths = ['network/default/client', 'network/default/clients'];
       let clientsRaw: any[] | null = null;
@@ -252,18 +360,74 @@ export async function POST(request: NextRequest) {
 
       for (let idx = 0; idx < clientsRaw.length; idx += 1) {
         const client = clientsRaw[idx] as Record<string, unknown>;
+        const maybeRadius = extractRadiusLocalInfo(client);
+        let radiusInfo = maybeRadius;
+        let radiusLocal = radiusInfo?.username || null;
+        let radiusLocalOrigin = radiusInfo?.authType || null;
+        const radiusProfile = useRadiusLookup ? resolveRadiusProfileForClient(client, radiusProfiles) : null;
+        if (radiusProfile) {
+          radiusLocal = radiusProfile.name || radiusLocal;
+          radiusLocalOrigin = radiusProfile.origin || radiusLocalOrigin;
+        }
+        if (!radiusInfo && isUcgConsole && String(client.id || client.clientId || client._id || client.mac || '').trim()) {
+          const detail = await fetchConnectedClientDetailsBySite(
+            effectiveApiKey,
+            siteId,
+            siteId,
+            String(client.id || client.clientId || client._id || client.mac || '').trim()
+          ).catch(() => null);
+          if (detail) {
+            radiusInfo = extractRadiusLocalInfo(detail);
+            if (!radiusProfile && radiusInfo) {
+              radiusLocal = radiusInfo.username;
+              radiusLocalOrigin = radiusInfo.authType;
+            }
+          }
+        }
+
+        const clientSiteIdRaw = String(
+          client.siteId ||
+            pickNestedValue(client, ['site', 'id']) ||
+            pickNestedValue(client, ['site', 'siteId']) ||
+            pickNestedValue(client, ['site', 'site_id']) ||
+            client.siteKey ||
+            client.networkSiteId ||
+            client.networkSite ||
+            siteId ||
+            ''
+        ).trim();
+        const clientSiteId = normalizeSiteToken(clientSiteIdRaw);
+        const clientSiteNameRaw = String(
+          client.siteName ||
+            pickNestedValue(client, ['site', 'name']) ||
+            pickNestedValue(client, ['site', 'displayName']) ||
+            client.hostName ||
+            client.ap_name ||
+            client.apName ||
+            ''
+        ).trim();
+        const clientSiteName = normalizeSiteToken(clientSiteNameRaw);
+        const hostNameResolved = String(group.hostName || '').trim();
+        const siteNameResolved =
+          (clientSiteId ? siteNameByKey.get(clientSiteId) || '' : '') ||
+          (clientSiteName ? siteNameByKey.get(clientSiteName.toLowerCase()) || clientSiteName : '') ||
+          (hostNameResolved && hostNameResolved !== 'default' ? hostNameResolved : '') ||
+          (siteId.toLowerCase() !== 'default' ? siteNameByKey.get(siteId) || '' : '') ||
+          (siteId.toLowerCase() !== 'default' ? siteId : '') ||
+          'Site sem nome';
+        const siteIdResolved = clientSiteId || (siteId.toLowerCase() !== 'default' ? siteId : '');
+
         const normalized = {
           id: String(client.id || client.clientId || client._id || client.mac || `${siteId}-${idx}`),
           name: String(client.name || client.hostname || client.displayName || 'Cliente sem nome'),
           mac: String(client.mac || client.macAddress || ''),
           ip: String(client.ip || client.ipAddress || ''),
-          status: client.status
-            ? String(client.status)
-            : client.online === true || Number(client.state) === 1
-              ? 'Online'
-              : 'Offline',
-          siteId,
-          siteName: String(group.hostName || 'Site sem nome'),
+          status: inferMonitorStatus(client),
+          siteId: siteIdResolved || siteId,
+          siteKey: siteIdResolved || siteId,
+          siteName: siteNameResolved,
+          radiusLocal,
+          radiusLocalOrigin,
         };
         const key = `${normalized.id}::${normalized.mac}`;
         if (!clientsByKey.has(key)) clientsByKey.set(key, normalized);

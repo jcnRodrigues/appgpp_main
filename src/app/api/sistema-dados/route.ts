@@ -99,6 +99,7 @@ function addIgnoredRow(
 function hasImportAccess(sessionUser?: SessionUser) {
     const formularios = sessionUser?.formularios;
     return (
+        hasModuleActionPermission(formularios || [], "IMPORTAR_DADOS", "IMPORT") ||
         hasModuleActionPermission(formularios || [], "IMPORTACAO_EXPORTACAO", "IMPORT") ||
         hasModuleAccess(formularios || [], "ACESSO_USUARIOS")
     );
@@ -107,6 +108,7 @@ function hasImportAccess(sessionUser?: SessionUser) {
 function hasExportAccess(sessionUser?: SessionUser) {
     const formularios = sessionUser?.formularios;
     return (
+        hasModuleActionPermission(formularios || [], "EXPORTAR_DADOS", "EXPORT") ||
         hasModuleActionPermission(formularios || [], "IMPORTACAO_EXPORTACAO", "EXPORT") ||
         hasModuleAccess(formularios || [], "ACESSO_USUARIOS")
     );
@@ -1071,7 +1073,7 @@ async function importByCentro(data: BackupData, centroId: string): Promise<Impor
         }
 
         for (const row of data.tbUser) {
-            let existing = null;
+            let existing: { id: string } | null = null;
             if (row.emailUser) {
                 existing = await tx.tbUser.findFirst({
                     where: { emailUser: row.emailUser }
@@ -1474,7 +1476,7 @@ async function importByCentroMerge(data: BackupData, centroId: string): Promise<
         }
 
         for (const row of data.tbUser) {
-            let existing = null;
+            let existing: { id: string } | null = null;
             if (row.emailUser) {
                 existing = await tx.tbUser.findFirst({ where: { emailUser: row.emailUser } });
             }

@@ -1,6 +1,7 @@
 ﻿import Header from '@/components/Header/Header';
 import PageHeader from '@/components/PageHeader/PageHeader';
-import TransferenciaCustoPatrimonioTable from '@/features/patrimonio/components/PatrimonioTable/TransferenciaCustoPatrimonioTable';
+import TransferenciaCustoPatrimonioTable from '@/features/transferencia/components/TransferenciaCustoPatrimonioTable/TransferenciaCustoPatrimonioTable';
+import TransferenciaHeaderActions from '@/features/transferencia/components/TransferenciaHeaderActions';
 import { getServerSession } from 'next-auth';
 import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
 import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
@@ -28,6 +29,7 @@ export default async function TransferenciaCustoPatrimonioPage() {
           title="Transferência de Patrimônio"
           description="Transferir patrimônio entre centros de custo"
           backHref="/patrimoniolist"
+          actions={<TransferenciaHeaderActions />}
         />
 
         <TransferenciaCustoPatrimonioTable />

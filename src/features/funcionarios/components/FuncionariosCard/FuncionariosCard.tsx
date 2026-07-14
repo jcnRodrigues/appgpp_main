@@ -1,0 +1,57 @@
+﻿/* eslint-disable @next/next/no-img-element */
+"use server"
+import { FuncionariosGP } from "@/features/funcionarios/server/models/FuncionariosGP.model";
+import { getFuncionariosFuncaoById, getFuncionariosStatusById } from "@/features/funcionarios/server/funcionario.service";
+import Link from "next/link";
+
+
+export default async function FuncionariosCard({ idMatFun, nomeFun, cpfFun, avatarFun, dataAdmFun, dataDemFun, idStatusFun, idFuncaoFun }: FuncionariosGP) {
+
+    const funFuncao = await getFuncionariosFuncaoById(idFuncaoFun);
+    const statusFun = await getFuncionariosStatusById(idStatusFun);
+
+
+    return (
+        <div key={idMatFun} className="flex rounded-2xl border border-border/60 bg-[#10191b] p-3 mb-3 shadow-[0_20px_60px_rgba(0,0,0,0.22)] relative text-slate-200">
+            <div className="w-16 h-16 rounded-full overflow-hidden mr-4">
+                <img
+                    src={avatarFun}
+                    alt={nomeFun}
+                    className="w-full h-full object-cover"
+                />
+            </div>
+            <div className="flex flex-col justify-center flex-1">
+                <h3 className="text-medium">
+                    <Link href={`/patrimonio/${idMatFun}`} />
+                    {idMatFun} - {nomeFun}
+                </h3>
+                <p className="text-sm text-slate-400">
+                    Função: {funFuncao?.nomeFuncao}
+                </p>
+                <p className="text-sm text-slate-400">
+                    CPF: {cpfFun}
+                </p>
+                <p className="text-sm text-slate-400">
+                    Data de Admissão: {dataAdmFun ? new Date(dataAdmFun).toLocaleDateString() : ""}
+                </p>
+                <p className="text-sm text-slate-400">
+                    Data de Demissão: {dataDemFun ? new Date(dataDemFun).toLocaleDateString() : ""}
+                </p>
+            </div>
+            <div className="flex items-center">
+                <span className={`px-2 py-1 rounded-full text-xs font-semibold 
+                        ${statusFun?.descricaoStatusFun === 'ADMITIDO' ? 'bg-green-100 text-green-800' :
+                        statusFun?.descricaoStatusFun === 'DEMITIDO' ? 'bg-red-100 text-red-800' :
+                            statusFun?.descricaoStatusFun === 'FERIAS' ? 'bg-purple-100 text-purple-800' :
+                                statusFun?.descricaoStatusFun === 'TRANSFERIDO' ? 'bg-yellow-100 text-yellow-800' :
+                                    'bg-gray-100 text-gray-800'
+
+                    }`}>
+                    {statusFun?.descricaoStatusFun.toLocaleUpperCase()}
+                </span>
+            </div>
+        </div>
+    );
+}
+
+

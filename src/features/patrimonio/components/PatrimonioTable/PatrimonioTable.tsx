@@ -9,6 +9,7 @@ import DeleteGuardButton from '@/components/DeleteGuardButton/DeleteGuardButton'
 import { hasModuleActionPermission } from '@/lib/permissions';
 import { normalizeStatusText } from '@/lib/status';
 import { notify as showNotify } from '@/lib/notify';
+import { TableEmptyState } from '@/features/patrimonio/components/PatrimonioTable/TableEmptyState';
 
 interface Patrimonio {
     idP: string;
@@ -158,7 +159,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
             if (idFiltro) params.append('idPat', idFiltro);
             if (statusSelecionados.length > 0) params.append('statusIds', statusSelecionados.join(','));
             if (centroSelecionado) params.append('centroIds', centroSelecionado);
-            params.append('includeHistorico', 'false');
+            params.append('includeHistorico', 'true');
             params.append('skip', String((paginaAtual - 1) * itensPorPagina));
             params.append('take', String(itensPorPagina));
 
@@ -264,10 +265,10 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
     };
 
     return (
-        <div className="space-y-4">
+        <div className="table-surface space-y-4">
             {/* Filtros */}
             <div className="sticky top-[calc(var(--app-header-height)+96px)] z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-2">
-                <div className="bg-white rounded-lg shadow-md p-4 space-y-4">
+                <div className="rounded-2xl border border-border/60 bg-[#10191b] p-4 shadow-[0_20px_60px_rgba(0,0,0,0.22)] space-y-4">
                     <div className="flex items-center gap-2 mb-4">
                         <Filter className="h-5 w-5 text-primary" />
                         <h3 className="font-semibold">Filtros</h3>
@@ -379,16 +380,16 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
             {/* Lista mobile */}
             <div className="md:hidden space-y-3">
                 {loading ? (
-                    <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500">
+                    <div className="rounded-2xl border border-border/60 bg-[#10191b] p-4 text-center text-slate-300 shadow-[0_20px_60px_rgba(0,0,0,0.22)]">
                         Carregando...
                     </div>
                 ) : patrimonios.length === 0 ? (
-                    <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500">
+                    <div className="rounded-2xl border border-border/60 bg-[#10191b] p-4 text-center text-slate-300 shadow-[0_20px_60px_rgba(0,0,0,0.22)]">
                         Nenhum patrimônio encontrado
                     </div>
                 ) : (
                     patrimonios.map((patrimonio) => (
-                        <div key={patrimonio.idP} className="bg-white rounded-lg shadow-md p-4 space-y-3">
+                        <div key={patrimonio.idP} className="rounded-2xl border border-border/60 bg-[#10191b] p-4 space-y-3 shadow-[0_20px_60px_rgba(0,0,0,0.22)]">
                             <div className="flex items-start justify-between gap-3">
                                 <div>
                                     <div className="text-sm font-semibold text-gray-900 whitespace-nowrap">
@@ -433,7 +434,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                 {!patrimonio.isHistorico ? (
                                     <>
                                         <Button asChild variant="ghost" size="icon"
-                                            className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
+                                            className="h-10 w-10 rounded-xl border border-cyan-500/30 bg-background p-0 text-cyan-500 transition hover:bg-cyan-500/10">
                                             <Link href={`/patrimonio/${patrimonio.idP}`}
                                                 title="Editar"
                                                 onClick={handleEditClick}>
@@ -444,7 +445,8 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                             resource="patrimonio"
                                             recordId={patrimonio.idP}
                                             onAuthorizedDelete={() => handleDelete(patrimonio.idP)}
-                                            className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition" title="Deletar patrimônio">
+                                            className="h-10 w-10 rounded-xl border border-red-500/35 bg-background p-0 text-red-500 transition hover:bg-red-500/10"
+                                            title="Deletar patrimônio">
                                             <Trash2 className="h-4 w-4" />
                                         </DeleteGuardButton>
                                     </>
@@ -458,20 +460,20 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
             </div>
 
             {/* Tabela desktop */}
-            <div className="hidden md:block bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="hidden md:block overflow-hidden rounded-2xl border border-border/60 bg-[#10191b] shadow-[0_20px_60px_rgba(0,0,0,0.22)]">
                 <div className="overflow-hidden">
                     <table className="w-full min-w-[1200px] table-fixed">
                         <thead>
                             <tr>
                                 <th className="w-[6%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">ID</th>
-                                <th className="w-[21%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Descrição</th>
+                                <th className="w-[24%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Descrição</th>
                                 <th className="w-[8%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Tipo</th>
                                 <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Valor</th>
                                 <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Data Entrada</th>
                                 <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Data Devolução</th>
                                 <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">NF Devolução</th>
-                                <th className="w-[8%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Status</th>
-                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Ações</th>
+                                <th className="w-[10%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Status</th>
+                                <th className="w-[14%] px-3 py-3 text-left text-xs md:text-sm font-semibold text-gray-900 whitespace-normal break-words">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -482,11 +484,11 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                     </td>
                                 </tr>
                             ) : patrimonios.length === 0 ? (
-                                <tr>
-                                    <td colSpan={9} className="px-6 py-4 text-center text-gray-500">
-                                        Nenhum patrimônio encontrado
-                                    </td>
-                                </tr>
+                                <TableEmptyState
+                                    colSpan={9}
+                                    title="Nenhum patrimônio encontrado"
+                                    description="Ajuste os filtros acima para localizar registros."
+                                />
                             ) : (
                                 patrimonios.map((patrimonio) => (
                                     <tr key={patrimonio.idP}
@@ -526,18 +528,17 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-sm">
-                                            <div className="flex gap-3 items-center">
+                                            <div className="flex items-center gap-2">
                                                 {!patrimonio.isHistorico ? (
                                                     <>
                                                         <Button
                                                             asChild
-                                                            size="sm"
-                                                            variant="default"
-                                                            className="w-full gap-2 bg-gray-100 text-blue-600 hover:bg-blue-100 rounded-lg transition"
+                                                            variant="ghost"
+                                                            className="h-10 w-10 rounded-xl border border-cyan-500/30 bg-background p-0 text-cyan-500 transition hover:bg-cyan-500/10"
                                                         >
                                                             <Link href={`/patrimonio/${patrimonio.idP}`}
-                                                                className="flex-1"
-                                                                title="Editar" onClick={handleEditClick}>
+                                                                title="Editar" 
+                                                                onClick={handleEditClick}>
                                                                 <Edit className="h-4 w-4" />
                                                             </Link>
                                                         </Button>
@@ -545,7 +546,7 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
                                                             resource="patrimonio"
                                                             recordId={patrimonio.idP}
                                                             onAuthorizedDelete={() => handleDelete(patrimonio.idP)}
-                                                            className="p-2.5 bg-gray-100 hover:bg-red-100 text-red-800 rounded-lg transition"
+                                                            className="h-10 w-10 rounded-xl border border-red-500/35 bg-background p-0 text-red-500 transition hover:bg-red-500/10"
                                                             title="Deletar patrimônio">
                                                             <Trash2 className="h-4 w-4" />
                                                         </DeleteGuardButton>
@@ -630,5 +631,3 @@ export default function PatrimonioTable({ patrimonios: initialPatrimonios }: Pat
         </div>
     );
 }
-
-

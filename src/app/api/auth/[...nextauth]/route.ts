@@ -8,14 +8,12 @@ import crypto from "crypto";
 import fs from "fs";
 import path from "path";
 import { buildAdminPermissions, normalizePermissions } from "@/lib/permissions";
+import { getConfiguredAppPublicUrl } from "@/lib/app-url";
 
 const prismaClient = prisma as any;
 
 function resolveNextAuthUrl() {
-    const envUrl = process.env.NEXTAUTH_URL?.trim() || "";
-    const isLocalhost = /localhost|127\.0\.0\.1/i.test(envUrl);
-
-    return envUrl;
+    return getConfiguredAppPublicUrl();
 }
 
 type GoogleWebCredentials = {

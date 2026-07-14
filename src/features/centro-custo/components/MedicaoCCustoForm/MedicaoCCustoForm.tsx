@@ -379,7 +379,7 @@ export default function MedicaoCCustoForm({
 
     return (
         <div className="space-y-6">
-            <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-md p-6 space-y-4">
+            <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="form-surface space-y-4 p-4 sm:p-6">
                 {bmSelecionadoInfo && (
                     <div className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 flex items-center justify-between gap-3">
                         <p className="text-sm text-blue-900">

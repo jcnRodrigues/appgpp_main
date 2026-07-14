@@ -155,9 +155,9 @@ export default function FuncaoTable() {
     };
 
     return (
-        <div className="w-full space-y-4">
+        <div className="table-surface w-full space-y-4">
             <div className="sticky top-[calc(var(--app-header-height)+96px)] z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-2">
-                <div className="bg-white rounded-lg shadow-md p-4 space-y-4">
+                <div className="rounded-2xl border border-border/60 bg-[#10191b] p-4 shadow-[0_20px_60px_rgba(0,0,0,0.22)] space-y-4">
                     <div className="flex items-center gap-2 mb-4">
                         <Filter className="h-5 w-5 text-primary" />
                         <h3 className="font-semibold">Filtros</h3>
@@ -195,7 +195,7 @@ export default function FuncaoTable() {
                         <TableState icon={Inbox} title="Nenhuma função cadastrada" description="Tente alterar os filtros ou criar uma nova função." compact />
                     ) : (
                         funcoes.map((função) => (
-                            <div key={função.idFuncao} className="bg-white rounded-lg shadow p-4 space-y-3">
+                            <div key={função.idFuncao} className="rounded-2xl border border-border/60 bg-[#10191b] p-4 shadow-[0_20px_60px_rgba(0,0,0,0.22)] space-y-3">
                                 <div className="text-sm text-gray-600">
                                     Codigo:
                                     <span className="font-semibold text-gray-900">
@@ -215,7 +215,7 @@ export default function FuncaoTable() {
                                     </span>
                                 </div>
                                 <div className="flex items-center justify-end gap-2 pt-1">
-                                    <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
+                                    <Button asChild variant="ghost" size="icon" className="h-10 w-10 rounded-xl border border-cyan-500/30 bg-background p-0 text-cyan-500 transition hover:bg-cyan-500/10">
                                         <Link href={`/funcao/${função.idFuncao}/editar`} title="Editar" onClick={handleEditClick}>
                                             <Edit className="h-4 w-4" />
                                         </Link>
@@ -224,7 +224,7 @@ export default function FuncaoTable() {
                                         resource="função"
                                         recordId={função.idFuncao}
                                         onAuthorizedDelete={() => handleDelete(função.idFuncao)}
-                                        className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
+                                        className="h-10 w-10 rounded-xl border border-red-500/35 bg-background p-0 text-red-500 transition hover:bg-red-500/10"
                                         title="Excluir"
                                         unauthorizedBehavior="alert"
                                     >
@@ -236,7 +236,7 @@ export default function FuncaoTable() {
                     )}
                 </div>
 
-                <div className="hidden md:block overflow-x-auto bg-white rounded-lg shadow">
+                <div className="hidden md:block overflow-x-auto rounded-2xl border border-border/60 bg-[#10191b] shadow-[0_20px_60px_rgba(0,0,0,0.22)]">
                     <table className="w-full min-w-full">
                         <thead>
                             <tr className="border-b bg-gray-50">
@@ -267,7 +267,7 @@ export default function FuncaoTable() {
                                                     asChild
                                                     variant="ghost"
                                                     size="icon"
-                                                    className="text-blue-600 hover:bg-blue-100 rounded-lg transition"
+                                                    className="h-10 w-10 rounded-xl border border-cyan-500/30 bg-background p-0 text-cyan-500 transition hover:bg-cyan-500/10"
                                                 >
                                                     <Link href={`/funcao/${função.idFuncao}/editar`} title="Editar" onClick={handleEditClick}>
                                                         <Edit className="h-4 w-4" />
@@ -277,7 +277,7 @@ export default function FuncaoTable() {
                                                     resource="função"
                                                     recordId={função.idFuncao}
                                                     onAuthorizedDelete={() => handleDelete(função.idFuncao)}
-                                                    className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
+                                                    className="h-10 w-10 rounded-xl border border-red-500/35 bg-background p-0 text-red-500 transition hover:bg-red-500/10"
                                                     title="Excluir"
                                                     unauthorizedBehavior="alert"
                                                 >

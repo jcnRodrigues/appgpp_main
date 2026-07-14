@@ -1,36 +1,20 @@
 # Deploy
 
-Este projeto roda como uma aplicacao Next.js com Prisma/MySQL.
+Este projeto roda como uma aplicacao Next.js com Prisma e MySQL.
 
-## Pre-requisitos
-- Node.js 20+
-- Banco MySQL acessivel
-- Variaveis de ambiente definidas com base em [`.env.example`](/D:/Project_Gestao/appgpp/.env.example)
+Para o passo a passo completo de preparacao, veja:
 
-## Variaveis essenciais
-- `DATABASE_URL`
-- `NEXTAUTH_URL`
-- `NEXTAUTH_SECRET`
-- `GOOGLE_CLIENT_ID`
-- `GOOGLE_CLIENT_SECRET`
-- `ADMIN_EMAIL`
-- `ADMIN_PASSWORD`
+- [`docs/PRODUCAO.md`](./PRODUCAO.md)
 
-## Build de producao
-```bash
-npm run build
-```
+Resumo do fluxo:
 
-## Execucao em producao
-```bash
-npm run start
-```
+1. Criar e revisar o `.env` com base em [`.env.example`](../.env.example).
+2. Garantir acesso ao MySQL.
+3. Executar `npm run db:deploy`.
+4. Executar `npm run build`.
+5. Subir com `npm run start`.
+6. Validar login, permissao, PDF e backup.
 
-## Antes de publicar
-- Gere o client Prisma com `npm run build` ou `npx prisma generate`
-- Confirme que o banco está acessivel a partir do servidor
-- Teste login local e Google
-- Teste o backup do banco em ambiente controlado
+Observacao:
 
-## Observacoes
-- O fluxo recomendado e servir o app como uma aplicacao Node.js padrao.
+- O app precisa de `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, `APPGPP_PUBLIC_URL` e `DATABASE_URL` corretos para operar em producao.

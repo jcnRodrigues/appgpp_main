@@ -81,7 +81,8 @@ export async function POST(
             idCustoDestino: body.idCustoDestino,
             observacao: body.observacao,
             dataTransferencia: parseOptionalDateInput(body.dataTransferencia),
-            idUserTransferencia
+            idUserTransferencia,
+            codigoTransferencia: body.codigoTransferencia
         });
 
         return NextResponse.json(atualizado);

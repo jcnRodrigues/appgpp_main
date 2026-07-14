@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 interface UseFormDraftOptions {
     enabled?: boolean;
+    clearOnMount?: boolean;
 }
 
 export function useFormDraft<T extends Record<string, any>>(
@@ -12,6 +13,7 @@ export function useFormDraft<T extends Record<string, any>>(
     options?: UseFormDraftOptions
 ) {
     const enabled = options?.enabled ?? true;
+    const clearOnMount = options?.clearOnMount ?? false;
     const storageKey = useMemo(() => `appgpp:draft:${key}`, [key]);
     const [state, setState] = useState<T>(initialState);
     const [hydrated, setHydrated] = useState(false);
@@ -24,6 +26,10 @@ export function useFormDraft<T extends Record<string, any>>(
         }
 
         try {
+            if (clearOnMount) {
+                window.localStorage.removeItem(storageKey);
+            }
+
             const raw = window.localStorage.getItem(storageKey);
             if (raw) {
                 const parsed = JSON.parse(raw);
@@ -36,7 +42,7 @@ export function useFormDraft<T extends Record<string, any>>(
         } finally {
             setHydrated(true);
         }
-    }, [enabled, initialState, storageKey]);
+    }, [clearOnMount, enabled, initialState, storageKey]);
 
     useEffect(() => {
         if (!enabled || !hydrated || typeof window === 'undefined') return;

@@ -1,4 +1,4 @@
-﻿import Header from '@/components/Header/Header';
+import Header from '@/components/Header/Header';
 import PageHeader from '@/components/PageHeader/PageHeader';
 import { Button } from '@/components/ui/button';
 import { hasModuleAccess } from '@/lib/permissions';
@@ -9,8 +9,19 @@ import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
 import { SearchCheck } from 'lucide-react';
 import AgenteInventarioForm from '@/features/monitor-patrimonios/components/AgenteInventarioForm/AgenteInventarioForm';
 
-export default async function AgenteInventarioPage() {
+export default async function AgenteInventarioPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ hostname?: string | string[]; serial?: string | string[] }>;
+}) {
   const session = await getServerSession(AuthOptions);
+  const resolvedSearchParams = await searchParams;
+  const initialHostname = Array.isArray(resolvedSearchParams?.hostname)
+    ? resolvedSearchParams?.hostname[0]
+    : resolvedSearchParams?.hostname;
+  const initialSerial = Array.isArray(resolvedSearchParams?.serial)
+    ? resolvedSearchParams?.serial[0]
+    : resolvedSearchParams?.serial;
 
   if (!session?.user) {
     return (
@@ -30,7 +41,7 @@ export default async function AgenteInventarioPage() {
   }
 
   const formularios = ((session.user as any)?.formularios || []) as string[];
-  if (!hasModuleAccess(formularios, 'UNIFI_CONFIG')) redirect('/acesso-negado');
+  if (!hasModuleAccess(formularios, 'AGENTE_INVENTARIO')) redirect('/acesso-negado');
 
   return (
     <div className="bg-background min-h-screen py-6">
@@ -39,10 +50,10 @@ export default async function AgenteInventarioPage() {
         <PageHeader
           icon={SearchCheck}
           title="Agente de Inventário"
-          description="Consulta hostname, confirma conectividade, identifica 802.1x e cruza periféricos com a base de ativos."
+          description="Consulta hostname, confirma conectividade, identifica 802.1x, cruza periféricos com a base de ativos e baixa o agente do host para coletar sistema e dispositivos conectados."
           backHref="/"
         />
-        <AgenteInventarioForm />
+        <AgenteInventarioForm initialHostname={initialHostname} initialSerial={initialSerial} />
       </div>
     </div>
   );

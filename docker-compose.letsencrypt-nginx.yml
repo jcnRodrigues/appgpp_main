@@ -1,0 +1,12 @@
+services:
+  nginx:
+    environment:
+      NGINX_SERVER_NAME: ${NGINX_SERVER_NAME:-app.seudominio.com}
+      LETSENCRYPT_CERT_NAME: ${LETSENCRYPT_CERT_NAME:-app.seudominio.com}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/default-letsencrypt.conf.template:/etc/nginx/templates/default.conf.template:ro
+      - certbot-webroot:/var/www/certbot
+      - letsencrypt-data:/etc/letsencrypt

@@ -184,6 +184,77 @@ select option:checked {
   color: var(--muted-foreground);
 }
 
+/* Override de superfícies com cores fixas para respeitar light/dark */
+:root:not(.dark) .bg-slate-950,
+:root:not(.dark) .bg-slate-900,
+:root:not(.dark) .bg-slate-800,
+:root:not(.dark) .bg-slate-700,
+:root:not(.dark) .bg-slate-600,
+:root:not(.dark) .bg-\[\#111a1c\] {
+  background-color: var(--card) !important;
+}
+
+:root:not(.dark) .bg-slate-50,
+:root:not(.dark) .bg-slate-100,
+:root:not(.dark) .bg-gray-50,
+:root:not(.dark) .bg-gray-100 {
+  background-color: var(--background) !important;
+}
+
+:root:not(.dark) .border-slate-950,
+:root:not(.dark) .border-slate-900,
+:root:not(.dark) .border-slate-800,
+:root:not(.dark) .border-slate-700,
+:root:not(.dark) .border-slate-600,
+:root:not(.dark) .border-slate-500,
+:root:not(.dark) .border-slate-300,
+:root:not(.dark) .border-slate-200 {
+  border-color: var(--border) !important;
+}
+
+:root:not(.dark) .text-slate-50,
+:root:not(.dark) .text-slate-100,
+:root:not(.dark) .text-slate-200,
+:root:not(.dark) .text-white {
+  color: var(--foreground) !important;
+}
+
+:root:not(.dark) .text-slate-300,
+:root:not(.dark) .text-slate-400,
+:root:not(.dark) .text-slate-500,
+:root:not(.dark) .text-gray-400,
+:root:not(.dark) .text-gray-500,
+:root:not(.dark) .text-gray-600 {
+  color: var(--muted-foreground) !important;
+}
+
+:where(.bg-\[\#10191b\]) {
+  background-color: var(--card) !important;
+}
+
+:where(.bg-\[\#0d1416\]) {
+  background-color: var(--background) !important;
+}
+
+:where(.bg-\[\#162124\]) {
+  background-color: var(--card) !important;
+}
+
+:where(.text-slate-50) {
+  color: var(--foreground) !important;
+}
+
+:where(.text-slate-100),
+:where(.text-slate-200),
+:where(.text-slate-300),
+:where(.text-slate-400) {
+  color: var(--muted-foreground) !important;
+}
+
+:where(.border-border\/60) {
+  border-color: var(--border) !important;
+}
+
 .form-title-sticky {
   position: sticky;
   top: calc(var(--app-header-height) + 16px);
@@ -191,6 +262,172 @@ select option:checked {
   background: var(--background);
   backdrop-filter: blur(8px);
   padding: 8px 0;
+}
+
+.form-surface {
+  background: var(--card);
+  color: var(--foreground);
+}
+
+.form-surface :is(input:not([type='checkbox']):not([type='radio']), select, textarea) {
+  background-color: var(--background);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+.form-surface :is(input:not([type='checkbox']):not([type='radio']), select, textarea)::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-surface :is(input:not([type='checkbox']):not([type='radio']), select, textarea):focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--focus-ring-soft);
+}
+
+.form-surface label {
+  color: var(--foreground);
+}
+
+.form-surface .form-section {
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: 1rem;
+}
+
+.form-surface .form-subsection {
+  border: 1px solid var(--border);
+  background: var(--background);
+  border-radius: 0.75rem;
+}
+
+.form-surface button[data-slot='button'][data-variant='outline'] {
+  background-color: var(--background);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+
+.form-surface button[data-slot='button'][data-variant='outline']:hover {
+  background-color: var(--secondary);
+}
+
+.form-surface button[data-slot='button'][data-variant='default'] {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.form-surface button[data-slot='button'][data-variant='default']:hover {
+  filter: brightness(0.95);
+}
+
+.form-surface button[data-slot='button'][data-variant='ghost'] {
+  color: var(--foreground);
+}
+
+.form-surface button[data-slot='button'][data-variant='ghost']:hover {
+  background-color: rgba(16, 185, 129, 0.08);
+}
+
+.table-surface {
+  background: var(--card);
+  color: var(--foreground);
+}
+
+.table-surface .bg-white {
+  background-color: var(--card) !important;
+  color: var(--foreground) !important;
+}
+
+.table-surface .bg-slate-50,
+.table-surface .bg-slate-100,
+.table-surface .bg-gray-50,
+.table-surface .bg-gray-100 {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+}
+
+.table-surface .border-slate-200,
+.table-surface .border-slate-300,
+.table-surface .border-gray-200,
+.table-surface .border-gray-300 {
+  border-color: var(--border) !important;
+}
+
+.table-surface .text-slate-900,
+.table-surface .text-slate-800,
+.table-surface .text-slate-700,
+.table-surface .text-slate-600,
+.table-surface .text-slate-500,
+.table-surface .text-slate-400,
+.table-surface .text-gray-900,
+.table-surface .text-gray-800,
+.table-surface .text-gray-700,
+.table-surface .text-gray-600,
+.table-surface .text-gray-500,
+.table-surface .text-gray-400 {
+  color: var(--foreground) !important;
+}
+
+.table-surface thead th {
+  color: var(--foreground) !important;
+}
+
+.table-surface tbody tr {
+  border-color: var(--border);
+}
+
+.table-surface tbody tr:hover {
+  background-color: rgba(16, 185, 129, 0.08);
+}
+
+.table-surface button[data-slot='button'][data-variant='ghost'] {
+  color: var(--foreground);
+}
+
+.table-surface button[data-slot='button'][data-variant='ghost']:hover {
+  background-color: rgba(16, 185, 129, 0.08);
+}
+
+.table-surface :is(a, button)[title] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, transform 150ms ease;
+}
+
+.table-surface :is(a, button)[title]:hover {
+  background: var(--secondary);
+}
+
+.table-surface :is(a, button)[title*='Excluir'],
+.table-surface :is(a, button)[title*='Deletar'],
+.table-surface :is(a, button)[title*='Remover'] {
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #dc2626;
+}
+
+.table-surface :is(a, button)[title*='Excluir']:hover,
+.table-surface :is(a, button)[title*='Deletar']:hover,
+.table-surface :is(a, button)[title*='Remover']:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.table-surface :is(a, button)[title*='Editar'],
+.table-surface :is(a, button)[title*='Visualizar'],
+.table-surface :is(a, button)[title*='Abrir'] {
+  border-color: rgba(16, 185, 129, 0.22);
+  color: var(--accent);
+}
+
+.table-surface :is(a, button)[title*='Editar']:hover,
+.table-surface :is(a, button)[title*='Visualizar']:hover,
+.table-surface :is(a, button)[title*='Abrir']:hover {
+  background: rgba(16, 185, 129, 0.08);
 }
 
 /* Estilos de tipografia */

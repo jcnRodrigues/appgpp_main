@@ -102,7 +102,7 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
 
     const isEditing = !!ativoRedeId;
     const formularios = ((session?.user as any)?.formularios || []) as string[];
-    const canManageOptions = hasModuleActionPermission(formularios, 'ATIVOS_REDE', 'CREATE');
+    const canManageOptions = hasModuleActionPermission(formularios, 'ATIVOS_REDE', 'OPTIONS');
     const canManageTransfer = hasModuleActionPermission(formularios, 'ATIVOS_REDE', 'TRANSFER');
     const canManageReturn = hasModuleActionPermission(formularios, 'ATIVOS_REDE', 'RETURN');
 
@@ -331,7 +331,7 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
 
         try {
             const payload = {
-                codigoAtivoRede: form.idAtivoRede,
+                codigoAtivoRede: form.idAtivoRede.trim().toUpperCase(),
                 nomeAtivoRede: form.nomeAtivoRede,
                 idTipoAtivoRede: form.idTipoAtivoRede,
                 tipoAtivoRede: tipoSelecionado?.descricaoTipoAtivoRede || form.tipoAtivoRede || null,

@@ -2,7 +2,7 @@
 'use client'
 
 import Link from 'next/link';
-import { Inbox, Router, Plus } from 'lucide-react';
+import { Inbox, Router, Plus, ArrowLeftRight, Undo2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import FormActions from '@/components/FormActions/FormActions';
 import PageHeader from '@/components/PageHeader/PageHeader';
@@ -131,22 +131,34 @@ export default function AtivoRedeFormView(props: Props) {
                     title={isEditing ? 'Editar Ativo de Rede' : 'Cadastrar Novo Ativo de Rede'}
                     backHref="/ativos-rede"
                     actions={
-                        isEditing && (canManageTransfer || canManageReturn) ? (
+                        isEditing && (canManageOptions || canManageTransfer || canManageReturn) ? (
                             <>
                                 {canManageTransfer ? (
-                                    <Button asChild type="button" variant="ghost" className="bg-blue-600 text-white shadow-sm hover:bg-blue-700">
+                                    <Button asChild type="button" className="inline-flex h-11 items-center gap-2 rounded-md bg-blue-500 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-600">
                                         <Link href={`/ativos-rede/${ativoRedeId}/transferencia`}>
+                                            <ArrowLeftRight className="h-4 w-4" />
                                             Transferência
                                         </Link>
                                     </Button>
                                 ) : null}
                                 {canManageReturn ? (
-                                    <Button asChild type="button" variant="ghost" className="bg-red-600 text-white shadow-sm hover:bg-red-700">
+                                    <Button asChild type="button" className="inline-flex h-11 items-center gap-2 rounded-md bg-red-500 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-600">
                                         <Link href={`/ativos-rede/${ativoRedeId}/devolucao`}>
+                                            <Undo2 className="h-4 w-4" />
                                             Devolução
                                         </Link>
                                     </Button>
                                 ) : null}
+                                {canManageOptions && (
+                                    <Button
+                                        type="button"
+                                        onClick={() => setModalOpcaoAberto(true)}
+                                        className="inline-flex h-11 items-center gap-2 rounded-md bg-green-500 px-4 text-sm font-medium text-white shadow-sm hover:bg-green-600"
+                                    >
+                                        <Plus className="h-4 w-4" />
+                                        Cadastrar tipo/status
+                                    </Button>
+                                )}
                             </>
                         ) : null
                     }
@@ -155,27 +167,15 @@ export default function AtivoRedeFormView(props: Props) {
                 <form
                     onSubmit={handleSubmit}
                     onKeyDown={handleEnterToNext}
-                    className="bg-white rounded-lg shadow-lg p-5 sm:p-7 space-y-5"
+                    className="form-surface space-y-5 p-4 sm:p-6 lg:p-7"
                 >
                     <section className="border-b pb-6">
-                        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                             <div className="max-w-xl">
                                 <h2 className="text-h4 font-bold mb-2">Informações Básicas</h2>
                                 <p className="text-sm text-gray-600">Cadastro no mesmo padrão visual do formulário de patrimônio.</p>
                             </div>
-                            <div className="flex flex-col gap-3 lg:items-end">
-                                {canManageOptions ? (
-                                    <Button
-                                        type="button"
-                                        variant="ghost"
-                                        onClick={() => setModalOpcaoAberto(true)}
-                                        className="border-emerald-600 text-emerald-700 hover:bg-emerald-50"
-                                    >
-                                        <Plus className="mr-2 h-4 w-4" />
-                                        Cadastrar tipo/status
-                                    </Button>
-                                ) : null}
-                            </div>
+                            <div className="flex shrink-0 flex-col gap-3 lg:items-end" />
                         </div>
 
                         <div className="mt-4 grid grid-cols-1 gap-5 xl:grid-cols-[1.45fr_1.05fr]">
@@ -565,7 +565,7 @@ export default function AtivoRedeFormView(props: Props) {
                             loading={salvandoOpcao}
                             className="flex justify-end gap-3 pt-2"
                             onCancel={() => setModalOpcaoAberto(false)}
-                            cancelClassName="border-slate-300 bg-slate-950 text-slate-100 hover:bg-slate-900 hover:text-white shadow-sm"
+                            cancelClassName="border-red-500 bg-red-600 text-white hover:bg-red-500 shadow-sm"
                             submitClassName="bg-emerald-600 text-white hover:bg-emerald-500 shadow-sm"
                         />
                     </form>
@@ -574,5 +574,3 @@ export default function AtivoRedeFormView(props: Props) {
         </div>
     );
 }
-
-

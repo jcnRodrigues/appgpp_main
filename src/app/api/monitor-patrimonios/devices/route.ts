@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { hasModuleAccessForRequest } from '@/lib/access';
 import { getUnifiConfig } from '@/features/unifi-config/server/unifi.service';
+import { inferMonitorStatus } from '@/lib/monitor-status';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -93,7 +94,7 @@ async function fetchAllDeviceGroupsByApiKey(
 }
 
 export async function POST(request: NextRequest) {
-  const canAccess = await hasModuleAccessForRequest(request, 'UNIFI_CONFIG');
+  const canAccess = await hasModuleAccessForRequest(request, 'MONITOR_PATRIMONIOS');
   if (!canAccess) return NextResponse.json({ error: 'Sem permissão para acessar monitoramento' }, { status: 403 });
   const { apiKey } = await request.json();
   const savedConfig = await getUnifiConfig();
@@ -116,13 +117,9 @@ export async function POST(request: NextRequest) {
           ip: String(device.ip || device.ipAddress || device.host || ''),
           shortname: String(device.shortname || device.shortName || ''),
           productLine: String(device.productLine || device.platform || ''),
-          status:
-            device.status
-              ? String(device.status)
-              : device.online === true || device.isOnline === true || Number(device.state) === 1
-                ? 'Online'
-                : 'Offline',
+          status: inferMonitorStatus(device),
           siteId: String(group.hostId || ''),
+          siteKey: String(group.hostId || ''),
           siteName: String(group.hostName || 'Site sem nome'),
           model: String(device.model || device.deviceModel || ''),
           firmware: String(device.version || device.firmwareVersion || ''),

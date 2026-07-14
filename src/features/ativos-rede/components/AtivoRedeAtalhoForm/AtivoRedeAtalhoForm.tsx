@@ -57,9 +57,9 @@ export default function AtivoRedeAtalhoForm({ modo }: Props) {
   return (
     <div className="bg-background min-h-screen py-6">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <div className="form-title-sticky flex items-center gap-4 mb-6">
+        <div className="form-title-sticky flex items-center gap-4 mb-6 rounded-2xl border border-border/60 bg-[#10191b] px-4 py-4 shadow-[0_20px_60px_rgba(0,0,0,0.22)] sm:px-5">
           <Link href="/ativos-rede">
-            <ChevronLeft className="h-6 w-6 text-primary" />
+            <ChevronLeft className="h-5 w-5 text-slate-100" />
           </Link>
           <div className="flex items-center gap-3">
             <div
@@ -76,7 +76,7 @@ export default function AtivoRedeAtalhoForm({ modo }: Props) {
           </div>
         </div>
 
-        <form onSubmit={buscarAtivo} className="bg-white rounded-lg shadow-lg p-5 sm:p-8 space-y-6">
+        <form onSubmit={buscarAtivo} className="form-surface space-y-6 p-4 sm:p-6 lg:p-8">
           <div>
             <label className="block text-sm font-medium mb-2">Código do ativo</label>
             <input
@@ -98,7 +98,7 @@ export default function AtivoRedeAtalhoForm({ modo }: Props) {
             loadingLabel="Localizando..."
             loading={loading}
             className="flex justify-end gap-3"
-            cancelClassName="border-slate-300 bg-slate-950 text-slate-100 hover:bg-slate-900 hover:text-white shadow-sm"
+            cancelClassName="border-red-500 bg-red-600 text-white hover:bg-red-500 shadow-sm"
             submitClassName={modo === "transferencia" ? "bg-blue-600 text-white hover:bg-blue-700 shadow-sm" : "bg-amber-600 text-white hover:bg-amber-700 shadow-sm"}
           />
         </form>

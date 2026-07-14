@@ -1,6 +1,7 @@
 import puppeteer from 'puppeteer';
 import path from 'path';
 import fs from 'fs';
+import { resolvePuppeteerExecutablePath } from './puppeteer';
 
 const styledWrapper = `
   <style>
@@ -26,9 +27,18 @@ export async function generatePdf(
     isDownload: boolean
 ): Promise<Buffer | void> {
     const styledHtmlContent = `${styledWrapper}${htmlContent}`;
+    const executablePath = resolvePuppeteerExecutablePath();
+
+    if (!executablePath) {
+        throw new Error(
+            'Nao foi possivel localizar um navegador Chrome/Edge para gerar o PDF. ' +
+                'Defina PUPPETEER_EXECUTABLE_PATH, CHROME_PATH ou instale o Chrome/Edge neste host.'
+        );
+    }
 
     const browser = await puppeteer.launch({
         headless: true,
+        executablePath,
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 

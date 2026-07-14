@@ -1,5 +1,5 @@
 param(
-  [string]$OutputExe = "dist\\AppGPP-Installer.exe"
+  [string]$OutputExe = "dist\AppGPP-Installer.exe"
 )
 
 $ErrorActionPreference = "Stop"
@@ -9,15 +9,77 @@ function Write-Step {
   Write-Host "[Build-Installer] $Message" -ForegroundColor Yellow
 }
 
+function Invoke-CheckedScript {
+  param(
+    [string]$ScriptPath,
+    [string[]]$Arguments = @()
+  )
+
+  & powershell -ExecutionPolicy Bypass -File $ScriptPath @Arguments
+  if ($LASTEXITCODE -ne 0) {
+    throw "Falha ao executar $ScriptPath com codigo $LASTEXITCODE"
+  }
+}
+
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $installerRoot = $PSScriptRoot
-$stageDir = Join-Path $installerRoot "_stage"
-$sedPath = Join-Path $installerRoot "AppGPP-Installer.sed"
-$outputPath = if ([System.IO.Path]::IsPathRooted($OutputExe)) { $OutputExe } else { Join-Path $projectRoot $OutputExe }
-$outputDir = Split-Path -Parent $outputPath
+$distDir = Join-Path $projectRoot "dist"
 
-if (-not (Get-Command iexpress -ErrorAction SilentlyContinue)) {
-  throw "IExpress nao encontrado neste Windows."
+function Get-ProjectVersion {
+  param([string]$ProjectRoot)
+
+  $packagePath = Join-Path $ProjectRoot "package.json"
+  if (-not (Test-Path -LiteralPath $packagePath)) {
+    return "0.0.0"
+  }
+
+  try {
+    $packageJson = Get-Content -LiteralPath $packagePath -Raw | ConvertFrom-Json
+    $version = [string]$packageJson.version
+    if (-not [string]::IsNullOrWhiteSpace($version)) {
+      return $version.Trim()
+    }
+  } catch {
+    # fallback below
+  }
+
+  return "0.0.0"
+}
+
+$packageVersion = Get-ProjectVersion -ProjectRoot $projectRoot
+$buildTimestamp = Get-Date -Format "yyyy.MM.dd.HHmm"
+$installerVersion = $env:APPGPP_INSTALLER_VERSION
+if ([string]::IsNullOrWhiteSpace($installerVersion)) {
+  $installerVersion = "$packageVersion-$buildTimestamp"
+}
+
+if ([string]::IsNullOrWhiteSpace($OutputExe) -or $OutputExe -eq "dist\AppGPP-Installer.exe") {
+  $OutputExe = "dist\AppGPP-Installer-$installerVersion.exe"
+}
+
+$outputPath = if ([System.IO.Path]::IsPathRooted($OutputExe)) { $OutputExe } else { Join-Path $projectRoot $OutputExe }
+$outputPath = [System.IO.Path]::GetFullPath($outputPath)
+$outputDir = Split-Path -Parent $outputPath
+$payloadPath = Join-Path $distDir "AppGPP-Payload.zip"
+$bundleZipPath = Join-Path $distDir "Instalador APPGPP.zip"
+$iconSource = Join-Path $projectRoot "public\Imagens\AppGPP.ico"
+$iconTarget = Join-Path $distDir "AppGPP.ico"
+
+function Clear-PreviousInstallerArtifacts {
+  param([string]$DistDir)
+
+  $patterns = @(
+    "AppGPP-Installer.exe",
+    "AppGPP-Installer-*.exe",
+    "AppGPP-Payload*.zip",
+    "Instalador APPGPP*.zip",
+    "~AppGPP-Installer-*.DDF"
+  )
+
+  foreach ($pattern in $patterns) {
+    Get-ChildItem -LiteralPath $DistDir -Filter $pattern -File -ErrorAction SilentlyContinue |
+      Remove-Item -Force -ErrorAction SilentlyContinue
+  }
 }
 
 Write-Step "Validando build de producao (.next)"
@@ -25,104 +87,47 @@ if (-not (Test-Path (Join-Path $projectRoot ".next"))) {
   throw "Pasta .next nao encontrada. Execute 'npm run build' antes de gerar o instalador."
 }
 
-Write-Step "Limpando stage"
-if (Test-Path $stageDir) { Remove-Item -LiteralPath $stageDir -Recurse -Force }
-New-Item -ItemType Directory -Path $stageDir -Force | Out-Null
+Write-Step "Preparando pasta dist"
+New-Item -ItemType Directory -Path $distDir -Force | Out-Null
 New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
+Clear-PreviousInstallerArtifacts -DistDir $distDir
 
-Write-Step "Copiando arquivos essenciais"
-$filesToCopy = @(
-  "package.json",
-  "package-lock.json",
-  "next.config.ts",
-  "middleware.ts",
-  ".env.example"
-)
-foreach ($item in $filesToCopy) {
-  $src = Join-Path $projectRoot $item
-  if (Test-Path $src) { Copy-Item -LiteralPath $src -Destination (Join-Path $stageDir $item) -Force }
+Write-Step "Gerando payload"
+Invoke-CheckedScript -ScriptPath (Join-Path $installerRoot "Build-Payload.ps1")
+
+if (Test-Path -LiteralPath $iconSource) {
+  Copy-Item -LiteralPath $iconSource -Destination $iconTarget -Force
 }
 
-$dirsToCopy = @(".next", "public", "prisma", "powershell-scripts")
-foreach ($dir in $dirsToCopy) {
-  $src = Join-Path $projectRoot $dir
-  if (Test-Path $src) {
-    Copy-Item -LiteralPath $src -Destination (Join-Path $stageDir $dir) -Recurse -Force
-  }
+Write-Step "Compilando instalador"
+. (Join-Path $installerRoot "tools\ps2exe.ps1")
+
+$ps2exeArgs = @{
+  inputFile  = (Join-Path $installerRoot "Run-Installer.ps1")
+  outputFile = $outputPath
+  version    = $buildTimestamp
+  noConsole  = $true
+}
+if (Test-Path -LiteralPath $iconTarget) {
+  $ps2exeArgs.iconFile = $iconTarget
 }
 
-Copy-Item -LiteralPath (Join-Path $installerRoot "Install-AppGPP.ps1") -Destination (Join-Path $stageDir "Install-AppGPP.ps1") -Force
+Invoke-ps2exe @ps2exeArgs
 
-Write-Step "Removendo artefatos nao essenciais do stage"
-$pathsToPrune = @(
-  ".next\\dev",
-  ".next\\cache",
-  ".next\\trace",
-  ".next\\turbopack"
-)
-foreach ($relativePath in $pathsToPrune) {
-  $fullPath = Join-Path $stageDir $relativePath
-  if (Test-Path -LiteralPath $fullPath) {
-    Remove-Item -LiteralPath $fullPath -Recurse -Force -ErrorAction SilentlyContinue
-  }
+if (-not (Test-Path -LiteralPath $outputPath)) {
+  throw "EXE nao foi criado: $outputPath"
 }
 
-# Remove arquivos temporarios gerados por engines/binarios que nao sao necessarios no instalador.
-Get-ChildItem -LiteralPath $stageDir -Recurse -File -ErrorAction SilentlyContinue |
-  Where-Object { $_.Name -like "*.tmp*" -or $_.Name -eq "chrome-devtools-workspace-uuid" } |
-  Remove-Item -Force -ErrorAction SilentlyContinue
-
-Write-Step "Montando lista de arquivos"
-$files = Get-ChildItem -LiteralPath $stageDir -Recurse -File | ForEach-Object { $_.FullName }
-if (-not $files) { throw "Nenhum arquivo no stage para empacotar." }
-
-$sed = @()
-$sed += "[Version]"
-$sed += "Class=IEXPRESS"
-$sed += "SEDVersion=3"
-$sed += "[Options]"
-$sed += "PackagePurpose=InstallApp"
-$sed += "ShowInstallProgramWindow=1"
-$sed += "HideExtractAnimation=1"
-$sed += "UseLongFileName=1"
-$sed += "InsideCompressed=0"
-$sed += "CAB_FixedSize=0"
-$sed += "CAB_ResvCodeSigning=0"
-$sed += "RebootMode=N"
-$sed += "InstallPrompt="
-$sed += "DisplayLicense="
-$sed += "FinishMessage=Instalacao do AppGPP concluida."
-$sed += "TargetName=$outputPath"
-$sed += "FriendlyName=Instalador AppGPP"
-$sed += "AppLaunched=powershell.exe -NoProfile -ExecutionPolicy Bypass -File Install-AppGPP.ps1"
-$sed += "PostInstallCmd=<None>"
-$sed += "AdminQuietInstCmd=powershell.exe -NoProfile -ExecutionPolicy Bypass -File Install-AppGPP.ps1"
-$sed += "UserQuietInstCmd=powershell.exe -NoProfile -ExecutionPolicy Bypass -File Install-AppGPP.ps1"
-$sed += "SourceFiles=SourceFiles"
-$sed += "[Strings]"
-$sed += "FILECOUNT=$($files.Count)"
-
-$fileDefs = @()
-$fileRefs = @()
-$idx = 0
-foreach ($file in $files) {
-  $relative = $file.Substring($stageDir.Length).TrimStart('\\')
-  $fileDefs += "FILE$idx=$relative"
-  $fileRefs += "%FILE$idx%="
-  $idx++
+Write-Step "Criando pacote ZIP final"
+if (Test-Path -LiteralPath $bundleZipPath) {
+  Remove-Item -LiteralPath $bundleZipPath -Force
 }
 
-$sed += $fileDefs
-$sed += "[SourceFiles]"
-$sed += "SourceFiles0=$stageDir"
-$sed += "[SourceFiles0]"
-$sed += $fileRefs
+if (-not (Test-Path -LiteralPath $payloadPath)) {
+  throw "Payload ZIP nao encontrado: $payloadPath"
+}
 
-Set-Content -LiteralPath $sedPath -Value $sed -Encoding ASCII
-
-Write-Step "Gerando EXE"
-& iexpress /N $sedPath | Out-Null
-if ($LASTEXITCODE -ne 0) { throw "IExpress falhou com codigo $LASTEXITCODE" }
-if (-not (Test-Path $outputPath)) { throw "EXE nao foi criado: $outputPath" }
+Compress-Archive -LiteralPath $outputPath, $payloadPath -DestinationPath $bundleZipPath -Force
 
 Write-Step "Instalador gerado em: $outputPath"
+Write-Step "ZIP final gerado em: $bundleZipPath"

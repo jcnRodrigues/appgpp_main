@@ -102,7 +102,7 @@ export default function GraficoAlocacoesPorCentro() {
             contentStyle={tooltipStyle}
             labelStyle={{ color: 'var(--popover-foreground)', fontWeight: 600 }}
             itemStyle={{ color: 'var(--popover-foreground)' }}
-            formatter={(value: number | undefined, name: string | number | undefined) => [value ?? 0, String(name ?? '')]}
+            formatter={(value, name) => [Number(value ?? 0), String(name ?? '')] as [number, string]}
             labelFormatter={(label) => `Centro: ${label}`}
           />
           <Legend wrapperStyle={{ fontSize: 12 }} />

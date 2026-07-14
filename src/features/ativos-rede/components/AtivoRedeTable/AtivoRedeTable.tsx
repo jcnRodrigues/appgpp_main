@@ -154,7 +154,7 @@ export default function AtivoRedeTable({ ativos, totalItens, paginaAtual, itensP
     const paginasVisiveis = getPaginasVisiveis();
 
     return (
-        <div className="overflow-hidden rounded-lg bg-white shadow-md">
+        <div className="table-surface overflow-hidden rounded-2xl border border-border/60 bg-[#10191b] shadow-[0_20px_60px_rgba(0,0,0,0.22)]">
             <div className="overflow-hidden">
                 <table className="w-full min-w-[1200px] table-fixed">
                     <thead className="bg-gray-50">
@@ -191,7 +191,7 @@ export default function AtivoRedeTable({ ativos, totalItens, paginaAtual, itensP
                                     <tr key={ativo.idAtivoRedePk} className="border-b transition hover:bg-gray-50">
                                         <td className="whitespace-nowrap px-4 py-4 text-sm font-medium text-gray-800">
                                             {ativo.codigoAtivoRede}
-                                            <div className="flex h-14 w-14 shrink-0 items-start justify-center overflow-hidden rounded-xl border bg-slate-50">
+                                            <div className="flex h-14 w-14 shrink-0 items-start justify-center overflow-hidden rounded-xl border border-border/60 bg-[#0d1416]">
                                                 {ativo.fotoAtivoRede ? (
                                                     <button
                                                         type="button"
@@ -259,7 +259,7 @@ export default function AtivoRedeTable({ ativos, totalItens, paginaAtual, itensP
                                                     asChild
                                                     variant="ghost"
                                                     title="Editar ativo de rede"
-                                                    className="rounded-lg bg-gray-100 p-2.5 text-blue-700 transition hover:bg-blue-100"
+                                                    className="h-10 w-10 rounded-xl border border-cyan-500/30 bg-background p-0 text-cyan-500 transition hover:bg-cyan-500/10"
                                                 >
                                                     <Link href={`/ativos-rede/${ativo.idAtivoRedePk}`}>
                                                         <SquarePen className="h-4 w-4" />
@@ -270,7 +270,7 @@ export default function AtivoRedeTable({ ativos, totalItens, paginaAtual, itensP
                                                     variant="ghost"
                                                     title="Excluir ativo de rede"
                                                     onClick={() => excluirAtivo(ativo.idAtivoRedePk)}
-                                                    className="rounded-lg bg-gray-100 p-2.5 text-red-800 transition hover:bg-red-100"
+                                                    className="h-10 w-10 rounded-xl border border-red-500/35 bg-background p-0 text-red-500 transition hover:bg-red-500/10"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
                                                 </Button>
@@ -390,4 +390,3 @@ export default function AtivoRedeTable({ ativos, totalItens, paginaAtual, itensP
         </div>
     );
 }
-

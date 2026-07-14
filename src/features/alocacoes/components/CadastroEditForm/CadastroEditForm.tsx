@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useEnterToNext } from '@/hooks/useEnterToNext';
 import { Button } from '@/components/ui/button';
 import FormActions from '@/components/FormActions/FormActions';
-import Link from 'next/link';
 import { Pencil, Eye, EyeOff, SearchCheck } from 'lucide-react';
 import { notify as showNotify } from '@/lib/notify';
 import PageHeader from '@/components/PageHeader/PageHeader';
@@ -80,7 +79,7 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
             try {
                 const [resCadastro, resOpcoes] = await Promise.all([
                     fetch(`/api/cadastro/${cadastroId}`),
-                    fetch('/api/cadastro?opções=true')
+                    fetch('/api/cadastro?opcoes=true')
                 ]);
 
                 if (resOpcoes.ok) {
@@ -238,8 +237,8 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
             <div className="max-w-[95vw] lg:max-w-[92vw] mx-auto px-4">
                 <PageHeader
                     icon={Pencil}
-                    title="Editar Alocação"
-                    description="Atualize a vinculação do patrimônio ao funcionário."
+                    title={'Editar Alocação'}
+                    description={'Atualize a vinculação do patrimônio ao funcionário.'}
                     backHref="/alocacoes"
                     iconClassName="from-slate-950 via-slate-800 to-emerald-700"
                 />
@@ -248,11 +247,11 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                     <form
                         onSubmit={handleSubmit}
                         onKeyDown={handleEnterToNext}
-                        className="bg-white rounded-lg shadow-lg p-8 space-y-6">
+                        className="form-surface space-y-6 p-4 sm:p-6 lg:p-8">
                         <div className="space-y-4">
                             <div>
                                 <label className="block text-sm font-medium mb-2">
-                                    Funcionário
+                                    {'Funcionário'}
                                 </label>
                                 <input
                                     type="text" disabled
@@ -261,7 +260,7 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                             </div>
                             <div>
                                 <label className="block text-sm font-medium mb-2">
-                                    Patrimônio
+                                    {'Patrimônio'}
                                 </label>
                                 <input type="text" disabled
                                     value={cadastro.tbPatrimonio ? `${cadastro.tbPatrimonio.idPat} - ${cadastro.tbPatrimonio.descricaoPat}` : '-'}
@@ -272,7 +271,7 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                         <div className="grid grid-cols-2 gap-6">
                             <div>
                                 <label className="block text-sm font-medium mb-2">
-                                    Data de Alocação *
+                                    {'Data de Alocação *'}
                                 </label>
                                 <input type="date" disabled={isTransferido}
                                     name="dataCadPat"
@@ -283,7 +282,7 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                             </div>
                             <div>
                                 <label className="block text-sm font-medium mb-2">
-                                    Data Devolução Interna
+                                    {'Data Devolução Interna'}
                                 </label>
                                 <input type="date" disabled={isTransferido}
                                     name="dataDevPat"
@@ -295,14 +294,14 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
 
                         <div>
                             <label className="block text-sm font-medium mb-2">
-                                Status da Alocação
+                                    {'Status da Alocação'}
                             </label>
                             <select name="idStatusPatCad" disabled={isTransferido}
                                 value={dados.idStatusPatCad}
                                 onChange={handleChange}
-                                className="w-full px-4 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary">
+                                className="w-full px-4 py-2 border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary">
                                 <option value="" disabled>
-                                    Selecione o status
+                                    {'Selecione o status'}
                                 </option>
                                 {statusPatrimonio.map((status) => (
                                     <option
@@ -317,7 +316,7 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                         {!isTransferido && (
                             <div>
                                 <label className="block text-sm font-medium mb-2">
-                                    Motivo da Devolução
+                                    {'Motivo da Devolução'}
                                 </label>
                                 <input
                                     type="text"
@@ -331,7 +330,7 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                         {isTransferido && (
                             <div>
                                 <label className="block text-sm font-medium mb-2">
-                                    Observação da Transferência
+                                    {'Observação da Transferência'}
                                 </label>
                                 <input type="text"
                                     name="observacaoTransferencia"
@@ -349,13 +348,13 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                         />
                     </form>
 
-                    <aside className="bg-white rounded-lg shadow-lg p-6 space-y-4 h-fit">
+                    <aside className="form-surface space-y-4 h-fit p-4 sm:p-6">
                         <div className="flex items-center justify-between">
-                            <h2 className="text-sm font-semibold">Histórico de Transferência</h2>
+                            <h2 className="text-sm font-semibold">{'Histórico de Transferência'}</h2>
                             <button
                                 type="button"
                                 onClick={() => setMostrarHistorico((prev) => !prev)}
-                                className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition"
+                                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition"
                                 aria-label={mostrarHistorico ? 'Ocultar histórico' : 'Visualizar histórico'}
                             >
                                 {mostrarHistorico ?
@@ -367,31 +366,31 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                         </div>
                         {mostrarHistorico && (
                             (cadastro.tbTransferenciaAlocacao?.length || 0) === 0 ? (
-                                <p className="text-xs text-gray-500">
-                                    Sem transferências registradas.
+                                    <p className="text-xs text-muted-foreground">
+                                    {'Sem transferências registradas.'}
                                 </p>
                             ) : (
                                 <div className="space-y-3 max-h-[560px] overflow-y-auto pr-1">
                                     {cadastro.tbTransferenciaAlocacao?.map((item) => (
                                         <div key={item.idTransferenciaAlocacao}
                                             className="rounded border p-3">
-                                            <p className="text-xs text-gray-500">
+                                            <p className="text-xs text-muted-foreground">
                                                 {new Date(item.dataTransferencia).toLocaleString('pt-BR')}
                                             </p>
                                             <p className="text-xs mt-1">
                                                 {item.statusAnterior || 'SEM STATUS'} → {item.statusNovo}
                                             </p>
                                             <p className="text-xs mt-1">
-                                                Funcionário origem: {item.tbFuncionario ? `${item.tbFuncionario.idMatFun} - ${item.tbFuncionario.nomeFun}` : '-'}
+                                                {'Funcionário origem: '}{item.tbFuncionario ? `${item.tbFuncionario.idMatFun} - ${item.tbFuncionario.nomeFun}` : '-'}
                                             </p>
                                             <p className="text-xs mt-1">
-                                                Funcionário destino: {funcionarioDestinoAtual ? `${funcionarioDestinoAtual.idMatFun} - ${funcionarioDestinoAtual.nomeFun}` : (item.tbFuncionarioDestino ? `${item.tbFuncionarioDestino.idMatFun} - ${item.tbFuncionarioDestino.nomeFun}` : '-')}
+                                                {'Funcionário destino: '}{funcionarioDestinoAtual ? `${funcionarioDestinoAtual.idMatFun} - ${funcionarioDestinoAtual.nomeFun}` : (item.tbFuncionarioDestino ? `${item.tbFuncionarioDestino.idMatFun} - ${item.tbFuncionarioDestino.nomeFun}` : '-')}
                                             </p>
                                             <p className="text-xs mt-1">
-                                                Responsável: {item.tbUser?.nomeUser || item.tbUser?.emailUser || '-'}
+                                                {'Responsável: '}{item.tbUser?.nomeUser || item.tbUser?.emailUser || '-'}
                                             </p>
-                                            <p className="text-xs mt-1 text-gray-600">
-                                                Obs: {item.observacao || '-'}
+                                            <p className="text-xs mt-1 text-muted-foreground">
+                                                 {'Obs: '}{item.observacao || '-'}
                                             </p>
                                         </div>
                                     ))}
@@ -404,14 +403,14 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
 
             {modalTransferenciaAberto && (
                 <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
-                    <form onSubmit={handleConfirmarTransferencia} className="w-full max-w-lg bg-white rounded-lg shadow-xl p-6 space-y-4">
+                    <form onSubmit={handleConfirmarTransferencia} className="form-surface w-full max-w-lg space-y-4 p-4 sm:p-6">
                         <h3 className="text-lg font-semibold">Transferir Alocação</h3>
-                        <p className="text-sm text-gray-600">
-                            Selecione o funcionário de destino. Ao confirmar, a alocação atual será marcada como transferida e uma nova alocação será criada automaticamente.
+                        <p className="text-sm text-muted-foreground">
+                            {'Selecione o funcionário de destino. Ao confirmar, a alocação atual será marcada como transferida e uma nova alocação será criada automaticamente.'}
                         </p>
                         <div>
                             <label className="block text-sm font-medium mb-2">
-                                Pesquisar funcionário
+                                {'Pesquisar funcionário'}
                             </label>
                             <div className="flex gap-2">
                                 <input
@@ -419,7 +418,7 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                                     value={buscaFuncionario}
                                     onChange={(e) => setBuscaFuncionario(e.target.value)}
                                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                                    placeholder="Digite matrícula ou nome"
+                                    placeholder={'Digite matrícula ou nome'}
                                 />
                                 <Button type="button"
                                     variant="ghost"
@@ -435,10 +434,8 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                             <select
                                 value={funcionarioDestino}
                                 onChange={(e) => setFuncionarioDestino(e.target.value)}
-                                className="w-full px-4 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary">
-                                <option value="">
-                                    Selecione o funcionário
-                                </option>
+                                className="w-full px-4 py-2 border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary">
+                                <option value="">{'Selecione o funcionário'}</option>
                                 {(funcionariosFiltrados.length > 0 ? funcionariosFiltrados : filtrarFuncionarios(buscaFuncionario))
                                     .map((f) => (
                                         <option key={f.idMatFun}
@@ -461,10 +458,10 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                         <div className="flex justify-end gap-2">
                             <FormActions
                                 cancelLabel="Cancelar"
-                                submitLabel="Confirmar Transferência"
+                                submitLabel={'Confirmar Transferência'}
                                 loading={salvando}
                                 className="flex gap-4 justify-end pt-2"
-                                cancelClassName="border-slate-300 bg-slate-950 text-slate-100 hover:bg-slate-900 hover:text-white shadow-sm"
+                                cancelClassName="border-red-500 bg-red-600 text-white hover:bg-red-500 shadow-sm"
                                 submitClassName="bg-emerald-600 text-white hover:bg-emerald-500 shadow-sm"
                                 onCancel={() => {
                                     setModalTransferenciaAberto(false);

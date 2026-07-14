@@ -3,31 +3,30 @@
 import Header from "@/components/Header/Header";
 import PageHeader from "@/components/PageHeader/PageHeader";
 import { DatabaseBackup, FolderCheck } from "lucide-react";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { notify as showNotify } from "@/lib/notify";
 import { useSession } from "next-auth/react";
-import { hasModuleAccess, hasModuleActionPermission } from "@/lib/permissions";
+import { hasModuleActionPermission } from "@/lib/permissions";
 
 type BackupResult = {
   message?: string;
   folderName?: string;
   folderPath?: string;
+  sqlFileName?: string;
+  sqlFilePath?: string;
   counts?: Record<string, number>;
-};
-
-type ZipResult = {
-  zipPath?: string;
-  zipName?: string;
 };
 
 const steps = [
   "1. Validar permissao do usuario",
-  "2. Coletar dados de todas as tabelas",
+  "2. Coletar estrutura e dados de todas as tabelas",
   "3. Criar pasta backup_DB_data-hora na raiz",
   "4. Salvar backup-completo.json",
-  "5. Salvar arquivos por tabela em /tables",
-  "6. Finalizar e exibir resumo"
+  "5. Gerar backup-completo.sql com estrutura e dados",
+  "6. Salvar arquivos por tabela em /tables",
+  "7. Finalizar e exibir resumo"
 ];
 
 export default function BackupDbPage() {
@@ -35,19 +34,28 @@ export default function BackupDbPage() {
   const [running, setRunning] = useState(false);
   const [done, setDone] = useState(false);
   const [result, setResult] = useState<BackupResult | null>(null);
-  const [zipResult, setZipResult] = useState<ZipResult | null>(null);
-  const [zipping, setZipping] = useState(false);
-  const [opening, setOpening] = useState(false);
   const forms = ((session?.user as any)?.formularios || []) as string[];
-  const canExport =
-    hasModuleActionPermission(forms, "IMPORTACAO_EXPORTACAO", "EXPORT") ||
-    hasModuleAccess(forms, "ACESSO_USUARIOS");
+  const canExport = hasModuleActionPermission(forms, "BACKUP_DB", "EXPORT");
 
   const sortedCounts = useMemo(() => {
     return Object.entries(result?.counts || {}).sort((a, b) => a[0].localeCompare(b[0]));
   }, [result]);
 
-  const runBackup = async () => {
+  const sqlDownloadHref = result?.folderName
+    ? `/api/backup-db?folderName=${encodeURIComponent(result.folderName)}`
+    : null;
+
+  const downloadSqlFile = (folderName: string) => {
+    const href = `/api/backup-db?folderName=${encodeURIComponent(folderName)}`;
+    const link = document.createElement("a");
+    link.href = href;
+    link.download = "";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
+  const runBackupAndDownloadSql = async () => {
     try {
       setRunning(true);
       setDone(false);
@@ -58,52 +66,15 @@ export default function BackupDbPage() {
       if (!res.ok) throw new Error(data?.message || "Falha ao executar backup.");
 
       setResult(data);
-      setZipResult(null);
       setDone(true);
-      showNotify("sucesso", "Backup do banco executado com sucesso.");
+      if (data?.folderName) {
+        downloadSqlFile(data.folderName);
+      }
+      showNotify("sucesso", "Backup do banco executado e SQL baixado com sucesso.");
     } catch (error: any) {
       showNotify("erro", error?.message || "Erro ao executar backup.");
     } finally {
       setRunning(false);
-    }
-  };
-
-  const zipBackup = async () => {
-    if (!result?.folderName) return;
-    try {
-      setZipping(true);
-      const res = await fetch("/api/backup-db/zip", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ folderName: result.folderName })
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data?.message || "Falha ao compactar backup.");
-      setZipResult({ zipName: data?.zipName, zipPath: data?.zipPath });
-      showNotify("sucesso", "Arquivo ZIP gerado com sucesso.");
-    } catch (error: any) {
-      showNotify("erro", error?.message || "Erro ao compactar backup.");
-    } finally {
-      setZipping(false);
-    }
-  };
-
-  const openBackupFolder = async () => {
-    if (!result?.folderName) return;
-    try {
-      setOpening(true);
-      const res = await fetch("/api/backup-db/open", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ folderName: result.folderName })
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data?.message || "Falha ao abrir pasta.");
-      showNotify("sucesso", "Pasta aberta com sucesso.");
-    } catch (error: any) {
-      showNotify("erro", error?.message || "Erro ao abrir pasta.");
-    } finally {
-      setOpening(false);
     }
   };
 
@@ -112,11 +83,11 @@ export default function BackupDbPage() {
       <div className="bg-background min-h-screen py-6">
         <Header />
         <div className="mx-auto max-w-4xl px-4 py-12 text-center">
-          <h1 className="mb-4 text-2xl font-bold">Backup DB (1 a 6)</h1>
+          <h1 className="mb-4 text-2xl font-bold">Backup DB (1 a 7)</h1>
           <div className="rounded-lg bg-white p-8 shadow-sm">
             <p className="mb-6 text-lg">Seu perfil não tem permissão para exportar backups.</p>
             <Button asChild>
-              <a href="/">Voltar para início</a>
+              <Link href="/">Voltar para início</Link>
             </Button>
           </div>
         </div>
@@ -130,8 +101,8 @@ export default function BackupDbPage() {
       <div className="max-w-[86.4rem] mx-auto px-4">
         <PageHeader
           icon={DatabaseBackup}
-          title="Backup DB (1 a 6)"
-          description="Executa backup completo do banco e salva na raiz do projeto."
+          title="Backup DB (1 a 7)"
+          description="Executa backup completo da estrutura e dos dados do banco e salva na raiz do projeto."
           backHref="/"
         />
 
@@ -148,9 +119,11 @@ export default function BackupDbPage() {
               </li>
             ))}
           </ul>
-          <Button className="mt-5" onClick={runBackup} disabled={running || !canExport}>
-            {running ? "Executando..." : "Executar Backup (1 a 6)"}
-          </Button>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Button onClick={runBackupAndDownloadSql} disabled={running || !canExport}>
+              {running ? "Gerando..." : "Executar Backup Completo"}
+            </Button>
+          </div>
         </section>
 
         {result && (
@@ -161,14 +134,13 @@ export default function BackupDbPage() {
             </div>
             <p className="text-sm mb-2"><strong>Pasta:</strong> {result.folderName}</p>
             <p className="text-sm mb-4"><strong>Caminho:</strong> {result.folderPath}</p>
-            <Button type="button" variant="outline" onClick={zipBackup} disabled={zipping || !canExport} className="mb-4">
-              {zipping ? "Compactando..." : "Gerar ZIP do backup"}
-            </Button>
-            <Button type="button" variant="outline" onClick={openBackupFolder} disabled={opening || !canExport} className="mb-4 ml-2">
-              {opening ? "Abrindo..." : "Abrir pasta de backup"}
-            </Button>
-            {zipResult?.zipPath && (
-              <p className="text-sm mb-4"><strong>ZIP:</strong> {zipResult.zipPath}</p>
+            {result.sqlFilePath && (
+              <p className="text-sm mb-4"><strong>SQL:</strong> {result.sqlFilePath}</p>
+            )}
+            {sqlDownloadHref && (
+              <Button asChild type="button" variant="outline" className="mb-4">
+                <a href={sqlDownloadHref}>Baixar SQL</a>
+              </Button>
             )}
             <div className="overflow-x-auto">
               <table className="w-full text-sm min-w-full">

@@ -2,7 +2,9 @@
 import { getToken } from 'next-auth/jwt';
 import { getPatrimonioCardById, atualizarPatrimonio } from '@/features/patrimonio/server/patrimonio.service';
 import prisma from '../../../../../prisma/prisma';
+import { criarLinhaInicialDevolucao, vincularDevolucaoAoProcesso, obterProximoCodigoDevolucao } from '@/features/devolucao/server/devolucaoCodigo.service';
 import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
+import { extrairCodigoDevolucao, formatarCodigoDevolucao } from '@/features/devolucao/devolucaoCodigo';
 import { parseNullableDateInput } from '@/lib/date-input';
 
 function normalizar(valor?: string | null) {
@@ -46,7 +48,16 @@ export async function GET(
                             dataChegadaFornecedor: true,
                             dataFimDevolucao: true,
                             motivoDevolucao: true,
-                            notaFiscalDevolucao: true
+                            notaFiscalDevolucao: true,
+                            tbDevolucaoProcesso: {
+                                select: {
+                                    idDevolucaoProcesso: true,
+                                    codigoDevolucao: true,
+                                    statusDevolucao: true,
+                                    dataInicio: true,
+                                    dataFechamento: true
+                                }
+                            }
                         },
                         take: 1
                     },
@@ -155,6 +166,10 @@ export async function PUT(
 
             if (isDevolucao) {
                 const dataDevolucao = parseNullableDateInput(dados.dataDevPat) || parseNullableDateInput(dados.dataSaiPat) || new Date();
+                const codigoEntrada = typeof dados.codigoDevolucao === 'string' ? dados.codigoDevolucao.trim().toUpperCase() : '';
+                const codigoEntradaValido = extrairCodigoDevolucao(codigoEntrada);
+                const partesCodigo = codigoEntradaValido || await obterProximoCodigoDevolucao();
+                const codigoDevolucao = codigoEntradaValido ? codigoEntrada : formatarCodigoDevolucao(partesCodigo);
                 const devolucaoAberta = await prisma.tbDevolucao.findFirst({
                     where: {
                         idPatrimonio: patrimonio.idP,
@@ -166,28 +181,33 @@ export async function PUT(
                 });
 
                 if (devolucaoAberta) {
-                    await prisma.tbDevolucao.update({
-                        where: { idDevolucao: devolucaoAberta.idDevolucao },
-                        data: {
-                            dataInicioDevolucao: dataDevolucao,
-                            motivoDevolucao: typeof dados.motivoDevolucao === 'string' ? dados.motivoDevolucao.trim() || null : null,
-                            notaFiscalDevolucao: typeof dados.notaFiscalDevolucao === 'string' ? dados.notaFiscalDevolucao.trim() || null : null,
-                            dataSaidaFornecedor: parseNullableDateInput(dados.dataSaidaFornecedor),
-                            dataChegadaFornecedor: parseNullableDateInput(dados.dataChegadaFornecedor),
-                            dataFimDevolucao: null
-                        } as any
+                    const dataSaidaFornecedor = parseNullableDateInput(dados.dataSaidaFornecedor) || dataDevolucao;
+                    await vincularDevolucaoAoProcesso({
+                        idPatrimonio: patrimonio.idP,
+                        idDevolucao: devolucaoAberta.idDevolucao,
+                        codigoDevolucao,
+                        dataInicioDevolucao: dataDevolucao,
+                        dataSaidaFornecedor,
+                        dataChegadaFornecedor: parseNullableDateInput(dados.dataChegadaFornecedor),
+                        motivoDevolucao: typeof dados.motivoDevolucao === 'string' ? dados.motivoDevolucao.trim() || null : null,
+                        notaFiscalDevolucao: typeof dados.notaFiscalDevolucao === 'string' ? dados.notaFiscalDevolucao.trim() || null : null
                     });
                 } else {
-                    await prisma.tbDevolucao.create({
-                        data: {
-                            idPatrimonio: patrimonio.idP,
-                            dataInicioDevolucao: dataDevolucao,
-                            motivoDevolucao: typeof dados.motivoDevolucao === 'string' ? dados.motivoDevolucao.trim() || null : null,
-                            notaFiscalDevolucao: typeof dados.notaFiscalDevolucao === 'string' ? dados.notaFiscalDevolucao.trim() || null : null,
-                            dataSaidaFornecedor: parseNullableDateInput(dados.dataSaidaFornecedor),
-                            dataChegadaFornecedor: parseNullableDateInput(dados.dataChegadaFornecedor),
-                            dataFimDevolucao: null
-                        } as any
+                    const dataSaidaFornecedor = parseNullableDateInput(dados.dataSaidaFornecedor) || dataDevolucao;
+                    const novaLinha = await criarLinhaInicialDevolucao({
+                        idPatrimonio: patrimonio.idP,
+                        codigoDevolucao,
+                        dataInicioDevolucao: dataDevolucao
+                    });
+                    await vincularDevolucaoAoProcesso({
+                        idPatrimonio: patrimonio.idP,
+                        idDevolucao: novaLinha.idDevolucao,
+                        codigoDevolucao,
+                        dataInicioDevolucao: dataDevolucao,
+                        dataSaidaFornecedor,
+                        dataChegadaFornecedor: parseNullableDateInput(dados.dataChegadaFornecedor),
+                        motivoDevolucao: typeof dados.motivoDevolucao === 'string' ? dados.motivoDevolucao.trim() || null : null,
+                        notaFiscalDevolucao: typeof dados.notaFiscalDevolucao === 'string' ? dados.notaFiscalDevolucao.trim() || null : null
                     });
                 }
             } else {

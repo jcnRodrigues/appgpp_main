@@ -132,10 +132,10 @@ export default function LicencaTable() {
     };
 
     return (
-        <div className="w-full space-y-4">
+        <div className="table-surface w-full space-y-4">
             <div className="sticky top-[calc(var(--app-header-height)+84px)] 
             z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-1">
-                <div className="bg-white rounded-lg shadow-md p-4 space-y-4">
+                <div className="rounded-2xl border border-border/60 bg-[#10191b] p-4 shadow-[0_20px_60px_rgba(0,0,0,0.22)] space-y-4">
                     <div className="flex items-center gap-2 mb-3">
                         <Filter className="h-5 w-5 text-primary" />
                         <h3 className="font-semibold">
@@ -156,23 +156,23 @@ export default function LicencaTable() {
 
             <div className="md:hidden space-y-3">
                 {loading ? (
-                    <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">
+                    <div className="rounded-2xl border border-border/60 bg-[#10191b] p-4 text-center text-slate-300 shadow-[0_20px_60px_rgba(0,0,0,0.22)]">
                         Carregando...
                     </div>
                 ) : licencas.length === 0 ? (
-                    <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">
+                    <div className="rounded-2xl border border-border/60 bg-[#10191b] p-4 text-center text-slate-300 shadow-[0_20px_60px_rgba(0,0,0,0.22)]">
                         Nenhuma licença cadastrada
                     </div>
                 ) : (
                     licencas.map((licenca) => (
-                        <div key={licenca.idLic} className="bg-white rounded-lg shadow p-4 space-y-3">
-                            <div className="text-sm font-semibold text-gray-900">{licenca.descricaoLic}</div>
+                        <div key={licenca.idLic} className="rounded-2xl border border-border/60 bg-[#10191b] p-4 space-y-3 shadow-[0_20px_60px_rgba(0,0,0,0.22)]">
+                            <div className="text-sm font-semibold text-slate-50">{licenca.descricaoLic}</div>
                             <div className="grid grid-cols-2 gap-2 text-xs">
                                 <div className="text-gray-500">Qtde Vínculos</div>
                                 <div className="text-gray-800 text-right">{licenca._count?.tbHasLicencaFuncionario || 0}</div>
                             </div>
                             <div className="flex items-center justify-end gap-2 pt-1">
-                                <Button asChild variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-100 rounded-lg transition">
+                                <Button asChild variant="ghost" size="icon" className="h-10 w-10 rounded-xl border border-cyan-500/30 bg-background p-0 text-cyan-500 transition hover:bg-cyan-500/10">
                                     <Link href={`/licenca/${licenca.idLic}/editar`} title="Editar" onClick={handleEditClick}>
                                         <Edit className="h-4 w-4" />
                                     </Link>
@@ -181,7 +181,7 @@ export default function LicencaTable() {
                                     resource="licenca"
                                     recordId={licenca.idLic}
                                     onAuthorizedDelete={() => handleDelete(licenca.idLic)}
-                                    className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition"
+                                    className="h-10 w-10 rounded-xl border border-red-500/35 bg-background p-0 text-red-500 transition hover:bg-red-500/10"
                                     title="Excluir"
                                     unauthorizedBehavior="alert"
                                 >
@@ -193,7 +193,7 @@ export default function LicencaTable() {
                 )}
             </div>
 
-            <div className="hidden md:block overflow-x-auto bg-white rounded-lg shadow relative z-0 ">
+                <div className="hidden md:block overflow-x-auto rounded-2xl border border-border/60 bg-[#10191b] shadow-[0_20px_60px_rgba(0,0,0,0.22)] relative z-0 ">
                 <table className="w-full min-w-[900px] table-fixed">
                     <thead className="bg-gray-50">
                         <tr className="border-b">
@@ -226,7 +226,7 @@ export default function LicencaTable() {
                                                 asChild
                                                 variant="ghost"
                                                 size="icon"
-                                                className="text-blue-600 hover:bg-blue-100 rounded-lg transition"
+                                                className="h-10 w-10 rounded-xl border border-cyan-500/30 bg-background p-0 text-cyan-500 transition hover:bg-cyan-500/10"
                                             >
                                                 <Link href={`/licenca/${licenca.idLic}/editar`} title="Editar" onClick={handleEditClick}>
                                                     <Edit className="h-4 w-4" />
@@ -236,7 +236,7 @@ export default function LicencaTable() {
                                                 resource="licenca"
                                                 recordId={licenca.idLic}
                                                 onAuthorizedDelete={() => handleDelete(licenca.idLic)}
-                                                className=" text-red-600 hover:bg-red-100 rounded-lg transition"
+                                                className="h-10 w-10 rounded-xl border border-red-500/35 bg-background p-0 text-red-500 transition hover:bg-red-500/10"
                                                 title="Excluir"
                                                 unauthorizedBehavior="alert"
                                             >

@@ -1,0 +1,99 @@
+{
+  "hostname": "PAT5519",
+  "computerName": "PAT5519",
+  "domain": "WORKGROUP",
+  "usuario": "PAT5519\\User",
+  "fabricante": "LENOVO",
+  "modelo": "82UM",
+  "serial": "PE0C1PKD",
+  "sistemaOperacional": "Microsoft Windows 11 Pro",
+  "versaoOS": "10.0.26200",
+  "buildNumber": "26200",
+  "ultimoBoot": "/Date(1783384763867)/",
+  "ipPrincipal": "192.168.5.183",
+  "adaptadores": [
+    {
+      "Description": "Realtek PCIe GbE Family Controller",
+      "MacAddress": "60:C7:27:10:B2:C4",
+      "IpAddress": [
+        "192.168.5.183",
+        "fe80::8dad:8f3c:b458:7c5"
+      ],
+      "DefaultGateway": [
+        "192.168.5.1"
+      ],
+      "DnsDomain": "parex.com.br"
+    },
+    {
+      "Description": "Microsoft Wi-Fi Direct Virtual Adapter #2",
+      "MacAddress": "4E:49:6C:59:AC:13",
+      "IpAddress": [
+        "192.168.137.1",
+        "fe80::87d0:4c6:cef7:be83"
+      ],
+      "DefaultGateway": [],
+      "DnsDomain": null
+    }
+  ],
+  "perifericos": {
+    "monitor": [
+      {
+        "Name": "369F",
+        "Manufacturer": "AUO",
+        "Serial": "0",
+        "InstanceName": "DISPLAY\\AUO369F\\4&2c47b418&0&UID8388688_0",
+        "Active": true,
+        "Source": "WmiMonitorID"
+      },
+      {
+        "Name": "24B30HM2",
+        "Manufacturer": "AOC",
+        "Serial": "27ZP2XA007994",
+        "InstanceName": "DISPLAY\\AOC2403\\4&2c47b418&0&UID4145_0",
+        "Active": true,
+        "Source": "WmiMonitorID"
+      },
+      {
+        "Name": "32R6500",
+        "Manufacturer": "SMP",
+        "Serial": "0",
+        "InstanceName": "DISPLAY\\SMP0000\\4&2c47b418&0&UID8261_0",
+        "Active": true,
+        "Source": "WmiMonitorID"
+      }
+    ],
+    "teclado": [
+      {
+        "Name": "Standard PS/2 Keyboard",
+        "Manufacturer": "(Standard keyboards)",
+        "InstanceId": "ACPI\\IDEA0103\\4&26FFAD5E&0",
+        "Status": "OK",
+        "Source": "Get-PnpDevice"
+      },
+      {
+        "Name": "HID Keyboard Device",
+        "Manufacturer": "(Standard keyboards)",
+        "InstanceId": "HID\\VID_413C&PID_2113&MI_00\\8&2FC90BDD&0&0000",
+        "Status": "OK",
+        "Source": "Get-PnpDevice"
+      }
+    ],
+    "mouse": [
+      {
+        "Name": "HID-compliant mouse",
+        "Manufacturer": "Microsoft",
+        "InstanceId": "HID\\VID_1BCF&PID_0005\\7&33CA3F06&2&0000",
+        "Status": "OK",
+        "Source": "Get-PnpDevice"
+      },
+      {
+        "Name": "HID-compliant mouse",
+        "Manufacturer": "Microsoft",
+        "InstanceId": "HID\\SYNA2BA6&COL01\\5&2CA5DA0C&0&0000",
+        "Status": "OK",
+        "Source": "Get-PnpDevice"
+      }
+    ]
+  },
+  "collectedAt": "2026-07-10T16:09:06.4060337-03:00"
+}

@@ -46,26 +46,26 @@ const ALERT_STYLES: Record<
 > = {
   sucesso: {
     icon: CheckCircle2,
-    iconClass: 'bg-emerald-100 text-emerald-700',
-    titleClass: 'text-emerald-900',
+    iconClass: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-300',
+    titleClass: 'text-foreground',
     actionClass: 'bg-emerald-600 text-white hover:bg-emerald-600/90'
   },
   erro: {
     icon: AlertCircle,
-    iconClass: 'bg-rose-100 text-rose-700',
-    titleClass: 'text-rose-900',
+    iconClass: 'bg-rose-500/15 text-rose-600 dark:text-rose-300',
+    titleClass: 'text-foreground',
     actionClass: 'bg-rose-600 text-white hover:bg-rose-600/90'
   },
   aviso: {
     icon: TriangleAlert,
-    iconClass: 'bg-amber-100 text-amber-700',
-    titleClass: 'text-amber-900',
+    iconClass: 'bg-amber-500/15 text-amber-600 dark:text-amber-300',
+    titleClass: 'text-foreground',
     actionClass: 'bg-amber-600 text-white hover:bg-amber-600/90'
   },
   confirmacao: {
     icon: CircleHelp,
-    iconClass: 'border border-rose-500/30 bg-rose-500/10 text-rose-200',
-    titleClass: 'text-slate-50',
+    iconClass: 'border border-border bg-background text-foreground',
+    titleClass: 'text-foreground',
     actionClass: 'bg-rose-600 text-white hover:bg-rose-500'
   }
 };
@@ -98,7 +98,7 @@ export default function AlertaDialogo({
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="max-w-md border border-slate-800 bg-slate-950 text-slate-100 shadow-2xl">
+      <AlertDialogContent className="max-w-md border border-border bg-card text-foreground shadow-2xl">
         <AlertDialogHeader className="text-left">
           <AlertDialogTitle className={cn('flex items-center gap-3 text-base font-semibold', styles.titleClass)}>
             <span className={cn('inline-flex h-10 w-10 items-center justify-center rounded-full text-xs font-semibold', styles.iconClass)}>
@@ -106,7 +106,7 @@ export default function AlertaDialogo({
             </span>
             {resolvedTitle}
           </AlertDialogTitle>
-          <AlertDialogDescription className="whitespace-pre-line text-sm leading-relaxed text-slate-300">
+          <AlertDialogDescription className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
             {message}
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -115,7 +115,7 @@ export default function AlertaDialogo({
             <>
               <AlertDialogCancel
                 onClick={handleCancel}
-                className="border border-slate-700 bg-slate-900 text-slate-100 hover:bg-slate-800 hover:text-slate-50"
+                className="border border-border bg-background text-foreground hover:bg-secondary hover:text-foreground"
               >
                 {cancelText ?? 'Cancelar'}
               </AlertDialogCancel>

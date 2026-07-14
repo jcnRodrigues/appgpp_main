@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ExternalLink, Trash2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
@@ -9,8 +9,6 @@ import { hasModuleActionPermission } from '@/lib/permissions';
 interface UnifiConfig {
   id?: string;
   type: 'local' | 'cloud';
-  identitySource?: 'UNIFI' | 'WINDOWS_NPS' | 'FREERADIUS';
-  identitySourceNotes?: string;
   apiKey?: string;
   host?: string;
   username?: string;
@@ -28,22 +26,17 @@ interface ConsoleData {
 export default function UnifiConfigForm() {
   const router = useRouter();
   const { data: session } = useSession();
-  const [config, setConfig] = useState<UnifiConfig>({ type: 'cloud', identitySource: 'UNIFI' });
+  const [config, setConfig] = useState<UnifiConfig>({ type: 'cloud' });
   const [loading, setLoading] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [saveError, setSaveError] = useState('');
   const [consoles, setConsoles] = useState<ConsoleData[]>([]);
   const [loadingConsoles, setLoadingConsoles] = useState(false);
+
   const formularios = ((session?.user as any)?.formularios || []) as string[];
   const canCreate = hasModuleActionPermission(formularios, 'UNIFI_CONFIG', 'CREATE');
   const canUpdate = hasModuleActionPermission(formularios, 'UNIFI_CONFIG', 'UPDATE');
   const canDelete = hasModuleActionPermission(formularios, 'UNIFI_CONFIG', 'DELETE');
-
-  const identitySourceOptions = [
-    { value: 'UNIFI', label: 'UniFi', help: 'Usa a base UniFi como origem inicial do identificador 802.1x.' },
-    { value: 'WINDOWS_NPS', label: 'Windows NPS', help: 'Prepara a configuração para leitura de eventos/integração com NPS.' },
-    { value: 'FREERADIUS', label: 'FreeRADIUS', help: 'Prepara a configuração para leitura de logs/integração com FreeRADIUS.' },
-  ] as const;
 
   const showNoPermissionAlert = (acao: string) => {
     window.systemAlert?.('aviso', `Você não tem permissão para ${acao}.`);
@@ -60,7 +53,6 @@ export default function UnifiConfigForm() {
       if (data.config) {
         setConfig({
           type: 'cloud',
-          identitySource: 'UNIFI',
           ...data.config,
         });
       }
@@ -118,7 +110,6 @@ export default function UnifiConfigForm() {
 
       await response.json();
 
-      // Se for tipo cloud e tem API Key, carregar consoles
       if (config.type === 'cloud' && config.apiKey) {
         await loadConsoles(config.apiKey);
       }
@@ -135,9 +126,9 @@ export default function UnifiConfigForm() {
   const handleDelete = async () => {
     const confirmou = window.systemConfirm
       ? await window.systemConfirm('Tem certeza que deseja deletar esta configuração?', 'Confirmar exclusão', {
-        confirmText: 'Excluir',
-        cancelText: 'Cancelar'
-      })
+          confirmText: 'Excluir',
+          cancelText: 'Cancelar',
+        })
       : window.confirm('Tem certeza que deseja deletar esta configuração?');
     if (!confirmou) return;
 
@@ -151,7 +142,7 @@ export default function UnifiConfigForm() {
         throw new Error('Erro ao deletar configuração');
       }
 
-      setConfig({ type: 'cloud', identitySource: 'UNIFI' });
+      setConfig({ type: 'cloud' });
       setConsoles([]);
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
@@ -185,23 +176,23 @@ export default function UnifiConfigForm() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow">
-      <h2 className="text-2xl font-bold mb-6">Configuração do Ubiquiti Unifi</h2>
+    <div className="form-surface mx-auto max-w-4xl p-4 sm:p-6">
+      <h2 className="mb-6 text-2xl font-semibold tracking-tight text-slate-50">Configuração do Ubiquiti Unifi</h2>
 
       {saveSuccess && (
-        <div className="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+        <div className="mb-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-emerald-200">
           Configuração salva com sucesso!
         </div>
       )}
 
       {saveError && (
-        <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+        <div className="mb-4 rounded-xl border border-rose-500/30 bg-rose-500/10 p-4 text-rose-200">
           {saveError}
         </div>
       )}
 
       <div className="mb-6">
-        <label className="block mb-2 font-medium">Tipo de Conexão:</label>
+        <label className="mb-2 block font-medium">Tipo de Conexão:</label>
         <div className="flex gap-4">
           <label className="flex items-center">
             <input
@@ -226,60 +217,24 @@ export default function UnifiConfigForm() {
         </div>
       </div>
 
-      <div className="mb-6">
-        <label className="block mb-2 font-medium">Origem do 802.1x:</label>
-        <div className="grid gap-3 md:grid-cols-3">
-          {identitySourceOptions.map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              onClick={() => handleChange('identitySource', option.value)}
-              className={`rounded-xl border p-4 text-left transition ${
-                config.identitySource === option.value
-                  ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-500'
-                  : 'border-gray-200 bg-white hover:border-blue-300'
-              }`}
-            >
-              <div className="text-sm font-semibold text-gray-900">{option.label}</div>
-              <div className="mt-1 text-xs text-gray-500">{option.help}</div>
-            </button>
-          ))}
-        </div>
-        <p className="mt-2 text-xs text-gray-500">
-          UniFi continua como origem inicial. Windows NPS e FreeRADIUS ficam prontos para a próxima etapa de integração.
-        </p>
-      </div>
-
-      {config.identitySource !== 'UNIFI' && (
-        <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4">
-          <label className="block mb-2 font-medium">Observações da origem selecionada:</label>
-          <textarea
-            value={config.identitySourceNotes || ''}
-            onChange={(e) => handleChange('identitySourceNotes', e.target.value)}
-            className="min-h-[110px] w-full rounded border border-amber-200 p-2"
-            placeholder="Ex: nome do servidor NPS, caminho do log do FreeRADIUS ou observações de integração"
-          />
-        </div>
-      )}
-
       {config.type === 'cloud' ? (
         <div className="space-y-4">
           <div>
-            <label className="block mb-2 font-medium">X-API-Key:</label>
+            <label className="mb-2 block font-medium">X-API-Key:</label>
             <input
               type="password"
               value={config.apiKey || ''}
               onChange={(e) => handleChange('apiKey', e.target.value)}
-              className="w-full border border-gray-300 p-2 rounded"
+              className="w-full rounded border border-gray-300 p-2"
               placeholder="Sua chave de API da Ubiquiti"
             />
-            <p className="text-xs text-gray-500 mt-2">
+            <p className="mt-2 text-xs text-gray-500">
               Gere a chave no{' '}
               <a
                 href="https://unifi.ui.com"
                 target="_blank"
                 rel="noreferrer"
-                className="text-blue-600 hover:underline inline-flex items-center gap-1"
+                className="inline-flex items-center gap-1 text-blue-600 hover:underline"
               >
                 Site Manager
                 <ExternalLink className="h-3 w-3" />
@@ -291,32 +246,32 @@ export default function UnifiConfigForm() {
       ) : (
         <div className="space-y-4">
           <div>
-            <label className="block mb-2 font-medium">Host do Controller:</label>
+            <label className="mb-2 block font-medium">Host do Controller:</label>
             <input
               type="text"
               value={config.host || ''}
               onChange={(e) => handleChange('host', e.target.value)}
-              className="w-full border border-gray-300 p-2 rounded"
+              className="w-full rounded border border-gray-300 p-2"
               placeholder="ex: https://unifi.example.com"
             />
           </div>
           <div>
-            <label className="block mb-2 font-medium">Usuário:</label>
+            <label className="mb-2 block font-medium">Usuário:</label>
             <input
               type="text"
               value={config.username || ''}
               onChange={(e) => handleChange('username', e.target.value)}
-              className="w-full border border-gray-300 p-2 rounded"
+              className="w-full rounded border border-gray-300 p-2"
               placeholder="Usuário do controller"
             />
           </div>
           <div>
-            <label className="block mb-2 font-medium">Senha:</label>
+            <label className="mb-2 block font-medium">Senha:</label>
             <input
               type="password"
               value={config.password || ''}
               onChange={(e) => handleChange('password', e.target.value)}
-              className="w-full border border-gray-300 p-2 rounded"
+              className="w-full rounded border border-gray-300 p-2"
               placeholder="Senha do controller"
             />
           </div>
@@ -327,7 +282,7 @@ export default function UnifiConfigForm() {
         <button
           onClick={handleSave}
           disabled={loading}
-          className="flex-1 bg-blue-500 text-white py-2 rounded hover:bg-blue-600 disabled:bg-gray-400"
+          className="flex-1 rounded bg-blue-500 py-2 text-white hover:bg-blue-600 disabled:bg-gray-400"
         >
           {loading ? 'Salvando...' : 'Salvar Configuração'}
         </button>
@@ -335,7 +290,7 @@ export default function UnifiConfigForm() {
           <button
             onClick={handleDeleteClick}
             disabled={loading}
-            className="flex-1 bg-red-500 text-white py-2 rounded hover:bg-red-600 disabled:bg-gray-400 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2"
+            className="inline-flex flex-1 items-center justify-center gap-2 rounded bg-red-500 py-2 text-white hover:bg-red-600 disabled:cursor-not-allowed disabled:bg-gray-400"
             title="Deletar configuração"
           >
             <Trash2 className="h-4 w-4" />
@@ -344,22 +299,21 @@ export default function UnifiConfigForm() {
         )}
       </div>
 
-      {/* Seção de Consoles - Apenas para tipo cloud */}
       {config.type === 'cloud' && config.apiKey && (
         <div className="mt-8 border-t pt-6">
-          <div className="flex items-center justify-between mb-4">
+          <div className="mb-4 flex items-center justify-between">
             <h3 className="text-lg font-bold">Consoles Ubiquiti</h3>
             <div className="flex gap-2">
               <button
                 onClick={handleSearchConsoles}
                 disabled={loadingConsoles}
-                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 disabled:bg-gray-400"
+                className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600 disabled:bg-gray-400"
               >
                 {loadingConsoles ? 'Carregando...' : 'Buscar Consoles'}
               </button>
               <button
                 onClick={handleOpenMonitor}
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center gap-2"
+                className="flex items-center gap-2 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
               >
                 <ExternalLink className="h-4 w-4" />
                 Abrir Monitor Completo
@@ -371,7 +325,7 @@ export default function UnifiConfigForm() {
             <p className="text-gray-500">Carregando consoles...</p>
           ) : consoles.length > 0 ? (
             <div className="overflow-x-auto">
-              <table className="w-full border-collapse border border-gray-300 min-w-full">
+              <table className="min-w-full border-collapse border border-gray-300">
                 <thead>
                   <tr className="bg-gray-100">
                     <th className="border border-gray-300 px-4 py-2 text-left">Nome</th>
@@ -386,9 +340,11 @@ export default function UnifiConfigForm() {
                       <td className="border border-gray-300 px-4 py-2">{console.name}</td>
                       <td className="border border-gray-300 px-4 py-2">{console.type}</td>
                       <td className="border border-gray-300 px-4 py-2">
-                        <span className={`px-2 py-1 rounded text-sm ${
-                          console.status === 'Online' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
-                        }`}>
+                        <span
+                          className={`rounded px-2 py-1 text-sm ${
+                            console.status === 'Online' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
+                          }`}
+                        >
                           {console.status}
                         </span>
                       </td>
@@ -406,11 +362,3 @@ export default function UnifiConfigForm() {
     </div>
   );
 }
-
-
-
-
-
-
-
-

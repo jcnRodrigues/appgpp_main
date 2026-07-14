@@ -90,7 +90,7 @@ async function fetchAllDeviceGroupsByApiKey(
 }
 
 export async function POST(request: NextRequest) {
-  const canAccess = await hasModuleAccessForRequest(request, 'UNIFI_CONFIG');
+  const canAccess = await hasModuleAccessForRequest(request, 'MONITOR_PATRIMONIOS');
   if (!canAccess) return NextResponse.json({ error: 'Sem permissão para acessar monitoramento' }, { status: 403 });
   const { apiKey } = await request.json();
   const savedConfig = await getUnifiConfig();

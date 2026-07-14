@@ -8,6 +8,7 @@ import {
   saveUnifiConfig,
 } from '@/features/unifi-config/server/unifi.service';
 import { hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
+import { getAppPublicUrlInfo } from '@/lib/app-url';
 
 export async function GET(request: NextRequest) {
   const canAccess = await hasModuleAccessForRequest(request, 'UNIFI_CONFIG');
@@ -36,19 +37,31 @@ export async function GET(request: NextRequest) {
 
   try {
     const config = await getUnifiConfig();
-    if (!config) return NextResponse.json({ config: null });
+    const effectivePublicUrlInfo = getAppPublicUrlInfo({ savedUrl: config?.publicUrl });
+    if (!config) {
+      return NextResponse.json({
+        config: null,
+        effectivePublicUrl: effectivePublicUrlInfo.url,
+        effectivePublicUrlSource: effectivePublicUrlInfo.source,
+      });
+    }
 
     const safeConfig = {
       id: config.id,
       type: config.type,
       host: config.host,
+      publicUrl: config.publicUrl,
       username: config.username,
       isActive: config.isActive,
       createdAt: config.createdAt,
       updatedAt: config.updatedAt,
     };
 
-    return NextResponse.json({ config: safeConfig });
+    return NextResponse.json({
+      config: safeConfig,
+      effectivePublicUrl: effectivePublicUrlInfo.url,
+      effectivePublicUrlSource: effectivePublicUrlInfo.source,
+    });
   } catch (error) {
     console.error('Erro ao recuperar configuracao:', error);
     return NextResponse.json({ error: 'Erro ao recuperar configuracao' }, { status: 500 });
@@ -62,7 +75,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { type, apiKey, host, username, password } = body;
+    const { type, apiKey, host, publicUrl, username, password } = body;
 
     if (!type) {
       return NextResponse.json({ error: 'Tipo de API e necessario' }, { status: 400 });
@@ -72,6 +85,7 @@ export async function POST(request: NextRequest) {
       type,
       apiKey: apiKey || undefined,
       host: host || undefined,
+      publicUrl: publicUrl || undefined,
       username: username || undefined,
       password: password || undefined,
     });

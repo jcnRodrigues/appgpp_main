@@ -147,7 +147,7 @@ export default function CCustoTable({ centros: inicial, statusId = '' }: Props) 
     };
 
     return (
-        <div className="space-y-4">
+        <div className="table-surface space-y-4">
             <div className="md:hidden space-y-3">
                 {loading ? (
                     <TableState icon={Inbox}
@@ -159,7 +159,7 @@ export default function CCustoTable({ centros: inicial, statusId = '' }: Props) 
                 ) : (
                     centros.map((c) => (
                         <div key={c.idCCusto}
-                            className="bg-white rounded-lg shadow-md p-4 space-y-3">
+                            className="rounded-2xl border border-border/60 bg-[#10191b] p-4 shadow-[0_20px_60px_rgba(0,0,0,0.22)] space-y-3">
                             <div>
                                 <div className="text-sm font-semibold text-gray-900">
                                     {c.descricaoCCusto || '-'}
@@ -211,7 +211,7 @@ export default function CCustoTable({ centros: inicial, statusId = '' }: Props) 
                 )}
             </div>
 
-            <div className="hidden md:block bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="hidden md:block overflow-hidden rounded-2xl border border-border/60 bg-[#10191b] shadow-[0_20px_60px_rgba(0,0,0,0.22)]">
                 <div className="overflow-x-auto">
                     <table className="w-full min-w-full">
                         <thead className="bg-gray-50 border-b">
@@ -339,7 +339,6 @@ export default function CCustoTable({ centros: inicial, statusId = '' }: Props) 
         </div>
     );
 }
-
 
 
 

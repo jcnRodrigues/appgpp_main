@@ -47,6 +47,9 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
     const [centros, setCentros] = useState<CentroCusto[]>([]);
     const [historicoTransferencias, setHistoricoTransferencias] = useState<TransferenciaCusto[]>([]);
     const [limparDadosDevolucaoNoBanco, setLimparDadosDevolucaoNoBanco] = useState(false);
+    const [statusInicialEhPendente, setStatusInicialEhPendente] = useState(false);
+    const [devolucaoProcessoCodigo, setDevolucaoProcessoCodigo] = useState('');
+    const [devolucaoProcessoId, setDevolucaoProcessoId] = useState('');
     const initialPatrimonio = useMemo(() => ({
         idPat: '',
         descricaoPat: '',
@@ -71,14 +74,27 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
         clearDraft: clearPatrimonioDraft
     } = useFormDraft('patrimonio-form-create', initialPatrimonio, { enabled: !patrimonioId });
 
+    const normalizarTexto = (valor?: string | null) => {
+        return (valor || '')
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .trim()
+            .toUpperCase();
+    };
+
     const isStatusDevolucaoById = (statusId?: string) => {
         const statusSelecionado = status.find((s) => s.idStatusPat === statusId);
-        return (statusSelecionado?.descricaoStatPat || '').toUpperCase().includes('DEVOLU');
+        return normalizarTexto(statusSelecionado?.descricaoStatPat).includes('DEVOLU');
+    };
+
+    const isStatusPendenteById = (statusId?: string) => {
+        const statusSelecionado = status.find((s) => s.idStatusPat === statusId);
+        return normalizarTexto(statusSelecionado?.descricaoStatPat).includes('PENDENTE');
     };
 
     const carregarHistoricoTransferencias = async (id: string) => {
         try {
-            const response = await fetch(`/api/patrimonio/${id}/transferências`);
+            const response = await fetch(`/api/patrimonio/${id}/transferencias`);
             if (response.ok) {
                 const data = await response.json();
                 setHistoricoTransferencias(Array.isArray(data) ? data : []);
@@ -104,9 +120,15 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
 
             if (patrimonioId) {
                 try {
+                    setStatusInicialEhPendente(false);
                     const patrimonioData = await fetch(`/api/patrimonio/${patrimonioId}`);
                     if (patrimonioData.ok) {
                         const data = await patrimonioData.json();
+                        const statusOriginal = data.tbStatusPat?.descricaoStatPat || data.statusPatrimonio?.descricaoStatPat || '';
+                        const devolucaoProcesso = data.tbDevolucao?.[0]?.tbDevolucaoProcesso || null;
+                        setStatusInicialEhPendente(normalizarTexto(statusOriginal).includes('PENDENTE'));
+                        setDevolucaoProcessoCodigo(devolucaoProcesso?.codigoDevolucao || '');
+                        setDevolucaoProcessoId(devolucaoProcesso?.idDevolucaoProcesso || '');
                         setPatrimonio({
                             idPat: data.idPat || '',
                             descricaoPat: data.descricaoPat || '',
@@ -176,6 +198,10 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                         }
                         : {})
                 }));
+                if (apagarDadosDevolucao) {
+                    setDevolucaoProcessoCodigo('');
+                    setDevolucaoProcessoId('');
+                }
                 setLimparDadosDevolucaoNoBanco(apagarDadosDevolucao);
                 return;
             }
@@ -183,6 +209,11 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
 
         if (name === 'idPat_StatusPat' && isStatusDevolucaoById(value)) {
             setLimparDadosDevolucaoNoBanco(false);
+        }
+
+        if (name === 'idPat_StatusPat' && !isStatusDevolucaoById(value)) {
+            setDevolucaoProcessoCodigo('');
+            setDevolucaoProcessoId('');
         }
 
         setPatrimonio(prev => ({
@@ -216,7 +247,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
         }
 
         const statusSelecionado = status.find((s) => s.idStatusPat === patrimonio.idPat_StatusPat);
-        const isDevolucao = (statusSelecionado?.descricaoStatPat || '').toUpperCase().includes('DEVOLU');
+        const isDevolucao = normalizarTexto(statusSelecionado?.descricaoStatPat).includes('DEVOLU');
 
         if (isDevolucao && !patrimonio.dataDevPat) {
             showNotify('aviso', 'Informe a data de devolução');
@@ -292,20 +323,8 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
 
                 <form onSubmit={handleSubmit}
                     onKeyDown={handleEnterToNext}
-                    className="bg-white rounded-lg shadow-lg p-5 sm:p-8 space-y-6">
+                    className="form-surface space-y-6 p-4 sm:p-6 lg:p-8">
                     <div className="border-b pb-6">
-
-                        <div className="relative flex items-center justify-end">
-                                                        <Image
-                                src={`https://placehold.co/10x10?text=PAT${patrimonio.idPat || 'XX'}`}
-                                alt="Patrimonio Icon"
-                                title="Patrimônio"
-                                width={160}
-                                height={80}
-                                unoptimized
-                                className="w-40 h-20 object-cover rounded-3xl text-center bg-gray-200 hover:bg-gray-900"
-                            />
-                        </div>
                         <h2 className="text-h4 font-bold mb-4">Informações Básicas</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 gap-4 mb-4">
                             <div>
@@ -340,6 +359,17 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                                 {!patrimonio.idPat_TipoPat && <p className="text-red-600 text-xs mt-1">
                                     Campo obrigatório
                                 </p>}
+                            </div>
+                            <div className="relative flex items-center justify-end">
+                                <Image
+                                    src={`https://placehold.co/10x10?text=PAT${patrimonio.idPat || 'XX'}`}
+                                    alt="Patrimonio Icon"
+                                    title="Patrimônio"
+                                    width={160}
+                                    height={80}
+                                    unoptimized
+                                    className="w-40 h-20 object-cover rounded-3xl text-center bg-gray-200 hover:bg-gray-900"
+                                />
                             </div>
                         </div>
 
@@ -421,7 +451,21 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
 
                         {((status.find((s) => s.idStatusPat === patrimonio.idPat_StatusPat)?.descricaoStatPat || '').toUpperCase().includes('DEVOLU')) && (
                             <div className="mt-2 border border-amber-200 rounded-lg p-4  space-y-4">
-                                <h2 className="text-sm font-semibold text-amber-800">Dados da devolução</h2>
+                                <div className="flex flex-wrap items-center justify-between gap-3">
+                                    <h2 className="text-sm font-semibold text-amber-800">Dados da devolução</h2>
+                                    {devolucaoProcessoCodigo ? (
+                                        <div className="flex flex-wrap items-center gap-2">
+                                            <span className="inline-flex items-center rounded-full border border-amber-300 bg-amber-50 px-3 py-1 text-[11px] font-semibold text-amber-800">
+                                                Processo: {devolucaoProcessoCodigo}
+                                            </span>
+                                            {devolucaoProcessoId ? (
+                                                <span className="inline-flex items-center rounded-full border border-border bg-background px-3 py-1 text-[11px] font-medium text-muted-foreground">
+                                                    ID: {devolucaoProcessoId}
+                                                </span>
+                                            ) : null}
+                                        </div>
+                                    ) : null}
+                                </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium mb-2">
@@ -503,7 +547,7 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                                 <select name="idPat_StatusPat"
                                     value={patrimonio.idPat_StatusPat}
                                     onChange={handleChange}
-                                    disabled={!!patrimonioId}
+                                    disabled={!!patrimonioId && !statusInicialEhPendente}
                                     className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary disabled:bg-gray-100 disabled:cursor-not-allowed ${!patrimonio.idPat_StatusPat ? 'border-red-300 bg-red-50' : ''}`} required>
                                     <option value="">
                                         --- Selecione um status ---
@@ -515,6 +559,11 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                                         </option>
                                     ))}
                                 </select>
+                                {patrimonioId && !isStatusPendenteById(patrimonio.idPat_StatusPat) && (
+                                    <p className="text-xs text-amber-600 mb-2">
+                                        A seleção de status só fica liberada quando o patrimônio está como PENDENTE.
+                                    </p>
+                                )}
                                 {!patrimonio.idPat_StatusPat &&
                                     <p className="text-red-600 text-xs mt-1">
                                         Campo obrigatório
@@ -549,13 +598,13 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                                     <div className="border rounded-lg p-3">
                                         <p className="font-semibold mb-2">Histórico de Transferências</p>
                                         {historicoTransferencias.length === 0 ? (
-                                            <p className="text-sm text-gray-500">Nenhuma transferência registrada.</p>
+                                            <p className="text-sm text-muted-foreground">Nenhuma transferência registrada.</p>
                                         ) : (
                                             <div className="space-y-2">
                                                 {historicoTransferencias.map((item) => (
                                                     <div key={item.idTransferencia} className="text-sm border-b pb-2 last:border-b-0">
                                                         <p>{item.custoOrigem?.descricaoCCusto || 'Sem centro anterior'} {' -> '} {item.custoDestino?.descricaoCCusto || 'Sem centro destino'}</p>
-                                                        <p className="text-gray-600">
+                                                        <p className="text-muted-foreground">
                                                             {new Date(item.dataTransferencia).toLocaleString('pt-BR', {
                                                                 day: '2-digit',
                                                                 month: '2-digit',
@@ -566,11 +615,11 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
                                                             {item.valorTransferido ? ` | Valor: R$ ${item.valorTransferido.toFixed(2)}` : ''}
                                                         </p>
                                                         {(item.tbUser?.nomeUser || item.tbUser?.emailUser) && (
-                                                            <p className="text-gray-600">
+                                                            <p className="text-muted-foreground">
                                                                 Transferido por: {item.tbUser?.nomeUser || item.tbUser?.emailUser}
                                                             </p>
                                                         )}
-                                                        {item.observacao && <p className="text-gray-600">{item.observacao}</p>}
+                                                        {item.observacao && <p className="text-muted-foreground">{item.observacao}</p>}
                                                     </div>
                                                 ))}
                                             </div>
@@ -591,6 +640,3 @@ export default function PatrimonioForm({ patrimonioId }: { patrimonioId?: string
         </div>
     );
 }
-
-
-

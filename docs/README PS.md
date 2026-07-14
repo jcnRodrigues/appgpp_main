@@ -20,6 +20,5 @@ Esta pasta e para scripts PowerShell locais de apoio ao desenvolvimento.
 No PowerShell, a partir da raiz do projeto:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\powershell-scripts\seu-script.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\seu-script.ps1
 ```
-

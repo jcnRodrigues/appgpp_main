@@ -2,14 +2,25 @@ import Header from '@/components/Header/Header';
 import PageHeader from '@/components/PageHeader/PageHeader';
 import { Button } from '@/components/ui/button';
 import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
-import ListaPatrimoniosPdfForm from '@/features/patrimonio/components/PatrimonioTable/ListaPatrimoniosPdfForm';
+import ListaPatrimoniosPdfForm from '@/features/devolucao/components/ListaPatrimoniosPdfForm';
+import ListaDevolucaoHeaderActions from '@/features/devolucao/components/ListaDevolucaoHeaderActions';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
 import { FileText } from 'lucide-react';
 
-export default async function ListaPatrimoniosPdfPage() {
+type ListaDevolucaoPageProps = {
+  searchParams?: Promise<{ codigo?: string | string[] }>;
+};
+
+export default async function ListaPatrimoniosPdfPage({ searchParams }: ListaDevolucaoPageProps) {
   const session = await getServerSession(AuthOptions);
+  const params = searchParams ? await searchParams : undefined;
+  const codigoInicial = typeof params?.codigo === 'string'
+    ? params.codigo
+    : Array.isArray(params?.codigo)
+      ? params.codigo[0]
+      : undefined;
   const formularios = ((session?.user as any)?.formularios || []) as string[];
 
   if (!session?.user) {
@@ -55,11 +66,12 @@ export default async function ListaPatrimoniosPdfPage() {
         <PageHeader
           icon={FileText}
           title="Lista de Patrimônios - Devolução"
-          description="Pesquisar, adicionar em lista e gerar PDF"
+          description="Pesquisar patrimônios e montar a lista de devolução"
           backHref="/patrimoniolist"
+          actions={<ListaDevolucaoHeaderActions />}
         />
 
-        <ListaPatrimoniosPdfForm />
+        <ListaPatrimoniosPdfForm codigoInicial={codigoInicial} />
       </div>
     </div>
   );

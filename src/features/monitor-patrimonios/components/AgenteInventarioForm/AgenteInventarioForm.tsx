@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useRef, useState, type ElementType } from 'react';
 import {
@@ -9,14 +9,17 @@ import {
   Server,
   User,
   RefreshCw,
-  ClipboardCheck,
   Download,
   CheckCircle2,
   AlertTriangle,
   Clock3,
+  SearchCheckIcon,
+  Radar,
 } from 'lucide-react';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { notify as showNotify } from '@/lib/notify';
+import { normalizeStatusText } from '@/lib/status';
 
 type Peripheral = {
   categoria: 'MONITOR' | 'TECLADO' | 'MOUSE';
@@ -56,6 +59,7 @@ type AgentResponse = {
     usuario: string;
     origem: string;
   } | null;
+  identificador8021xAviso?: string | null;
   fonte8021xConfigurada?: {
     origem: string;
     notas: string | null;
@@ -110,11 +114,26 @@ type AgentResponse = {
   };
 };
 
+type AgenteInventarioFormProps = {
+  initialHostname?: string;
+  initialSerial?: string;
+};
+
 function formatarStatus(status?: string | null) {
   const texto = String(status || '').trim();
   if (!texto) return '-';
   return texto;
 }
+
+const getStatusPatBadgeClass = (status?: string | null) => {
+  const normalizado = normalizeStatusText(status);
+  if (normalizado === 'ATIVO') return 'bg-green-100 text-green-800';
+  if (normalizado === 'DEVOLUCAO') return 'bg-red-100 text-red-800';
+  if (normalizado === 'INATIVO') return 'bg-orange-100 text-orange-800';
+  if (normalizado === 'MANUTENCAO') return 'bg-purple-100 text-purple-800';
+  if (normalizado === 'TRANSFERIDO') return 'bg-blue-100 text-blue-800';
+  return 'bg-gray-100 text-gray-800';
+};
 
 function limparTextoExibicao(value?: string | null) {
   const texto = String(value || '').trim();
@@ -132,6 +151,13 @@ function limparTextoExibicao(value?: string | null) {
     .replace(/Invent\uFFFDrio/g, 'Inventário')
     .replace(/A\uFFFD\uFFFDo/g, 'Ação')
     .replace(/\uFFFD/g, '');
+}
+
+function normalizarSerial(valor?: string | null) {
+  return String(valor || '')
+    .trim()
+    .replace(/[^A-Za-z0-9]+/g, '')
+    .toUpperCase();
 }
 
 function getModoConsultaLabel(modo: 'HIBRIDO' | 'REDE' | 'INTERNET') {
@@ -182,7 +208,27 @@ function getRadiusVisual(origem?: string | null) {
   };
 }
 
-function PeripheralCard({ title, icon: Icon, itens }: { title: string; icon: ElementType; itens: Peripheral[] }) {
+function getRadiusProviderLabel(origem?: string | null) {
+  const origemNormalizada = String(origem || '').toLowerCase();
+  if (!origemNormalizada) return 'RADIUS';
+  if (origemNormalizada.includes('free')) return 'FreeRADIUS';
+  if (origemNormalizada.includes('nps') || origemNormalizada.includes('windows')) return 'Windows NPS';
+  if (origemNormalizada.includes('uni') || origemNormalizada.includes('cliente')) return 'UniFi';
+  return 'RADIUS';
+}
+
+function PeripheralCard({
+  title,
+  icon: Icon,
+  itens,
+  selectedSerial,
+}: {
+  title: string;
+  icon: ElementType;
+  itens: Peripheral[];
+  onItemClick?: (item: Peripheral) => void;
+  selectedSerial?: string | null;
+}) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
       <div className="flex items-center gap-2">
@@ -191,28 +237,48 @@ function PeripheralCard({ title, icon: Icon, itens }: { title: string; icon: Ele
       </div>
       <div className="mt-3 space-y-3">
         {itens.length === 0 ? (
-          <p className="text-sm leading-6 text-slate-500">Nenhum periférico correspondente foi detectado automaticamente.</p>
+          <p className="text-sm leading-6 text-slate-500">
+            Nenhum periférico correspondente foi detectado automaticamente.
+          </p>
         ) : (
           itens.map((item, index) => (
-            <div key={`${item.codigo || item.nome}-${index}`} className="rounded-xl bg-white p-3 shadow-sm">
+            <div
+              key={`${item.codigo || item.nome}-${index}`}
+              className={`w-full rounded-xl bg-white p-3 text-left shadow-sm transition ${selectedSerial && item.serial && selectedSerial === item.serial ? 'ring-2 ring-primary/60' : ''
+                }`}
+            >
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-sm font-medium text-slate-900">{limparTextoExibicao(item.nome)}</p>
-                  <p className="text-xs leading-5 text-slate-500">
-                    {limparTextoExibicao(item.fabricante)} {item.modelo ? `| ${limparTextoExibicao(item.modelo)}` : ''}
-                  </p>
+                  <p className="text-sm font-medium text-slate-500">{limparTextoExibicao(item.nome)}</p>
                 </div>
-                <span className="rounded-full bg-slate-900 px-2.5 py-1 text-[10px] font-medium tracking-wide text-white">
-                  {item.categoria}
-                </span>
+                <div className="flex flex-col items-end gap-2">
+                  <span
+                    className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-semibold tracking-wide ${getStatusPatBadgeClass(item.status)}`}
+                  >
+                    {item.categoria}
+                  </span>
+                </div>
               </div>
-              <div className="mt-2 grid grid-cols-1 gap-1 text-xs text-slate-600 sm:grid-cols-2">
+              <div className="mt-2 grid grid-cols-1 gap-2 text-xs text-slate-500 sm:grid-cols-1">
                 <div>Código: {limparTextoExibicao(item.codigo)}</div>
                 <div>N/S: {limparTextoExibicao(item.serial)}</div>
                 <div>Hostname: {limparTextoExibicao(item.hostname)}</div>
-                <div>Local: {limparTextoExibicao(item.local)}</div>
-                <div>Status: {formatarStatus(item.status)}</div>
-                <div>Origem: {limparTextoExibicao(item.origem)}</div>
+                <div>
+                  Local:
+                  <span
+                    className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-semibold tracking-wide ${getStatusPatBadgeClass(item.status)}`}
+                  >
+                    {formatarStatus(limparTextoExibicao(item.local))}
+                  </span>
+                </div>
+                <div>
+                  Status:
+                  <span
+                    className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-semibold tracking-wide ${getStatusPatBadgeClass(item.status)}`}
+                  >
+                    {formatarStatus(item.status)}
+                  </span>
+                </div>
               </div>
             </div>
           ))
@@ -222,13 +288,15 @@ function PeripheralCard({ title, icon: Icon, itens }: { title: string; icon: Ele
   );
 }
 
-export default function AgenteInventarioForm() {
-  const [hostname, setHostname] = useState('');
+export default function AgenteInventarioForm({ initialHostname = '', initialSerial = '' }: AgenteInventarioFormProps) {
+  const [hostname, setHostname] = useState(initialHostname);
   const [modoConsulta, setModoConsulta] = useState<'HIBRIDO' | 'REDE' | 'INTERNET'>('HIBRIDO');
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState('');
   const [resultado, setResultado] = useState<AgentResponse | null>(null);
+  const [serialMonitorSelecionado, setSerialMonitorSelecionado] = useState<string | null>(null);
   const modoAnteriorRef = useRef(modoConsulta);
+  const autoSearchDoneRef = useRef(false);
 
   useEffect(() => {
     if (modoAnteriorRef.current === modoConsulta) return;
@@ -236,9 +304,8 @@ export default function AgenteInventarioForm() {
     showNotify('aviso', `Modo alterado para ${getModoConsultaLabel(modoConsulta)}.`);
   }, [modoConsulta]);
 
-  const buscar = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const termo = hostname.trim();
+  const executarBusca = async (termoBusca?: string, serialBusca?: string) => {
+    const termo = (termoBusca ?? hostname).trim();
     if (!termo) {
       showNotify('aviso', 'Informe um hostname para iniciar a consulta.');
       return;
@@ -248,7 +315,7 @@ export default function AgenteInventarioForm() {
     setErro('');
     try {
       const response = await fetch(
-        `/api/monitor-patrimonios/agente?hostname=${encodeURIComponent(termo)}&modo=${modoConsulta}`,
+        `/api/monitor-patrimonios/agente?hostname=${encodeURIComponent(termo)}${serialBusca ? `&serial=${encodeURIComponent(serialBusca)}` : ''}&modo=${modoConsulta}`,
         { cache: 'no-store' }
       );
       const data = await response.json().catch(() => ({}));
@@ -257,6 +324,7 @@ export default function AgenteInventarioForm() {
       }
 
       setResultado(data as AgentResponse);
+      setSerialMonitorSelecionado(serialBusca || null);
       if (!data.dispositivoPrincipal && !data.usuarioEstimado && (data.resumo?.totalPerifericos || 0) === 0) {
         showNotify('aviso', 'Nenhum registro foi identificado automaticamente para este hostname.');
       } else {
@@ -271,66 +339,120 @@ export default function AgenteInventarioForm() {
     }
   };
 
-  const baixarScript = async () => {
+  useEffect(() => {
+    if (autoSearchDoneRef.current) return;
+    if (!initialHostname && !initialSerial) return;
+    autoSearchDoneRef.current = true;
+    const termoInicial = initialHostname || initialSerial;
+    setHostname(termoInicial);
+    void executarBusca(termoInicial, initialSerial);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialHostname, initialSerial]);
+
+  const buscar = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await executarBusca();
+  };
+
+  const selecionarMonitor = async (item: Peripheral) => {
+    if (!item.serial) {
+      showNotify('aviso', 'Este monitor não possui número de série para pesquisa.');
+      return;
+    }
+
+    await executarBusca(undefined, item.serial);
+  };
+
+  const monitorSelecionadoNormalizado = normalizarSerial(serialMonitorSelecionado);
+  const monitoresInventarioFiltrados = resultado?.inventarioSistema?.perifericos?.monitor
+    ? resultado.inventarioSistema.perifericos.monitor.filter((item) => {
+      if (!monitorSelecionadoNormalizado) return true;
+      return normalizarSerial(item.Serial) === monitorSelecionadoNormalizado;
+    })
+    : [];
+  const patrimonioEncontradoParaSerial = Boolean(
+    serialMonitorSelecionado && resultado?.ativosRelacionados?.length
+  );
+
+  const baixarInstalador = async () => {
     try {
-      const serverUrl = typeof window !== 'undefined' ? window.location.origin : '';
-      const response = await fetch(
-        `/api/monitor-patrimonios/agente/script?serverUrl=${encodeURIComponent(serverUrl)}`,
-        { cache: 'no-store' }
-      );
+      const response = await fetch(`/api/monitor-patrimonios/agente/script?installerExe=true`, {
+        cache: 'no-store'
+      });
 
       if (!response.ok) {
         const data = await response.json().catch(() => ({}));
-        throw new Error(data.error || 'Não foi possível gerar o script.');
+        throw new Error(data.error || 'Não foi possível gerar o instalador.');
       }
 
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'HostInventoryAgent.ps1';
+      link.download = 'HostInventoryAgent-Installer.exe';
       document.body.appendChild(link);
       link.click();
       link.remove();
       window.URL.revokeObjectURL(url);
       showNotify('sucesso', 'Instalador do agente gerado com sucesso.');
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Não foi possível gerar o script.';
+      const message = error instanceof Error ? error.message : 'Não foi possível gerar o instalador.';
       showNotify('erro', message);
     }
   };
 
   return (
     <div className="space-y-6">
-      <form onSubmit={buscar}
-        className="rounded-2xl border border-border/60 bg-white p-5 shadow-sm">
+      <form onSubmit={buscar} className="rounded-2xl border border-border/60 bg-white p-5 shadow-sm">
         <div className="grid gap-5 xl:grid-cols-[1.05fr_1.95fr] xl:items-start">
           <div className="max-w-2xl">
             <h2 className="text-xl font-semibold text-slate-900">Agente de Inventário</h2>
             <p className="mt-1 text-sm text-slate-600">
-              Informe o hostname para consultar o ativo principal, o usuário estimado e os periféricos vinculados.
+              Informe o hostname para consultar o ativo principal, o usuário estimado, os periféricos vinculados e baixar o agente que coleta os dados do host.
             </p>
           </div>
           <div className="space-y-4">
-            <div className="relative w-full grid gap-2 md:grid-cols-3">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-              <input
-                type="text"
-                value={hostname}
-                onChange={(e) => setHostname(e.target.value)}
-                placeholder="Ex: PAT0000"
-                className="w-full rounded-lg border px-10 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-              <Button type="submit" disabled={loading} className="gap-2">
-                {loading ? <RefreshCw className="h-4 w-4 animate-spin" />
-                  : <ClipboardCheck className="h-4 w-4" />}
-                {loading ? 'Consultando...' : 'Consultar host'}
-              </Button>
-              <Button type="button"
-                variant="outline"
-                className="gap-2" onClick={baixarScript}>
+            <div className="flex flex-col gap-2 md:flex-row md:items-stretch">
+              <div className="relative w-full">
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="text"
+                  value={hostname}
+                  onChange={(e) => setHostname(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      void executarBusca();
+                    }
+                  }}
+                  placeholder="Ex: PAT0000"
+                  className="w-full rounded-lg border px-10 py-2 pr-24 focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+                <Button
+                  type="button"
+                  disabled={loading}
+                  variant="ghost"
+                  onClick={() => void executarBusca()}
+                  className="absolute right-1 top-1/2 h-8 -translate-y-1/2 gap-2"
+                >
+                  {loading ? <RefreshCw className="h-4 w-4 animate-spin" /> : <SearchCheckIcon className="h-4 w-4" />}
+                  {loading ? 'Buscando...' : 'Buscar'}
+                </Button>
+              </div>
+              <Button
+                type="button"
+                variant="ghost"
+                className="gap-2 md:min-w-[168px] border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100"
+                onClick={baixarInstalador}
+              >
                 <Download className="h-4 w-4" />
                 Baixar instalador
+              </Button>
+              <Button asChild variant="ghost" className="gap-2 md:min-w-[188px] border border-cyan-200 bg-cyan-50 text-cyan-800 hover:bg-cyan-100">
+                <Link href="/monitor-patrimonios/agente/varredura">
+                  <Radar className="h-4 w-4" />
+                  Varredura total
+                </Link>
               </Button>
             </div>
             <div className="grid w-full gap-2 md:grid-cols-3">
@@ -343,10 +465,11 @@ export default function AgenteInventarioForm() {
                   key={option.value}
                   type="button"
                   onClick={() => setModoConsulta(option.value as 'HIBRIDO' | 'REDE' | 'INTERNET')}
-                  className={`rounded-lg border px-3 py-2 text-left transition ${modoConsulta === option.value
-                    ? 'border-green-900 bg-green-900 text-white'
-                    : 'border-slate-200 bg-white text-slate-700 hover:border-slate-400'
-                    }`}
+                  className={`rounded-lg border px-3 py-2 text-left transition ${
+                    modoConsulta === option.value
+                      ? 'border-green-900 bg-green-900 text-white'
+                      : 'border-slate-200 bg-white text-slate-700 hover:border-slate-400'
+                  }`}
                 >
                   <div className="text-xs font-semibold uppercase tracking-wide">{option.label}</div>
                   <div className={`text-[11px] ${modoConsulta === option.value ? 'text-slate-200' : 'text-slate-500'}`}>
@@ -355,7 +478,9 @@ export default function AgenteInventarioForm() {
                 </button>
               ))}
             </div>
-
+            <p className="text-xs text-slate-500">
+              O instalador baixado abrirá um formulário próprio para informar o host/IP e a porta do servidor quando for executado no computador alvo.
+            </p>
           </div>
         </div>
         {erro && <p className="mt-3 text-sm text-red-600">{erro}</p>}
@@ -403,21 +528,18 @@ export default function AgenteInventarioForm() {
 
             {resultado.statusAgente && resultado.statusAgente.codigo !== 'ATIVO' && (
               <div
-                className={`mt-5 rounded-xl border p-4 text-sm ${resultado.statusAgente.codigo === 'DESATUALIZADO'
-                  ? 'border-yellow-500/30 bg-yellow-500/10 text-yellow-100'
-                  : 'border-red-500/30 bg-red-500/10 text-red-100'
-                  }`}
+                className={`mt-5 rounded-xl border p-4 text-sm ${
+                  resultado.statusAgente.codigo === 'DESATUALIZADO'
+                    ? 'border-yellow-500/30 bg-yellow-500/10 text-yellow-100'
+                    : 'border-red-500/30 bg-red-500/10 text-red-100'
+                }`}
               >
                 <p className="font-semibold">{resultado.statusAgente.titulo}</p>
-                <p
-                  className={`mt-1 ${resultado.statusAgente.codigo === 'DESATUALIZADO' ? 'text-yellow-50/90' : 'text-red-50/90'
-                    }`}
-                >
+                <p className={`mt-1 ${resultado.statusAgente.codigo === 'DESATUALIZADO' ? 'text-yellow-50/90' : 'text-red-50/90'}`}>
                   {resultado.statusAgente.detalhe}
                 </p>
               </div>
             )}
-
           </section>
 
           <section className="grid grid-cols-1 gap-6 xl:grid-cols-[1.25fr_0.75fr]">
@@ -463,7 +585,7 @@ export default function AgenteInventarioForm() {
                 </h3>
                 {resultado.usuarioRadius && (
                   <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-700">
-                    {resultado.usuarioRadius.origem.toLowerCase().includes('free') ? 'FreeRADIUS' : 'Windows NPS'}
+                    {getRadiusProviderLabel(resultado.usuarioRadius.origem)}
                   </span>
                 )}
               </div>
@@ -475,8 +597,14 @@ export default function AgenteInventarioForm() {
                   <span
                     className={`inline-flex rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide ${getRadiusVisual(resultado.usuarioRadius.origem).badgeClass}`}
                   >
-                    {resultado.usuarioRadius.origem.toLowerCase().includes('free') ? 'FreeRADIUS' : 'Windows NPS'}
+                    {getRadiusProviderLabel(resultado.usuarioRadius.origem)}
                   </span>
+                  {resultado.identificador8021x && (
+                    <p className="rounded-lg border border-emerald-200 bg-white/70 px-3 py-2 text-xs text-emerald-900">
+                      <span className="font-semibold">Identificador 802.1X:</span>{' '}
+                      {limparTextoExibicao(resultado.identificador8021x.usuario || resultado.identificador8021x.nome || resultado.identificador8021x.raw)}
+                    </p>
+                  )}
                   <p>Usuário: {limparTextoExibicao(resultado.usuarioRadius.nome)}</p>
                   <p>Origem: {limparTextoExibicao(resultado.usuarioRadius.origem)}</p>
                   {resultado.usuarioRadius.fonte && (
@@ -499,16 +627,21 @@ export default function AgenteInventarioForm() {
                   <p>Origem: {limparTextoExibicao(resultado.identificador8021x.origem)}</p>
                 </div>
               )}
+              {resultado.identificador8021xAviso && (
+                <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+                  {limparTextoExibicao(resultado.identificador8021xAviso)}
+                </p>
+              )}
             </div>
           </section>
 
           <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-center gap-2">
-              <Monitor className="h-4 w-4 text-slate-700" />
-              <h3 className="font-semibold text-slate-900">Informações do sistema</h3>
+              <Monitor className="h-4 w-4 text-slate-500" />
+              <h2 className="font-semibold text-slate-900">Informações do sistema</h2>
             </div>
             {resultado.inventarioSistema ? (
-              <div className="mt-4 grid grid-cols-1 gap-2 text-sm text-slate-700 md:grid-cols-2 xl:grid-cols-3">
+              <div className="mt-4 grid grid-cols-1 gap-2 text-sm text-slate-400 md:grid-cols-2 xl:grid-cols-3">
                 <p><span className="font-medium">Hostname:</span> {limparTextoExibicao(resultado.inventarioSistema.hostname)}</p>
                 <p><span className="font-medium">Computador:</span> {limparTextoExibicao(resultado.inventarioSistema.computerName)}</p>
                 <p><span className="font-medium">Usuário:</span> {limparTextoExibicao(resultado.inventarioSistema.usuario)}</p>
@@ -532,28 +665,56 @@ export default function AgenteInventarioForm() {
           {resultado.inventarioSistema?.perifericos && (
             <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
               <div className="flex items-center gap-2">
-                <Download className="h-4 w-4 text-slate-700" />
-                <h3 className="font-semibold text-slate-900">Periféricos do host</h3>
+                <Download className="h-4 w-4 text-slate-500" />
+                <h2 className="font-semibold text-slate-900">Periféricos do host</h2>
               </div>
               <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
-                <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <div className="rounded-xl border border-slate-200 bg-slate-100 p-4">
                   <p className="text-sm font-semibold text-slate-900">Monitores detectados</p>
                   <p className="mt-1 text-xs text-slate-500">
                     {resultado.inventarioSistema.perifericos.monitor?.length || 0} encontrado(s)
                   </p>
                   <ul className="mt-3 space-y-2 text-sm text-slate-700">
-                    {(resultado.inventarioSistema.perifericos.monitor || []).slice(0, 5).map((item, index) => (
-                      <li key={`${item.InstanceName || item.Serial || index}`} className="rounded-lg bg-white px-3 py-2 shadow-sm">
-                        <p className="font-medium">{item.Name || 'Monitor'}</p>
-                        <p className="text-xs text-slate-500">
-                          {item.Manufacturer || '-'} {item.Serial ? `| N/S ${item.Serial}` : ''}
-                        </p>
+                    {monitoresInventarioFiltrados.slice(0, 5).map((item, index) => (
+                      <li
+                        key={`${item.InstanceName || item.Serial || index}`}
+                        className={`rounded-lg bg-white px-3 py-2 shadow-sm ${monitorSelecionadoNormalizado && normalizarSerial(item.Serial) === monitorSelecionadoNormalizado ? 'ring-2 ring-primary/50' : ''}`}
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <p className="font-medium text-slate-600">{item.Name || 'Monitor'}</p>
+                            <p className="text-xs text-slate-500">
+                              {item.Manufacturer || '-'} {item.Serial ? `| N/S ${item.Serial}` : ''}
+                            </p>
+                          </div>
+
+                          {item.Serial && normalizarSerial(item.Serial) !== '0' && (
+                            <button
+                              type="button"
+                              onClick={() => void selecionarMonitor({
+                                categoria: 'MONITOR',
+                                codigo: item.Serial || item.InstanceName || 'MONITOR',
+                                nome: item.Name || 'Monitor',
+                                hostname: resultado.inventarioSistema?.hostname || null,
+                                serial: item.Serial || null,
+                                modelo: item.Name || null,
+                                fabricante: item.Manufacturer || null,
+                                local: null,
+                                status: item.Source || null,
+                                origem: 'INVENTARIO_HOST',
+                              })}
+                              className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white shadow-md transition hover:bg-emerald-500 hover:shadow-lg"
+                            >
+                              <Search className="h-3.5 w-3.5" />
+                            </button>
+                          )}
+                        </div>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <div className="rounded-xl border border-slate-200 bg-slate-100 p-4">
                   <p className="text-sm font-semibold text-slate-900">Teclados detectados</p>
                   <p className="mt-1 text-xs text-slate-500">
                     {resultado.inventarioSistema.perifericos.teclado?.length || 0} encontrado(s)
@@ -570,7 +731,7 @@ export default function AgenteInventarioForm() {
                   </ul>
                 </div>
 
-                <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <div className="rounded-xl border border-slate-200 bg-slate-100 p-4">
                   <p className="text-sm font-semibold text-slate-900">Mouses detectados</p>
                   <p className="mt-1 text-xs text-slate-500">
                     {resultado.inventarioSistema.perifericos.mouse?.length || 0} encontrado(s)
@@ -591,39 +752,64 @@ export default function AgenteInventarioForm() {
           )}
 
           <section className="grid grid-cols-1 gap-6 xl:grid-cols-3">
-            <PeripheralCard title="Monitor" icon={Monitor} itens={resultado.perifericos.MONITOR} />
+            <PeripheralCard
+              title="Monitor"
+              icon={Monitor}
+              itens={resultado.perifericos.MONITOR}
+              selectedSerial={serialMonitorSelecionado}
+            />
             <PeripheralCard title="Teclado" icon={Keyboard} itens={resultado.perifericos.TECLADO} />
             <PeripheralCard title="Mouse" icon={Mouse} itens={resultado.perifericos.MOUSE} />
           </section>
 
           <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="font-semibold text-slate-900">Ativos vinculados ao hostname consultado</h3>
+            <h3 className="font-semibold text-slate-900">
+              {serialMonitorSelecionado
+                ? 'Patrimônios vinculados ao serial selecionado'
+                : 'Patrimônios vinculados ao hostname consultado'}
+            </h3>
+            {serialMonitorSelecionado && patrimonioEncontradoParaSerial && (
+              <p className="mt-2 text-xs font-medium text-emerald-600">
+                Patrimônio localizado na base para o serial selecionado.
+              </p>
+            )}
             {resultado.ativosRelacionados.length === 0 ? (
-              <p className="mt-3 text-sm text-slate-500">Nenhum ativo de rede compatível foi encontrado para esta consulta.</p>
+              <p className="mt-3 text-sm text-slate-600">
+                {serialMonitorSelecionado
+                  ? `Nenhum patrimônio foi encontrado em tbPatrimonio para o serial ${serialMonitorSelecionado}.`
+                  : 'Nenhum patrimônio compatível foi encontrado para esta consulta.'}
+              </p>
             ) : (
-              <div className="mt-4 overflow-x-auto">
+              <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
                 <table className="min-w-full text-sm">
-                  <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
+                  <thead className="bg-gradient-to-r from-slate-800 to-slate-700 text-left text-xs uppercase tracking-wide text-white">
                     <tr>
-                      <th className="px-3 py-2">Categoria</th>
-                      <th className="px-3 py-2">Código</th>
-                      <th className="px-3 py-2">Nome</th>
-                      <th className="px-3 py-2">Hostname</th>
-                      <th className="px-3 py-2">N/S</th>
-                      <th className="px-3 py-2">Local</th>
-                      <th className="px-3 py-2">Status</th>
+                      <th className="px-3 py-2.5">Categoria</th>
+                      <th className="px-3 py-2.5">Código</th>
+                      <th className="px-3 py-2.5">Nome</th>
+                      <th className="px-3 py-2.5">Hostname</th>
+                      <th className="px-3 py-2.5">N/S</th>
+                      <th className="px-3 py-2.5">Local</th>
+                      <th className="px-3 py-2.5">Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {resultado.ativosRelacionados.map((item, index) => (
-                      <tr key={`${item.codigo}-${index}`} className="border-b">
+                      <tr
+                        key={`${item.codigo} - ${index}`}
+                        className={`border-b text-sm text-slate-800 transition ${monitorSelecionadoNormalizado && normalizarSerial(item.serial) === monitorSelecionadoNormalizado ? 'bg-slate-50 ring-1 ring-emerald-900 text-emerald-900' : ''}`}
+                      >
                         <td className="px-3 py-2">{item.categoria}</td>
                         <td className="px-3 py-2">{item.codigo || '-'}</td>
                         <td className="px-3 py-2">{item.nome || '-'}</td>
                         <td className="px-3 py-2">{item.hostname || '-'}</td>
                         <td className="px-3 py-2">{item.serial || '-'}</td>
                         <td className="px-3 py-2">{item.local || '-'}</td>
-                        <td className="px-3 py-2">{formatarStatus(item.status)}</td>
+                        <td className="px-3 py-2 font-semibold">
+                          <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wide ${getStatusPatBadgeClass(item.status)}`}>
+                            {formatarStatus(item.status)}
+                          </span>
+                        </td>
                       </tr>
                     ))}
                   </tbody>

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { hasModuleAccessForRequest } from '@/lib/access';
 import { getUnifiConfig } from '@/features/unifi-config/server/unifi.service';
+import { inferMonitorStatus } from '@/lib/monitor-status';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -125,7 +126,7 @@ async function fetchAllDeviceGroupsByApiKey(
 }
 
 export async function POST(request: NextRequest) {
-  const canAccess = await hasModuleAccessForRequest(request, 'UNIFI_CONFIG');
+  const canAccess = await hasModuleAccessForRequest(request, 'MONITOR_PATRIMONIOS');
   if (!canAccess) return NextResponse.json({ error: 'Sem permissão para acessar monitoramento' }, { status: 403 });
   const { apiKey } = await request.json();
   const savedConfig = await getUnifiConfig();
@@ -144,11 +145,7 @@ export async function POST(request: NextRequest) {
       const family = detectConsoleFamily(consoleDevice);
       const hostId = String(group.hostId || '');
       const hostName = String(group.hostName || '');
-      const statusRaw = normalizeText((consoleDevice as Record<string, unknown>).status).toLowerCase();
-      const onlineByField =
-        (consoleDevice as Record<string, unknown>).online === true ||
-        (consoleDevice as Record<string, unknown>).isOnline === true;
-      const status = statusRaw || (onlineByField ? 'online' : 'offline');
+      const status = inferMonitorStatus(consoleDevice) === 'Online' ? 'online' : 'offline';
 
       return {
         id: hostId,

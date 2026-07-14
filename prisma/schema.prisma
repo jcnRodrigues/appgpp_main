@@ -26,8 +26,10 @@ model tbUser {
   updatedAt      DateTime        @updatedAt
   tbFuncioanrio  tbFuncionario[]
   transferenciasCustoPatrimonio tbTransferenciaCustoPatrimonio[]
+  transferenciaProcessos tbTransferenciaProcesso[]
   transferenciasAlocacao tbTransferenciaAlocacao[]
   tbBmMedicao tbBmMedicao[]
+  tbInventarioProcesso tbInventarioProcesso[]
   tbAuditoriaDevolucaoPatrimonio tbAuditoriaDevolucaoPatrimonio[]
   tbAtivoRedeTransferencia tbTransferenciaAtivoRede[]
   tbAtivoRedeDevolucao tbDevolucaoAtivoRede[]
@@ -159,6 +161,7 @@ model tbCCusto {
   transferenciasOrigem tbTransferenciaCustoPatrimonio[] @relation("TransferenciaOrigem")
   transferenciasDestino tbTransferenciaCustoPatrimonio[] @relation("TransferenciaDestino")
   tbBmMedicao tbBmMedicao[]
+  tbInventarioProcesso tbInventarioProcesso[]
   tbAtivoRede    tbAtivoRede[]
 
   @@index([idStatusCCusto], map: "idx_ccusto_status_fk")
@@ -194,6 +197,35 @@ model tbBmMedicao {
   @@index([createdAt], map: "idx_bm_created_at")
 }
 
+model tbInventarioProcesso {
+  idInventarioProcesso   String   @id @default(uuid())
+  codigoInventario       String   @unique
+  idCCusto               String?
+  codigoCCusto           String?
+  descricaoCCusto        String?
+  mesInventario          Int
+  anoInventario          Int
+  contadorInventario     Int
+  statusInventario       String   @default("ABERTO")
+  dataInventario         DateTime
+  dataFechamento        DateTime?
+  responsavelInventario  String?
+  localInventario        String?
+  observacaoInventario   String?
+  resumoJson             Json?
+  itensJson              Json?
+  idUserInventario       String?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  tbCCusto               tbCCusto? @relation(fields: [idCCusto], references: [idCCusto], onDelete: SetNull)
+  tbUser                 tbUser?   @relation(fields: [idUserInventario], references: [id], onDelete: SetNull)
+
+  @@index([idCCusto, statusInventario], map: "idx_inv_ccusto_status")
+  @@index([anoInventario, mesInventario, contadorInventario], map: "idx_inv_seq")
+  @@index([createdAt], map: "idx_inv_created_at")
+}
+
 model tbTransferenciaCustoPatrimonio {
   idTransferencia        String      @id @default(uuid())
   idPatrimonio           String
@@ -202,6 +234,7 @@ model tbTransferenciaCustoPatrimonio {
   valorTransferido       Float?
   observacao             String?
   idUserTransferencia    String?
+  idTransferenciaProcesso String?
   dataTransferencia      DateTime    @default(now())
   createdAt              DateTime    @default(now())
 
@@ -209,11 +242,33 @@ model tbTransferenciaCustoPatrimonio {
   custoOrigem            tbCCusto?    @relation("TransferenciaOrigem", fields: [idCustoOrigem], references: [idCCusto])
   custoDestino           tbCCusto     @relation("TransferenciaDestino", fields: [idCustoDestino], references: [idCCusto])
   tbUser                 tbUser?      @relation(fields: [idUserTransferencia], references: [id])
+  tbTransferenciaProcesso tbTransferenciaProcesso? @relation(fields: [idTransferenciaProcesso], references: [idTransferenciaProcesso], onDelete: SetNull)
 
   @@index([idPatrimonio, dataTransferencia], map: "idx_transf_pat_data")
   @@index([idCustoOrigem], map: "idx_transf_origem")
   @@index([idCustoDestino], map: "idx_transf_destino")
   @@index([idUserTransferencia], map: "idx_transf_user")
+  @@index([idTransferenciaProcesso], map: "idx_transf_processo")
+}
+
+model tbTransferenciaProcesso {
+  idTransferenciaProcesso String   @id @default(uuid())
+  codigoTransferencia     String   @unique
+  mesTransferencia        Int
+  anoTransferencia        Int
+  contadorTransferencia   Int
+  statusTransferencia     String   @default("ABERTO")
+  dataInicioTransferencia  DateTime @default(now())
+  dataFechamento          DateTime?
+  idUserCriacao           String?
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  tbUser                  tbUser?  @relation(fields: [idUserCriacao], references: [id], onDelete: SetNull)
+  tbTransferenciaCustoPatrimonio tbTransferenciaCustoPatrimonio[]
+
+  @@index([anoTransferencia, mesTransferencia, contadorTransferencia], map: "idx_transf_seq")
+  @@index([statusTransferencia], map: "idx_transf_status")
 }
 
 model tbCadastro {
@@ -260,6 +315,7 @@ model tbTransferenciaAlocacao {
 
 model tbDevolucao {
   idDevolucao         String        @id @default(uuid())
+  idDevolucaoProcesso String
   idPatrimonio        String
   idCadastro          String?
   dataInicioDevolucao DateTime
@@ -273,9 +329,29 @@ model tbDevolucao {
 
   tbPatrimonio        tbPatrimonio  @relation(fields: [idPatrimonio], references: [idP], onDelete: Cascade)
   tbCadastro          tbCadastro?   @relation(fields: [idCadastro], references: [idCad], onDelete: SetNull)
+  tbDevolucaoProcesso tbDevolucaoProcesso @relation(fields: [idDevolucaoProcesso], references: [idDevolucaoProcesso], onDelete: Restrict)
 
   @@index([idPatrimonio, dataInicioDevolucao], map: "idx_devolucao_pat_inicio")
   @@index([idCadastro], map: "idx_devolucao_cadastro")
+  @@index([idDevolucaoProcesso], map: "idx_devolucao_processo_fk")
+}
+
+model tbDevolucaoProcesso {
+  idDevolucaoProcesso String   @id @default(uuid())
+  codigoDevolucao     String   @unique
+  mesDevolucao        Int
+  anoDevolucao        Int
+  contadorDevolucao   Int
+  statusDevolucao     String   @default("ABERTO")
+  dataInicio          DateTime @default(now())
+  dataFechamento      DateTime?
+  updatedAt           DateTime @updatedAt
+  createdAt           DateTime @default(now())
+
+  tbDevolucao         tbDevolucao[]
+
+  @@index([anoDevolucao, mesDevolucao, contadorDevolucao], map: "idx_dev_processo_seq")
+  @@index([statusDevolucao], map: "idx_dev_processo_status")
 }
 
 model tbAuditoriaDevolucaoPatrimonio {
@@ -471,6 +547,9 @@ model tbUnifiConfig {
   type         String   @default("cloud")
   apiKey       String?
   host         String?
+  publicUrl    String?
+  identitySource String? @default("UNIFI")
+  identitySourceNotes String?
   username     String?
   password     String?
   isActive     Boolean  @default(true)

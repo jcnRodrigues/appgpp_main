@@ -1,0 +1,12 @@
+
+> appgpp@0.1.0 dev
+> next dev --webpack
+
+▲ Next.js 16.2.6 (webpack)
+- Local:         http://localhost:3000
+- Network:       http://172.24.144.1:3000
+- Environments: .env.local, .env
+✓ Ready in 1007ms
+  next-swc build: wasm build @next/swc-wasm-nodejs
+  Skipping creating a lockfile at D:\Project_Gestao\appgpp\.next\dev\lock because we're using WASM bindings
+

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { Edit, Trash2, FileDown, Filter } from 'lucide-react';
+import { Edit, Trash2, FileDown, Filter, Plus } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import DeleteGuardButton from '@/components/DeleteGuardButton/DeleteGuardButton';
@@ -72,6 +72,7 @@ export default function CadastroTable() {
     const { data: session } = useSession();
     const formularios = ((session?.user as any)?.formularios || []) as string[];
     const canUpdate = hasModuleActionPermission(formularios, 'ALOCACOES', 'UPDATE');
+    const canCreate = hasModuleActionPermission(formularios, 'ALOCACOES', 'CREATE');
     const canPrint = hasModuleActionPermission(formularios, 'ALOCACOES', 'PRINT');
     const showNoPermissionAlert = (acao: string) => window.systemAlert?.('aviso', `Você não tem permissão para ${acao}.`);
     const handleEditClick = (e: React.MouseEvent) => {
@@ -158,7 +159,7 @@ export default function CadastroTable() {
     useEffect(() => {
         const carregarStatus = async () => {
             try {
-                const response = await fetch('/api/cadastro?opções=true');
+                const response = await fetch('/api/cadastro?opcoes=true');
                 if (!response.ok) return;
                 const data = await response.json();
                 setStatusOpcoes(data.statusPatrimonio || []);
@@ -226,6 +227,11 @@ export default function CadastroTable() {
         if (normalizado === 'TRANSFERIDO') return 'bg-blue-100 text-blue-800';
         if (normalizado === 'MANUTENCAO') return 'bg-orange-100 text-orange-800';
         return 'bg-yellow-100 text-yellow-800';
+    };
+
+    const isDevolucaoCompleta = (status?: string) => {
+        const normalizado = normalizeStatusText(status);
+        return normalizado.includes('DEVOLUCAO') || normalizado.includes('DEVOLV');
     };
 
     const formatarData = (data: string | null) => {
@@ -329,9 +335,9 @@ export default function CadastroTable() {
     const irParaPagina = (pagina: number) => setPaginaAtual(Math.min(Math.max(pagina, 1), totalPaginas));
 
     return (
-        <div className="w-full space-y-4">
+        <div className="table-surface w-full space-y-4">
             <div className="sticky top-[calc(var(--app-header-height)+96px)] z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pb-2">
-                <div className="bg-white rounded-lg shadow-md p-4 space-y-4">
+                <div className="rounded-2xl border border-border/60 bg-[#10191b] p-4 shadow-[0_20px_60px_rgba(0,0,0,0.22)] space-y-4">
                     <div className="flex items-center gap-2 mb-4">
                         <Filter className="h-5 w-5 text-primary" />
                         <h3 className="font-semibold">Filtros</h3>
@@ -375,7 +381,7 @@ export default function CadastroTable() {
                                 <span className="text-gray-500 text-xs">?
                                 </span>
                             </summary>
-                            <div className="absolute z-40 mt-1 w-full bg-white border rounded-lg shadow-lg p-3 max-h-56 overflow-y-auto space-y-2">
+                            <div className="absolute z-40 mt-1 w-full rounded-2xl border border-border/60 bg-[#10191b] p-3 shadow-[0_20px_60px_rgba(0,0,0,0.22)] max-h-56 overflow-y-auto space-y-2">
                                 {statusOpcoes.map((status) => (
                                     <label key={status.idStatusPat} className="flex items-center gap-2 text-sm cursor-pointer">
                                         <input type="checkbox"
@@ -398,11 +404,11 @@ export default function CadastroTable() {
 
             <div className="md:hidden space-y-3">
                 {loading ? (
-                    <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">Carregando...</div>
+                    <div className="rounded-2xl border border-border/60 bg-[#10191b] p-4 text-center text-slate-300 shadow-[0_20px_60px_rgba(0,0,0,0.22)]">Carregando...</div>
                 ) : alocacoes.length === 0 ? (
-                    <div className="bg-white rounded-lg shadow p-4 text-center text-gray-500">Nenhuma alocação registrada</div>
+                    <div className="rounded-2xl border border-border/60 bg-[#10191b] p-4 text-center text-slate-300 shadow-[0_20px_60px_rgba(0,0,0,0.22)]">Nenhuma alocação registrada</div>
                 ) : alocacoes.map((alocacao) => (
-                    <div key={alocacao.idCad} className="bg-white rounded-lg shadow p-4 space-y-3">
+                    <div key={alocacao.idCad} className="rounded-2xl border border-border/60 bg-[#10191b] p-4 space-y-3 shadow-[0_20px_60px_rgba(0,0,0,0.22)]">
                         <div>
                             <div className="text-xs font-semibold text-gray-900">
                                 {alocacao.tbFuncionario?.nomeFun || '-'}
@@ -470,17 +476,28 @@ export default function CadastroTable() {
                             </div>
                         </div>
                         <div className="flex items-center justify-end gap-2 pt-1">
+                            {canCreate && isDevolucaoCompleta(alocacao.tbStatusPat?.descricaoStatPat) && alocacao.tbPatrimonio?.idPat && (
+                                <Button asChild
+                                    variant="ghost"
+                                    size="icon"
+                                    className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-500/30 bg-background p-0 text-emerald-500 transition hover:bg-emerald-500/10"
+                                    title="Nova alocação a partir desta devolução">
+                                    <Link href={`/alocacoes/nova?patrimonio=${encodeURIComponent(alocacao.tbPatrimonio.idPat)}&preservarHistorico=1`}>
+                                        <Plus className="h-4 w-4" />
+                                    </Link>
+                                </Button>
+                            )}
                             <button type="button"
                                 onClick={() => handleGerarTermoPdf(alocacao)}
                                 disabled={pdfLoading === alocacao.idCad}
-                                className="p-2 text-green-700 hover:bg-green-50 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none"
+                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-300 bg-emerald-700 p-0 text-white shadow-[0_0_0_1px_rgba(16,185,129,0.18)] transition hover:bg-emerald-600 disabled:opacity-50 disabled:pointer-events-none"
                                 title={pdfLoading === alocacao.idCad ? 'Gerando PDF...' : 'Gerar Termo de Responsabilidade (PDF)'}>
-                                <FileDown className="h-4 w-4" />
+                                <FileDown className="h-4 w-4 text-white" />
                             </button>
                             <Button asChild
                                 variant="ghost"
                                 size="icon"
-                                className="text-blue-600 hover:bg-blue-50 rounded-lg transition">
+                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-500/30 bg-background p-0 text-cyan-500 transition hover:bg-cyan-500/10">
                                 <Link href={`/alocacoes/${alocacao.idCad}/editar`}
                                     title="Editar"
                                     onClick={handleEditClick}>
@@ -490,7 +507,7 @@ export default function CadastroTable() {
                             <DeleteGuardButton resource="cadastro"
                                 recordId={alocacao.idCad}
                                 onAuthorizedDelete={() => handleDelete(alocacao.idCad)}
-                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/35 bg-background p-0 text-red-500 transition hover:bg-red-500/10"
                                 title="Excluir"
                                 unauthorizedBehavior="alert">
                                 <Trash2 className="h-4 w-4" />
@@ -500,7 +517,7 @@ export default function CadastroTable() {
                 ))}
             </div>
 
-            <div className="hidden md:block overflow-x-auto bg-white rounded-lg shadow">
+            <div className="hidden md:block overflow-x-auto rounded-2xl border border-border/60 bg-[#10191b] shadow-[0_20px_60px_rgba(0,0,0,0.22)]">
                 <table className="w-full min-w-[1000px] table-fixed">
                     <thead className="bg-gray-50 border-b">
                         <tr className="border-b bg-gray-50">
@@ -571,20 +588,31 @@ export default function CadastroTable() {
                                         ${getStatusPatBadgeClass(alocacao.tbStatusPat?.descricaoStatPat)}`}>{alocacao.tbStatusPat?.descricaoStatPat || '-'}
                                     </span>
                                 </td>
-                                <td className="px-3 py-2.5 text-[10px]">
+                                <td className="px-2 py-2.5 text-[10px]">
                                     <div className="flex gap-2 items-center">
-                                        <button
+                                        {canCreate && isDevolucaoCompleta(alocacao.tbStatusPat?.descricaoStatPat) && alocacao.tbPatrimonio?.idPat && (
+                                            <Button asChild
+                                                variant="ghost"
+                                                size="icon"
+                                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-500/30 bg-background p-0 text-emerald-500 transition hover:bg-emerald-500/10"
+                                                title="Nova alocação a partir desta devolução">
+                                                <Link href={`/alocacoes/nova?patrimonio=${encodeURIComponent(alocacao.tbPatrimonio.idPat)}&preservarHistorico=1`}>
+                                                    <Plus className="h-4 w-4" />
+                                                </Link>
+                                            </Button>
+                                        )}
+                                        <button 
                                             type="button"
                                             onClick={() => handleGerarTermoPdf(alocacao)}
                                             disabled={pdfLoading === alocacao.idCad}
-                                            className="p-2 text-green-700 hover:bg-green-50 rounded-lg transition disabled:opacity-50 disabled:pointer-events-none"
+                                            className="flex h-10 w-10 items-center justify-center rounded-xl border border-green-300 bg-green-700 p-0 text-green-500 transition hover:bg-green-600"
                                             title={pdfLoading === alocacao.idCad ? 'Gerando PDF...' : 'Gerar Termo de Responsabilidade (PDF)'}>
                                             <FileDown className="h-4 w-4" />
                                         </button>
                                         <Button asChild
                                             variant="ghost"
                                             size="icon"
-                                            className="text-blue-600 hover:bg-blue-50 rounded-lg transition">
+                                            className="flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-500/30 bg-background p-0 text-cyan-500 transition hover:bg-cyan-500/10">
                                             <Link href={`/alocacoes/${alocacao.idCad}/editar`}
                                                 title="Editar"
                                                 onClick={handleEditClick}>
@@ -595,7 +623,9 @@ export default function CadastroTable() {
                                             resource="cadastro"
                                             recordId={alocacao.idCad}
                                             onAuthorizedDelete={() => handleDelete(alocacao.idCad)}
-                                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Excluir" unauthorizedBehavior="alert">
+                                            className="flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/35 bg-background p-0 text-red-500 transition hover:bg-red-500/10"
+                                            title="Excluir"
+                                            unauthorizedBehavior="alert">
                                             <Trash2 className="h-4 w-4" />
                                         </DeleteGuardButton>
                                     </div>
@@ -609,10 +639,31 @@ export default function CadastroTable() {
             <div className="flex flex-col gap-3 items-center">
                 <div className="flex flex-wrap items-center justify-center gap-2">
                     <label htmlFor="itensPorPagina" className="text-xs text-gray-600">Itens por página:</label>
-                    <select id="itensPorPagina" value={itensPorPagina} onChange={(e) => setItensPorPagina(Number(e.target.value))} className="h-9 rounded-md border border-input bg-background px-2 text-sm">
-                        <option value={10}>10</option><option value={25}>25</option><option value={50}>50</option><option value={100}>100</option>
+                    <select
+                        id="itensPorPagina"
+                        value={itensPorPagina}
+                        onChange={(e) => setItensPorPagina(Number(e.target.value))}
+                        className="h-9 rounded-md border border-input bg-background px-2 text-sm">
+                        <option value={10}>
+                            10
+                        </option>
+                        <option value={25}>
+                            25
+                        </option>
+                        <option value={50}>
+                            50
+                        </option>
+                        <option value={100}>
+                            100
+                        </option>
                     </select>
-                    <Button type="button" variant="outline" size="sm" onClick={() => irParaPagina(paginaAtual - 1)} disabled={paginaAtual === 1 || totalItens === 0}>Anterior</Button>
+                    <Button type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => irParaPagina(paginaAtual - 1)}
+                        disabled={paginaAtual === 1 || totalItens === 0}>
+                        Anterior
+                    </Button>
                     {paginasVisiveis.map((pagina, index) => {
                         const ativa = pagina === paginaAtual;
                         const paginaAnterior = paginasVisiveis[index - 1];
@@ -646,6 +697,3 @@ export default function CadastroTable() {
         </div>
     );
 }
-
-
-

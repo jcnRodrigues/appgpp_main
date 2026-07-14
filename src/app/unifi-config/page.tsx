@@ -25,7 +25,7 @@ export default async function UnifiConfigPage() {
     }
 
     const formularios = ((session.user as any)?.formularios || []) as string[];
-    if (!hasModuleAccess(formularios, 'UNIFI_CONFIG')) redirect('/acesso-negado');
+  if (!hasModuleAccess(formularios, 'UNIFI_CONFIG')) redirect('/acesso-negado');
 
     return (
         <div className="bg-background min-h-screen py-6">
@@ -34,7 +34,7 @@ export default async function UnifiConfigPage() {
                 <PageHeader
                     icon={Settings}
                     title="Configuração Ubiquiti"
-                    description="Configuração e monitoramento da rede Ubiquiti"
+                    description="Configuração da API da UniFi"
                     backHref="/monitor-patrimonios"
                 />
                 <UnifiConfigForm />

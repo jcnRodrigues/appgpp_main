@@ -9,7 +9,10 @@ import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { CalendarDays } from 'lucide-react';
-import React from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import React, { useEffect } from 'react';
+import { hasModuleAccess } from '@/lib/permissions';
 
 const genereteTimeSlots = (startHour: number, endHour: number, intervalMinute: number): string[] => {
     const slots: string[] = [];
@@ -27,9 +30,24 @@ const genereteTimeSlots = (startHour: number, endHour: number, intervalMinute: n
 };
 
 export default function SchedulePage() {
+    const router = useRouter();
+    const { data: session, status } = useSession();
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
     const [selectedTime, setSelectedTime] = React.useState<string | null>(null);
     const [isAlertOpen, setIsAlertOpen] = React.useState(false);
+
+    useEffect(() => {
+        if (status === 'loading') return;
+        if (!session?.user) {
+            router.replace('/');
+            return;
+        }
+
+        const formularios = ((session.user as any)?.formularios || []) as string[];
+        if (!hasModuleAccess(formularios, 'PATRIMONIO')) {
+            router.replace('/acesso-negado');
+        }
+    }, [router, session, status]);
 
     function handleDateSelect(date: Date | null) {
         setSelectedDate(date);

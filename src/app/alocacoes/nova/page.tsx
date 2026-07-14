@@ -5,7 +5,11 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
 
-export default async function NovaAlocacaoPage() {
+export default async function NovaAlocacaoPage({
+    searchParams
+}: {
+    searchParams?: Record<string, string | string[] | undefined> | Promise<Record<string, string | string[] | undefined>>;
+}) {
     const session = await getServerSession(AuthOptions);
 
     if (!session?.user) {
@@ -15,10 +19,22 @@ export default async function NovaAlocacaoPage() {
     if (!hasModuleAccess(formularios, 'ALOCACOES') || !hasModuleActionPermission(formularios, 'ALOCACOES', 'CREATE')) {
         redirect('/acesso-negado');
     }
+
+    const params = searchParams ? await searchParams : {};
+    const patrimonioId = typeof params.patrimonio === 'string' ? params.patrimonio : undefined;
+    const funcionarioId = typeof params.funcionario === 'string' ? params.funcionario : undefined;
+    const preservarHistoricoValor = params.preservarHistorico;
+    const preservarHistoricoPatrimonio =
+        preservarHistoricoValor === '1' ||
+        preservarHistoricoValor === 'true';
     return (
         <>
         <Header />
-        <CadastroForm />
+        <CadastroForm
+            funcionarioId={funcionarioId}
+            patrimonioId={patrimonioId}
+            preservarHistoricoPatrimonio={preservarHistoricoPatrimonio}
+        />
         </>
         
     );

@@ -32,14 +32,23 @@ const FORMULARIOS_LABELS: Record<string, string> = {
     DASHBOARD: 'Dashboard',
     FUNCIONARIOS: 'Funcionários',
     PATRIMONIO: 'Patrimônio',
-    UNIFI_CONFIG: 'Monitor de Rede Ubiquiti',
+    INVENTARIO: 'Inventário',
+    UNIFI_CONFIG: 'UniFi',
+    SISTEMA: 'Sistema',
+    MONITOR_PATRIMONIOS: 'Monitor de Patrimônios',
+    AGENTE_INVENTARIO: 'Agente de Inventário',
+    VARREDURA_PATRIMONIOS: 'Varredura de Patrimônios',
+    BACKUP_DB: 'Backup DB',
+    AUTORIZACAO_DELETE: 'Autorização de Exclusão',
+    IMPORTAR_DADOS: 'Importar Dados',
+    EXPORTAR_DADOS: 'Exportar Dados',
     CENTRO_CUSTO: 'Centros de Custo',
     MEDICAO_CCUSTO: 'Medição por Centro de Custo',
     FUNCOES: 'Funções',
     LICENCAS_SOFTWARE: 'Licenças de Software',
     ALOCACOES: 'Alocações de Patrimônios',
     ACESSO_USUARIOS: 'Acesso de Usuários',
-    IMPORTACAO_EXPORTACAO: 'Importação e Exportação de Dados',
+    IMPORTACAO_EXPORTACAO: 'Importação e Exportação de Dados (legado)',
     ATIVOS_REDE: 'Ativos de Rede'
 };
 
@@ -51,11 +60,20 @@ const ACTION_LABELS: Record<ActionPermission, string> = {
     TRANSFER: 'Transferir',
     RETURN: 'Devolver',
     IMPORT: 'Importar',
-    EXPORT: 'Exportar'
+    EXPORT: 'Exportar',
+    OPTIONS: 'Tipo/Status'
 };
 
-const ACTION_ORDER: ActionPermission[] = ['CREATE', 'UPDATE', 'DELETE', 'PRINT', 'TRANSFER', 'RETURN', 'IMPORT', 'EXPORT'];
+const ACTION_ORDER: ActionPermission[] = ['CREATE', 'UPDATE', 'OPTIONS', 'DELETE', 'PRINT', 'TRANSFER', 'RETURN', 'IMPORT', 'EXPORT'];
 const MAX_VISIBLE_MODULES = 2;
+
+function getModuleDisplayLabel(id: string, label: string) {
+    if (id === 'ATIVOS_REDE') {
+        return 'Ativos de Rede (transferência, devolução e tipo/status)';
+    }
+
+    return label;
+}
 
 function montarResumo(formularios: string[]): ResumoModulo[] {
     const set = new Set(formularios);
@@ -80,7 +98,9 @@ function AccessSummaryList({ itens }: { itens: ResumoModulo[] }) {
             {visiveis.map((item) => (
                 <div key={item.id} className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-2">
                     <div className="flex items-center justify-between gap-2">
-                        <div className="min-w-0 text-sm font-semibold text-slate-900 truncate">{item.label}</div>
+                        <div className="min-w-0 truncate text-sm font-semibold text-slate-900">
+                            {getModuleDisplayLabel(item.id, item.label)}
+                        </div>
                         <div className="shrink-0 text-[11px] font-medium text-slate-500">
                             {item.actions.length} ação(ões)
                         </div>
@@ -182,9 +202,9 @@ export default function AccessUserTable() {
     }, []);
 
     return (
-        <div className="space-y-4">
+        <div className="table-surface space-y-4">
             <div className="sticky top-[calc(var(--app-header-height)+96px)] z-30 bg-background/95 pb-2 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-                <div className="space-y-4 rounded-lg bg-white p-4 shadow-md">
+                <div className="space-y-4 rounded-2xl border border-border/60 bg-[#10191b] p-4 shadow-[0_20px_60px_rgba(0,0,0,0.22)]">
                     <div className="mb-2 flex items-center gap-2">
                         <Filter className="h-5 w-5 text-primary" />
                         <h3 className="font-semibold">Filtros</h3>
@@ -220,12 +240,12 @@ export default function AccessUserTable() {
 
             <div className="space-y-3 md:hidden">
                 {loading ? (
-                    <div className="rounded-lg bg-white p-4 text-center text-gray-500 shadow-md">Carregando...</div>
+                    <div className="rounded-2xl border border-border/60 bg-[#10191b] p-4 text-center text-slate-300 shadow-[0_20px_60px_rgba(0,0,0,0.22)]">Carregando...</div>
                 ) : usuariosComResumo.length === 0 ? (
-                    <div className="rounded-lg bg-white p-4 text-center text-gray-500 shadow-md">Nenhum usuário encontrado</div>
+                    <div className="rounded-2xl border border-border/60 bg-[#10191b] p-4 text-center text-slate-300 shadow-[0_20px_60px_rgba(0,0,0,0.22)]">Nenhum usuário encontrado</div>
                 ) : (
                     usuariosComResumo.map((usuario) => (
-                        <div key={usuario.id} className="space-y-3 rounded-lg bg-white p-4 shadow-md">
+                        <div key={usuario.id} className="space-y-3 rounded-2xl border border-border/60 bg-[#10191b] p-4 shadow-[0_20px_60px_rgba(0,0,0,0.22)]">
                             <div className="flex items-start justify-between gap-3">
                                 <div className="min-w-0">
                                     <div className="truncate text-sm font-semibold text-gray-900">{usuario.nome}</div>
@@ -258,14 +278,14 @@ export default function AccessUserTable() {
                                 )}
 
                                 {usuario.possuiDeleteAny ? (
-                                    <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
-                                        <div className="text-sm font-semibold text-amber-900">Permissão extra</div>
-                                        <div className="mt-2">
-                                            <span className="rounded-full bg-amber-200 px-2 py-1 text-[11px] text-amber-900">
-                                                Excluir qualquer registro
-                                            </span>
-                                        </div>
+                                <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3">
+                                    <div className="text-sm font-semibold text-amber-200">Permissão extra</div>
+                                    <div className="mt-2">
+                                        <span className="rounded-full bg-amber-500/20 px-2 py-1 text-[11px] text-amber-100">
+                                            Excluir qualquer registro
+                                        </span>
                                     </div>
+                                </div>
                                 ) : null}
                             </div>
 
@@ -290,7 +310,7 @@ export default function AccessUserTable() {
                 )}
             </div>
 
-            <div className="hidden overflow-hidden rounded-lg bg-white shadow-md md:block">
+            <div className="hidden overflow-hidden rounded-2xl border border-border/60 bg-[#10191b] shadow-[0_20px_60px_rgba(0,0,0,0.22)] md:block">
                 <div className="overflow-x-auto">
                     <table className="min-w-[1100px] w-full">
                         <thead className="border-b bg-gray-50">

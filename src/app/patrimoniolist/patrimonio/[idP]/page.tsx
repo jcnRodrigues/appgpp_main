@@ -2,8 +2,12 @@
 import Header from '@/components/Header/Header';
 import PageHeader from '@/components/PageHeader/PageHeader';
 import { getPatrimonioCardById } from '@/features/patrimonio/server/patrimonio.service';
+import { hasModuleAccess } from '@/lib/permissions';
+import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
 import { CircleDollarSign, HardDriveIcon, Laptop, LibraryBig, NotebookIcon, ScrollText } from 'lucide-react';
+import { getServerSession } from 'next-auth';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 interface PatrimonioProps {
     params: {
@@ -12,6 +16,16 @@ interface PatrimonioProps {
 }
 
 export default async function PatrimonioProfilePage({ params }: PatrimonioProps) {
+    const session = await getServerSession(AuthOptions);
+    if (!session?.user) {
+        redirect('/');
+    }
+
+    const formularios = ((session.user as any)?.formularios || []) as string[];
+    if (!hasModuleAccess(formularios, 'PATRIMONIO')) {
+        redirect('/acesso-negado');
+    }
+
     const { idP } = await params;
     const patrimonio = await getPatrimonioCardById(idP);
 

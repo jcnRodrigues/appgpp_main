@@ -16,7 +16,16 @@ const envOrigins = process.env.DEV_ALLOWED_ORIGINS
   : [];
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   allowedDevOrigins: envOrigins.length > 0 ? envOrigins : fallbackOrigins,
+  async rewrites() {
+    return [
+      {
+        source: "/api/auth/:path*",
+        destination: "/api/pages-auth/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;

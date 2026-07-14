@@ -19,7 +19,8 @@ import {
   Sun,
   User,
   UserCog,
-  UserSearchIcon
+  UserSearchIcon,
+  SlidersHorizontal
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -34,30 +35,42 @@ type MenuItem = {
   icon: ElementType;
   label: string;
   href: string;
-  required?: string;
+  required?: string | string[];
 };
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const { data: session, status } = useSession();
-  const { mode, setMode } = useTheme();
+  const { theme, mode, setMode } = useTheme();
 
   const userFormularios = ((session?.user as any)?.formularios || []) as string[];
-  const canView = (required?: string) => !required || hasModuleAccess(userFormularios, required);
+  const canView = (required?: string | string[]) =>
+    !required
+      ? true
+      : Array.isArray(required)
+        ? required.some((item) => hasModuleAccess(userFormularios, item))
+        : hasModuleAccess(userFormularios, required);
 
   const menuItens: MenuItem[] = [
     { icon: Home, label: 'Home', href: '/', required: 'DASHBOARD' },
-    { icon: User, label: 'Funcionários', href: '/funcionariosadd', required: 'FUNCIONARIOS' },
+    { icon: User, label: 'Funcionários', href: '/funcionarios', required: 'FUNCIONARIOS' },
     { icon: LaptopIcon, label: 'Patrimônio', href: '/patrimoniolist', required: 'PATRIMONIO' },
-    { icon: Settings, label: 'Monitor de Rede Ubiquiti', href: '/monitor-patrimonios', required: 'UNIFI_CONFIG' },
-    { icon: ClipboardList, label: 'Agente de Inventário', href: '/monitor-patrimonios/agente', required: 'UNIFI_CONFIG' },
+    { icon: Settings, label: 'Monitor de Patrimônios', href: '/monitor-patrimonios', required: 'MONITOR_PATRIMONIOS' },
+    { icon: SlidersHorizontal, label: 'Sistema', href: '/sistema', required: 'SISTEMA' },
+    { icon: ClipboardList, label: 'Varredura de Patrimônios', href: '/monitor-patrimonios/agente/varredura', required: 'VARREDURA_PATRIMONIOS' },
     { icon: LandmarkIcon, label: 'Centros de Custo', href: '/ccustos', required: 'CENTRO_CUSTO' },
     { icon: ClipboardCheck, label: 'Conferir Medição', href: '/ccusto/medicao', required: 'MEDICAO_CCUSTO' },
+    { icon: ClipboardList, label: 'Inventário', href: '/inventario', required: 'PATRIMONIO' },
     { icon: UserSearchIcon, label: 'Funções', href: '/funcoes', required: 'FUNCOES' },
     { icon: KeyRound, label: 'Licenças de Software', href: '/licencas', required: 'LICENCAS_SOFTWARE' },
     { icon: PackagePlusIcon, label: 'Alocação de Patrimônios', href: '/alocacoes', required: 'ALOCACOES' },
-    { icon: DatabaseBackup, label: 'Importar e Exportar Dados', href: '/sistema-dados', required: 'IMPORTACAO_EXPORTACAO' },
-    { icon: DatabaseBackup, label: 'Backup DB (1 a 6)', href: '/backup-db', required: 'IMPORTACAO_EXPORTACAO' },
+    {
+      icon: DatabaseBackup,
+      label: 'Importar e Exportar Dados',
+      href: '/sistema-dados',
+      required: ['IMPORTAR_DADOS', 'EXPORTAR_DADOS', 'IMPORTACAO_EXPORTACAO']
+    },
+    { icon: DatabaseBackup, label: 'Backup DB (1 a 6)', href: '/backup-db', required: 'BACKUP_DB' },
     { icon: Router, label: 'Ativos de Rede', href: '/ativos-rede', required: 'ATIVOS_REDE' },
     { icon: UserCog, label: 'Acesso de Usuários', href: '/acesso-usuarios', required: 'ACESSO_USUARIOS' }
   ];
@@ -69,21 +82,23 @@ export default function Header() {
           <Image
             src="/Imagens/image31_2.svg"
             alt="Logo App GPP"
-            width={172}
-            height={160}
+            width={150}
+            height={134}
             priority
-            className="h-12 w-auto sm:h-20"
+            className="h-auto w-auto max-h-12 sm:max-h-16"
+            style={{ width: 'auto', height: 'auto' }}
           />
         </Link>
 
         <div className="flex items-center gap-2">
-          <div className="flex items-center rounded-full border border-border bg-card p-1">
+          <div className="flex items-center rounded-full border border-border/60 bg-card p-1 shadow-sm">
             <button
               type="button"
               onClick={() => setMode('system')}
               aria-label="Tema do sistema"
+              title="Usar tema do sistema"
               className={`grid h-9 w-9 place-items-center rounded-full transition-colors ${
-                mode === 'system' ? 'bg-accent/20 text-accent ring-1 ring-accent/35' : 'text-foreground hover:bg-secondary'
+                mode === 'system' ? 'bg-accent/15 text-accent ring-1 ring-accent/35' : 'text-foreground/80 hover:bg-secondary'
               }`}
             >
               <Monitor className="h-4 w-4" />
@@ -92,8 +107,9 @@ export default function Header() {
               type="button"
               onClick={() => setMode('light')}
               aria-label="Tema claro"
+              title="Forçar tema claro"
               className={`grid h-9 w-9 place-items-center rounded-full transition-colors ${
-                mode === 'light' ? 'bg-accent/20 text-accent ring-1 ring-accent/35' : 'text-foreground hover:bg-secondary'
+                mode === 'light' ? 'bg-accent/15 text-accent ring-1 ring-accent/35' : 'text-foreground/80 hover:bg-secondary'
               }`}
             >
               <Sun className="h-4 w-4" />
@@ -102,12 +118,18 @@ export default function Header() {
               type="button"
               onClick={() => setMode('dark')}
               aria-label="Tema escuro"
+              title="Forçar tema escuro"
               className={`grid h-9 w-9 place-items-center rounded-full transition-colors ${
-                mode === 'dark' ? 'bg-accent/20 text-accent ring-1 ring-accent/35' : 'text-foreground hover:bg-secondary'
+                mode === 'dark' ? 'bg-accent/15 text-accent ring-1 ring-accent/35' : 'text-foreground/80 hover:bg-secondary'
               }`}
             >
               <Moon className="h-4 w-4" />
             </button>
+          </div>
+
+          <div className="hidden items-center rounded-full border border-border/60 bg-card px-3 py-2 text-xs font-medium text-muted-foreground shadow-sm sm:flex">
+            <span className="mr-2 h-2 w-2 rounded-full bg-accent" />
+            {mode === 'system' ? `Sistema (${theme === 'dark' ? 'Escuro' : 'Claro'})` : mode === 'dark' ? 'Escuro' : 'Claro'}
           </div>
 
           <div className="rounded-full border border-border bg-card p-2">
@@ -120,13 +142,14 @@ export default function Header() {
               <SheetContent className="border-l border-accent/30 p-0">
                 <div className="flex h-full min-h-0 flex-col">
                   <SheetHeader className="shrink-0 border-b border-border px-4 py-4">
-                    <SheetTitle className="flex flex-col items-center gap-2 text-center text-primary">
+                    <SheetTitle className="flex flex-col items-center gap-2 text-primary">
                       <Image
                         src="/Imagens/image31_2.svg"
                         alt="Logo App GPP"
-                        width={48}
-                        height={48}
-                        className="h-12 w-auto"
+                        width={78}
+                        height={96}
+                        className="h-auto w-auto max-h-6"
+                        style={{ width: 'auto', height: 'auto' }}
                       />
                       Menu
                     </SheetTitle>

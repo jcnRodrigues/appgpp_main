@@ -40,6 +40,7 @@ interface DeviceData {
   productLine?: string;
   status: string;
   siteId?: string;
+  siteKey?: string;
   siteName?: string;
   model?: string;
   firmware?: string;
@@ -59,7 +60,10 @@ interface ClientData {
   ip?: string;
   status: string;
   siteId?: string;
+  siteKey?: string;
   siteName?: string;
+  radiusLocal?: string | null;
+  radiusLocalOrigin?: string | null;
 }
 
 interface UnifiConfigItem {
@@ -404,21 +408,21 @@ export default function MonitorPatrimoniosForm() {
   }
 
   if (!session?.user) {
-     return (
-       <div className="bg-background min-h-screen py-6">
-         <Header />
-         <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-           <h1 className="text-2xl font-bold mb-4">Monitor de Rede Ubiquiti</h1>
-           <div className="bg-white p-8 rounded-lg shadow-sm">
-             <p className="text-lg mb-6">Faça login para visualizar esta página</p>
-                                     <Button asChild>
-                            <Link href="/">Ir para Login</Link>
-                        </Button>
-           </div>
-         </div>
-       </div>
-     );
-   }
+    return (
+      <div className="bg-background min-h-screen py-6">
+        <Header />
+        <div className="max-w-4xl mx-auto px-4 py-12 text-center">
+          <h1 className="text-2xl font-bold mb-4">Monitor de Rede Ubiquiti</h1>
+          <div className="bg-white p-8 rounded-lg shadow-sm">
+            <p className="text-lg mb-6">Faça login para visualizar esta página</p>
+            <Button asChild>
+              <Link href="/">Ir para Login</Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const normalizeText = (value?: string) => (value || '').trim().toLowerCase();
   const normalizeEntityKey = (value?: string) => {
@@ -618,15 +622,32 @@ export default function MonitorPatrimoniosForm() {
       }
     }
 
+    const registrarClienteNaChave = (chave: string, clientId: string) => {
+      if (!chave) return;
+      if (!clientsPorChaveSite.has(chave)) {
+        clientsPorChaveSite.set(chave, new Set<string>());
+      }
+      clientsPorChaveSite.get(chave)?.add(clientId);
+    };
+
+    const registrarClienteEmAliases = (aliases: Array<string | undefined | null>, clientId: string) => {
+      for (const alias of aliases) {
+        const key = normalizeText(alias || '');
+        if (!key) continue;
+        registrarClienteNaChave(key, clientId);
+      }
+    };
+
     for (const client of clients) {
       const clientSiteId = normalizeText(client.siteId);
-      const clientSiteKey = normalizeEntityKey(client.siteId);
+      const clientSiteKey = normalizeText(client.siteKey || client.siteId);
+      const clientSiteKeyNorm = normalizeEntityKey(client.siteKey || client.siteId);
       const clientSiteName = normalizeText(client.siteName);
 
       if (
         !(
           siteIdsDoConsole.has(clientSiteId) ||
-          siteIdsDoConsole.has(clientSiteKey) ||
+          siteIdsDoConsole.has(clientSiteKeyNorm) ||
           siteNamesDoConsole.has(clientSiteName) ||
           hostNamesDoConsole.has(clientSiteName)
         )
@@ -637,15 +658,37 @@ export default function MonitorPatrimoniosForm() {
       const chavePorNome = clientSiteName ? sitesByNameKey.get(clientSiteName) : '';
       const chave = siteIdsDoConsole.has(clientSiteId)
         ? clientSiteId
-        : siteIdsDoConsole.has(clientSiteKey)
-          ? clientSiteKey
-          : (chavePorNome || clientSiteId || clientSiteKey || `name:${clientSiteName}`);
+        : siteIdsDoConsole.has(clientSiteKeyNorm)
+          ? clientSiteKeyNorm
+          : siteIdsDoConsole.has(normalizeEntityKey(client.siteKey || ''))
+            ? normalizeEntityKey(client.siteKey || '')
+            : (chavePorNome || clientSiteId || clientSiteKey || `name:${clientSiteName}`);
       if (!chave) continue;
 
-      if (!clientsPorChaveSite.has(chave)) {
-        clientsPorChaveSite.set(chave, new Set<string>());
+      const clientKey = client.id || client.mac;
+      registrarClienteNaChave(chave, clientKey);
+
+      const chaveDoNome = clientSiteName ? sitesByNameKey.get(clientSiteName) : '';
+      if (chaveDoNome && chaveDoNome !== chave) {
+        registrarClienteNaChave(chaveDoNome, clientKey);
       }
-      clientsPorChaveSite.get(chave)?.add(client.id || client.mac);
+
+      const chaveDoSite = clientSiteId ? sitesByNameKey.get(clientSiteId) : '';
+      if (chaveDoSite && chaveDoSite !== chave) {
+        registrarClienteNaChave(chaveDoSite, clientKey);
+      }
+
+      registrarClienteEmAliases(
+        [
+          clientSiteId,
+          clientSiteKey,
+          normalizeText(client.siteKey),
+          clientSiteKeyNorm,
+          clientSiteName,
+          chavePorNome,
+        ],
+        clientKey
+      );
     }
 
     for (const [chave, deviceIds] of devicesPorChaveSite.entries()) {
@@ -659,7 +702,26 @@ export default function MonitorPatrimoniosForm() {
     const resumoFinal = Array.from(resumoMap.values()).sort((a, b) => a.name.localeCompare(b.name));
     return resumoFinal.map((site) => {
       const key = normalizeText(site.id) || `name:${normalizeText(site.name)}`;
-      const clientCount = clientsPorChaveSite.get(key)?.size || 0;
+      const aliases = [
+        key,
+        normalizeText(site.consoleId),
+        normalizeEntityKey(site.consoleId),
+        normalizeText(site.id),
+        normalizeEntityKey(site.id),
+        normalizeText(site.name),
+        normalizeEntityKey(site.name),
+        normalizeText(site.consoleName),
+        normalizeEntityKey(site.consoleName),
+      ].filter(Boolean);
+      const clientIds = new Set<string>();
+      for (const alias of aliases) {
+        const set = clientsPorChaveSite.get(String(alias));
+        if (!set) continue;
+        for (const clientId of set) {
+          if (clientId) clientIds.add(clientId);
+        }
+      }
+      const clientCount = clientIds.size;
       return { ...site, clientCount };
     });
   };
@@ -717,6 +779,14 @@ export default function MonitorPatrimoniosForm() {
     };
   });
 
+  const consoleSelecionado = consolesCorrigidos.find(
+    (consoleItem) =>
+      normalizeText(consoleItem.id) === normalizeText(consoleSelecionadoId || '') ||
+      normalizeEntityKey(consoleItem.id) === normalizeEntityKey(consoleSelecionadoId || '')
+  );
+
+  const sitesDoConsoleSelecionado = consoleSelecionado ? getSitesResumoDoConsole(consoleSelecionado) : [];
+
   const siteSelecionado =
     sitesCorrigidos.find((site) => normalizeText(site.id) === normalizeText(siteSelecionadoId || '')) ||
     sitesCorrigidos.find((site) => normalizeEntityKey(site.id) === normalizeEntityKey(siteSelecionadoId || ''));
@@ -740,14 +810,27 @@ export default function MonitorPatrimoniosForm() {
     ].filter(Boolean)
   );
 
+  const chavesConsoleSelecionado = new Set(
+    sitesDoConsoleSelecionado.flatMap((site) => [
+      normalizeText(site.id),
+      normalizeEntityKey(site.id),
+      normalizeText(site.consoleId),
+      normalizeEntityKey(site.consoleId),
+      normalizeText(site.name),
+      normalizeEntityKey(site.name),
+    ]).filter(Boolean)
+  );
+
   const devicesFiltradosPorSite = siteSelecionadoId
     ? devices.filter((device) => {
       const deviceSiteIdNorm = normalizeText(device.siteId);
+      const deviceSiteKeyNorm = normalizeText(device.siteKey);
       const deviceSiteKey = normalizeEntityKey(device.siteId);
       const deviceSiteNameNorm = normalizeText(device.siteName);
       return (
         chavesSiteSelecionado.has(deviceSiteIdNorm) ||
         chavesSiteSelecionado.has(deviceSiteKey) ||
+        chavesSiteSelecionado.has(deviceSiteKeyNorm) ||
         (deviceSiteNameNorm && nomesSiteSelecionado.has(deviceSiteNameNorm))
       );
     })
@@ -756,15 +839,55 @@ export default function MonitorPatrimoniosForm() {
     ? clients.filter((client) => {
       const siteIdMatch =
         normalizeText(client.siteId) === normalizeText(siteSelecionadoId) ||
+        normalizeText(client.siteKey) === normalizeText(siteSelecionadoId) ||
         normalizeEntityKey(client.siteId) === normalizeEntityKey(siteSelecionadoId);
       const siteNameMatch =
         Boolean(siteSelecionadoNome) &&
         normalizeText(client.siteName) === normalizeText(siteSelecionadoNome);
       return siteIdMatch || siteNameMatch;
     })
+    : consoleSelecionadoId
+      ? clients.filter((client) => {
+        const clientSiteId = normalizeText(client.siteId);
+        const clientSiteKey = normalizeText(client.siteKey);
+        const clientSiteKeyNorm = normalizeEntityKey(client.siteKey || client.siteId);
+        const clientSiteName = normalizeText(client.siteName);
+        return (
+          chavesConsoleSelecionado.has(clientSiteId) ||
+          chavesConsoleSelecionado.has(clientSiteKey) ||
+          chavesConsoleSelecionado.has(clientSiteKeyNorm) ||
+          chavesConsoleSelecionado.has(clientSiteName)
+        );
+      })
+      : [];
+  const devicesFiltradosPorConsole = !siteSelecionadoId && consoleSelecionadoId
+    ? devices.filter((device) => {
+      const deviceSiteIdNorm = normalizeText(device.siteId);
+      const deviceSiteKeyNorm = normalizeText(device.siteKey);
+      const deviceSiteKey = normalizeEntityKey(device.siteId);
+      const deviceSiteNameNorm = normalizeText(device.siteName);
+      return (
+        chavesConsoleSelecionado.has(deviceSiteIdNorm) ||
+        chavesConsoleSelecionado.has(deviceSiteKey) ||
+        chavesConsoleSelecionado.has(deviceSiteKeyNorm) ||
+        chavesConsoleSelecionado.has(deviceSiteNameNorm)
+      );
+    })
     : [];
-  const devicesExibidos = siteSelecionadoId ? devicesFiltradosPorSite : devices;
-  const clientsExibidos = siteSelecionadoId ? clientsFiltradosPorSite : clients;
+  const devicesExibidos = siteSelecionadoId
+    ? devicesFiltradosPorSite
+    : consoleSelecionadoId
+      ? devicesFiltradosPorConsole
+      : devices;
+  const clientsExibidos = siteSelecionadoId
+    ? clientsFiltradosPorSite
+    : consoleSelecionadoId
+      ? clientsFiltradosPorSite
+      : clients;
+  const clientsOnlineCount = clientsExibidos.filter(
+    (client) => normalizeText(client.status) === 'online'
+  ).length;
+  const clientsOfflineCount = clientsExibidos.length - clientsOnlineCount;
   const devicesOnlineCount = devicesExibidos.filter(
     (device) => normalizeText(device.status) === 'online'
   ).length;
@@ -873,7 +996,7 @@ export default function MonitorPatrimoniosForm() {
           }
         />
 
-        <div className="bg-white rounded-lg shadow-lg p-8 space-y-6">
+        <div className="form-surface space-y-6 p-4 sm:p-6 lg:p-8">
           {/* Card de API Key */}
           <div className="border-b pb-6">
             <div className="flex items-center gap-4 mb-4">
@@ -1078,14 +1201,52 @@ export default function MonitorPatrimoniosForm() {
                           (total, site) => total + Number(site.deviceCount || 0),
                           0
                         );
+                        const clientIdsConsole = new Set<string>();
+                        let clientsOnlineConsole = 0;
+                        let clientsOfflineConsole = 0;
+                        for (const site of sitesDoConsole) {
+                          const siteIdNorm = normalizeText(site.id);
+                          const siteIdKey = normalizeEntityKey(site.id);
+                          const siteNameNorm = normalizeText(site.name);
+                          const siteConsoleIdNorm = normalizeText(site.consoleId);
+                          const siteConsoleIdKey = normalizeEntityKey(site.consoleId);
+                          const siteConsoleNameNorm = normalizeText(site.consoleName);
+                          const siteClients = clients.filter((client) => (
+                            normalizeText(client.siteId) === siteIdNorm ||
+                            normalizeEntityKey(client.siteId) === siteIdKey ||
+                            normalizeText(client.siteKey || '') === siteIdNorm ||
+                            normalizeEntityKey(client.siteKey || '') === siteIdKey ||
+                            normalizeText(client.siteName) === siteNameNorm
+                            || (siteConsoleIdNorm && normalizeText(client.siteId) === siteConsoleIdNorm)
+                            || (siteConsoleIdKey && normalizeEntityKey(client.siteId) === siteConsoleIdKey)
+                            || (siteConsoleNameNorm && normalizeText(client.siteName) === siteConsoleNameNorm)
+                          ));
+                          for (const client of siteClients) {
+                            const clientKey = client.id || client.mac;
+                            if (clientKey) clientIdsConsole.add(String(clientKey));
+                            if (normalizeText(client.status) === 'online') {
+                              clientsOnlineConsole += 1;
+                            } else {
+                              clientsOfflineConsole += 1;
+                            }
+                          }
+                        }
+                        const totalClientsConsole = clientIdsConsole.size;
                         const hostNameCard = (console.hostName || console.name || '').trim();
                         const hostIdCard = (console.hostId || console.id || '').trim();
 
                         return (
-                          <button
+                          <div
                             key={console.id}
-                            type="button"
+                            role="button"
+                            tabIndex={0}
                             onClick={() => carregarSitesDoConsole(console.id)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                carregarSitesDoConsole(console.id);
+                              }
+                            }}
                             className={`rounded-xl border p-4 text-left transition-colors ${consoleSelecionadoId === console.id
                               ? 'border-accent bg-accent/10'
                               : 'border-slate-700 bg-slate-950 hover:bg-slate-900'
@@ -1114,20 +1275,34 @@ export default function MonitorPatrimoniosForm() {
                                       const siteIdNorm = normalizeText(site.id);
                                       const siteIdKey = normalizeEntityKey(site.id);
                                       const siteNameNorm = normalizeText(site.name);
+                                      const siteConsoleIdNorm = normalizeText(site.consoleId);
+                                      const siteConsoleIdKey = normalizeEntityKey(site.consoleId);
+                                      const siteConsoleNameNorm = normalizeText(site.consoleName);
 
                                       const siteDevices = devices.filter((device) => (
                                         normalizeText(device.siteId) === siteIdNorm ||
                                         normalizeEntityKey(device.siteId) === siteIdKey ||
+                                        normalizeText(device.siteKey) === siteIdNorm ||
+                                        normalizeEntityKey(device.siteKey) === siteIdKey ||
                                         normalizeText(device.siteName) === siteNameNorm
                                       ));
                                       const siteClients = clients.filter((client) => (
                                         normalizeText(client.siteId) === siteIdNorm ||
                                         normalizeEntityKey(client.siteId) === siteIdKey ||
+                                        normalizeText(client.siteKey || '') === siteIdNorm ||
+                                        normalizeEntityKey(client.siteKey || '') === siteIdKey ||
                                         normalizeText(client.siteName) === siteNameNorm
+                                        || (siteConsoleIdNorm && normalizeText(client.siteId) === siteConsoleIdNorm)
+                                        || (siteConsoleIdKey && normalizeEntityKey(client.siteId) === siteConsoleIdKey)
+                                        || (siteConsoleNameNorm && normalizeText(client.siteName) === siteConsoleNameNorm)
                                       ));
+                                      const siteDevicesOnline = siteDevices.filter((d) => normalizeText(d.status) === 'online').length;
+                                      const siteDevicesOffline = siteDevices.length - siteDevicesOnline;
+                                      const siteClientsOnline = siteClients.filter((c) => normalizeText(c.status) === 'online').length;
+                                      const siteClientsOffline = siteClients.length - siteClientsOnline;
                                       const hasOnline =
-                                        siteDevices.some((d) => normalizeText(d.status) === 'online') ||
-                                        siteClients.some((c) => normalizeText(c.status) === 'online');
+                                        siteDevicesOnline > 0 ||
+                                        siteClientsOnline > 0;
 
                                       return (
                                         <div
@@ -1146,31 +1321,32 @@ export default function MonitorPatrimoniosForm() {
                                             <span className={`h-1.5 w-1.5 rounded-full ${hasOnline ? 'bg-emerald-400' : 'bg-amber-400'}`} />
                                             <span className="truncate">{site.name}</span>
                                           </button>
-                                          <div className="shrink-0 inline-flex items-center gap-1 text-slate-200">
+                                          <div className="shrink-0 inline-flex items-center gap-2 text-slate-200">
                                             <button
                                               type="button"
                                               onClick={(e) => {
                                                 e.stopPropagation();
                                                 selecionarSiteNoCard(console.id, site.id, site.name, 'devices');
                                               }}
-                                              className="inline-flex items-center gap-1 hover:text-green-400"
+                                              className="inline-flex items-center gap-1 rounded-full border border-slate-700 bg-slate-950/70 px-2 py-1 text-[11px] hover:border-emerald-500/60 hover:text-emerald-300 transition-colors"
                                               title="Abrir devices deste site"
                                             >
-                                              <Router className="h-3.5 w-3.5" />
-                                              {site.deviceCount || 0} dev
+                                              <Router className="h-3 w-3" />
+                                              <span className="font-semibold">{site.deviceCount || 0}</span>
+                                              <span className="text-slate-400">dev</span>
                                             </button>
-                                            <span className="text-slate-500">|</span>
                                             <button
                                               type="button"
                                               onClick={(e) => {
                                                 e.stopPropagation();
                                                 selecionarSiteNoCard(console.id, site.id, site.name, 'clients');
                                               }}
-                                              className="inline-flex items-center gap-1 hover:text-green-400"
+                                              className="inline-flex items-center gap-1 rounded-full border border-slate-700 bg-slate-950/70 px-2 py-1 text-[11px] hover:border-cyan-500/60 hover:text-cyan-300 transition-colors"
                                               title="Abrir clients deste site"
                                             >
-                                              <Users2 className="h-3.5 w-3.5" />
-                                              {site.clientCount || 0} cli
+                                              <Users2 className="h-3 w-3" />
+                                              <span className="font-semibold">{siteClients.length}</span>
+                                              <span className="text-slate-400">clientes</span>
                                             </button>
                                           </div>
                                         </div>
@@ -1199,11 +1375,19 @@ export default function MonitorPatrimoniosForm() {
                                 <Activity className="h-3.5 w-3.5" />
                                 {totalDevicesConsole} devices
                               </span>
+                              <span className="inline-flex items-center gap-1">
+                                <Users2 className="h-3.5 w-3.5" />
+                                {totalClientsConsole} clients
+                              </span>
+                            </div>
+                            <div className="mt-2 flex flex-wrap items-center gap-3 text-[11px] text-slate-400">
+                              <span>Online: {clientsOnlineConsole}</span>
+                              <span>Offline: {clientsOfflineConsole}</span>
                             </div>
                             <div className="mt-3 text-[11px] text-slate-400 font-mono break-all">
                               Host ID: {hostIdCard || '-'}
                             </div>
-                          </button>
+                          </div>
                         );
                       })}
                     </div>
@@ -1221,10 +1405,15 @@ export default function MonitorPatrimoniosForm() {
                     <span>
                       {siteSelecionadoId
                         ? `Clientes conectados no site: ${clientsFiltradosPorSite.length}`
-                        : `Clientes conectados (todos os sites): ${clientsExibidos.length}`}
+                        : consoleSelecionadoId
+                          ? `Clientes conectados no console: ${clientsExibidos.length}`
+                          : `Clientes conectados (todos os sites): ${clientsExibidos.length}`}
                     </span>
-                    <span>Online: {devicesOnlineCount}</span>
-                    <span>Offline: {devicesOfflineCount}</span>
+                    <span>Online: {clientsOnlineCount}</span>
+                    <span>Offline: {clientsOfflineCount}</span>
+                    <span className="text-slate-400">
+                      Devices: {devicesExibidos.length} | Online: {devicesOnlineCount} | Offline: {devicesOfflineCount}
+                    </span>
                   </div>
                   {devicesExibidos.length === 0 ? (
                     <TableState
@@ -1253,7 +1442,9 @@ export default function MonitorPatrimoniosForm() {
                               <td className="px-4 py-3 text-gray-600">{device.model || '-'}</td>
                               <td className="px-4 py-3 text-sm text-gray-600">{device.ip || '-'}</td>
                               <td className="px-4 py-3">
-                                <span className={`px-2 py-1 rounded-full text-sm ${normalizeText(device.status) === 'online' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                                <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${normalizeText(device.status) === 'online'
+                                  ? 'border-emerald-500/25 bg-emerald-500/10 text-emerald-300'
+                                  : 'border-rose-500/25 bg-rose-500/10 text-rose-300'
                                   }`}>
                                   {device.status}
                                 </span>
@@ -1269,6 +1460,15 @@ export default function MonitorPatrimoniosForm() {
 
               {activeTab === 'clients' && (
                 <div>
+                  <div className="mb-3 text-xs text-slate-500 flex flex-wrap items-center gap-3">
+                    <span>
+                      {siteSelecionadoId
+                        ? `Clientes conectados no site: ${clientsFiltradosPorSite.length}`
+                        : `Clientes conectados (todos os sites): ${clientsExibidos.length}`}
+                    </span>
+                    <span>Online: {clientsOnlineCount}</span>
+                    <span>Offline: {clientsOfflineCount}</span>
+                  </div>
                   {clientsExibidos.length === 0 ? (
                     <TableState icon={Inbox} title="Nenhum client encontrado" compact />
                   ) : (
@@ -1281,6 +1481,7 @@ export default function MonitorPatrimoniosForm() {
                             <th className="px-4 py-3 text-left font-medium text-gray-700">MAC</th>
                             <th className="px-4 py-3 text-left font-medium text-gray-700">IP</th>
                             <th className="px-4 py-3 text-left font-medium text-gray-700">Status</th>
+                            <th className="px-4 py-3 text-left font-medium text-gray-700">RADIUS Local</th>
                             <th className="px-4 py-3 text-left font-medium text-gray-700">Site</th>
                           </tr>
                         </thead>
@@ -1292,12 +1493,38 @@ export default function MonitorPatrimoniosForm() {
                               <td className="px-4 py-3 text-sm text-gray-600 font-mono">{client.mac || '-'}</td>
                               <td className="px-4 py-3 text-sm text-gray-600">{client.ip || '-'}</td>
                               <td className="px-4 py-3">
-                                <span className={`px-2 py-1 rounded-full text-sm ${normalizeText(client.status) === 'online' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                                <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${normalizeText(client.status) === 'online'
+                                  ? 'border-emerald-500/25 bg-emerald-500/10 text-emerald-300'
+                                  : 'border-rose-500/25 bg-rose-500/10 text-rose-300'
                                   }`}>
                                   {client.status || '-'}
                                 </span>
                               </td>
-                              <td className="px-4 py-3 text-sm text-gray-600">{client.siteName || '-'}</td>
+                              <td className="px-4 py-3 text-sm text-gray-600">
+                                {client.radiusLocal ? (
+                                  <div className="flex flex-col gap-1">
+                                    <span className="inline-flex w-fit items-center rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-300">
+                                      {client.radiusLocal}
+                                    </span>
+                                    {client.radiusLocalOrigin ? (
+                                      <span className="text-[11px] uppercase tracking-[0.18em] text-slate-500">
+                                        Origem: {client.radiusLocalOrigin}
+                                      </span>
+                                    ) : null}
+                                  </div>
+                                ) : (
+                                  '-'
+                                )}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-600">
+                                {client.siteName ? (
+                                  <span className="inline-flex max-w-full items-center rounded-full border border-slate-600/60 bg-slate-900/70 px-2.5 py-1 text-xs font-medium text-slate-200">
+                                    <span className="truncate">{client.siteName}</span>
+                                  </span>
+                                ) : (
+                                  '-'
+                                )}
+                              </td>
                             </tr>
                           ))}
                         </tbody>

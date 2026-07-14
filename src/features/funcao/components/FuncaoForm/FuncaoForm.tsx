@@ -102,7 +102,7 @@ export default function FuncaoForm({ funcaoId }: { funcaoId?: string }) {
         <form
           onSubmit={handleSubmit}
           onKeyDown={handleEnterToNext}
-          className="bg-white rounded-lg shadow-lg p-8 space-y-6"
+          className="form-surface space-y-6 p-4 sm:p-6 lg:p-8"
         >
           <div>
             <label className="block text-sm font-medium mb-2">

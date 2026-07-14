@@ -27,7 +27,7 @@ export default async function Page() {
   }
 
   const formularios = ((session.user as any)?.formularios || []) as string[];
-  if (!hasModuleAccess(formularios, 'UNIFI_CONFIG')) redirect('/acesso-negado');
+  if (!hasModuleAccess(formularios, 'MONITOR_PATRIMONIOS')) redirect('/acesso-negado');
 
   return <MonitorPatrimoniosForm />;
 }

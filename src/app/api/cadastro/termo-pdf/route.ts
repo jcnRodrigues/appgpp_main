@@ -4,6 +4,7 @@ import { generatePdf } from '@/lib/generatePdf';
 import type { DadosTermoResponsabilidade } from '@/lib/termoResponsabilidadePdf';
 import { hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 
+export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
@@ -64,7 +65,7 @@ export async function POST(request: NextRequest) {
 
         const filename = `Termo-Responsabilidade-${documentId}.pdf`;
 
-        return new NextResponse(pdfBuffer, {
+        return new NextResponse(new Uint8Array(pdfBuffer), {
             status: 200,
             headers: {
                 'Content-Type': 'application/pdf',

@@ -119,9 +119,11 @@ export default function SistemaDadosPage() {
     const [resumoOperacao, setResumoOperacao] = useState<ResumoOperacao | null>(null);
     const formularios = ((session?.user as any)?.formularios || []) as string[];
     const canExport =
+        hasModuleActionPermission(formularios, "EXPORTAR_DADOS", "EXPORT") ||
         hasModuleActionPermission(formularios, "IMPORTACAO_EXPORTACAO", "EXPORT") ||
         hasModuleAccess(formularios, "ACESSO_USUARIOS");
     const canImport =
+        hasModuleActionPermission(formularios, "IMPORTAR_DADOS", "IMPORT") ||
         hasModuleActionPermission(formularios, "IMPORTACAO_EXPORTACAO", "IMPORT") ||
         hasModuleAccess(formularios, "ACESSO_USUARIOS");
     const canAccessImportExport = canImport || canExport;

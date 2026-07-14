@@ -107,7 +107,7 @@ export default function AtivoRedeTransferenciaForm({ ativoRedeId }: { ativoRedeI
     setLoading(true);
 
     try {
-      const response = await fetch(`/api/ativos-rede/${ativoRedeId}/transferências`, {
+      const response = await fetch(`/api/ativos-rede/${ativoRedeId}/transferencias`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form)
@@ -141,7 +141,7 @@ export default function AtivoRedeTransferenciaForm({ ativoRedeId }: { ativoRedeI
         <form
           onSubmit={handleSubmit}
           onKeyDown={handleEnterToNext}
-          className="bg-white rounded-lg shadow-lg p-5 sm:p-8 space-y-6"
+          className="form-surface space-y-6 p-4 sm:p-6 lg:p-8"
         >
           {loadingData || loadingOpcoes ? (
             <p className="text-sm text-gray-500">Carregando dados do ativo...</p>
@@ -224,7 +224,7 @@ export default function AtivoRedeTransferenciaForm({ ativoRedeId }: { ativoRedeI
                 loadingLabel="Transferindo..."
                 loading={loading}
                 className="flex gap-4 justify-end pt-2"
-                cancelClassName="border-slate-300 bg-slate-950 text-slate-100 hover:bg-slate-900 hover:text-white shadow-sm"
+                cancelClassName="border-red-500 bg-red-600 text-white hover:bg-red-500 shadow-sm"
                 submitClassName="bg-blue-600 text-white hover:bg-blue-700 shadow-sm"
               />
             </>

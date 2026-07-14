@@ -6,7 +6,6 @@ import { useEnterToNext } from '@/hooks/useEnterToNext';
 import { Button } from '@/components/ui/button';
 import FormActions from '@/components/FormActions/FormActions';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
-import Link from 'next/link';
 import { PackagePlus, Search, Check } from 'lucide-react';
 import { useFormDraft } from '@/hooks/useFormDraft';
 import { notify as showNotify } from '@/lib/notify';
@@ -52,10 +51,12 @@ function normalizarTexto(value: string) {
 
 export default function CadastroForm({
     funcionarioId,
-    patrimonioId
+    patrimonioId,
+    preservarHistoricoPatrimonio = false
 }: {
     funcionarioId?: string;
     patrimonioId?: string;
+    preservarHistoricoPatrimonio?: boolean;
 }) {
     const router = useRouter();
     const handleEnterToNext = useEnterToNext();
@@ -76,7 +77,7 @@ export default function CadastroForm({
         setState: setCadastro,
         clearDraft: clearCadastroDraft
     } = useFormDraft(
-        `cadastro-form-create:${funcionarioId || 'none'}:${patrimonioId || 'none'}`,
+        `cadastro-form-create:${funcionarioId || 'none'}:${patrimonioId || 'none'}:${preservarHistoricoPatrimonio ? 'historico' : 'normal'}`,
         initialCadastro
     );
 
@@ -92,7 +93,7 @@ export default function CadastroForm({
 
     const carregarOpcoes = useCallback(async () => {
         try {
-            const res = await fetch('/api/cadastro?opções=true');
+            const res = await fetch('/api/cadastro?opcoes=true');
             if (res.ok) {
                 const data = await res.json();
                 setFuncionarios(data.funcionarios || []);
@@ -103,7 +104,7 @@ export default function CadastroForm({
                 }
             }
         } catch (error) {
-            console.error('Erro ao carregar opÃ§Ãµes:', error);
+            console.error('Erro ao carregar opções:', error);
         }
     }, [cadastro.idStatusPatCad, setCadastro]);
 
@@ -111,7 +112,7 @@ export default function CadastroForm({
         carregarOpcoes();
     }, [carregarOpcoes]);
 
-    // Efeito para filtrar funcionÃ¡rios (matricula + nome)
+    // Efeito para filtrar funcionários (matricula + nome)
     useEffect(() => {
         const filtrarFuncionarios = () => {
             if (!funcionarioSearch.trim()) {
@@ -132,7 +133,7 @@ export default function CadastroForm({
         filtrarFuncionarios();
     }, [funcionarioSearch, funcionarios]);
 
-    // Efeito para filtrar patrimÃ´nios (codigo + descricao)
+    // Efeito para filtrar patrimônios (codigo + descricao)
     useEffect(() => {
         const filtrarPatrimonios = () => {
             if (!patrimonioSearch.trim()) {
@@ -180,7 +181,7 @@ export default function CadastroForm({
         e.preventDefault();
         setLoading(true); //  Corrigido: era setLoading(false)
 
-        // ValidaÃ§Ãµes
+        // Validações
         if (!cadastro.idMatFunCad) {
             showNotify("aviso", 'Por favor, selecione um funcionário');
             setLoading(false);
@@ -188,7 +189,7 @@ export default function CadastroForm({
         }
 
         if (!cadastro.idPatCad) {
-            showNotify("aviso", 'Por favor, selecione um funcionário');
+            showNotify("aviso", 'Por favor, selecione um patrimônio');
             setLoading(false);
             return;
         }
@@ -200,7 +201,8 @@ export default function CadastroForm({
                 dataCadPat: cadastro.dataCadPat,
                 dataDevPat: cadastro.dataDevPat || null,
                 idStatusPatCad: cadastro.idStatusPatCad || undefined,
-                motivoDevolucao: cadastro.motivoDevolucao || null
+                motivoDevolucao: cadastro.motivoDevolucao || null,
+                preservarHistoricoPatrimonio
             };
 
             const res = await fetch('/api/cadastro', {
@@ -210,7 +212,7 @@ export default function CadastroForm({
             });
 
             if (res.ok) {
-                showNotify("sucesso", 'AlocaÃ§Ã£o criada com sucesso');
+                showNotify("sucesso", 'Alocação criada com sucesso');
                 clearCadastroDraft();
                 router.push('/alocacoes');
             } else {
@@ -242,15 +244,15 @@ export default function CadastroForm({
             <div className="max-w-[54.6rem] mx-auto px-4">
                 <PageHeader
                     icon={PackagePlus}
-                    title="Vincular Patrimônio ao Funcionário"
-                    description="Associe um patrimônio a um funcionário com segurança."
+                    title={'Vincular Patrimônio ao Funcionário'}
+                    description={'Associe um patrimônio a um funcionário com segurança.'}
                     backHref="/alocacoes"
                     iconClassName="from-slate-950 via-slate-800 to-emerald-700"
                 />
 
-                <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="bg-white rounded-lg shadow-lg p-8 space-y-6">
+                <form onSubmit={handleSubmit} onKeyDown={handleEnterToNext} className="form-surface space-y-6 p-4 sm:p-6 lg:p-8">
                     <div>
-                        <label className="block text-sm font-medium mb-2 text-red-600">FuncionÃ¡rio *</label>
+                        <label className="block text-sm font-medium mb-2 text-red-600">{'Funcionário *'}</label>
                         <div className="flex w-full gap-2 items-stretch">
                             <select
                                 name="idMatFunCad"
@@ -261,7 +263,7 @@ export default function CadastroForm({
                                     !cadastro.idMatFunCad ? 'border-red-300 bg-red-50' : ''
                                 }`}
                             >
-                                <option value="">--- Selecione um funcionÃ¡rio ---</option>
+                                <option value="">{'--- Selecione um funcionário ---'}</option>
                                 {funcionarios.map(func => (
                                     <option key={func.idMatFun} value={func.idMatFun}>
                                         {func.idMatFun} - {func.nomeFun}
@@ -275,19 +277,19 @@ export default function CadastroForm({
                                     setFuncionariosFiltrados(funcionarios.slice(0, 50));
                                     setIsFuncionarioSheetOpen(true);
                                 }}
-                                title="Pesquisar funcionÃ¡rio"
+                                title={'Pesquisar funcionário'}
                                 className="h-10 w-10 shrink-0 p-0"
                             >
                                 <Search className="h-4 w-4" />
                             </Button>
                         </div>
                         {!cadastro.idMatFunCad && (
-                            <p className="text-red-600 text-xs mt-1">Campo obrigatÃ³rio</p>
+                            <p className="text-red-600 text-xs mt-1">{'Campo obrigatório'}</p>
                         )}
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2 text-red-600">PatrimÃ´nio *</label>
+                        <label className="block text-sm font-medium mb-2 text-red-600">{'Patrimônio *'}</label>
                         <div className="flex w-full gap-2 items-stretch">
                             <select
                                 name="idPatCad"
@@ -298,7 +300,7 @@ export default function CadastroForm({
                                     !cadastro.idPatCad ? 'border-red-300 bg-red-50' : ''
                                 }`}
                             >
-                                <option value="">--- Selecione um patrimÃ´nio ---</option>
+                                <option value="">{'--- Selecione um patrimônio ---'}</option>
                                 {patrimonios.map(pat => (
                                     <option key={pat.idPat} value={pat.idPat}>
                                         {pat.idPat} - {pat.descricaoPat}
@@ -312,19 +314,19 @@ export default function CadastroForm({
                                     setPatrimoniosFiltrados(patrimonios.slice(0, 50));
                                     setIsPatrimonioSheetOpen(true);
                                 }}
-                                title="Pesquisar patrimÃ´nio"
+                                title={'Pesquisar patrimônio'}
                                 className="h-10 w-10 shrink-0 p-0"
                             >
                                 <Search className="h-4 w-4" />
                             </Button>
                         </div>
                         {!cadastro.idPatCad && (
-                            <p className="text-red-600 text-xs mt-1">Campo obrigatÃ³rio</p>
+                            <p className="text-red-600 text-xs mt-1">{'Campo obrigatório'}</p>
                         )}
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2">Data de AlocaÃ§Ã£o *</label>
+                        <label className="block text-sm font-medium mb-2">{'Data de Alocação *'}</label>
                         <input
                             type="date"
                             name="dataCadPat"
@@ -336,15 +338,15 @@ export default function CadastroForm({
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2">Status da AlocaÃ§Ã£o *</label>
+                        <label className="block text-sm font-medium mb-2">{'Status da Alocação *'}</label>
                         <select
                             name="idStatusPatCad"
                             value={cadastro.idStatusPatCad}
                             onChange={handleChange}
                             required
-                            className="w-full px-4 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary"
+                            className="w-full px-4 py-2 border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                         >
-                            <option value="" disabled>Selecione o status</option>
+                            <option value="">{'---Selecione o status---'}</option>
                             {statusPatrimonio.map(status => (
                                 <option key={status.idStatusPat} value={status.idStatusPat}>
                                     {status.descricaoStatPat}
@@ -354,53 +356,53 @@ export default function CadastroForm({
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2">Data de DevoluÃ§Ã£o</label>
+                        <label className="block text-sm font-medium mb-2">{'Data de Devolução'}</label>
                         <input
                             type="date"
                             name="dataDevPat"
                             value={cadastro.dataDevPat}
                             onChange={handleChange}
                             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                            placeholder="Deixe em branco se ainda nÃ£o foi devolvido"
+                            placeholder="Deixe em branco se ainda não foi devolvido"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2">Motivo da DevoluÃ§Ã£o</label>
+                        <label className="block text-sm font-medium mb-2">{'Motivo da Devolução'}</label>
                         <input
                             type="text"
                             name="motivoDevolucao"
                             value={cadastro.motivoDevolucao}
                             onChange={handleChange}
                             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                            placeholder="Ex: equipamento com defeito"
+                            placeholder={'Ex: equipamento com defeito'}
                         />
                     </div>
 
                     <FormActions
                         cancelHref="/alocacoes"
-                        submitLabel="Vincular"
+                        submitLabel={'Vincular'}
                         loading={loading}
                     />
                 </form>
             </div>
 
-            {/* Sheet de Pesquisa de FuncionÃ¡rio */}
+            {/* Sheet de Pesquisa de Funcionário */}
             <Sheet open={isFuncionarioSheetOpen} onOpenChange={setIsFuncionarioSheetOpen}>
                 <SheetContent side="right" className="w-[600px] sm:max-w-[600px]">
                     <SheetHeader>
-                        <SheetTitle>Pesquisar FuncionÃ¡rio</SheetTitle>
+                        <SheetTitle>{'Pesquisar Funcionário'}</SheetTitle>
                         <SheetDescription>
-                            Digite o nome ou matrÃ­cula do funcionÃ¡rio para buscar
+                            {'Digite o nome ou matrícula do funcionário para buscar'}
                         </SheetDescription>
                     </SheetHeader>
 
                     <div className="mt-4 space-y-4">
                         <div className="relative">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                             <input
                                 type="text"
-                                placeholder="Buscar por nome ou matrÃ­Â­cula..."
+                                placeholder={'Buscar por nome ou matrícula...'}
                                 value={funcionarioSearch}
                                 onChange={(e) => setFuncionarioSearch(e.target.value)}
                                 className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
@@ -412,18 +414,18 @@ export default function CadastroForm({
                             <table className="w-full min-w-full">
                                 <thead className="bg-gray-50 sticky top-0">
                                     <tr>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">MatrÃ­cula</th>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Nome</th>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Função</th>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Status</th>
-                                        <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600">AÃ§Ã£o</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">{'Matrícula'}</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">{'Nome'}</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">{'Função'}</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">{'Status'}</th>
+                                        <th className="px-4 py-3 text-center text-xs font-semibold text-muted-foreground">{'Ação'}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {funcionariosFiltrados.length === 0 ? (
                                         <tr>
-                                            <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
-                                                Nenhum funcionÃ¡rio encontrado
+                                            <td colSpan={5} className="px-4 py-8 text-center text-muted-foreground">
+                                                {'Nenhum funcionário encontrado'}
                                             </td>
                                         </tr>
                                     ) : (
@@ -435,7 +437,7 @@ export default function CadastroForm({
                                                 <td className="px-4 py-3 text-sm">
                                                     <span className={`px-2 py-1 rounded-full text-xs ${func.tbStatusFun?.descricaoStatusFun === 'ADMITIDO' ? 'bg-green-100 text-green-800' :
                                                         func.tbStatusFun?.descricaoStatusFun === 'DEMITIDO' ? 'bg-red-100 text-red-800' :
-                                                            'bg-gray-100 text-gray-800'
+                                                            'bg-muted text-foreground'
                                                         }`}>
                                                         {func.tbStatusFun?.descricaoStatusFun || '-'}
                                                     </span>
@@ -459,22 +461,22 @@ export default function CadastroForm({
                 </SheetContent>
             </Sheet>
 
-            {/* Sheet de Pesquisa de PatrimÃ´nio */}
+            {/* Sheet de Pesquisa de Patrimônio */}
             <Sheet open={isPatrimonioSheetOpen} onOpenChange={setIsPatrimonioSheetOpen}>
                 <SheetContent side="right" className="w-[600px] sm:max-w-[600px]">
                     <SheetHeader>
-                        <SheetTitle>Pesquisar PatrimÃ´nio</SheetTitle>
+                        <SheetTitle>{'Pesquisar Patrimônio'}</SheetTitle>
                         <SheetDescription>
-                            Digite a descriÃ§Ã£o ou ID do patrimÃ´nio para buscar
+                            {'Digite a descrição ou ID do patrimônio para buscar'}
                         </SheetDescription>
                     </SheetHeader>
 
                     <div className="mt-4 space-y-4">
                         <div className="relative">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                             <input
                                 type="text"
-                                placeholder="Buscar por codigo ou descricao..."
+                                placeholder={'Buscar por código ou descrição...'}
                                 value={patrimonioSearch}
                                 onChange={(e) => setPatrimonioSearch(e.target.value)}
                                 className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
@@ -486,18 +488,18 @@ export default function CadastroForm({
                             <table className="w-full min-w-full">
                                 <thead className="bg-gray-50 sticky top-0">
                                     <tr>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">ID</th>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">DescriÃ§Ã£o</th>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Status</th>
-                                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Centro Custo</th>
-                                        <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600">AÃ§Ã£o</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">{'ID'}</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">{'Descrição'}</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">{'Status'}</th>
+                                        <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">{'Centro Custo'}</th>
+                                        <th className="px-4 py-3 text-center text-xs font-semibold text-muted-foreground">{'Ação'}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {patrimoniosFiltrados.length === 0 ? (
                                         <tr>
-                                            <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
-                                                Nenhum patrimÃ´nio encontrado
+                                            <td colSpan={5} className="px-4 py-8 text-center text-muted-foreground">
+                                                {'Nenhum patrimônio encontrado'}
                                             </td>
                                         </tr>
                                     ) : (
@@ -507,12 +509,12 @@ export default function CadastroForm({
                                                 <td className="px-4 py-3 text-sm max-w-xs truncate">{pat.descricaoPat}</td>
                                                 <td className="px-4 py-3 text-sm">
                                                     <span className={`px-2 py-1 rounded-full text-xs ${pat.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
-                                                            pat.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-blue-100 text-gray-800' :
-                                                                pat.tbStatusPat?.descricaoStatPat === 'DEVOLUÃ‡ÃƒO' ? 'bg-yellow-100 text-red-800' :
+                                                            pat.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-blue-100 text-foreground' :
+                                                                pat.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-yellow-100 text-red-800' :
                                                                     pat.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-green-100 text-blue-800' :
                                                                         pat.tbStatusPat?.descricaoStatPat === 'PENDENTE' ? 'bg-blue-100 text-yellow-800' :
-                                                                            pat.tbStatusPat?.descricaoStatPat === 'MANUTENÃ‡ÃƒO' ? 'bg-yellow-100 text-purple-800' :
-                                                                                'bg-gray-100 text-gray-800'
+                                                                            pat.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-yellow-100 text-purple-800' :
+                                                                                'bg-muted text-foreground'
                                                         }`}>
                                                         {pat.tbStatusPat?.descricaoStatPat || '-'}
                                                     </span>
@@ -539,8 +541,6 @@ export default function CadastroForm({
         </div>
     );
 }
-
-
 
 
 

@@ -132,7 +132,7 @@ export default function CentroCustoForm({ centroId }: { centroId?: string }) {
 
                 <form onSubmit={handleSubmit}
                     onKeyDown={handleEnterToNext}
-                    className="space-y-6 rounded-lg bg-white p-8 shadow-lg">
+                    className="form-surface space-y-6 p-4 sm:p-6 lg:p-8">
                     <div>
                         <label className="mb-2 block text-sm font-medium">
                             Codigo
