@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { Edit, Trash2, FileDown, Filter, Plus } from 'lucide-react';
+import { Edit, Trash2, FileDown, Filter } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import DeleteGuardButton from '@/components/DeleteGuardButton/DeleteGuardButton';
@@ -72,7 +72,6 @@ export default function CadastroTable() {
     const { data: session } = useSession();
     const formularios = ((session?.user as any)?.formularios || []) as string[];
     const canUpdate = hasModuleActionPermission(formularios, 'ALOCACOES', 'UPDATE');
-    const canCreate = hasModuleActionPermission(formularios, 'ALOCACOES', 'CREATE');
     const canPrint = hasModuleActionPermission(formularios, 'ALOCACOES', 'PRINT');
     const showNoPermissionAlert = (acao: string) => window.systemAlert?.('aviso', `Você não tem permissão para ${acao}.`);
     const handleEditClick = (e: React.MouseEvent) => {
@@ -229,11 +228,6 @@ export default function CadastroTable() {
         return 'bg-yellow-100 text-yellow-800';
     };
 
-    const isDevolucaoCompleta = (status?: string) => {
-        const normalizado = normalizeStatusText(status);
-        return normalizado.includes('DEVOLUCAO') || normalizado.includes('DEVOLV');
-    };
-
     const formatarData = (data: string | null) => {
         if (!data) return '-';
         const match = data.match(/^(\d{4})-(\d{2})-(\d{2})/);
@@ -255,11 +249,61 @@ export default function CadastroTable() {
         return centro.descricaoCCusto || centro.codigoCCusto || centro.idCCusto;
     };
 
+    const getDevolucaoPrioritaria = (alocacao: Alocacao) => {
+        const devolucaoCadastro = alocacao.tbDevolucao?.[0] || null;
+        const devolucaoPatrimonio = alocacao.tbPatrimonio?.tbDevolucao?.[0] || null;
+        const statusNormalizado = normalizeStatusText(alocacao.tbStatusPat?.descricaoStatPat);
+        const devolucaoConcluida =
+            statusNormalizado.includes('DEVOLUCAO') ||
+            Boolean(alocacao.dataDevPat);
+
+        if (devolucaoConcluida) {
+            return devolucaoPatrimonio || devolucaoCadastro;
+        }
+
+        return devolucaoCadastro;
+    };
+
+    const getFimDevolucaoPrioritario = (alocacao: Alocacao) => {
+        const devolucao = getDevolucaoPrioritaria(alocacao);
+        return devolucao?.dataChegadaFornecedor || devolucao?.dataFimDevolucao || null;
+    };
+
     const compararCustos = (alocacao: Alocacao) => {
         const custoFuncionario = alocacao.tbFuncionario?.tbCCusto?.idCCusto;
         const custoPatrimonio = alocacao.tbPatrimonio?.tbCCusto?.idCCusto;
         if (!custoFuncionario || !custoPatrimonio) return 'SEM_CUSTO';
         return custoFuncionario === custoPatrimonio ? 'IGUAL' : 'DIFERENTE';
+    };
+
+    const isEdicaoBloqueada = (alocacao: Alocacao) => {
+        const normalizado = normalizeStatusText(alocacao.tbStatusPat?.descricaoStatPat);
+        const devolucao = getDevolucaoPrioritaria(alocacao);
+        const temDevolucaoConcluida = Boolean(
+            devolucao?.dataInicioDevolucao &&
+            (devolucao?.dataFimDevolucao || devolucao?.dataChegadaFornecedor)
+        );
+        const temTransferenciaConcluida = normalizado.includes('TRANSFERIDO') && Boolean(alocacao.dataDevPat);
+        return (normalizado.includes('DEVOLUCAO') && temDevolucaoConcluida) || temTransferenciaConcluida;
+    };
+
+    const getMotivoBloqueioEdicao = (alocacao: Alocacao) => {
+        const normalizado = normalizeStatusText(alocacao.tbStatusPat?.descricaoStatPat);
+        const devolucao = getDevolucaoPrioritaria(alocacao);
+        const devolucaoConcluida = Boolean(
+            devolucao?.dataInicioDevolucao &&
+            (devolucao?.dataFimDevolucao || devolucao?.dataChegadaFornecedor)
+        );
+
+        if (normalizado.includes('TRANSFERIDO') && Boolean(alocacao.dataDevPat)) {
+            return 'Edição desabilitada para transferência concluída';
+        }
+
+        if (normalizado.includes('DEVOLUCAO') && devolucaoConcluida) {
+            return 'Edição desabilitada para devolução concluída';
+        }
+
+        return 'Editar';
     };
 
     const handleGerarTermoPdf = async (alocacao: Alocacao) => {
@@ -446,14 +490,14 @@ export default function CadastroTable() {
                                 Início Devolução
                             </div>
                             <div className="text-gray-800 text-right">
-                                {formatarData(alocacao.tbPatrimonio?.tbDevolucao?.[0]?.dataInicioDevolucao || null)}
+                                {formatarData(getDevolucaoPrioritaria(alocacao)?.dataInicioDevolucao || null)}
                             </div>
                             <div className="text-gray-500">
                                 Fim Devolução
                             </div>
                             <div className="text-gray-800 text-right">
-                                {formatarData(alocacao.tbPatrimonio?.tbDevolucao?.[0]?.dataFimDevolucao ||
-                                    alocacao.tbPatrimonio?.tbDevolucao?.[0]?.dataChegadaFornecedor || null
+                                {formatarData(
+                                    getFimDevolucaoPrioritario(alocacao)
                                 )}
                             </div>
                             <div className="text-gray-500">
@@ -476,17 +520,33 @@ export default function CadastroTable() {
                             </div>
                         </div>
                         <div className="flex items-center justify-end gap-2 pt-1">
-                            {canCreate && isDevolucaoCompleta(alocacao.tbStatusPat?.descricaoStatPat) && alocacao.tbPatrimonio?.idPat && (
-                                <Button asChild
-                                    variant="ghost"
-                                    size="icon"
-                                    className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-500/30 bg-background p-0 text-emerald-500 transition hover:bg-emerald-500/10"
-                                    title="Nova alocação a partir desta devolução">
-                                    <Link href={`/alocacoes/nova?patrimonio=${encodeURIComponent(alocacao.tbPatrimonio.idPat)}&preservarHistorico=1`}>
-                                        <Plus className="h-4 w-4" />
-                                    </Link>
-                                </Button>
-                            )}
+                            {(() => {
+                                const edicaoBloqueada = isEdicaoBloqueada(alocacao);
+                                return (
+                                    <Button asChild
+                                        variant="ghost"
+                                        size="icon"
+                                        className={`flex h-10 w-10 items-center justify-center rounded-xl border p-0 transition ${
+                                            edicaoBloqueada
+                                                ? 'pointer-events-none cursor-not-allowed border-slate-500/30 bg-slate-500/10 text-slate-400 opacity-60'
+                                                : 'border-cyan-500/30 bg-background text-cyan-500 hover:bg-cyan-500/10'
+                                        }`}
+                                        aria-disabled={edicaoBloqueada}
+                                        title={edicaoBloqueada ? getMotivoBloqueioEdicao(alocacao) : 'Editar'}>
+                                        <Link href={`/alocacoes/${alocacao.idCad}/editar`}
+                                            title="Editar"
+                                            onClick={(e) => {
+                                                if (edicaoBloqueada) {
+                                                    e.preventDefault();
+                                                    return;
+                                                }
+                                                handleEditClick(e);
+                                            }}>
+                                            <Edit className="h-4 w-4" />
+                                        </Link>
+                                    </Button>
+                                );
+                            })()}
                             <button type="button"
                                 onClick={() => handleGerarTermoPdf(alocacao)}
                                 disabled={pdfLoading === alocacao.idCad}
@@ -494,16 +554,6 @@ export default function CadastroTable() {
                                 title={pdfLoading === alocacao.idCad ? 'Gerando PDF...' : 'Gerar Termo de Responsabilidade (PDF)'}>
                                 <FileDown className="h-4 w-4 text-white" />
                             </button>
-                            <Button asChild
-                                variant="ghost"
-                                size="icon"
-                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-500/30 bg-background p-0 text-cyan-500 transition hover:bg-cyan-500/10">
-                                <Link href={`/alocacoes/${alocacao.idCad}/editar`}
-                                    title="Editar"
-                                    onClick={handleEditClick}>
-                                    <Edit className="h-4 w-4" />
-                                </Link>
-                            </Button>
                             <DeleteGuardButton resource="cadastro"
                                 recordId={alocacao.idCad}
                                 onAuthorizedDelete={() => handleDelete(alocacao.idCad)}
@@ -567,11 +617,12 @@ export default function CadastroTable() {
                                     {formatarData(alocacao.dataDevPat)}
                                 </td>
                                 <td className="px-4 py-2.5 text-[11px]">
-                                    {formatarData(alocacao.tbPatrimonio?.tbDevolucao?.[0]?.dataInicioDevolucao || null)}
+                                    {formatarData(getDevolucaoPrioritaria(alocacao)?.dataInicioDevolucao || null)}
                                 </td>
                                 <td className="px-4 py-2.5 text-[11px]">
-                                    {formatarData(alocacao.tbPatrimonio?.tbDevolucao?.[0]?.dataFimDevolucao ||
-                                        alocacao.tbPatrimonio?.tbDevolucao?.[0]?.dataChegadaFornecedor || null)}
+                                    {formatarData(
+                                        getFimDevolucaoPrioritario(alocacao)
+                                    )}
                                 </td>
                                 <td className="px-4 py-2.5 text-[11px]">
                                     {compararCustos(alocacao) === 'IGUAL' ?
@@ -590,17 +641,33 @@ export default function CadastroTable() {
                                 </td>
                                 <td className="px-2 py-2.5 text-[10px]">
                                     <div className="flex gap-2 items-center">
-                                        {canCreate && isDevolucaoCompleta(alocacao.tbStatusPat?.descricaoStatPat) && alocacao.tbPatrimonio?.idPat && (
-                                            <Button asChild
-                                                variant="ghost"
-                                                size="icon"
-                                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-500/30 bg-background p-0 text-emerald-500 transition hover:bg-emerald-500/10"
-                                                title="Nova alocação a partir desta devolução">
-                                                <Link href={`/alocacoes/nova?patrimonio=${encodeURIComponent(alocacao.tbPatrimonio.idPat)}&preservarHistorico=1`}>
-                                                    <Plus className="h-4 w-4" />
-                                                </Link>
-                                            </Button>
-                                        )}
+                                        {(() => {
+                                            const edicaoBloqueada = isEdicaoBloqueada(alocacao);
+                                            return (
+                                                <Button asChild
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className={`flex h-10 w-10 items-center justify-center rounded-xl border p-0 transition ${
+                                                        edicaoBloqueada
+                                                            ? 'pointer-events-none cursor-not-allowed border-slate-500/30 bg-slate-500/10 text-slate-400 opacity-60'
+                                                            : 'border-cyan-500/30 bg-background text-cyan-500 hover:bg-cyan-500/10'
+                                                    }`}
+                                                    aria-disabled={edicaoBloqueada}
+                                                    title={edicaoBloqueada ? getMotivoBloqueioEdicao(alocacao) : 'Editar'}>
+                                                    <Link href={`/alocacoes/${alocacao.idCad}/editar`}
+                                                        title="Editar"
+                                                        onClick={(e) => {
+                                                            if (edicaoBloqueada) {
+                                                                e.preventDefault();
+                                                                return;
+                                                            }
+                                                            handleEditClick(e);
+                                                        }}>
+                                                        <Edit className="h-4 w-4" />
+                                                    </Link>
+                                                </Button>
+                                            );
+                                        })()}
                                         <button 
                                             type="button"
                                             onClick={() => handleGerarTermoPdf(alocacao)}
@@ -609,16 +676,6 @@ export default function CadastroTable() {
                                             title={pdfLoading === alocacao.idCad ? 'Gerando PDF...' : 'Gerar Termo de Responsabilidade (PDF)'}>
                                             <FileDown className="h-4 w-4" />
                                         </button>
-                                        <Button asChild
-                                            variant="ghost"
-                                            size="icon"
-                                            className="flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-500/30 bg-background p-0 text-cyan-500 transition hover:bg-cyan-500/10">
-                                            <Link href={`/alocacoes/${alocacao.idCad}/editar`}
-                                                title="Editar"
-                                                onClick={handleEditClick}>
-                                                <Edit className="h-4 w-4" />
-                                            </Link>
-                                        </Button>
                                         <DeleteGuardButton
                                             resource="cadastro"
                                             recordId={alocacao.idCad}

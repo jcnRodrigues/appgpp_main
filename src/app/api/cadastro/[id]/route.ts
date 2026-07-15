@@ -9,6 +9,64 @@ import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequ
 import { parseNullableDateInput } from '@/lib/date-input';
 import prisma from '../../../../../prisma/prisma';
 
+function normalizarTexto(valor?: string | null) {
+    return (valor || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim()
+        .toLowerCase();
+}
+
+function getDevolucaoPrioritaria(alocacao: {
+    tbDevolucao?: {
+        dataInicioDevolucao: string;
+        dataFimDevolucao: string | null;
+        dataChegadaFornecedor: string | null;
+    }[];
+    dataDevPat?: string | null;
+    tbStatusPat?: {
+        descricaoStatPat: string;
+    } | null;
+    tbPatrimonio?: {
+        tbDevolucao?: {
+            dataInicioDevolucao: string;
+            dataFimDevolucao: string | null;
+            dataChegadaFornecedor: string | null;
+        }[];
+    } | null;
+}) {
+    const devolucaoCadastro = alocacao.tbDevolucao?.[0] || null;
+    const devolucaoPatrimonio = alocacao.tbPatrimonio?.tbDevolucao?.[0] || null;
+    const statusNormalizado = normalizarTexto(alocacao.tbStatusPat?.descricaoStatPat);
+    const devolucaoConcluida =
+        statusNormalizado.includes('devolucao') ||
+        Boolean(alocacao.dataDevPat);
+
+    if (devolucaoConcluida) {
+        return devolucaoPatrimonio || devolucaoCadastro;
+    }
+
+    return devolucaoCadastro;
+}
+
+function getFimDevolucaoPrioritario(alocacao: {
+    tbDevolucao?: {
+        dataInicioDevolucao: string;
+        dataFimDevolucao: string | null;
+        dataChegadaFornecedor: string | null;
+    }[];
+    tbPatrimonio?: {
+        tbDevolucao?: {
+            dataInicioDevolucao: string;
+            dataFimDevolucao: string | null;
+            dataChegadaFornecedor: string | null;
+        }[];
+    } | null;
+}) {
+    const devolucao = getDevolucaoPrioritaria(alocacao);
+    return devolucao?.dataChegadaFornecedor || devolucao?.dataFimDevolucao || null;
+}
+
 export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
@@ -49,6 +107,26 @@ export async function PUT(
         if (!canAccess || !canUpdate) return NextResponse.json({ message: 'Sem permissão para alterar alocação' }, { status: 403 });
 
         const { id } = await params;
+        const alocacaoAtual = await buscarAlocacaoById(id);
+        if (alocacaoAtual) {
+            const statusNormalizado = (alocacaoAtual.tbStatusPat?.descricaoStatPat || '').trim().toLowerCase();
+            const devolucao = getDevolucaoPrioritaria(alocacaoAtual);
+            const fimDevolucaoPrioritario = getFimDevolucaoPrioritario(alocacaoAtual);
+            const edicaoBloqueada =
+                (
+                    statusNormalizado.includes('devolucao') &&
+                    Boolean(devolucao?.dataInicioDevolucao && fimDevolucaoPrioritario)
+                ) ||
+                (statusNormalizado.includes('transferido') && Boolean(alocacaoAtual.dataDevPat));
+
+            if (edicaoBloqueada) {
+                return NextResponse.json(
+                    { message: 'Edição desabilitada para alocação com devolução concluída' },
+                    { status: 403 }
+                );
+            }
+        }
+
         const dados = await request.json();
         const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
         let idUserTransferencia: string | null = null;

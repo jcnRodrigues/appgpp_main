@@ -107,15 +107,16 @@ export async function vincularDevolucaoAoProcesso(params: {
     throw new Error('Não foi possível vincular a devolução ao processo.');
   }
 
+  const dataChegadaFornecedor = params.dataChegadaFornecedor ?? null;
   const payload = {
     idDevolucaoProcesso: processo.idDevolucaoProcesso,
     idPatrimonio: params.idPatrimonio,
     dataInicioDevolucao: params.dataInicioDevolucao,
     dataSaidaFornecedor: params.dataSaidaFornecedor ?? params.dataInicioDevolucao,
-    dataChegadaFornecedor: params.dataChegadaFornecedor ?? null,
+    dataChegadaFornecedor,
     motivoDevolucao: params.motivoDevolucao || null,
     notaFiscalDevolucao: params.notaFiscalDevolucao || null,
-    dataFimDevolucao: null
+    dataFimDevolucao: dataChegadaFornecedor
   };
 
   if (params.idDevolucao) {

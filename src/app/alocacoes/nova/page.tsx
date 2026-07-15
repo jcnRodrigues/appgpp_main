@@ -13,7 +13,7 @@ export default async function NovaAlocacaoPage({
     const session = await getServerSession(AuthOptions);
 
     if (!session?.user) {
-        redirect('/')
+        redirect('/');
     }
     const formularios = ((session.user as any)?.formularios || []) as string[];
     if (!hasModuleAccess(formularios, 'ALOCACOES') || !hasModuleActionPermission(formularios, 'ALOCACOES', 'CREATE')) {
@@ -27,15 +27,15 @@ export default async function NovaAlocacaoPage({
     const preservarHistoricoPatrimonio =
         preservarHistoricoValor === '1' ||
         preservarHistoricoValor === 'true';
+
     return (
         <>
-        <Header />
-        <CadastroForm
-            funcionarioId={funcionarioId}
-            patrimonioId={patrimonioId}
-            preservarHistoricoPatrimonio={preservarHistoricoPatrimonio}
-        />
+            <Header />
+            <CadastroForm
+                funcionarioId={funcionarioId}
+                patrimonioId={patrimonioId}
+                preservarHistoricoPatrimonio={preservarHistoricoPatrimonio}
+            />
         </>
-        
     );
 }

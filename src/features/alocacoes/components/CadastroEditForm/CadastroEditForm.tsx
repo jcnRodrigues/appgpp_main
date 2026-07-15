@@ -230,6 +230,7 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
 
     const statusSelecionado = statusPatrimonio.find((s) => s.idStatusPat === dados.idStatusPatCad);
     const isTransferido = (statusSelecionado?.descricaoStatPat || '').trim().toUpperCase().includes('TRANSFER');
+    const isDevolucaoSelecionada = (statusSelecionado?.descricaoStatPat || '').trim().toUpperCase().includes('DEVOLU');
     const funcionarioDestinoAtual = cadastro.tbPatrimonio?.tbCadastro?.[0]?.tbFuncionario;
 
     return (
@@ -268,7 +269,7 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label className="block text-sm font-medium mb-2">
                                     {'Data de Alocação *'}
@@ -280,16 +281,18 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                                     required
                                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium mb-2">
-                                    {'Data Devolução Interna'}
-                                </label>
-                                <input type="date" disabled={isTransferido}
-                                    name="dataDevPat"
-                                    value={dados.dataDevPat}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
-                            </div>
+                            {isDevolucaoSelecionada && (
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">
+                                        {'Data Devolução Interna'}
+                                    </label>
+                                    <input type="date" disabled={isTransferido}
+                                        name="dataDevPat"
+                                        value={dados.dataDevPat}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+                                </div>
+                            )}
                         </div>
 
                         <div>
@@ -313,7 +316,7 @@ export default function CadastroEditForm({ cadastroId }: { cadastroId: string })
                             </select>
                         </div>
 
-                        {!isTransferido && (
+                        {isDevolucaoSelecionada && !isTransferido && (
                             <div>
                                 <label className="block text-sm font-medium mb-2">
                                     {'Motivo da Devolução'}

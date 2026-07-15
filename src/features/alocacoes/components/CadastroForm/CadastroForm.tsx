@@ -6,10 +6,11 @@ import { useEnterToNext } from '@/hooks/useEnterToNext';
 import { Button } from '@/components/ui/button';
 import FormActions from '@/components/FormActions/FormActions';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
-import { PackagePlus, Search, Check } from 'lucide-react';
+import { PackagePlus, Search, CheckCircle2 } from 'lucide-react';
 import { useFormDraft } from '@/hooks/useFormDraft';
 import { notify as showNotify } from '@/lib/notify';
 import PageHeader from '@/components/PageHeader/PageHeader';
+import { normalizeStatusText } from '@/lib/status';
 
 interface Funcionario {
     idF: string;
@@ -78,7 +79,8 @@ export default function CadastroForm({
         clearDraft: clearCadastroDraft
     } = useFormDraft(
         `cadastro-form-create:${funcionarioId || 'none'}:${patrimonioId || 'none'}:${preservarHistoricoPatrimonio ? 'historico' : 'normal'}`,
-        initialCadastro
+        initialCadastro,
+        { clearOnMount: true }
     );
 
     // Estados para os modais de pesquisa
@@ -99,9 +101,6 @@ export default function CadastroForm({
                 setFuncionarios(data.funcionarios || []);
                 setPatrimonios(data.patrimonios || []);
                 setStatusPatrimonio(data.statusPatrimonio || []);
-                if (!cadastro.idStatusPatCad && data.statusPatrimonio?.length) {
-                    setCadastro(prev => ({ ...prev, idStatusPatCad: data.statusPatrimonio[0].idStatusPat }));
-                }
             }
         } catch (error) {
             console.error('Erro ao carregar opções:', error);
@@ -159,6 +158,18 @@ export default function CadastroForm({
         setCadastro(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
+    const handleCancel = () => {
+        setCadastro(initialCadastro);
+        clearCadastroDraft();
+        setFuncionarioSearch('');
+        setPatrimonioSearch('');
+        setFuncionariosFiltrados([]);
+        setPatrimoniosFiltrados([]);
+        setIsFuncionarioSheetOpen(false);
+        setIsPatrimonioSheetOpen(false);
+        router.push('/alocacoes');
+    };
+
     useEffect(() => {
         if (!statusPatrimonio.length) return;
         const statusDevolvido = statusPatrimonio.find(
@@ -176,6 +187,11 @@ export default function CadastroForm({
             setCadastro(prev => ({ ...prev, idStatusPatCad: statusAtivo.idStatusPat }));
         }
     }, [cadastro.dataDevPat, cadastro.idStatusPatCad, statusPatrimonio, setCadastro]);
+
+    const statusSelecionadoEhDevolucao = (() => {
+        const statusSelecionado = statusPatrimonio.find((status) => status.idStatusPat === cadastro.idStatusPatCad);
+        return normalizeStatusText(statusSelecionado?.descricaoStatPat).includes('DEVOLU');
+    })();
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -355,32 +371,36 @@ export default function CadastroForm({
                         </select>
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium mb-2">{'Data de Devolução'}</label>
-                        <input
-                            type="date"
-                            name="dataDevPat"
-                            value={cadastro.dataDevPat}
-                            onChange={handleChange}
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                            placeholder="Deixe em branco se ainda não foi devolvido"
-                        />
-                    </div>
+                    {statusSelecionadoEhDevolucao && (
+                        <>
+                            <div>
+                                <label className="block text-sm font-medium mb-2">{'Data de Devolução'}</label>
+                                <input
+                                    type="date"
+                                    name="dataDevPat"
+                                    value={cadastro.dataDevPat}
+                                    onChange={handleChange}
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                    placeholder="Deixe em branco se ainda não foi devolvido"
+                                />
+                            </div>
 
-                    <div>
-                        <label className="block text-sm font-medium mb-2">{'Motivo da Devolução'}</label>
-                        <input
-                            type="text"
-                            name="motivoDevolucao"
-                            value={cadastro.motivoDevolucao}
-                            onChange={handleChange}
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                            placeholder={'Ex: equipamento com defeito'}
-                        />
-                    </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-2">{'Motivo da Devolução'}</label>
+                                <input
+                                    type="text"
+                                    name="motivoDevolucao"
+                                    value={cadastro.motivoDevolucao}
+                                    onChange={handleChange}
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                    placeholder={'Ex: equipamento com defeito'}
+                                />
+                            </div>
+                        </>
+                    )}
 
                     <FormActions
-                        cancelHref="/alocacoes"
+                        onCancel={handleCancel}
                         submitLabel={'Vincular'}
                         loading={loading}
                     />
@@ -448,7 +468,7 @@ export default function CadastroForm({
                                                         className="p-1 text-green-600 hover:bg-green-50 rounded"
                                                         title="Selecionar"
                                                     >
-                                                        <Check className="h-4 w-4" />
+                                                        <CheckCircle2 className="h-4 w-4" />
                                                     </button>
                                                 </td>
                                             </tr>
@@ -508,14 +528,17 @@ export default function CadastroForm({
                                                 <td className="px-4 py-3 text-sm font-medium">{pat.idPat}</td>
                                                 <td className="px-4 py-3 text-sm max-w-xs truncate">{pat.descricaoPat}</td>
                                                 <td className="px-4 py-3 text-sm">
-                                                    <span className={`px-2 py-1 rounded-full text-xs ${pat.tbStatusPat?.descricaoStatPat === 'ATIVO' ? 'bg-green-100 text-green-800' :
-                                                            pat.tbStatusPat?.descricaoStatPat === 'INATIVO' ? 'bg-blue-100 text-foreground' :
-                                                                pat.tbStatusPat?.descricaoStatPat === 'DEVOLUÇÃO' ? 'bg-yellow-100 text-red-800' :
-                                                                    pat.tbStatusPat?.descricaoStatPat === 'TRANSFERIDO' ? 'bg-green-100 text-blue-800' :
-                                                                        pat.tbStatusPat?.descricaoStatPat === 'PENDENTE' ? 'bg-blue-100 text-yellow-800' :
-                                                                            pat.tbStatusPat?.descricaoStatPat === 'MANUTENÇÃO' ? 'bg-yellow-100 text-purple-800' :
-                                                                                'bg-muted text-foreground'
-                                                        }`}>
+                                                    <span className={`px-2 py-1 rounded-full text-xs ${(() => {
+                                                        const statusNormalizado = normalizeStatusText(pat.tbStatusPat?.descricaoStatPat);
+                                                        if (statusNormalizado === 'ATIVO') return 'bg-green-100 text-green-800';
+                                                        if (statusNormalizado === 'INATIVO') return 'bg-blue-100 text-foreground';
+                                                        if (statusNormalizado === 'DEVOLUCAO') return 'bg-yellow-100 text-red-800';
+                                                        if (statusNormalizado === 'TRANSFERIDO') return 'bg-green-100 text-blue-800';
+                                                        if (statusNormalizado === 'PENDENTE') return 'bg-blue-100 text-yellow-800';
+                                                        if (statusNormalizado === 'RESERVA') return 'bg-purple-100 text-purple-800';
+                                                        if (statusNormalizado === 'MANUTENCAO') return 'bg-yellow-100 text-purple-800';
+                                                        return 'bg-muted text-foreground';
+                                                    })()}`}>
                                                         {pat.tbStatusPat?.descricaoStatPat || '-'}
                                                     </span>
                                                 </td>
@@ -526,7 +549,7 @@ export default function CadastroForm({
                                                         className="p-1 text-green-600 hover:bg-green-50 rounded"
                                                         title="Selecionar"
                                                     >
-                                                        <Check className="h-4 w-4" />
+                                                        <CheckCircle2 className="h-4 w-4" />
                                                     </button>
                                                 </td>
                                             </tr>
@@ -541,14 +564,6 @@ export default function CadastroForm({
         </div>
     );
 }
-
-
-
-
-
-
-
-
 
 
 

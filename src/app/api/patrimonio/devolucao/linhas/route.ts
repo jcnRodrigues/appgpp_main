@@ -162,6 +162,7 @@ export async function PUT(request: NextRequest) {
 
     const dataSaidaFornecedor = parseDateOrNull(body?.dataSaidaFornecedor);
     const dataChegadaFornecedor = parseDateOrNull(body?.dataChegadaFornecedor);
+    const dataFimDevolucao = dataChegadaFornecedor || parseDateOrNull(body?.dataFimDevolucao) || null;
     const dataInicioDevolucao = parseDateOrNull(body?.dataInicioDevolucao) || dataSaidaFornecedor || new Date();
     const motivoDevolucao = normalizarTexto(body?.motivoDevolucao).toUpperCase() || null;
     const notaFiscalDevolucao = normalizarTexto(body?.notaFiscalDevolucao).toUpperCase() || null;
@@ -179,11 +180,11 @@ export async function PUT(request: NextRequest) {
         idPatrimonio,
         dataInicioDevolucao,
         dataSaidaFornecedor: dataSaidaFornecedor || dataInicioDevolucao,
-          dataChegadaFornecedor,
-          motivoDevolucao,
-          notaFiscalDevolucao,
-          dataFimDevolucao: dataChegadaFornecedor || existente?.dataFimDevolucao || null
-        };
+        dataChegadaFornecedor: dataChegadaFornecedor || existente?.dataChegadaFornecedor || dataFimDevolucao,
+        motivoDevolucao,
+        notaFiscalDevolucao,
+        dataFimDevolucao: dataFimDevolucao || existente?.dataFimDevolucao || null
+      };
 
       const linha = existente
         ? await tx.tbDevolucao.update({

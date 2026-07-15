@@ -26,6 +26,33 @@ async function getStatusIdByDescricao(
     return null;
 }
 
+async function getStatusIdsPermitidosParaAlocacao() {
+    const statusList = await prisma.tbStatusPat.findMany({
+        select: {
+            idStatusPat: true,
+            descricaoStatPat: true
+        }
+    });
+
+    const normalizar = (value: string) =>
+        value
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .trim()
+            .toUpperCase();
+
+    return statusList
+        .filter((status) => {
+            const descricao = normalizar(status.descricaoStatPat);
+            return (
+                descricao === "ATIVO" ||
+                descricao.includes("PEND") ||
+                descricao.includes("RESERV")
+            );
+        })
+        .map((status) => status.idStatusPat);
+}
+
 function buildAlocacaoWhere(filtro?: {
     idMatFun?: string;
     idPat?: string;
@@ -578,6 +605,11 @@ export async function deletarAlocacao(idCad: string) {
 export async function listarFuncionarios(centros?: string[]) {
     return await prisma.tbFuncionario.findMany({
         where: centros && centros.length > 0 ? { idCustoFun: { in: centros } } : undefined,
+        include: {
+            tbFuncao: true,
+            tbStatusFun: true,
+            tbCCusto: true
+        },
         orderBy: {
             nomeFun: 'asc'
         }
@@ -586,31 +618,15 @@ export async function listarFuncionarios(centros?: string[]) {
 
 // Buscar patrimônios disponíveis
 export async function listarPatrimonios(centros?: string[]) {
+    const statusIdsPermitidos = await getStatusIdsPermitidosParaAlocacao();
+
     return await prisma.tbPatrimonio.findMany({
         where: {
-            OR: [
-                {
-                    tbCadastro: {
-                        none: { dataDevPat: null }
-                    }
-                },
-                {
-                    tbStatusPat: {
-                        descricaoStatPat: {
-                            contains: "DEVOLV"
-                        }
-                    }
+            ...(statusIdsPermitidos.length > 0 && {
+                idPat_StatusPat: {
+                    in: statusIdsPermitidos
                 }
-            ],
-            NOT: {
-                tbDevolucao: {
-                    some: {
-                        dataFimDevolucao: {
-                            not: null
-                        }
-                    }
-                }
-            },
+            }),
             ...(centros && centros.length > 0 && {
                 idPat_CustoPat: { in: centros }
             })
