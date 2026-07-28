@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
 
 interface CadastroAcessoPageProps {
-    searchParams?: { id?: string } | Promise<{ id?: string }>;
+    searchParams?: Promise<{ id?: string }>;
 }
 
 export default async function CadastroAcessoPage({ searchParams }: CadastroAcessoPageProps) {
@@ -16,7 +16,7 @@ export default async function CadastroAcessoPage({ searchParams }: CadastroAcess
         redirect('/');
     }
 
-    const params = searchParams ? await Promise.resolve(searchParams) : undefined;
+    const params = searchParams ? await searchParams : undefined;
     const usuarioId = params?.id;
     const formularios = ((session.user as any)?.formularios || []) as string[];
     const acao = usuarioId ? 'UPDATE' : 'CREATE';

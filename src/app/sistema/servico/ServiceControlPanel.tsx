@@ -3,7 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CircleAlert, RefreshCcw, Play, RotateCcw, Square } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 type WindowsServiceState = {
   exists: boolean;
@@ -68,9 +68,6 @@ export default function ServiceControlPanel({ serviceName, canUpdate }: ServiceC
     }
   };
 
-  useEffect(() => {
-    void loadStatus();
-  }, []);
 
   const runAction = async (action: "start" | "stop" | "restart") => {
     setBusy(action);
@@ -154,18 +151,18 @@ export default function ServiceControlPanel({ serviceName, canUpdate }: ServiceC
       <div className="grid gap-4 border-b border-border/60 p-5 lg:grid-cols-2">
         <div className="rounded-xl border border-border/60 bg-background/60 p-4">
           <p className="text-sm text-muted-foreground">Nome de exibicao</p>
-          <p className="mt-2 break-words text-sm font-medium text-foreground">{service?.displayName || serviceName}</p>
+          <p className="mt-2 wrap-break-word text-sm font-medium text-foreground">{service?.displayName || serviceName}</p>
         </div>
         <div className="rounded-xl border border-border/60 bg-background/60 p-4">
           <p className="text-sm text-muted-foreground">Descricao</p>
-          <p className="mt-2 break-words text-sm font-medium text-foreground">{service?.description || "Sem descricao."}</p>
+          <p className="mt-2 wrap-break-word text-sm font-medium text-foreground">{service?.description || "Sem descricao."}</p>
         </div>
       </div>
 
       <div className="space-y-4 p-5">
         <div className="rounded-xl border border-border/60 bg-background/60 p-4">
           <p className="text-sm text-muted-foreground">Caminho do executavel</p>
-          <p className="mt-2 break-all text-sm font-medium text-foreground">{service?.pathName || "Nao informado."}</p>
+          <p className="mt-2 wrap-break-word text-sm font-medium text-foreground">{service?.pathName || "Nao informado."}</p>
         </div>
 
         {error ? (
@@ -194,7 +191,7 @@ export default function ServiceControlPanel({ serviceName, canUpdate }: ServiceC
           </div>
           <div className="max-h-72 overflow-auto px-4 py-3">
             {recentLogs.length > 0 ? (
-              <pre className="whitespace-pre-wrap break-words text-xs leading-6 text-foreground/90">
+              <pre className="whitespace-pre-wrap wrap-break-word text-xs leading-6 text-foreground/90">
                 {recentLogs.join("\n")}
               </pre>
             ) : (
