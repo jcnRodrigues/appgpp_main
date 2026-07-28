@@ -1,8 +1,8 @@
-﻿import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import prisma from '../../../../../../prisma/prisma';
 import { getCentrosFiltro, hasActionPermissionForRequest, hasModuleAccessForRequest } from '@/lib/access';
 import { getServerSession } from 'next-auth';
-import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 
 export const runtime = 'nodejs';
 
@@ -314,4 +314,5 @@ export async function PUT(request: NextRequest) {
         return NextResponse.json({ message: 'Erro ao atualizar BM.' }, { status: 500 });
     }
 }
+
 

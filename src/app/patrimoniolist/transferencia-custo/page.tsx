@@ -1,9 +1,9 @@
-﻿import Header from '@/components/Header/Header';
+import Header from '@/components/Header/Header';
 import PageHeader from '@/components/PageHeader/PageHeader';
 import TransferenciaCustoPatrimonioTable from '@/features/transferencia/components/TransferenciaCustoPatrimonioTable/TransferenciaCustoPatrimonioTable';
 import TransferenciaHeaderActions from '@/features/transferencia/components/TransferenciaHeaderActions';
 import { getServerSession } from 'next-auth';
-import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
 import { redirect } from 'next/navigation';
 import { ArrowRightLeft } from 'lucide-react';
@@ -37,4 +37,5 @@ export default async function TransferenciaCustoPatrimonioPage() {
     </div>
   );
 }
+
 

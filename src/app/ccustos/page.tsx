@@ -1,4 +1,4 @@
-﻿import Header from '@/components/Header/Header';
+import Header from '@/components/Header/Header';
 import PageHeader from '@/components/PageHeader/PageHeader';
 import { Button } from '@/components/ui/button';
 import PermissionActionLink from '@/components/PermissionActionLink/PermissionActionLink';
@@ -7,7 +7,7 @@ import { hasModuleAccess } from '@/lib/permissions';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { AuthOptions } from '../api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import CCustoFilter from '@/features/centro-custo/components/CCustoFilter/CCustoFilter';
 import CCustoTable from '@/features/centro-custo/components/CCustoTable/CCustoTable';
 import { LandmarkIcon, Plus } from 'lucide-react';
@@ -85,4 +85,5 @@ export default async function CCustosPage({
         </div>
     );
 }
+
 

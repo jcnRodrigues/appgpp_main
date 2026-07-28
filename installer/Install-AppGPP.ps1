@@ -368,6 +368,11 @@ try {
     powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $scriptDir "Register-AppGPP-StartupTask.ps1") -InstallDir $InstallDir
   }
 
+  if (Test-Path (Join-Path $scriptDir "Register-AppGPP-Service.ps1")) {
+    Write-Step "Registrando servico Windows AppGPP-Service"
+    powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $scriptDir "Register-AppGPP-Service.ps1")
+  }
+
   if (Test-Path (Join-Path $scriptDir "Criar-Atalho-AreaTrabalho.ps1")) {
     Write-Step "Criando atalho na area de trabalho"
     powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $scriptDir "Criar-Atalho-AreaTrabalho.ps1")

@@ -5,7 +5,7 @@ import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { AuthOptions } from '../api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import AccessUserTable from '@/features/acesso-usuarios/components/AccessUserTable/AccessUserTable';
 import { Plus, UserCog } from 'lucide-react';
 
@@ -50,3 +50,4 @@ export default async function AcessoUsuariosPage() {
         </div>
     );
 }
+

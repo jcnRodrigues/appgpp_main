@@ -5,6 +5,7 @@ import {
   ClipboardCheck,
   ClipboardList,
   DatabaseBackup,
+  FileText,
   Home,
   KeyRound,
   LandmarkIcon,
@@ -25,11 +26,18 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { useState, type ElementType } from 'react';
+import { useEffect, useState, type ElementType } from 'react';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet';
 import { Button } from '../ui/button';
 import { useTheme } from '../Providers/ThemeProvider';
 import { hasModuleAccess } from '@/lib/permissions';
+import { BadgeInfo } from 'lucide-react';
+
+type AppVersionInfo = {
+  version: string;
+  updatedAt?: string | null;
+  source?: 'update-history' | 'package-json' | 'unknown';
+};
 
 type MenuItem = {
   icon: ElementType;
@@ -40,8 +48,34 @@ type MenuItem = {
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [appVersion, setAppVersion] = useState<AppVersionInfo | null>(null);
   const { data: session, status } = useSession();
-  const { theme, mode, setMode } = useTheme();
+  const { mode, setMode } = useTheme();
+
+  useEffect(() => {
+    let active = true;
+
+    const carregarVersao = async () => {
+      try {
+        const res = await fetch('/api/app-version', { cache: 'no-store' });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (active) {
+          setAppVersion(data);
+        }
+      } catch {
+        if (active) {
+          setAppVersion(null);
+        }
+      }
+    };
+
+    carregarVersao();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const userFormularios = ((session?.user as any)?.formularios || []) as string[];
   const canView = (required?: string | string[]) =>
@@ -76,7 +110,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 mb-6 border-b border-border/50 bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/70">
+    <header className="sticky top-0 z-50 mb-6 border-b border-border/50 bg-background/90 backdrop-blur supports-backdrop-filter:bg-background/70">
       <div className="mx-auto flex w-full max-w-screen-2xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="inline-flex items-center gap-3">
           <Image
@@ -97,9 +131,8 @@ export default function Header() {
               onClick={() => setMode('system')}
               aria-label="Tema do sistema"
               title="Usar tema do sistema"
-              className={`grid h-9 w-9 place-items-center rounded-full transition-colors ${
-                mode === 'system' ? 'bg-accent/15 text-accent ring-1 ring-accent/35' : 'text-foreground/80 hover:bg-secondary'
-              }`}
+              className={`grid h-9 w-9 place-items-center rounded-full transition-colors ${mode === 'system' ? 'bg-accent/15 text-accent ring-1 ring-accent/35' : 'text-foreground/80 hover:bg-secondary'
+                }`}
             >
               <Monitor className="h-4 w-4" />
             </button>
@@ -108,9 +141,8 @@ export default function Header() {
               onClick={() => setMode('light')}
               aria-label="Tema claro"
               title="Forçar tema claro"
-              className={`grid h-9 w-9 place-items-center rounded-full transition-colors ${
-                mode === 'light' ? 'bg-accent/15 text-accent ring-1 ring-accent/35' : 'text-foreground/80 hover:bg-secondary'
-              }`}
+              className={`grid h-9 w-9 place-items-center rounded-full transition-colors ${mode === 'light' ? 'bg-accent/15 text-accent ring-1 ring-accent/35' : 'text-foreground/80 hover:bg-secondary'
+                }`}
             >
               <Sun className="h-4 w-4" />
             </button>
@@ -119,18 +151,19 @@ export default function Header() {
               onClick={() => setMode('dark')}
               aria-label="Tema escuro"
               title="Forçar tema escuro"
-              className={`grid h-9 w-9 place-items-center rounded-full transition-colors ${
-                mode === 'dark' ? 'bg-accent/15 text-accent ring-1 ring-accent/35' : 'text-foreground/80 hover:bg-secondary'
-              }`}
+              className={`grid h-9 w-9 place-items-center rounded-full transition-colors ${mode === 'dark' ? 'bg-accent/15 text-accent ring-1 ring-accent/35' : 'text-foreground/80 hover:bg-secondary'
+                }`}
             >
               <Moon className="h-4 w-4" />
             </button>
           </div>
 
-          <div className="hidden items-center rounded-full border border-border/60 bg-card px-3 py-2 text-xs font-medium text-muted-foreground shadow-sm sm:flex">
-            <span className="mr-2 h-2 w-2 rounded-full bg-accent" />
-            {mode === 'system' ? `Sistema (${theme === 'dark' ? 'Escuro' : 'Claro'})` : mode === 'dark' ? 'Escuro' : 'Claro'}
-          </div>
+          {appVersion ? (
+            <div className="hidden items-center gap-2 rounded-full border border-border/60 bg-card px-3 py-2 text-xs font-medium text-muted-foreground shadow-sm xl:flex">
+              <BadgeInfo className="h-4 w-4 text-accent" />
+              <span>Versão {appVersion.version}</span>
+            </div>
+          ) : null}
 
           <div className="rounded-full border border-border bg-card p-2">
             <Sheet open={open} onOpenChange={setOpen}>
@@ -174,6 +207,16 @@ export default function Header() {
                             <span className="truncate text-sm text-muted-foreground">{session.user?.email}</span>
                           </div>
                         </div>
+
+                        {appVersion ? (
+                          <div className="mt-4 flex items-center justify-between rounded-xl border border-border/60 bg-muted/40 px-3 py-2 text-xs text-muted-foreground">
+                            <div className="flex items-center gap-2">
+                              <BadgeInfo className="h-4 w-4 text-accent" />
+                              <span>Versão instalada</span>
+                            </div>
+                            <span className="font-medium text-foreground">{appVersion.version}</span>
+                          </div>
+                        ) : null}
 
                         <div className="mt-6 flex flex-col gap-4">
                           {menuItens

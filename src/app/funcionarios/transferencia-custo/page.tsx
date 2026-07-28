@@ -3,7 +3,7 @@ import PageHeader from '@/components/PageHeader/PageHeader';
 import TransferenciaCustoFuncionariosTable from '@/features/funcionarios/components/FuncionariosTable/TransferenciaCustoFuncionariosTable';
 import { hasModuleAccess } from '@/lib/permissions';
 import { getServerSession } from 'next-auth';
-import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import { redirect } from 'next/navigation';
 import { ArrowRightLeft } from 'lucide-react';
 
@@ -32,3 +32,4 @@ export default async function TransferenciaCustoPage() {
     </div>
   );
 }
+

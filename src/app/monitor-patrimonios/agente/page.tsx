@@ -5,7 +5,7 @@ import { hasModuleAccess } from '@/lib/permissions';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import { SearchCheck } from 'lucide-react';
 import AgenteInventarioForm from '@/features/monitor-patrimonios/components/AgenteInventarioForm/AgenteInventarioForm';
 
@@ -58,3 +58,4 @@ export default async function AgenteInventarioPage({
     </div>
   );
 }
+

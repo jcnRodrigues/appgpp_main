@@ -6,7 +6,7 @@ import ListaPatrimoniosPdfForm from '@/features/devolucao/components/ListaPatrim
 import ListaDevolucaoHeaderActions from '@/features/devolucao/components/ListaDevolucaoHeaderActions';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
-import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import { FileText } from 'lucide-react';
 
 type ListaDevolucaoPageProps = {
@@ -76,3 +76,4 @@ export default async function ListaPatrimoniosPdfPage({ searchParams }: ListaDev
     </div>
   );
 }
+

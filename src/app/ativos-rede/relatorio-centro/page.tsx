@@ -11,7 +11,7 @@ import {
 import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
-import { AuthOptions } from '../../api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import { FileText } from 'lucide-react';
 
 type SearchParams = {
@@ -165,3 +165,4 @@ export default async function RelatorioAtivosRedePorCentroPage({
         </div>
     );
 }
+

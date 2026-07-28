@@ -3,7 +3,7 @@ import Header from '@/components/Header/Header';
 import PageHeader from '@/components/PageHeader/PageHeader';
 import { getPatrimonioCardById } from '@/features/patrimonio/server/patrimonio.service';
 import { hasModuleAccess } from '@/lib/permissions';
-import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import { CircleDollarSign, HardDriveIcon, Laptop, LibraryBig, NotebookIcon, ScrollText } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
@@ -120,3 +120,4 @@ export default async function PatrimonioProfilePage({ params }: PatrimonioProps)
         </div>
     );
 }
+

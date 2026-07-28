@@ -4,7 +4,7 @@ import UnifiConfigForm from '@/features/unifi-config/components/UnifiConfigForm/
 import { hasModuleAccess } from '@/lib/permissions';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
-import { AuthOptions } from '../api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import { Settings } from 'lucide-react';
 
 export default async function UnifiConfigPage() {
@@ -42,3 +42,4 @@ export default async function UnifiConfigPage() {
         </div>
     );
 }
+

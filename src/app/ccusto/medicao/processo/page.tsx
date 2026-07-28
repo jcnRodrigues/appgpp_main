@@ -1,4 +1,4 @@
-﻿import Header from '@/components/Header/Header';
+import Header from '@/components/Header/Header';
 import PageHeader from '@/components/PageHeader/PageHeader';
 import { Button } from '@/components/ui/button';
 import MedicoesEmProcessoTable from '@/features/centro-custo/components/MedicaoCCustoForm/MedicoesEmProcessoTable';
@@ -6,7 +6,7 @@ import { hasModuleAccess } from '@/lib/permissions';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import { ClipboardCheck } from 'lucide-react';
 
 export default async function MedicaoProcessoPage() {
@@ -50,4 +50,5 @@ export default async function MedicaoProcessoPage() {
     </div>
   );
 }
+
 

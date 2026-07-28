@@ -1,11 +1,13 @@
 import Header from '@/components/Header/Header';
 import PageHeader from '@/components/PageHeader/PageHeader';
+import { Button } from '@/components/ui/button';
+import SystemConfigForm from '@/features/system-config/components/SystemConfigForm/SystemConfigForm';
+import { AuthOptions } from '@/lib/auth-options';
 import { hasModuleAccess } from '@/lib/permissions';
 import { getServerSession } from 'next-auth';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { AuthOptions } from '../api/auth/[...nextauth]/route';
-import { Settings } from 'lucide-react';
-import SystemConfigForm from '@/features/system-config/components/SystemConfigForm/SystemConfigForm';
+import { FileText, ServerCog, Settings } from 'lucide-react';
 
 export default async function SistemaPage() {
   const session = await getServerSession(AuthOptions);
@@ -34,8 +36,24 @@ export default async function SistemaPage() {
         <PageHeader
           icon={Settings}
           title="Sistema"
-          description="URL pública e parâmetros globais"
+          description="URL publica e parametros globais"
           backHref="/"
+          actions={(
+            <div className="flex flex-wrap items-center gap-2">
+              <Button asChild variant="outline" className="border-border/70 bg-card">
+                <Link href="/sistema/servico">
+                  <ServerCog className="h-4 w-4" />
+                  Servico Windows
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="border-border/70 bg-card">
+                <Link href="/sistema/logs">
+                  <FileText className="h-4 w-4" />
+                  Logs do Sistema
+                </Link>
+              </Button>
+            </div>
+          )}
         />
         <SystemConfigForm />
       </div>

@@ -1,4 +1,4 @@
-﻿import Header from '@/components/Header/Header';
+import Header from '@/components/Header/Header';
 import PageHeader from '@/components/PageHeader/PageHeader';
 import { Button } from '@/components/ui/button';
 import PermissionActionLink from '@/components/PermissionActionLink/PermissionActionLink';
@@ -7,7 +7,7 @@ import FuncaoTable from '@/features/funcao/components/FuncaoTable/FuncaoTable';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { AuthOptions } from '../api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import { Plus, UserSearch } from 'lucide-react';
 
 export default async function FuncoesPage() {
@@ -61,6 +61,7 @@ export default async function FuncoesPage() {
         </div>
     );
 }
+
 
 
 

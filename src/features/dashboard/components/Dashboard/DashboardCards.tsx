@@ -50,7 +50,7 @@ export default function DashboardCards({ totalPatrimonios, totalFuncionarios }: 
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-      <div className="bg-card text-card-foreground border border-border rounded-3xl p-6 relative shadow min-h-[180px]">
+      <div className="bg-card text-card-foreground border border-border rounded-3xl p-6 relative shadow min-h-45">
         <div className="flex items-center justify-between">
           <div>
             <h4 className="text-sm font-semibold text-muted-foreground">Patrimonios</h4>
@@ -60,7 +60,7 @@ export default function DashboardCards({ totalPatrimonios, totalFuncionarios }: 
             </div>
             <p className="mt-2 text-sm text-muted-foreground">Total de patrimonios registrado no sistema.</p>
           </div>
-          <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white">
+          <div className="w-20 h-20 bg-linear-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white">
             <Laptop2 className="h-10 w-10" />
           </div>
         </div>
@@ -72,17 +72,23 @@ export default function DashboardCards({ totalPatrimonios, totalFuncionarios }: 
         </div>
       </div>
 
-      <div className="bg-card text-card-foreground border border-border rounded-3xl p-6 relative shadow min-h-[180px]">
+      <div className="bg-card text-card-foreground border border-border rounded-3xl p-6 relative shadow min-h-45">
         <div className="flex items-center justify-between">
           <div>
             <h4 className="text-sm font-semibold text-muted-foreground">Funcionarios</h4>
             <div className="mt-2 flex items-end gap-3">
-              <span className="text-3xl font-bold">{resumo.totalFuncionarios}</span>
-              <span className="text-xs text-muted-foreground">cadastrados</span>
+              <span className="text-3xl font-bold">
+                {resumo.totalFuncionarios}
+              </span>
+              <span className="text-xs text-muted-foreground">
+                cadastrados
+              </span>
             </div>
-            <p className="mt-2 text-sm text-muted-foreground">Total de funcionarios registrado no sistema.</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Total de funcionarios registrado no sistema.
+            </p>
           </div>
-          <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center text-white">
+          <div className="w-20 h-20 bg-linear-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center text-white">
             <Users className="h-10 w-10" />
           </div>
         </div>

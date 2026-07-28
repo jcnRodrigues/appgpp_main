@@ -11,7 +11,7 @@ import {
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { AuthOptions } from '../api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import AtivoRedeFilter from '@/features/ativos-rede/components/AtivoRedeFilter/AtivoRedeFilter';
 import AtivoRedeTable from '@/features/ativos-rede/components/AtivoRedeTable/AtivoRedeTable';
 import { ArrowRightLeft, FileText, Router, Undo2 } from 'lucide-react';
@@ -143,3 +143,4 @@ export default async function AtivosRedePage({
         </div>
     );
 }
+

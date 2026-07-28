@@ -1,6 +1,6 @@
 ﻿import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { AuthOptions } from "../../auth/[...nextauth]/route";
+import { AuthOptions } from "@/lib/auth-options";
 import { hasModuleActionPermission } from "@/lib/permissions";
 import { execSync } from "node:child_process";
 import path from "node:path";

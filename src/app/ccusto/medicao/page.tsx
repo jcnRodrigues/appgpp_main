@@ -1,4 +1,4 @@
-﻿import Header from '@/components/Header/Header';
+import Header from '@/components/Header/Header';
 import PageHeader from '@/components/PageHeader/PageHeader';
 import { Button } from '@/components/ui/button';
 import { hasModuleAccess } from '@/lib/permissions';
@@ -7,7 +7,7 @@ import MedicaoCCustoForm from '@/features/centro-custo/components/MedicaoCCustoF
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import { ClipboardCheck } from 'lucide-react';
 
 export default async function MedicaoCCustoPage({ searchParams }: { searchParams?: Promise<{ bmId?: string }> }) {
@@ -65,4 +65,5 @@ export default async function MedicaoCCustoPage({ searchParams }: { searchParams
     </div>
   );
 }
+
 

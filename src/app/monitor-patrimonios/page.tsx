@@ -3,7 +3,7 @@ import Header from '@/components/Header/Header';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
-import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import { hasModuleAccess } from '@/lib/permissions';
 import { redirect } from 'next/navigation';
 
@@ -31,3 +31,4 @@ export default async function Page() {
 
   return <MonitorPatrimoniosForm />;
 }
+

@@ -5,7 +5,7 @@ import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
 import DevolucoesEmProcessoTable from '@/features/devolucao/components/DevolucoesEmProcessoTable';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
-import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import { FileText, ListChecks } from 'lucide-react';
 
 export default async function DevolucoesProcessosPage() {
@@ -72,3 +72,4 @@ export default async function DevolucoesProcessosPage() {
     </div>
   );
 }
+

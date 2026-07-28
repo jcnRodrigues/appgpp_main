@@ -5,7 +5,7 @@ import { hasModuleAccess } from '@/lib/permissions';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import InventarioPatrimonioForm from '@/features/inventario/components/InventarioPatrimonioForm/InventarioPatrimonioForm';
 import { ClipboardList } from 'lucide-react';
 import InventarioHeaderActions from '@/features/inventario/components/InventarioHeaderActions';
@@ -61,3 +61,4 @@ export default async function InventarioPatrimoniosPage({ searchParams }: Invent
     </div>
   );
 }
+

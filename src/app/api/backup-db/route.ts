@@ -1,7 +1,7 @@
 ﻿import prisma from "../../../../prisma/prisma";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { AuthOptions } from "../auth/[...nextauth]/route";
+import { AuthOptions } from "@/lib/auth-options";
 import { hasModuleActionPermission } from "@/lib/permissions";
 import { BACKUP_TABLES, generateMysqlBackupSql, generateSchemaSql } from "@/lib/backup-sql";
 import fs from "node:fs/promises";

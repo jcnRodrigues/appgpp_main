@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import Header from '@/components/Header/Header';
 import AutorizacaoDeleteForm from '@/features/autorizacao-delete/components/AutorizacaoDeleteForm/AutorizacaoDeleteForm';
-import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import { hasModuleActionPermission } from '@/lib/permissions';
 
 export default async function AutorizacaoDeletePage() {
@@ -27,3 +27,4 @@ export default async function AutorizacaoDeletePage() {
         </div>
     );
 }
+

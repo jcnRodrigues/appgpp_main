@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth';
-import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import { redirect } from 'next/navigation';
 import Header from '@/components/Header/Header';
 import LicencaForm from '@/features/licenca/components/LicencaForm/LicencaForm';
@@ -23,3 +23,4 @@ export default async function CadastroLicencaPage() {
         </>
     );
 }
+

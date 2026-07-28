@@ -144,7 +144,7 @@ export default function AtivoRedeTable({ ativos, totalItens, paginaAtual, itensP
     const getStatusPatBadgeClass = (status?: string | null) => {
         const normalizado = normalizeStatusText(status);
         if (normalizado === 'ATIVO') return 'bg-green-100 text-green-800';
-        if (normalizado === 'DESMOBILIZACAO') return 'bg-red-100 text-red-800';
+        if (normalizado === 'DESMOBILIZADO') return 'bg-red-100 text-red-800';
         if (normalizado === 'RESERVA') return 'bg-purple-100 text-purple-800';
         if (normalizado === 'EM ESTOQUE') return 'bg-orange-100 text-orange-800';
         if (normalizado === 'TRANSFERIDO') return 'bg-blue-100 text-blue-800';
@@ -156,10 +156,10 @@ export default function AtivoRedeTable({ ativos, totalItens, paginaAtual, itensP
     return (
         <div className="table-surface overflow-hidden rounded-2xl border border-border/60 bg-[#10191b] shadow-[0_20px_60px_rgba(0,0,0,0.22)]">
             <div className="overflow-hidden">
-                <table className="w-full min-w-[1200px] table-fixed">
+                <table className="w-full min-w-300 table-fixed">
                     <thead className="bg-gray-50">
                         <tr>
-                            <th className="w-[8%] px-3 py-3 text-left text-sm font-semibold text-gray-900">Código</th>
+                            <th className="w-[12%] px-3 py-3 text-left text-sm font-semibold text-gray-900">Código</th>
                             <th className="w-[35%] px-3 py-3 text-left text-sm font-semibold text-gray-900">Nome</th>
                             <th className="w-[12%] px-3 py-3 text-left text-sm font-semibold text-gray-900">Tipo</th>
                             <th className="w-[20%] px-3 py-3 text-left text-sm font-semibold text-gray-900">Local</th>
@@ -270,7 +270,7 @@ export default function AtivoRedeTable({ ativos, totalItens, paginaAtual, itensP
                                                     variant="ghost"
                                                     title="Excluir ativo de rede"
                                                     onClick={() => excluirAtivo(ativo.idAtivoRedePk)}
-                                                    className="h-10 w-10 rounded-xl border border-red-500/35 bg-background p-0 text-red-500 transition hover:bg-red-500/10"
+                                                    className="h-10 w-10 rounded-xl border border-red-500/35 bg-background p-0 text-red-900 transition hover:bg-red-100"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
                                                 </Button>

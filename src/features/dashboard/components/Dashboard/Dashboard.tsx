@@ -4,6 +4,7 @@ import DashboardCards from "./DashboardCards";
 import CentrosResumoCards from "./CentrosResumoCards";
 import GraficoAlocacoesPorCentro from "./GraficoAlocacoesPorCentro";
 import GraficoAlocacoesLinha from "./GraficoAlocacoesLinha";
+import DashboardSectionToggle from "./DashboardSectionToggle";
 
 export default async function Dashboard() {
     const totalPatrimonios = await contarPatrimonios();
@@ -22,13 +23,17 @@ export default async function Dashboard() {
             <CentrosResumoCards centros={centrosResumo} />
 
             {/* Graficos */}
-            <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
-                {/* Grafico de Barras - Alocacoes por Centro de Custo */}
-                <GraficoAlocacoesPorCentro />
-
-                {/* Grafico de Linha - Alocacoes ao longo do tempo */}
-                <GraficoAlocacoesLinha />
-            </div>
+            <DashboardSectionToggle
+                title="Graficos"
+                description="Alocacoes por centro de custo e evolucao nos ultimos 12 meses"
+                storageKey="appgpp-dashboard-graficos-visible"
+                collapsedMessage="Graficos ocultos."
+            >
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-1">
+                    <GraficoAlocacoesPorCentro />
+                    <GraficoAlocacoesLinha />
+                </div>
+            </DashboardSectionToggle>
         </div>
     );
 }

@@ -1,6 +1,6 @@
-﻿import Header from '@/components/Header/Header';
+import Header from '@/components/Header/Header';
 import { getServerSession } from 'next-auth';
-import { AuthOptions } from '@/app/api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import { buscarAlocacaoById } from '@/features/alocacoes/server/cadastro.service';
 import PrintButton from './PrintButton';
 import Image from 'next/image';
@@ -173,4 +173,5 @@ CPF n?: ${alocacao.tbFuncionario?.cpfFun}
         </div>
     );
 }
+
 

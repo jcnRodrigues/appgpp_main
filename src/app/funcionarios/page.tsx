@@ -7,7 +7,7 @@ import { listarFuncionarios } from '@/features/funcionarios/server/funcionario.s
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { AuthOptions } from '../api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import FuncionariosTable from '@/features/funcionarios/components/FuncionariosTable/FuncionariosTable';
 import { ArrowRightLeft, Plus, User } from 'lucide-react';
 
@@ -79,3 +79,4 @@ export default async function FuncionarioPage() {
         </div>
     );
 }
+

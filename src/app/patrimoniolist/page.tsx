@@ -6,7 +6,7 @@ import { ArrowRightLeft, Boxes, Plus, FileText } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { getServerSession } from 'next-auth';
-import { AuthOptions } from '../api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
 import { redirect } from 'next/navigation';
 
@@ -90,3 +90,4 @@ export default async function PatrimonioList() {
     </div>
   );
 }
+

@@ -1,6 +1,6 @@
 {
   "name": "appgpp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "engines": {
     "node": ">=20 <23"
@@ -22,8 +22,8 @@
     "update:both": "powershell -ExecutionPolicy Bypass -File scripts/Update-AppGPP-Both.ps1",
     "launcher:build": "powershell -ExecutionPolicy Bypass -Command \"$r=$env:INIT_CWD; if ([string]::IsNullOrWhiteSpace($r)) { $r=(Get-Location).Path }; $v=Get-Date -Format 'yyyy.MM.dd.HHmm'; . (Join-Path $r 'installer/tools/ps2exe.ps1'); Invoke-ps2exe -inputFile (Join-Path $r 'AppGPP-Start.ps1') -outputFile (Join-Path $r 'AppGPP-Start.exe') -version $v -noConsole -iconFile (Join-Path $r 'dist/AppGPP.ico')\"",
     "backup:sql": "node scripts/generate-backup-sql.js",
-    "start": "next start",
-    "start:lan": "next start -H 0.0.0.0 -p 3000",
+    "start": "node .next/standalone/server.js",
+    "start:lan": "set HOSTNAME=0.0.0.0&& set PORT=3000&& node .next/standalone/server.js",
     "lint": "eslint .",
     "postinstall": "prisma generate"
   },

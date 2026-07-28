@@ -19,19 +19,19 @@ function normalizarTexto(valor?: string | null) {
 
 function getDevolucaoPrioritaria(alocacao: {
     tbDevolucao?: {
-        dataInicioDevolucao: string;
-        dataFimDevolucao: string | null;
-        dataChegadaFornecedor: string | null;
+        dataInicioDevolucao: Date | string;
+        dataFimDevolucao: Date | string | null;
+        dataChegadaFornecedor: Date | string | null;
     }[];
-    dataDevPat?: string | null;
+    dataDevPat?: Date | string | null;
     tbStatusPat?: {
         descricaoStatPat: string;
     } | null;
     tbPatrimonio?: {
         tbDevolucao?: {
-            dataInicioDevolucao: string;
-            dataFimDevolucao: string | null;
-            dataChegadaFornecedor: string | null;
+            dataInicioDevolucao: Date | string;
+            dataFimDevolucao: Date | string | null;
+            dataChegadaFornecedor: Date | string | null;
         }[];
     } | null;
 }) {
@@ -51,15 +51,15 @@ function getDevolucaoPrioritaria(alocacao: {
 
 function getFimDevolucaoPrioritario(alocacao: {
     tbDevolucao?: {
-        dataInicioDevolucao: string;
-        dataFimDevolucao: string | null;
-        dataChegadaFornecedor: string | null;
+        dataInicioDevolucao: Date | string;
+        dataFimDevolucao: Date | string | null;
+        dataChegadaFornecedor: Date | string | null;
     }[];
     tbPatrimonio?: {
         tbDevolucao?: {
-            dataInicioDevolucao: string;
-            dataFimDevolucao: string | null;
-            dataChegadaFornecedor: string | null;
+            dataInicioDevolucao: Date | string;
+            dataFimDevolucao: Date | string | null;
+            dataChegadaFornecedor: Date | string | null;
         }[];
     } | null;
 }) {

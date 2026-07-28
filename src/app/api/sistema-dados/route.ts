@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { randomUUID } from "crypto";
-import { AuthOptions } from "../auth/[...nextauth]/route";
+import { AuthOptions } from "@/lib/auth-options";
 import { getCentrosFiltro } from "@/lib/access";
 import { hasModuleAccess, hasModuleActionPermission } from "@/lib/permissions";
 

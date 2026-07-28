@@ -7,7 +7,7 @@ import CadastroTable from '@/features/alocacoes/components/CadastroTable/Cadastr
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { AuthOptions } from '../api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import { Plus, PackagePlus } from 'lucide-react';
 
 export default async function AlocacoesPage() {
@@ -61,3 +61,4 @@ export default async function AlocacoesPage() {
         </div>
     );
 }
+

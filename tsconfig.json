@@ -40,6 +40,10 @@
   ],
   "exclude": [
     "node_modules",
-    "installer/**"
+    "installer/**",
+    "dist/**",
+    "backups/**",
+    "_backups/**",
+    "**/_backups/**"
   ]
 }

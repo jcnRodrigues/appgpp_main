@@ -6,7 +6,7 @@ import { hasModuleAccess } from '@/lib/permissions';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { AuthOptions } from '../api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import LicencaTable from '@/features/licenca/components/LicencaTable/LicencaTable';
 import { KeyRound, Plus } from 'lucide-react';
 
@@ -62,3 +62,4 @@ export default async function LicencasPage() {
         </div>
     );
 }
+

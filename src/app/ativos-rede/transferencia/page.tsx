@@ -1,7 +1,7 @@
 import Header from '@/components/Header/Header';
 import AtivoRedeAtalhoForm from '@/features/ativos-rede/components/AtivoRedeAtalhoForm/AtivoRedeAtalhoForm';
 import { getServerSession } from 'next-auth';
-import { AuthOptions } from '../../api/auth/[...nextauth]/route';
+import { AuthOptions } from "@/lib/auth-options";
 import { redirect } from 'next/navigation';
 import { hasModuleActionPermission, hasModuleAccess } from '@/lib/permissions';
 
@@ -24,3 +24,4 @@ export default async function TransferenciaAtivoRedeAtalhoPage() {
         </>
     );
 }
+
