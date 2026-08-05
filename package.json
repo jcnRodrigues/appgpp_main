@@ -40,7 +40,6 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "jspdf": "^4.2.1",
-    "lightningcss-win32-x64-msvc": "^1.32.0",
     "lucide-react": "^0.525.0",
     "mysql2": "^3.14.3",
     "next": "16.2.6",
