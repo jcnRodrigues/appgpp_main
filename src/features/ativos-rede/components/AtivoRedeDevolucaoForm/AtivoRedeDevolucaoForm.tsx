@@ -62,7 +62,7 @@ export default function AtivoRedeDevolucaoForm({ ativoRedeId }: { ativoRedeId: s
     setLoading(true);
 
     try {
-      const response = await fetch(`/api/ativos-rede/${ativoRedeId}/devoluções`, {
+      const response = await fetch(`/api/ativos-rede/${ativoRedeId}/devolucoes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form)
@@ -120,13 +120,13 @@ export default function AtivoRedeDevolucaoForm({ ativoRedeId }: { ativoRedeId: s
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Destino da devolução</label>
+                    <label className="block text-sm font-medium mb-2">Fornecedor da devolução</label>
                     <input
                       type="text"
                       name="destinoDevolucao"
                       value={form.destinoDevolucao}
                       onChange={handleChange}
-                      placeholder="Ex: ALMOXARIFADO / FORNECEDOR"
+                      placeholder="Ex: CANON / FORNECEDOR"
                       className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                     <p className="mt-2 text-xs text-amber-700">

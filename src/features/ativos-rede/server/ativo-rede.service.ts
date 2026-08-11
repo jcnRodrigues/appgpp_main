@@ -235,6 +235,20 @@ export async function listarCentrosAtivoRede() {
     return listarCentrosCustoAtivosEMobilizados();
 }
 
+export async function listarFornecedoresAtivoRede() {
+    return prisma.tbFornecedor.findMany({
+        select: {
+            idFornecedor: true,
+            razaoSocialFornecedor: true,
+            nomeFantasiaFornecedor: true,
+            cnpjFornecedor: true
+        },
+        orderBy: {
+            razaoSocialFornecedor: 'asc'
+        }
+    });
+}
+
 export async function criarTipoAtivoRede(descricaoTipoAtivoRede: string) {
     const descricao = descricaoTipoAtivoRede.trim().toUpperCase();
     if (!descricao) {
@@ -297,6 +311,7 @@ export async function listarAtivosRede(filtro?: {
         where: buildAtivoRedeWhere(filtro),
         include: {
             tbTipoAtivoRede: true,
+            tbFornecedor: true,
             tbStatusAtivoRede: true,
             tbCCusto: true,
             tbTransferenciaAtivoRede: {
@@ -340,6 +355,7 @@ export async function listarAtivosRedeRelatorio(filtro?: {
         where: buildAtivoRedeWhere(filtro),
         include: {
             tbTipoAtivoRede: true,
+            tbFornecedor: true,
             tbStatusAtivoRede: true,
             tbCCusto: true
         },
@@ -369,6 +385,7 @@ export async function getAtivoRedeById(idAtivoRedePk: string) {
         where: { idAtivoRedePk },
         include: {
             tbTipoAtivoRede: true,
+            tbFornecedor: true,
             tbStatusAtivoRede: true,
             tbCCusto: true,
             tbTransferenciaAtivoRede: {
@@ -396,6 +413,7 @@ export async function criarAtivoRede(dados: {
     nomeAtivoRede: string;
     idTipoAtivoRede?: string | null;
     tipoAtivoRede?: string;
+    idFornecedorAtivoRede?: string | null;
     fabricanteAtivoRede?: string;
     modeloAtivoRede?: string;
     serialAtivoRede?: string;
@@ -447,9 +465,10 @@ export async function criarAtivoRede(dados: {
         data: {
             codigoAtivoRede,
             nomeAtivoRede: dados.nomeAtivoRede,
-            tipoAtivoRede: tipo.descricao || dados.tipoAtivoRede || 'OUTRO',
-            idTipoAtivoRede: tipo.id,
-            fabricanteAtivoRede: dados.fabricanteAtivoRede,
+        tipoAtivoRede: tipo.descricao || dados.tipoAtivoRede || 'OUTRO',
+        idTipoAtivoRede: tipo.id,
+        idFornecedorAtivoRede: dados.idFornecedorAtivoRede || null,
+        fabricanteAtivoRede: dados.fabricanteAtivoRede,
             modeloAtivoRede: dados.modeloAtivoRede,
             serialAtivoRede: dados.serialAtivoRede,
             macAtivoRede: dados.macAtivoRede,
@@ -469,6 +488,7 @@ export async function criarAtivoRede(dados: {
         },
         include: {
             tbTipoAtivoRede: true,
+            tbFornecedor: true,
             tbStatusAtivoRede: true,
             tbCCusto: true,
             tbTransferenciaAtivoRede: {
@@ -494,6 +514,7 @@ export async function atualizarAtivoRede(
         nomeAtivoRede: string;
         idTipoAtivoRede?: string | null;
         tipoAtivoRede?: string;
+        idFornecedorAtivoRede?: string | null;
         fabricanteAtivoRede?: string;
         modeloAtivoRede?: string;
         serialAtivoRede?: string;
@@ -550,6 +571,10 @@ export async function atualizarAtivoRede(
         payload.idTipoAtivoRede = tipo.id;
     }
 
+    if (Object.prototype.hasOwnProperty.call(dados, 'idFornecedorAtivoRede')) {
+        payload.idFornecedorAtivoRede = dados.idFornecedorAtivoRede ?? null;
+    }
+
     if (status) {
         payload.statusAtivoRede = status.descricao || dados.statusAtivoRede || 'ATIVO';
         payload.idStatusAtivoRede = status.id;
@@ -569,6 +594,7 @@ export async function atualizarAtivoRede(
         data: payload,
         include: {
             tbTipoAtivoRede: true,
+            tbFornecedor: true,
             tbStatusAtivoRede: true,
             tbCCusto: true,
             tbTransferenciaAtivoRede: {

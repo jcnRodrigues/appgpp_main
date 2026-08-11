@@ -31,11 +31,20 @@ type CentroCusto = {
     descricaoCCusto?: string | null;
 };
 
+type Fornecedor = {
+    idFornecedor: string;
+    razaoSocialFornecedor: string;
+    nomeFantasiaFornecedor?: string | null;
+    cnpjFornecedor?: string | null;
+};
+
 type FormState = {
     idAtivoRede: string;
     nomeAtivoRede: string;
     idTipoAtivoRede: string;
     tipoAtivoRede: string;
+    idFornecedorAtivoRede: string;
+    fornecedorAtivoRede: string;
     fabricanteAtivoRede: string;
     modeloAtivoRede: string;
     serialAtivoRede: string;
@@ -69,6 +78,7 @@ type Props = {
     opçõesTipo: TipoAtivoRede[];
     opçõesStatus: StatusAtivoRede[];
     opçõesCentros: CentroCusto[];
+    opçõesFornecedores: Fornecedor[];
     form: FormState;
     formOpcao: { kind: string; descricao: string };
     modalOpcaoAberto: boolean;
@@ -81,6 +91,7 @@ type Props = {
     setModalOpcaoAberto: (value: boolean) => void;
     setFormOpcao: React.Dispatch<React.SetStateAction<{ kind: string; descricao: string }>>;
     onSelectTipo: (id: string) => void;
+    onSelectFornecedor: (id: string) => void;
     onSelectStatus: (id: string) => void;
     onSelectCentro: (id: string) => void;
     onCancel: () => void;
@@ -106,6 +117,7 @@ export default function AtivoRedeFormView(props: Props) {
         opçõesTipo,
         opçõesStatus,
         opçõesCentros,
+        opçõesFornecedores,
         form,
         formOpcao,
         modalOpcaoAberto,
@@ -118,6 +130,7 @@ export default function AtivoRedeFormView(props: Props) {
         setModalOpcaoAberto,
         setFormOpcao,
         onSelectTipo,
+        onSelectFornecedor,
         onSelectStatus,
         onSelectCentro,
         onCancel
@@ -240,6 +253,25 @@ export default function AtivoRedeFormView(props: Props) {
                                         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                                         required
                                     />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">Fornecedor</label>
+                                    <select
+                                        value={form.idFornecedorAtivoRede}
+                                        onChange={(e) => onSelectFornecedor(e.target.value)}
+                                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                        disabled={loadingOpcoes}
+                                    >
+                                        <option value="">{loadingOpcoes ? 'Carregando...' : '--- Selecione um fornecedor ---'}</option>
+                                        {opçõesFornecedores.map((fornecedor) => {
+                                            const descricao = [fornecedor.razaoSocialFornecedor, fornecedor.nomeFantasiaFornecedor].filter(Boolean).join(' - ');
+                                            return (
+                                                <option key={fornecedor.idFornecedor} value={fornecedor.idFornecedor}>
+                                                    {descricao}
+                                                </option>
+                                            );
+                                        })}
+                                    </select>
                                 </div>
 
 

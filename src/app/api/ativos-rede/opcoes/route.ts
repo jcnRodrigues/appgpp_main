@@ -3,6 +3,7 @@ import {
     criarStatusAtivoRede,
     criarTipoAtivoRede,
     listarCentrosAtivoRede,
+    listarFornecedoresAtivoRede,
     listarStatusAtivoRede,
     listarTiposAtivoRede
 } from '@/features/ativos-rede/server/ativo-rede.service';
@@ -21,7 +22,9 @@ export async function GET(request: NextRequest) {
             listarCentrosAtivoRede()
         ]);
 
-        return NextResponse.json({ tipos, status, centros });
+        const fornecedores = await listarFornecedoresAtivoRede();
+
+        return NextResponse.json({ tipos, status, centros, fornecedores });
     } catch (error) {
         console.error('Erro ao listar opções de ativos de rede:', error);
         return NextResponse.json({ message: 'Erro ao listar opções de ativos de rede' }, { status: 500 });

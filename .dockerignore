@@ -1,0 +1,29 @@
+# Git and editor files
+.git
+.gitignore
+.vscode
+
+# Build outputs and dependencies
+.next
+node_modules
+dist
+coverage
+tsconfig.tsbuildinfo
+
+# Logs
+*.log
+dev.out.log
+dev.err.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local/runtime data that should not go into the image context
+backups
+docs
+installer
+deploy
+
+# Windows launcher artifacts
+AppGPP-Start.exe

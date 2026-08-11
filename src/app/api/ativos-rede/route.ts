@@ -68,6 +68,7 @@ export async function POST(request: NextRequest) {
             nomeAtivoRede: String(dados.nomeAtivoRede).trim().toUpperCase(),
             idTipoAtivoRede: typeof dados.idTipoAtivoRede === 'string' ? dados.idTipoAtivoRede : null,
             tipoAtivoRede: typeof dados.tipoAtivoRede === 'string' ? String(dados.tipoAtivoRede).trim().toUpperCase() : undefined,
+            idFornecedorAtivoRede: typeof dados.idFornecedorAtivoRede === 'string' ? dados.idFornecedorAtivoRede : null,
             fabricanteAtivoRede: typeof dados.fabricanteAtivoRede === 'string' ? dados.fabricanteAtivoRede.trim().toUpperCase() || undefined : undefined,
             modeloAtivoRede: typeof dados.modeloAtivoRede === 'string' ? dados.modeloAtivoRede.trim().toUpperCase() || undefined : undefined,
             serialAtivoRede: typeof dados.serialAtivoRede === 'string' ? dados.serialAtivoRede.trim().toUpperCase() || undefined : undefined,

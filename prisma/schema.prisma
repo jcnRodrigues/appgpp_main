@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -141,6 +142,17 @@ model tbEmpresa {
   tbCCusto        tbCCusto[]
 }
 
+model tbFornecedor {
+  idFornecedor            String   @id @default(uuid())
+  razaoSocialFornecedor   String
+  nomeFantasiaFornecedor  String?
+  cnpjFornecedor          String?  @unique
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  tbFornecedorCCusto      tbFornecedorCCusto[]
+  tbAtivoRede             tbAtivoRede[]
+}
+
 model tbStatusCCusto {
   idStatusCCusto        String    @id @default(uuid())
   descricaoStatusCCusto String    @unique
@@ -158,6 +170,7 @@ model tbCCusto {
   tbPatrimonio    tbPatrimonio[]
   tbFuncionario   tbFuncionario[]
   tbPatrimonioHistorico tbPatrimonioHistorico[]
+  tbFornecedorCCusto tbFornecedorCCusto[]
   transferenciasOrigem tbTransferenciaCustoPatrimonio[] @relation("TransferenciaOrigem")
   transferenciasDestino tbTransferenciaCustoPatrimonio[] @relation("TransferenciaDestino")
   tbBmMedicao tbBmMedicao[]
@@ -165,6 +178,22 @@ model tbCCusto {
   tbAtivoRede    tbAtivoRede[]
 
   @@index([idStatusCCusto], map: "idx_ccusto_status_fk")
+}
+
+model tbFornecedorCCusto {
+  idFornecedorCCusto String   @id @default(uuid())
+  idFornecedor       String
+  idCCusto           String
+  ehPrincipal        Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  tbFornecedor       tbFornecedor @relation(fields: [idFornecedor], references: [idFornecedor], onDelete: Cascade)
+  tbCCusto           tbCCusto     @relation(fields: [idCCusto], references: [idCCusto], onDelete: Cascade)
+
+  @@unique([idFornecedor, idCCusto], map: "uq_fornecedor_ccusto")
+  @@index([idFornecedor], map: "idx_fornecedor_ccusto_fornecedor")
+  @@index([idCCusto], map: "idx_fornecedor_ccusto_ccusto")
 }
 
 model tbBmMedicao {
@@ -408,6 +437,7 @@ model tbAtivoRede {
   nomeAtivoRede            String
   tipoAtivoRede            String
   idTipoAtivoRede          String?
+  idFornecedorAtivoRede    String?
   fabricanteAtivoRede      String?
   modeloAtivoRede          String?
   serialAtivoRede          String?
@@ -429,6 +459,7 @@ model tbAtivoRede {
   updatedAt                DateTime @updatedAt
 
   tbTipoAtivoRede          tbTipoAtivoRede? @relation(fields: [idTipoAtivoRede], references: [idTipoAtivoRede])
+  tbFornecedor             tbFornecedor?    @relation(fields: [idFornecedorAtivoRede], references: [idFornecedor], onDelete: SetNull)
   tbStatusAtivoRede        tbStatusAtivoRede? @relation(fields: [idStatusAtivoRede], references: [idStatusAtivoRede])
   tbCCusto                 tbCCusto?        @relation(fields: [idCCustoAtivoRede], references: [idCCusto])
   tbTransferenciaAtivoRede tbTransferenciaAtivoRede[]
@@ -437,6 +468,7 @@ model tbAtivoRede {
   @@index([codigoAtivoRede], map: "idx_ativo_rede_codigo")
   @@index([tipoAtivoRede], map: "idx_ativo_rede_tipo")
   @@index([idTipoAtivoRede], map: "idx_ativo_rede_tipo_fk")
+  @@index([idFornecedorAtivoRede], map: "idx_ativo_rede_fornecedor_fk")
   @@index([statusAtivoRede], map: "idx_ativo_rede_status")
   @@index([idStatusAtivoRede], map: "idx_ativo_rede_status_fk")
   @@index([localInstalacaoAtivoRede], map: "idx_ativo_rede_local")

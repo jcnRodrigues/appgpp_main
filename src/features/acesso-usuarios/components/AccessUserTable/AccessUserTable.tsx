@@ -43,6 +43,7 @@ const FORMULARIOS_LABELS: Record<string, string> = {
     IMPORTAR_DADOS: 'Importar Dados',
     EXPORTAR_DADOS: 'Exportar Dados',
     CENTRO_CUSTO: 'Centros de Custo',
+    FORNECEDORES: 'Fornecedores',
     MEDICAO_CCUSTO: 'Medição por Centro de Custo',
     FUNCOES: 'Funções',
     LICENCAS_SOFTWARE: 'Licenças de Software',
@@ -70,6 +71,10 @@ const MAX_VISIBLE_MODULES = 2;
 function getModuleDisplayLabel(id: string, label: string) {
     if (id === 'ATIVOS_REDE') {
         return 'Ativos de Rede (transferência, devolução e tipo/status)';
+    }
+
+    if (id === 'FORNECEDORES') {
+        return 'Fornecedores (cadastro e vínculo com centro de custo)';
     }
 
     return label;
@@ -198,6 +203,7 @@ export default function AccessUserTable() {
     };
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         carregarUsuarios();
     }, []);
 

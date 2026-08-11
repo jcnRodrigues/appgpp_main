@@ -43,6 +43,7 @@ const FORMULARIOS_DISPONIVEIS = [
     { id: 'IMPORTAR_DADOS', label: 'Importar Dados' },
     { id: 'EXPORTAR_DADOS', label: 'Exportar Dados' },
     { id: 'CENTRO_CUSTO', label: 'Centros de Custo' },
+    { id: 'FORNECEDORES', label: 'Fornecedores' },
     { id: 'MEDICAO_CCUSTO', label: 'Medição por Centro de Custo' },
     { id: 'FUNCOES', label: 'Funções' },
     { id: 'LICENCAS_SOFTWARE', label: 'Licenças de Software' },
@@ -88,6 +89,10 @@ const ACTION_IDS = Object.values(ACTION_TOKENS);
 function getFormularioResumo(formularioId: string, actionsCount: number) {
     if (formularioId === 'ATIVOS_REDE') {
         return 'Libera transferência, devolução e cadastro de tipo/status no formulário de ativos de rede.';
+    }
+
+    if (formularioId === 'FORNECEDORES') {
+        return 'Libera cadastro, edição e vínculo de fornecedores com centros de custo.';
     }
 
     return actionsCount > 0

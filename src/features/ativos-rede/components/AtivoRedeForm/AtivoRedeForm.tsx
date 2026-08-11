@@ -25,10 +25,18 @@ type CentroCusto = {
     descricaoCCusto?: string | null;
 };
 
+type Fornecedor = {
+    idFornecedor: string;
+    razaoSocialFornecedor: string;
+    nomeFantasiaFornecedor?: string | null;
+    cnpjFornecedor?: string | null;
+};
+
 type OpcoesAtivoRede = {
     tipos: TipoAtivoRede[];
     status: StatusAtivoRede[];
     centros: CentroCusto[];
+    fornecedores: Fornecedor[];
 };
 
 type FormState = {
@@ -36,6 +44,8 @@ type FormState = {
     nomeAtivoRede: string;
     idTipoAtivoRede: string;
     tipoAtivoRede: string;
+    idFornecedorAtivoRede: string;
+    fornecedorAtivoRede: string;
     fabricanteAtivoRede: string;
     modeloAtivoRede: string;
     serialAtivoRede: string;
@@ -60,6 +70,8 @@ const initialState: FormState = {
     nomeAtivoRede: '',
     idTipoAtivoRede: '',
     tipoAtivoRede: '',
+    idFornecedorAtivoRede: '',
+    fornecedorAtivoRede: '',
     fabricanteAtivoRede: '',
     modeloAtivoRede: '',
     serialAtivoRede: '',
@@ -88,7 +100,7 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
     const [salvandoOpcao, setSalvandoOpcao] = useState(false);
     const [historicoTransferencias, setHistoricoTransferencias] = useState<any[]>([]);
     const [historicoDevolucoes, setHistoricoDevolucoes] = useState<any[]>([]);
-    const [opções, setOpcoes] = useState<OpcoesAtivoRede>({ tipos: [], status: [], centros: [] });
+    const [opções, setOpcoes] = useState<OpcoesAtivoRede>({ tipos: [], status: [], centros: [], fornecedores: [] });
     const [modalOpcaoAberto, setModalOpcaoAberto] = useState(false);
     const [formOpcao, setFormOpcao] = useState({
         kind: 'TIPO',
@@ -109,6 +121,7 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
     const opçõesTipo = useMemo(() => opções.tipos, [opções.tipos]);
     const opçõesStatus = useMemo(() => opções.status, [opções.status]);
     const opçõesCentros = useMemo(() => opções.centros, [opções.centros]);
+    const opçõesFornecedores = useMemo(() => opções.fornecedores, [opções.fornecedores]);
 
     const formatarMac = (valor: string) => {
         const hex = valor.replace(/[^0-9a-fA-F]/g, '').toUpperCase().slice(0, 12);
@@ -193,7 +206,8 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
             setOpcoes({
                 tipos: Array.isArray(data.tipos) ? data.tipos : [],
                 status: Array.isArray(data.status) ? data.status : [],
-                centros: Array.isArray(data.centros) ? data.centros : []
+                centros: Array.isArray(data.centros) ? data.centros : [],
+                fornecedores: Array.isArray(data.fornecedores) ? data.fornecedores : []
             });
         } catch (error) {
             console.error('Erro ao carregar opções:', error);
@@ -218,11 +232,14 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
                 const tipoRelacionado = data.tbTipoAtivoRede?.descricaoTipoAtivoRede || data.tipoAtivoRede || '';
                 const statusRelacionado = data.tbStatusAtivoRede?.descricaoStatusAtivoRede || data.statusAtivoRede || '';
                 const centroRelacionado = formatarCentro(data.tbCCusto) || data.centroResponsavelAtivoRede || '';
+                const fornecedorRelacionado = data.tbFornecedor?.razaoSocialFornecedor || data.fornecedorAtivoRede || '';
                 setForm({
                     idAtivoRede: data.codigoAtivoRede || '',
                     nomeAtivoRede: data.nomeAtivoRede || '',
                     idTipoAtivoRede: data.idTipoAtivoRede || data.tbTipoAtivoRede?.idTipoAtivoRede || '',
                     tipoAtivoRede: tipoRelacionado,
+                    idFornecedorAtivoRede: data.idFornecedorAtivoRede || data.tbFornecedor?.idFornecedor || '',
+                    fornecedorAtivoRede: fornecedorRelacionado,
                     fabricanteAtivoRede: data.fabricanteAtivoRede || '',
                     modeloAtivoRede: data.modeloAtivoRede || '',
                     serialAtivoRede: data.serialAtivoRede || '',
@@ -335,6 +352,7 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
                 nomeAtivoRede: form.nomeAtivoRede,
                 idTipoAtivoRede: form.idTipoAtivoRede,
                 tipoAtivoRede: tipoSelecionado?.descricaoTipoAtivoRede || form.tipoAtivoRede || null,
+                idFornecedorAtivoRede: form.idFornecedorAtivoRede || null,
                 fabricanteAtivoRede: form.fabricanteAtivoRede || null,
                 modeloAtivoRede: form.modeloAtivoRede || null,
                 serialAtivoRede: form.serialAtivoRede || null,
@@ -391,6 +409,7 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
             opçõesTipo={opçõesTipo}
             opçõesStatus={opçõesStatus}
             opçõesCentros={opçõesCentros}
+            opçõesFornecedores={opçõesFornecedores}
             form={form}
             formOpcao={formOpcao}
             modalOpcaoAberto={modalOpcaoAberto}
@@ -408,6 +427,16 @@ export default function AtivoRedeForm({ ativoRedeId }: { ativoRedeId?: string })
                     ...prev,
                     idTipoAtivoRede: id,
                     tipoAtivoRede: selected?.descricaoTipoAtivoRede || ''
+                }));
+            }}
+            onSelectFornecedor={(id) => {
+                const selected = opçõesFornecedores.find((item) => item.idFornecedor === id);
+                setForm((prev) => ({
+                    ...prev,
+                    idFornecedorAtivoRede: id,
+                    fornecedorAtivoRede: selected
+                        ? [selected.razaoSocialFornecedor, selected.nomeFantasiaFornecedor].filter(Boolean).join(' - ')
+                        : ''
                 }));
             }}
             onSelectStatus={(id) => {

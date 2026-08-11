@@ -35,6 +35,9 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
             nomeAtivoRede: typeof dados.nomeAtivoRede === 'string' ? String(dados.nomeAtivoRede).trim().toUpperCase() : undefined,
             idTipoAtivoRede: typeof dados.idTipoAtivoRede === 'string' ? dados.idTipoAtivoRede : undefined,
             tipoAtivoRede: typeof dados.tipoAtivoRede === 'string' ? String(dados.tipoAtivoRede).trim().toUpperCase() : undefined,
+            idFornecedorAtivoRede: Object.prototype.hasOwnProperty.call(dados, 'idFornecedorAtivoRede')
+                ? (typeof dados.idFornecedorAtivoRede === 'string' ? dados.idFornecedorAtivoRede : null)
+                : undefined,
             fabricanteAtivoRede: typeof dados.fabricanteAtivoRede === 'string' ? dados.fabricanteAtivoRede.trim().toUpperCase() || undefined : undefined,
             modeloAtivoRede: typeof dados.modeloAtivoRede === 'string' ? dados.modeloAtivoRede.trim().toUpperCase() || undefined : undefined,
             serialAtivoRede: typeof dados.serialAtivoRede === 'string' ? dados.serialAtivoRede.trim().toUpperCase() || undefined : undefined,

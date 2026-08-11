@@ -18,6 +18,8 @@ type BackupData = {
     tbStatusPat: any[];
     tbEmpresa: any[];
     tbCCusto: any[];
+    tbFornecedor: any[];
+    tbFornecedorCCusto: any[];
     tbLicenca: any[];
     tbFuncionario: any[];
     tbPatrimonio: any[];
@@ -61,6 +63,8 @@ function emptyDetailedCounts(): Record<ImportTableName, { created: number; updat
         tbStatusPat: { created: 0, updated: 0, ignored: 0 },
         tbEmpresa: { created: 0, updated: 0, ignored: 0 },
         tbCCusto: { created: 0, updated: 0, ignored: 0 },
+        tbFornecedor: { created: 0, updated: 0, ignored: 0 },
+        tbFornecedorCCusto: { created: 0, updated: 0, ignored: 0 },
         tbLicenca: { created: 0, updated: 0, ignored: 0 },
         tbFuncionario: { created: 0, updated: 0, ignored: 0 },
         tbPatrimonio: { created: 0, updated: 0, ignored: 0 },
@@ -218,6 +222,9 @@ function enrichExportData(data: BackupData): BackupData {
     const ccustoById = new Map(
         data.tbCCusto.map((row: any) => [row.idCCusto, firstString(row.descricaoCCusto, row.codigoCCusto)])
     );
+    const fornecedorById = new Map(
+        data.tbFornecedor.map((row: any) => [row.idFornecedor, firstString(row.nomeFantasiaFornecedor, row.razaoSocialFornecedor, row.cnpjFornecedor)])
+    );
     const licencaById = new Map(data.tbLicenca.map((row: any) => [row.idLic, row.descricaoLic ?? null]));
     const funcionarioById = new Map(data.tbFuncionario.map((row: any) => [row.idF, firstString(row.idMatFun, row.nomeFun)]));
     const funcionarioByMat = new Map(data.tbFuncionario.map((row: any) => [row.idMatFun, row.nomeFun ?? null]));
@@ -229,6 +236,15 @@ function enrichExportData(data: BackupData): BackupData {
         tbCCusto: data.tbCCusto.map((row: any) => ({
             ...row,
             idEmp_Custo_descricao: row.idEmp_Custo ? empresaById.get(row.idEmp_Custo) ?? null : null
+        })),
+        tbFornecedor: data.tbFornecedor.map((row: any) => ({
+            ...row,
+            idFornecedor_descricao: row.idFornecedor ? fornecedorById.get(row.idFornecedor) ?? null : null
+        })),
+        tbFornecedorCCusto: data.tbFornecedorCCusto.map((row: any) => ({
+            ...row,
+            idFornecedor_descricao: row.idFornecedor ? fornecedorById.get(row.idFornecedor) ?? null : null,
+            idCCusto_descricao: row.idCCusto ? ccustoById.get(row.idCCusto) ?? null : null
         })),
         tbFuncionario: data.tbFuncionario.map((row: any) => ({
             ...row,
@@ -267,6 +283,8 @@ async function buildExportData(centroId?: string | null): Promise<BackupData> {
             tbStatusPat,
             tbEmpresa,
             tbCCusto,
+            tbFornecedor,
+            tbFornecedorCCusto,
             tbLicenca,
             tbFuncionario,
             tbPatrimonio,
@@ -291,6 +309,8 @@ async function buildExportData(centroId?: string | null): Promise<BackupData> {
             prisma.tbStatusPat.findMany(),
             prisma.tbEmpresa.findMany(),
             prisma.tbCCusto.findMany(),
+            prisma.tbFornecedor.findMany(),
+            prisma.tbFornecedorCCusto.findMany(),
             prisma.tbLicenca.findMany(),
             prisma.tbFuncionario.findMany(),
             prisma.tbPatrimonio.findMany(),
@@ -317,6 +337,8 @@ async function buildExportData(centroId?: string | null): Promise<BackupData> {
             tbStatusPat,
             tbEmpresa,
             tbCCusto,
+            tbFornecedor,
+            tbFornecedorCCusto,
             tbLicenca,
             tbFuncionario,
             tbPatrimonio,
@@ -338,6 +360,13 @@ async function buildExportData(centroId?: string | null): Promise<BackupData> {
 
     const tbCCusto = await prisma.tbCCusto.findMany({
         where: { idCCusto: centroId }
+    });
+    const tbFornecedorCCusto = await prisma.tbFornecedorCCusto.findMany({
+        where: { idCCusto: centroId }
+    });
+    const fornecedorIds = new Set(onlyStrings(tbFornecedorCCusto.map((item: any) => item.idFornecedor)));
+    const tbFornecedor = await prisma.tbFornecedor.findMany({
+        where: { idFornecedor: { in: [...fornecedorIds] } }
     });
     const tbFuncionario = await prisma.tbFuncionario.findMany({
         where: { idCustoFun: centroId }
@@ -431,6 +460,8 @@ async function buildExportData(centroId?: string | null): Promise<BackupData> {
         tbTipoPat,
         tbStatusPat,
         tbEmpresa,
+        tbFornecedor,
+        tbFornecedorCCusto,
         tbCCusto,
         tbLicenca,
         tbFuncionario,
@@ -467,6 +498,7 @@ async function importAllData(data: BackupData): Promise<ImportExecutionResult> {
     const statusPatMap = new Map<string, string>();
     const empresaMap = new Map<string, string>();
     const ccustoMap = new Map<string, string>();
+    const fornecedorMap = new Map<string, string>();
     const licencaMap = new Map<string, string>();
     const funcionarioMap = new Map<string, string>();
     const patrimonioMap = new Map<string, string>();
@@ -478,9 +510,12 @@ async function importAllData(data: BackupData): Promise<ImportExecutionResult> {
     const statusPatSourceIndex = buildSourceIndex(data.tbStatusPat, "idStatusPat", ["descricaoStatPat"]);
     const empresaSourceIndex = buildSourceIndex(data.tbEmpresa, "idEmp", ["fantasiaEmpresa", "razaoEmpresa", "cnpjEmpresa"]);
     const ccustoSourceIndex = buildSourceIndex(data.tbCCusto, "idCCusto", ["descricaoCCusto", "codigoCCusto"]);
+    const fornecedorSourceIndex = buildSourceIndex(data.tbFornecedor, "idFornecedor", ["nomeFantasiaFornecedor", "razaoSocialFornecedor", "cnpjFornecedor"]);
     const licencaSourceIndex = buildSourceIndex(data.tbLicenca, "idLic", ["descricaoLic"]);
     const funcionarioSourceIndex = buildSourceIndex(data.tbFuncionario, "idF", ["idMatFun", "nomeFun"]);
     const matriculasFuncionarioNoArquivo = new Set<string>();
+    const fornecedorCcustoPairs = new Set<string>();
+    const fornecedorCnpjsNoArquivo = new Set<string>();
 
     const tbUserPrepared = data.tbUser.map((item: any) => {
         const id = randomUUID();
@@ -560,6 +595,35 @@ async function importAllData(data: BackupData): Promise<ImportExecutionResult> {
         };
     });
 
+    const tbFornecedorPrepared = data.tbFornecedor.flatMap((item: any, index: number) => {
+        const razaoSocialFornecedor = firstString(item?.razaoSocialFornecedor);
+        if (!razaoSocialFornecedor) {
+            addIgnoredRow(ignored, "tbFornecedor", index + 1, "razaoSocialFornecedor ausente.");
+            return [];
+        }
+
+        const cnpjFornecedor = firstString(item?.cnpjFornecedor);
+        if (cnpjFornecedor) {
+            const chaveCnpj = normalizeLookupValue(cnpjFornecedor);
+            if (fornecedorCnpjsNoArquivo.has(chaveCnpj)) {
+                addIgnoredRow(ignored, "tbFornecedor", index + 1, `cnpjFornecedor duplicado no arquivo: ${cnpjFornecedor}.`);
+                return [];
+            }
+            fornecedorCnpjsNoArquivo.add(chaveCnpj);
+        }
+
+        const id = randomUUID();
+        if (item.idFornecedor) fornecedorMap.set(item.idFornecedor, id);
+        return [{
+            idFornecedor: id,
+            razaoSocialFornecedor,
+            nomeFantasiaFornecedor: item.nomeFantasiaFornecedor ?? null,
+            cnpjFornecedor: cnpjFornecedor ?? null,
+            createdAt: toDateOrNull(item.createdAt) ?? new Date(),
+            updatedAt: toDateOrNull(item.updatedAt) ?? new Date()
+        }];
+    });
+
     const tbCCustoPrepared = data.tbCCusto.map((item: any) => {
         const id = randomUUID();
         if (item.idCCusto) ccustoMap.set(item.idCCusto, id);
@@ -569,6 +633,31 @@ async function importAllData(data: BackupData): Promise<ImportExecutionResult> {
             descricaoCCusto: item.descricaoCCusto ?? null,
             idEmp_Custo: mapResolvedId(empresaMap, item, "idEmp_Custo", empresaSourceIndex, ["idEmp_Custo_descricao"])
         };
+    });
+
+    const tbFornecedorCCustoPrepared = data.tbFornecedorCCusto.flatMap((item: any, index: number) => {
+        const idFornecedor = mapResolvedId(fornecedorMap, item, "idFornecedor", fornecedorSourceIndex, ["idFornecedor_descricao"]);
+        const idCCusto = mapResolvedId(ccustoMap, item, "idCCusto", ccustoSourceIndex, ["idCCusto_descricao"]);
+        if (!idFornecedor || !idCCusto) {
+            addIgnoredRow(ignored, "tbFornecedorCCusto", index + 1, "idFornecedor ou idCCusto inexistente.");
+            return [];
+        }
+
+        const key = `${idFornecedor}:${idCCusto}`;
+        if (fornecedorCcustoPairs.has(key)) {
+            addIgnoredRow(ignored, "tbFornecedorCCusto", index + 1, "vinculo fornecedor x centro de custo duplicado no arquivo.");
+            return [];
+        }
+        fornecedorCcustoPairs.add(key);
+
+        return [{
+            idFornecedorCCusto: item.idFornecedorCCusto ?? randomUUID(),
+            idFornecedor,
+            idCCusto,
+            ehPrincipal: typeof item.ehPrincipal === "boolean" ? item.ehPrincipal : false,
+            createdAt: toDateOrNull(item.createdAt) ?? new Date(),
+            updatedAt: toDateOrNull(item.updatedAt) ?? new Date()
+        }];
     });
 
     const tbLicencaPrepared = data.tbLicenca.flatMap((item: any, index: number) => {
@@ -865,6 +954,8 @@ async function importAllData(data: BackupData): Promise<ImportExecutionResult> {
         await tx.tbUnifiConfig.deleteMany();
         await tx.tbCadastro.deleteMany();
         await tx.tbHasLicencaFuncionario.deleteMany();
+        await tx.tbFornecedorCCusto.deleteMany();
+        await tx.tbFornecedor.deleteMany();
         await tx.tbPatrimonio.deleteMany();
         await tx.tbFuncionario.deleteMany();
         await tx.tbCCusto.deleteMany();
@@ -883,6 +974,8 @@ async function importAllData(data: BackupData): Promise<ImportExecutionResult> {
         if (tbStatusPatPrepared.length > 0) await tx.tbStatusPat.createMany({ data: tbStatusPatPrepared });
         if (tbEmpresaPrepared.length > 0) await tx.tbEmpresa.createMany({ data: tbEmpresaPrepared });
         if (tbCCustoPrepared.length > 0) await tx.tbCCusto.createMany({ data: tbCCustoPrepared });
+        if (tbFornecedorPrepared.length > 0) await tx.tbFornecedor.createMany({ data: tbFornecedorPrepared });
+        if (tbFornecedorCCustoPrepared.length > 0) await tx.tbFornecedorCCusto.createMany({ data: tbFornecedorCCustoPrepared });
         if (tbLicencaPrepared.length > 0) await tx.tbLicenca.createMany({ data: tbLicencaPrepared });
         if (tbFuncionarioPrepared.length > 0) await tx.tbFuncionario.createMany({ data: tbFuncionarioPrepared });
         if (tbPatrimonioPrepared.length > 0) await tx.tbPatrimonio.createMany({ data: tbPatrimonioPrepared });
@@ -910,6 +1003,8 @@ async function importAllData(data: BackupData): Promise<ImportExecutionResult> {
             tbStatusPat: tbStatusPatPrepared.length,
             tbEmpresa: tbEmpresaPrepared.length,
             tbCCusto: tbCCustoPrepared.length,
+            tbFornecedor: tbFornecedorPrepared.length,
+            tbFornecedorCCusto: tbFornecedorCCustoPrepared.length,
             tbLicenca: tbLicencaPrepared.length,
             tbFuncionario: tbFuncionarioPrepared.length,
             tbPatrimonio: tbPatrimonioPrepared.length,
@@ -937,6 +1032,8 @@ async function importAllData(data: BackupData): Promise<ImportExecutionResult> {
             tbStatusPat: { created: tbStatusPatPrepared.length, updated: 0, ignored: 0 },
             tbEmpresa: { created: tbEmpresaPrepared.length, updated: 0, ignored: 0 },
             tbCCusto: { created: tbCCustoPrepared.length, updated: 0, ignored: 0 },
+            tbFornecedor: { created: tbFornecedorPrepared.length, updated: 0, ignored: 0 },
+            tbFornecedorCCusto: { created: tbFornecedorCCustoPrepared.length, updated: 0, ignored: 0 },
             tbLicenca: { created: tbLicencaPrepared.length, updated: 0, ignored: 0 },
             tbFuncionario: { created: tbFuncionarioPrepared.length, updated: 0, ignored: 0 },
             tbPatrimonio: { created: tbPatrimonioPrepared.length, updated: 0, ignored: 0 },
@@ -961,6 +1058,8 @@ async function importByCentro(data: BackupData, centroId: string): Promise<Impor
     const ignored: IgnoredImportRow[] = [];
     const detailed = emptyDetailedCounts();
     const tbCCusto = data.tbCCusto.filter((c: any) => c.idCCusto === centroId);
+    const tbFornecedor = data.tbFornecedor;
+    const tbFornecedorCCusto = data.tbFornecedorCCusto.filter((item: any) => item.idCCusto === centroId);
     const tbFuncionario = data.tbFuncionario.filter((f: any) => f.idCustoFun === centroId);
     const tbPatrimonio = data.tbPatrimonio.filter((p: any) => p.idPat_CustoPat === centroId);
     const tbHasLicenca = data.tbHasLicencaFuncionario;
@@ -974,13 +1073,17 @@ async function importByCentro(data: BackupData, centroId: string): Promise<Impor
         const userMap = new Map<string, string>();
         const licencaMap = new Map<string, string>();
         const funcionarioMap = new Map<string, string>();
+        const fornecedorMap = new Map<string, string>();
         const userSourceIndex = buildSourceIndex(data.tbUser, "id", ["emailUser", "idUser", "nomeUser"]);
         const statusFunSourceIndex = buildSourceIndex(data.tbStatusFun, "idStatusFun", ["descricaoStatusFun"]);
         const funçãoSourceIndex = buildSourceIndex(data.tbFuncao, "idFuncao", ["nomeFuncao"]);
-        const tipoPatSourceIndex = buildSourceIndex(data.tbTipoPat, "idTipPat", ["descricaoTipPat"]);
-        const statusPatSourceIndex = buildSourceIndex(data.tbStatusPat, "idStatusPat", ["descricaoStatPat"]);
-        const licencaSourceIndex = buildSourceIndex(data.tbLicenca, "idLic", ["descricaoLic"]);
-        const funcionarioSourceIndex = buildSourceIndex(data.tbFuncionario, "idF", ["idMatFun", "nomeFun"]);
+    const tipoPatSourceIndex = buildSourceIndex(data.tbTipoPat, "idTipPat", ["descricaoTipPat"]);
+    const statusPatSourceIndex = buildSourceIndex(data.tbStatusPat, "idStatusPat", ["descricaoStatPat"]);
+    const fornecedorSourceIndex = buildSourceIndex(data.tbFornecedor, "idFornecedor", ["nomeFantasiaFornecedor", "razaoSocialFornecedor", "cnpjFornecedor"]);
+    const licencaSourceIndex = buildSourceIndex(data.tbLicenca, "idLic", ["descricaoLic"]);
+    const funcionarioSourceIndex = buildSourceIndex(data.tbFuncionario, "idF", ["idMatFun", "nomeFun"]);
+    const fornecedorCnpjsNoArquivo = new Set<string>();
+    const fornecedorCcustoPairs = new Set<string>();
 
         for (let index = 0; index < data.tbStatusFun.length; index += 1) {
             const row = data.tbStatusFun[index];
@@ -1110,6 +1213,104 @@ async function importByCentro(data: BackupData, centroId: string): Promise<Impor
                     descricaoCCusto: c.descricaoCCusto ?? undefined
                 }
             });
+        }
+
+        for (let index = 0; index < tbFornecedor.length; index += 1) {
+            const row = tbFornecedor[index];
+            const razaoSocialFornecedor = firstString(row?.razaoSocialFornecedor);
+            if (!razaoSocialFornecedor) {
+                addIgnoredRow(ignored, "tbFornecedor", index + 1, "razaoSocialFornecedor ausente.");
+                continue;
+            }
+
+            const cnpjFornecedor = firstString(row?.cnpjFornecedor);
+            if (cnpjFornecedor) {
+                const chaveCnpj = normalizeLookupValue(cnpjFornecedor);
+                if (fornecedorCnpjsNoArquivo.has(chaveCnpj)) {
+                    addIgnoredRow(ignored, "tbFornecedor", index + 1, `cnpjFornecedor duplicado no arquivo: ${cnpjFornecedor}.`);
+                    continue;
+                }
+                fornecedorCnpjsNoArquivo.add(chaveCnpj);
+            }
+
+            const existing = cnpjFornecedor
+                ? await tx.tbFornecedor.findFirst({ where: { cnpjFornecedor } })
+                : await tx.tbFornecedor.findFirst({
+                    where: {
+                        razaoSocialFornecedor,
+                        nomeFantasiaFornecedor: row?.nomeFantasiaFornecedor ?? null
+                    }
+                });
+
+            if (existing) {
+                if (row.idFornecedor) fornecedorMap.set(row.idFornecedor, existing.idFornecedor);
+                await tx.tbFornecedor.update({
+                    where: { idFornecedor: existing.idFornecedor },
+                    data: {
+                        razaoSocialFornecedor,
+                        nomeFantasiaFornecedor: row?.nomeFantasiaFornecedor ?? null,
+                        cnpjFornecedor: cnpjFornecedor ?? null
+                    }
+                });
+                detailed.tbFornecedor.updated += 1;
+                continue;
+            }
+
+            const created = await tx.tbFornecedor.create({
+                data: {
+                    idFornecedor: randomUUID(),
+                    razaoSocialFornecedor,
+                    nomeFantasiaFornecedor: row?.nomeFantasiaFornecedor ?? null,
+                    cnpjFornecedor: cnpjFornecedor ?? null,
+                    createdAt: toDateOrNull(row?.createdAt) ?? new Date(),
+                    updatedAt: toDateOrNull(row?.updatedAt) ?? new Date()
+                }
+            });
+            if (row.idFornecedor) fornecedorMap.set(row.idFornecedor, created.idFornecedor);
+            detailed.tbFornecedor.created += 1;
+        }
+
+        for (let index = 0; index < tbFornecedorCCusto.length; index += 1) {
+            const row = tbFornecedorCCusto[index];
+            const idFornecedor = mapResolvedId(fornecedorMap, row, "idFornecedor", fornecedorSourceIndex, ["idFornecedor_descricao"]);
+            if (!idFornecedor) {
+                addIgnoredRow(ignored, "tbFornecedorCCusto", index + 1, "idFornecedor nao mapeado.");
+                continue;
+            }
+
+            const key = `${idFornecedor}:${centroId}`;
+            if (fornecedorCcustoPairs.has(key)) {
+                addIgnoredRow(ignored, "tbFornecedorCCusto", index + 1, "vinculo fornecedor x centro de custo duplicado no arquivo.");
+                continue;
+            }
+            fornecedorCcustoPairs.add(key);
+
+            const existing = await tx.tbFornecedorCCusto.findFirst({
+                where: { idFornecedor, idCCusto: centroId }
+            });
+            if (existing) {
+                await tx.tbFornecedorCCusto.update({
+                    where: { idFornecedorCCusto: existing.idFornecedorCCusto },
+                    data: {
+                        ehPrincipal: typeof row.ehPrincipal === "boolean" ? row.ehPrincipal : existing.ehPrincipal,
+                        updatedAt: toDateOrNull(row.updatedAt) ?? new Date()
+                    }
+                });
+                detailed.tbFornecedorCCusto.updated += 1;
+                continue;
+            }
+
+            await tx.tbFornecedorCCusto.create({
+                data: {
+                    idFornecedorCCusto: row.idFornecedorCCusto ?? randomUUID(),
+                    idFornecedor,
+                    idCCusto: centroId,
+                    ehPrincipal: typeof row.ehPrincipal === "boolean" ? row.ehPrincipal : false,
+                    createdAt: toDateOrNull(row.createdAt) ?? new Date(),
+                    updatedAt: toDateOrNull(row.updatedAt) ?? new Date()
+                }
+            });
+            detailed.tbFornecedorCCusto.created += 1;
         }
 
         const funcsDb = await tx.tbFuncionario.findMany({
@@ -1313,6 +1514,8 @@ async function importByCentro(data: BackupData, centroId: string): Promise<Impor
             tbStatusPat: data.tbStatusPat.length - ignored.filter((item) => item.table === "tbStatusPat").length,
             tbEmpresa: data.tbEmpresa.length,
             tbCCusto: tbCCusto.length,
+            tbFornecedor: tbFornecedor.length - ignored.filter((item) => item.table === "tbFornecedor").length,
+            tbFornecedorCCusto: tbFornecedorCCusto.length - ignored.filter((item) => item.table === "tbFornecedorCCusto").length,
             tbLicenca: data.tbLicenca.length - ignored.filter((item) => item.table === "tbLicenca").length,
             tbFuncionario: tbFuncionario.length - ignored.filter((item) => item.table === "tbFuncionario").length,
             tbPatrimonio: tbPatrimonio.length - ignored.filter((item) => item.table === "tbPatrimonio").length,
@@ -1340,6 +1543,8 @@ async function importByCentro(data: BackupData, centroId: string): Promise<Impor
             tbStatusPat: { created: data.tbStatusPat.length, updated: 0, ignored: 0 },
             tbEmpresa: { created: data.tbEmpresa.length, updated: 0, ignored: 0 },
             tbCCusto: { created: 0, updated: tbCCusto.length > 0 ? 1 : 0, ignored: 0 },
+            tbFornecedor: { created: tbFornecedor.length - ignored.filter((item) => item.table === "tbFornecedor").length, updated: 0, ignored: 0 },
+            tbFornecedorCCusto: { created: tbFornecedorCCusto.length - ignored.filter((item) => item.table === "tbFornecedorCCusto").length, updated: 0, ignored: 0 },
             tbLicenca: { created: data.tbLicenca.length, updated: 0, ignored: 0 },
             tbFuncionario: { created: tbFuncionario.length, updated: 0, ignored: 0 },
             tbPatrimonio: { created: tbPatrimonio.length, updated: 0, ignored: 0 },
@@ -1364,6 +1569,8 @@ async function importByCentroMerge(data: BackupData, centroId: string): Promise<
     const ignored: IgnoredImportRow[] = [];
     const detailed = emptyDetailedCounts();
     const tbCCusto = data.tbCCusto.filter((c: any) => c.idCCusto === centroId);
+    const tbFornecedor = data.tbFornecedor;
+    const tbFornecedorCCusto = data.tbFornecedorCCusto.filter((item: any) => item.idCCusto === centroId);
     const tbFuncionario = data.tbFuncionario.filter((f: any) => f.idCustoFun === centroId);
     const tbPatrimonio = data.tbPatrimonio.filter((p: any) => p.idPat_CustoPat === centroId);
     const tbHasLicenca = data.tbHasLicencaFuncionario;
@@ -1377,13 +1584,17 @@ async function importByCentroMerge(data: BackupData, centroId: string): Promise<
         const userMap = new Map<string, string>();
         const licencaMap = new Map<string, string>();
         const funcionarioMap = new Map<string, string>();
+        const fornecedorMap = new Map<string, string>();
         const userSourceIndex = buildSourceIndex(data.tbUser, "id", ["emailUser", "idUser", "nomeUser"]);
         const statusFunSourceIndex = buildSourceIndex(data.tbStatusFun, "idStatusFun", ["descricaoStatusFun"]);
         const funçãoSourceIndex = buildSourceIndex(data.tbFuncao, "idFuncao", ["nomeFuncao"]);
         const tipoPatSourceIndex = buildSourceIndex(data.tbTipoPat, "idTipPat", ["descricaoTipPat"]);
         const statusPatSourceIndex = buildSourceIndex(data.tbStatusPat, "idStatusPat", ["descricaoStatPat"]);
+        const fornecedorSourceIndex = buildSourceIndex(data.tbFornecedor, "idFornecedor", ["nomeFantasiaFornecedor", "razaoSocialFornecedor", "cnpjFornecedor"]);
         const licencaSourceIndex = buildSourceIndex(data.tbLicenca, "idLic", ["descricaoLic"]);
         const funcionarioSourceIndex = buildSourceIndex(data.tbFuncionario, "idF", ["idMatFun", "nomeFun"]);
+        const fornecedorCnpjsNoArquivo = new Set<string>();
+        const fornecedorCcustoPairs = new Set<string>();
 
         for (let index = 0; index < data.tbStatusFun.length; index += 1) {
             const row = data.tbStatusFun[index];
@@ -1514,6 +1725,104 @@ async function importByCentroMerge(data: BackupData, centroId: string): Promise<
                 }
             });
             detailed.tbCCusto.updated += 1;
+        }
+
+        for (let index = 0; index < tbFornecedor.length; index += 1) {
+            const row = tbFornecedor[index];
+            const razaoSocialFornecedor = firstString(row?.razaoSocialFornecedor);
+            if (!razaoSocialFornecedor) {
+                addIgnoredRow(ignored, "tbFornecedor", index + 1, "razaoSocialFornecedor ausente.");
+                continue;
+            }
+
+            const cnpjFornecedor = firstString(row?.cnpjFornecedor);
+            if (cnpjFornecedor) {
+                const chaveCnpj = normalizeLookupValue(cnpjFornecedor);
+                if (fornecedorCnpjsNoArquivo.has(chaveCnpj)) {
+                    addIgnoredRow(ignored, "tbFornecedor", index + 1, `cnpjFornecedor duplicado no arquivo: ${cnpjFornecedor}.`);
+                    continue;
+                }
+                fornecedorCnpjsNoArquivo.add(chaveCnpj);
+            }
+
+            const existing = cnpjFornecedor
+                ? await tx.tbFornecedor.findFirst({ where: { cnpjFornecedor } })
+                : await tx.tbFornecedor.findFirst({
+                    where: {
+                        razaoSocialFornecedor,
+                        nomeFantasiaFornecedor: row?.nomeFantasiaFornecedor ?? null
+                    }
+                });
+
+            if (existing) {
+                if (row.idFornecedor) fornecedorMap.set(row.idFornecedor, existing.idFornecedor);
+                await tx.tbFornecedor.update({
+                    where: { idFornecedor: existing.idFornecedor },
+                    data: {
+                        razaoSocialFornecedor,
+                        nomeFantasiaFornecedor: row?.nomeFantasiaFornecedor ?? null,
+                        cnpjFornecedor: cnpjFornecedor ?? null
+                    }
+                });
+                detailed.tbFornecedor.updated += 1;
+                continue;
+            }
+
+            const created = await tx.tbFornecedor.create({
+                data: {
+                    idFornecedor: randomUUID(),
+                    razaoSocialFornecedor,
+                    nomeFantasiaFornecedor: row?.nomeFantasiaFornecedor ?? null,
+                    cnpjFornecedor: cnpjFornecedor ?? null,
+                    createdAt: toDateOrNull(row?.createdAt) ?? new Date(),
+                    updatedAt: toDateOrNull(row?.updatedAt) ?? new Date()
+                }
+            });
+            if (row.idFornecedor) fornecedorMap.set(row.idFornecedor, created.idFornecedor);
+            detailed.tbFornecedor.created += 1;
+        }
+
+        for (let index = 0; index < tbFornecedorCCusto.length; index += 1) {
+            const row = tbFornecedorCCusto[index];
+            const idFornecedor = mapResolvedId(fornecedorMap, row, "idFornecedor", fornecedorSourceIndex, ["idFornecedor_descricao"]);
+            if (!idFornecedor) {
+                addIgnoredRow(ignored, "tbFornecedorCCusto", index + 1, "idFornecedor nao mapeado.");
+                continue;
+            }
+
+            const key = `${idFornecedor}:${centroId}`;
+            if (fornecedorCcustoPairs.has(key)) {
+                addIgnoredRow(ignored, "tbFornecedorCCusto", index + 1, "vinculo fornecedor x centro de custo duplicado no arquivo.");
+                continue;
+            }
+            fornecedorCcustoPairs.add(key);
+
+            const existing = await tx.tbFornecedorCCusto.findFirst({
+                where: { idFornecedor, idCCusto: centroId }
+            });
+            if (existing) {
+                await tx.tbFornecedorCCusto.update({
+                    where: { idFornecedorCCusto: existing.idFornecedorCCusto },
+                    data: {
+                        ehPrincipal: typeof row.ehPrincipal === "boolean" ? row.ehPrincipal : existing.ehPrincipal,
+                        updatedAt: toDateOrNull(row.updatedAt) ?? new Date()
+                    }
+                });
+                detailed.tbFornecedorCCusto.updated += 1;
+                continue;
+            }
+
+            await tx.tbFornecedorCCusto.create({
+                data: {
+                    idFornecedorCCusto: row.idFornecedorCCusto ?? randomUUID(),
+                    idFornecedor,
+                    idCCusto: centroId,
+                    ehPrincipal: typeof row.ehPrincipal === "boolean" ? row.ehPrincipal : false,
+                    createdAt: toDateOrNull(row.createdAt) ?? new Date(),
+                    updatedAt: toDateOrNull(row.updatedAt) ?? new Date()
+                }
+            });
+            detailed.tbFornecedorCCusto.created += 1;
         }
 
         const matriculasArquivo = Array.from(
@@ -1676,6 +1985,8 @@ async function importByCentroMerge(data: BackupData, centroId: string): Promise<
             tbStatusPat: data.tbStatusPat.length - ignored.filter((item) => item.table === "tbStatusPat").length,
             tbEmpresa: 0,
             tbCCusto: tbCCusto.length,
+            tbFornecedor: tbFornecedor.length - ignored.filter((item) => item.table === "tbFornecedor").length,
+            tbFornecedorCCusto: tbFornecedorCCusto.length - ignored.filter((item) => item.table === "tbFornecedorCCusto").length,
             tbLicenca: data.tbLicenca.length - ignored.filter((item) => item.table === "tbLicenca").length,
             tbFuncionario: tbFuncionario.length - ignored.filter((item) => item.table === "tbFuncionario").length,
             tbPatrimonio: tbPatrimonio.length - ignored.filter((item) => item.table === "tbPatrimonio").length,
@@ -1773,6 +2084,8 @@ export async function POST(request: NextRequest) {
             tbStatusPat: asArrayOptional(dataRaw?.tbStatusPat),
             tbEmpresa: asArrayOptional(dataRaw?.tbEmpresa),
             tbCCusto: asArrayOptional(dataRaw?.tbCCusto),
+            tbFornecedor: asArrayOptional(dataRaw?.tbFornecedor),
+            tbFornecedorCCusto: asArrayOptional(dataRaw?.tbFornecedorCCusto),
             tbLicenca: asArrayOptional(dataRaw?.tbLicenca),
             tbFuncionario: asArrayOptional(dataRaw?.tbFuncionario),
             tbPatrimonio: asArrayOptional(dataRaw?.tbPatrimonio),

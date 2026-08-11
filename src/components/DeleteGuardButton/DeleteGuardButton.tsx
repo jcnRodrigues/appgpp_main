@@ -12,6 +12,7 @@ type DeleteResource =
     | 'patrimonio'
     | 'cadastro'
     | 'ccusto'
+    | 'fornecedor'
     | 'função'
     | 'licenca'
     | 'usuario_acesso'
@@ -52,6 +53,7 @@ export default function DeleteGuardButton({
             patrimonio: 'PATRIMONIO',
             cadastro: 'ALOCACOES',
             ccusto: 'CENTRO_CUSTO',
+            fornecedor: 'FORNECEDORES',
             função: 'FUNCOES',
             licenca: 'LICENCAS_SOFTWARE',
             usuario_acesso: 'ACESSO_USUARIOS',
@@ -103,4 +105,3 @@ export default function DeleteGuardButton({
         </button>
     );
 }
-
