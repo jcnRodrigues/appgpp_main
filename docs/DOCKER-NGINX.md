@@ -39,6 +39,22 @@ Este guia publica o AppGPP em Docker com NGINX como reverse proxy.
 docker compose up -d --build
 ```
 
+### Modo LAN fixo
+
+Se quiser fixar o acesso por IP na rede local, preencha no `.env`:
+
+- `APPGPP_LAN_HOST=192.168.0.10`
+- `APPGPP_LAN_URL=http://192.168.0.10`
+- `APPGPP_HTTP_PORT=80`
+
+Depois suba com o override:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.lan.yml up -d --build
+```
+
+Se quiser um clique no Windows, use [`scripts/Abrir-AppGPP-Docker-LAN.cmd`](../scripts/Abrir-AppGPP-Docker-LAN.cmd).
+
 Se quiser HTTPS com NGINX, adicione os certificados em `nginx/certs/`:
 
 - `nginx/certs/appgpp.crt`
@@ -107,3 +123,4 @@ Para certificado publico com renovacao automatica, use [`scripts/Emitir-Certific
 ## Um clique no Windows 11
 
 Use [`scripts/Abrir-AppGPP-Docker.cmd`](../scripts/Abrir-AppGPP-Docker.cmd) para subir o stack Docker e abrir o navegador.
+Para LAN fixa, use [`scripts/Abrir-AppGPP-Docker-LAN.cmd`](../scripts/Abrir-AppGPP-Docker-LAN.cmd).

@@ -69,7 +69,7 @@ $env:NEXTAUTH_URL = "https://$Domain"
 $env:APPGPP_PUBLIC_URL = "https://$Domain"
 
 Write-Step "Subindo NGINX para validacao ACME"
-& docker compose -f docker-compose.yml up -d nginx
+& docker compose -f docker-compose.yml -f docker-compose.letsencrypt-acme.yml up -d nginx
 if ($LASTEXITCODE -ne 0) {
   throw "Falha ao subir o NGINX."
 }
@@ -79,7 +79,7 @@ $certbotArgs = @(
   "compose",
   "-f", "docker-compose.yml",
   "-f", "docker-compose.letsencrypt.yml",
-  "run", "--rm", "certbot",
+  "run", "--rm", "--entrypoint", "certbot", "certbot",
   "certonly",
   "--webroot",
   "-w", "/var/www/certbot",

@@ -1,0 +1,11 @@
+services:
+  app:
+    environment:
+      NEXTAUTH_URL: ${APPGPP_LAN_URL}
+      APPGPP_PUBLIC_URL: ${APPGPP_LAN_URL}
+
+  nginx:
+    environment:
+      NGINX_SERVER_NAME: ${APPGPP_LAN_HOST}
+    ports:
+      - "${APPGPP_HTTP_PORT:-80}:80"
